@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales vs Inventory Reconciliation</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; font-size: 13px; }
+        th, td { border: 1px solid #ccc; padding: 6px; }
+        th { background: #f2f2f2; }
+        .red { background: #ffd6d6; }
+        .yellow { background: #fff3cd; }
+    </style>
+</head>
+
+<body>
+
+<h2>🔁 Sales vs Inventory Reconciliation</h2>
+
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+
+<form method="get">
+    Week:
+    <select name="week">
+        <option value="">All</option>
+        {% for w in weeks %}
+            <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
+        {% endfor %}
+    </select>
+
+    Brand:
+    <select name="brand">
+        <option value="">All</option>
+        {% for b in brands %}
+            <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+    </select>
+
+    Channel:
+    <select name="channel">
+        <option value="">All</option>
+        {% for c in channels %}
+            <option value="{{ c }}" {% if selected.channel == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+<br>
+
+<table>
+<thead>
+<tr>
+<th>SKU</th>
+<th>Channel</th>
+<th>Units Sold</th>
+<th>Inventory Units</th>
+<th>Sell-through Gap</th>
+<th>Stockout</th>
+<th>Dead Stock</th>
+<th>Gross Sales</th>
+<th>Inventory Value</th>
+<th>Category</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in rows %}
+<tr class="{% if r.stockout_flag %}red{% elif r.dead_stock_flag %}yellow{% endif %}">
+<td>{{ r.sku }}</td>
+<td>{{ r.channel }}</td>
+<td>{{ r.units_sold }}</td>
+<td>{{ r.inventory_units }}</td>
+<td>{{ r.sell_through_gap }}</td>
+<td>{{ r.stockout_flag }}</td>
+<td>{{ r.dead_stock_flag }}</td>
+<td>{{ r.gross_sales }}</td>
+<td>{{ "%.2f"|format(r.inventory_value) }}</td>
+<td>{{ r.category_l0 }} / {{ r.category_l1 }} / {{ r.category_l2 }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

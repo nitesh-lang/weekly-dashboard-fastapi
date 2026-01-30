@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; font-size: 13px; }
+        th, td { border: 1px solid #ccc; padding: 6px; }
+        th { background: #f4f4f4; }
+        a { text-decoration: none; color: #0b5ed7; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<h2>{{ title }}</h2>
+<p><a href="/dashboard">← Back to Dashboard</a></p>
+
+<table>
+<thead>
+<tr>
+    <th>SKU</th>
+    <th>Status</th>
+    <th>Brand</th>
+    <th>Model</th>
+    <th>Units Sold</th>
+    <th>GMV</th>
+    <th>Inventory Units</th>
+    <th>Inventory Value</th>
+    <th>Category L0</th>
+    <th>Category L1</th>
+    <th>Category L2</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in rows %}
+<tr>
+    <td>{{ r.sku }}</td>
+    <td>{{ r.sku_status }}</td>
+    <td>{{ r.brand }}</td>
+    <td>{{ r.model_name }}</td>
+    <td>{{ r.units_sold }}</td>
+    <td>{{ r.gmv }}</td>
+    <td>{{ r.inventory_units }}</td>
+    <td>{{ r.inventory_value }}</td>
+    <td>
+        {% if r.category_l0 %}
+        <a href="/drilldown?type=category&value={{ r.category_l0 }}">
+            {{ r.category_l0 }}
+        </a>
+        {% else %}
+        -
+        {% endif %}
+    </td>
+    <td>{{ r.category_l1 }}</td>
+    <td>{{ r.category_l2 }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

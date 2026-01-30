@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category Drilldown</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 13px;
+            text-align: right;
+        }
+        th { background: #f4f4f4; }
+        td:first-child, th:first-child { text-align: left; }
+
+        h2 { margin-top: 20px; }
+
+        a { color: #0b5ed7; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .breadcrumb {
+            margin: 10px 0 20px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🧩 Category Drilldown</h2>
+<a href="/dashboard">← Back to Dashboard</a>
+
+<!-- ================= BREADCRUMB ================= -->
+<div class="breadcrumb">
+    <a href="/dashboard">Dashboard</a>
+    › <a href="/drilldown?type=category&level=l0&week={{ request.query_params.get('week') }}">Category</a>
+
+    {% if value %}
+        › <b>{{ value }}</b>
+    {% endif %}
+</div>
+
+<!-- ================= TABLE ================= -->
+<table>
+<tr>
+    <th>Category</th>
+    <th>Units Sold</th>
+    <th>GMV (₹)</th>
+</tr>
+
+{% for r in rows %}
+<tr>
+
+{% if level == "l0" %}
+    <!-- L0 → L1 (pass l0 forward) -->
+    <td>
+        <a href="/drilldown
+            ?type=category
+            &level=l1
+            &value={{ r.category_l1 | urlencode }}
+            &l0={{ value | urlencode }}
+            &week={{ request.query_params.get('week') }}">
+            {{ r.category_l1 }}
+        </a>
+    </td>
+
+{% elif level == "l1" %}
+    <!-- L1 → L2 (pass l0 + l1 forward) -->
+    <td>
+        <a href="/drilldown
+            ?type=category
+            &level=l2
+            &value={{ r.category_l2 | urlencode }}
+            &l0={{ request.query_params.get('l0') | urlencode }}
+            &l1={{ value | urlencode }}
+            &week={{ request.query_params.get('week') }}">
+            {{ r.category_l2 }}
+        </a>
+    </td>
+
+{% elif level == "l2" %}
+    <!-- L2 final level (no further drilldown) -->
+    <td>{{ r.category_l2 }}</td>
+{% endif %}
+
+    <td>{{ r.units_sold }}</td>
+    <td>₹ {{ r.gross_sales }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

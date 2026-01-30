@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category Drilldown – SKU</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 13px;
+            text-align: right;
+        }
+        th { background: #f4f4f4; }
+        td:first-child, th:first-child { text-align: left; }
+        td:nth-child(2), th:nth-child(2) { text-align: left; }
+
+        h2 { margin-top: 20px; }
+
+        a { color: #0b5ed7; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<h2>📦 SKU Drilldown – {{ value }}</h2>
+<a href="/dashboard">← Back to Dashboard</a>
+
+<table>
+<tr>
+    <th>SKU</th>
+    <th>Model</th>
+    <th>Category (L2)</th>
+    <th>Units Sold</th>
+    <th>GMV (₹)</th>
+</tr>
+
+{% for r in rows %}
+<tr>
+    <td>{{ r.sku }}</td>
+    <td>{{ r.model_no }}</td>
+    <td>{{ r.category_l2 }}</td>
+    <td>{{ r.units_sold }}</td>
+    <td>₹ {{ r.gross_sales }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

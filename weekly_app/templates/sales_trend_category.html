@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category Sales Trend</title>
+
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        th { background: #f4f4f4; }
+        td { text-align: right; }
+        td:first-child, td:nth-child(2), td:nth-child(3) {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h2>📊 Category Sales Trend (Last 4 Weeks)</h2>
+
+<a href="/sales-trend">← Back to SKU Sales Trend</a>
+
+<table>
+<thead>
+<tr>
+    <th>Category L0</th>
+    <th>Category L1</th>
+    <th>Category L2</th>
+    <th>Units</th>
+    <th>Sales ₹</th>
+    <th>% Contribution</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in rows %}
+<tr>
+    <td>{{ r.category_l0 }}</td>
+    <td>{{ r.category_l1 }}</td>
+    <td>{{ r.category_l2 }}</td>
+    <td>{{ r.units }}</td>
+    <td>₹ {{ r.sales_value }}</td>
+    <td>{{ "%.2f"|format(r.contribution_pct) }}%</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

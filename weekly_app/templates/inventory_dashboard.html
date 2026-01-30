@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory Dashboard</title>
+
+    <!-- ======================================================
+         INVENTORY DASHBOARD UI
+         - Adds WEEK + BRAND dropdown filters
+         - Filters reload page via query params
+         - Backend already supports:
+             available_weeks
+             available_brands
+         ====================================================== -->
+
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        h1 { margin-bottom: 4px; }
+
+        .note {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        /* KPI CARDS */
+        .kpis {
+            display: flex;
+            gap: 12px;
+            margin: 14px 0 20px 0;
+        }
+
+        .kpi {
+            border: 1px solid #ccc;
+            padding: 12px;
+            width: 22%;
+            background: #fafafa;
+        }
+
+        .kpi b { font-size: 14px; }
+        .kpi .val { font-size: 18px; margin-top: 6px; }
+
+        /* FILTER BAR */
+        .filters {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin: 12px 0 18px 0;
+        }
+
+        .filters select {
+            padding: 6px;
+            font-size: 12px;
+        }
+
+        .filters button {
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* TOOLBAR */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .toolbar input {
+            padding: 6px;
+            font-size: 12px;
+            width: 300px;
+        }
+
+        .toolbar button {
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #f4f4f4;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        td { text-align: right; }
+
+        td:first-child,
+        td:nth-child(2),
+        td:nth-child(3),
+        td:nth-child(4),
+        td:nth-child(5),
+        td:nth-child(6),
+        td:nth-child(7),
+        td:nth-child(8),
+        td:nth-child(9) {
+            text-align: left;
+        }
+
+        .warn { color: #c00; font-weight: bold; }
+
+        a { text-decoration: none; color: #0b5ed7; }
+        a:hover { text-decoration: underline; }
+
+        h2 { margin-top: 34px; }
+    </style>
+</head>
+
+<body>
+
+<h1>📦 Inventory Dashboard</h1>
+<a href="/dashboard">← Back to Dashboard</a>
+
+<p class="note">
+    Showing inventory snapshot for: <b>{{ latest_week }}</b><br>
+    Inventory Value = Units × NLC
+</p>
+
+<!-- ================= FILTERS ================= -->
+<div class="filters">
+    <form method="get" action="/inventory-dashboard">
+        <label><b>Week:</b></label>
+        <select name="week">
+            <option value="">Latest</option>
+            {% for w in available_weeks %}
+                <option value="{{ w }}" {% if w == latest_week %}selected{% endif %}>
+                    {{ w }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label><b>Brand:</b></label>
+        <select name="brand">
+            <option value="">All</option>
+        {% for b in available_brands %}
+    <option value="{{ b }}"
+        {% if b == request.query_params.get('brand') %}selected{% endif %}>
+        {{ b }}
+    </option>
+      {% endfor %}
+
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
+<!-- ================= KPI CARDS ================= -->
+<div class="kpis">
+    <div class="kpi">
+        <b>Total Units</b>
+        <div class="val">{{ kpis.total_units }}</div>
+    </div>
+
+    <div class="kpi">
+        <b>Total Inventory Value</b>
+        <div class="val">₹ {{ "%.2f"|format(kpis.total_value) }}</div>
+    </div>
+
+    <div class="kpi">
+        <b>In-Transit %</b>
+        <div class="val">{{ "%.1f"|format(kpis.in_transit_pct) }}%</div>
+    </div>
+
+    <div class="kpi">
+        <b>Unsellable %</b>
+        <div class="val">{{ "%.1f"|format(kpis.unsellable_pct) }}%</div>
+    </div>
+</div>
+
+<!-- ================= AGING ================= -->
+<h2>📦 Inventory Aging Buckets</h2>
+<table>
+<tr>
+    <th>Bucket</th>
+    <th>Units</th>
+</tr>
+{% for b in aging %}
+<tr>
+    <td>{{ b.bucket }}</td>
+    <td>{{ b.units }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<!-- ================= CHANNEL / LOCATION SUMMARY ================= -->
+<h2>📊 Channel → Location Summary</h2>
+<table>
+<tr>
+    <th>Channel</th>
+    <th>Location</th>
+    <th>Units</th>
+    <th>Value (₹)</th>
+</tr>
+{% for r in channel_summary %}
+<tr>
+    <td>{{ r.channel }}</td>
+    <td>{{ r.location }}</td>
+    <td>{{ r.units }}</td>
+    <td>₹ {{ "%.2f"|format(r.value) }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<!-- ================= MAIN TABLE ================= -->
+<h2>📦 Inventory Details</h2>
+
+<div class="toolbar">
+    <input id="filterBox" placeholder="Text filter (Model / SKU / Category / Channel)">
+    <div>
+        <button onclick="exportTable()">Export Excel</button>
+    </div>
+</div>
+
+<table id="inventoryTable">
+<thead>
+<tr>
+    <th>Week</th>
+    <th>Brand</th>
+    <th>Model</th>
+    <th>SKU</th>
+    <th>Category L0</th>
+    <th>Category L1</th>
+    <th>Category L2</th>
+    <th>Channel</th>
+    <th>Location</th>
+    <th>Units</th>
+    <th>NLC (₹)</th>
+    <th>Value (₹)</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in rows %}
+<tr>
+    <td>{{ r.week }}</td>
+    <td>{{ r.brand }}</td>
+    <td>{{ r.model }}</td>
+    <td>{{ r.sku or "-" }}</td>
+    <td>{{ r.category_l0 }}</td>
+    <td>{{ r.category_l1 }}</td>
+    <td>{{ r.category_l2 }}</td>
+    <td>{{ r.channel }}</td>
+    <td>{{ r.type }}</td>
+    <td>{{ r.inventory_units }}</td>
+    <td>₹ {{ "%.2f"|format(r.nlc) }}</td>
+    <td>₹ {{ "%.2f"|format(r.inventory_value) }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<script>
+/* TEXT FILTER */
+document.getElementById("filterBox").addEventListener("keyup", function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll("#inventoryTable tbody tr").forEach(r => {
+        r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
+    });
+});
+
+/* EXPORT */
+function exportTable(){
+    let csv = [];
+    document.querySelectorAll("#inventoryTable tr").forEach(r => {
+        let row = [];
+        r.querySelectorAll("th,td").forEach(c => row.push(c.innerText.replace(/,/g,"")));
+        csv.push(row.join(","));
+    });
+
+    const blob = new Blob([csv.join("\n")], {type:"text/csv"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "inventory_dashboard_filtered.csv";
+    a.click();
+}
+</script>
+
+</body>
+</html>

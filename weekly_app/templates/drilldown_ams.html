@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; font-size: 13px; }
+        th, td { border: 1px solid #ccc; padding: 6px; }
+        th { background: #f4f4f4; }
+        a { text-decoration: none; color: #0b5ed7; }
+    </style>
+</head>
+<body>
+
+<h2>{{ title }}</h2>
+<p><a href="/dashboard">← Back to Dashboard</a></p>
+
+<table>
+<thead>
+<tr>
+    <th>SKU / ASIN</th>
+    <th>Spend</th>
+    <th>Sales</th>
+    <th>Orders</th>
+    <th>Clicks</th>
+    <th>Impressions</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in rows %}
+<tr>
+    <td>{{ r.join_key }}</td>
+    <td>₹ {{ r.spend }}</td>
+    <td>₹ {{ r.sales }}</td>
+    <td>{{ r.orders }}</td>
+    <td>{{ r.clicks }}</td>
+    <td>{{ r.impressions }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

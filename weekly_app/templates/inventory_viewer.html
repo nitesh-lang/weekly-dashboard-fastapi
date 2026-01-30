@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory Snapshot</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 6px; font-size: 13px; }
+        th { background: #f5f5f5; }
+        .unmapped { background-color: #ffecec; }
+    </style>
+</head>
+<body>
+
+<h2>📦 Inventory Snapshot</h2>
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
+
+<form method="get">
+    Week:
+    <select name="week">
+        <option value="">All</option>
+        {% for w in weeks %}
+            <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
+        {% endfor %}
+    </select>
+
+    Brand:
+    <select name="brand">
+        <option value="">All</option>
+        {% for b in brands %}
+            <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+    </select>
+
+    Channel:
+    <select name="channel">
+        <option value="">All</option>
+        {% for c in channels %}
+            <option value="{{ c }}" {% if selected.channel == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+    </select>
+
+    SKU Status:
+    <select name="sku_status">
+        <option value="">All</option>
+        {% for s in sku_statuses %}
+            <option value="{{ s }}" {% if selected.sku_status == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+<br>
+
+<table>
+    <tr>
+        <th>Week</th>
+        <th>SKU</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Channel</th>
+        <th>Inventory Units</th>
+        <th>NLC</th>
+        <th>Inventory Value</th>
+        <th>Status</th>
+        <th>Category L0</th>
+        <th>Category L1</th>
+        <th>Category L2</th>
+    </tr>
+
+    {% for row in rows %}
+    <tr class="{% if row.sku_status == 'UNMAPPED' %}unmapped{% endif %}">
+        <td>{{ row.week_start }}</td>
+        <td>{{ row.sku }}</td>
+        <td>{{ row.brand }}</td>
+        <td>{{ row.model_name }}</td>
+        <td>{{ row.channel }}</td>
+        <td>{{ row.inventory_units }}</td>
+        <td>{{ row.nlc }}</td>
+        <td>{{ row.inventory_value }}</td>
+        <td>{{ row.sku_status }}</td>
+        <td>{{ row.category_l0 }}</td>
+        <td>{{ row.category_l1 }}</td>
+        <td>{{ row.category_l2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

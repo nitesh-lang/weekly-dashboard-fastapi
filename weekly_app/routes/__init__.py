@@ -1,0 +1,1 @@
+from .inventory_dashboard import router as inventory_router

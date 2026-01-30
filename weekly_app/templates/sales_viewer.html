@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Sales Snapshot</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 13px; }
+        th { background: #f5f5f5; position: sticky; top: 0; }
+        select { padding: 4px; margin-right: 10px; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h2>📊 Weekly Sales Snapshot</h2>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="get">
+    <label>Week:</label>
+    <select name="week">
+        <option value="">All</option>
+        {% for w in weeks %}
+            <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Brand:</label>
+    <select name="brand">
+        <option value="">All</option>
+        {% for b in brands %}
+            <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Channel:</label>
+    <select name="channel">
+        <option value="">All</option>
+        {% for c in channels %}
+            <option value="{{ c }}" {% if selected.channel == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+{% if rows %}
+<table>
+    <thead>
+        <tr>
+            {% for col in rows[0].keys() %}
+                <th>{{ col }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+            <tr>
+                {% for v in r.values() %}
+                    <td>{{ v }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>No data for selected filters.</p>
+{% endif %}
+
+</body>
+</html>

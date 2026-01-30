@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Unified Dashboard</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 12px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        th { background: #f4f4f4; }
+
+        td:first-child, th:first-child { text-align: left; }
+        td:nth-child(2), th:nth-child(2) { text-align: left; }
+        td:nth-child(3), th:nth-child(3) { text-align: left; }
+
+        h2 { margin-top: 40px; }
+
+        .kpi {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 12px;
+            margin-right: 10px;
+            width: 22%;
+            vertical-align: top;
+        }
+
+        .auto-week {
+            margin: 10px 0;
+            padding: 8px;
+            background: #f8f9fa;
+            border-left: 4px solid #0b5ed7;
+            font-size: 13px;
+        }
+
+        a { text-decoration: none; color: #0b5ed7; }
+        a:hover { text-decoration: underline; }
+
+        .channel-head {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sub-head {
+            font-size: 11px;
+            background: #fafafa;
+        }
+
+        tfoot td {
+            font-weight: bold;
+            background: #fafafa;
+        }
+
+        /* ================= NAV LINKS ================= */
+        .nav-links {
+            margin: 10px 0 20px 0;
+            font-size: 14px;
+        }
+
+        .nav-links a {
+            margin-right: 16px;
+            font-weight: bold;
+        }
+
+        .nav-links span {
+            color: #999;
+            margin-right: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📊 Weekly Unified Dashboard</h1>
+
+<!-- ================= TOP NAV LINKS ================= -->
+<div class="nav-links">
+    <a href="/sales-trend">📈 Sales Trend</a>
+    <span>|</span>
+    <a href="/category-sales">🧩 Category Trend</a>
+    <span>|</span>
+    <a href="/inventory-dashboard">📦 Inventory Dashboard</a>
+    <span>|</span>
+    <a href="/ams-trend">📣 AMS Trend</a>
+</div>
+
+{% if selected.week %}
+<div class="auto-week">
+    ✅ Showing data for <b>{{ selected.week }}</b>
+</div>
+{% endif %}
+
+<!-- ================= FILTERS ================= -->
+<form method="get">
+    Week:
+    <select name="week">
+        <option value="">All</option>
+        {% for w in weeks %}
+            <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
+        {% endfor %}
+    </select>
+
+    Brand:
+    <select name="brand">
+        <option value="">All</option>
+        {% for b in brands %}
+            <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+    </select>
+
+    View:
+    <select name="view">
+        <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
+        <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+<hr>
+
+<!-- ================= SALES KPIs ================= -->
+<h2>📌 Sales KPIs</h2>
+<div class="kpi"><b>Units Sold</b><br>{{ kpis.units }}</div>
+<div class="kpi"><b>GMV</b><br>₹ {{ kpis.gmv }}</div>
+<div class="kpi"><b>Inventory Value</b><br>₹ {{ kpis.inventory_value }}</div>
+<div class="kpi"><b>Sell-through %</b><br>{{ kpis.sell_through }}%</div>
+
+<!-- ================= AMS TREND ================= -->
+{% if ams_pivot %}
+<h2>📣 AMS Trend</h2>
+
+<table>
+<thead>
+<tr>
+    <th>Week</th>
+    <th>Ad Spend (₹)</th>
+    <th>Attributed Sales (₹)</th>
+    <th>Sessions</th>
+    <th>ACOS %</th>
+</tr>
+</thead>
+<tbody>
+{% for r in ams_pivot %}
+<tr>
+    <td>{{ r.week }}</td>
+    <td>₹ {{ r.ad_spend }}</td>
+    <td>₹ {{ r.attributed_sales }}</td>
+    <td>{{ r.sessions }}</td>
+    <td>{{ "%.2f"|format(r.acos * 100) }}%</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
+
+<!-- ================= SKU SALES ================= -->
+<h2>
+📦 Sales by SKU – All Channels
+&nbsp;|&nbsp;
+<a href="/drilldown?type=sales&week={{ selected.week }}">
+    View Channel-wise Drilldown →
+</a>
+</h2>
+
+<table>
+<thead>
+<tr>
+    <th rowspan="2">SKU</th>
+    <th rowspan="2">Model</th>
+    <th rowspan="2">Category</th>
+
+    <th colspan="4" class="channel-head">All Channels Total</th>
+    <th colspan="3" class="channel-head">Amazon AM</th>
+    <th colspan="3" class="channel-head">Amazon 1P</th>
+    <th colspan="3" class="channel-head">Amazon Total</th>
+</tr>
+
+<tr class="sub-head">
+    <th>Units</th>
+    <th>Sales (₹)</th>
+    <th>NLC (₹)</th>
+    <th>% Contrib</th>
+
+    <th>Units</th><th>Sales (₹)</th><th>NLC (₹)</th>
+    <th>Units</th><th>Sales (₹)</th><th>NLC (₹)</th>
+    <th>Units</th><th>Sales (₹)</th><th>NLC (₹)</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in sku_rows %}
+<tr>
+    <td>{{ r.sku }}</td>
+    <td>{{ r.model_no }}</td>
+    <td>{{ r.category_l0 }}</td>
+
+    <td>{{ r.total_units }}</td>
+    <td>₹ {{ r.total_sales }}</td>
+    <td>₹ {{ r.total_nlc }}</td>
+    <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+
+    <td>{{ r.amazon_am_units }}</td>
+    <td>₹ {{ r.amazon_am_sales }}</td>
+    <td>₹ {{ r.amazon_am_nlc }}</td>
+
+    <td>{{ r.amazon_1p_units }}</td>
+    <td>₹ {{ r.amazon_1p_sales }}</td>
+    <td>₹ {{ r.amazon_1p_nlc }}</td>
+
+    <td>{{ r.amazon_total_units }}</td>
+    <td>₹ {{ r.amazon_total_sales }}</td>
+    <td>₹ {{ r.amazon_total_nlc }}</td>
+</tr>
+{% endfor %}
+</tbody>
+
+<tfoot>
+<tr>
+    <td colspan="3">TOTAL</td>
+    <td>{{ sku_rows | sum(attribute='total_units') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='total_sales') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='total_nlc') }}</td>
+    <td>100%</td>
+
+    <td>{{ sku_rows | sum(attribute='amazon_am_units') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='amazon_am_sales') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='amazon_am_nlc') }}</td>
+
+    <td>{{ sku_rows | sum(attribute='amazon_1p_units') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='amazon_1p_sales') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='amazon_1p_nlc') }}</td>
+
+    <td>{{ sku_rows | sum(attribute='amazon_total_units') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='amazon_total_sales') }}</td>
+    <td>₹ {{ sku_rows | sum(attribute='amazon_total_nlc') }}</td>
+</tr>
+</tfoot>
+</table>
+
+<!-- ================= CHANNEL SUMMARY ================= -->
+<h2>📦 Channel Summary</h2>
+<table>
+<tr>
+    <th>Channel</th>
+    <th>Units Sold</th>
+    <th>GMV (₹)</th>
+    <th>Sales @ NLC (₹)</th>
+    <th>% Contrib</th>
+</tr>
+
+{% for r in channel_summary %}
+<tr>
+    <td>
+        <a href="/drilldown?type=sales&week={{ selected.week }}&channel={{ r.channel | urlencode }}">
+            {{ r.channel }}
+        </a>
+    </td>
+    <td>{{ r.units_sold }}</td>
+    <td>₹ {{ r.gmv }}</td>
+    <td>₹ {{ r.sales_nlc }}</td>
+    <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+</tr>
+{% endfor %}
+</table>
+
+<!-- ================= CATEGORY SUMMARY ================= -->
+<h2>🧩 Category Summary</h2>
+<table>
+<tr>
+    <th>Category (L0)</th>
+    <th>Units</th>
+    <th>GMV (₹)</th>
+    <th>% Contrib</th>
+</tr>
+
+{% for r in category_summary %}
+<tr>
+    <td>
+        <a href="/category-sales?category={{ r.category_l0 | urlencode }}&week={{ selected.week }}">
+            {{ r.category_l0 }}
+        </a>
+    </td>
+    <td>{{ r.units_sold }}</td>
+    <td>₹ {{ r.gross_sales }}</td>
+    <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>

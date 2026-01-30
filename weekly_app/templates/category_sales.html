@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category Sales</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+
+        a {
+            color: #0b5ed7;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .toolbar {
+            margin: 12px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+        }
+
+        select {
+            padding: 4px;
+            font-size: 13px;
+        }
+
+        button {
+            padding: 4px 10px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>🧩 Category Sales</h2>
+<a href="/dashboard">← Back to Dashboard</a>
+
+<!-- FILTER BAR -->
+<div class="toolbar">
+    <form method="get" action="/category-sales">
+
+        <input type="hidden" name="level" value="{{ level }}">
+
+        {% if value %}
+            <input type="hidden" name="value" value="{{ value }}">
+        {% endif %}
+
+        <label>Week:</label>
+        <select name="week">
+            <option value="">All</option>
+            {% for w in ["Week 1","Week 2","Week 3","Week 4"] %}
+                <option value="{{ w }}"
+                    {% if week == w %}selected{% endif %}>
+                    {{ w }}
+                </option>
+            {% endfor %}
+        </select>
+
+        &nbsp;&nbsp;
+
+        <label>Brand:</label>
+        <select name="brand">
+            <option value="">All Brands</option>
+            {% for b in ["nexlev","audio array","tonor","white mulberry"] %}
+                <option value="{{ b }}"
+                    {% if selected_brand and selected_brand == b %}selected{% endif %}>
+                    {{ b | title }}
+                </option>
+            {% endfor %}
+        </select>
+
+        &nbsp;&nbsp;
+
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Units Sold</th>
+            <th>GMV (₹)</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for r in rows %}
+        <tr>
+            <td>
+                {% if level == "l0" %}
+                    <!-- L0 → L1 -->
+                    <a href="/category-sales?level=l1&value={{ r.category_l0 | urlencode }}{% if week %}&week={{ week | urlencode }}{% endif %}{% if selected_brand %}&brand={{ selected_brand | urlencode }}{% endif %}">
+                        {{ r.category_l0 }}
+                    </a>
+
+                {% elif level == "l1" %}
+                    <!-- L1 → L2 -->
+                    <a href="/category-sales?level=l2&value={{ r.category_l1 | urlencode }}{% if week %}&week={{ week | urlencode }}{% endif %}{% if selected_brand %}&brand={{ selected_brand | urlencode }}{% endif %}">
+                        {{ r.category_l1 }}
+                    </a>
+
+                {% else %}
+                    <!-- L2 FINAL -->
+                    {{ r.category_l2 }}
+                {% endif %}
+            </td>
+
+            <td>{{ r.units_sold }}</td>
+            <td>₹ {{ r.gross_sales }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

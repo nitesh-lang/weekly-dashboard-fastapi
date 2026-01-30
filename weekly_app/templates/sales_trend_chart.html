@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SKU Sales Trend Chart</title>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 6px;
+        }
+
+        .note {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .toggle {
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: 420px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0b5ed7;
+            font-size: 13px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📈 SKU Trend — {{ sku }}</h1>
+
+<a href="/sales-trend">← Back to SKU Trend Table</a>
+
+<p class="note">
+    Weekly trend auto-updates as new data is uploaded.
+    Toggle between Units and Sales (₹).
+</p>
+
+<div class="toggle">
+    <button onclick="showUnits()">Units</button>
+    <button onclick="showSales()">Sales (₹)</button>
+</div>
+
+<canvas id="trendChart"></canvas>
+
+<script>
+    const labels = {{ weeks | tojson }};
+    const unitsData = {{ units | tojson }};
+    const salesData = {{ sales | tojson }};
+
+    const ctx = document.getElementById("trendChart").getContext("2d");
+
+    let chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Units Sold",
+                data: unitsData,
+                borderColor: "#0b5ed7",
+                backgroundColor: "rgba(11, 94, 215, 0.1)",
+                tension: 0.3,
+                fill: true,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function showUnits() {
+        chart.data.datasets[0].label = "Units Sold";
+        chart.data.datasets[0].data = unitsData;
+        chart.update();
+    }
+
+    function showSales() {
+        chart.data.datasets[0].label = "Sales (₹)";
+        chart.data.datasets[0].data = salesData;
+        chart.update();
+    }
+</script>
+
+</body>
+</html>

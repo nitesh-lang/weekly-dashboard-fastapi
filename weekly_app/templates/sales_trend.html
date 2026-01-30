@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Trend – Weekly</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .note {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .filters {
+            margin: 10px 0 20px 0;
+        }
+
+        .filters select, .filters button {
+            padding: 6px 8px;
+            font-size: 13px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 13px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #f4f4f4;
+        }
+
+        td:first-child, th:first-child {
+            text-align: left;
+        }
+
+        .back {
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .back a {
+            text-decoration: none;
+            color: #0b5ed7;
+        }
+
+        .back a:hover {
+            text-decoration: underline;
+        }
+
+        tfoot td {
+            font-weight: bold;
+            background: #fafafa;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>📈 Weekly Sales Trend</h1>
+
+<div class="back">
+    <a href="/dashboard">← Back to Dashboard</a>
+</div>
+
+<p class="note">
+    This view shows week-wise sales trend.<br>
+    Automatically updates when new weekly data is uploaded.
+</p>
+
+<div class="filters">
+    <form method="get" action="/sales-trend">
+        Brand:
+        <select name="brand">
+            <option value="all">All</option>
+            {% for b in brands %}
+                <option value="{{ b }}" {% if b == selected_brand %}selected{% endif %}>
+                    {{ b }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Apply</button>
+    </form>
+</div>
+
+<table>
+<thead>
+<tr>
+    <th>Week</th>
+    <th>Units Sold</th>
+    <th>GMV (₹)</th>
+    <th>Sales @ NLC (₹)</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in trend_rows %}
+<tr>
+    <td>{{ r.week }}</td>
+    <td>{{ r.units_sold | default(0) }}</td>
+    <td>₹ {{ r.gmv | default(0) }}</td>
+    <td>₹ {{ r.sales_nlc | default(0) }}</td>
+</tr>
+{% endfor %}
+</tbody>
+
+<tfoot>
+<tr>
+    <td>TOTAL</td>
+    <td>{{ trend_rows | sum(attribute='units_sold') | default(0) }}</td>
+    <td>₹ {{ trend_rows | sum(attribute='gmv') | default(0) }}</td>
+    <td>₹ {{ trend_rows | sum(attribute='sales_nlc') | default(0) }}</td>
+</tr>
+</tfoot>
+</table>
+
+</body>
+</html>

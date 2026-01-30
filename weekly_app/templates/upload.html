@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Data Upload</title>
+</head>
+<body>
+
+<h2>📤 Weekly Data Upload</h2>
+
+{% if request.query_params.get("error") %}
+    <div style="padding:10px; margin-bottom:15px; border:1px solid red; color:red;">
+        ❌ {{ request.query_params.get("error") }}
+    </div>
+{% endif %}
+
+{% if request.query_params.get("success") %}
+    <div style="padding:10px; margin-bottom:15px; border:1px solid green; color:green;">
+        ✅ {{ request.query_params.get("count") }} file(s) uploaded successfully<br>
+        📅 Week starting: {{ request.query_params.get("week") }}
+    </div>
+{% endif %}
+
+<form method="post" action="/upload" enctype="multipart/form-data">
+
+    <label>Upload Type</label><br>
+    <select name="upload_type" required>
+        {% for t in upload_types %}
+        <option value="{{ t }}">{{ t.title() }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label>Brand</label><br>
+    <select name="brand" required>
+        {% for b in brands %}
+        <option value="{{ b }}">{{ b }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label>Select Files</label><br>
+    <input type="file" name="files" multiple required>
+
+    <br><br>
+
+    <button type="submit">Upload</button>
+
+</form>
+
+</body>
+</html>

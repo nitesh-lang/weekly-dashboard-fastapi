@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Channel Summary</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; font-size: 14px; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+        th { background: #f2f2f2; }
+        .low { background: #fff3cd; }
+        .bad { background: #ffd6d6; }
+    </style>
+</head>
+
+<body>
+
+<h2>📊 Channel Summary</h2>
+
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+
+<form method="get">
+    Week:
+    <select name="week">
+        <option value="">All</option>
+        {% for w in weeks %}
+            <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
+        {% endfor %}
+    </select>
+
+    Brand:
+    <select name="brand">
+        <option value="">All</option>
+        {% for b in brands %}
+            <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+<br>
+
+<table>
+<thead>
+<tr>
+    <th>Week</th>
+    <th>Brand</th>
+    <th>Channel</th>
+    <th>Units Sold</th>
+    <th>Gross Sales</th>
+    <th>Inventory Units</th>
+    <th>Inventory Value</th>
+    <th>Sell-through %</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in rows %}
+<tr class="{% if r.sell_through_pct < 30 %}bad{% elif r.sell_through_pct < 60 %}low{% endif %}">
+    <td>{{ r.week_start }}</td>
+    <td>{{ r.brand }}</td>
+    <td>{{ r.channel }}</td>
+    <td>{{ r.units_sold }}</td>
+    <td>{{ r.gross_sales }}</td>
+    <td>{{ r.inventory_units }}</td>
+    <td>{{ "%.2f"|format(r.inventory_value) }}</td>
+    <td>{{ r.sell_through_pct }}%</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

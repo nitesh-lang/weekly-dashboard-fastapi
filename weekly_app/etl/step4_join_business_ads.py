@@ -1,219 +1,214 @@
 import pandas as pd
 from pathlib import Path
-import re
 
 # ==================================================
-# STEP 4: JOIN BUSINESS + ADS + SKU MASTER (MODEL MASTER)
+# STEP 4: BUSINESS + ADS + SKU MASTER (FINAL)
+#
+# BASE TABLE      : ads_weekly_aggregated.csv (SP + SD ONLY)
+# BUSINESS GMV    : ams_weekly_fact.csv
+# BRAND/CATEGORY  : sku_master.xlsx
+#
+# GUARANTEES:
+# - SB COMPLETELY REMOVED
+# - ADS IS BASE (NO DUPLICATION)
+# - BRAND ALWAYS PRESENT
+# - SAFE METRICS (NO CRASH)
 # ==================================================
+
+print("🚀 STEP 4 – BUSINESS + ADS + CATEGORY (FINAL)")
 
 # --------------------------------------------------
 # PATH CONFIG
 # --------------------------------------------------
-BASE_PATH = Path(__file__).resolve().parents[2] / "data" / "ams_weekly_data"
+BASE_PATH = Path(__file__).resolve().parents[2] / "data"
+AMS_DIR = BASE_PATH / "ams_weekly_data"
 
-ADS_AGG_FILE = BASE_PATH / "processed_ads" / "ads_weekly_aggregated.csv"
-BIZ_FACT_FILE = BASE_PATH / "ams_weekly_fact" / "ams_weekly_fact.csv"
+ADS_FILE = AMS_DIR / "processed_ads" / "ads_weekly_aggregated.csv"
+BIZ_FILE = AMS_DIR / "ams_weekly_fact" / "ams_weekly_fact.csv"
+SKU_FILE = BASE_PATH / "master" / "sku_master.xlsx"
 
-SKU_MASTER_FILE = BASE_PATH.parents[1] / "master" / "sku_master.xlsx"
-
-OUTPUT_DIR = BASE_PATH / "processed_ads"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-OUT_FILE = OUTPUT_DIR / "business_ads_joined.csv"
-
-# --------------------------------------------------
-# VALIDATIONS
-# --------------------------------------------------
-if not ADS_AGG_FILE.exists():
-    raise RuntimeError(f"❌ Missing ads aggregate CSV: {ADS_AGG_FILE}")
-
-if not BIZ_FACT_FILE.exists():
-    raise RuntimeError(f"❌ Missing business fact CSV: {BIZ_FACT_FILE}")
+OUT_DIR = AMS_DIR / "processed_ads"
+OUT_DIR.mkdir(parents=True, exist_ok=True)
+OUT_FILE = OUT_DIR / "business_ads_joined.csv"
 
 # --------------------------------------------------
-# LOAD DATA
+# LOAD FILES
 # --------------------------------------------------
-ads_df = pd.read_csv(ADS_AGG_FILE)
-biz_df = pd.read_csv(BIZ_FACT_FILE)
+ads = pd.read_csv(ADS_FILE)
+biz = pd.read_csv(BIZ_FILE)
+sku = pd.read_excel(SKU_FILE)
 
-ads_df.columns = ads_df.columns.str.strip()
-biz_df.columns = biz_df.columns.str.strip()
-
-# --------------------------------------------------
-# NORMALIZE GMV (BUSINESS SOURCE OF TRUTH)
-# --------------------------------------------------
-if "GMV" in biz_df.columns and "gmv" not in biz_df.columns:
-    biz_df = biz_df.rename(columns={"GMV": "gmv"})
-
-gmv_cols = [
-    c for c in biz_df.columns
-    if re.search(r"ordered.*product.*sales", c, re.I)
-]
-if gmv_cols:
-    biz_df["gmv"] = biz_df[gmv_cols[0]]
+ads.columns = ads.columns.str.strip()
+biz.columns = biz.columns.str.strip()
+sku.columns = sku.columns.str.strip()
 
 # --------------------------------------------------
-# REQUIRED COLUMNS
+# REMOVE SB COMPLETELY
 # --------------------------------------------------
-for col in ["asin", "week", "Model"]:
-    if col not in biz_df.columns:
-        raise RuntimeError(f"❌ ams_weekly_fact.csv missing: {col}")
-
-for col in ["asin", "week", "Model"]:
-    if col not in ads_df.columns:
-        raise RuntimeError(f"❌ ads_weekly_aggregated.csv missing: {col}")
+if "ad_type" in ads.columns:
+    ads = ads[ads["ad_type"].isin(["SP", "SD", "SP_SD"])].copy()
 
 # --------------------------------------------------
-# NORMALIZE TYPES
+# NORMALIZE ADS
 # --------------------------------------------------
-for df in (ads_df, biz_df):
-    df["week"] = pd.to_numeric(df["week"], errors="coerce")
+ads.rename(columns={
+    "spend": "Spend",
+    "cost": "Spend",
+    "Impression": "Impressions",
+    "impression": "Impressions",
+    "attributed_": "attributed_sales",
+    "ams_order": "ams_orders",
+}, inplace=True)
+
+ads["asin"] = ads["asin"].astype(str).str.strip()
+ads["week"] = pd.to_numeric(ads["week"], errors="coerce")
+
+for c in ["Spend", "Clicks", "Impressions", "attributed_sales", "ams_orders"]:
+    if c not in ads.columns:
+        ads[c] = 0
+    ads[c] = pd.to_numeric(ads[c], errors="coerce").fillna(0)
+
+# 🔒 HARD DEDUPE — ONE ROW PER ASIN+WEEK
+ads = ads.groupby(
+    ["asin", "week"], as_index=False
+).agg({
+    "Spend": "sum",
+    "Clicks": "sum",
+    "Impressions": "sum",
+    "attributed_sales": "sum",
+    "ams_orders": "sum",
+})
+
+# --------------------------------------------------
+# NORMALIZE BUSINESS FACT
+# --------------------------------------------------
+asin_col = next(
+    (c for c in ["asin", "ASIN", "(Parent) ASIN", "parent_asin"] if c in biz.columns),
+    None
+)
+if not asin_col:
+    raise RuntimeError("❌ ASIN column missing in AMS fact")
+
+biz["asin"] = biz[asin_col].astype(str).str.strip()
+biz["week"] = pd.to_numeric(biz["week"], errors="coerce")
+
+biz["gmv"] = pd.to_numeric(biz.get("ordered_product_sales", 0), errors="coerce").fillna(0)
+biz["sessions"] = pd.to_numeric(biz.get("sessions", 0), errors="coerce").fillna(0)
+biz["units"] = pd.to_numeric(biz.get("units_ordered", 0), errors="coerce").fillna(0)
+biz["buy_box_pct"] = pd.to_numeric(biz.get("buy_box_pct", 0), errors="coerce").fillna(0)
+
+biz = biz[[
+    "asin", "week", "gmv", "sessions", "units", "buy_box_pct"
+]].drop_duplicates(["asin", "week"])
+
+# --------------------------------------------------
+# JOIN 1: ADS ← BUSINESS (ADS BASE)
+# --------------------------------------------------
+final = ads.merge(
+    biz,
+    on=["asin", "week"],
+    how="left"
+)
+
+for c in ["gmv", "sessions", "units", "buy_box_pct"]:
+    final[c] = pd.to_numeric(final[c], errors="coerce").fillna(0)
+
+# --------------------------------------------------
+# LOAD BUSINESS REPORTS (PARENT → ONE CHILD)
+# --------------------------------------------------
+latest_week = int(final["week"].max())
+maps = []
+
+for brand_dir in AMS_DIR.iterdir():
+    if not brand_dir.is_dir():
+        continue
+    if brand_dir.name in ["processed_ads", "ams_weekly_fact"]:
+        continue
+
+    rpt = brand_dir / f"business_report_week{latest_week}.xlsx"
+    if not rpt.exists():
+        continue
+
+    df = pd.read_excel(rpt)
+    df.columns = df.columns.str.strip()
+
+    if not {"(Parent) ASIN", "(Child) ASIN", "Model"}.issubset(df.columns):
+        continue
+
+    df = df.rename(columns={
+        "(Parent) ASIN": "asin",
+        "(Child) ASIN": "child_asin",
+        "Model": "model",
+    })
+
     df["asin"] = df["asin"].astype(str).str.strip()
-    df["Model"] = df["Model"].astype(str).str.strip().str.upper()
+    df["child_asin"] = df["child_asin"].astype(str).str.strip()
+    df["model"] = df["model"].astype(str).str.upper().str.strip()
+
+    # 🔒 ONE CHILD PER PARENT
+    df = df.drop_duplicates(subset=["asin"])
+
+    maps.append(df[["asin", "child_asin", "model"]])
+
+map_df = (
+    pd.concat(maps, ignore_index=True)
+    if maps else
+    pd.DataFrame(columns=["asin", "child_asin", "model"])
+)
+
+final = final.merge(map_df, on="asin", how="left")
 
 # --------------------------------------------------
-# ADS METRICS
+# SKU MASTER = BRAND + CATEGORY (SOURCE OF TRUTH)
 # --------------------------------------------------
-ADS_NUM_COLS = [
-    "Spend",
-    "Clicks",
-    "Impressions",
-    "attributed_sales",
-    "ams_orders"
+sku = sku.rename(columns={"ASIN": "child_asin", "Brand": "brand"})
+sku["child_asin"] = sku["child_asin"].astype(str).str.strip()
+sku = sku.drop_duplicates(subset=["child_asin"])
+
+final = final.merge(
+    sku[["child_asin", "brand", "category_l0", "category_l1", "category_l2"]],
+    on="child_asin",
+    how="left"
+)
+
+# 🛡️ BRAND GUARANTEE
+final["brand"] = final["brand"].fillna("UNKNOWN")
+
+# TOTAL AMAZON SALES (WEEK LEVEL)
+total_amazon_sales = (
+    final.groupby("week")["gmv"].transform("sum").replace(0, pd.NA)
+)
+
+# --------------------------------------------------
+# DERIVED METRICS (VECTOR SAFE)
+# --------------------------------------------------
+final["conversion_pct"] = final["units"] / final["sessions"].replace(0, pd.NA)
+final["roas"] = final["gmv"] / final["Spend"].replace(0, pd.NA)
+final["contribution_to_sales_pct"] = (final["gmv"] / total_amazon_sales)
+final["acos"] = final["Spend"] / final["attributed_sales"].replace(0, pd.NA)
+final["tacos"] = final["Spend"] / final["gmv"].replace(0, pd.NA)
+final["cac"] = final["Spend"] / final["ams_orders"].replace(0, pd.NA)
+
+# --------------------------------------------------
+# FINAL COLUMN ORDER
+# --------------------------------------------------
+FINAL_COLS = [
+    "brand", "model", "asin", "child_asin", "week",
+    "Spend", "Clicks", "Impressions", "attributed_sales", "ams_orders",
+    "gmv", "sessions", "units", "buy_box_pct",
+    "conversion_pct", "acos", "roas", "tacos", "cac",
+    "category_l0", "category_l1", "category_l2",
 ]
 
-for c in ADS_NUM_COLS:
-    if c not in ads_df.columns:
-        ads_df[c] = 0
-    ads_df[c] = pd.to_numeric(ads_df[c], errors="coerce").fillna(0)
-
-# --------------------------------------------------
-# BUSINESS METRICS
-# --------------------------------------------------
-BIZ_NUM_COLS = [
-    "gmv",
-    "sessions",
-    "units",
-    "buy_box_pct"
-]
-
-for c in BIZ_NUM_COLS:
-    if c not in biz_df.columns:
-        biz_df[c] = None
-    biz_df[c] = pd.to_numeric(biz_df[c], errors="coerce")
-
-# --------------------------------------------------
-# MAIN JOIN (BUSINESS ← ADS) — MODEL SAFE
-# --------------------------------------------------
-final_df = pd.merge(
-    biz_df,
-    ads_df,
-    on=["asin", "Model", "week"],
-    how="left",
-    suffixes=("", "_ads")
-)
-
-for c in ADS_NUM_COLS:
-    final_df[c] = pd.to_numeric(final_df[c], errors="coerce").fillna(0)
-
-# --------------------------------------------------
-# SKU MASTER JOIN (MODEL = SOURCE OF TRUTH)
-# --------------------------------------------------
-if SKU_MASTER_FILE.exists():
-    sku = pd.read_excel(SKU_MASTER_FILE)
-    sku.columns = sku.columns.str.strip()
-
-    rename_map = {
-        "Model": "Model",
-        "Brand": "brand",
-        "Category L0": "category_l0",
-        "Category L1": "category_l1",
-        "Category L2": "category_l2",
-    }
-    sku = sku.rename(columns={k: v for k, v in rename_map.items() if k in sku.columns})
-
-    sku["Model"] = sku["Model"].astype(str).str.strip().str.upper()
-
-    final_df = final_df.merge(
-        sku[["Model", "brand", "category_l0", "category_l1", "category_l2"]],
-        on="Model",
-        how="left"
-    )
-
-# --------------------------------------------------
-# DERIVED METRICS (FINAL, CLEAN)
-# --------------------------------------------------
-final_df["conversion_pct"] = final_df.apply(
-    lambda x: x["units"] / x["sessions"]
-    if x["sessions"] and x["sessions"] > 0 else None,
-    axis=1
-)
-
-final_df["roas"] = final_df.apply(
-    lambda x: x["attributed_sales"] / x["Spend"]
-    if x["Spend"] > 0 else None,
-    axis=1
-)
-
-final_df["acos"] = final_df.apply(
-    lambda x: x["Spend"] / x["attributed_sales"]
-    if x["attributed_sales"] > 0 else None,
-    axis=1
-)
-
-final_df["tacos"] = final_df.apply(
-    lambda x: x["Spend"] / x["gmv"]
-    if x["gmv"] and x["gmv"] > 0 else None,
-    axis=1
-)
-
-final_df["cac"] = final_df.apply(
-    lambda x: x["Spend"] / x["ams_orders"]
-    if x["ams_orders"] > 0 else None,
-    axis=1
-)
-
-final_df["attributed_sales_pct"] = final_df.apply(
-    lambda x: x["attributed_sales"] / x["gmv"]
-    if x["gmv"] and x["gmv"] > 0 else None,
-    axis=1
-)
-
-final_df["organic_sales_pct"] = final_df["attributed_sales_pct"].apply(
-    lambda x: 1 - x if x is not None else None
-)
-
-# --------------------------------------------------
-# UI SAFETY (NO FAKE FALLBACKS)
-# --------------------------------------------------
-for c in ["brand", "category_l0", "category_l1", "category_l2"]:
-    if c not in final_df.columns:
-        final_df[c] = None
-
-# --------------------------------------------------
-# ORDERING (UI STABLE)
-# --------------------------------------------------
-KEY_ORDER = [
-    "brand", "Model", "asin", "week",
-    "Spend", "Clicks", "Impressions",
-    "attributed_sales", "ams_orders",
-    "gmv", "sessions", "units",
-    "buy_box_pct", "conversion_pct",
-    "acos", "roas", "tacos", "cac",
-    "attributed_sales_pct", "organic_sales_pct",
-    "category_l0", "category_l1", "category_l2"
-]
-
-final_df = final_df[
-    [c for c in KEY_ORDER if c in final_df.columns] +
-    [c for c in final_df.columns if c not in KEY_ORDER]
-]
+final = final[[c for c in FINAL_COLS if c in final.columns]]
 
 # --------------------------------------------------
 # OUTPUT
 # --------------------------------------------------
-final_df.to_csv(OUT_FILE, index=False)
+final.to_csv(OUT_FILE, index=False)
 
-print("✅ STEP 4 COMPLETE — MODEL IS MASTER, CATEGORIES FIXED")
+print("✅ STEP 4 COMPLETE")
 print("📁 Output:", OUT_FILE)
-print("📊 Rows:", len(final_df))
+print("📊 Rows:", len(final))
+print("💰 Spend total:", round(final['Spend'].sum(), 2))
+print("🏷️ Brand populated:", final["brand"].ne("UNKNOWN").sum())

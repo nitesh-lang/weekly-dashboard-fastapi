@@ -73,7 +73,7 @@ if missing_cols:
 # ---------------------------------------------------------
 
 df["channel"] = df["channel"].astype(str).str.upper().str.strip()
-df["type"] = df["type"].astype(str).str.upper().str.strip()
+df["type"] = df["type"].astype(str).str.upper().str.replace("-", " ").str.strip()
 df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
 
 # =========================================================
@@ -135,8 +135,8 @@ if df.empty:
 
 def derive_ams_channel(row):
     # pipeline logic unchanged
-    if row["type"] in ["IN-TRANSIT", "OPEN ORDER", "PIPELINE"]:
-        return "PIPELINE"
+    if any(k in row["type"] for k in ["TRANSIT", "OPEN", "PIPELINE"]):
+         return "PIPELINE"
     if row["channel"] in ["AMPM", "AMAZON", "1P"]:
         return row["channel"]
     return "OTHER"
@@ -152,7 +152,7 @@ pivot = (
         index=["week", "model"],
         columns="ams_channel",
         values="qty",
-        aggfunc="sum",
+        aggfunc=lambda x: x.iloc[-1] if x.name == "PIPELINE" else x.sum(),
         fill_value=0
     )
     .reset_index()
@@ -195,7 +195,8 @@ pivot["inv_units_model"] = pivot["inventory_total_amazon"]
 # CREATE AMS JOIN KEY (NO CHANGE)
 # =========================================================
 
-pivot["Model"] = pivot["model"]
+pivot["Model"] = pivot["model"].astype(str).str.strip().str.upper()
+pivot = pivot.drop(columns=["model"])
 
 # =========================================================
 # FINAL COLUMN ORDER (EXPLICIT, STABLE)
@@ -204,7 +205,6 @@ pivot["Model"] = pivot["model"]
 pivot = pivot[
     [
         "week",
-        "model",
         "Model",
         "inventory_ampm",
         "inventory_1p",

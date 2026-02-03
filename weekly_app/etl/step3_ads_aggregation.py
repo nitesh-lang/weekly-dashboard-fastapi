@@ -3,61 +3,57 @@ from pathlib import Path
 import re
 
 # ==================================================
-# STEP 3 : ADS AGGREGATION (MODEL + AMS TREND READY)
+# STEP 3 : ADS AGGREGATION (SP + SD ONLY)
+#
+# OUTPUT (SOURCE OF TRUTH FOR STEP 4):
+# data/ams_weekly_data/processed_ads/ads_weekly_aggregated.csv
 # ==================================================
 
-BASE_DIR = Path(__file__).resolve().parents[2] / "data" / "ams_weekly_data"
-ADS_ROOT = BASE_DIR
-OUTPUT_DIR = BASE_DIR / "processed_ads"
+print("🚀 STEP 3 – ADS AGGREGATION (SP + SD ONLY)")
+
+# --------------------------------------------------
+# PATH CONFIG
+# --------------------------------------------------
+BASE_PATH = Path(__file__).resolve().parents[2] / "data"
+AMS_DATA_DIR = BASE_PATH / "ams_weekly_data"
+OUTPUT_DIR = AMS_DATA_DIR / "processed_ads"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-SKU_MASTER_FILE = BASE_DIR.parents[1] / "master" / "sku_master.xlsx"
+SKU_MASTER_FILE = BASE_PATH / "master" / "sku_master.xlsx"
 
 # --------------------------------------------------
 # WEEK EXTRACTOR
 # --------------------------------------------------
-def extract_week(fname: str):
-    for part in fname.split("_"):
-        if part.lower().startswith("week"):
-            m = re.search(r"\d+", part)
-            if m:
-                return int(m.group())
-    return None
+def extract_week(filename: str):
+    m = re.search(r"week\s*(\d+)", filename.lower())
+    return int(m.group(1)) if m else None
 
 # --------------------------------------------------
-# LOAD SKU MASTER (MODEL = SOURCE OF TRUTH)
+# LOAD SKU MASTER (ASIN → MODEL)
 # --------------------------------------------------
 sku_df = None
 if SKU_MASTER_FILE.exists():
     sku_df = pd.read_excel(SKU_MASTER_FILE)
     sku_df.columns = sku_df.columns.str.strip()
 
-    rename_map = {
-        "ASIN": "asin",
-        "Model": "Model",
-    }
-    sku_df = sku_df.rename(
-        columns={k: v for k, v in rename_map.items() if k in sku_df.columns}
-    )
+    REQUIRED = {"ASIN", "Model"}
+    if not REQUIRED.issubset(sku_df.columns):
+        raise RuntimeError("❌ SKU master missing ASIN / Model")
 
-    if "asin" in sku_df.columns:
-        sku_df["asin"] = sku_df["asin"].astype(str).str.strip()
-    else:
-        raise RuntimeError("❌ SKU master missing ASIN column")
-
-    if "Model" in sku_df.columns:
-        sku_df["Model"] = sku_df["Model"].astype(str).str.strip().str.upper()
-    else:
-        raise RuntimeError("❌ SKU master missing Model column")
+    sku_df = sku_df.rename(columns={"ASIN": "asin"})
+    sku_df["asin"] = sku_df["asin"].astype(str).str.strip()
+    sku_df["Model"] = sku_df["Model"].astype(str).str.upper().str.strip()
 
     sku_df = sku_df[["asin", "Model"]].drop_duplicates()
+else:
+    raise RuntimeError("❌ SKU master not found")
 
 # --------------------------------------------------
-# AGGREGATION
+# AGGREGATION (SP + SD ONLY)
 # --------------------------------------------------
-all_rows = []
+rows = []
 
-for brand_dir in ADS_ROOT.iterdir():
+for brand_dir in AMS_DATA_DIR.iterdir():
     if not brand_dir.is_dir():
         continue
     if brand_dir.name in ["processed_ads", "ams_weekly_fact"]:
@@ -66,119 +62,89 @@ for brand_dir in ADS_ROOT.iterdir():
     brand = brand_dir.name
 
     for ads_file in brand_dir.glob("ads_report_week*.xlsx"):
-        WEEK = extract_week(ads_file.name)
-        if WEEK is None:
+        week = extract_week(ads_file.name)
+        if not week:
             continue
+
+        asin_frames = []
 
         # ===============================
         # SP + SD (ASIN LEVEL)
         # ===============================
-        frames = []
         for sheet in ["SP", "SD"]:
             try:
                 df = pd.read_excel(ads_file, sheet_name=sheet)
                 df.columns = df.columns.str.strip()
-                frames.append(df)
+
+                if "Advertised ASIN" not in df.columns:
+                    continue
+
+                asin_frames.append(df)
             except Exception:
-                pass
-
-        if frames:
-            ads_df = pd.concat(frames, ignore_index=True)
-
-            if "Advertised ASIN" not in ads_df.columns:
                 continue
 
-            asin_week = (
-                ads_df
-                .groupby("Advertised ASIN", as_index=False)
-                .agg({
-                    "Spend": "sum",
-                    "Clicks": "sum",
-                    "Impressions": "sum",
-                    "14 Day Total Sales (₹)": "sum",
-                    "14 Day Total Units (#)": "sum",
-                })
-            )
+        if not asin_frames:
+            continue
 
-            asin_week.rename(columns={
-                "Advertised ASIN": "asin",
-                "14 Day Total Sales (₹)": "attributed_sales",
-                "14 Day Total Units (#)": "ams_orders",
-            }, inplace=True)
+        ads_df = pd.concat(asin_frames, ignore_index=True)
 
-            asin_week["asin"] = asin_week["asin"].astype(str).str.strip()
+        agg = (
+            ads_df
+            .groupby("Advertised ASIN", as_index=False)
+            .agg({
+                "Spend": "sum",
+                "Clicks": "sum",
+                "Impressions": "sum",
+                "14 Day Total Sales (₹)": "sum",
+                "14 Day Total Units (#)": "sum",
+            })
+        )
 
-            # 🔗 MODEL JOIN (CRITICAL)
-            if sku_df is not None:
-                asin_week = asin_week.merge(
-                    sku_df,
-                    on="asin",
-                    how="left"
-                )
-            else:
-                asin_week["Model"] = None
+        agg = agg.rename(columns={
+            "Advertised ASIN": "asin",
+            "14 Day Total Sales (₹)": "attributed_sales",
+            "14 Day Total Units (#)": "ams_orders",
+        })
 
-            asin_week["brand"] = brand
-            asin_week["week"] = WEEK
-            asin_week["ad_type"] = "SP_SD"
+        agg["asin"] = agg["asin"].astype(str).str.strip()
 
-            all_rows.append(asin_week)
+        # MODEL JOIN (SAFE)
+        agg = agg.merge(sku_df, on="asin", how="left")
 
-        # ===============================
-        # SB (NO ASIN → NO MODEL)
-        # ===============================
-        try:
-            sb_df = pd.read_excel(ads_file, sheet_name="SB")
-            sb_df.columns = sb_df.columns.str.strip()
+        agg["brand"] = brand
+        agg["week"] = week
+        agg["ad_type"] = "SP_SD"
 
-            if "Campaign Name" not in sb_df.columns:
-                raise ValueError
-
-            sb_week = (
-                sb_df
-                .groupby("Campaign Name", as_index=False)
-                .agg({
-                    "Spend": "sum",
-                    "Clicks": "sum",
-                    "Impressions": "sum",
-                    "14 Day Total Sales (₹)": "sum",
-                    "14 Day Total Units (#)": "sum",
-                })
-            )
-
-            sb_week.rename(columns={
-                "Campaign Name": "campaign_name",
-                "14 Day Total Sales (₹)": "attributed_sales",
-                "14 Day Total Units (#)": "ams_orders",
-            }, inplace=True)
-
-            sb_week["asin"] = None
-            sb_week["Model"] = None
-            sb_week["brand"] = brand
-            sb_week["week"] = WEEK
-            sb_week["ad_type"] = "SB"
-
-            all_rows.append(sb_week)
-
-        except Exception:
-            pass
+        rows.append(agg)
 
 # --------------------------------------------------
 # FINALIZE
 # --------------------------------------------------
-if not all_rows:
-    raise RuntimeError("❌ No ads data aggregated")
+if not rows:
+    raise RuntimeError("❌ No SP / SD ads data found")
 
-final_ads = pd.concat(all_rows, ignore_index=True)
+final_ads = pd.concat(rows, ignore_index=True)
 
+# --------------------------------------------------
 # SAFETY NORMALIZATION
-final_ads["week"] = pd.to_numeric(final_ads["week"], errors="coerce")
-final_ads["Model"] = final_ads["Model"].astype(str).str.strip().str.upper()
+# --------------------------------------------------
+NUM_COLS = ["Spend", "Clicks", "Impressions", "attributed_sales", "ams_orders"]
+for c in NUM_COLS:
+    if c not in final_ads.columns:
+        final_ads[c] = 0
+    final_ads[c] = pd.to_numeric(final_ads[c], errors="coerce").fillna(0)
 
+final_ads["week"] = pd.to_numeric(final_ads["week"], errors="coerce")
+final_ads["Model"] = final_ads["Model"].astype(str).str.upper().str.strip()
+
+# --------------------------------------------------
+# OUTPUT
+# --------------------------------------------------
 out_file = OUTPUT_DIR / "ads_weekly_aggregated.csv"
 final_ads.to_csv(out_file, index=False)
 
-print("✅ STEP 3 ADS AGGREGATION COMPLETE (MODEL READY)")
-print(f"📁 Output: {out_file}")
-print(f"📊 Rows: {len(final_ads)}")
-print("📦 Model populated:", final_ads["Model"].notna().sum())
+print("✅ STEP 3 ADS AGGREGATION COMPLETE (SP + SD ONLY)")
+print("📁 Output:", out_file)
+print("📊 Rows:", len(final_ads))
+print("📦 Spend total:", final_ads["Spend"].sum())
+print("📦 Attributed sales total:", final_ads["attributed_sales"].sum())

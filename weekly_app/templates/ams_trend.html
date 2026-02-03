@@ -220,7 +220,7 @@
     <form id="amsFilterForm">
 
         Week:
-        <select id="weekSelect">
+        <select id="weekSelect" onchange="loadAMS()">
             <option value="">Latest</option>
             {% for w in weeks %}
                 <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
@@ -247,24 +247,27 @@
         &nbsp;&nbsp;
 
         Category L2:
-        <select id="catL2">
+        <select id="catL2" onchange="loadAMS()">
             <option value="">All</option>
         </select>
 
         &nbsp;&nbsp;
 
         Brand:
-        <select id="brandSelect">
+        <select id="brandSelect" onchange="onBrandChange()">
+
             <option value="">All</option>
         </select>
 
         Model:
-        <input type="text" id="modelInput" placeholder="Optional" />
+        <input type="text" id="modelInput" placeholder="Optional" onblur="loadAMS()" />
+
 
         &nbsp;&nbsp;
 
         ASIN:
-        <input type="text" id="asinInput" placeholder="Optional" />
+        <input type="text" id="asinInput" placeholder="Optional" onblur="loadAMS()" />
+
 
         &nbsp;&nbsp;
 
@@ -394,33 +397,82 @@ function normalizeWeek(w){
    CATEGORY CASCADE (UNCHANGED)
 =============================== */
 function onL0Change(){
-    catL1.innerHTML='<option value="">All</option>';
-    catL2.innerHTML='<option value="">All</option>';
-    const l0=catL0.value;
-    const s=new Set();
-    lastRowsCache.forEach(r=>{ if(r.category_l0===l0) s.add(r.category_l1); });
-    [...s].sort().forEach(v=>{
-        const o=document.createElement("option");
-        o.value=v; o.textContent=v;
-        catL1.appendChild(o);
+    catL1.innerHTML = '<option value="">All</option>';
+    catL2.innerHTML = '<option value="">All</option>';
+
+    const l0 = catL0.value;
+    if(!l0) return;
+
+    const s = new Set();
+    lastRowsCache.forEach(r => {
+        if(r.category_l0 === l0 && r.category_l1){
+            s.add(r.category_l1);
+        }
     });
-    loadAMS();
+
+    [...s].sort().forEach(v => {
+        const o = document.createElement("option");
+        o.value = v;
+        o.textContent = v;
+        catL1.appendChild(o);
+});
+
+loadAMS();
 }
 
 function onL1Change(){
-    catL2.innerHTML='<option value="">All</option>';
-    const l0=catL0.value,l1=catL1.value;
-    const s=new Set();
-    lastRowsCache.forEach(r=>{
-        if(r.category_l0===l0 && r.category_l1===l1) s.add(r.category_l2);
+    catL2.innerHTML = '<option value="">All</option>';
+
+    const l0 = catL0.value;
+    const l1 = catL1.value;
+    if(!l0 || !l1) return;
+
+    const s = new Set();
+    lastRowsCache.forEach(r => {
+        if(r.category_l0 === l0 && r.category_l1 === l1 && r.category_l2){
+            s.add(r.category_l2);
+        }
     });
-    [...s].sort().forEach(v=>{
-        const o=document.createElement("option");
-        o.value=v; o.textContent=v;
-        catL2.appendChild(o);
-    });
-    loadAMS();
+
+    [...s].sort().forEach(v => {
+        const o = document.createElement("option");
+        o.value = v;
+        o.textContent = v;
+    catL2.appendChild(o);
+});
+
+loadAMS();
 }
+
+// ===============================
+// CATEGORY BOOTSTRAP (RUN ONCE)
+// ===============================
+function bootstrapCategories(rows){
+    catL0.innerHTML = '<option value="">All</option>';
+    catL1.innerHTML = '<option value="">All</option>';
+    catL2.innerHTML = '<option value="">All</option>';
+
+    const selectedBrand = brandSelect.value || "";
+    const l0Set = new Set();
+
+    rows.forEach(r => {
+        const rowBrand = r.brand || r.Brand;
+        if (
+            r.category_l0 &&
+            (!selectedBrand || rowBrand === selectedBrand)
+        ) {
+            l0Set.add(r.category_l0);
+        }
+    });
+
+    [...l0Set].sort().forEach(v => {
+        const o = document.createElement("option");
+        o.value = v;
+        o.textContent = v;
+        catL0.appendChild(o);
+    });
+}
+
 
 function resetFilters(){
     brandSelect.value="";
@@ -432,6 +484,24 @@ function resetFilters(){
     asinInput.value="";
     loadAMS();
 }
+
+function onBrandChange(){
+    // Reset category filters
+    catL0.value = "";
+    catL1.innerHTML = '<option value="">All</option>';
+    catL2.innerHTML = '<option value="">All</option>';
+
+    // Rebuild categories for selected brand
+    if (!window.__categoriesLoaded) {
+    bootstrapCategories(lastRowsCache);
+    window.__categoriesLoaded = true;
+}
+
+    // 🔥 IMMEDIATE DATA REFRESH
+    loadAMS();
+}
+
+
 
 /* ===============================
    COLUMN VISIBILITY LOGIC (UNCHANGED)
@@ -515,10 +585,12 @@ function sortTableByColumn(colIndex){
    RENDER TABLE (REFRACTOR SAFE)
 =============================== */
 function renderTable(){
+    // NOTE: Do NOT filter by ASIN here.
+    // SP/SD rows may have empty ASIN and must still render.
+
     const tb=document.querySelector("#amsTable tbody");
     tb.innerHTML="";
     lastRowsCache
-    .filter(r => r.asin)   // ⬅️ removes SB (SB has no ASIN)
     .forEach(r=>{
         const tr=document.createElement("tr");
         tr.innerHTML=`
@@ -531,16 +603,16 @@ function renderTable(){
             <td>${safe(r.category_l1)}</td>
             <td>${safe(r.category_l2)}</td>
             <td>${safe(r.sessions)}</td>
-            <td>${fmt(Number(r.gmv) || 0)}</td>
+            <td>${fmt(Number(r.GMV ?? r.gmv) || 0)}</td>
             <td>${safe(r.units)}</td>
             <td>${fmt(r.ad_spend)}</td>
-            <td>${pct(r.contribution_to_sales_pct)}</td>
+            <td>${pct(Number(r.contribution_to_sales_pct))}</td>
             <td>${pct(r.attributed_sales_pct)}</td>
             <td>${pct(r.organic_sales_pct)}</td>
-            <td>${pct(r.sessions>0?r.units/r.sessions:null)}</td>
-            <td>${pct(r.ad_spend>0?r.attributed_sales/r.ad_spend:null)}</td>
+            <td>${pct(r.conversion_pct)}</td>
+            <td>${pct(r.roas)}</td>
             <td>${pct(r.acos)}</td>
-            <td>${pct(r.tacos)}</td>
+            <td>${pct(r.tacos ?? r.TACOS)}</td>
             <td>${fmt(r.cac)}</td>
             <td>${safe(r.ams_orders)}</td>
             <td>${safe(r.clicks)}</td>
@@ -589,6 +661,11 @@ function loadAMS(){
             // ------------------------------
             const kpis = data.kpis || data || {};
             lastRowsCache = Array.isArray(data.rows) ? data.rows : [];
+            lastRowsCache = JSON.parse(JSON.stringify(lastRowsCache));
+
+
+
+
             console.log("ROW KEYS:", Object.keys(lastRowsCache[0] || {}));
 
 
@@ -596,7 +673,7 @@ function loadAMS(){
             kpiSessions.innerText = safe(kpis.sessions);
             kpiSpend.innerText    = fmt(kpis.ad_spend);
             kpiSales.innerText    = fmt(kpis.attributed_sales);
-            kpiAcos.innerText     = safe(kpis.acos) + "%";
+            kpiAcos.innerText     = pct(kpis.acos);
 
 
             // ------------------------------

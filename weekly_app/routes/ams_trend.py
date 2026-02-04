@@ -26,8 +26,11 @@ AMS_FILE = Path(
     r"\ams_weekly_data\processed_ads\business_ads_joined.csv"
 )
 
-INVENTORY_FILE = Path(
-    r"D:\Nitesh\Weekly Report - B2B + B2C\FastAPI\data\processed\inventory_ams_snapshot.csv"
+INVENTORY_FILE = (
+    BASE_PATH
+    / "data"
+    / "processed"
+    / "inventory_ams_snapshot.csv"
 )
 
 # ==================================================

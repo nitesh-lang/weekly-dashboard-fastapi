@@ -1,10 +1,10 @@
-
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import pandas as pd
 from pathlib import Path
 import urllib.parse
+import re
 
 router = APIRouter()
 templates = Jinja2Templates(directory="weekly_app/templates")
@@ -25,6 +25,19 @@ def norm(x):
     return " ".join(x.lower().strip().split())
 
 
+def extract_week(v):
+    """
+    Converts:
+      'Week 4' -> 4
+      '4'      -> 4
+      None     -> None
+    """
+    if pd.isna(v):
+        return None
+    m = re.search(r"(\d+)", str(v))
+    return int(m.group(1)) if m else None
+
+
 # -------------------------------------------------
 # CATEGORY SALES VIEW (L0 → L1 → L2)
 # -------------------------------------------------
@@ -32,24 +45,47 @@ def norm(x):
 def category_sales(
     request: Request,
     level: str = "l0",            # l0 | l1 | l2
-    value: str | None = None,     # parent value
+    value: str | None = None,
     week: str | None = None,
-    brand: str | None = None,     # 🔧 ADDED
+    brand: str | None = None,
 ):
+    # ---------------- LOAD FILE ----------------
     if not SALES_FILE.exists():
         return HTMLResponse("Sales file not found", status_code=500)
 
     df = pd.read_csv(SALES_FILE)
 
-    # ---------------- NORMALIZE ----------------
+    # ---------------- NORMALIZE TEXT ----------------
     for c in ["category_l0", "category_l1", "category_l2", "brand"]:
         if c in df.columns:
             df[c] = df[c].apply(norm)
 
+    # ---------------- WEEK NORMALIZATION ----------------
+    df["week_num"] = df["week"].apply(extract_week)
+
+    # Drop invalid weeks
+    df = df[df["week_num"].notna()]
+
+    # ---------------- BUILD AVAILABLE WEEKS (CRITICAL FIX) ----------------
+    available_weeks = (
+        df[["week", "week_num"]]
+        .drop_duplicates()
+        .sort_values("week_num")
+        ["week"]
+        .tolist()
+    )
+
+    latest_week_num = df["week_num"].max()
+
     # ---------------- WEEK FILTER ----------------
     if week not in (None, "", "None"):
-        df["week"] = df["week"].astype(str)
-        df = df[df["week"] == str(week)]
+        selected_week = extract_week(week)
+        if selected_week is not None:
+            df = df[df["week_num"] == selected_week]
+            week = selected_week
+    else:
+        df = df[df["week_num"] == latest_week_num]
+        week = latest_week_num
 
     # ---------------- BRAND FILTER ----------------
     if brand not in (None, "", "None"):
@@ -59,16 +95,13 @@ def category_sales(
     # ---------------- PARENT FILTER ----------------
     if value:
         value = norm(value)
-
         if level == "l1":
             df = df[df["category_l0"] == value]
-
         elif level == "l2":
             df = df[df["category_l1"] == value]
 
     # ---------------- GROUP COLUMN ----------------
     group_col = f"category_{level}"
-
     if group_col not in df.columns:
         return HTMLResponse(f"Invalid category level: {level}", status_code=400)
 
@@ -88,9 +121,10 @@ def category_sales(
         {
             "request": request,
             "rows": summary.to_dict("records"),
+            "weeks": available_weeks,           # ✅ THIS FIXES WEEK 5 VISIBILITY
             "level": level,
             "value": value,
-            "week": week,
-            "selected_brand": brand,   # 🔧 PASSED TO UI
+            "week": f"Week {week}" if week else None,
+            "selected_brand": brand,
         },
     )

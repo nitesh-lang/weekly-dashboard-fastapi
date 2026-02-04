@@ -67,10 +67,12 @@
             <input type="hidden" name="value" value="{{ value }}">
         {% endif %}
 
+        <!-- WEEK FILTER -->
         <label>Week:</label>
         <select name="week">
             <option value="">All</option>
-            {% for w in ["Week 1","Week 2","Week 3","Week 4"] %}
+
+            {% for w in weeks %}
                 <option value="{{ w }}"
                     {% if week == w %}selected{% endif %}>
                     {{ w }}
@@ -80,9 +82,11 @@
 
         &nbsp;&nbsp;
 
+        <!-- BRAND FILTER -->
         <label>Brand:</label>
         <select name="brand">
             <option value="">All Brands</option>
+
             {% for b in ["nexlev","audio array","tonor","white mulberry"] %}
                 <option value="{{ b }}"
                     {% if selected_brand and selected_brand == b %}selected{% endif %}>

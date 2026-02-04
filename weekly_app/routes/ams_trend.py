@@ -77,6 +77,7 @@ def freeze_schema(df: pd.DataFrame) -> pd.DataFrame:
             df[col] = default
     return df
 
+
 def safe_value(v):
     if v is None or pd.isna(v) or v in (np.inf, -np.inf):
         return None
@@ -85,6 +86,7 @@ def safe_value(v):
     if isinstance(v, (np.floating, float)):
         return float(v)
     return v
+
 
 def strict_json_response(payload: dict):
     return Response(
@@ -147,22 +149,35 @@ def get_ams_trend(
     asin: Optional[str] = Query(None),
     brand: Optional[str] = Query(None),
 ):
+    # ===============================
+    # LOAD DATA
+    # ===============================
     df = load_ams_data()
 
-    # Inventory merge (model + week)
-    df = load_ams_data()
-    # ✅ FULL AMAZON DATA (NO FILTERS, NO INVENTORY)
+    # Full AMS base (used for contribution calc)
     base_df = df.copy()
 
-    # Inventory merge (model + week)
-    inv = load_inventory_snapshot()
-    if not inv.empty:df = pd.merge(df,
-        inv,
-        on=["Model", "week"],
-        how="left")
+    # ===============================
+    # RESOLVE LATEST WEEK
+    # ===============================
+    latest_week = None
+    if "week" in df.columns:
+        latest_week = df["week"].dropna().max()
 
     # ===============================
-    # DERIVED METRICS (SAFE)
+    # INVENTORY MERGE (MODEL + WEEK)
+    # ===============================
+    inv = load_inventory_snapshot()
+    if not inv.empty:
+        df = pd.merge(
+            df,
+            inv,
+            on=["Model", "week"],
+            how="left"
+        )
+
+    # ===============================
+    # DERIVED METRICS
     # ===============================
     df["acos"] = df["ad_spend"] / df["attributed_sales"].replace(0, np.nan)
     df["tacos"] = df["ad_spend"] / df["gmv"].replace(0, np.nan)
@@ -170,16 +185,19 @@ def get_ams_trend(
     df["cpc"] = df["ad_spend"] / df["clicks"].replace(0, np.nan)
     df["conversion_pct"] = df["units"] / df["sessions"].replace(0, np.nan)
 
-    
-
     df["attributed_sales_pct"] = df["attributed_sales"] / df["gmv"].replace(0, np.nan)
-    df["organic_sales_pct"] = (df["gmv"] - df["attributed_sales"]) / df["gmv"].replace(0, np.nan)
+    df["organic_sales_pct"] = (
+        df["gmv"] - df["attributed_sales"]
+    ) / df["gmv"].replace(0, np.nan)
 
     # ===============================
     # FILTERS
     # ===============================
     if week:
         df = df[df["week"] == week]
+    elif latest_week is not None:
+        df = df[df["week"] == latest_week]
+
     if asin:
         df = df[df["asin"] == asin]
     if model:
@@ -193,18 +211,36 @@ def get_ams_trend(
     if category_l2:
         df = df[df["category_l2"] == category_l2]
 
-# ===============================
-# CONTRIBUTION TO SALES % (BRAND AMAZON GMV)
-# ===============================
+    # ===============================
+    # CONTRIBUTION TO SALES % (BRAND × WEEK GMV)
+    # ===============================
+    if latest_week is not None:
+        base_df_latest = base_df[base_df["week"] == latest_week]
+    else:
+        base_df_latest = base_df
 
-    brand_weekly_gmv = (base_df.groupby(["brand", "week"], as_index=False)["gmv"].sum().rename(columns={"gmv": "brand_total_gmv"})
-)
-    df = df.merge(brand_weekly_gmv,on=["brand", "week"],how="left"
-)
+    brand_weekly_gmv = (
+        base_df_latest
+        .groupby(["brand", "week"], as_index=False)["gmv"]
+        .sum()
+        .rename(columns={"gmv": "brand_total_gmv"})
+    )
 
-    df["contribution_to_sales_pct"] = (df["gmv"] / df["brand_total_gmv"]).replace([np.inf, -np.inf], np.nan)
-     
+    df = df.merge(
+        brand_weekly_gmv,
+        on=["brand", "week"],
+        how="left"
+    )
+
+    df["contribution_to_sales_pct"] = (
+        df["gmv"] / df["brand_total_gmv"]
+    ).replace([np.inf, -np.inf], np.nan)
+
+    # ===============================
+    # FINALIZE
+    # ===============================
     df = freeze_schema(df.replace({np.nan: None}))
+
     # ===============================
     # KPIs
     # ===============================

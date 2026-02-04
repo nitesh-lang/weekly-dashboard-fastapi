@@ -59,7 +59,8 @@ for brand_dir in AMS_DATA_DIR.iterdir():
     if brand_dir.name in ["processed_ads", "ams_weekly_fact"]:
         continue
 
-    brand = brand_dir.name
+    brand = brand_dir.name.replace("_", " ").strip()
+
 
     for ads_file in brand_dir.glob("ads_report_week*.xlsx"):
         week = extract_week(ads_file.name)
@@ -75,6 +76,8 @@ for brand_dir in AMS_DATA_DIR.iterdir():
             try:
                 df = pd.read_excel(ads_file, sheet_name=sheet)
                 df.columns = df.columns.str.strip()
+
+                
 
                 if "Advertised ASIN" not in df.columns:
                     continue
@@ -124,6 +127,15 @@ if not rows:
     raise RuntimeError("❌ No SP / SD ads data found")
 
 final_ads = pd.concat(rows, ignore_index=True)
+# --------------------------------------------------
+# SAFETY CHECK — ENSURE NO DUPLICATE ASIN + WEEK + BRAND
+# --------------------------------------------------
+dupes = final_ads.duplicated(subset=["asin", "week", "brand"])
+if dupes.any():
+    bad = final_ads.loc[dupes, ["asin", "week", "brand"]]
+    raise RuntimeError(
+        f"❌ Duplicate ASIN+WEEK+BRAND detected in STEP 3:\n{bad.head(10)}"
+    )
 
 # --------------------------------------------------
 # SAFETY NORMALIZATION

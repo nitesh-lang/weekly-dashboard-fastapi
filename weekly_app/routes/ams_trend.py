@@ -21,9 +21,14 @@ templates = Jinja2Templates(directory="weekly_app/templates")
 # ==================================================
 # DATA SOURCES
 # ==================================================
-AMS_FILE = Path(
-    r"G:\Other computers\My Laptop\D\Nitesh\Weekly Report - B2B + B2C\FastAPI\data"
-    r"\ams_weekly_data\processed_ads\business_ads_joined.csv"
+BASE_PATH = Path(__file__).resolve().parents[2]
+
+AMS_FILE = (
+    BASE_PATH
+    / "data"
+    / "ams_weekly_data"
+    / "processed_ads"
+    / "business_ads_joined.csv"
 )
 
 INVENTORY_FILE = (

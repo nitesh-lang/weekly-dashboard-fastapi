@@ -1,0 +1,132 @@
+/* =========================================================
+   AMS TABLE – EXCEL-LIKE GRID (PRODUCTION SAFE)
+   ✔ Strong visible borders
+   ✔ Sorting-safe
+   ✔ Sticky-safe
+   ✔ Header/body perfectly aligned
+========================================================= */
+
+/* ===============================
+   BASE TABLE GEOMETRY
+=============================== */
+table {
+    width: max-content;
+    min-width: 100%;
+    table-layout: fixed;          /* critical */
+    border-collapse: collapse;    /* 🔑 Excel-style grid */
+    background: #ffffff;
+}
+
+/* ===============================
+   SCROLL CONTAINER
+=============================== */
+.table-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid #cfd4dc;
+}
+
+/* ===============================
+   HEADER
+=============================== */
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #f2f4f7;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 10px;
+    white-space: nowrap;
+    text-align: center;
+
+    /* Excel-like borders */
+    border: 1px solid #cfd4dc;
+}
+
+/* ===============================
+   BODY CELLS
+=============================== */
+tbody td {
+    font-size: 12px;
+    padding: 6px 10px;
+    white-space: nowrap;
+    text-align: right;
+
+    /* Strong gridlines */
+    border: 1px solid #e1e4ea;
+}
+
+/* ===============================
+   ROW STRIPING (Excel style)
+=============================== */
+tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+tbody tr:hover {
+    background: #eef4ff;
+}
+
+/* ===============================
+   STICKY CONTEXT COLUMNS
+   (Week / SKU / Model)
+=============================== */
+th:nth-child(1),
+td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 30;
+    background: #ffffff;
+    border-right: 2px solid #cfd4dc;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    position: sticky;
+    left: 70px;
+    z-index: 30;
+    background: #ffffff;
+    border-right: 2px solid #cfd4dc;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    position: sticky;
+    left: 150px;
+    z-index: 30;
+    background: #ffffff;
+    border-right: 2px solid #cfd4dc;
+}
+
+/* ===============================
+   MIN WIDTH GUARANTEE
+=============================== */
+th,
+td {
+    min-width: 80px;
+}
+
+/* ===============================
+   TEXT ALIGNMENT
+=============================== */
+td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4),
+td:nth-child(5) {
+    text-align: left;
+}
+
+/* ===============================
+   VISUAL GROUP SEPARATORS
+   (Excel-style thicker dividers)
+=============================== */
+th:nth-child(8),
+td:nth-child(8),
+th:nth-child(14),
+td:nth-child(14),
+th:nth-child(20),
+td:nth-child(20) {
+    border-left: 2px solid #b8bec8;
+}

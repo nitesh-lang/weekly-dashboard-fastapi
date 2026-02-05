@@ -38,6 +38,9 @@ app = FastAPI(
     debug=True   # 🔥 SHOW FULL TRACEBACKS
 )
 
+from fastapi.staticfiles import StaticFiles
+app.mount("/static", StaticFiles(directory="weekly_app/static"), name="static")
+
 templates = Jinja2Templates(directory="weekly_app/templates")
 
 # =====================================================

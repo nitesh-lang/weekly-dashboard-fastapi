@@ -6,13 +6,9 @@ import re
 # CONFIG
 # =========================================================
 
-RAW_INVENTORY_DIR = Path(
-    r"G:\Other computers\My Laptop\D\Nitesh\Weekly Report - B2B + B2C\FastAPI\data\raw\inventory\Week 3"
-)
-
-OUTPUT_FILE = Path(
-    r"D:\Nitesh\Weekly Report - B2B + B2C\FastAPI\data\processed\inventory_ams_snapshot.csv"
-)
+BASE_DIR = Path(__file__).resolve().parents[2]
+RAW_INVENTORY_DIR = BASE_DIR / "data" / "raw" / "inventory"
+OUTPUT_FILE = BASE_DIR / "data" / "processed" / "inventory_ams_snapshot.csv"
 
 
 # =========================================================

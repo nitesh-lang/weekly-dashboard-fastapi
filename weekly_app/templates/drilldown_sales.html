@@ -2,80 +2,13 @@
 <html>
 <head>
     <title>Sales Drilldown – {{ week }}</title>
+    <link rel="stylesheet" href="/static/css/sales_drilldown.css">
+
 
     <!-- ========================================================= -->
     <!-- CORE STYLES (UNCHANGED)                                   -->
     <!-- ========================================================= -->
-    <style>
-        body { font-family: Arial; margin: 20px; }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 30px;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 6px;
-            font-size: 13px;
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        th {
-            background: #f4f4f4;
-            cursor: pointer;
-        }
-
-        td:first-child, th:first-child { text-align: left; }
-        td:nth-child(2), th:nth-child(2) { text-align: left; }
-        td:nth-child(3), th:nth-child(3) { text-align: left; }
-
-        h2, h3 { margin-top: 30px; }
-
-        a { text-decoration: none; color: #0b5ed7; }
-        a:hover { text-decoration: underline; }
-
-        .breadcrumb {
-            margin: 10px 0 20px 0;
-            font-size: 14px;
-        }
-
-        .channel-head {
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .sub-head {
-            font-size: 11px;
-            background: #fafafa;
-        }
-
-        .empty {
-            color: #777;
-            font-style: italic;
-        }
-
-        .filter-box {
-            margin: 10px 0 20px 0;
-        }
-
-        .filter-box input {
-            padding: 6px;
-            width: 240px;
-            font-size: 13px;
-        }
-
-        /* 🔥 CONTRIBUTION COLUMN STYLE */
-        .pct {
-            font-weight: bold;
-            color: #2b6cb0;
-        }
-    </style>
-</head>
-
-<body>
 
 <!-- ========================================================= -->
 <!-- HEADER                                                   -->
@@ -96,33 +29,36 @@
 <!-- ========================================================= -->
 <!-- CHANNEL SUMMARY                                          -->
 <!-- ========================================================= -->
+{% if not channel %}
+
 <h3>📦 Channel-wise Summary</h3>
 
 {% if channel_summary %}
 <table id="channelSummaryTable">
-<tr>
-    <th>Channel</th>
-    <th>Units Sold</th>
-    <th>GMV (₹)</th>
-    <th>Sales @ NLC (₹)</th>
-</tr>
+    <tr>
+        <th>Channel</th>
+        <th>Units Sold</th>
+        <th>GMV (₹)</th>
+        <th>Sales @ NLC (₹)</th>
+    </tr>
 
-{% for r in channel_summary %}
-<tr>
-    <td>
-        <a href="/drilldown?type=sales&week={{ week }}&channel={{ r.channel | urlencode }}">
-            {{ r.channel }}
-        </a>
-    </td>
-    <td>{{ r.units_sold }}</td>
-    <td>₹ {{ r.gmv }}</td>
-    <td>₹ {{ r.sales_nlc }}</td>
-</tr>
-{% endfor %}
+    {% for r in channel_summary %}
+    <tr>
+        <td>
+            <a href="/drilldown?type=sales&week={{ week }}&channel={{ r.channel | urlencode }}">
+                {{ r.channel }}
+            </a>
+        </td>
+        <td>{{ r.units_sold }}</td>
+        <td>₹ {{ r.gmv }}</td>
+        <td>₹ {{ r.sales_nlc }}</td>
+    </tr>
+    {% endfor %}
 </table>
-{% else %}
-<p class="empty">No channel data available.</p>
 {% endif %}
+
+{% endif %}
+
 
 <!-- ========================================================= -->
 <!-- SKU TABLE ROOT                                           -->

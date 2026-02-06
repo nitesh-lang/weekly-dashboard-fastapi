@@ -149,9 +149,12 @@
     <td>{{ r.category_l2 }}</td>
 
     {% for w in weeks %}
-        <td class="metric" data-units="{{ r[w ~ '_units'] }}" data-sales="{{ r[w ~ '_sales'] }}">
-            ₹ {{ r[w ~ '_sales'] }}
-        </td>
+<td class="metric"
+    data-units="{{ r[w ~ '_units'] }}"
+    data-sales="{{ "%.0f"|format(r[w ~ '_sales']) }}">
+    ₹ {{ "%.0f"|format(r[w ~ '_sales']) }}
+</td>
+
     {% endfor %}
 
     {% for w in weeks %}

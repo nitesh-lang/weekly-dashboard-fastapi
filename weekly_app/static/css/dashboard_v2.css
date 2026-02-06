@@ -1,0 +1,220 @@
+/* =========================================================
+   GLOBAL RESET & BASE
+   ========================================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f4f6fb;
+    color: #1f2937;
+    margin: 0;
+    padding: 16px 22px;
+}
+
+/* =========================================================
+   HEADER / TITLE
+   ========================================================= */
+h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 26px;
+    margin-bottom: 12px;
+}
+
+/* =========================================================
+   TOP NAV LINKS
+   ========================================================= */
+a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   FILTER BAR (Week / Brand / View)
+   ========================================================= */
+form,
+.filter-bar {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+
+/* Inputs */
+select,
+input[type="text"],
+input[type="number"] {
+    padding: 7px 10px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    font-size: 13px;
+}
+
+select:focus,
+input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+    padding: 7px 14px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+/* =========================================================
+   KPI CARDS
+   ========================================================= */
+.kpi,
+.kpi-card,
+div[style*="Units Sold"],
+div[style*="GMV"] {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+}
+
+/* KPI numbers */
+.kpi strong,
+.kpi-value {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   SECTION CONTAINERS
+   ========================================================= */
+section,
+.container,
+.content {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+
+/* =========================================================
+   TABLE STYLING (NO COLUMN REMOVAL)
+   ========================================================= */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    font-size: 12.5px;
+}
+
+thead th {
+    background: #f1f5f9;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+tbody tr:hover td {
+    background: #f9fafb;
+}
+
+/* Right-align numeric columns automatically */
+td:has(₹),
+td:nth-child(n+4) {
+    text-align: right;
+}
+
+/* =========================================================
+   SUB-HEADERS & LINKS
+   ========================================================= */
+h3,
+.section-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* =========================================================
+   BADGES / SMALL LABELS
+   ========================================================= */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #e0e7ff;
+    color: #3730a3;
+}
+
+/* =========================================================
+   SCROLLBAR (DESKTOP POLISH)
+   ========================================================= */
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #eef2ff;
+}
+
+/* =========================================================
+   RESPONSIVE SAFETY (NO COLUMN DROP)
+   ========================================================= */
+@media (max-width: 1200px) {
+    body {
+        padding: 12px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+}

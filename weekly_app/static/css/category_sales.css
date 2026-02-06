@@ -1,0 +1,171 @@
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
+* {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   PAGE BASE
+   ========================================================= */
+body {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f4f6fb;
+    color: #1f2937;
+    margin: 0;
+    padding: 6px 8px; /* dense, Excel-like */
+}
+
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
+h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+}
+
+/* Back link */
+a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   FILTER BAR
+   ========================================================= */
+form {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 6px 8px;
+    margin-bottom: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+/* Inputs */
+select {
+    padding: 4px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+}
+
+/* Button */
+button,
+input[type="submit"] {
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    border: none;
+    background: #6366f1;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+/* =========================================================
+   TABLE CONTAINER
+   ========================================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;   /* Excel grid */
+    background: #ffffff;
+    font-size: 12px;
+}
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+thead th {
+    background: #f1f5f9;
+    font-weight: 600;
+    padding: 5px 8px;
+    border: 1px solid #d1d5db;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer; /* for sorting later */
+}
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+tbody td {
+    padding: 4px 8px;
+    border: 1px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+/* Hover like Excel */
+tbody tr:hover td {
+    background: #f8fafc;
+}
+
+/* =========================================================
+   ALIGNMENTS
+   ========================================================= */
+/* First column (Category) */
+tbody td:first-child,
+thead th:first-child {
+    text-align: left;
+}
+
+/* Numeric columns */
+tbody td:nth-child(2),
+tbody td:nth-child(3),
+thead th:nth-child(2),
+thead th:nth-child(3) {
+    text-align: right;
+}
+
+/* =========================================================
+   REMOVE VISUAL NOISE
+   ========================================================= */
+hr {
+    display: none;
+}
+
+/* =========================================================
+   SCROLLBAR (SUBTLE)
+   ========================================================= */
+::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5f5;
+}
+
+::-webkit-scrollbar-track {
+    background: #eef2ff;
+}
+
+/* =========================================================
+   RESPONSIVE SAFETY
+   ========================================================= */
+@media (max-width: 1200px) {
+
+    body {
+        padding: 4px;
+    }
+
+    table {
+        font-size: 11.5px;
+    }
+
+    thead th,
+    tbody td {
+        padding: 4px 6px;
+    }
+}

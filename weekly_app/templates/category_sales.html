@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Category Sales</title>
+    <link rel="stylesheet" href="/static/css/category_sales.css">
+
 
     <style>
         body {
@@ -132,12 +134,12 @@
                 {% endif %}
             </td>
 
-            <td>{{ r.units_sold }}</td>
-            <td>₹ {{ r.gross_sales }}</td>
+            <td>{{ r.units_sold | round(0) | int }}</td>
+            <td>₹ {{ r.gross_sales | round(0) | int }}</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-
+<script src="/static/js/category_sales_sort.js"></script>
 </body>
 </html>

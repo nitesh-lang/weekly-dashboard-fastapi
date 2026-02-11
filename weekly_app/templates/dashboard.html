@@ -5,15 +5,20 @@
     <base target="_blank" rel="noopener noreferrer">
 
     <link rel="stylesheet" href="/static/css/dashboard_v2.css">
+    {% include "_global_head.html" %}
 
     <style>
-        body { font-family: Arial; margin: 20px; }
+        body { 
+    font-family: Arial; 
+    margin: 0; 
+    padding: 0;
+}
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 30px;
-        }
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 10px;
+}
 
         th, td {
             border: 1px solid #ccc;
@@ -29,7 +34,7 @@
         td:nth-child(2), th:nth-child(2) { text-align: left; }
         td:nth-child(3), th:nth-child(3) { text-align: left; }
 
-        h2 { margin-top: 40px; }
+        h2 { margin: 10px 0; }
 
         .kpi {
             display: inline-block;
@@ -105,9 +110,9 @@
 {% endif %}
 
 <!-- ================= FILTERS ================= -->
-<form method="get">
+<form method="get" id="filterForm" target="_self">
     Week:
-    <select name="week">
+    <select name="week" onchange="autoRefresh()">
         <option value="">All</option>
         {% for w in weeks %}
             <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
@@ -115,7 +120,7 @@
     </select>
 
     Brand:
-    <select name="brand">
+    <select name="brand" onchange="autoRefresh()">
         <option value="">All</option>
         {% for b in brands %}
             <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
@@ -123,12 +128,12 @@
     </select>
 
     View:
-    <select name="view">
+    <select name="view" onchange="autoRefresh()">
         <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
         <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
     </select>
 
-    <button type="submit">Apply</button>
+    
 </form>
 
 <hr>
@@ -172,7 +177,7 @@
 <h2>
 📦 Sales by SKU – All Channels
 &nbsp;|&nbsp;
-<a href="/drilldown?type=sales&week={{ selected.week }}">
+<a href="/drilldown?type=sales&week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
     View Channel-wise Drilldown →
 </a>
 </h2>
@@ -266,7 +271,7 @@
 {% for r in channel_summary %}
 <tr>
     <td>
-        <a href="/drilldown?type=sales&week={{ selected.week }}&channel={{ r.channel | urlencode }}">
+        <a href="/drilldown?type=sales&week={{ selected.week }}&brand={{ selected.brand | urlencode }}&channel={{ r.channel | urlencode }}">
             {{ r.channel }}
         </a>
     </td>
@@ -291,7 +296,7 @@
 {% for r in category_summary %}
 <tr>
     <td>
-        <a href="/category-sales?category={{ r.category_l0 | urlencode }}&week={{ selected.week }}">
+        <a href="/category-sales?category={{ r.category_l0 | urlencode }}&week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
             {{ r.category_l0 }}
         </a>
     </td>
@@ -302,5 +307,10 @@
 {% endfor %}
 </table>
 <script src="/static/js/table_sort.js"></script>
+<script>
+function autoRefresh() {
+    document.getElementById("filterForm").submit();
+}
+</script>
 </body>
 </html>

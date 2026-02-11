@@ -7,7 +7,22 @@ import re
 # =========================================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-RAW_INVENTORY_DIR = BASE_DIR / "data" / "raw" / "inventory"
+INVENTORY_BASE_DIR = BASE_DIR / "data" / "raw" / "inventory"
+
+week_dirs = [
+    d for d in INVENTORY_BASE_DIR.iterdir()
+    if d.is_dir() and d.name.lower().startswith("week")
+]
+
+if not week_dirs:
+    raise FileNotFoundError(f"No week folders found in {INVENTORY_BASE_DIR}")
+
+RAW_INVENTORY_DIR = sorted(
+    week_dirs,
+    key=lambda d: int(re.search(r"(\d+)", d.name).group(1))
+)[-1]
+
+print(f"Using inventory week folder: {RAW_INVENTORY_DIR}")
 OUTPUT_FILE = BASE_DIR / "data" / "processed" / "inventory_ams_snapshot.csv"
 
 

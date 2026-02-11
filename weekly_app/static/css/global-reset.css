@@ -1,0 +1,112 @@
+/* =====================================================
+   GLOBAL EXCEL / POWER-BI STYLE RESET
+   Purpose:
+   - Remove all default browser spacing
+   - Eliminate container padding/margins
+   - Make tables look like Excel grids
+   - Keep layout tight, dense, and data-first
+   ===================================================== */
+
+/* 1. Hard reset: remove all default spacing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Page baseline */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: Segoe UI, Roboto, Arial, sans-serif;
+    background-color: #f7f9fc;
+}
+
+/* 3. Remove padding/margins from common layout wrappers */
+.container,
+.container-fluid,
+.page,
+.wrapper,
+.content,
+.main,
+.section,
+.row,
+.col {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+/* 4. Excel-style tables */
+table {
+    width: 100%;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    background: #ffffff;
+}
+
+thead th {
+    background: #f1f3f6;
+    font-weight: 600;
+}
+
+th,
+td {
+    padding: 6px 8px;           /* Dense like Excel */
+    border: 1px solid #d0d0d0;  /* Grid lines */
+    font-size: 13px;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-align: left;
+}
+
+/* 5. Remove card / panel spacing */
+.card,
+.panel,
+.box,
+.widget {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* 6. Scroll behavior (Excel-like panes) */
+.page-scroll,
+.content-scroll,
+.table-wrapper {
+    overflow: auto;
+}
+
+/* 7. Headings & text: no random gaps */
+h1, h2, h3, h4, h5, h6 {
+    margin: 6px 0;
+    padding: 0;
+    font-weight: 600;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+}
+
+/* 8. Links (clean, dashboard-friendly) */
+a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 9. Optional row hover (Excel feel) */
+tbody tr:hover {
+    background-color: #eef3ff;
+}

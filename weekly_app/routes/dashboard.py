@@ -167,6 +167,7 @@ def dashboard(
         )
 
     sales = pd.read_csv(SALES_FILE)
+    sales.columns = sales.columns.str.strip().str.lower()
     sales["week"] = sales["week"].astype(str).str.strip()
     sales["sku"] = sales["sku"].astype(str)
     sales["channel"] = sales["channel"].astype(str)
@@ -177,8 +178,10 @@ def dashboard(
     if week:
         sales = sales[sales["week"] == week]
 
+        # ✅ STEP 2 — BRAND FILTER (CORRECT PLACE)
     if brand and "brand" in sales.columns:
-        sales = sales[sales["brand"] == brand]
+      sales = sales[sales["brand"].str.lower() == brand.lower()]
+
 
     if view == "mapped" and "sku_status" in sales.columns:
         sales = sales[sales["sku_status"] == "MAPPED"]
@@ -352,6 +355,7 @@ def dashboard(
     # FILTER METADATA
     # =================================================
     full_sales = pd.read_csv(SALES_FILE)
+    sales.columns = sales.columns.str.strip().str.lower()
     weeks = sorted(full_sales["week"].astype(str).unique())
     brands = (
         sorted(full_sales["brand"].dropna().unique())

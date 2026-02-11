@@ -3,26 +3,34 @@
 <head>
     <title>Sales Drilldown – {{ week }}</title>
     <link rel="stylesheet" href="/static/css/sales_drilldown.css">
+</head>
 
-
-    <!-- ========================================================= -->
-    <!-- CORE STYLES (UNCHANGED)                                   -->
-    <!-- ========================================================= -->
-
+<body>
 
 <!-- ========================================================= -->
 <!-- HEADER                                                   -->
 <!-- ========================================================= -->
-<h2>📊 Sales Drilldown – {{ week or "All Weeks" }}</h2>
-<a href="/dashboard">← Back to Dashboard</a>
+<h2>
+📊 Sales Drilldown – {{ week or "All Weeks" }}
+{% if brand %} | Brand: <b>{{ brand }}</b>{% endif %}
+</h2>
+
+<a href="/dashboard{% if brand %}?brand={{ brand }}{% endif %}">
+    ← Back to Dashboard
+</a>
 
 <!-- ========================================================= -->
 <!-- BREADCRUMB                                               -->
 <!-- ========================================================= -->
 <div class="breadcrumb">
-    <a href="/drilldown?type=sales&week={{ week }}">Sales</a>
+    <a href="/drilldown?type=sales&week={{ week }}{% if brand %}&brand={{ brand }}{% endif %}">
+        Sales
+    </a>
     {% if channel and channel != "ALL" %}
         › <b>{{ channel }}</b>
+        {% if brand %}
+            › <b>{{ brand }}</b>
+        {% endif %}
     {% endif %}
 </div>
 
@@ -35,43 +43,56 @@
 
 {% if channel_summary %}
 <table id="channelSummaryTable">
-    <tr>
-        <th>Channel</th>
-        <th>Units Sold</th>
-        <th>GMV (₹)</th>
-        <th>Sales @ NLC (₹)</th>
-    </tr>
-
-    {% for r in channel_summary %}
-    <tr>
-        <td>
-            <a href="/drilldown?type=sales&week={{ week }}&channel={{ r.channel | urlencode }}">
-                {{ r.channel }}
-            </a>
-        </td>
-        <td>{{ r.units_sold }}</td>
-        <td>₹ {{ r.gmv }}</td>
-        <td>₹ {{ r.sales_nlc }}</td>
-    </tr>
-    {% endfor %}
+    <thead>
+        <tr>
+            <th>Channel</th>
+            <th>Units Sold</th>
+            <th>GMV (₹)</th>
+            <th>Sales @ NLC (₹)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in channel_summary %}
+        <tr>
+            <td>
+                <a href="/drilldown?type=sales&week={{ week }}&channel={{ r.channel | urlencode }}{% if brand %}&brand={{ brand }}{% endif %}">
+                    {{ r.channel }}
+                </a>
+            </td>
+            <td>{{ r.units_sold }}</td>
+            <td>₹ {{ r.gmv }}</td>
+            <td>₹ {{ r.sales_nlc }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endif %}
-
 {% endif %}
-
 
 <!-- ========================================================= -->
 <!-- SKU TABLE ROOT                                           -->
 <!-- ========================================================= -->
-
 {% if sku_channel_rows %}
 
 <!-- ========================================================= -->
 <!-- FILTER BOX                                               -->
 <!-- ========================================================= -->
+
 <div class="filter-box">
     🔍 <b>Filter by Model:</b>
     <input type="text" id="modelFilter" placeholder="Type model e.g. GS-02">
+
+    &nbsp;&nbsp; | &nbsp;&nbsp;
+
+    🏷️ <b>Brand:</b>
+<select id="brandFilter" onchange="applyBrandFilter()">
+    <option value="">All</option>
+    {% for b in available_brands %}
+        <option value="{{ b }}" {% if brand == b %}selected{% endif %}>
+            {{ b }}
+        </option>
+    {% endfor %}
+</select>
 </div>
 
 <!-- ========================================================= -->
@@ -83,37 +104,28 @@
 
 <table id="skuTable">
 <thead>
-
-<!-- ========================================================= -->
-<!-- HEADER ROW 1                                             -->
-<!-- ========================================================= -->
 <tr>
     <th rowspan="2">SKU</th>
     <th rowspan="2">Model</th>
     <th rowspan="2">Category</th>
 
-    <th colspan="3" class="channel-head">Amazon AM</th>
-    <th colspan="3" class="channel-head">Amazon 1P</th>
-    <th colspan="3" class="channel-head">Amazon Total</th>
+    <th colspan="3">Amazon AM</th>
+    <th colspan="3">Amazon 1P</th>
+    <th colspan="3">Amazon Total</th>
 
-    {% for k, v in sku_channel_rows[0].items() %}
+    {% for k in sku_channel_rows[0].keys() %}
         {% if k.endswith('_units') and not k.startswith('amazon') %}
-            <th colspan="3" class="channel-head">
-                {{ k.replace('_units','').replace('_',' ').upper() }}
-            </th>
+            <th colspan="3">{{ k.replace('_units','').replace('_',' ').upper() }}</th>
         {% endif %}
     {% endfor %}
 </tr>
 
-<!-- ========================================================= -->
-<!-- HEADER ROW 2                                             -->
-<!-- ========================================================= -->
-<tr class="sub-head">
+<tr>
     <th>Units</th><th>Sales</th><th>NLC</th>
     <th>Units</th><th>Sales</th><th>NLC</th>
     <th>Units</th><th>Sales</th><th>NLC</th>
 
-    {% for k, v in sku_channel_rows[0].items() %}
+    {% for k in sku_channel_rows[0].keys() %}
         {% if k.endswith('_units') and not k.startswith('amazon') %}
             <th>Units</th><th>Sales</th><th>NLC</th>
         {% endif %}
@@ -122,10 +134,6 @@
 </thead>
 
 <tbody>
-
-<!-- ========================================================= -->
-<!-- DATA ROWS                                                -->
-<!-- ========================================================= -->
 {% for r in sku_channel_rows %}
 <tr>
     <td>{{ r.sku }}</td>
@@ -144,7 +152,7 @@
     <td><b>₹ {{ r.amazon_total_sales }}</b></td>
     <td><b>₹ {{ r.amazon_total_nlc }}</b></td>
 
-    {% for k, v in r.items() %}
+    {% for k in r.keys() %}
         {% if k.endswith('_units') and not k.startswith('amazon') %}
             {% set base = k.replace('_units','') %}
             <td>{{ r[base ~ '_units'] }}</td>
@@ -173,7 +181,6 @@
     <th>Units Sold</th>
     <th>GMV (₹)</th>
     <th>Sales @ NLC (₹)</th>
-
     {% if sku_channel_rows[0].channel_contribution_pct is defined %}
         <th>% Contribution</th>
     {% endif %}
@@ -189,9 +196,8 @@
     <td>{{ r.units_sold }}</td>
     <td>₹ {{ r.gmv }}</td>
     <td>₹ {{ r.sales_nlc }}</td>
-
     {% if r.channel_contribution_pct is defined %}
-        <td class="pct">{{ "%.2f"|format(r.channel_contribution_pct) }}%</td>
+        <td>{{ "%.2f"|format(r.channel_contribution_pct) }}%</td>
     {% endif %}
 </tr>
 {% endfor %}
@@ -202,12 +208,19 @@
 {% endif %}
 
 <!-- ========================================================= -->
-<!-- SAFE SCRIPTS                                             -->
+<!-- SAFE SCRIPTS (SINGLE BLOCK – FIXED)                      -->
 <!-- ========================================================= -->
 <script>
-/* ========================================================= */
-/* 🔍 MODEL FILTER                                           */
-/* ========================================================= */
+function applyBrandFilter() {
+    const brand = document.getElementById("brandFilter")?.value;
+    const params = new URLSearchParams(window.location.search);
+
+    if (brand) params.set("brand", brand);
+    else params.delete("brand");
+
+    window.location.search = params.toString();
+}
+
 document.getElementById("modelFilter")?.addEventListener("keyup", function () {
     const filter = this.value.toLowerCase();
     document.querySelectorAll("table tbody tr").forEach(row => {
@@ -219,9 +232,6 @@ document.getElementById("modelFilter")?.addEventListener("keyup", function () {
     });
 });
 
-/* ========================================================= */
-/* 🔃 SORTING — SAFE                                         */
-/* ========================================================= */
 function makeSortable(tableId) {
     const table = document.getElementById(tableId);
     if (!table) return;

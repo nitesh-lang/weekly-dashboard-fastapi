@@ -121,11 +121,20 @@ def load_ams_data() -> pd.DataFrame:
         "units_ordered": "units",
     }
     df = df.rename(columns={k: v for k, v in rename.items() if k in df.columns})
+    # NORMALIZE CATEGORY COLUMNS (FIX CATEGORY FILTER)
+    for c in ["category_l0", "category_l1", "category_l2"]:
+         if c in df.columns:
+            df[c] = df[c].astype(str).str.strip()
 
     df["week"] = pd.to_numeric(df.get("week"), errors="coerce")
     df["asin"] = df.get("asin").astype(str).str.strip()
     df["Model"] = df.get("Model", df.get("model")).astype(str).str.upper().str.strip()
-    df["brand"] = df.get("brand", df.get("Brand"))
+    df["brand"] = (
+    df.get("brand", df.get("Brand"))
+    .astype(str)
+    .str.strip()
+    .str.lower()
+)
 
     return df
 
@@ -161,6 +170,12 @@ def get_ams_trend(
     # LOAD DATA
     # ===============================
     df = load_ams_data()
+    if brand:
+       brand = brand.strip().lower()
+
+    # ✅ APPLY BRAND FILTER FIRST (CRITICAL)
+    if  brand and brand != "All":
+       df = df[df["brand"] == brand]
 
     # Full AMS base (used for contribution calc)
     base_df = df.copy()
@@ -210,14 +225,15 @@ def get_ams_trend(
         df = df[df["asin"] == asin]
     if model:
         df = df[df["Model"] == model]
-    if brand and brand != "All":
-        df = df[df["brand"] == brand]
-    if category_l0:
-        df = df[df["category_l0"] == category_l0]
-    if category_l1:
-        df = df[df["category_l1"] == category_l1]
-    if category_l2:
-        df = df[df["category_l2"] == category_l2]
+
+    if category_l0 and category_l0 != "All":
+       df = df[df["category_l0"] == category_l0]
+
+    if category_l1 and category_l1 != "All":
+       df = df[df["category_l1"] == category_l1]
+
+    if category_l2 and category_l2 != "All":
+      df = df[df["category_l2"] == category_l2]
 
     # ===============================
     # CONTRIBUTION TO SALES % (BRAND × WEEK GMV)

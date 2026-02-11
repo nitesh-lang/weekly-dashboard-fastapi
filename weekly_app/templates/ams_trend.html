@@ -418,7 +418,7 @@ function onL0Change(){
         catL1.appendChild(o);
 });
 
-loadAMS();
+
 }
 
 function onL1Change(){
@@ -442,7 +442,7 @@ function onL1Change(){
     catL2.appendChild(o);
 });
 
-loadAMS();
+
 }
 
 // ===============================
@@ -487,18 +487,11 @@ function resetFilters(){
 }
 
 function onBrandChange(){
-    // Reset category filters
     catL0.value = "";
     catL1.innerHTML = '<option value="">All</option>';
     catL2.innerHTML = '<option value="">All</option>';
 
-    // Rebuild categories for selected brand
-    if (!window.__categoriesLoaded) {
-    bootstrapCategories(lastRowsCache);
-    window.__categoriesLoaded = true;
-}
-
-    // 🔥 IMMEDIATE DATA REFRESH
+    // 🔥 DO NOT build categories here
     loadAMS();
 }
 
@@ -697,9 +690,11 @@ function loadAMS(){
                     brandSelect.appendChild(o);
                 });
             }
+           // 🔒 REBUILD CATEGORIES FROM BRAND-FILTERED ROWS
 
-            renderTable();
-            if(data.sb_rows){ renderSBTable(data.sb_rows); }
+
+renderTable();
+if(data.sb_rows){ renderSBTable(data.sb_rows); }
         })
         .catch(err=>{
             console.error("AMS Trend fetch/render error:", err);

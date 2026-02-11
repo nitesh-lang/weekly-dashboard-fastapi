@@ -97,15 +97,21 @@ biz["sessions"] = pd.to_numeric(biz.get("sessions", 0), errors="coerce").fillna(
 biz["units"] = pd.to_numeric(biz.get("units_ordered", 0), errors="coerce").fillna(0)
 biz["buy_box_pct"] = pd.to_numeric(biz.get("buy_box_pct", 0), errors="coerce").fillna(0)
 
-biz = biz[[
-    "asin", "week", "gmv", "sessions", "units", "buy_box_pct"
-]].drop_duplicates(["asin", "week"])
+biz = (
+    biz[["asin", "week", "gmv", "sessions", "units", "buy_box_pct"]]
+    .groupby(["asin", "week"], as_index=False)
+    .agg({
+        "gmv": "sum",
+        "sessions": "sum",
+        "units": "sum",
+        "buy_box_pct": "mean"
+    })
+)
 
 # --------------------------------------------------
-# JOIN 1: ADS ← BUSINESS (ADS BASE)
-# --------------------------------------------------
-final = ads.merge(
-    biz,
+# JOIN 1: BUSINESS ← ADS (BUSINESS BASE)
+final = biz.merge(
+    ads,
     on=["asin", "week"],
     how="left"
 )

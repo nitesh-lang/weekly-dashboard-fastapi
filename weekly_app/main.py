@@ -12,6 +12,8 @@ from weekly_app.routes.upload import router as upload_router
 from weekly_app.routes.dashboard import router as dashboard_router
 from weekly_app.routes.exports import router as export_router
 from weekly_app.routes.drilldown import router as drilldown_router
+from fastapi.responses import HTMLResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 
 # ✅ SALES TREND ROUTER (SKU / MODEL)
 from weekly_app.routes.sales_trend import router as sales_trend_router
@@ -37,6 +39,7 @@ app = FastAPI(
     title="Weekly Dashboard",
     debug=True   # 🔥 SHOW FULL TRACEBACKS
 )
+
 
 from fastapi.staticfiles import StaticFiles
 app.mount("/static", StaticFiles(directory="weekly_app/static"), name="static")

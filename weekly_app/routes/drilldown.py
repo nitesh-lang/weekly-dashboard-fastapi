@@ -123,7 +123,7 @@ def load_master():
 
     m["sku"] = m["sku"].astype(str)
 
-    return m[["sku", "model_no"]]
+    return m[["sku", "model_no", "Brand"]]
 
 
 # =====================================================
@@ -134,6 +134,7 @@ def drilldown(
     request: Request,
     type: str,
     week: str | None = None,
+    brand: str | None = None,   # ← ADD THIS
     channel: str | None = None,
     level: str | None = None,
     value: str | None = None,
@@ -153,17 +154,34 @@ def drilldown(
 
     sales = load_base_sales(week)
     master = load_master()
+    # 🔥 SINGLE SOURCE OF TRUTH
+    base = sales.merge(master, on="sku", how="left")
+    base["Brand"] = base["Brand"].astype(str).str.strip()
+    if brand and "Brand" in base.columns:
+        base = base[base["Brand"].astype(str).str.strip().str.lower() == brand.strip().lower()
+                    ]
+    available_brands = sorted(
+    master["Brand"]
+    .dropna()
+    .astype(str)
+    .str.strip()
+    .unique()
+    .tolist()
+)
 
+    
     # =====================================================
     # EMPTY SAFE RENDER
     # =====================================================
-    if sales.empty:
+    if base.empty:
         return templates.TemplateResponse(
             "drilldown_sales.html",
             {
                 "request": request,
                 "week": week,
                 "channel": channel,
+                "brand": brand,   # ✅ ADD THIS
+                "available_brands": available_brands,  # ← ADD THIS
                 "channel_summary": [],
                 "sku_channel_rows": [],
             },
@@ -173,7 +191,7 @@ def drilldown(
     # CHANNEL SUMMARY (UNCHANGED CORE LOGIC)
     # =====================================================
     channel_summary = (
-        sales.groupby("channel", as_index=False)
+        base.groupby("channel", as_index=False)
         .agg(
             units_sold=("units_sold", "sum"),
             gmv=("gross_sales", "sum"),
@@ -193,7 +211,7 @@ def drilldown(
         # ALL CHANNELS VIEW (SKU + MODEL SAFE)
         # =================================================
         if channel is None:
-            sku_base = sales.merge(master, on="sku", how="left")
+            sku_base = base.copy()
 
             # ---------------- AMAZON AM ----------------
             sku_base["amazon_am_units"] = sku_base.apply(
@@ -219,9 +237,9 @@ def drilldown(
 
             # ---------------- OTHER CHANNELS ----------------
             other_channels = sorted(
-                c for c in sales["channel"].unique()
-                if not is_amazon(c)
-            )
+    c for c in base["channel"].unique()
+    if not is_amazon(c)
+)
 
             for ch in other_channels:
                 k = ch.lower().replace(" ", "_")
@@ -253,11 +271,20 @@ def drilldown(
                 agg[f"{k}_nlc"] = "sum"
 
             sku = (
-                sku_base
-                .groupby(["model_no", "category_l0"], as_index=False)
-                .agg(agg)
-                .rename(columns={"sku": "skus"})
-            )
+    sku_base
+    .groupby(["sku", "model_no", "category_l0"], as_index=False)
+    .agg(agg)
+)
+              
+            total_gmv = base["gross_sales"].sum()
+            channel_summary_df = pd.DataFrame(channel_summary)
+            if total_gmv > 0:
+                channel_summary_df["sales_contribution_pct"] = (channel_summary_df["gmv"] / total_gmv * 100).round(2)
+            else:
+                channel_summary_df["sales_contribution_pct"] = 0.0
+                channel_summary = channel_summary_df.to_dict("records")
+                
+                    
 
             # ---------------- AMAZON TOTAL ----------------
             sku["amazon_total_units"] = sku["amazon_am_units"] + sku["amazon_1p_units"]
@@ -287,6 +314,8 @@ def drilldown(
                     "request": request,
                     "week": week,
                     "channel": "ALL",
+                     "brand": brand,   # ✅ ADD
+                     "available_brands": available_brands,  # ← ADD THIS
                     "channel_summary": channel_summary,
                     "sku_channel_rows": sku.to_dict("records"),
                 },
@@ -296,19 +325,21 @@ def drilldown(
         # AMAZON ONLY (WITH CONTRIBUTION %)
         # =================================================
         if is_amazon(channel):
-            amazon = sales[sales["channel"].apply(is_amazon)]
+            if "1p" in channel.lower():
+                amazon = base[base["channel"].str.contains("1p", case=False, na=False)]
+            else:
+             amazon = base[base["channel"].str.contains("amazon", case=False, na=False)]   
             total_channel_sales = float(amazon["gross_sales"].sum())
 
             sku = (
-                amazon.merge(master, on="sku", how="left")
-                .groupby(["model_no", "category_l0"], as_index=False)
-                .agg(
-                    skus=("sku", lambda x: ", ".join(sorted(set(x)))),
-                    units_sold=("units_sold", "sum"),
-                    gmv=("gross_sales", "sum"),
-                    sales_nlc=("sales_nlc", "sum"),
-                )
-            )
+    amazon
+    .groupby(["sku", "model_no", "category_l0"], as_index=False)
+    .agg(
+        units_sold=("units_sold", "sum"),
+        gmv=("gross_sales", "sum"),
+        sales_nlc=("sales_nlc", "sum"),
+    )
+)
 
             if total_channel_sales > 0:
                 sku["channel_contribution_pct"] = (
@@ -325,6 +356,8 @@ def drilldown(
                     "request": request,
                     "week": week,
                     "channel": "Amazon",
+                    "brand": brand,   # ✅ ADD
+                    "available_brands": available_brands,  # ← ADD THIS
                     "channel_summary": channel_summary,
                     "sku_channel_rows": sku.to_dict("records"),
                 },
@@ -333,19 +366,18 @@ def drilldown(
         # =================================================
         # SINGLE NON-AMAZON CHANNEL
         # =================================================
-        other = sales[sales["channel"] == channel]
+        other = base[base["channel"] == channel]
         total_channel_sales = float(other["gross_sales"].sum())
 
         sku = (
-            other.merge(master, on="sku", how="left")
-            .groupby(["model_no", "category_l0"], as_index=False)
-            .agg(
-                skus=("sku", lambda x: ", ".join(sorted(set(x)))),
-                units_sold=("units_sold", "sum"),
-                gmv=("gross_sales", "sum"),
-                sales_nlc=("sales_nlc", "sum"),
-            )
-        )
+    other
+    .groupby(["sku", "model_no", "category_l0"], as_index=False)
+    .agg(
+        units_sold=("units_sold", "sum"),
+        gmv=("gross_sales", "sum"),
+        sales_nlc=("sales_nlc", "sum"),
+    )
+)
 
         if total_channel_sales > 0:
             sku["channel_contribution_pct"] = (
@@ -362,6 +394,8 @@ def drilldown(
                 "request": request,
                 "week": week,
                 "channel": channel,
+                 "brand": brand,   # ✅ ADD
+                 "available_brands": available_brands,  # ← ADD THIS
                 "channel_summary": channel_summary,
                 "sku_channel_rows": sku.to_dict("records"),
             },
@@ -373,7 +407,7 @@ def drilldown(
     if type == "category":
         col = f"category_{level}"
 
-        filtered = sales[sales[col] == norm(value)]
+        filtered = base[base[col] == norm(value)]
 
         sku = (
             filtered.merge(master, on="sku", how="left")
@@ -394,6 +428,8 @@ def drilldown(
                 "request": request,
                 "week": week,
                 "channel": f"Category: {value}",
+                "brand": brand,   # ✅ ADD
+                "available_brands": available_brands,  # ← ADD THIS
                 "channel_summary": channel_summary,
                 "sku_channel_rows": sku.to_dict("records"),
             },

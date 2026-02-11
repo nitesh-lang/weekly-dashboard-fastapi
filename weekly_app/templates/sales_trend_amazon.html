@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Amazon + 1P Sales Trend</title>
+
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        h1 { margin-bottom: 10px; }
+
+        .note {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .toolbar input {
+            padding: 6px;
+            font-size: 12px;
+            width: 260px;
+        }
+
+        .toolbar select {
+            padding: 6px;
+            font-size: 12px;
+        }
+
+        .toolbar button {
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            font-size: 12px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #f4f4f4;
+            cursor: pointer;
+        }
+
+        th.sorted-asc::after { content: " ▲"; }
+        th.sorted-desc::after { content: " ▼"; }
+
+        td:first-child, th:first-child,
+        td:nth-child(2), th:nth-child(2),
+        td:nth-child(3), th:nth-child(3),
+        td:nth-child(4), th:nth-child(4) {
+            text-align: left;
+        }
+
+        .up { color: green; font-weight: bold; }
+        .down { color: red; font-weight: bold; }
+        .flat { color: #555; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+
+<h1>📦 Amazon + 1P Sales Trend (Last 4 Weeks)</h1>
+<a href="/dashboard">← Back to Dashboard</a>
+
+<p class="note">
+    Includes Amazon + 1P only.<br>
+    Toggle between Sales ₹ and Units.
+</p>
+
+<div class="toolbar">
+    <input id="filterBox" placeholder="Filter SKU / Model / Category">
+
+    <select id="brandFilter">
+        <option value="">All Brands</option>
+        {% for b in brands %}
+            <option value="{{ b|lower|trim }}"
+            {% if selected_brand and (b|lower|trim) == (selected_brand|lower|trim) %}selected{% endif %}>
+            {{ b }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div>
+        <button onclick="toggleMetric()">Toggle Units / ₹</button>
+        <button onclick="exportTable()">Export CSV</button>
+    </div>
+</div>
+
+<table id="trendTable">
+<thead>
+<tr>
+    <th>Model</th>
+    <th>Category L0</th>
+    <th>Category L1</th>
+    <th>Category L2</th>
+
+    {% for w in weeks %}
+        <th>{{ w }} Sales ₹</th>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <th>{{ w }} Units</th>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <th>{{ w }} Sales %</th>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <th>{{ w }} Sessions</th>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <th>{{ w }} Conversion %</th>
+    {% endfor %}
+
+    <th>Last 4W Units</th>
+    <th>4W Avg Units</th>
+    <th>Last 4W Sessions</th>
+    <th>4W Avg Sessions</th>
+    <th>4W Avg Conversion</th>
+    <th>Inventory Units</th>
+    <th>Trend</th>
+</tr>
+</thead>
+
+<tbody>
+{% for r in rows %}
+<tr data-brand="{{ r.brand|lower|trim }}">
+
+    <td>{{ r.model }}</td>
+    <td>{{ r.category_l0 }}</td>
+    <td>{{ r.category_l1 }}</td>
+    <td>{{ r.category_l2 }}</td>
+
+    {% for w in weeks %}
+    <td class="metric"
+        data-units="{{ r[w ~ '_units'] }}"
+        data-sales="{{ "%.0f"|format(r[w ~ '_sales']) }}">
+        ₹ {{ "%.0f"|format(r[w ~ '_sales']) }}
+    </td>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <td>{{ r[w ~ '_units'] }}</td>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <td>{{ "%.2f"|format(r[w ~ '_sales_pct']|float) }}%</td>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <td>{{ r[w ~ '_sessions'] }}</td>
+    {% endfor %}
+
+    {% for w in weeks %}
+        <td>{{ "%.2f"|format(r[w ~ '_conversion']|float) }}</td>
+    {% endfor %}
+
+    <td>{{ r.last_4w_units }}</td>
+    <td>{{ r.avg_4w_units }}</td>
+    <td>{{ r.last_4w_sessions }}</td>
+    <td>{{ r.avg_4w_sessions }}</td>
+    <td>{{ r.avg_4w_conversion }}</td>
+    <td>{{ r.inventory_units }}</td>
+
+    <td data-sort="{% if r.trend=='UP' %}3{% elif r.trend=='FLAT' %}2{% else %}1{% endif %}">
+        {% if r.trend == "UP" %}
+            <span class="up">↑ UP</span>
+        {% elif r.trend == "DOWN" %}
+            <span class="down">↓ DOWN</span>
+        {% else %}
+            <span class="flat">→ FLAT</span>
+        {% endif %}
+    </td>
+
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<script>
+
+/* TEXT FILTER */
+document.getElementById("filterBox").addEventListener("keyup", function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll("#trendTable tbody tr").forEach(r => {
+        r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
+    });
+});
+
+/* TOGGLE ₹ / UNITS */
+let showingUnits = false;
+function toggleMetric(){
+    showingUnits = !showingUnits;
+    document.querySelectorAll(".metric").forEach(td=>{
+        td.innerText = showingUnits ? td.dataset.units : "₹ " + td.dataset.sales;
+    });
+}
+
+/* SORTING */
+document.querySelectorAll("th").forEach((header, colIndex) => {
+    let asc = true;
+    header.addEventListener("click", () => {
+
+        const table = header.closest("table");
+        const tbody = table.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+
+        document.querySelectorAll("th").forEach(h => h.classList.remove("sorted-asc","sorted-desc"));
+        header.classList.add(asc ? "sorted-asc":"sorted-desc");
+
+        rows.sort((a,b)=>{
+            const A = a.children[colIndex]?.dataset.sort || 
+                      a.children[colIndex]?.innerText.replace(/[₹,%]/g,"").trim();
+            const B = b.children[colIndex]?.dataset.sort || 
+                      b.children[colIndex]?.innerText.replace(/[₹,%]/g,"").trim();
+
+            const nA = parseFloat(A), nB = parseFloat(B);
+            if(!isNaN(nA)&&!isNaN(nB)) return asc? nA-nB : nB-nA;
+            return asc? A.localeCompare(B): B.localeCompare(A);
+        });
+
+        rows.forEach(r=>tbody.appendChild(r));
+        asc=!asc;
+    });
+});
+
+/* EXPORT */
+function exportTable(){
+    let csv=[];
+    document.querySelectorAll("#trendTable tr").forEach(r=>{
+        let row=[];
+        r.querySelectorAll("th,td").forEach(c=>row.push(c.innerText.replace(/,/g,"")));
+        csv.push(row.join(","));
+    });
+    const blob=new Blob([csv.join("\n")],{type:"text/csv"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="amazon_1p_sales_trend.csv";
+    a.click();
+}
+
+/* BRAND FILTER */
+document.getElementById("brandFilter").addEventListener("change", function(){
+    const b = this.value;
+    if(b){
+        window.location.href = `/amazon-sales-trend?brand=${b}`;
+    } else {
+        window.location.href = `/amazon-sales-trend`;
+    }
+});
+
+</script>
+
+</body>
+</html>

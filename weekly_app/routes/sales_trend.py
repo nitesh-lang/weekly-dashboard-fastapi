@@ -217,3 +217,4 @@ def sales_trend(request: Request, brand: str = "All"):
             "selected_brand": brand
         }
     )
+

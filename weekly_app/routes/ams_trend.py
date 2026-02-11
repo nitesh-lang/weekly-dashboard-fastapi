@@ -280,6 +280,7 @@ def get_ams_trend(
         if df["gmv"].sum() > 0 else None,
     }
 
+
     rows = [
         {k: safe_value(v) for k, v in r.items()}
         for r in df.to_dict("records")

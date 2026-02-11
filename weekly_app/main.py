@@ -17,6 +17,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 # ✅ SALES TREND ROUTER (SKU / MODEL)
 from weekly_app.routes.sales_trend import router as sales_trend_router
+from weekly_app.routes.AM_sales_trend import router as am_sales_trend_router
 
 # ✅ CATEGORY SALES ROUTER (ALREADY USED BY DASHBOARD)
 from weekly_app.routes.category_sales import router as category_sales_router
@@ -72,6 +73,7 @@ app.include_router(drilldown_router)
 
 # ✅ SALES TREND ROUTER
 app.include_router(sales_trend_router)
+app.include_router(am_sales_trend_router)
 
 # ✅ CATEGORY SALES ROUTER
 app.include_router(category_sales_router)

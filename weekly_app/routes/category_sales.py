@@ -38,6 +38,12 @@ def extract_week(v):
     return int(m.group(1)) if m else None
 
 
+def format_inr(x):   # 👈 SAME INDENT LEVEL AS extract_week
+    if pd.isna(x):
+        return "₹ 0"
+    return f"₹ {x:,.0f}"
+
+
 # -------------------------------------------------
 # CATEGORY SALES VIEW (L0 → L1 → L2)
 # -------------------------------------------------
@@ -114,6 +120,17 @@ def category_sales(
         )
         .sort_values("gross_sales", ascending=False)
     )
+
+    # ---------------- GRAND TOTAL ----------------
+    total_row = pd.DataFrame([{group_col: "Grand Total",
+                            "units_sold": summary["units_sold"].sum(),
+                            "gross_sales": summary["gross_sales"].sum(),
+                            }])
+    summary = pd.concat([summary, total_row], ignore_index=True)
+    # ---------------- FORMAT GMV (ACCOUNTING STYLE) ----------------
+    summary["gross_sales"] = summary["gross_sales"].apply(format_inr)
+    summary["units_sold"] = summary["units_sold"].astype(int)
+
 
     # ---------------- RENDER ----------------
     return templates.TemplateResponse(

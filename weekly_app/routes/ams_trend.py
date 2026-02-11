@@ -285,6 +285,22 @@ def get_ams_trend(
         for r in df.to_dict("records")
     ]
 
+    # ================= TOTAL ROW =================
+    if not df.empty:
+       total_row = {col: None for col in df.columns}
+
+       total_row["Model"] = "Grand Total"
+       total_row["gmv"] = safe_value(df["gmv"].sum())
+       total_row["sessions"] = safe_value(df["sessions"].sum())
+       total_row["units"] = safe_value(df["units"].sum())
+       total_row["ad_spend"] = safe_value(df["ad_spend"].sum())
+       total_row["attributed_sales"] = safe_value(df["attributed_sales"].sum())
+       total_row["clicks"] = safe_value(df["clicks"].sum())
+       total_row["impressions"] = safe_value(df["impressions"].sum())
+       total_row["ams_orders"] = safe_value(df["ams_orders"].sum())
+
+       rows.append(total_row)
+
     return strict_json_response({"kpis": kpis, "rows": rows})
 
 # ==================================================

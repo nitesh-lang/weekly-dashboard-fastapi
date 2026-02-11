@@ -184,6 +184,26 @@ def sales_trend(request: Request, brand: str = "All"):
             row[f"{w}_sales_pct"] = round((s / total_sales[w]) * 100, 2)
 
         rows.append(row)
+    # ================= GRAND TOTAL =================
+    grand = {
+        "model": "Grand Total",
+        "brand": "",
+        "category_l0": "",
+        "category_l1": "",
+        "category_l2": "",
+         "inventory_units": "",
+          "trend": "",
+          }
+    for w in weeks:
+        grand[f"{w}_units"] = sum(r[f"{w}_units"] for r in rows)
+        grand[f"{w}_sales"] = round(sum(r[f"{w}_sales"] for r in rows), 2)
+        grand[f"{w}_sales_pct"] = 0.0
+
+    grand["last_4w_units"] = sum(r["last_4w_units"] for r in rows)
+    grand["avg_4w"] = 0.0
+
+        
+    rows.append(grand)   # ✅ HERE (after loop ends)
 
     brands = sorted(load_sales()["brand"].dropna().unique())
 

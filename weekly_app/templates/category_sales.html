@@ -134,8 +134,8 @@
                 {% endif %}
             </td>
 
-            <td>{{ r.units_sold | round(0) | int }}</td>
-            <td>₹ {{ r.gross_sales | round(0) | int }}</td>
+            <td>{{ r.units_sold }}</td>
+            <td>{{ r.gross_sales }}</td>
         </tr>
     {% endfor %}
     </tbody>

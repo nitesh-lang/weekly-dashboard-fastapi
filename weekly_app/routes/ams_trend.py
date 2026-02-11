@@ -124,7 +124,8 @@ def load_ams_data() -> pd.DataFrame:
     # NORMALIZE CATEGORY COLUMNS (FIX CATEGORY FILTER)
     for c in ["category_l0", "category_l1", "category_l2"]:
          if c in df.columns:
-            df[c] = df[c].astype(str).str.strip()
+             df[c] = (df[c].astype(str).str.strip().str.lower()
+                       )
 
     df["week"] = pd.to_numeric(df.get("week"), errors="coerce")
     df["asin"] = df.get("asin").astype(str).str.strip()
@@ -226,7 +227,8 @@ def get_ams_trend(
     if model:
         df = df[df["Model"] == model]
 
-    if category_l0 and category_l0 != "All":
+    if category_l0 and category_l0.lower() != "all":
+       category_l0 = category_l0.strip().lower()
        df = df[df["category_l0"] == category_l0]
 
     if category_l1 and category_l1 != "All":

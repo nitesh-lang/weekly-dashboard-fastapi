@@ -281,6 +281,7 @@
 <h2>📌 AMS KPIs</h2>
 
 <div class="kpi"><b>Sessions</b><br><span id="kpiSessions">—</span></div>
+<div class="kpi"><b>GMV</b><br>₹ <span id="kpiGMV">—</span></div>
 <div class="kpi"><b>Ad Spend</b><br>₹ <span id="kpiSpend">—</span></div>
 <div class="kpi"><b>Attributed Sales</b><br>₹ <span id="kpiSales">—</span></div>
 <div class="kpi"><b>ACOS</b><br><span id="kpiAcos">—</span></div>
@@ -665,6 +666,7 @@ function loadAMS(){
 
 
             kpiSessions.innerText = safe(kpis.sessions);
+            kpiGMV.innerText      = fmt(kpis.gmv ?? kpis.GMV ?? 0);
             kpiSpend.innerText    = fmt(kpis.ad_spend);
             kpiSales.innerText    = fmt(kpis.attributed_sales);
             kpiAcos.innerText     = pct(kpis.acos);
@@ -691,7 +693,7 @@ function loadAMS(){
                 });
             }
            // 🔒 REBUILD CATEGORIES FROM BRAND-FILTERED ROWS
-
+bootstrapCategories(lastRowsCache);
 
 renderTable();
 if(data.sb_rows){ renderSBTable(data.sb_rows); }

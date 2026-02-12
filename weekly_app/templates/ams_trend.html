@@ -285,6 +285,7 @@
 <div class="kpi"><b>Ad Spend</b><br>₹ <span id="kpiSpend">—</span></div>
 <div class="kpi"><b>Attributed Sales</b><br>₹ <span id="kpiSales">—</span></div>
 <div class="kpi"><b>ACOS</b><br><span id="kpiAcos">—</span></div>
+<div class="kpi"><b>TACOS</b><br><span id="kpiTacos">—</span></div>
 
 <h2>📊 AMS Performance (ASIN Level)</h2>
 <p class="muted">Click any column header to sort A → Z / Z → A</p>
@@ -670,6 +671,7 @@ function loadAMS(){
             kpiSpend.innerText    = fmt(kpis.ad_spend);
             kpiSales.innerText    = fmt(kpis.attributed_sales);
             kpiAcos.innerText     = pct(kpis.acos);
+            kpiTacos.innerText    = pct(kpis.tacos);
 
 
             // ------------------------------

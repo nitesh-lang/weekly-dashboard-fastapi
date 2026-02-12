@@ -560,19 +560,57 @@ function sortTableByColumn(colIndex){
     );
 
     lastRowsCache.sort((a,b)=>{
-        const v1 = Object.values(a)[colIndex];
-        const v2 = Object.values(b)[colIndex];
 
-        const n1 = parseFloat(v1);
-        const n2 = parseFloat(v2);
+    const columnMap = [
+        "week",
+        "SKU",
+        "Model",
+        "brand",
+        "asin",
+        "category_l0",
+        "category_l1",
+        "category_l2",
+        "sessions",
+        "GMV",
+        "units",
+        "ad_spend",
+        "contribution_to_sales_pct",
+        "attributed_sales_pct",
+        "organic_sales_pct",
+        "conversion_pct",
+        "roas",
+        "acos",
+        "tacos",  // safe (render already handles TACOS)
+        "cac",
+        "ams_orders",
+        "clicks",
+        "impressions",
+        null, // CPC (calculated)
+        "buy_box_pct",
+        "inventory_ampm",
+        "inventory_1p",
+        "inventory_amazon",
+        "inventory_total_amazon",
+        "pipeline_orders"
+    ];
 
-        if(!isNaN(n1) && !isNaN(n2)){
-            return sortState.dir==="asc" ? n1-n2 : n2-n1;
-        }
-        return sortState.dir==="asc"
-            ? String(v1).localeCompare(String(v2))
-            : String(v2).localeCompare(String(v1));
-    });
+    const key = columnMap[colIndex];
+    if(!key) return 0;
+
+   let v1 = a[key] ?? a[key?.toLowerCase()];
+   let v2 = b[key] ?? b[key?.toLowerCase()];
+
+    const n1 = parseFloat(v1);
+    const n2 = parseFloat(v2);
+
+    if(!isNaN(n1) && !isNaN(n2)){
+        return sortState.dir==="asc" ? n1-n2 : n2-n1;
+    }
+
+    return sortState.dir==="asc"
+        ? String(v1 || "").localeCompare(String(v2 || ""))
+        : String(v2 || "").localeCompare(String(v1 || ""));
+});
 
     renderTable();
 }

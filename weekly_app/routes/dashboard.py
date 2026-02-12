@@ -133,6 +133,7 @@ def dashboard(
     # =================================================
     master = pd.read_excel(SKU_MASTER)
     master.columns = master.columns.str.strip()
+    print(master.columns)
     master = master.rename(
         columns={
             "FBA SKU": "sku",
@@ -145,7 +146,7 @@ def dashboard(
         master["model_no"] = master["model"]
 
     master["sku"] = master["sku"].astype(str)
-    master = master[["sku", "model_no"]]
+    master = master[["sku", "model_no", "category_l0"]]
 
     # =================================================
     # SAFE SALES LOAD (LOCKED)
@@ -195,13 +196,13 @@ def dashboard(
     # SKU TOTALS (LOCKED)
     # =================================================
     sku_totals = (
-        sales.groupby("sku", as_index=False)
-        .agg(
-            total_units=("units_sold", "sum"),
-            total_sales=("gross_sales", "sum"),
-            total_nlc=("sales_nlc", "sum"),
-        )
+    sales.groupby("sku", as_index=False)
+    .agg(
+        total_units=("units_sold", "sum"),
+        total_sales=("gross_sales", "sum"),
+        total_nlc=("sales_nlc", "sum"),
     )
+)
 
     if total_gmv > 0:
         sku_totals["sales_contribution_pct"] = (
@@ -263,10 +264,10 @@ def dashboard(
     )
 
     sku = (
-        sku_totals
-        .merge(amazon_split, on="sku", how="left")
-        .merge(master, on="sku", how="left")
-    )
+    sku_totals
+    .merge(amazon_split, on="sku", how="left")
+    .merge(master[["sku", "model_no", "category_l0"]], on="sku", how="left")
+)
 
     sku = round_df(sku)
 

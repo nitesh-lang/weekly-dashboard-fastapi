@@ -2,12 +2,12 @@ from fastapi import APIRouter, Query
 from fastapi.responses import StreamingResponse
 import pandas as pd
 from pathlib import Path
-from io import StringIO
+from io import BytesIO
 
 router = APIRouter(prefix="/export", tags=["Exports"])
 
 SALES_FILE = Path("data/processed/weekly_sales_snapshot.csv")
-INV_FILE = Path("data/processed/weekly_inventory_snapshot.csv")
+INV_FILE = Path("data/processed/inventory_model_snapshot.csv")
 
 
 # ==================================================
@@ -38,10 +38,10 @@ def normalize(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-
+from io import BytesIO
 def csv_response(df: pd.DataFrame, filename: str):
-    buffer = StringIO()
-    df.to_csv(buffer, index=False)
+    buffer = BytesIO()
+    df.to_csv(buffer, index=False, encoding="utf-8-sig")
     buffer.seek(0)
 
     return StreamingResponse(
@@ -56,10 +56,10 @@ def apply_filters(df, week=None, brand=None, view="mapped"):
     brand = clean_param(brand)
 
     if week:
-        df = df[df["week_start"] == week]
+        df = df[df["week"] == week]
     if brand:
         df = df[df["brand"] == brand]
-    if view == "mapped":
+    if view == "mapped" and "sku_status" in df.columns:
         df = df[df["sku_status"] == "MAPPED"]
 
     return df
@@ -220,8 +220,8 @@ def export_reconciliation(
     inv = normalize(pd.read_csv(INV_FILE))
 
     if week:
-        sales = sales[sales["week_start"] == week]
-        inv = inv[inv["week_start"] == week]
+        sales = sales[sales["week"] == week]
+        inv = inv[inv["week"] == week]
 
     if brand:
         sales = sales[sales["brand"] == brand]
@@ -236,7 +236,7 @@ def export_reconciliation(
         inv = inv[inv["sku_status"] == "MAPPED"]
 
     sales_g = sales.groupby(
-        ["week_start", "brand", "channel", "sku", "sku_status"],
+        ["week", "brand", "channel", "sku", "sku_status"],
         as_index=False,
     ).agg(
         units_sold=("units_sold", "sum"),
@@ -244,7 +244,7 @@ def export_reconciliation(
     )
 
     inv_g = inv.groupby(
-        ["week_start", "brand", "channel", "sku", "sku_status"],
+        ["week", "brand", "channel", "sku", "sku_status"],
         as_index=False,
     ).agg(
         inventory_units=("inventory_units", "sum"),
@@ -255,7 +255,7 @@ def export_reconciliation(
     out = (
         sales_g.merge(
             inv_g,
-            on=["week_start", "brand", "channel", "sku", "sku_status"],
+            on=["week", "brand", "channel", "sku", "sku_status"],
             how="outer",
         )
         .fillna(0)
@@ -288,8 +288,8 @@ def export_unmapped(
     inv = inv[inv["sku_status"] == "UNMAPPED"]
 
     if week:
-        sales = sales[sales["week_start"] == week]
-        inv = inv[inv["week_start"] == week]
+        sales = sales[sales["week"] == week]
+        inv = inv[inv["week"] == week]
 
     if brand:
         sales = sales[sales["brand"] == brand]
@@ -297,3 +297,15 @@ def export_unmapped(
 
     out = pd.concat([sales, inv], ignore_index=True)
     return csv_response(out, "unmapped.csv")
+
+# ==================================================
+# DASHBOARD SKU EXPORT (NEW)
+# ==================================================
+@router.get("/dashboard-sku")
+def export_dashboard_sku(
+    week: str = Query(None),
+    brand: str = Query(None),
+):
+    df = normalize(pd.read_csv(SALES_FILE))
+    df = apply_filters(df, week, brand, "mapped")
+    return csv_response(df, "dashboard_sku.csv")

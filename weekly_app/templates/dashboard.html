@@ -178,6 +178,11 @@ table {
 <!-- ================= SKU SALES ================= -->
 <h2>
 📦 Sales by SKU – All Channels
+<div style="margin:8px 0;">
+    <a href="/export/dashboard-sku?week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
+        ⬇ Export SKU CSV
+    </a>
+</div>
 &nbsp;|&nbsp;
 <a href="/drilldown?type=sales&week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
     View Channel-wise Drilldown →
@@ -262,6 +267,11 @@ table {
 
 <!-- ================= CHANNEL SUMMARY ================= -->
 <h2>📦 Channel Summary</h2>
+<div style="margin:8px 0;">
+    <a href="/export/channel-summary?week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
+        ⬇ Export Channel CSV
+    </a>
+</div>
 <table>
 <tr>
     <th>Channel</th>
@@ -288,6 +298,11 @@ table {
 
 <!-- ================= CATEGORY SUMMARY ================= -->
 <h2>🧩 Category Summary</h2>
+<div style="margin:8px 0;">
+    <a href="/export/category-summary?week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
+        ⬇ Export Category CSV
+    </a>
+</div>
 <table>
 <tr>
     <th>Category (L0)</th>

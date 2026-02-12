@@ -152,9 +152,8 @@
 <td class="metric"
     data-units="{{ r[w ~ '_units'] }}"
     data-sales="{{ "%.0f"|format(r[w ~ '_sales']) }}">
-    ₹ {{ "%.0f"|format(r[w ~ '_sales']) }}
+    {{ "%.0f"|format(r[w ~ '_sales']) }}
 </td>
-
     {% endfor %}
 
     {% for w in weeks %}
@@ -203,7 +202,7 @@ let showingUnits = false;
 function toggleMetric(){
     showingUnits = !showingUnits;
     document.querySelectorAll(".metric").forEach(td=>{
-        td.innerText = showingUnits ? td.dataset.units : "₹ " + td.dataset.sales;
+        td.innerText = showingUnits ? td.dataset.units : td.dataset.sales;
     });
 }
 
@@ -265,7 +264,10 @@ function exportTable(){
     let csv=[];
     document.querySelectorAll("#trendTable tr").forEach(r=>{
         let row=[];
-        r.querySelectorAll("th,td").forEach(c=>row.push(c.innerText.replace(/,/g,"")));
+        r.querySelectorAll("th,td").forEach((c,i)=>{
+    if(i===0) return;   // skip checkbox column
+    row.push(c.innerText.replace(/,/g,""));
+});
         csv.push(row.join(","));
     });
     const blob=new Blob([csv.join("\n")],{type:"text/csv"});

@@ -151,10 +151,10 @@
 
     {% for w in weeks %}
     <td class="metric"
-        data-units="{{ r[w ~ '_units'] }}"
-        data-sales="{{ "%.0f"|format(r[w ~ '_sales']) }}">
-        ₹ {{ "%.0f"|format(r[w ~ '_sales']) }}
-    </td>
+    data-units="{{ r[w ~ '_units'] }}"
+    data-sales="{{ "%.0f"|format(r[w ~ '_sales']) }}">
+    {{ "%.0f"|format(r[w ~ '_sales']) }}
+</td>
     {% endfor %}
 
     {% for w in weeks %}
@@ -210,7 +210,7 @@ let showingUnits = false;
 function toggleMetric(){
     showingUnits = !showingUnits;
     document.querySelectorAll(".metric").forEach(td=>{
-        td.innerText = showingUnits ? td.dataset.units : "₹ " + td.dataset.sales;
+        td.innerText = showingUnits ? td.dataset.units : td.dataset.sales;
     });
 }
 

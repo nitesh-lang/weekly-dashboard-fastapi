@@ -19,6 +19,11 @@
     ← Back to Dashboard
 </a>
 
+&nbsp;&nbsp;
+
+<a href="/drilldown?type=sales&week={{ week }}{% if brand %}&brand={{ brand }}{% endif %}&export=csv">
+    ⬇ Export CSV
+</a>
 <!-- ========================================================= -->
 <!-- BREADCRUMB                                               -->
 <!-- ========================================================= -->
@@ -242,9 +247,15 @@ function makeSortable(tableId) {
         th.addEventListener("click", () => {
             const rows = Array.from(table.querySelectorAll("tbody tr"));
             rows.sort((a, b) => {
-                const A = a.children[idx]?.innerText.replace(/[₹,%]/g, "") || 0;
-                const B = b.children[idx]?.innerText.replace(/[₹,%]/g, "") || 0;
-                return asc ? A - B : B - A;
+        const A = a.children[idx]?.innerText.replace(/[₹,%]/g, "").trim();
+        const B = b.children[idx]?.innerText.replace(/[₹,%]/g, "").trim();
+        const nA = parseFloat(A);
+        const nB = parseFloat(B);
+
+if (!isNaN(nA) && !isNaN(nB)) {
+    return asc ? nA - nB : nB - nA;
+}
+return asc ? A.localeCompare(B) : B.localeCompare(A);
             });
             asc = !asc;
             rows.forEach(r => table.querySelector("tbody").appendChild(r));

@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
+from fastapi.responses import StreamingResponse
+from io import BytesIO
 from fastapi.templating import Jinja2Templates
 import pandas as pd
 from pathlib import Path
@@ -45,6 +47,20 @@ def round_df(df: pd.DataFrame) -> pd.DataFrame:
                 .astype(int)
             )
     return df
+
+def csv_response(df: pd.DataFrame, filename: str):
+    output = BytesIO()
+    df.to_csv(output, index=False)
+    output.seek(0)
+
+    return StreamingResponse(
+        output,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename={filename}"
+        },
+    )
+
 
 
 def is_amazon(ch: str) -> bool:
@@ -138,6 +154,7 @@ def drilldown(
     channel: str | None = None,
     level: str | None = None,
     value: str | None = None,
+    export: str | None = None,   # ✅ ADD THIS LINE
 ):
     """
     Universal drilldown:
@@ -308,6 +325,9 @@ def drilldown(
 
             sku = round_df(sku)
 
+            if export == "csv":
+             return csv_response(sku, f"sales_drilldown_{week}.csv")
+
             return templates.TemplateResponse(
                 "drilldown_sales.html",
                 {
@@ -349,6 +369,8 @@ def drilldown(
                 sku["channel_contribution_pct"] = 0.0
 
             sku = round_df(sku)
+            if export == "csv":
+             return csv_response(sku, f"sales_drilldown_{week}.csv")
 
             return templates.TemplateResponse(
                 "drilldown_sales.html",
@@ -387,6 +409,9 @@ def drilldown(
             sku["channel_contribution_pct"] = 0.0
 
         sku = round_df(sku)
+
+        if export == "csv":
+         return csv_response(sku, f"sales_drilldown_{week}.csv")
 
         return templates.TemplateResponse(
             "drilldown_sales.html",

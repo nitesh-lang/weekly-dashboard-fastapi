@@ -40,7 +40,7 @@
 
         table {
             border-collapse: collapse;
-            width: 100%;
+            width: max-content;
             margin-top: 10px;
         }
 
@@ -97,6 +97,8 @@
     </select>
 
     <div>
+        <button onclick="applySelection()">Apply Selection</button>
+        <button onclick="resetSelection()">Reset Selection</button>
         <button onclick="toggleMetric()">Toggle Units / ₹</button>
         <button onclick="exportTable()">Export CSV</button>
     </div>
@@ -105,6 +107,9 @@
 <table id="trendTable">
 <thead>
 <tr>
+    <th>
+        <input type="checkbox" id="selectAll">
+    </th>
     <th>Model</th>
     <th>Category L0</th>
     <th>Category L1</th>
@@ -143,6 +148,10 @@
 <tbody>
 {% for r in rows %}
 <tr data-brand="{{ r.brand|lower|trim }}">
+
+    <td>
+        <input type="checkbox" class="rowCheckbox">
+    </td>
 
     <td>{{ r.model }}</td>
     <td>{{ r.category_l0 }}</td>
@@ -199,10 +208,20 @@
 
 /* TEXT FILTER */
 document.getElementById("filterBox").addEventListener("keyup", function () {
+
     const q = this.value.toLowerCase();
-    document.querySelectorAll("#trendTable tbody tr").forEach(r => {
-        r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
+    const rows = document.querySelectorAll("#trendTable tbody tr");
+
+    rows.forEach(r => {
+        const text = r.innerText.toLowerCase();
+
+        if (text.includes(q)) {
+            r.style.display = "";
+        } else {
+            r.style.display = "none";
+        }
     });
+
 });
 
 /* TOGGLE ₹ / UNITS */
@@ -215,7 +234,8 @@ function toggleMetric(){
 }
 
 /* SORTING */
-document.querySelectorAll("th").forEach((header, colIndex) => {
+document.querySelectorAll("th:not(:first-child)").forEach((header, index) => {
+    const colIndex = index + 1;   // shift because checkbox column exists
     let asc = true;
     header.addEventListener("click", () => {
 
@@ -267,7 +287,41 @@ document.getElementById("brandFilter").addEventListener("change", function(){
     }
 });
 
+/* SELECT ALL */
+document.getElementById("selectAll").addEventListener("change", function(){
+    document.querySelectorAll(".rowCheckbox").forEach(cb=>{
+        cb.checked = this.checked;
+    });
+});
+
+/* APPLY SELECTION */
+function applySelection(){
+
+    const rows = document.querySelectorAll("#trendTable tbody tr");
+
+    rows.forEach(r => {
+        const checkbox = r.querySelector(".rowCheckbox");
+
+        if (checkbox.checked) {
+            r.style.display = "";      // show selected
+        } else {
+            r.style.display = "none";  // hide unselected
+        }
+    });
+}
+/* RESET SELECTION */
+function resetSelection(){
+    document.querySelectorAll(".rowCheckbox").forEach(cb=>{
+        cb.checked = false;
+    });
+    document.querySelectorAll("#trendTable tbody tr").forEach(r=>{
+        r.style.display = "";
+    });
+    document.getElementById("selectAll").checked = false;
+}
+
 </script>
 
 </body>
 </html>
+

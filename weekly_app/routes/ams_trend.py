@@ -167,6 +167,7 @@ def get_ams_trend(
     asin: Optional[str] = Query(None),
     brand: Optional[str] = Query(None),
 ):
+    
     # ===============================
     # LOAD DATA
     # ===============================
@@ -316,6 +317,43 @@ def ams_trend_view(request: Request):
         {"request": request}
     )
 
+# ==================================================
+# EXPORT CSV
+# ==================================================
+@router.get("/export")
+def export_ams_trend(
+    week: Optional[int] = Query(None),
+    category_l0: Optional[str] = Query(None),
+    category_l1: Optional[str] = Query(None),
+    category_l2: Optional[str] = Query(None),
+    model: Optional[str] = Query(None),
+    asin: Optional[str] = Query(None),
+    brand: Optional[str] = Query(None),
+):
+    # Reuse existing logic
+    response = get_ams_trend(
+        week=week,
+        weeks=None,
+        category_l0=category_l0,
+        category_l1=category_l1,
+        category_l2=category_l2,
+        model=model,
+        asin=asin,
+        brand=brand,
+    )
+
+    data = json.loads(response.body)
+    df = pd.DataFrame(data["rows"])
+
+    csv_data = df.to_csv(index=False)
+
+    return Response(
+        content=csv_data,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": "attachment; filename=ams_trend_export.csv"
+        },
+    )
 # ==================================================
 # EOF
 # ==================================================

@@ -274,6 +274,7 @@
 
         <button type="button" onclick="loadAMS()">Apply</button>
         <button type="button" class="btn-reset" onclick="resetFilters()">Reset</button>
+        <button type="button" onclick="exportAMS()">Export CSV</button>
 
     </form>
 </div>
@@ -666,6 +667,29 @@ function renderTable(){
 /* ===============================
    MAIN LOAD (UNCHANGED API)
 =============================== */
+
+/* ===============================
+   EXPORT CSV
+=============================== */
+function exportAMS(){
+    let url="/api/ams/export?";
+
+    if(!weekSelect.value){
+        url+="weeks=1&";
+    } else {
+        url+="week="+normalizeWeek(weekSelect.value)+"&";
+    }
+
+    if(catL0.value) url+="category_l0="+encodeURIComponent(catL0.value)+"&";
+    if(catL1.value) url+="category_l1="+encodeURIComponent(catL1.value)+"&";
+    if(catL2.value) url+="category_l2="+encodeURIComponent(catL2.value)+"&";
+    if(modelInput.value) url+="model="+encodeURIComponent(modelInput.value)+"&";
+    if(brandSelect.value) url+="brand="+encodeURIComponent(brandSelect.value)+"&";
+    if(asinInput.value) url+="asin="+encodeURIComponent(asinInput.value)+"&";
+
+    window.open(url, "_blank");
+}
+
 function loadAMS(){
     document.body.classList.add("loading");
 

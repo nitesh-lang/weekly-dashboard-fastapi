@@ -1,6 +1,6 @@
 # ============================================================
 # INVENTORY MODEL SNAPSHOT – AUTO ETL (MODEL + BRAND + WEEK)
-# LOCATION COLUMN-WISE VERSION
+# MODEL LEVEL VERSION (NO LOCATION PIVOT)
 # ============================================================
 
 from pathlib import Path
@@ -22,11 +22,6 @@ OUT_FILE = PROCESSED_DIR / "inventory_model_snapshot.csv"
 # HELPERS
 # ------------------------------------------------------------
 def extract_week(value):
-    """
-    Extracts 'Week XX' from:
-    - Week column
-    - Folder name
-    """
     if pd.isna(value):
         return None
 
@@ -35,11 +30,6 @@ def extract_week(value):
 
 
 def extract_brand(file_path: Path):
-    """
-    Brand detection priority:
-    1. Filename
-    2. Parent folder
-    """
     ref = f"{file_path.parent.name} {file_path.stem}".lower()
 
     if "nexlev" in ref:
@@ -58,14 +48,6 @@ def extract_brand(file_path: Path):
 # MAIN ETL
 # ------------------------------------------------------------
 def run_inventory_etl():
-    """
-    Inventory rules:
-    - Brand + Model is master
-    - Week-wise inventory
-    - Inventory Units = SUM(Qty)
-    - Location column-wise (Pivoted)
-    - Inventory Value = 0
-    """
 
     if not RAW_INV_DIR.exists():
         print("⚠ INVENTORY RAW DIR NOT FOUND – SKIPPING")
@@ -84,18 +66,13 @@ def run_inventory_etl():
 
         df.columns = [c.strip().lower() for c in df.columns]
 
-        # Mandatory columns
         if "model" not in df.columns or "qty" not in df.columns:
             continue
 
-        # ----------------------------------------------------
         # BRAND
-        # ----------------------------------------------------
         df["brand"] = extract_brand(f)
 
-        # ----------------------------------------------------
         # MODEL
-        # ----------------------------------------------------
         df["model"] = (
             df["model"]
             .astype(str)
@@ -103,14 +80,10 @@ def run_inventory_etl():
             .str.upper()
         )
 
-        # ----------------------------------------------------
         # QTY
-        # ----------------------------------------------------
         df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
 
-        # ----------------------------------------------------
         # LOCATION
-        # ----------------------------------------------------
         if "location" in df.columns:
             df["location"] = (
                 df["location"]
@@ -121,9 +94,7 @@ def run_inventory_etl():
         else:
             df["location"] = "Unknown"
 
-        # ----------------------------------------------------
         # WEEK
-        # ----------------------------------------------------
         if "week" in df.columns:
             df["week"] = df["week"].apply(extract_week)
         else:
@@ -134,17 +105,13 @@ def run_inventory_etl():
         if df.empty:
             continue
 
-        # ----------------------------------------------------
-        # AGGREGATION (MODEL + LOCATION LEVEL)
-        # ----------------------------------------------------
+        # MODEL + LOCATION LEVEL AGG
         grp = (
             df.groupby(
                 ["week", "brand", "model", "location"],
                 as_index=False
             )
-            .agg(
-                inventory_units=("qty", "sum")
-            )
+            .agg(inventory_units=("qty", "sum"))
         )
 
         records.append(grp)
@@ -159,31 +126,20 @@ def run_inventory_etl():
     out = pd.concat(records, ignore_index=True)
 
     # --------------------------------------------------------
-    # PIVOT LOCATION COLUMN-WISE
+    # FINAL MODEL LEVEL OUTPUT (NO LOCATION PIVOT)
     # --------------------------------------------------------
-    out_pivot = (
-        out.pivot_table(
-            index=["week", "brand", "model"],
-            columns="location",
-            values="inventory_units",
-            aggfunc="sum",
-            fill_value=0
-        )
-        .reset_index()
+    out_final = (
+        out.groupby(["week", "brand", "model"], as_index=False)
+        .agg(inventory_units=("inventory_units", "sum"))
     )
 
-    # Flatten column index
-    out_pivot.columns.name = None
-    out_pivot.columns = [str(col) for col in out_pivot.columns]
-
-    # Add inventory_value (always 0 per rule)
-    out_pivot["inventory_value"] = 0
+    out_final["inventory_value"] = 0
 
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    out_pivot.to_csv(OUT_FILE, index=False)
+    out_final.to_csv(OUT_FILE, index=False)
 
     print("✅ INVENTORY MODEL SNAPSHOT GENERATED")
-    print(f"📦 Rows written: {len(out_pivot)}")
+    print(f"📦 Rows written: {len(out_final)}")
     print(f"📁 Output: {OUT_FILE}")
 
 

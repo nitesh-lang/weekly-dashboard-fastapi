@@ -1,25 +1,5 @@
-
 # ============================================================
 # INVENTORY DASHBOARD MODULE
-# ============================================================
-# SOURCE: RAW INVENTORY SNAPSHOTS
-# PATH  : data/raw/inventory/Week X/<Brand>/*.xlsx
-#
-# FEATURES
-# --------
-# 1. Multi-brand support (Nexlev, White Mulberry, Audio Array, Tonor)
-# 2. Multi-week support (Week 1...N)
-# 3. DEFAULT VIEW = Latest Week only
-# 4. Optional filters via query params:
-#       ?week=Week 4
-#       ?brand=White Mulberry
-# 5. Week filter is ALWAYS applied BEFORE KPI calculation
-# 6. No HTML dependency for filtering logic
-#
-# NOTE
-# ----
-# This file is intentionally verbose and fully commented
-# for auditability, traceability, and future extensions.
 # ============================================================
 
 from fastapi import APIRouter, Request, Query
@@ -29,87 +9,65 @@ from pathlib import Path
 import pandas as pd
 import re
 
-# ============================================================
-# ROUTER INITIALIZATION
-# ============================================================
-
 router = APIRouter()
 templates = Jinja2Templates(directory="weekly_app/templates")
-
-# ============================================================
-# BASE PATH CONFIGURATION
-# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 RAW_INV_DIR = BASE_DIR / "data" / "raw" / "inventory"
 
 # ============================================================
-# WEEK EXTRACTION HELPERS
+# HELPERS
 # ============================================================
 
 def extract_week(val):
     if pd.isna(val):
         return None
-    match = re.search(r"\d+", str(val))
-    if not match:
-        return None
-    return f"Week {int(match.group())}"
-
+    m = re.search(r"\d+", str(val))
+    return f"Week {int(m.group())}" if m else None
 
 def extract_week_num(val):
     if pd.isna(val):
         return None
-    match = re.search(r"\d+", str(val))
-    if not match:
-        return None
-    return int(match.group())
-
-# ============================================================
-# BRAND EXTRACTION HELPER
-# ============================================================
+    m = re.search(r"\d+", str(val))
+    return int(m.group()) if m else None
 
 def extract_brand(path: Path):
-    for part in path.parts:
-        p = part.lower()
-        if "nexlev" in p:
-            return "Nexlev"
-        if "white" in p or "mulberry" in p:
-            return "White Mulberry"
-        if "audio" in p:
-            return "Audio Array"
-        if "tonor" in p:
-            return "Tonor"
+    p = str(path).lower()
+    if "nexlev" in p: return "Nexlev"
+    if "white" in p or "mulberry" in p: return "White Mulberry"
+    if "audio" in p: return "Audio Array"
+    if "tonor" in p: return "Tonor"
     return "Unknown"
 
 # ============================================================
-# RAW INVENTORY LOADER
+# LOADER
 # ============================================================
 
 def load_all_inventory():
-    """
-    Loads ALL inventory Excel files across:
-    - All weeks
-    - All brands
 
-    Returns a single normalized dataframe.
-    """
     frames = []
 
     for file in RAW_INV_DIR.rglob("*.xlsx"):
         try:
             df = pd.read_excel(file)
-        except Exception:
+        except:
             continue
 
         df.columns = [c.strip().lower() for c in df.columns]
 
-        if "model" not in df.columns or "qty" not in df.columns:
+        # REQUIRE MODEL
+        if "model" not in df.columns:
             continue
 
-        # Brand resolution
+        # SCHEMA FIX (important)
+        if "qty" not in df.columns:
+            if "inventory_units" in df.columns:
+                df["qty"] = df["inventory_units"]
+            else:
+                continue
+
         df["brand"] = extract_brand(file)
 
-        # Week resolution
         if "week" in df.columns:
             df["week"] = df["week"].apply(extract_week)
         else:
@@ -117,25 +75,18 @@ def load_all_inventory():
 
         df = df.dropna(subset=["week"])
 
-        # Safe defaults
-        for col in [
-            "sku",
-            "category_l0",
-            "category_l1",
-            "category_l2",
-            "channel",
-            "type",
-        ]:
+        for col in ["sku","category_l0","category_l1","category_l2","channel","type"]:
             if col not in df.columns:
                 df[col] = ""
 
-        # Normalization
         df["model"] = df["model"].astype(str).str.strip()
         df["sku"] = df["sku"].astype(str).str.strip()
-        df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
-        df["nlc"] = pd.to_numeric(df.get("nlc", 0), errors="coerce").fillna(0)
+        df["channel"] = df["channel"].astype(str).str.title()
+        df["type"] = df["type"].astype(str).str.title()
 
-        # Metrics
+        df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
+        df["nlc"] = pd.to_numeric(df.get("nlc",0), errors="coerce").fillna(0)
+
         df["inventory_units"] = df["qty"]
         df["inventory_value"] = df["qty"] * df["nlc"]
 
@@ -150,151 +101,102 @@ def load_all_inventory():
     return data
 
 # ============================================================
-# INVENTORY DASHBOARD ROUTE
+# DASHBOARD ROUTE
 # ============================================================
 
 @router.get("/inventory-dashboard", response_class=HTMLResponse)
-def inventory_dashboard(
-    request: Request,
-    week: str | None = Query(default=None),
-    brand: str | None = Query(default=None),
-):
+def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str|None=Query(None)):
 
-    # --------------------------------------------------------
-    # LOAD INVENTORY DATA (ALL WEEKS)
-    # --------------------------------------------------------
     df = load_all_inventory()
 
     if df.empty:
-        return templates.TemplateResponse(
-            "inventory_dashboard.html",
-            {
-                "request": request,
-                "rows": [],
-                "latest_week": "NA",
-                "kpis": {},
-                "aging": [],
-                "channel_summary": [],
-                "available_weeks": [],
-                "available_brands": [],
-            },
-        )
+        return templates.TemplateResponse("inventory_dashboard.html",{
+            "request":request,"rows":[],"latest_week":"NA",
+            "kpis":{},"aging":[],"channel_summary":[],
+            "available_weeks":[],"available_brands":[]})
 
-    # --------------------------------------------------------
-    # AVAILABLE FILTER OPTIONS (FOR UI)
-    # --------------------------------------------------------
     available_weeks = sorted(df["week"].dropna().unique(), key=extract_week_num)
     available_brands = sorted(df["brand"].dropna().unique())
 
-    # --------------------------------------------------------
-    # APPLY WEEK FILTER (MANDATORY FIRST)
-    # --------------------------------------------------------
+    # WEEK FILTER
     if week:
-        df = df[df["week"] == week]
+        df = df[df["week"]==week]
         active_week = week
     else:
-        max_week = df["week_num"].max()
-        df = df[df["week_num"] == max_week]
+        mw = df["week_num"].max()
+        df = df[df["week_num"]==mw]
         active_week = df["week"].iloc[0]
 
-    # --------------------------------------------------------
-    # APPLY BRAND FILTER (OPTIONAL)
-    # --------------------------------------------------------
+    # BRAND FILTER
     if brand:
-        df = df[df["brand"] == brand]
+        df = df[df["brand"]==brand]
 
-    # --------------------------------------------------------
-    # FINAL ROWS
-    # --------------------------------------------------------
-    rows = df[[
-        "week",
-        "brand",
-        "model",
-        "sku",
-        "category_l0",
-        "category_l1",
-        "category_l2",
-        "channel",
-        "type",
-        "inventory_units",
-        "nlc",
-        "inventory_value",
-    ]].to_dict(orient="records")
+    # ========================================================
+    # AGGREGATION FIX
+    # ========================================================
+    # BRAND FILTER
+    if brand:
+     df = df[df["brand"]==brand]
 
-    # --------------------------------------------------------
-    # KPI CALCULATION (POST FILTER)
-    # --------------------------------------------------------
-    total_units = sum(r["inventory_units"] for r in rows)
-    total_value = sum(r["inventory_value"] for r in rows)
+# >>> ADD THIS BLOCK <<<
+    df[["category_l0","category_l1","category_l2"]] = \
+    df[["category_l0","category_l1","category_l2"]].fillna("")
+    df_agg = df.groupby(
+    ["week","brand","model","sku",
+     "category_l0","category_l1","category_l2",
+     "channel","type"],
+    as_index=False
+).agg({
+    "inventory_units":"sum",
+    "inventory_value":"sum",
+    "nlc":"mean",
+    "channel":"first",
+    "type":"first"
+})
 
-    in_transit_units = sum(
-        r["inventory_units"]
-        for r in rows
-        if "transit" in str(r["type"]).lower()
-    )
+    rows = df_agg.to_dict(orient="records")
 
-    unsellable_units = sum(
-        r["inventory_units"]
-        for r in rows
-        if "unsellable" in str(r["type"]).lower()
-    )
 
-    kpis = {
-        "total_units": total_units,
-        "total_value": total_value,
-        "in_transit_pct": round((in_transit_units / total_units) * 100, 2)
-        if total_units else 0,
-        "unsellable_pct": round((unsellable_units / total_units) * 100, 2)
-        if total_units else 0,
+
+    # KPIs
+    total_units = df["inventory_units"].sum()
+    total_value = df["inventory_value"].sum()
+
+    in_transit = df[df["type"].str.contains("transit",case=False,na=False)]["inventory_units"].sum()
+    unsellable = df[df["type"].str.contains("unsellable",case=False,na=False)]["inventory_units"].sum()
+
+    kpis={
+        "total_units":int(total_units),
+        "total_value":float(total_value),
+        "in_transit_pct":round((in_transit/total_units)*100,2) if total_units else 0,
+        "unsellable_pct":round((unsellable/total_units)*100,2) if total_units else 0
     }
 
-    # --------------------------------------------------------
-    # AGING BUCKETS
-    # --------------------------------------------------------
-    aging = [
-        {"bucket": "0–30 days", "units": total_units - in_transit_units - unsellable_units},
-        {"bucket": "31–60 days", "units": in_transit_units},
-        {"bucket": "60+ days", "units": unsellable_units},
+    aging=[
+        {"bucket":"0–30 days","units":int(total_units-in_transit-unsellable)},
+        {"bucket":"31–60 days","units":int(in_transit)},
+        {"bucket":"60+ days","units":int(unsellable)}
     ]
 
-    # --------------------------------------------------------
-    # CHANNEL × LOCATION SUMMARY
-    # --------------------------------------------------------
-    summary_map = {}
+    # CHANNEL SUMMARY (use original df)
+    cs = df.groupby(["channel","type"],as_index=False).agg({
+        "inventory_units":"sum",
+        "inventory_value":"sum"
+    })
 
-    for r in rows:
-        key = (r["channel"], r["type"])
-        summary_map.setdefault(key, {"units": 0, "value": 0})
-        summary_map[key]["units"] += r["inventory_units"]
-        summary_map[key]["value"] += r["inventory_value"]
-
-    channel_summary = [
-        {
-            "channel": k[0],
-            "location": k[1],
-            "units": v["units"],
-            "value": v["value"],
-        }
-        for k, v in summary_map.items()
+    channel_summary=[
+        {"channel":r["channel"],"location":r["type"],
+         "units":r["inventory_units"],"value":r["inventory_value"]}
+        for _,r in cs.iterrows()
     ]
 
-    # --------------------------------------------------------
-    # RENDER TEMPLATE
-    # --------------------------------------------------------
-    return templates.TemplateResponse(
-        "inventory_dashboard.html",
-        {
-            "request": request,
-            "rows": rows,
-            "latest_week": active_week,
-            "kpis": kpis,
-            "aging": aging,
-            "channel_summary": channel_summary,
-            "available_weeks": available_weeks,
-            "available_brands": available_brands,
-        },
-    )
-
-# ============================================================
-# END OF FILE
-# ============================================================
+    return templates.TemplateResponse("inventory_dashboard.html",{
+        "request":request,
+        "rows":rows,
+        "latest_week":active_week,
+        "kpis":kpis,
+        "aging":aging,
+        "channel_summary":channel_summary,
+        "available_weeks":available_weeks,
+        "available_brands":available_brands
+    })

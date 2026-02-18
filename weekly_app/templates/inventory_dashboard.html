@@ -5,147 +5,198 @@
 <title>Inventory Dashboard</title>
 
 <!-- ======================================================
-     INVENTORY DASHBOARD UI (Enhanced Version)
+     INVENTORY DASHBOARD UI – SAAS POLISHED VERSION
      - Week + Brand Filters
      - KPI Cards
      - Aging Buckets
      - Channel → Location Summary
      - Inventory Details Table
-     - Text Filter + CSV Export
+     - Global Text Filter
+     - Column-wise Filters (Fast + Combined)
+     - CSV Export (Filtered Only)
+     - Sticky Header
+     - No Section Removed
 ====================================================== -->
 
 <style>
 
-/* ================= GLOBAL ================= */
+/* ======================================================
+   GLOBAL
+====================================================== */
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Inter, Arial, Helvetica, sans-serif;
     margin: 20px;
-    background: #ffffff;
-    color: #222;
+    background: #f6f8fb;
+    color: #1e293b;
 }
 
-h1 { margin-bottom: 4px; }
-h2 { margin-top: 34px; margin-bottom: 10px; }
+h1 { margin-bottom: 6px; font-size: 22px; }
+h2 { margin-top: 40px; margin-bottom: 14px; font-size: 18px; }
 
 a {
     text-decoration: none;
-    color: #0b5ed7;
+    color: #2563eb;
 }
-a:hover { text-decoration: underline; }
 
 .note {
     font-size: 13px;
-    color: #555;
-    margin-bottom: 12px;
+    color: #64748b;
+    margin-bottom: 16px;
 }
 
-/* ================= KPI CARDS ================= */
-
-.kpis {
-    display: flex;
-    gap: 12px;
-    margin: 14px 0 20px 0;
-}
-
-.kpi {
-    border: 1px solid #ddd;
-    padding: 14px;
-    width: 23%;
-    background: #fafafa;
-    border-radius: 4px;
-}
-
-.kpi b {
-    font-size: 14px;
-}
-
-.kpi .val {
-    font-size: 18px;
-    margin-top: 6px;
-    font-weight: bold;
-}
-
-/* ================= FILTER BAR ================= */
+/* ======================================================
+   FILTER BAR
+====================================================== */
 
 .filters {
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 10px;
     display: flex;
-    gap: 14px;
+    gap: 16px;
     align-items: center;
-    margin: 14px 0 20px 0;
+    margin: 16px 0 24px 0;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
 }
 
 .filters select,
 .filters button {
-    padding: 6px;
+    padding: 7px 10px;
     font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
 }
 
 .filters button {
+    background: #2563eb;
+    color: white;
+    border: none;
     cursor: pointer;
 }
 
-/* ================= TOOLBAR ================= */
+/* ======================================================
+   KPI CARDS
+====================================================== */
+
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.kpi {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.kpi b {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.kpi .val {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+/* ======================================================
+   TABLE STYLING
+====================================================== */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #e5e7eb;
+    padding: 6px 8px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+th {
+    background: #f1f5f9;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    text-align: center;
+}
+
+td { text-align: right; }
+
+td:nth-child(-n+9) {
+    text-align: left;
+}
+
+.section-divider {
+    margin-top: 50px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+}
+
+/* ======================================================
+   INVENTORY TOOLBAR
+====================================================== */
 
 .toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    gap: 10px;
 }
 
 .toolbar input {
     padding: 6px;
     font-size: 12px;
     width: 320px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
 }
 
 .toolbar button {
-    padding: 6px 10px;
+    padding: 7px 12px;
     font-size: 12px;
+    border-radius: 6px;
+    border: none;
+    background: #2563eb;
+    color: white;
     cursor: pointer;
 }
 
-/* ================= TABLES ================= */
+/* ======================================================
+   COLUMN FILTER ROW
+====================================================== */
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 10px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 6px;
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-th {
-    background: #f4f4f4;
-    text-align: center;
+#columnFilters th {
+    background: #ffffff;
     position: sticky;
-    top: 0;
+    top: 32px;
     z-index: 1;
 }
 
-td { text-align: right; }
-
-/* Left align first 9 columns (text columns) */
-td:nth-child(-n+9) {
-    text-align: left;
+#columnFilters input {
+    width: 100%;
+    padding: 4px;
+    font-size: 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
 }
 
-.warn {
-    color: #c00;
-    font-weight: bold;
-}
+/* ======================================================
+   RESPONSIVE
+====================================================== */
 
-.section-divider {
-    margin-top: 40px;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
+@media (max-width: 1200px) {
+    .kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 </style>
@@ -157,8 +208,8 @@ td:nth-child(-n+9) {
 <a href="/dashboard">← Back to Dashboard</a>
 
 <p class="note">
-    Showing inventory snapshot for: <b>{{ latest_week }}</b><br>
-    Inventory Value = Units × NLC
+Showing inventory snapshot for: <b>{{ latest_week }}</b><br>
+Inventory Value = Units × NLC
 </p>
 
 <!-- ================= FILTERS ================= -->
@@ -256,7 +307,6 @@ td:nth-child(-n+9) {
 <td>₹ {{ "%.2f"|format(r.value) }}</td>
 </tr>
 {% endfor %}
-
 </table>
 
 <!-- ================= INVENTORY DETAILS ================= -->
@@ -264,7 +314,7 @@ td:nth-child(-n+9) {
 <h2 class="section-divider">📦 Inventory Details</h2>
 
 <div class="toolbar">
-<input id="filterBox" placeholder="Text filter (Model / SKU / Category / Channel)">
+<input id="globalFilter" placeholder="Global Search">
 <button onclick="exportTable()">Export CSV</button>
 </div>
 
@@ -282,14 +332,28 @@ td:nth-child(-n+9) {
 <th>Category L2</th>
 <th>Channel</th>
 <th>Location</th>
-<th>Units</th>
-<th>NLC (₹)</th>
-<th>Value (₹)</th>
+<th onclick="sortTable(9)">Units ⇅</th>
+<th onclick="sortTable(10)">NLC (₹) ⇅</th>
+<th onclick="sortTable(11)">Value (₹) ⇅</th>
+</tr>
+
+<tr id="columnFilters">
+<th><input data-col="0"></th>
+<th><input data-col="1"></th>
+<th><input data-col="2"></th>
+<th><input data-col="3"></th>
+<th><input data-col="4"></th>
+<th><input data-col="5"></th>
+<th><input data-col="6"></th>
+<th><input data-col="7"></th>
+<th><input data-col="8"></th>
+<th><input data-col="9"></th>
+<th><input data-col="10"></th>
+<th><input data-col="11"></th>
 </tr>
 </thead>
 
 <tbody>
-
 {% for r in rows %}
 <tr>
 <td>{{ r.week }}</td>
@@ -306,8 +370,8 @@ td:nth-child(-n+9) {
 <td>₹ {{ "%.2f"|format(r.inventory_value) }}</td>
 </tr>
 {% endfor %}
-
 </tbody>
+
 </table>
 </div>
 
@@ -315,45 +379,99 @@ td:nth-child(-n+9) {
 
 <script>
 
-/* ================= TEXT FILTER ================= */
+const globalInput = document.getElementById("globalFilter");
+const columnInputs = document.querySelectorAll("#columnFilters input");
+const rows = document.querySelectorAll("#inventoryTable tbody tr");
 
-document.getElementById("filterBox").addEventListener("keyup", function () {
+function applyFilters() {
 
-    const q = this.value.toLowerCase();
+    const globalVal = globalInput.value.toLowerCase();
 
-    document.querySelectorAll("#inventoryTable tbody tr").forEach(function(row){
-        const show = row.innerText.toLowerCase().includes(q);
+    rows.forEach(row => {
+
+        let show = true;
+
+    if (globalVal) {
+    const modelCell = row.children[2].innerText.toLowerCase().trim();
+    if (modelCell !== globalVal) {
+        show = false;
+    }
+}
+
+
+        columnInputs.forEach(input => {
+            const col = input.dataset.col;
+            const val = input.value.toLowerCase();
+            if (val) {
+        const cellText = row.children[col].innerText.toLowerCase().trim();
+
+if (cellText !== val) {
+    show = false;
+}
+            }
+        });
+
         row.style.display = show ? "" : "none";
+
     });
+}
 
+globalInput.addEventListener("keyup", applyFilters);
+columnInputs.forEach(input => {
+    input.addEventListener("keyup", applyFilters);
 });
-
-/* ================= EXPORT CSV ================= */
 
 function exportTable() {
 
     let csv = [];
 
-    document.querySelectorAll("#inventoryTable tr").forEach(function(row) {
+    document.querySelectorAll("#inventoryTable thead tr:first-child th")
+        .forEach(th => csv.push(th.innerText));
 
-        let cols = row.querySelectorAll("th,td");
-        let rowData = [];
+    let header = csv.join(",");
+    let lines = [header];
 
-        cols.forEach(function(col) {
-            rowData.push(col.innerText.replace(/,/g,""));
+    rows.forEach(row => {
+
+        if (row.style.display === "none") return;
+
+        let cols = row.querySelectorAll("td");
+        let data = [];
+
+        cols.forEach(col => {
+            data.push(col.innerText.replace(/,/g,""));
         });
 
-        csv.push(rowData.join(","));
-
+        lines.push(data.join(","));
     });
 
-    const blob = new Blob([csv.join("\n")], {type:"text/csv"});
+    const blob = new Blob([lines.join("\n")], {type:"text/csv"});
     const link = document.createElement("a");
-
     link.href = URL.createObjectURL(blob);
     link.download = "inventory_dashboard_filtered.csv";
     link.click();
+}
+function sortTable(col) {
 
+    const tbody = document.querySelector("#inventoryTable tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    const asc = tbody.getAttribute("data-sort") !== "asc";
+
+    rows.sort((a,b)=>{
+        let A = a.children[col].innerText.replace(/[₹,]/g,"");
+        let B = b.children[col].innerText.replace(/[₹,]/g,"");
+
+        A = parseFloat(A) || 0;
+        B = parseFloat(B) || 0;
+
+        return asc ? A - B : B - A;
+    });
+
+    tbody.innerHTML = "";
+    rows.forEach(r => tbody.appendChild(r));
+
+    tbody.setAttribute("data-sort", asc ? "asc" : "desc");
 }
 
 </script>

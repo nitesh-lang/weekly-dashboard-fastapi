@@ -1,6 +1,6 @@
 # ============================================================
-# INVENTORY MODEL SNAPSHOT – AUTO ETL (MODEL + BRAND + WEEK)
-# MODEL LEVEL VERSION (NO LOCATION PIVOT)
+# INVENTORY MODEL SNAPSHOT – STRICT MODEL LEVEL
+# (WEEK + BRAND + MODEL ONLY)
 # ============================================================
 
 from pathlib import Path
@@ -25,8 +25,8 @@ def extract_week(value):
     if pd.isna(value):
         return None
 
-    m = re.search(r"\d+", str(value))
-    return f"Week {int(m.group())}" if m else None
+    match = re.search(r"\d+", str(value))
+    return f"Week {int(match.group())}" if match else None
 
 
 def extract_brand(file_path: Path):
@@ -44,6 +44,17 @@ def extract_brand(file_path: Path):
     return "Unknown"
 
 
+def clean_model(val):
+    if pd.isna(val):
+        return None
+
+    return (
+        str(val)
+        .strip()
+        .upper()
+    )
+
+
 # ------------------------------------------------------------
 # MAIN ETL
 # ------------------------------------------------------------
@@ -53,14 +64,15 @@ def run_inventory_etl():
         print("⚠ INVENTORY RAW DIR NOT FOUND – SKIPPING")
         return
 
-    records = []
+    all_rows = []
 
     # --------------------------------------------------------
-    # RECURSIVE FILE SCAN
+    # SCAN ALL XLSX FILES
     # --------------------------------------------------------
-    for f in RAW_INV_DIR.rglob("*.xlsx"):
+    for file in RAW_INV_DIR.rglob("*.xlsx"):
+
         try:
-            df = pd.read_excel(f)
+            df = pd.read_excel(file)
         except Exception:
             continue
 
@@ -69,77 +81,80 @@ def run_inventory_etl():
         if "model" not in df.columns or "qty" not in df.columns:
             continue
 
-        # BRAND
-        df["brand"] = extract_brand(f)
+        # ------------------------
+        # STANDARDIZE FIELDS
+        # ------------------------
 
-        # MODEL
-        df["model"] = (
-            df["model"]
-            .astype(str)
-            .str.strip()
-            .str.upper()
+        df["model"] = df["model"].apply(clean_model)
+
+        df["qty"] = (
+            pd.to_numeric(df["qty"], errors="coerce")
+            .fillna(0)
         )
 
-        # QTY
-        df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
+        df["brand"] = extract_brand(file)
 
-        # LOCATION
-        if "location" in df.columns:
-            df["location"] = (
-                df["location"]
-                .astype(str)
-                .str.strip()
-                .str.title()
-            )
-        else:
-            df["location"] = "Unknown"
-
-        # WEEK
         if "week" in df.columns:
             df["week"] = df["week"].apply(extract_week)
         else:
-            df["week"] = extract_week(f.parent.name)
+            df["week"] = extract_week(file.parent.name)
 
-        df = df.dropna(subset=["week"])
+        df = df.dropna(subset=["week", "model"])
 
         if df.empty:
             continue
 
-        # MODEL + LOCATION LEVEL AGG
-        grp = (
+        # ------------------------
+        # STRICT MODEL AGGREGATION
+        # ------------------------
+
+        model_grp = (
             df.groupby(
-                ["week", "brand", "model", "location"],
+                ["week", "brand", "model"],
                 as_index=False
             )
-            .agg(inventory_units=("qty", "sum"))
+            .agg(
+                inventory_units=("qty", "sum")
+            )
         )
 
-        records.append(grp)
+        all_rows.append(model_grp)
 
     # --------------------------------------------------------
-    # FINAL OUTPUT
+    # FINAL CONCAT
     # --------------------------------------------------------
-    if not records:
+    if not all_rows:
         print("⚠ NO VALID INVENTORY FILES FOUND")
         return
 
-    out = pd.concat(records, ignore_index=True)
+    final_df = pd.concat(all_rows, ignore_index=True)
 
     # --------------------------------------------------------
-    # FINAL MODEL LEVEL OUTPUT (NO LOCATION PIVOT)
+    # FINAL DEDUPE + CONSOLIDATION
+    # (IMPORTANT – ensures 1 row per model)
     # --------------------------------------------------------
-    out_final = (
-        out.groupby(["week", "brand", "model"], as_index=False)
+    final_df = (
+        final_df
+        .groupby(["week", "brand", "model"], as_index=False)
         .agg(inventory_units=("inventory_units", "sum"))
     )
 
-    out_final["inventory_value"] = 0
+    final_df["inventory_value"] = 0
 
+    # Optional: sort clean output
+    final_df = final_df.sort_values(
+        ["week", "brand", "model"]
+    )
+
+    # --------------------------------------------------------
+    # SAVE OUTPUT
+    # --------------------------------------------------------
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    out_final.to_csv(OUT_FILE, index=False)
+
+    final_df.to_csv(OUT_FILE, index=False)
 
     print("✅ INVENTORY MODEL SNAPSHOT GENERATED")
-    print(f"📦 Rows written: {len(out_final)}")
+    print(f"📦 Rows written: {len(final_df)}")
     print(f"📁 Output: {OUT_FILE}")
 
 

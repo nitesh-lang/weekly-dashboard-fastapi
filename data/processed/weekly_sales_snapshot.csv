@@ -2319,3 +2319,640 @@ Week 7,White Mulberry,WM1ML,Amazon,FBA79612,MAPPED,3.0,7955.084745762712,7955.08
 Week 7,White Mulberry,WM1ML,B2B,FBA79612,MAPPED,1.0,2034.0,2034.0,1073.8702061650001,1073.8702061650001,Monitor Arm,Monitor Arm,
 Week 7,White Mulberry,WM1ML,Blinkit Sales,FBA79612,MAPPED,0.0,0.0,0.0,1073.8702061650001,0.0,Monitor Arm,Monitor Arm,
 Week 7,White Mulberry,nan,Amazon,,MAPPED,6.0,4316.949152542373,4316.949152542373,0.0,0.0,0,0,0
+Week 8,Audio Array,AA-01,1p Sales,FBA75678,MAPPED,5.0,9105.94,9105.94,1129.4357725825676,5647.178862912838,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-01,Amazon,FBA75678,MAPPED,3.0,5463.559322033899,5463.559322033899,1129.4357725825676,3388.3073177477027,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-02,1p Sales,FBA75679,MAPPED,6.0,12702.52,12702.52,1344.9272216715,8069.563330029001,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-02,Amazon,FBA75679,MAPPED,1.0,2117.7966101694915,2117.7966101694915,1344.9272216715,1344.9272216715,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-02,D2C - Audio Array,FBA75679,MAPPED,1.0,2245.0,2245.0,1344.9272216715,1344.9272216715,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-03,1p Sales,FBA75683,MAPPED,11.0,4645.75,4645.75,165.99222708117648,1825.9144978929412,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-03,Amazon,FBA75683,MAPPED,1.0,422.8813559322034,422.8813559322034,165.99222708117648,165.99222708117648,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-03,B2B,FBA75683,MAPPED,20.0,6525.42,6525.42,165.99222708117648,3319.8445416235295,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-03,D2C - Audio Array,FBA75683,MAPPED,1.0,448.0,448.0,165.99222708117648,165.99222708117648,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-04,1p Sales,FBA75684,MAPPED,4.0,5598.3,5598.3,804.2541904178822,3217.016761671529,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-04,Amazon,FBA75684,MAPPED,0.0,0.0,0.0,804.2541904178822,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-04,D2C - Audio Array,FBA75684,MAPPED,1.0,1526.0,1526.0,804.2541904178822,804.2541904178822,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-05,1p Sales,FBA76414,MAPPED,35.0,19250.0,19250.0,258.3388430081176,9041.859505284116,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-05,Amazon,FBA76414,MAPPED,0.0,0.0,0.0,258.3388430081176,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-05,B2B,FBA76414,MAPPED,10.0,4449.15,4449.15,258.3388430081176,2583.388430081176,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-05,D2C - Audio Array,FBA76414,MAPPED,3.0,1749.0,1749.0,258.3388430081176,775.0165290243527,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-06,1p Sales,FBA76597,MAPPED,3.0,3302.54,3302.54,551.8565234438234,1655.5695703314705,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-06,Amazon,FBA76597,MAPPED,0.0,0.0,0.0,551.8565234438234,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-06,D2C - Audio Array,FBA76597,MAPPED,1.0,1167.0,1167.0,551.8565234438234,551.8565234438234,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19,1p Sales,FBA78973,MAPPED,6.0,19312.69,19312.69,1808.0556799681456,10848.334079808874,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19,Amazon,FBA78973,MAPPED,0.0,0.0,0.0,1808.0556799681456,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19,B2B,FBA78973,MAPPED,9.0,22423.73,22423.73,1808.0556799681456,16272.50111971331,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19,D2C - Audio Array,FBA78973,MAPPED,1.0,3413.0,3413.0,1808.0556799681456,1808.0556799681456,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19BL,1p Sales,FBA79355,MAPPED,4.0,16374.58,16374.58,2742.388590096,10969.554360384,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19BL,Amazon,FBA79355,MAPPED,0.0,0.0,0.0,2742.388590096,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19WL,1p Sales,FBA79356,MAPPED,2.0,8071.18,8071.18,2742.388590096,5484.777180192,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-19WL,Amazon,FBA79356,MAPPED,0.0,0.0,0.0,2742.388590096,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-20,1p Sales,FBA78974,MAPPED,5.0,8894.08,8894.08,1021.7782292410586,5108.891146205293,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-20,Amazon,FBA78974,MAPPED,1.0,1778.813559322034,1778.813559322034,1021.7782292410586,1021.7782292410586,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-21,1p Sales,FBA78975,MAPPED,24.0,74543.25,74543.25,1730.5903573745002,41534.168576988006,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-21,Amazon,FBA78975,MAPPED,0.0,0.0,0.0,1730.5903573745002,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-22,1p Sales,FBA78976,MAPPED,4.0,12538.97,12538.97,1730.5903573745002,6922.361429498001,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-22,Amazon,FBA78976,MAPPED,0.0,0.0,0.0,1730.5903573745002,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-25,1p Sales,FBA79064,MAPPED,7.0,4719.48,4719.48,300.7005033,2104.9035231,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-25,Amazon,FBA79064,MAPPED,0.0,0.0,0.0,300.7005033,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-25,D2C - Audio Array,FBA79064,MAPPED,2.0,1436.0,1436.0,300.7005033,601.4010066,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-25M,Amazon,FBA79903,MAPPED,6.0,4316.949152542373,4316.949152542373,284.0,1704.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-25M,D2C - Audio Array,FBA79903,MAPPED,4.0,3051.0,3051.0,284.0,1136.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-26,1p Sales,FBA79694,MAPPED,35.0,16283.88,16283.88,240.56040263999998,8419.6140924,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-26,Amazon,FBA79694,MAPPED,6.0,2791.5254237288136,2791.5254237288136,240.56040263999998,1443.3624158399998,Microphone Accessories,Accessories,
+Week 8,Audio Array,AA-26,D2C - Audio Array,FBA79694,MAPPED,2.0,986.0,986.0,240.56040263999998,481.12080527999996,Microphone Accessories,Accessories,
+Week 8,Audio Array,AC-3XL,1p Sales,FBA79820,MAPPED,9.0,3424.58,3424.58,120.28020131999999,1082.5218118799999,Microphone Accessories,Accessories,
+Week 8,Audio Array,AC-3XL,Amazon,FBA79820,MAPPED,0.0,0.0,0.0,120.28020131999999,0.0,Microphone Accessories,Accessories,
+Week 8,Audio Array,AC-3XL,D2C - Audio Array,FBA79820,MAPPED,1.0,403.0,403.0,120.28020131999999,120.28020131999999,Microphone Accessories,Accessories,
+Week 8,Audio Array,AC-6XL,1p Sales,FBA77171,MAPPED,34.0,16105.12,16105.12,156.364261716,5316.384898343999,Microphone Accessories,Accessories,
+Week 8,Audio Array,AC-6XL,Amazon,FBA77171,MAPPED,1.0,507.6271186440678,507.6271186440678,156.364261716,156.364261716,Microphone Accessories,Accessories,
+Week 8,Audio Array,AH-40 SL,1p Sales,FBA79838,MAPPED,39.0,39627.9,39627.9,440.85533015999994,17193.35787624,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-40 SL,Amazon,FBA79838,MAPPED,0.0,0.0,0.0,440.85533015999994,0.0,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-40 SL,B2B,FBA79838,MAPPED,45.0,37372.88,37372.88,440.85533015999994,19838.4898572,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-40 SL,BI Worldwide,FBA79838,MAPPED,1.0,872.0,872.0,440.85533015999994,440.85533015999994,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-40 SL,D2C - Audio Array,FBA79838,MAPPED,9.0,10503.0,10503.0,440.85533015999994,3967.6979714399995,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-45 BK,1p Sales,FBA79839,MAPPED,24.0,31505.09,31505.09,566.8139959199999,13603.535902079999,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-45 BK,Amazon,FBA79839,MAPPED,1.0,1312.7118644067798,1312.7118644067798,566.8139959199999,566.8139959199999,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-45 BK,D2C - Audio Array,FBA79839,MAPPED,3.0,4175.0,4175.0,566.8139959199999,1700.4419877599998,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-50,1p Sales,FBA79813,MAPPED,58.0,98255.97,98255.97,1108.436258688,64289.303003903995,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-50,Amazon,FBA79813,MAPPED,40.0,62680.50847457627,62680.50847457627,1108.436258688,44337.450347519996,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-50,D2C - Audio Array,FBA79813,MAPPED,27.0,48486.0,48486.0,1108.436258688,29927.778984575998,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-60 BL,1p Sales,FBA79841,MAPPED,7.0,11563.59,11563.59,1007.66932608,7053.68528256,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-60 BL,Amazon,FBA79841,MAPPED,2.0,3388.135593220339,3388.135593220339,1007.66932608,2015.33865216,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-60 BL,B2B,FBA79841,MAPPED,9.0,12093.0,12093.0,1007.66932608,9069.02393472,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-60 BL,D2C - Audio Array,FBA79841,MAPPED,1.0,1796.0,1796.0,1007.66932608,1007.66932608,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-60 RD,1p Sales,FBA79840,MAPPED,2.0,3301.7,3301.7,1007.66932608,2015.33865216,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-60 RD,Amazon,FBA79840,MAPPED,0.0,0.0,0.0,1007.66932608,0.0,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AH-60 RD,D2C - Audio Array,FBA79840,MAPPED,1.0,1796.0,1796.0,1007.66932608,1007.66932608,DJ Headphone,DJ Headphone,
+Week 8,Audio Array,AI-03,1p Sales,FBA76863,MAPPED,1.0,3304.24,3304.24,2887.2583011456495,2887.2583011456495,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-03,Amazon,FBA76863,MAPPED,1.0,3304.237288135593,3304.237288135593,2887.2583011456495,2887.2583011456495,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-04 Red,1p Sales,FBA76864,MAPPED,140.0,558006.4,558006.4,1997.4513878047462,279643.19429266447,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-04 Red,Amazon,FBA76864,MAPPED,2.0,7879.661016949153,7879.661016949153,1997.4513878047462,3994.9027756094924,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-04 Red,B2B,FBA76864,MAPPED,20.0,57542.37,57542.37,1997.4513878047462,39949.027756094925,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-04 Red,Blinkit Sales,FBA76864,MAPPED,2.0,7378.36,7378.36,1997.4513878047462,3994.9027756094924,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-04 Red,D2C - Audio Array,FBA76864,MAPPED,9.0,38395.0,38395.0,1997.4513878047462,17977.062490242715,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-06,Amazon,FBA79008,MAPPED,0.0,0.0,0.0,2706.3045297,0.0,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-10,1p Sales,FBA79103,MAPPED,20.0,50210.21,50210.21,1383.22231518,27664.446303599998,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-10,Amazon,FBA79103,MAPPED,0.0,0.0,0.0,1383.22231518,0.0,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-10,D2C - Audio Array,FBA79103,MAPPED,2.0,5763.0,5763.0,1383.22231518,2766.44463036,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-11,1p Sales,FBA79104,MAPPED,20.0,26169.54,26169.54,781.8213085799999,15636.426171599998,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-11,Amazon,FBA79104,MAPPED,0.0,0.0,0.0,781.8213085799999,0.0,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-11,D2C - Audio Array,FBA79104,MAPPED,1.0,1392.0,1392.0,781.8213085799999,781.8213085799999,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-12,Amazon,FBA79105,MAPPED,15.0,15866.949152542373,15866.949152542373,625.457046864,9381.85570296,Audio Interface,Audio Interface,
+Week 8,Audio Array,AI-13,1p Sales,FBA79961,MAPPED,58.0,132662.71,132662.71,1611.51,93467.58,Mixers,4 channels Mixer,
+Week 8,Audio Array,AI-13,Amazon,FBA79961,MAPPED,20.0,38883.898305084746,38883.898305084746,1611.51,32230.2,Mixers,4 channels Mixer,
+Week 8,Audio Array,AI-13,B2B,FBA79961,MAPPED,20.0,35593.22,35593.22,1611.51,32230.2,Mixers,4 channels Mixer,
+Week 8,Audio Array,AI-13,D2C - Audio Array,FBA79961,MAPPED,5.0,12123.0,12123.0,1611.51,8057.55,Mixers,4 channels Mixer,
+Week 8,Audio Array,AI-14,1p Sales,FBA79968,MAPPED,1.0,5507.63,5507.63,3121.0,3121.0,Mixers,8 channels Mixer,
+Week 8,Audio Array,AI-14,Amazon,FBA79968,MAPPED,9.0,49569.491525423735,49569.491525423735,3121.0,28089.0,Mixers,8 channels Mixer,
+Week 8,Audio Array,AI-14,B2B,FBA79968,MAPPED,10.0,47457.63,47457.63,3121.0,31210.0,Mixers,8 channels Mixer,
+Week 8,Audio Array,AM-C1,1p Sales,FBA75673,MAPPED,174.0,380581.93,380581.93,1361.3790421721176,236879.95333794845,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C1,Amazon,FBA75673,MAPPED,3.0,6734.745762711865,6734.745762711865,1361.3790421721176,4084.1371265163525,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C1,B2B,FBA75673,MAPPED,14.0,24814.0,24814.0,1361.3790421721176,19059.306590409647,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C1,Blinkit Sales,FBA75673,MAPPED,2.0,4423.08,4423.08,1361.3790421721176,2722.758084344235,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C1,D2C - Audio Array,FBA75673,MAPPED,20.0,48492.0,48492.0,1361.3790421721176,27227.580843442352,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C10,1p Sales,FBA75690,MAPPED,7.0,23556.76,23556.76,2132.0685360417174,14924.479752292022,Microphone Conference,Conference Microphone,
+Week 8,Audio Array,AM-C10,Amazon,FBA75690,MAPPED,0.0,0.0,0.0,2132.0685360417174,0.0,Microphone Conference,Conference Microphone,
+Week 8,Audio Array,AM-C11,Amazon,FBA75692,MAPPED,0.0,0.0,0.0,2744.5723277879583,0.0,Microphone Dynamic,USB/XLR Dynamic Mic,
+Week 8,Audio Array,AM-C11,B2B,FBA75692,MAPPED,15.0,50720.34,50720.34,2744.5723277879583,41168.584916819374,Microphone Dynamic,USB/XLR Dynamic Mic,
+Week 8,Audio Array,AM-C11 Pro,1p Sales,FBA79654,MAPPED,6.0,25418.64,25418.64,3148.966644,18893.799864,Bundles,Bundles,
+Week 8,Audio Array,AM-C11 Pro,Amazon,FBA79654,MAPPED,1.0,4236.440677966102,4236.440677966102,3148.966644,3148.966644,Bundles,Bundles,
+Week 8,Audio Array,AM-C11X,1p Sales,FBA78925,MAPPED,3.0,9274.59,9274.59,2004.670022,6014.010066,Microphone Dynamic,XLR Dynamic Mic,
+Week 8,Audio Array,AM-C11X,Amazon,FBA78925,MAPPED,0.0,0.0,0.0,2004.670022,0.0,Microphone Dynamic,XLR Dynamic Mic,
+Week 8,Audio Array,AM-C11X Pro,1p Sales,FBA79846,MAPPED,1.0,2930.89,2930.89,2263.0393999999997,2263.0393999999997,Bundles,AM-C11X Pro,
+Week 8,Audio Array,AM-C11X Pro,Amazon,FBA79846,MAPPED,0.0,0.0,0.0,2263.0393999999997,0.0,Bundles,AM-C11X Pro,
+Week 8,Audio Array,AM-C13,Amazon,FBA76716,MAPPED,0.0,0.0,0.0,492.0,0.0,Microphone Lapel,Lavalier Microphone,
+Week 8,Audio Array,AM-C13,D2C - Audio Array,FBA76716,MAPPED,2.0,1015.0,1015.0,492.0,984.0,Microphone Lapel,Lavalier Microphone,
+Week 8,Audio Array,AM-C2,1p Sales,FBA75674,MAPPED,10.0,33042.4,33042.4,1955.2989532055883,19552.989532055883,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C2,Amazon,FBA75674,MAPPED,2.0,6650.847457627119,6650.847457627119,1955.2989532055883,3910.5979064111766,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C20,1p Sales,FBA76723,MAPPED,1.0,1143.22,1143.22,1139.558156166284,1139.558156166284,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C20,Amazon,FBA76723,MAPPED,0.0,0.0,0.0,1139.558156166284,0.0,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C27,Amazon,FBA76730,MAPPED,1.0,1185.5932203389832,1185.5932203389832,763.3229211475798,763.3229211475798,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C27,D2C - Audio Array,FBA76730,MAPPED,1.0,1257.0,1257.0,763.3229211475798,763.3229211475798,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C28,1p Sales,FBA76862,MAPPED,22.0,28866.04,28866.04,806.3722734324765,17740.190015514483,Microphone Conference,Conference Microphone,
+Week 8,Audio Array,AM-C28,Amazon,FBA76862,MAPPED,2.0,2703.389830508475,2703.389830508475,806.3722734324765,1612.744546864953,Microphone Conference,Conference Microphone,
+Week 8,Audio Array,AM-C29,Amazon,FBA77011,MAPPED,1.0,1694.0677966101696,1694.0677966101696,3247.3528296324757,3247.3528296324757,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C3,1p Sales,FBA75675,MAPPED,10.0,7669.44,7669.44,608.4936539961764,6084.936539961764,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C3,Amazon,FBA75675,MAPPED,0.0,0.0,0.0,608.4936539961764,0.0,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C3,B2B,FBA75675,MAPPED,60.0,35593.22,35593.22,608.4936539961764,36509.61923977058,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C3,BI Worldwide,FBA75675,MAPPED,1.0,648.0,648.0,608.4936539961764,608.4936539961764,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C3,D2C - Audio Array,FBA75675,MAPPED,4.0,3231.0,3231.0,608.4936539961764,2433.9746159847055,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C30,Amazon,FBA78203,MAPPED,0.0,0.0,0.0,2948.04415,0.0,Microphone Condenser,RGB USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C31,1p Sales,FBA78204,MAPPED,0.0,0.0,0.0,3537.6529800000003,0.0,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C31,Amazon,FBA78204,MAPPED,1.0,1694.0677966101696,1694.0677966101696,3537.6529800000003,3537.6529800000003,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C32,Amazon,FBA78205,MAPPED,0.0,0.0,0.0,2417.3962030000002,0.0,Microphone Condenser,RGB USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C33,Amazon,FBA78420,MAPPED,0.0,0.0,0.0,246.90232214594118,0.0,Microphone Lapel,Lavalier Microphone,
+Week 8,Audio Array,AM-C33,D2C - Audio Array,FBA78420,MAPPED,1.0,423.0,423.0,246.90232214594118,246.90232214594118,Microphone Lapel,Lavalier Microphone,
+Week 8,Audio Array,AM-C36,Amazon,FBA78423,MAPPED,0.0,0.0,0.0,419.0176540448236,0.0,Microphone Lapel,Lavalier Microphone,
+Week 8,Audio Array,AM-C39,1p Sales,FBA78960,MAPPED,13.0,17751.69,17751.69,677.12918550754,8802.67941159802,Microphone Condenser,XLR Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C39,Amazon,FBA78960,MAPPED,0.0,0.0,0.0,677.12918550754,0.0,Microphone Condenser,XLR Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C39,B2B,FBA78960,MAPPED,20.0,21949.15,21949.15,677.12918550754,13542.5837101508,Microphone Condenser,XLR Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C3a,1p Sales,FBA79016,MAPPED,6.0,3772.88,3772.88,481.12080527999996,2886.7248316799996,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C3a,Amazon,FBA79016,MAPPED,0.0,0.0,0.0,481.12080527999996,0.0,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C3a,D2C - Audio Array,FBA79016,MAPPED,1.0,673.0,673.0,481.12080527999996,481.12080527999996,Microphone Dynamic,Vocal Microphone,
+Week 8,Audio Array,AM-C4,1p Sales,FBA75676,MAPPED,0.0,0.0,0.0,1568.6994354416545,0.0,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C4,Amazon,FBA75676,MAPPED,0.0,0.0,0.0,1568.6994354416545,0.0,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C4,D2C - Audio Array,FBA75676,MAPPED,2.0,3592.0,3592.0,1568.6994354416545,3137.398870883309,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C40,1p Sales,FBA78961,MAPPED,2.0,4091.52,4091.52,3023.00797824,6046.01595648,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C40,Amazon,FBA78961,MAPPED,1.0,2033.0508474576272,2033.0508474576272,3023.00797824,3023.00797824,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C41,1p Sales,FBA79009,MAPPED,1.0,1363.56,1363.56,962.2416105599999,962.2416105599999,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C41,Amazon,FBK79009,MAPPED,2.0,2752.5423728813557,2752.5423728813557,962.2416105599999,1924.4832211199998,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C41,B2B,FBA79009,MAPPED,10.0,11864.41,11864.41,962.2416105599999,9622.4161056,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C42,1p Sales,FBA79010,MAPPED,3.0,5890.68,5890.68,1383.22231518,4149.66694554,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C42,Amazon,FBA79010,MAPPED,0.0,0.0,0.0,1383.22231518,0.0,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C42,B2B,FBA79010,MAPPED,6.0,10500.0,10500.0,1383.22231518,8299.33389108,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C43,1p Sales,FBA79011,MAPPED,17.0,35960.2,35960.2,1202.8020132,20447.634224399997,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C43,Amazon,FBA79011,MAPPED,0.0,0.0,0.0,1202.8020132,0.0,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C43,B2B,FBA79011,MAPPED,12.0,19576.27,19576.27,1202.8020132,14433.624158399998,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C43,D2C - Audio Array,FBA79011,MAPPED,4.0,8980.0,8980.0,1202.8020132,4811.2080528,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C44,1p Sales,FBA79106,MAPPED,2.0,7535.6,7535.6,2525.8842277200006,5051.768455440001,Microphone Dynamic,Dynamic Microphone,
+Week 8,Audio Array,AM-C44,Amazon,FBA79106,MAPPED,0.0,0.0,0.0,2525.8842277200006,0.0,Microphone Dynamic,Dynamic Microphone,
+Week 8,Audio Array,AM-C44,B2B,FBA79106,MAPPED,16.0,48406.78,48406.78,2525.8842277200006,40414.14764352001,Microphone Dynamic,Dynamic Microphone,
+Week 8,Audio Array,AM-C44 Pro,1p Sales,FBA79655,MAPPED,3.0,13217.79,13217.79,3023.00797824,9069.02393472,Bundles,Bundles,
+Week 8,Audio Array,AM-C44 Pro,Amazon,FBA79655,MAPPED,0.0,0.0,0.0,3023.00797824,0.0,Bundles,Bundles,
+Week 8,Audio Array,AM-C44 Pro,D2C - Audio Array,FBA79655,MAPPED,3.0,9341.0,9341.0,3023.00797824,9069.02393472,Bundles,Bundles,
+Week 8,Audio Array,AM-C45,1p Sales,FBA79379,MAPPED,5.0,14823.74,14823.74,1924.4832211199998,9622.4161056,Microphone Dynamic,Dynamic Microphone,
+Week 8,Audio Array,AM-C45,Amazon,FBA79379,MAPPED,0.0,0.0,0.0,1924.4832211199998,0.0,Microphone Dynamic,Dynamic Microphone,
+Week 8,Audio Array,AM-C45,B2B,FBA79379,MAPPED,16.0,33694.92,33694.92,1924.4832211199998,30791.731537919997,Microphone Dynamic,Dynamic Microphone,
+Week 8,Audio Array,AM-C45,D2C - Audio Array,FBA79379,MAPPED,1.0,3143.0,3143.0,1924.4832211199998,1924.4832211199998,Microphone Dynamic,Dynamic Microphone,
+Week 8,Audio Array,AM-C45 Pro,1p Sales,FBA79653,MAPPED,1.0,3473.73,3473.73,2267.2559836799996,2267.2559836799996,Bundles,Bundles,
+Week 8,Audio Array,AM-C45 Pro,Amazon,FBA79653,MAPPED,0.0,0.0,0.0,2267.2559836799996,0.0,Bundles,Bundles,
+Week 8,Audio Array,AM-C46,1p Sales,FBA79380,MAPPED,37.0,109509.4,109509.4,1864.34312046,68980.69545702,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C46,Amazon,FBA79380,MAPPED,0.0,0.0,0.0,1864.34312046,0.0,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C46,B2B,FBA79380,MAPPED,12.0,25627.12,25627.12,1864.34312046,22372.117445519998,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C46,BI Worldwide,FBA79380,MAPPED,1.0,2592.0,2592.0,1864.34312046,1864.34312046,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C46,Blinkit Sales,FBA79380,MAPPED,4.0,12460.72,12460.72,1864.34312046,7457.37248184,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C46,D2C - Audio Array,FBA79380,MAPPED,1.0,3059.0,3059.0,1864.34312046,1864.34312046,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 8,Audio Array,AM-C47,1p Sales,FBA79783,MAPPED,1.0,2541.53,2541.53,1561.8874554239999,1561.8874554239999,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C47,Amazon,FBA79783,MAPPED,0.0,0.0,0.0,1561.8874554239999,0.0,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C48,1p Sales,FBA79842,MAPPED,0.0,0.0,0.0,1804.2030197999998,0.0,Microphone Dynamic,Microphone Dynamic,
+Week 8,Audio Array,AM-C48,Amazon,FBA79842,MAPPED,0.0,0.0,0.0,1804.2030197999998,0.0,Microphone Dynamic,Microphone Dynamic,
+Week 8,Audio Array,AM-C5,1p Sales,FBA75677,MAPPED,8.0,15905.1,15905.1,1309.5809353361917,10476.647482689534,Microphone Conference,Conference Microphone,
+Week 8,Audio Array,AM-C5,Amazon,FBA75677,MAPPED,0.0,0.0,0.0,1309.5809353361917,0.0,Microphone Conference,Conference Microphone,
+Week 8,Audio Array,AM-C6,1p Sales,FBA75680,MAPPED,2.0,3247.47,3247.47,1674.6423754957998,3349.2847509915996,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C6,Amazon,FBA75680,MAPPED,1.0,1609.322033898305,1609.322033898305,1674.6423754957998,1674.6423754957998,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 8,Audio Array,AM-C7,Amazon,FBA75681,MAPPED,0.0,0.0,0.0,1892.0269891721175,0.0,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-C7,D2C - Audio Array,FBA75681,MAPPED,1.0,1975.0,1975.0,1892.0269891721175,1892.0269891721175,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 8,Audio Array,AM-Mix10,1p Sales,FBA79966,MAPPED,2.0,18642.38,18642.38,5915.46,11830.92,Mixers,10 channels mixer,
+Week 8,Audio Array,AM-Mix10,Amazon,FBA79966,MAPPED,0.0,0.0,0.0,5915.46,0.0,Mixers,10 channels mixer,
+Week 8,Audio Array,AM-Mix4 OTG,1p Sales,FBA79962,MAPPED,1.0,4660.17,4660.17,3095.93,3095.93,Mixers,4 channels mixer with OTG,
+Week 8,Audio Array,AM-Mix4 OTG,Amazon,FBA79962,MAPPED,6.0,27961.016949152545,27961.016949152545,3095.93,18575.579999999998,Mixers,4 channels mixer with OTG,
+Week 8,Audio Array,AM-Mix6,1p Sales,FBA79965,MAPPED,1.0,7202.54,7202.54,4782.72,4782.72,Mixers,6 channels mixer,
+Week 8,Audio Array,AM-Mix6,Amazon,FBA79965,MAPPED,0.0,0.0,0.0,4782.72,0.0,Mixers,6 channels mixer,
+Week 8,Audio Array,AM-Mix8,1p Sales,FBA79963,MAPPED,1.0,17795.76,17795.76,12334.37,12334.37,Mixers,8 channels Mixer,
+Week 8,Audio Array,AM-Mix8,Amazon,FBA79963,MAPPED,0.0,0.0,0.0,12334.37,0.0,Mixers,8 channels Mixer,
+Week 8,Audio Array,AM-Pro12,1p Sales,FBA79964,MAPPED,1.0,19490.68,19490.68,13404.19,13404.19,Mixers,12 channels Mixer,
+Week 8,Audio Array,AM-Pro12,Amazon,FBA79964,MAPPED,0.0,0.0,0.0,13404.19,0.0,Mixers,12 channels Mixer,
+Week 8,Audio Array,AM-S1,1p Sales,FBA79482,MAPPED,35.0,256928.86,256928.86,4106.252503776,143718.83763216,Monitor Speakers,Studio Monitor Speaker,
+Week 8,Audio Array,AM-S1,Amazon,FBA79482,MAPPED,14.0,98716.94915254238,98716.94915254238,4106.252503776,57487.535052864,Monitor Speakers,Studio Monitor Speaker,
+Week 8,Audio Array,AM-S1,B2B,FBA79482,MAPPED,80.0,403389.83,403389.83,4106.252503776,328500.20030207996,Monitor Speakers,Studio Monitor Speaker,
+Week 8,Audio Array,AM-S1,D2C - Audio Array,FBA79482,MAPPED,3.0,23713.0,23713.0,4106.252503776,12318.757511328,Monitor Speakers,Studio Monitor Speaker,
+Week 8,Audio Array,AM-W10,1p Sales,FBA75686,MAPPED,2.0,6438.14,6438.14,4551.225241642353,9102.450483284705,Microphone Wireless Lapel,Wireless Microphone,
+Week 8,Audio Array,AM-W11,Amazon,FBA75687,MAPPED,0.0,0.0,0.0,2635.8982988235293,0.0,Microphone Wireless Lapel,Wireless Microphone,
+Week 8,Audio Array,AM-W12,Amazon,FBA75688,MAPPED,0.0,0.0,0.0,2571.526887736471,0.0,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W12,B2B,FBA75688,MAPPED,24.0,62644.07,62644.07,2571.526887736471,61716.64530567531,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W13,1p Sales,FBA75689,MAPPED,1.0,1694.07,1694.07,1204.1112916313234,1204.1112916313234,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W13,Amazon,FBA75689,MAPPED,0.0,0.0,0.0,1204.1112916313234,0.0,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W13,D2C - Audio Array,FBA75689,MAPPED,1.0,1796.0,1796.0,1204.1112916313234,1204.1112916313234,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W14,1p Sales,FBA75691,MAPPED,1.0,5507.63,5507.63,3842.8969395782347,3842.8969395782347,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W14,Amazon,FBA75691,MAPPED,1.0,5507.627118644068,5507.627118644068,3842.8969395782347,3842.8969395782347,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W14,B2B,FBA75691,MAPPED,16.0,73084.75,73084.75,3842.8969395782347,61486.351033251754,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W15,Amazon,FBA78206,MAPPED,0.0,0.0,0.0,10848.802471999998,0.0,Microphone Wireless Lapel,Wireless Mic with Charging Case,
+Week 8,Audio Array,AM-W16,1p Sales,FBA79108,MAPPED,2.0,1884.6,1884.6,697.6251676559999,1395.2503353119998,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W16,Amazon,FBA79108,MAPPED,0.0,0.0,0.0,697.6251676559999,0.0,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W16,Blinkit Sales,FBA79108,MAPPED,12.0,15734.16,15734.16,697.6251676559999,8371.502011871999,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W16,D2C - Audio Array,FBA79108,MAPPED,5.0,6059.0,6059.0,697.6251676559999,3488.1258382799997,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W17,1p Sales,FBA79107,MAPPED,3.0,4319.5,4319.5,1022.38171122,3067.1451336600003,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W17,Amazon,FBA79107,MAPPED,1.0,1482.2033898305085,1482.2033898305085,1022.38171122,1022.38171122,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W17,B2B,FBA79107,MAPPED,20.0,23728.81,23728.81,1022.38171122,20447.6342244,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W17,Blinkit Sales,FBA79107,MAPPED,16.0,22290.88,22290.88,1022.38171122,16358.10737952,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W17,D2C - Audio Array,FBA79107,MAPPED,4.0,6105.0,6105.0,1022.38171122,4089.52684488,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W18,1p Sales,FBA79109,MAPPED,31.0,31450.84,31450.84,565.316946204,17524.825332324002,Speaker Karaoke,Microphone with Speaker,
+Week 8,Audio Array,AM-W18,Amazon,FBA79109,MAPPED,1.0,1056.7796610169491,1056.7796610169491,565.316946204,565.316946204,Speaker Karaoke,Microphone with Speaker,
+Week 8,Audio Array,AM-W18,B2B,FBA79109,MAPPED,1.0,1081.0,1081.0,565.316946204,565.316946204,Speaker Karaoke,Microphone with Speaker,
+Week 8,Audio Array,AM-W18,BI Worldwide,FBA79109,MAPPED,1.0,936.0,936.0,565.316946204,565.316946204,Speaker Karaoke,Microphone with Speaker,
+Week 8,Audio Array,AM-W18,Blinkit Sales,FBA79109,MAPPED,0.0,0.0,0.0,565.316946204,0.0,Speaker Karaoke,Microphone with Speaker,
+Week 8,Audio Array,AM-W18,D2C - Audio Array,FBA79109,MAPPED,2.0,1077.0,1077.0,565.316946204,1130.633892408,Speaker Karaoke,Microphone with Speaker,
+Week 8,Audio Array,AM-W19,1p Sales,FBA79815,MAPPED,8.0,11434.98,11434.98,1069.2909897348002,8554.327917878401,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W19,Amazon,FBA79815,MAPPED,6.0,10161.77966101695,10161.77966101695,1069.2909897348002,6415.7459384088015,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W19,B2B,FBA79815,MAPPED,20.0,29661.02,29661.02,1069.2909897348002,21385.819794696003,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W19,D2C - Audio Array,FBA79815FBA79967,MAPPEDMAPPED,20.0,35915.0,35915.0,1069.2909897348002,7485.0369281436015,Microphone Wireless LapelMicrophone Wireless Lapel,Wireless Lapel MicrophoneWireless Lapel Microphone,
+Week 8,Audio Array,AM-W20,Amazon,FBA79444,MAPPED,1.0,1694.0677966101696,1694.0677966101696,1996.651341912,1996.651341912,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W21,1p Sales,FBA79722,MAPPED,1.0,2572.04,2572.04,2586.02432838,2586.02432838,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W21,Amazon,FBA79722,MAPPED,0.0,0.0,0.0,2586.02432838,0.0,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W22,1p Sales,FBA79816,MAPPED,9.0,22923.61,22923.61,1759.6993453115997,15837.294107804397,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W22,Amazon,FBA79816,MAPPED,1.0,2795.762711864407,2795.762711864407,1759.6993453115997,1759.6993453115997,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W22,B2B,FBA79816,MAPPED,50.0,103813.56,103813.56,1759.6993453115997,87984.96726557998,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W22,D2C - Audio Array,FBA79816,MAPPED,24.0,73424.0,73424.0,1759.6993453115997,42232.7842874784,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W23,1p Sales,FBA79957,MAPPED,1.0,2541.52,2541.52,1481.95,1481.95,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W23,Amazon,FBA79957,MAPPED,1.0,2542.3728813559323,2542.3728813559323,1481.95,1481.95,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W23,D2C - Audio Array,FBA79957,MAPPED,1.0,2694.0,2694.0,1481.95,1481.95,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W24,1p Sales,FBA79958,MAPPED,9.0,13927.95,13927.95,856.35,7707.150000000001,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W24,Amazon,FBA79958,MAPPED,2.0,3220.3389830508477,3220.3389830508477,856.35,1712.7,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W24,D2C - Audio Array,FBA79958,MAPPED,7.0,11864.0,11864.0,856.35,5994.45,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 8,Audio Array,AM-W32,1p Sales,FBA79445,MAPPED,6.0,17505.81,17505.81,2005.0709560044004,12030.425736026402,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W32,Amazon,FBA79445,MAPPED,0.0,0.0,0.0,2005.0709560044004,0.0,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W32,D2C - Audio Array,FBA79445,MAPPED,2.0,7185.0,7185.0,2005.0709560044004,4010.141912008801,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W33,1p Sales,FBA79446,MAPPED,2.0,3388.14,3388.14,802.2689428044,1604.5378856088,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W33,Amazon,FBA79446,MAPPED,1.0,1694.0677966101696,1694.0677966101696,802.2689428044,802.2689428044,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W33,B2B,FBA79446,MAPPED,60.0,67627.12,67627.12,802.2689428044,48136.136568264,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W33,D2C - Audio Array,FBA79446,MAPPED,1.0,1796.0,1796.0,802.2689428044,802.2689428044,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W34,1p Sales,FBA79447,MAPPED,1.0,3388.98,3388.98,2138.5819794696004,2138.5819794696004,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W34,Amazon,FBA79447,MAPPED,0.0,0.0,0.0,2138.5819794696004,0.0,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W34,D2C - Audio Array,FBA79447,MAPPED,4.0,14369.0,14369.0,2138.5819794696004,8554.327917878401,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W35,1p Sales,FBA79448,MAPPED,2.0,6100.0,6100.0,1804.2030197999998,3608.4060395999995,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W35,Amazon,FBA79448,MAPPED,1.0,3388.983050847458,3388.983050847458,1804.2030197999998,1804.2030197999998,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W36,1p Sales,FBA79449,MAPPED,4.0,21013.55,21013.55,3341.3839926695996,13365.535970678398,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W36,Amazon,FBA79449,MAPPED,0.0,0.0,0.0,3341.3839926695996,0.0,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W36,B2B,FBA79449,MAPPED,10.0,35593.22,35593.22,3341.3839926695996,33413.839926696,Microphone Wireless Handheld,Wireless Microphone,
+Week 8,Audio Array,AM-W45,1p Sales,FBA79005,MAPPED,14.0,60496.6,60496.6,2682.2484894360005,37551.478852104,Microphone Conference,Wireless Conference Microphone,
+Week 8,Audio Array,AM-W45,Amazon,FBA79005,MAPPED,2.0,8642.372881355932,8642.372881355932,2682.2484894360005,5364.496978872001,Microphone Conference,Wireless Conference Microphone,
+Week 8,Audio Array,AM-W45,B2B,FBA79005,MAPPED,20.0,65254.24,65254.24,2682.2484894360005,53644.96978872001,Microphone Conference,Wireless Conference Microphone,
+Week 8,Audio Array,AM-W45,Blinkit Sales,FBA79005,MAPPED,1.0,4099.18,4099.18,2682.2484894360005,2682.2484894360005,Microphone Conference,Wireless Conference Microphone,
+Week 8,Audio Array,AM-W45,D2C - Audio Array,FBA79005,MAPPED,1.0,4581.0,4581.0,2682.2484894360005,2682.2484894360005,Microphone Conference,Wireless Conference Microphone,
+Week 8,Audio Array,AM-W46,Amazon,FBA79230,MAPPED,0.0,0.0,0.0,3945.1906032959996,0.0,Speaker Karaoke,Microphone with Speaker,
+Week 8,Audio Array,AM-W47 Wired,1p Sales,FBA79959,MAPPED,4.0,4064.4,4064.4,476.3,1905.2,Voice Amplifier,Wired Voice Amplifier,
+Week 8,Audio Array,AM-W47 Wired,Amazon,FBA79959,MAPPED,0.0,0.0,0.0,476.3,0.0,Voice Amplifier,Wired Voice Amplifier,
+Week 8,Audio Array,AM-W47 Wireless,1p Sales,FBA79960,MAPPED,4.0,6776.26,6776.26,871.16,3484.64,Voice Amplifier,Wireless Voice Amplifier,
+Week 8,Audio Array,AM-W47 Wireless,Amazon,FBA79960,MAPPED,1.0,1694.9152542372883,1694.9152542372883,871.16,871.16,Voice Amplifier,Wireless Voice Amplifier,
+Week 8,Audio Array,GB-01 (AM-C43 +AI-10),Amazon,FBA79824,MAPPED,2.0,9320.338983050848,9320.338983050848,2585.9936,5171.9872,Bundles,GB-01,
+Week 8,Audio Array,GB-02 (AM-C43 + AI-11),1p Sales,FBA79825,MAPPED,0.0,0.0,0.0,1983.58,0.0,Bundles,GB-02,
+Week 8,Audio Array,GB-02 (AM-C43 + AI-11),Amazon,FBA79825,MAPPED,1.0,3304.237288135593,3304.237288135593,1983.58,1983.58,Bundles,GB-02,
+Week 8,Audio Array,GB-03 (AI-12 + AM-C43),Amazon,FBA79830,MAPPED,0.0,0.0,0.0,1828.2802,0.0,Bundles,GB-03,
+Week 8,Audio Array,GB-04 (AM-C45 + AI-06),Amazon,FBA79831,MAPPED,0.0,0.0,0.0,4630.8156,0.0,Bundles,GB-04,
+Week 8,Audio Array,GB-05 (AM-C43 + AI-06),Amazon,FBA79832,MAPPED,0.0,0.0,0.0,3909.104,0.0,Bundles,GB-05,
+Week 8,Audio Array,KB-01 (AM-W32 + AI-12),Amazon,FBA79822,MAPPED,0.0,0.0,0.0,2630.5268,0.0,Bundles,KB-01,
+Week 8,Audio Array,M8,1p Sales,FBA79972,MAPPED,1.0,6778.81,6778.81,4247.185799999999,4247.185799999999,Mixers,8 channels Mixer,
+Week 8,Audio Array,PB-01 (AM-C11 + AI-04),1p Sales,FBA79823,MAPPED,0.0,0.0,0.0,4859.948,0.0,Bundles,PB-01,
+Week 8,Audio Array,PB-01 (AM-C11 + AI-04),Amazon,FBA79823,MAPPED,0.0,0.0,0.0,4859.948,0.0,Bundles,PB-01,
+Week 8,Audio Array,PB-02 (AI-04 Red + AM-C11 + AA-05),1p Sales,FBA79826,MAPPED,0.0,0.0,0.0,5118.2854,0.0,Bundles,PB-02,
+Week 8,Audio Array,PB-02 (AI-04 Red + AM-C11 + AA-05),Amazon,FBA79826,MAPPED,0.0,0.0,0.0,5118.2854,0.0,Bundles,PB-02,
+Week 8,Audio Array,PB-03 (AI-04 Red + AM-C11 x 2),1p Sales,FBA79827,MAPPED,2.0,23727.12,23727.12,7722.439199999999,15444.878399999998,Bundles,PB-03,
+Week 8,Audio Array,PB-03 (AI-04 Red + AM-C11 x 2),Amazon,FBA79827,MAPPED,0.0,0.0,0.0,7722.439199999999,0.0,Bundles,PB-03,
+Week 8,Audio Array,PB-04 (AI-04 Red + AM-C44 x 2),1p Sales,FBA79833,MAPPED,1.0,11344.92,11344.92,7169.514799999999,7169.514799999999,Bundles,PB-04,
+Week 8,Audio Array,PB-04 (AI-04 Red + AM-C44 x 2),Amazon,FBA79833,MAPPED,0.0,0.0,0.0,7169.514799999999,0.0,Bundles,PB-04,
+Week 8,Audio Array,PB-05 (AA-05 + AM-C11 + AI-04),Amazon,FBA79834,MAPPED,0.0,0.0,0.0,5118.2854,0.0,Bundles,PB-05,
+Week 8,Audio Array,PB-06 (AA-05 + AM-C44 + AI-04),Amazon,FBA79835,MAPPED,0.0,0.0,0.0,4841.8232,0.0,Bundles,PB-06,
+Week 8,Audio Array,PB-07 (AA-05 + AM-C45 + AI-04),Amazon,FBA79836,MAPPED,0.0,0.0,0.0,4180.2798,0.0,Bundles,PB-07,
+Week 8,Audio Array,PB-09 (AM-C45 + AI-06 + AA-05),Amazon,FBA79847,MAPPED,0.0,0.0,0.0,4889.153,0.0,Bundles,PB-09,
+Week 8,Audio Array,PB-10 (AM-C2+AI-04+AH-60-BL),Amazon,FBA79904,MAPPED,0.0,0.0,0.0,4986.467599999999,0.0,Bundles,PB-10,
+Week 8,Audio Array,PB-11 (AM-C44+AA-05+AH-45-BK),1p Sales,FBA79905,MAPPED,0.0,0.0,0.0,3425.8468000000003,0.0,Bundles,PB-11,
+Week 8,Audio Array,PB-11 (AM-C44+AA-05+AH-45-BK),Amazon,FBA79905,MAPPED,0.0,0.0,0.0,3425.8468000000003,0.0,Bundles,PB-11,
+Week 8,Audio Array,PB-12 (AM-C11+AA-05+AI-04+AH-60-RD),1p Sales,FBA79906,MAPPED,2.0,19901.69,19901.69,6152.0362,12304.0724,Bundles,PB-12,
+Week 8,Audio Array,PB-12 (AM-C11+AA-05+AI-04+AH-60-RD),Amazon,FBA79906,MAPPED,1.0,9914.406779661018,9914.406779661018,6152.0362,6152.0362,Bundles,PB-12,
+Week 8,Audio Array,SB-01,1p Sales,FBA79708,MAPPED,3.0,3302.54,3302.54,684.4,2053.2,Sound Bar,Sound Bar,
+Week 8,Audio Array,SB-01,Amazon,FBA79708,MAPPED,2.0,2032.2033898305085,2032.2033898305085,684.4,1368.8,Sound Bar,Sound Bar,
+Week 8,Audio Array,SB-01,D2C - Audio Array,FBK79708,MAPPED,25.0,29174.0,29174.0,684.4,17110.0,Sound Bar,Sound Bar,
+Week 8,Audio Array,SB-01,POP,FBA79708,MAPPED,1.0,997.0,997.0,684.4,684.4,Sound Bar,Sound Bar,
+Week 8,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",1p Sales,FBA79821,MAPPED,1.0,16523.73,16523.73,9527.5088,9527.5088,Bundles,UB-01,
+Week 8,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",Amazon,FBA79821,MAPPED,1.0,16524.57627118644,16524.57627118644,9527.5088,9527.5088,Bundles,UB-01,
+Week 8,Audio Array,UB-02 (AM-S1 + AA-21),1p Sales,FBA79845,MAPPED,1.0,9829.66,9829.66,5836.846399999999,5836.846399999999,Bundles,UB-02,
+Week 8,Audio Array,UB-02 (AM-S1 + AA-21),Amazon,FBA79845,MAPPED,0.0,0.0,0.0,5836.846399999999,0.0,Bundles,UB-02,
+Week 8,Audio Array,UB-03 (AM-S1 + AA-22),1p Sales,FBA79969,MAPPED,0.0,0.0,0.0,5836.846399999999,0.0,Bundles,UB-03,
+Week 8,Audio Array,UB-03 (AM-S1 + AA-22),Amazon,FBA79969,MAPPED,0.0,0.0,0.0,5836.846399999999,0.0,Bundles,UB-03,
+Week 8,Nexlev,,Blinkit Sales,FBA79266,MAPPED,0.0,0.0,0.0,0.0,0.0,0,0,0
+Week 8,Nexlev,,CRED_B2C,FBK79347,MAPPED,2.0,914.0,914.0,0.0,0.0,0,0,0
+Week 8,Nexlev,,D2C - Nexlev,FBA79266,MAPPED,8.0,5044.0,5044.0,0.0,0.0,0,0,0
+Week 8,Nexlev,,Pharmaeasy,FBK79598,MAPPED,2.0,3366.17,3366.17,0.0,0.0,0,0,0
+Week 8,Nexlev,AP-01,Amazon,FBA79683,MAPPED,0.0,0.0,0.0,8723.1,0.0,Home & Kitchen,Air Purifier,Air Purifier
+Week 8,Nexlev,AP-01 HEPA,Amazon,FBA79777,MAPPED,0.0,0.0,0.0,2350.0,0.0,Home & Kitchen,HEPA,Spares
+Week 8,Nexlev,AP-03,Amazon,FBA79692,MAPPED,3.0,10156.610169491525,10156.610169491525,1346.8,4040.3999999999996,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 8,Nexlev,AP-03,B2B,FBA79692,MAPPED,4.0,10924.0,10924.0,1346.8,5387.2,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 8,Nexlev,AP-03,Blinkit Sales,FBA79692,MAPPED,2.0,6886.36,6886.36,1346.8,2693.6,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 8,Nexlev,AP-03,D2C - Nexlev,FBA79692,MAPPED,2.0,7185.0,7185.0,1346.8,2693.6,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 8,Nexlev,AP-03 HEPA,Amazon,FBA79778,MAPPED,2.0,1862.7118644067798,1862.7118644067798,500.0,1000.0,Home & Kitchen,HEPA,Spares
+Week 8,Nexlev,BM-02,Amazon,FBA79598,MAPPED,1.0,1685.5932203389832,1685.5932203389832,882.8127968399999,882.8127968399999,HPC,Electric Massagers,Back & Shoulder Massager
+Week 8,Nexlev,BR-01,Amazon,FBA79570,MAPPED,3.0,4050.0,4050.0,508.012479,1524.037437,HPC,Skin Care,Blackhead Remover
+Week 8,Nexlev,BR-01,Blinkit Sales,FBA79570,MAPPED,0.0,0.0,0.0,508.012479,0.0,HPC,Skin Care,Blackhead Remover
+Week 8,Nexlev,CF-01,Amazon,FBA79484,MAPPED,3.0,3811.0169491525426,3811.0169491525426,645.2114448,1935.6343344,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker
+Week 8,Nexlev,CFM-01,Amazon,FBA79590,MAPPED,22.0,50026.27966101695,50026.27966101695,1088.27562168,23942.063676960002,HPC,Electric Massagers,Calf Massager
+Week 8,Nexlev,CFM-01,B2B,FBA79590,MAPPED,12.0,26091.0,26091.0,1088.27562168,13059.307460160002,HPC,Electric Massagers,Calf Massager
+Week 8,Nexlev,CFM-01,Blinkit Sales,FBA79590,MAPPED,3.0,7131.54,7131.54,1088.27562168,3264.8268650400005,HPC,Electric Massagers,Calf Massager
+Week 8,Nexlev,CFM-02,Amazon,FBA79689,MAPPED,4.0,20335.593220338986,20335.593220338986,3048.1,12192.4,HPC,Electric Massagers,Complete Leg Massager
+Week 8,Nexlev,CFM-03,Amazon,FBA79849,MAPPED,3.0,12709.322033898306,12709.322033898306,1974.0,5922.0,HPC,Electric Massagers,Calf Massager
+Week 8,Nexlev,CM-01-BL,Amazon,FBA79464,MAPPED,6.0,6351.6949152542375,6351.6949152542375,525.0418992000001,3150.251395200001,HPC,Electric Massagers,Electric Heating Pads
+Week 8,Nexlev,CM-01-BL,Blinkit Sales,FBA79464,MAPPED,1.0,1106.18,1106.18,525.0418992000001,525.0418992000001,HPC,Electric Massagers,Electric Heating Pads
+Week 8,Nexlev,CM-01-BL,D2C - Nexlev,FBA79464,MAPPED,15.0,17504.0,17504.0,525.0418992000001,7875.628488000001,HPC,Electric Massagers,Electric Heating Pads
+Week 8,Nexlev,CM-02-PR,Amazon,FBA79472,MAPPED,6.0,6713.559322033899,6713.559322033899,525.0418992000001,3150.251395200001,HPC,Electric Massagers,Electric Heating Pads
+Week 8,Nexlev,CM-02-PR,BI Worldwide,FBA79472,MAPPED,1.0,1132.0,1132.0,525.0418992000001,525.0418992000001,HPC,Electric Massagers,Electric Heating Pads
+Week 8,Nexlev,CR-01,Amazon,FBA79265,MAPPED,7.0,3554.237288135593,3554.237288135593,505.75464576,3540.28252032,HPC,Skin Care,Callus Remover
+Week 8,Nexlev,CR-01,BI Worldwide,FBA79265,MAPPED,4.0,2519.0,2519.0,505.75464576,2023.01858304,HPC,Skin Care,Callus Remover
+Week 8,Nexlev,CR-01,Blinkit Sales,FBA79265,MAPPED,1.0,819.18,819.18,505.75464576,505.75464576,HPC,Skin Care,Callus Remover
+Week 8,Nexlev,CR-01,D2C - Nexlev,FBA79265,MAPPED,11.0,6805.0,6805.0,505.75464576,5563.3011033600005,HPC,Skin Care,Callus Remover
+Week 8,Nexlev,CR-01,Myntra,FBA79265,MAPPED,1.0,1464.0,1464.0,505.75464576,505.75464576,HPC,Skin Care,Callus Remover
+Week 8,Nexlev,DF-01-BK,Amazon,FBA79174,MAPPED,0.0,0.0,0.0,1009.5692839049999,0.0,HPC,Oral Care,Dental Flosser
+Week 8,Nexlev,DH-01,Amazon,,MAPPED,2.0,6777.966101694916,6777.966101694916,0.0,0.0,0,0,0
+Week 8,Nexlev,EA-01,Amazon,FBA79350,MAPPED,24.0,19595.76271186441,19595.76271186441,677.3499720000001,16256.399328000003,HPC,Hair Care,Hair Oil Applicator
+Week 8,Nexlev,EA-01,Blinkit Sales,FBA79350,MAPPED,1.0,983.18,983.18,677.3499720000001,677.3499720000001,HPC,Hair Care,Hair Oil Applicator
+Week 8,Nexlev,EA-02,Amazon,FBA79573,MAPPED,2.0,4744.067796610169,4744.067796610169,1281.3203637,2562.6407274,HPC,Hair Care,Hair Oil Applicator
+Week 8,Nexlev,EA-02,Blinkit Sales,FBA79573,MAPPED,2.0,4918.36,4918.36,1281.3203637,2562.6407274,HPC,Hair Care,Hair Oil Applicator
+Week 8,Nexlev,EA-02,D2C - Nexlev,FBA79573,MAPPED,1.0,2826.0,2826.0,1281.3203637,1281.3203637,HPC,Hair Care,Hair Oil Applicator
+Week 8,Nexlev,EM-02,Pharmaeasy,FBA79595,MAPPED,3.0,5132.73,5132.73,1354.6999440000002,4064.099832000001,HPC,Electric Massagers,Eye Massager - Pro
+Week 8,Nexlev,ET-01-BK,CRED_B2C,FBA79233,MAPPED,5.0,1226.0,1226.0,266.7701166,1333.850583,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-01-BK,Pharmaeasy,FBA79233,MAPPED,2.0,717.93,717.93,266.7701166,533.5402332,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-01-BK_N,Amazon,FBA79373,MAPPED,32.0,8108.474576271187,8108.474576271187,183.63710352,5876.38731264,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-01-BK_N,B2B,FBA79373,MAPPED,1.0,381.0,381.0,183.63710352,183.63710352,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-01-BK_N,POP,FBA79373,MAPPED,5.0,1267.0,1267.0,183.63710352,918.1855176,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-02-GN,CRED_B2C,FBA79234,MAPPED,5.0,1187.0,1187.0,266.7701166,1333.850583,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-02-GN,Pharmaeasy,FBA79234,MAPPED,1.0,365.8,365.8,266.7701166,266.7701166,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-02-GN_N,Amazon,FBA79374,MAPPED,21.0,5321.186440677966,5321.186440677966,183.63710352,3856.37917392,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-02-GN_N,B2B,FBA79374,MAPPED,3.0,720.0,720.0,183.63710352,550.9113105600001,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ET-02-GN_N,POP,FBA79374,MAPPED,3.0,872.0,872.0,183.63710352,550.9113105600001,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-04-WH,Amazon,FBA79346,MAPPED,4.0,2722.033898305085,2722.033898305085,390.84924060000003,1563.3969624000001,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-04-WH,Blinkit Sales,FBA79346,MAPPED,5.0,3275.9,3275.9,390.84924060000003,1954.2462030000002,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-04-WH,CRED_B2C,FBA79346,MAPPED,2.0,1090.0,1090.0,390.84924060000003,781.6984812000001,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-05-PI,Amazon,FBA79347,MAPPED,0.0,0.0,0.0,390.84924060000003,0.0,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-05-PI,Pharmaeasy,FBA79347,MAPPED,2.0,1094.37,1094.37,390.84924060000003,781.6984812000001,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-07-WH,Amazon,FBA79673,MAPPED,18.0,11425.42372881356,11425.42372881356,352.4,6343.2,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-07-WH,BI Worldwide,FBA79673,MAPPED,2.0,1178.0,1178.0,352.4,704.8,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-07-WH,Blinkit Sales,FBA79673,MAPPED,0.0,0.0,0.0,352.4,0.0,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-08-BL,Amazon,FBA79707,MAPPED,7.0,4443.220338983051,4443.220338983051,367.0,2569.0,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-08-BL,B2B,FBA79707,MAPPED,2.0,1239.22,1239.22,367.0,734.0,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-08-BL,BI Worldwide,FBA79707,MAPPED,3.0,1767.0,1767.0,367.0,1101.0,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETC-08-BL,Blinkit Sales,FBA79707,MAPPED,0.0,0.0,0.0,367.0,0.0,HPC,Oral Care,Electric Toothbrush
+Week 8,Nexlev,ETR-06,Amazon,FBA79381,MAPPED,10.0,10584.745762711866,10584.745762711866,640.24827984,6402.4827984,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 8,Nexlev,ETR-06,BI Worldwide,FBA79381,MAPPED,3.0,2210.0,2210.0,640.24827984,1920.74483952,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 8,Nexlev,ETR-06,Blinkit Sales,FBA79381,MAPPED,0.0,0.0,0.0,640.24827984,0.0,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 8,Nexlev,ETR-06,CRED_B2C,FBA79381,MAPPED,1.0,775.0,775.0,640.24827984,640.24827984,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 8,Nexlev,FS-01,Amazon,FBA79404,MAPPED,2.0,3079.661016949153,3079.661016949153,831.3301308000001,1662.6602616000002,HPC,Skin Care,Face Steamer
+Week 8,Nexlev,FS-01,Blinkit Sales,FBA79404,MAPPED,0.0,0.0,0.0,831.3301308000001,0.0,HPC,Skin Care,Face Steamer
+Week 8,Nexlev,GS-02,Amazon,FBA78980,MAPPED,33.0,55906.779661016946,55906.779661016946,1181.3831285984,38985.643243747196,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-02,B2B,FBA78980,MAPPED,10.0,14932.08,14932.08,1181.3831285984,11813.831285983999,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-02,BI Worldwide,FBA78980,MAPPED,9.0,13801.0,13801.0,1181.3831285984,10632.4481573856,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-02,Blinkit Sales,FBA78980,MAPPED,7.0,12622.26,12622.26,1181.3831285984,8269.6819001888,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-02,D2C - Nexlev,FBA78980,MAPPED,25.0,49788.0,49788.0,1181.3831285984,29534.578214959998,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-04,Amazon,FBA79229,MAPPED,0.0,0.0,0.0,1430.7578385984,0.0,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-05,Amazon,FBA79268,MAPPED,30.0,46977.13559322034,46977.13559322034,868.5538679999997,26056.616039999994,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-05,B2B,FBA79268,MAPPED,5.0,6793.0,6793.0,868.5538679999997,4342.769339999999,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,GS-05,Blinkit Sales,FBA79268,MAPPED,12.0,18194.16,18194.16,868.5538679999997,10422.646415999996,Home & Kitchen,Fabric Care,Garment steamer
+Week 8,Nexlev,HB-01,Amazon,FBA79676,MAPPED,0.0,0.0,0.0,1089.4,0.0,HPC,Electric Massagers,Heated Wrap Belt
+Week 8,Nexlev,HD-01,Amazon,FBA79278,MAPPED,1.0,1122.8813559322034,1122.8813559322034,725.8628754,725.8628754,HPC,Hair Care,Hair Dryer
+Week 8,Nexlev,HD-01,B2B,FBA79278,MAPPED,3.0,2178.0,2178.0,725.8628754,2177.5886262,HPC,Hair Care,Hair Dryer
+Week 8,Nexlev,HD-01,BI Worldwide,FBA79278,MAPPED,1.0,1081.0,1081.0,725.8628754,725.8628754,HPC,Hair Care,Hair Dryer
+Week 8,Nexlev,HD-01,Blinkit Sales,FBA79278,MAPPED,0.0,0.0,0.0,725.8628754,0.0,HPC,Hair Care,Hair Dryer
+Week 8,Nexlev,HD-02,B2B,FBA79348,MAPPED,2.0,1272.0,1272.0,420.62823036,841.25646072,HPC,Hair Care,Hair Dryer
+Week 8,Nexlev,HD-02,BI Worldwide,FBA79348,MAPPED,1.0,720.0,720.0,420.62823036,420.62823036,HPC,Hair Care,Hair Dryer
+Week 8,Nexlev,HD-02,Blinkit Sales,FBA79348,MAPPED,0.0,0.0,0.0,420.62823036,0.0,HPC,Hair Care,Hair Dryer
+Week 8,Nexlev,HM-01,Amazon,FBA79332,MAPPED,0.0,0.0,0.0,530.3994696000001,0.0,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-01,B2B,FBA79332,MAPPED,23.0,18341.25,18341.25,530.3994696000001,12199.187800800002,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-01,Blinkit Sales,FBA79332,MAPPED,2.0,1638.36,1638.36,530.3994696000001,1060.7989392000002,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-01,CRED_B2C,FBA79332,MAPPED,3.0,2304.0,2304.0,530.3994696000001,1591.1984088000004,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-01,D2C - Nexlev,FBA79332,MAPPED,15.0,15890.0,15890.0,530.3994696000001,7955.992044000001,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-01,Pharmaeasy,FBA79332,MAPPED,2.0,1714.29,1714.29,530.3994696000001,1060.7989392000002,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-02,Amazon,FBA79333,MAPPED,0.0,0.0,0.0,642.9084480000001,0.0,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-02,BI Worldwide,FBA79333,MAPPED,15.0,17050.0,17050.0,642.9084480000001,9643.626720000002,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HM-02,Blinkit Sales,FBA79333,MAPPED,4.0,4588.72,4588.72,642.9084480000001,2571.6337920000005,HPC,Hair Care,Head Massager
+Week 8,Nexlev,HS-01,Amazon,FBA79272,MAPPED,1.0,677.1186440677966,677.1186440677966,356.10708588,356.10708588,HPC,Hair Care,Hair Straightener
+Week 8,Nexlev,HS-01,POP,FBA79272,MAPPED,1.0,762.0,762.0,356.10708588,356.10708588,HPC,Hair Care,Hair Straightener
+Week 8,Nexlev,HS-02,Amazon,FBA79273,MAPPED,2.0,1438.9830508474577,1438.9830508474577,367.27420704,734.54841408,HPC,Hair Care,Hair Straightener
+Week 8,Nexlev,HSB-03,BI Worldwide,FBA79405,MAPPED,4.0,5433.0,5433.0,823.8853833599998,3295.541533439999,HPC,Hair Care,Hair Straightener Brush - Corded
+Week 8,Nexlev,HSB-03,Blinkit Sales,FBA79405,MAPPED,0.0,0.0,0.0,823.8853833599998,0.0,HPC,Hair Care,Hair Straightener Brush - Corded
+Week 8,Nexlev,HSB-04,Amazon,FBA79406,MAPPED,17.0,35344.50000000001,35344.50000000001,1013.7264430799997,17233.349532359996,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 8,Nexlev,HSB-04,B2B,FBA79406,MAPPED,3.0,5720.31,5720.31,1013.7264430799997,3041.1793292399993,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 8,Nexlev,HSB-04,BI Worldwide,FBA79406,MAPPED,2.0,4056.0,4056.0,1013.7264430799997,2027.4528861599995,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 8,Nexlev,HSB-04,Blinkit Sales,FBA79406,MAPPED,4.0,8357.44,8357.44,1013.7264430799997,4054.905772319999,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 8,Nexlev,HSB-04,D2C - Nexlev,FBA79406,MAPPED,2.0,4400.0,4400.0,1013.7264430799997,2027.4528861599995,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 8,Nexlev,HU-01,Amazon,FBA79681,MAPPED,3.0,5082.203389830509,5082.203389830509,709.7,2129.1000000000004,Home & Kitchen,Air Purifier,Humidifier Black
+Week 8,Nexlev,HU-02,Amazon,FBA79682,MAPPED,5.0,8894.06779661017,8894.06779661017,709.7,3548.5,Home & Kitchen,Air Purifier,Humidifier White
+Week 8,Nexlev,HU-02,B2B,FBA79682,MAPPED,2.0,2712.0,2712.0,709.7,1419.4,Home & Kitchen,Air Purifier,Humidifier White
+Week 8,Nexlev,HU-02,Blinkit Sales,FBA79682,MAPPED,0.0,0.0,0.0,709.7,0.0,Home & Kitchen,Air Purifier,Humidifier White
+Week 8,Nexlev,IPL-01,Blinkit Sales,FBA79571,MAPPED,0.0,0.0,0.0,1354.6999440000002,0.0,HPC,Skin Care,Laser Hair Remover Device
+Week 8,Nexlev,KE-01,Amazon,FBA79488,MAPPED,9.0,13321.330508474577,13321.330508474577,899.5736489999998,8096.1628409999985,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-01,BI Worldwide,FBA79488,MAPPED,4.0,5033.0,5033.0,899.5736489999998,3598.2945959999993,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-01,Blinkit Sales,FBA79488,MAPPED,0.0,0.0,0.0,899.5736489999998,0.0,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-01,D2C - Nexlev,FBA79488,MAPPED,2.0,3142.0,3142.0,899.5736489999998,1799.1472979999996,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-02,Amazon,FBA79489,MAPPED,5.0,6902.542372881357,6902.542372881357,899.5736489999998,4497.868244999999,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-02,B2B,FBA79489,MAPPED,1.0,1297.0,1297.0,899.5736489999998,899.5736489999998,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-02,BI Worldwide,FBA79489,MAPPED,2.0,2375.0,2375.0,899.5736489999998,1799.1472979999996,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-02,Blinkit Sales,FBA79489,MAPPED,6.0,7867.08,7867.08,899.5736489999998,5397.441893999999,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-02,D2C - Nexlev,FBA79489,MAPPED,7.0,10672.0,10672.0,899.5736489999998,6297.015542999999,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 8,Nexlev,KE-03,Amazon,FBA79809,MAPPED,1.0,465.25423728813564,465.25423728813564,324.5,324.5,Home & Kitchen,Kitchen Appliances,Electric Kettle
+Week 8,Nexlev,KE-03,BI Worldwide,FBA79809,MAPPED,1.0,589.0,589.0,324.5,324.5,Home & Kitchen,Kitchen Appliances,Electric Kettle
+Week 8,Nexlev,KE-03,Blinkit Sales,FBA79809,MAPPED,0.0,0.0,0.0,324.5,0.0,Home & Kitchen,Kitchen Appliances,Electric Kettle
+Week 8,Nexlev,KM-01,Amazon,FBA79591,MAPPED,3.0,4052.542372881356,4052.542372881356,976.5128763,2929.5386289,HPC,Electric Massagers,Knee Massager
+Week 8,Nexlev,KM-01,Blinkit Sales,FBA79591,MAPPED,0.0,0.0,0.0,976.5128763,0.0,HPC,Electric Massagers,Knee Massager
+Week 8,Nexlev,LE-02,Amazon,FBA79440,MAPPED,7.0,11892.372881355934,11892.372881355934,767.6633015999998,5373.643111199999,HPC,Hair Care,Hair Therapy Comb
+Week 8,Nexlev,LE-02,Blinkit Sales,FBA79440,MAPPED,0.0,0.0,0.0,767.6633015999998,0.0,HPC,Hair Care,Hair Therapy Comb
+Week 8,Nexlev,LE-02,Myntra,FBA79440,MAPPED,3.0,6843.0,6843.0,767.6633015999998,2302.9899047999997,HPC,Hair Care,Hair Therapy Comb
+Week 8,Nexlev,LE-03,Amazon,FBA79443,MAPPED,1.0,1439.8305084745764,1439.8305084745764,935.8057702499999,935.8057702499999,HPC,Skin Care,LED Face & Skin Care Massager
+Week 8,Nexlev,LE-04,Amazon,FBA79469,MAPPED,3.0,3836.4406779661017,3836.4406779661017,564.45831,1693.37493,HPC,Skin Care,Skin Lift Device
+Week 8,Nexlev,LE-04,B2B,FBA79469,MAPPED,2.0,2174.0,2174.0,564.45831,1128.91662,HPC,Skin Care,Skin Lift Device
+Week 8,Nexlev,LE-04,Blinkit Sales,FBA79469,MAPPED,0.0,0.0,0.0,564.45831,0.0,HPC,Skin Care,Skin Lift Device
+Week 8,Nexlev,LE-04,Myntra,FBA79469,MAPPED,1.0,1858.0,1858.0,564.45831,564.45831,HPC,Skin Care,Skin Lift Device
+Week 8,Nexlev,LR-01,Amazon,FBA79279,MAPPED,12.0,9157.627118644068,9157.627118644068,428.07297780000005,5136.875733600001,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-01,Blinkit Sales,FBA79279,MAPPED,10.0,6141.8,6141.8,428.07297780000005,4280.729778000001,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-01 Set of 2 blades,Amazon,FBA79606,MAPPED,1.0,317.79661016949154,317.79661016949154,108.0,108.0,Home & Kitchen,Set of 2 blades,Spares
+Week 8,Nexlev,LR-02,Amazon,FBA79280,MAPPED,43.0,53430.52542372881,53430.52542372881,843.7,36279.1,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-02,B2B,FBA79280,MAPPED,3.0,3318.0,3318.0,843.7,2531.1000000000004,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-02,Blinkit Sales,FBA79280,MAPPED,0.0,0.0,0.0,843.7,0.0,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-02,D2C - Nexlev,FBA79280,MAPPED,2.0,1347.0,1347.0,843.7,1687.4,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-02 Set of 2 blades,Amazon,FBA79607,MAPPED,0.0,0.0,0.0,145.0,0.0,Home & Kitchen,Set of 2 blades,Spares
+Week 8,Nexlev,LR-03,Amazon,FBA79819,MAPPED,27.0,8216.101694915254,8216.101694915254,155.1,4187.7,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-03,BI Worldwide,FBA79819,MAPPED,9.0,2395.0,2395.0,155.1,1395.8999999999999,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-03,Blinkit Sales,FBA79819,MAPPED,10.0,3681.8,3681.8,155.1,1551.0,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-03,CRED_B2C,FBA79819,MAPPED,2.0,562.0,562.0,155.1,310.2,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,LR-03,D2C - Nexlev,FBA79819,MAPPED,43.0,13884.0,13884.0,155.1,6669.3,Home & Kitchen,Fabric Care,Lint Remover
+Week 8,Nexlev,MC-01,Amazon,FBA79811,MAPPED,19.0,9644.915254237289,9644.915254237289,290.7,5523.3,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper
+Week 8,Nexlev,MC-01,CRED_B2C,FBA79811,MAPPED,1.0,387.0,387.0,290.7,290.7,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper
+Week 8,Nexlev,MC-01,D2C - Nexlev,FBA79811,MAPPED,1.0,538.0,538.0,290.7,290.7,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper
+Week 8,Nexlev,MF-01,Amazon,FBA79810,MAPPED,2.0,930.5084745762713,930.5084745762713,255.9,511.8,Home & Kitchen,Kitchen Appliances,Milk Frother
+Week 8,Nexlev,MG-01,Amazon,FBA79596,MAPPED,0.0,0.0,0.0,903.133296,0.0,HPC,Electric Massagers,Massage Gun
+Week 8,Nexlev,MG-01,Blinkit Sales,FBA79596,MAPPED,0.0,0.0,0.0,903.133296,0.0,HPC,Electric Massagers,Massage Gun
+Week 8,Nexlev,MGC-03,Amazon,FBA79687,MAPPED,0.0,0.0,0.0,920.1,0.0,HPC,Electric Massagers,Hot & Cold Massage Gun
+Week 8,Nexlev,MGC-03,Myntra,FBA79687,MAPPED,1.0,3214.0,3214.0,920.1,920.1,HPC,Electric Massagers,Hot & Cold Massage Gun
+Week 8,Nexlev,MGS-02,Amazon,FBA79686,MAPPED,0.0,0.0,0.0,407.5,0.0,HPC,Electric Massagers,Massage Gun - Mini
+Week 8,Nexlev,MM-01,Amazon,FBA79688,MAPPED,0.0,0.0,0.0,5847.8,0.0,HPC,Electric Massagers,Foldable Massage Mat
+Week 8,Nexlev,MR-01,Amazon,FBA79263,MAPPED,65.0,144985.61016949153,144985.61016949153,1072.470789,69710.601285,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 8,Nexlev,MR-01,BI Worldwide,FBA79263,MAPPED,2.0,4213.0,4213.0,1072.470789,2144.941578,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 8,Nexlev,MR-01,Blinkit Sales,FBA79263,MAPPED,4.0,10164.72,10164.72,1072.470789,4289.883156,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 8,Nexlev,MR-01 HEPA Filter,Amazon,FBA79436,MAPPED,0.0,0.0,0.0,35.0,0.0,Home & Kitchen,HEPA Filter,Spares
+Week 8,Nexlev,MR-02,Amazon,FBA79439,MAPPED,25.0,72012.71186440678,72012.71186440678,1179.7178678999999,29492.946697499996,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 8,Nexlev,MR-02,BI Worldwide,FBA79439,MAPPED,1.0,2448.0,2448.0,1179.7178678999999,1179.7178678999999,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 8,Nexlev,MR-02,Blinkit Sales,FBA79439,MAPPED,0.0,0.0,0.0,1179.7178678999999,0.0,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 8,Nexlev,MR-02 HEPA Filter,Amazon,FBA79721,MAPPED,8.0,1186.4406779661017,1186.4406779661017,45.0,360.0,Home & Kitchen,HEPA Filter,Spares
+Week 8,Nexlev,NP-01,Amazon,FBA78994,MAPPED,0.0,0.0,0.0,491.90553921600014,0.0,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 8,Nexlev,NP-03,Amazon,FBA78996,MAPPED,0.0,0.0,0.0,491.302209216,0.0,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 8,Nexlev,NP-03,B2B,FBA78996,MAPPED,3.0,2037.9,2037.9,491.302209216,1473.906627648,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 8,Nexlev,NP-03,Blinkit Sales,FBA78996,MAPPED,0.0,0.0,0.0,491.302209216,0.0,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 8,Nexlev,NP-05,Amazon,FBA78998,MAPPED,0.0,0.0,0.0,491.302209216,0.0,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 8,Nexlev,NP-06,Amazon,FBA79677,MAPPED,0.0,0.0,0.0,452.1,0.0,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 8,Nexlev,NP-06,BI Worldwide,FBA79677,MAPPED,1.0,705.0,705.0,452.1,452.1,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 8,Nexlev,NP-06,Blinkit Sales,FBA79677,MAPPED,0.0,0.0,0.0,452.1,0.0,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 8,Nexlev,NP-06,Pharmaeasy,FBA79677,MAPPED,1.0,976.19,976.19,452.1,452.1,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 8,Nexlev,NP-07,Amazon,FBA79678,MAPPED,0.0,0.0,0.0,452.1,0.0,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 8,Nexlev,PB-01,Amazon,FBA79812,MAPPED,15.0,26089.830508474577,26089.830508474577,1247.0,18705.0,Home & Kitchen,Kitchen Appliances,Portable Blender
+Week 8,Nexlev,PB-01,BI Worldwide,FBA79812,MAPPED,1.0,1728.0,1728.0,1247.0,1247.0,Home & Kitchen,Kitchen Appliances,Portable Blender
+Week 8,Nexlev,PB-01,D2C - Nexlev,FBA79812,MAPPED,2.0,3983.0,3983.0,1247.0,2494.0,Home & Kitchen,Kitchen Appliances,Portable Blender
+Week 8,Nexlev,PM-01,Blinkit Sales,FBA79675,MAPPED,0.0,0.0,0.0,891.8,0.0,HPC,Electric Massagers,Handheld Percussion Massager
+Week 8,Nexlev,PM-02,Amazon,FBA79690,MAPPED,0.0,0.0,0.0,891.8,0.0,HPC,Electric Massagers,Handheld Percussion Massager
+Week 8,Nexlev,SC-01,Amazon,FBA78981,MAPPED,65.0,192801.69491525425,192801.69491525425,1698.3419543235293,110392.22703102941,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-01,Blinkit Sales,FBA78981,MAPPED,3.0,8607.54,8607.54,1698.3419543235293,5095.025862970588,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-01,D2C - Nexlev,FBA78981,MAPPED,14.0,43886.0,43886.0,1698.3419543235293,23776.78736052941,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-01 Set of Spares,Amazon,FBA79771,MAPPED,1.0,338.135593220339,338.135593220339,350.0,350.0,Home & Kitchen,Set of Spares,Spares
+Week 8,Nexlev,SC-02,Amazon,FBA79262,MAPPED,10.0,14527.966101694916,14527.966101694916,1284.2189334,12842.189333999999,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-02,Blinkit Sales,FBA79262,MAPPED,0.0,0.0,0.0,1284.2189334,0.0,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-03,Amazon,FBA79277,MAPPED,2.0,12032.203389830509,12032.203389830509,3722.37372,7444.74744,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-03,D2C - Nexlev,FBA79277,MAPPED,1.0,6467.0,6467.0,3722.37372,3722.37372,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-04,Amazon,FBA79567,MAPPED,27.0,127504.2372881356,127504.2372881356,2481.58248,67002.72696,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-04,B2B,FBA79567,MAPPED,1.0,4322.0,4322.0,2481.58248,2481.58248,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-04,Blinkit Sales,FBA79567,MAPPED,0.0,0.0,0.0,2481.58248,0.0,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-04,D2C - Nexlev,FBA79567,MAPPED,1.0,5389.0,5389.0,2481.58248,2481.58248,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-04 Set of 2 Mops,Amazon,FBA79714,MAPPED,5.0,2012.7118644067798,2012.7118644067798,82.0,410.0,Home & Kitchen,Set of 2 Mops,Spares
+Week 8,Nexlev,SC-04 Spare Set,Amazon,FBA79843,MAPPED,0.0,0.0,0.0,40.0,0.0,Home & Kitchen,Spare Set,Spares
+Week 8,Nexlev,SC-05,Amazon,FBA79652,MAPPED,40.0,86159.33050847458,86159.33050847458,1340.1,53604.0,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-05,B2B,FBA79652,MAPPED,30.0,61016.95,61016.95,1340.1,40203.0,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-05,Blinkit Sales,FBA79652,MAPPED,2.0,4590.36,4590.36,1340.1,2680.2,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-05,D2C - Nexlev,FBA79652,MAPPED,2.0,5029.0,5029.0,1340.1,2680.2,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 8,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,FBA79912,MAPPED,0.0,0.0,0.0,350.0,0.0,Home & Kitchen,SC-05 - Set of Spares,Spares
+Week 8,Nexlev,SM-01,Amazon,FBA79276,MAPPED,6.0,19571.186440677968,19571.186440677968,2481.58248,14889.49488,Home & Kitchen,Cleaning & Vacumming,Steam Mop
+Week 8,Nexlev,SM-01,Blinkit Sales,FBA79276,MAPPED,0.0,0.0,0.0,2481.58248,0.0,Home & Kitchen,Cleaning & Vacumming,Steam Mop
+Week 8,Nexlev,SM-01,D2C - Nexlev,FBA79276,MAPPED,1.0,3592.0,3592.0,2481.58248,2481.58248,Home & Kitchen,Cleaning & Vacumming,Steam Mop
+Week 8,Nexlev,SM-01 Set of 2 Mops,Amazon,FBA79716,MAPPED,1.0,338.135593220339,338.135593220339,300.0,300.0,Home & Kitchen,Set of 2 Mops,Spares
+Week 8,Nexlev,SPM-01 Set of 2 Mops,Amazon,FBA79717,MAPPED,0.0,0.0,0.0,250.0,0.0,Home & Kitchen,Set of 2 Mops,Spares
+Week 8,Nexlev,SPM-01(New),Amazon,FBA79699,MAPPED,0.0,0.0,0.0,2427.170733,0.0,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe
+Week 8,Nexlev,SS-01,BI Worldwide,FBA79451,MAPPED,2.0,3746.0,3746.0,1439.3178383999998,2878.6356767999996,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 8,Nexlev,SS-01(New),Amazon,FBA79698,MAPPED,1.0,2117.7966101694915,2117.7966101694915,1439.3178383999998,1439.3178383999998,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 8,Nexlev,SS-02,Amazon,FBA79589,MAPPED,5.0,8894.06779661017,8894.06779661017,1117.6274538,5588.137269,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 8,Nexlev,SS-02,B2B,FBA79589,MAPPED,15.0,21535.68,21535.68,1117.6274538,16764.411807,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 8,Nexlev,SS-02,Blinkit Sales,FBA79589,MAPPED,2.0,3606.36,3606.36,1117.6274538,2235.2549076,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 8,Nexlev,SS-02 Set of Spares,Amazon,FBA79657,MAPPED,0.0,0.0,0.0,350.0,0.0,Home & Kitchen,Set of Spares,Spares
+Week 8,Nexlev,ST-01,Amazon,FBA79679,MAPPED,9.0,42933.050847457635,42933.050847457635,3164.0,28476.0,Home & Kitchen,Kitchen Appliances,Stand Mixer
+Week 8,Nexlev,ST-01,BI Worldwide,FBA79679,MAPPED,1.0,4307.0,4307.0,3164.0,3164.0,Home & Kitchen,Kitchen Appliances,Stand Mixer
+Week 8,Nexlev,ST-01,D2C - Nexlev,FBA79679,MAPPED,10.0,43636.0,43636.0,3164.0,31640.0,Home & Kitchen,Kitchen Appliances,Stand Mixer
+Week 8,Nexlev,ST-01 ST-01 Set of Hooks,Amazon,FBA79915,MAPPED,0.0,0.0,0.0,550.0,0.0,Home & Kitchen,ST-01 Set of Hooks,Spares
+Week 8,Nexlev,SW-01,Amazon,FBA79349,MAPPED,37.0,34497.457627118645,34497.457627118645,364.3147872,13479.647126400001,Home & Kitchen,Fabric Care,Mini Sewing Machine
+Week 8,Nexlev,SW-01,Blinkit Sales,FBA79349,MAPPED,0.0,0.0,0.0,364.3147872,0.0,Home & Kitchen,Fabric Care,Mini Sewing Machine
+Week 8,Nexlev,SW-01,D2C - Nexlev,FBA79349,MAPPED,1.0,987.0,987.0,364.3147872,364.3147872,Home & Kitchen,Fabric Care,Mini Sewing Machine
+Week 8,Nexlev,T-01,Amazon,FBА79266,MAPPED,1.0,863.5593220338983,863.5593220338983,491.35333104,491.35333104,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 8,Nexlev,T-01,Myntra,FBА79266,MAPPED,1.0,1075.0,1075.0,491.35333104,491.35333104,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 8,Nexlev,T-02,Amazon,FBA79267,MAPPED,7.0,5926.271186440678,5926.271186440678,576.9679266,4038.7754862,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 8,Nexlev,T-02,BI Worldwide,FBA79267,MAPPED,1.0,864.0,864.0,576.9679266,576.9679266,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 8,Nexlev,T-02,Blinkit Sales,FBA79267,MAPPED,0.0,0.0,0.0,576.9679266,0.0,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 8,Nexlev,T-02,D2C - Nexlev,FBA79267,MAPPED,2.0,2202.0,2202.0,576.9679266,1153.9358532,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 8,Nexlev,TI-01,Amazon,FBA79466,MAPPED,0.0,0.0,0.0,1178.0143225499999,0.0,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 8,Nexlev,TI-02,Amazon,FBA79473,MAPPED,0.0,0.0,0.0,814.7014940999999,0.0,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 8,Nexlev,TI-02,Blinkit Sales,FBA79473,MAPPED,0.0,0.0,0.0,814.7014940999999,0.0,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 8,Nexlev,TI-02,CRED_B2C,FBA79473,MAPPED,1.0,968.0,968.0,814.7014940999999,814.7014940999999,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 8,Nexlev,TI-02,D2C - Nexlev,FBA79473,MAPPED,3.0,2693.0,2693.0,814.7014940999999,2444.1044822999997,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 8,Nexlev,TIC-03,Blinkit Sales,FBA79474,MAPPED,0.0,0.0,0.0,963.329469375,0.0,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
+Week 8,Nexlev,TIC-04,Amazon,FBA79475,MAPPED,0.0,0.0,0.0,1321.1375580000001,0.0,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
+Week 8,Nexlev,TM-01,Amazon,FBA79467,MAPPED,0.0,0.0,0.0,459.0927588,0.0,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 8,Nexlev,TM-01,BI Worldwide,FBA79467,MAPPED,2.0,1441.0,1441.0,459.0927588,918.1855176,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 8,Nexlev,TM-01,Blinkit Sales,FBA79467,MAPPED,0.0,0.0,0.0,459.0927588,0.0,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 8,Nexlev,TM-01,D2C - Nexlev,FBA79467,MAPPED,9.0,5167.0,5167.0,459.0927588,4131.8348292,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 8,Nexlev,TM-02,Amazon,FBA79481,MAPPED,0.0,0.0,0.0,1240.79124,0.0,HPC,Trimmers & Body Groomers,Intimate Trimmer
+Week 8,Nexlev,TM-03,Amazon,FBA79483,MAPPED,1.0,0.0,0.0,564.5600142,564.5600142,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 8,Nexlev,TM-03,BI Worldwide,FBA79483,MAPPED,3.0,3455.0,3455.0,564.5600142,1693.6800426,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 8,Nexlev,TM-03,Blinkit Sales,FBA79483,MAPPED,1.0,819.18,819.18,564.5600142,564.5600142,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 8,Nexlev,TM-03,D2C - Nexlev,FBA79483,MAPPED,1.0,942.0,942.0,564.5600142,564.5600142,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 8,Nexlev,TM-04,Amazon,FBA79485,MAPPED,0.0,0.0,0.0,436.75851648,0.0,HPC,Trimmers & Body Groomers,Body & Nose Trimmer
+Week 8,Nexlev,TM-05,Amazon,FBA79693,MAPPED,0.0,0.0,0.0,1116.7,0.0,HPC,Trimmers & Body Groomers,Vacuum Trimmer
+Week 8,Nexlev,TM-05,BI Worldwide,FBA79693,MAPPED,1.0,2160.0,2160.0,1116.7,1116.7,HPC,Trimmers & Body Groomers,Vacuum Trimmer
+Week 8,Nexlev,V-01,Amazon,FBA79271,MAPPED,9.0,10670.33898305085,10670.33898305085,682.435182,6141.916638000001,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-01 RG,Amazon,FBK79271,MAPPED,11.0,12703.389830508475,12703.389830508475,682.435182,7506.787002000001,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-01 RG,B2B,FBK79271,MAPPED,1.0,1220.0,1220.0,682.435182,682.435182,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-01 RG,BI Worldwide,FBK79271,MAPPED,4.0,4376.0,4376.0,682.435182,2729.740728,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-01 RG,Blinkit Sales,FBK79271,MAPPED,13.0,15979.34,15979.34,682.435182,8871.657366000001,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-01 RG,D2C - Nexlev,FBK79271,MAPPED,31.0,40458.0,40458.0,682.435182,21155.490642,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-01 RG,Myntra,FBK79271,MAPPED,1.0,2741.0,2741.0,682.435182,682.435182,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-02,Amazon,FBA79492,MAPPED,1.0,1948.3050847457628,1948.3050847457628,1032.33831168,1032.33831168,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-02,BI Worldwide,FBA79492,MAPPED,4.0,8515.0,8515.0,1032.33831168,4129.35324672,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-02,Blinkit Sales,FBA79492,MAPPED,0.0,0.0,0.0,1032.33831168,0.0,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-02,D2C - Nexlev,FBA79492,MAPPED,1.0,2065.0,2065.0,1032.33831168,1032.33831168,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-03,Amazon,FBA79493,MAPPED,36.0,59759.32203389831,59759.32203389831,802.7919322800001,28900.509562080002,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-03,B2B,FBA79493,MAPPED,4.0,6779.68,6779.68,802.7919322800001,3211.1677291200003,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-03,BI Worldwide,FBA79493,MAPPED,6.0,9033.0,9033.0,802.7919322800001,4816.751593680001,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-03,Blinkit Sales,FBA79493,MAPPED,0.0,0.0,0.0,802.7919322800001,0.0,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-03,D2C - Nexlev,FBA79493,MAPPED,2.0,3771.0,3771.0,802.7919322800001,1605.5838645600002,HPC,Hair Care,Volumizer
+Week 8,Nexlev,V-03,Myntra,FBA79493,MAPPED,1.0,2571.0,2571.0,802.7919322800001,802.7919322800001,HPC,Hair Care,Volumizer
+Week 8,Nexlev,VC-01,Amazon,FBA79452,MAPPED,26.0,39133.898305084746,39133.898305084746,982.1574593999999,25536.093944399996,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-01,B2B,FBA79452,MAPPED,1.0,1678.0,1678.0,982.1574593999999,982.1574593999999,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-01,BI Worldwide,FBA79452,MAPPED,6.0,8316.0,8316.0,982.1574593999999,5892.944756399999,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-01,Blinkit Sales,FBA79452,MAPPED,2.0,3278.36,3278.36,982.1574593999999,1964.3149187999998,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-01,D2C - Nexlev,FBA79452,MAPPED,21.0,39153.0,39153.0,982.1574593999999,20625.306647399997,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-02,B2B,FBA79463,MAPPED,5.0,8813.55,8813.55,1335.0913742399998,6675.456871199999,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-02,Blinkit Sales,FBA79463,MAPPED,0.0,0.0,0.0,1335.0913742399998,0.0,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-03,Amazon,FBA79480,MAPPED,1.0,1694.0677966101696,1694.0677966101696,835.05250452,835.05250452,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-03,B2B,FBA79480,MAPPED,1.0,1801.0,1801.0,835.05250452,835.05250452,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-03,BI Worldwide,FBA79480,MAPPED,1.0,1440.0,1440.0,835.05250452,835.05250452,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-03,Blinkit Sales,FBA79480,MAPPED,0.0,0.0,0.0,835.05250452,0.0,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-03,D2C - Nexlev,FBA79480,MAPPED,1.0,1796.0,1796.0,835.05250452,835.05250452,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-04,Amazon,FBA79565,MAPPED,0.0,0.0,0.0,1160.1398093999999,0.0,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-04,Blinkit Sales,FBA79565,MAPPED,0.0,0.0,0.0,1160.1398093999999,0.0,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-05,Amazon,FBA79566,MAPPED,7.0,12433.906779661018,12433.906779661018,1095.6186649200001,7669.330654440001,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-05,B2B,FBA79566,MAPPED,5.0,8237.48,8237.48,1095.6186649200001,5478.0933246,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-05,BI Worldwide,FBA79566,MAPPED,4.0,6481.0,6481.0,1095.6186649200001,4382.4746596800005,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-05,Blinkit Sales,FBA79566,MAPPED,0.0,0.0,0.0,1095.6186649200001,0.0,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-05,D2C - Nexlev,FBA79566,MAPPED,2.0,4131.0,4131.0,1095.6186649200001,2191.2373298400003,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,"VC-05 VC-05 -Set of Spares(Crevice, Brush & Hose)",Amazon,FBA79913,MAPPED,0.0,0.0,0.0,350.0,0.0,Home & Kitchen,"VC-05 -Set of Spares(Crevice, Brush & Hose)",Spares
+Week 8,Nexlev,VC-06,BI Worldwide,FBA79599,MAPPED,1.0,980.0,980.0,835.4,835.4,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Nexlev,VC-06,Blinkit Sales,FBA79599,MAPPED,0.0,0.0,0.0,835.4,0.0,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 8,Tonor,G11,Amazon,FBA79260,MAPPED,2.0,4489.830508474576,4489.830508474576,1280.0,2560.0,Conference Microphone,Wired,
+Week 8,Tonor,K1,1p Sales,FBA77113,MAPPED,14.0,21344.12,21344.12,651.1788935999999,9116.504510399998,Dynamic Microphone,Hand held Mic,
+Week 8,Tonor,K1,Amazon,FBA77113,MAPPED,13.0,20370.33898305085,20370.33898305085,651.1788935999999,8465.325616799999,Dynamic Microphone,Hand held Mic,
+Week 8,Tonor,ORCA001,Amazon,FBA77103,MAPPED,0.0,0.0,0.0,2411.77368,0.0,Condenser Microphone,Stand,
+Week 8,Tonor,S20,1p Sales,FBA77117,MAPPED,3.0,6607.62,6607.62,1085.2981559999998,3255.8944679999995,Accessories,Microphone Isolation Shield,
+Week 8,Tonor,S20,Amazon,FBA77117,MAPPED,0.0,0.0,0.0,1085.2981559999998,0.0,Accessories,Microphone Isolation Shield,
+Week 8,Tonor,T20,1p Sales,FBA77106,MAPPED,4.0,8301.68,8301.68,1163.8210199999999,4655.284079999999,Accessories,Boom Arm Kit,
+Week 8,Tonor,T20,Amazon,FBA77106,MAPPED,0.0,0.0,0.0,1163.8210199999999,0.0,Accessories,Boom Arm Kit,
+Week 8,Tonor,T30,Amazon,FBA77105,MAPPED,1.0,2456.7796610169494,2456.7796610169494,1326.475524,1326.475524,Accessories,Boom Arm Kit,
+Week 8,Tonor,T90,1p Sales,FBA79112,MAPPED,1.0,3473.73,3473.73,2411.77368,2411.77368,Accessories,Boom Arm - RGB,
+Week 8,Tonor,TC-2030,1p Sales,FBA77114,MAPPED,0.0,0.0,0.0,4422.519876,0.0,Condenser Microphone,Boom Arm Kit - USB,
+Week 8,Tonor,TC-777,1p Sales,FBA77101,MAPPED,4.0,7115.26,7115.26,1205.88684,4823.54736,Condenser Microphone,Tripod,
+Week 8,Tonor,TC-777,Amazon,FBA77101,MAPPED,1.0,1778.813559322034,1778.813559322034,1205.88684,1205.88684,Condenser Microphone,Tripod,
+Week 8,Tonor,TC-777 PRO,1p Sales,FBA79116,MAPPED,6.0,9655.92,9655.92,1085.2981559999998,6511.788935999999,Condenser Microphone,Tripod - RGB,
+Week 8,Tonor,TC-777 PRO,Amazon,FBA79116,MAPPED,3.0,4827.966101694916,4827.966101694916,1085.2981559999998,3255.8944679999995,Condenser Microphone,Tripod - RGB,
+Week 8,Tonor,TC30,1p Sales,FBA77111,MAPPED,5.0,9529.7,9529.7,1326.475524,6632.377619999999,Condenser Microphone,Tripod,
+Week 8,Tonor,TC30,Amazon,FBA77111,MAPPED,0.0,0.0,0.0,1326.475524,0.0,Condenser Microphone,Tripod,
+Week 8,Tonor,TC30S,Amazon,FBA79574,MAPPED,0.0,0.0,0.0,1447.0642079999998,0.0,Condenser Microphone,Tripod+RGB,
+Week 8,Tonor,TC30S+,1p Sales,FBA79576,MAPPED,1.0,2541.53,2541.53,1748.5359179999998,1748.5359179999998,Condenser Microphone,Boom Arm Kit + RGB,
+Week 8,Tonor,TC30S+,Amazon,FBA79576,MAPPED,0.0,0.0,0.0,1748.5359179999998,0.0,Condenser Microphone,Boom Arm Kit + RGB,
+Week 8,Tonor,TC310,1p Sales,FBA79113,MAPPED,6.0,12706.8,12706.8,1205.88684,7235.321039999999,Condenser Microphone,Tripod - RGB,
+Week 8,Tonor,TC310,Amazon,FBA79113,MAPPED,0.0,0.0,0.0,1205.88684,0.0,Condenser Microphone,Tripod - RGB,
+Week 8,Tonor,TC310+,1p Sales,FBA79114,MAPPED,2.0,5576.28,5576.28,1688.241576,3376.483152,Condenser Microphone,Boom Arm Kit - USB - RGB,
+Week 8,Tonor,TC310+,Amazon,FBA79114,MAPPED,0.0,0.0,0.0,1688.241576,0.0,Condenser Microphone,Boom Arm Kit - USB - RGB,
+Week 8,Tonor,TC40,Amazon,FBA77115,MAPPED,1.0,2795.762711864407,2795.762711864407,1929.4189439999998,1929.4189439999998,Condenser Microphone,Boom Arm Kit - USB,
+Week 8,Tonor,TC40S,Amazon,FBA77116,MAPPED,0.0,0.0,0.0,1929.4189439999998,0.0,Condenser Microphone,Boom Arm Kit - USB - RGB,
+Week 8,Tonor,TD310,1p Sales,FBA79697,MAPPED,1.0,1482.2,1482.2,822.696,822.696,Dynamic Microphone,Hand held Mic + Stand,
+Week 8,Tonor,TD310+,1p Sales,FBA79696,MAPPED,24.0,38623.68,38623.68,920.6359999999999,22095.263999999996,Dynamic Microphone,Hand held Mic + Boom Arm,
+Week 8,Tonor,TD510,1p Sales,FBA79111,MAPPED,5.0,16944.9,16944.9,2411.77368,12058.8684,Dynamic Microphone,USB/XLR Mic,
+Week 8,Tonor,TD510,Amazon,FBA79111,MAPPED,0.0,0.0,0.0,2411.77368,0.0,Dynamic Microphone,USB/XLR Mic,
+Week 8,Tonor,TM20,1p Sales,FBA77110,MAPPED,6.0,15249.18,15249.18,1447.0642079999998,8682.385247999999,Conference Microphone,Wired,
+Week 8,Tonor,TM20,Amazon,FBA77110,MAPPED,2.0,5083.050847457627,5083.050847457627,1447.0642079999998,2894.1284159999996,Conference Microphone,Wired,
+Week 8,Tonor,TM310,1p Sales,FBA79577,MAPPED,1.0,2117.8,2117.8,964.7094719999999,964.7094719999999,Conference Microphone,Wired,
+Week 8,Tonor,TM310,Amazon,FBA79577,MAPPED,0.0,0.0,0.0,964.7094719999999,0.0,Conference Microphone,Wired,
+Week 8,Tonor,TRL-20,Amazon,FBA79586,MAPPED,0.0,0.0,0.0,1397.0,0.0,Accessories,Ring Light,
+Week 8,White Mulberry,HDMSP1ML,Amazon,FBA79792,MAPPED,2.0,4660.169491525424,4660.169491525424,2042.2715199229413,4084.5430398458825,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,HDWF1ML,1p Sales,FBA79617,MAPPED,13.0,34042.32,34042.32,1253.6463237249998,16297.402208424997,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,HDWF1ML,Amazon,FBA79617,MAPPED,1.0,2626.2711864406783,2626.2711864406783,1253.6463237249998,1253.6463237249998,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,MS1ML,1p Sales,FBA79613,MAPPED,11.0,18541.52,18541.52,719.6407407099999,7916.048147809999,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,MS1ML,Amazon,FBA79613,MAPPED,21.0,27105.084745762713,27105.084745762713,719.6407407099999,15112.455554909999,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,MS2ML,1p Sales,FBA79614,MAPPED,1.0,2202.54,2202.54,1014.0189987099999,1014.0189987099999,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,POS2M,Amazon,FBA79784,MAPPED,0.0,0.0,0.0,2015.5128841507058,0.0,Monitor Arm,POS Stand,
+Week 8,White Mulberry,POSS-01,Amazon,FBA79786,MAPPED,6.0,10066.322033898306,10066.322033898306,588.8781617878676,3533.2689707272057,Monitor Arm,POS Stand,
+Week 8,White Mulberry,TVCF1ML,Amazon,FBA79787,MAPPED,15.0,10792.372881355932,10792.372881355932,174.41192009752942,2616.1788014629415,Monitor Arm,TV Wall Mount,
+Week 8,White Mulberry,TVCT1ML,Amazon,FBA79788,MAPPED,25.0,12183.050847457627,12183.050847457627,112.86910507314707,2821.727626828677,Monitor Arm,TV Wall Mount,
+Week 8,White Mulberry,TVFM1ML,Amazon,FBA79791,MAPPED,2.0,3896.6101694915255,3896.6101694915255,723.1693821271764,1446.3387642543528,Monitor Arm,TV Wall Mount,
+Week 8,White Mulberry,TVMF1ML,Amazon,FBA79789,MAPPED,1.0,634.7457627118645,634.7457627118645,178.4550734757,178.4550734757,Monitor Arm,TV Wall Mount,
+Week 8,White Mulberry,VLMS1ML,Amazon,FBA79615,MAPPED,15.0,35580.50847457627,35580.50847457627,1129.1859346449999,16937.789019674998,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,WM-GD07-CB,Amazon,FBA79167,MAPPED,58.0,360972.0338983051,360972.0338983051,3268.67,189582.86000000002,Desk,Gaming Desk,
+Week 8,White Mulberry,WM-GS1M-BK,1p Sales,FBA79476,MAPPED,32.0,71328.71,71328.71,1341.0,42912.0,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,WM-GS1M-BK,Amazon,FBA79476,MAPPED,1.0,2287.2881355932204,2287.2881355932204,1341.0,1341.0,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,WM-HA1M-BK,Amazon,FBA79478,MAPPED,5.0,5589.830508474576,5589.830508474576,866.0,4330.0,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,WM-HA2M-BK,1p Sales,FBA79479,MAPPED,1.0,2541.53,2541.53,1380.0,1380.0,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,WM-LOD-BK,Amazon,FBA76416,MAPPED,2.0,14235.593220338984,14235.593220338984,3942.18,7884.36,Desk,L-Shaped Desk,
+Week 8,White Mulberry,WM-LOD-CF,Amazon,FBA76415,MAPPED,8.0,56800.01694915255,56800.01694915255,3942.18,31537.44,Desk,L-Shaped Desk,
+Week 8,White Mulberry,WM-LOD-IN,Amazon,FBA76418,MAPPED,1.0,7117.796610169492,7117.796610169492,3942.18,3942.18,Desk,L-Shaped Desk,
+Week 8,White Mulberry,WM-LOD-WH,Amazon,FBA76417,MAPPED,2.0,14235.593220338984,14235.593220338984,3942.18,7884.36,Desk,L-Shaped Desk,
+Week 8,White Mulberry,WM-LODN-BK,Amazon,FBA79668,MAPPED,0.0,0.0,0.0,3271.6048994999996,0.0,To Check,To Check,
+Week 8,White Mulberry,WM-LODN-WH,Amazon,FBA79667,MAPPED,0.0,0.0,0.0,3271.6048994999996,0.0,Desk,L-Shaped Desk,
+Week 8,White Mulberry,WM-MDL-BK,Amazon,FBA79659,MAPPED,4.0,44064.40677966102,44064.40677966102,6431.599333799999,25726.397335199996,Desk-Adjustable,Manual,
+Week 8,White Mulberry,WM-MDL-WH,Amazon,FBA79658,MAPPED,1.0,11016.101694915254,11016.101694915254,6431.599333799999,6431.599333799999,Desk-Adjustable,Manual,
+Week 8,White Mulberry,WM-MH05P-CF,Amazon,FBK76764,MAPPED,0.0,0.0,0.0,7852.0,0.0,Desk-Adjustable,Manual,
+Week 8,White Mulberry,WM-MH05P-WH,Amazon,FBK76387,MAPPED,0.0,0.0,0.0,7852.0,0.0,Desk-Adjustable,Manual,
+Week 8,White Mulberry,WM-MODL-BBW,Amazon,FBA79660,MAPPED,1.0,11016.101694915254,11016.101694915254,7640.010477000001,7640.010477000001,Desk-Adjustable,Motorized,
+Week 8,White Mulberry,WM-MODL-WH,Amazon,FBA79662,MAPPED,2.0,26269.49152542373,26269.49152542373,7640.010477000001,15280.020954000001,Desk-Adjustable,Motorized,
+Week 8,White Mulberry,WM-SE08-CF,Amazon,FBA79179,MAPPED,4.0,52407.635593220344,52407.635593220344,7018.0,28072.0,Desk-Adjustable,Motorized,
+Week 8,White Mulberry,WM-SEH04P-CF,Amazon,FBA76765,MAPPED,2.0,23727.1186440678,23727.1186440678,0.0,0.0,Desk-Adjustable,Motorized,
+Week 8,White Mulberry,WM-USE06-WH,Amazon,FBA79165,MAPPED,1.0,18643.22033898305,18643.22033898305,11345.0,11345.0,Desk-Adjustable,USB-Motorized,
+Week 8,White Mulberry,WM1ML,1p Sales,FBA79612,MAPPED,22.0,54049.16,54049.16,1073.8702061650001,23625.144535630003,Monitor Arm,Monitor Arm,
+Week 8,White Mulberry,nan,Amazon,,MAPPED,6.0,4316.949152542373,4316.949152542373,0.0,0.0,0,0,0

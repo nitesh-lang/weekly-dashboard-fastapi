@@ -3,632 +3,708 @@
 <head>
     <title>AMS Trend – Weekly Analytics</title>
     <link rel="stylesheet" href="/static/css/ams_table_optimized.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
-    <!-- ==================================================
-         BASE STYLES (UNCHANGED + EXTENDED)
-    =================================================== -->
     <style>
+        :root {
+            --bg:         #f5f6fa;
+            --bg2:        #ffffff;
+            --bg3:        #f8f9fc;
+            --border:     #e8eaf0;
+            --border2:    #d5d9e6;
+            --text:       #111827;
+            --text2:      #1f2937;
+            --text3:      #374151;
+            --blue:       #4f6ef7;
+            --blue-dim:   #eef0fe;
+            --green:      #0f9b6e;
+            --purple:     #7c5cbf;
+            --amber:      #b45309;
+            --red:        #dc2626;
+            --header-bg:  #3d3587;
+            --header-nav: #4a3f9e;
+            --radius:     8px;
+            --mono:       'IBM Plex Mono', monospace;
+            --sans:       'IBM Plex Sans', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 20px;
-            background: #ffffff;
-        }
-
-        h1 { margin-bottom: 6px; }
-        h2 { margin-top: 36px; }
-        h3 { margin-top: 22px; }
-
-        /* ===============================
-           NAV LINKS
-        =============================== */
-        .nav-links {
-            margin: 10px 0 20px 0;
-            font-size: 14px;
-        }
-
-        .nav-links a {
-            margin-right: 16px;
-            font-weight: bold;
-            text-decoration: none;
-            color: #0b5ed7;
-        }
-
-        .nav-links span {
-            color: #999;
-            margin-right: 16px;
-        }
-
-        /* ===============================
-           FILTERS
-        =============================== */
-        .filters {
-            margin: 10px 0 20px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-left: 4px solid #0b5ed7;
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
             font-size: 13px;
+            line-height: 1.5;
         }
 
-        .filters select,
-        .filters input {
-            font-size: 12px;
-            padding: 2px 4px;
-        }
+        a { text-decoration: none; color: var(--blue); }
+        a:hover { color: #3451d1; text-decoration: underline; }
 
-        /* ===============================
-           KPI CARDS
-        =============================== */
-        .kpi {
-            display: inline-block;
-            border: 1px solid #ccc;
-            padding: 12px;
-            margin-right: 10px;
-            width: 22%;
-            vertical-align: top;
-            background: #fff;
-        }
-
-        /* ===============================
-           TABLE WRAPPER
-        =============================== */
-        /* .table-wrapper {
-            overflow-x: auto;
-            border: 1px solid #ccc;
-            margin-top: 10px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            table-layout: fixed;
-            margin-bottom: 30px;
-        }
-
-        thead th {
+        /* ── STICKY HEADER ── */
+        #sticky-header {
             position: sticky;
             top: 0;
-            z-index: 5;
-            background: #f4f4f4;
+            z-index: 200;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+        }
+
+        .header-title {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--header-bg);
+        }
+        .header-title h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .back-link {
+            font-size: 11px;
+            color: rgba(255,255,255,0.65);
+            font-family: var(--mono);
+            transition: color 0.15s;
+        }
+        .back-link:hover { color: #fff; text-decoration: none; }
+
+        .nav-strip {
+            padding: 0 24px;
+            background: var(--header-nav);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 34px;
+        }
+        .nav-strip a {
+            color: rgba(255,255,255,0.72);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 11px;
+            border-radius: 5px;
+            transition: all 0.15s;
+        }
+        .nav-strip a:hover { background: rgba(255,255,255,0.14); color: #fff; text-decoration: none; }
+        .nav-strip a.active { background: rgba(255,255,255,0.18); color: #fff; font-weight: 600; }
+        .nav-strip .sep { color: rgba(255,255,255,0.25); margin: 0 2px; }
+
+        /* ── KPI BAR (sticky part) ── */
+        .kpi-bar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .kpi {
+            background: var(--bg2);
+            padding: 10px 18px;
+            position: relative;
+        }
+        .kpi::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 3px;
+            border-radius: 0 2px 2px 0;
+        }
+        .kpi:nth-child(1)::before { background: var(--blue); }
+        .kpi:nth-child(2)::before { background: var(--green); }
+        .kpi:nth-child(3)::before { background: var(--red); }
+        .kpi:nth-child(4)::before { background: var(--purple); }
+        .kpi:nth-child(5)::before { background: var(--amber); }
+        .kpi:nth-child(6)::before { background: #0891b2; }
+
+        .kpi-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            margin-bottom: 3px;
+        }
+        .kpi-value {
+            font-family: var(--mono);
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: var(--text);
+        }
+        .kpi:nth-child(1) .kpi-value { color: #3d3587; }
+        .kpi:nth-child(2) .kpi-value { color: #0f7a57; }
+        .kpi:nth-child(3) .kpi-value { color: #b91c1c; }
+        .kpi:nth-child(4) .kpi-value { color: #6040a8; }
+        .kpi:nth-child(5) .kpi-value { color: #92400e; }
+        .kpi:nth-child(6) .kpi-value { color: #0e7490; }
+
+        /* ── FILTER PANEL ── */
+        .filter-panel {
+            padding: 10px 24px;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group { display: flex; align-items: center; gap: 6px; }
+        .filter-group label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .filter-panel select,
+        .filter-panel input[type="text"] {
+            padding: 4px 10px;
+            font-size: 12px;
+            font-family: var(--sans);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            background: var(--bg3);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .filter-panel input[type="text"] { width: 120px; }
+        .filter-panel select:focus,
+        .filter-panel input[type="text"]:focus { border-color: var(--blue); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: var(--sans);
+            border-radius: 6px;
             cursor: pointer;
-            user-select: none;
+            transition: all 0.15s;
+            border: 1px solid var(--border2);
+            background: var(--bg2);
+            color: var(--text2);
+        }
+        .btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+        .btn-primary { background: var(--header-bg); color: #fff; border-color: var(--header-bg); }
+        .btn-primary:hover { background: #4a3f9e; border-color: #4a3f9e; color: #fff; }
+        .btn-danger  { background: #fef2f2; color: var(--red); border-color: #fecaca; }
+        .btn-danger:hover  { background: #fee2e2; }
+
+        /* ── MAIN ── */
+        .main-content { padding: 16px 24px 60px; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 18px 0 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .muted {
+            font-size: 11px;
+            color: var(--text3);
+            margin-bottom: 8px;
+        }
+
+        /* ── COLUMN SELECTOR ── */
+        .column-selector {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+        .column-actions {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        #columnCheckboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 14px;
+        }
+        #columnCheckboxes label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text2);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        #columnCheckboxes input[type="checkbox"] {
+            accent-color: var(--header-bg);
+            cursor: pointer;
+        }
+
+        /* ── TABLE WRAPPERS ── */
+        .table-wrapper {
+            overflow: auto;
+            max-height: 460px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            margin-bottom: 24px;
+        }
+
+        /* ── TABLE BASE ── */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: max-content;
+            min-width: 100%;
         }
 
         th, td {
-            border: 1px solid #ccc;
-            padding: 6px;
-            font-size: 12px;
+            padding: 7px 12px;
+            font-size: 11px;
             text-align: right;
             white-space: nowrap;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--text2);
         }
 
-        th { background: #f4f4f4; }
-
-        /* Left aligned columns */
-        th:nth-child(-n+7),
-        td:nth-child(-n+7) {
-            text-align: left;
-        }
-
-        /* ===============================
-           COLUMN WIDTHS (EXCEL-LIKE)
-        =============================== */
-        th:nth-child(1),  td:nth-child(1)  { min-width: 60px;  } /* Week */
-        th:nth-child(2),  td:nth-child(2)  { min-width: 90px;  } /* SKU */
-        th:nth-child(3),  td:nth-child(3)  { min-width: 90px;  } /* Model */
-        th:nth-child(4),  td:nth-child(4)  { min-width: 120px; } /* ASIN */
-        th:nth-child(5),  td:nth-child(5)  { min-width: 140px; } /* Cat L0 */
-        th:nth-child(6),  td:nth-child(6)  { min-width: 160px; } /* Cat L1 */
-        th:nth-child(7),  td:nth-child(7)  { min-width: 160px; } /* Cat L2 */
-
-        /* Numeric columns */
-        th:nth-child(n+8), td:nth-child(n+8) { min-width: 90px; }
-
-        /* ===============================
-           ROW STYLES
-        =============================== */
-        tbody tr:nth-child(even) {
-            background: #fcfcfc;
-        }
-
-        tbody tr:hover {
-            background: #eef6ff;
-        } */
-
-        /* ===============================
-           SORT INDICATORS
-        =============================== */
-        th.sort-asc::after {
-            content: " ▲";
+        th {
+            background: #f4f5fb;
+            color: var(--text2);
             font-size: 10px;
-            color: #0b5ed7;
-        }
-
-        th.sort-desc::after {
-            content: " ▼";
-            font-size: 10px;
-            color: #0b5ed7;
-        }
-
-        /* ===============================
-           COLUMN SELECTOR
-        =============================== */
-        .column-selector {
-            border: 1px solid #ccc;
-            background: #fafafa;
-            padding: 8px;
-            margin-top: 16px;
-            font-size: 12px;
-        }
-
-        .column-selector label {
-            margin-right: 12px;
-            white-space: nowrap;
-            display: inline-block;
-        }
-
-        .column-actions {
-            margin-bottom: 6px;
-        }
-
-        .column-actions button {
-            margin-right: 6px;
-            padding: 3px 8px;
-            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            border-bottom: 2px solid var(--border2);
             cursor: pointer;
+            user-select: none;
+            transition: background 0.12s;
+        }
+        th:hover { background: #eaecf7; color: var(--header-bg); }
+
+        /* Left-align first 8 cols */
+        #amsTable th:nth-child(-n+8),
+        #amsTable td:nth-child(-n+8),
+        #sbTable th:nth-child(-n+2),
+        #sbTable td:nth-child(-n+2) { text-align: left; }
+
+        /* Mono numbers */
+        #amsTable td:nth-child(n+9),
+        #sbTable td:nth-child(n+3) {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text);
         }
 
-        .muted {
-            color: #777;
-            font-size: 12px;
-        }
+        tbody tr:nth-child(even) td { background: #fafbfd; }
+        tbody tr:hover td { background: #eef0fe !important; }
 
-        .btn-reset {
-            margin-left: 6px;
-            background: #e9ecef;
-            border: 1px solid #ccc;
+        /* Sort indicators */
+        th.sort-asc::after  { content: " ▲"; font-size: 9px; color: var(--blue); }
+        th.sort-desc::after { content: " ▼"; font-size: 9px; color: var(--blue); }
+
+        /* Loading state */
+        .loading { opacity: 0.6; pointer-events: none; }
+
+        /* Ad type pill */
+        .ad-type-filter select {
             padding: 4px 10px;
-            cursor: pointer;
+            font-size: 12px;
+            font-family: var(--sans);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            background: var(--bg3);
+            color: var(--text);
+            outline: none;
         }
 
-        /* ===============================
-           LOADING STATE
-        =============================== */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5e8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0a8c8; }
+
+        @media (max-width: 900px) {
+            .kpi-bar { grid-template-columns: repeat(3,1fr); }
         }
     </style>
 </head>
-
 <body>
 
-<h1>📢 AMS Trend</h1>
+<!-- ── STICKY HEADER ── -->
+<div id="sticky-header">
 
-<div class="nav-links">
-    <a href="/dashboard">📊 Unified Dashboard</a>
-    <span>|</span>
-    <a href="/sales-trend">📈 Sales Trend</a>
-    <span>|</span>
-    <a href="/category-sales">🧩 Category Trend</a>
-    <span>|</span>
-    <a href="/inventory-dashboard">📦 Inventory Dashboard</a>
-</div>
-
-<!-- ===============================
-     FILTERS (UNCHANGED)
-=============================== -->
-<div class="filters">
-    <form id="amsFilterForm">
-
-        Week:
-        <select id="weekSelect" onchange="loadAMS()">
-            <option value="">Latest</option>
-            {% for w in weeks %}
-                <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
-            {% endfor %}
-        </select>
-
-        &nbsp;&nbsp;
-
-        Category L0:
-        <select id="catL0" onchange="onL0Change()">
-            <option value="">All</option>
-            {% for c in category_l0_list %}
-                <option value="{{ c }}">{{ c }}</option>
-            {% endfor %}
-        </select>
-
-        &nbsp;&nbsp;
-
-        Category L1:
-        <select id="catL1" onchange="onL1Change()">
-            <option value="">All</option>
-        </select>
-
-        &nbsp;&nbsp;
-
-        Category L2:
-        <select id="catL2" onchange="loadAMS()">
-            <option value="">All</option>
-        </select>
-
-        &nbsp;&nbsp;
-
-        Brand:
-        <select id="brandSelect" onchange="onBrandChange()">
-
-            <option value="">All</option>
-        </select>
-
-        Model:
-        <input type="text" id="modelInput" placeholder="Optional" onblur="loadAMS()" />
-
-
-        &nbsp;&nbsp;
-
-        ASIN:
-        <input type="text" id="asinInput" placeholder="Optional" onblur="loadAMS()" />
-
-
-        &nbsp;&nbsp;
-
-        <button type="button" onclick="loadAMS()">Apply</button>
-        <button type="button" class="btn-reset" onclick="resetFilters()">Reset</button>
-        <button type="button" onclick="exportAMS()">Export CSV</button>
-
-    </form>
-</div>
-
-<h2>📌 AMS KPIs</h2>
-
-<div class="kpi"><b>Sessions</b><br><span id="kpiSessions">—</span></div>
-<div class="kpi"><b>GMV</b><br>₹ <span id="kpiGMV">—</span></div>
-<div class="kpi"><b>Ad Spend</b><br>₹ <span id="kpiSpend">—</span></div>
-<div class="kpi"><b>Attributed Sales</b><br>₹ <span id="kpiSales">—</span></div>
-<div class="kpi"><b>ACOS</b><br><span id="kpiAcos">—</span></div>
-<div class="kpi"><b>TACOS</b><br><span id="kpiTacos">—</span></div>
-
-<h2>📊 AMS Performance (ASIN Level)</h2>
-<p class="muted">Click any column header to sort A → Z / Z → A</p>
-
-<!-- ===============================
-     COLUMN SELECTOR (UNCHANGED)
-=============================== -->
-<div class="column-selector">
-    <div class="column-actions">
-        <button onclick="selectAllCols()">All</button>
-        <button onclick="deselectAllCols()">None</button>
-        <button onclick="applyColumnVisibility()">Apply</button>
-        <button onclick="resetColumnVisibility()">Reset</button>
+    <div class="header-title">
+        <h1>📣 AMS Trend — Weekly Analytics</h1>
+        <a class="back-link" href="/dashboard">← Back to Dashboard</a>
     </div>
-    <div id="columnCheckboxes"></div>
-</div>
 
-<div class="table-wrapper">
-<table id="amsTable">
-<thead>
-<tr id="amsHeaderRow">
-    <th>Week</th>
-    <th>SKU</th>
-    <th>Model</th>
-    <th>Brand</th>
-    <th>ASIN</th>
-    <th>Category L0</th>
-    <th>Category L1</th>
-    <th>Category L2</th>
-    <th>Sessions</th>
-    <th>GMV (₹)</th>
-    <th>Units</th>
-    <th>Ad Spend (₹)</th>
-    <th>Contribution to Sales (%)</th>
-    <th>Attributed Sales (%)</th>
-    <th>Organic Sales (%)</th>
-    <th>Conversion (%)</th>
-    <th>ROAS (%)</th>
-    <th>ACOS (%)</th>
-    <th>TACOS (%)</th>
-    <th>CAC</th>
-    <th>AMS Orders</th>
-    <th>Clicks</th>
-    <th>Impressions</th>
-    <th>CPC (₹)</th>
-    <th>Buybox %</th>
-    <th>Inv AMPM</th>
-    <th>Inv 1P</th>
-    <th>Inv Amazon</th>
-    <th>Total Amazon Inv</th>
-    <th>Pipeline Orders</th>
-</tr>
-</thead>
-<tbody><!-- rows injected safely --></tbody>
-</table>
-</div>
+    <nav class="nav-strip">
+        <a href="/dashboard">🏠 Dashboard</a>
+        <span class="sep">·</span>
+        <a href="/sales-trend">📈 Sales Trend</a>
+        <span class="sep">·</span>
+        <a href="/amazon-sales-trend">🛒 Amazon + 1P</a>
+        <span class="sep">·</span>
+        <a href="/category-sales">🧩 Category</a>
+        <span class="sep">·</span>
+        <a href="/inventory-dashboard">📦 Inventory</a>
+        <span class="sep">·</span>
+        <a href="/ams-trend" class="active">📣 AMS Trend</a>
+    </nav>
 
+    <!-- KPI BAR -->
+    <div class="kpi-bar">
+        <div class="kpi">
+            <div class="kpi-label">Sessions</div>
+            <div class="kpi-value" id="kpiSessions">—</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">GMV</div>
+            <div class="kpi-value">₹ <span id="kpiGMV">—</span></div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Ad Spend</div>
+            <div class="kpi-value">₹ <span id="kpiSpend">—</span></div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Attributed Sales</div>
+            <div class="kpi-value">₹ <span id="kpiSales">—</span></div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">ACOS</div>
+            <div class="kpi-value" id="kpiAcos">—</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">TACOS</div>
+            <div class="kpi-value" id="kpiTacos">—</div>
+        </div>
+    </div>
 
-<h2>📣 Sponsored Brand Performance (Campaign Level)</h2>
-<p class="muted">SB campaigns are shown separately at campaign level</p>
+</div><!-- /#sticky-header -->
 
-<div class="table-wrapper">
-<table id="sbTable">
-<thead>
-<tr>
-    <th>Week</th>
-    <th>Campaign</th>
-    <th>Ad Spend (₹)</th>
-    <th>Attributed Sales (₹)</th>
-    <th>Orders</th>
-    <th>Clicks</th>
-    <th>Impressions</th>
-    <th>CPC (₹)</th>
-    <th>ROAS</th>
-    <th>ACOS (%)</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-</div>
+<!-- ── MAIN ── -->
+<div class="main-content">
 
+    <!-- FILTER PANEL -->
+    <div class="filter-panel" id="amsFilterForm">
 
-<!-- ==================================================
-     JAVASCRIPT (EXTENDED, NO LOGIC REMOVAL)
-================================================== -->
+        <div class="filter-group">
+            <label>Week</label>
+            <select id="weekSelect" onchange="loadAMS()">
+                <option value="">Latest</option>
+                {% for w in weeks %}
+                    <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Cat L0</label>
+            <select id="catL0" onchange="onL0Change()">
+                <option value="">All</option>
+                {% for c in category_l0_list %}
+                    <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Cat L1</label>
+            <select id="catL1" onchange="onL1Change()">
+                <option value="">All</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Cat L2</label>
+            <select id="catL2" onchange="loadAMS()">
+                <option value="">All</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Brand</label>
+            <select id="brandSelect" onchange="onBrandChange()">
+                <option value="">All</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Model</label>
+            <input type="text" id="modelInput" placeholder="Optional" onblur="loadAMS()">
+        </div>
+
+        <div class="filter-group">
+            <label>ASIN</label>
+            <input type="text" id="asinInput" placeholder="Optional" onblur="loadAMS()">
+        </div>
+
+        <div class="filter-group ad-type-filter">
+            <label>Ad Type</label>
+            <select id="adTypeSelect" onchange="onAdTypeChange()">
+                <option value="">All</option>
+                <option value="SP">SP</option>
+                <option value="SD">SD</option>
+                <option value="SB">SB</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" type="button" onclick="loadAMS()">Apply</button>
+        <button class="btn btn-danger" type="button" onclick="resetFilters()">Reset</button>
+        <button class="btn" type="button" onclick="exportAMS()">⬇ Export CSV</button>
+
+    </div>
+
+    <!-- COLUMN SELECTOR -->
+    <div class="section-header" style="margin-top:6px">
+        <div class="section-title">📊 AMS Performance — ASIN Level</div>
+        <p class="muted" style="margin:0">Click any column header to sort</p>
+    </div>
+
+    <div class="column-selector">
+        <div class="column-actions">
+            <button class="btn" onclick="selectAllCols()">All</button>
+            <button class="btn" onclick="deselectAllCols()">None</button>
+            <button class="btn btn-primary" onclick="applyColumnVisibility()">Apply</button>
+            <button class="btn" onclick="resetColumnVisibility()">Reset</button>
+        </div>
+        <div id="columnCheckboxes"></div>
+    </div>
+
+    <!-- AMS TABLE -->
+    <div class="table-wrapper">
+        <table id="amsTable">
+        <thead>
+        <tr id="amsHeaderRow">
+            <th>Week</th>
+            <th>SKU</th>
+            <th>Model</th>
+            <th>Brand</th>
+            <th>ASIN</th>
+            <th>Category L0</th>
+            <th>Category L1</th>
+            <th>Category L2</th>
+            <th>Sessions</th>
+            <th>GMV (₹)</th>
+            <th>Units</th>
+            <th>Ad Spend (₹)</th>
+            <th>Contrib Sales %</th>
+            <th>Attributed Sales %</th>
+            <th>Organic Sales %</th>
+            <th>Conversion %</th>
+            <th>ROAS</th>
+            <th>ACOS %</th>
+            <th>TACOS %</th>
+            <th>CAC</th>
+            <th>AMS Orders</th>
+            <th>Clicks</th>
+            <th>Impressions</th>
+            <th>CPC (₹)</th>
+            <th>Buybox %</th>
+            <th>Inv AMPM</th>
+            <th>Inv 1P</th>
+            <th>Inv Amazon</th>
+            <th>Total Amz Inv</th>
+            <th>Pipeline Orders</th>
+        </tr>
+        </thead>
+        <tbody><!-- rows injected by JS --></tbody>
+        </table>
+    </div>
+
+    <!-- SB TABLE -->
+    <div class="section-header">
+        <div class="section-title">📣 Sponsored Brand Performance — Campaign Level</div>
+        <p class="muted" style="margin:0">SB campaigns shown separately at campaign level</p>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="sbTable">
+        <thead>
+        <tr>
+            <th>Week</th>
+            <th>Campaign</th>
+            <th>Ad Spend (₹)</th>
+            <th>Attributed Sales (₹)</th>
+            <th>Orders</th>
+            <th>Clicks</th>
+            <th>Impressions</th>
+            <th>CPC (₹)</th>
+            <th>ROAS</th>
+            <th>ACOS %</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+        </table>
+    </div>
+
+</div><!-- /.main-content -->
+
+<!-- ── ALL ORIGINAL JS PRESERVED EXACTLY ── -->
 <script>
-/* ===============================
-   GLOBAL STATE
-=============================== */
-// --------------------------------------------------
-// GLOBAL AD TYPE STATE (SINGLE SOURCE OF TRUTH)
-// Must exist BEFORE loadAMS() is executed
-// --------------------------------------------------
+/* ── GLOBAL STATE ── */
 window.selectedAdType = window.selectedAdType || "";
 let lastRowsCache = [];
 let defaultVisibleCols = [];
 let sortState = { col: null, dir: null };
 
-/* ===============================
-   SAFE FORMATTERS (UNCHANGED)
-=============================== */
+/* ── FORMATTERS ── */
 function safe(v){ return (v===null||v===undefined||v==="") ? "—" : v; }
 function fmt(v){ return (v===null||isNaN(v)) ? "—" : Number(v).toFixed(2); }
 function pct(v){ return (v===null||isNaN(v)) ? "—" : (v*100).toFixed(1)+"%"; }
+function normalizeWeek(w){ if(!w) return ""; return w.replace("Week","").trim(); }
 
-function normalizeWeek(w){
-    if(!w) return "";
-    return w.replace("Week","").trim();
-}
-
-/* ===============================
-   CATEGORY CASCADE (UNCHANGED)
-=============================== */
+/* ── CATEGORY CASCADE ── */
 function onL0Change(){
     catL1.innerHTML = '<option value="">All</option>';
     catL2.innerHTML = '<option value="">All</option>';
-
     const l0 = catL0.value;
     if(!l0) return;
-
     const s = new Set();
-    lastRowsCache.forEach(r => {
-        if(r.category_l0 === l0 && r.category_l1){
-            s.add(r.category_l1);
-        }
-    });
-
+    lastRowsCache.forEach(r => { if(r.category_l0 === l0 && r.category_l1) s.add(r.category_l1); });
     [...s].sort().forEach(v => {
         const o = document.createElement("option");
-        o.value = v;
-        o.textContent = v;
+        o.value = v; o.textContent = v;
         catL1.appendChild(o);
-});
-
-
+    });
 }
 
 function onL1Change(){
     catL2.innerHTML = '<option value="">All</option>';
-
-    const l0 = catL0.value;
-    const l1 = catL1.value;
+    const l0 = catL0.value, l1 = catL1.value;
     if(!l0 || !l1) return;
-
     const s = new Set();
-    lastRowsCache.forEach(r => {
-        if(r.category_l0 === l0 && r.category_l1 === l1 && r.category_l2){
-            s.add(r.category_l2);
-        }
-    });
-
+    lastRowsCache.forEach(r => { if(r.category_l0===l0 && r.category_l1===l1 && r.category_l2) s.add(r.category_l2); });
     [...s].sort().forEach(v => {
         const o = document.createElement("option");
-        o.value = v;
-        o.textContent = v;
-    catL2.appendChild(o);
-});
-
-
+        o.value = v; o.textContent = v;
+        catL2.appendChild(o);
+    });
 }
 
-// ===============================
-// CATEGORY BOOTSTRAP (RUN ONCE)
-// ===============================
 function bootstrapCategories(rows){
     catL0.innerHTML = '<option value="">All</option>';
     catL1.innerHTML = '<option value="">All</option>';
     catL2.innerHTML = '<option value="">All</option>';
-
     const selectedBrand = brandSelect.value || "";
     const l0Set = new Set();
-
     rows.forEach(r => {
         const rowBrand = r.brand || r.Brand;
-        if (
-            r.category_l0 &&
-            (!selectedBrand || rowBrand === selectedBrand)
-        ) {
-            l0Set.add(r.category_l0);
-        }
+        if(r.category_l0 && (!selectedBrand || rowBrand === selectedBrand)) l0Set.add(r.category_l0);
     });
-
     [...l0Set].sort().forEach(v => {
-        const o = document.createElement("option");
-        o.value = v;
-        o.textContent = v;
+        const o = document.createElement("option"); o.value = v; o.textContent = v;
         catL0.appendChild(o);
     });
 }
 
-
 function resetFilters(){
-    brandSelect.value="";
-    weekSelect.value="";
-    catL0.value="";
+    brandSelect.value=""; weekSelect.value=""; catL0.value="";
     catL1.innerHTML='<option value="">All</option>';
     catL2.innerHTML='<option value="">All</option>';
-    modelInput.value="";
-    asinInput.value="";
+    modelInput.value=""; asinInput.value="";
     loadAMS();
 }
 
 function onBrandChange(){
-    catL0.value = "";
-    catL1.innerHTML = '<option value="">All</option>';
-    catL2.innerHTML = '<option value="">All</option>';
-
-    // 🔥 DO NOT build categories here
+    catL0.value="";
+    catL1.innerHTML='<option value="">All</option>';
+    catL2.innerHTML='<option value="">All</option>';
     loadAMS();
 }
 
-
-
-/* ===============================
-   COLUMN VISIBILITY LOGIC (UNCHANGED)
-=============================== */
+/* ── COLUMN VISIBILITY ── */
 function initColumnSelector(){
-    const headers=document.querySelectorAll("#amsHeaderRow th");
-    const box=document.getElementById("columnCheckboxes");
-    box.innerHTML="";
-    headers.forEach((h,i)=>{
+    const headers = document.querySelectorAll("#amsHeaderRow th");
+    const box = document.getElementById("columnCheckboxes");
+    box.innerHTML = "";
+    headers.forEach((h,i) => {
         defaultVisibleCols.push(true);
-        const lbl=document.createElement("label");
-        lbl.innerHTML=`<input type="checkbox" checked data-col="${i}"> ${h.innerText}`;
+        const lbl = document.createElement("label");
+        lbl.innerHTML = `<input type="checkbox" checked data-col="${i}"> ${h.innerText}`;
         box.appendChild(lbl);
     });
 }
 
 function applyColumnVisibility(){
-    document.querySelectorAll("#columnCheckboxes input").forEach(cb=>{
-        toggleColumn(cb.dataset.col, cb.checked);
-    });
+    document.querySelectorAll("#columnCheckboxes input").forEach(cb => toggleColumn(cb.dataset.col, cb.checked));
 }
 
 function toggleColumn(idx, show){
-    document.querySelectorAll(`#amsTable tr`).forEach(r=>{
-        if(r.children[idx]) r.children[idx].style.display=show?"":"none";
+    document.querySelectorAll(`#amsTable tr`).forEach(r => {
+        if(r.children[idx]) r.children[idx].style.display = show ? "" : "none";
     });
 }
 
-function selectAllCols(){
-    document.querySelectorAll("#columnCheckboxes input").forEach(cb=>cb.checked=true);
-}
-
-function deselectAllCols(){
-    document.querySelectorAll("#columnCheckboxes input").forEach(cb=>cb.checked=false);
-}
-
+function selectAllCols(){ document.querySelectorAll("#columnCheckboxes input").forEach(cb => cb.checked=true); }
+function deselectAllCols(){ document.querySelectorAll("#columnCheckboxes input").forEach(cb => cb.checked=false); }
 function resetColumnVisibility(){
-    document.querySelectorAll("#columnCheckboxes input").forEach((cb,i)=>{
-        cb.checked=defaultVisibleCols[i];
-        toggleColumn(i,true);
+    document.querySelectorAll("#columnCheckboxes input").forEach((cb,i) => {
+        cb.checked = defaultVisibleCols[i];
+        toggleColumn(i, true);
     });
 }
 
-/* ===============================
-   SORTING LOGIC (NEW, SAFE)
-=============================== */
+/* ── SORTING ── */
 function sortTableByColumn(colIndex){
     const headers = document.querySelectorAll("#amsHeaderRow th");
     headers.forEach(h => h.classList.remove("sort-asc","sort-desc"));
-
     if(sortState.col === colIndex){
         sortState.dir = sortState.dir === "asc" ? "desc" : "asc";
     } else {
         sortState.col = colIndex;
         sortState.dir = "asc";
     }
+    headers[colIndex].classList.add(sortState.dir === "asc" ? "sort-asc" : "sort-desc");
 
-    headers[colIndex].classList.add(
-        sortState.dir === "asc" ? "sort-asc" : "sort-desc"
-    );
-
-    lastRowsCache.sort((a,b)=>{
-
-    const columnMap = [
-        "week",
-        "SKU",
-        "Model",
-        "brand",
-        "asin",
-        "category_l0",
-        "category_l1",
-        "category_l2",
-        "sessions",
-        "GMV",
-        "units",
-        "ad_spend",
-        "contribution_to_sales_pct",
-        "attributed_sales_pct",
-        "organic_sales_pct",
-        "conversion_pct",
-        "roas",
-        "acos",
-        "tacos",  // safe (render already handles TACOS)
-        "cac",
-        "ams_orders",
-        "clicks",
-        "impressions",
-        null, // CPC (calculated)
-        "buy_box_pct",
-        "inventory_ampm",
-        "inventory_1p",
-        "inventory_amazon",
-        "inventory_total_amazon",
-        "pipeline_orders"
-    ];
-
-    const key = columnMap[colIndex];
-    if(!key) return 0;
-
-   let v1 = a[key] ?? a[key?.toLowerCase()];
-   let v2 = b[key] ?? b[key?.toLowerCase()];
-
-    const n1 = parseFloat(v1);
-    const n2 = parseFloat(v2);
-
-    if(!isNaN(n1) && !isNaN(n2)){
-        return sortState.dir==="asc" ? n1-n2 : n2-n1;
-    }
-
-    return sortState.dir==="asc"
-        ? String(v1 || "").localeCompare(String(v2 || ""))
-        : String(v2 || "").localeCompare(String(v1 || ""));
-});
-
+    lastRowsCache.sort((a,b) => {
+        const columnMap = [
+            "week","SKU","Model","brand","asin","category_l0","category_l1","category_l2",
+            "sessions","GMV","units","ad_spend","contribution_to_sales_pct",
+            "attributed_sales_pct","organic_sales_pct","conversion_pct","roas","acos",
+            "tacos","cac","ams_orders","clicks","impressions",
+            null,"buy_box_pct","inventory_ampm","inventory_1p","inventory_amazon",
+            "inventory_total_amazon","pipeline_orders"
+        ];
+        const key = columnMap[colIndex];
+        if(!key) return 0;
+        let v1 = a[key] ?? a[key?.toLowerCase()];
+        let v2 = b[key] ?? b[key?.toLowerCase()];
+        const n1 = parseFloat(v1), n2 = parseFloat(v2);
+        if(!isNaN(n1) && !isNaN(n2)) return sortState.dir==="asc" ? n1-n2 : n2-n1;
+        return sortState.dir==="asc"
+            ? String(v1||"").localeCompare(String(v2||""))
+            : String(v2||"").localeCompare(String(v1||""));
+    });
     renderTable();
 }
 
-/* ===============================
-   RENDER TABLE (REFRACTOR SAFE)
-=============================== */
+/* ── RENDER TABLE ── */
 function renderTable(){
-    // NOTE: Do NOT filter by ASIN here.
-    // SP/SD rows may have empty ASIN and must still render.
-
-    const tb=document.querySelector("#amsTable tbody");
-    tb.innerHTML="";
-    lastRowsCache
-    .forEach(r=>{
-        const tr=document.createElement("tr");
-        tr.innerHTML=`
+    const tb = document.querySelector("#amsTable tbody");
+    tb.innerHTML = "";
+    lastRowsCache.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
             <td>${safe(r.week)}</td>
             <td>${safe(r.SKU || '—')}</td>
             <td>${safe(r.Model || r.campaign_name || 'SB Campaign')}</td>
@@ -652,7 +728,7 @@ function renderTable(){
             <td>${safe(r.ams_orders)}</td>
             <td>${safe(r.clicks)}</td>
             <td>${safe(r.impressions)}</td>
-            <td>${fmt(r.clicks>0?r.ad_spend/r.clicks:null)}</td>
+            <td>${fmt(r.clicks>0 ? r.ad_spend/r.clicks : null)}</td>
             <td>${pct(r.buy_box_pct)}</td>
             <td>${safe(r.inventory_ampm)}</td>
             <td>${safe(r.inventory_1p)}</td>
@@ -664,126 +740,77 @@ function renderTable(){
     });
 }
 
-/* ===============================
-   MAIN LOAD (UNCHANGED API)
-=============================== */
-
-/* ===============================
-   EXPORT CSV
-=============================== */
-function exportAMS(){
-    let url="/api/ams/export?";
-
-    if(!weekSelect.value){
-        url+="weeks=1&";
-    } else {
-        url+="week="+normalizeWeek(weekSelect.value)+"&";
-    }
-
-    if(catL0.value) url+="category_l0="+encodeURIComponent(catL0.value)+"&";
-    if(catL1.value) url+="category_l1="+encodeURIComponent(catL1.value)+"&";
-    if(catL2.value) url+="category_l2="+encodeURIComponent(catL2.value)+"&";
-    if(modelInput.value) url+="model="+encodeURIComponent(modelInput.value)+"&";
-    if(brandSelect.value) url+="brand="+encodeURIComponent(brandSelect.value)+"&";
-    if(asinInput.value) url+="asin="+encodeURIComponent(asinInput.value)+"&";
-
-    window.open(url, "_blank");
-}
-
+/* ── MAIN LOAD ── */
 function loadAMS(){
     document.body.classList.add("loading");
-
-    let url="/api/ams/trend?";
-    // 🔧 FIX (ADDITIVE, STRICT): when Latest is selected, ask backend for calendar-latest
-    if(!weekSelect.value){
-        url+="weeks=1&";
-    } else {
-        url+="week="+normalizeWeek(weekSelect.value)+"&";
-    }
-    if(catL0.value) url+="category_l0="+encodeURIComponent(catL0.value)+"&";
-    if(catL1.value) url+="category_l1="+encodeURIComponent(catL1.value)+"&";
-    if(catL2.value) url+="category_l2="+encodeURIComponent(catL2.value)+"&";
-    if(modelInput.value) url+="model="+encodeURIComponent(modelInput.value)+"&";
-    if(brandSelect && brandSelect.value) url+="brand="+encodeURIComponent(brandSelect.value)+"&";
-    if(asinInput.value) url+="asin="+encodeURIComponent(asinInput.value)+"&";
-    if(window.selectedAdType) url+="ad_type="+encodeURIComponent(window.selectedAdType)+"&";
+    let url = "/api/ams/trend?";
+    if(!weekSelect.value){ url += "weeks=1&"; }
+    else { url += "week="+normalizeWeek(weekSelect.value)+"&"; }
+    if(catL0.value) url += "category_l0="+encodeURIComponent(catL0.value)+"&";
+    if(catL1.value) url += "category_l1="+encodeURIComponent(catL1.value)+"&";
+    if(catL2.value) url += "category_l2="+encodeURIComponent(catL2.value)+"&";
+    if(modelInput.value) url += "model="+encodeURIComponent(modelInput.value)+"&";
+    if(brandSelect && brandSelect.value) url += "brand="+encodeURIComponent(brandSelect.value)+"&";
+    if(asinInput.value) url += "asin="+encodeURIComponent(asinInput.value)+"&";
+    if(window.selectedAdType) url += "ad_type="+encodeURIComponent(window.selectedAdType)+"&";
 
     fetch(url)
-        .then(r=>r.json())
-        .then(data=>{
-            // ------------------------------
-            // RESPONSE NORMALIZATION (CRITICAL FIX)
-            // Supports both:
-            // 1) { kpis: {...}, rows: [...] }
-            // 2) { sessions, ad_spend, ..., rows: [...] }
-            // ------------------------------
+        .then(r => r.json())
+        .then(data => {
             const kpis = data.kpis || data || {};
             lastRowsCache = Array.isArray(data.rows) ? data.rows : [];
             lastRowsCache = JSON.parse(JSON.stringify(lastRowsCache));
 
+            document.getElementById('kpiSessions').innerText = safe(kpis.sessions);
+            document.getElementById('kpiGMV').innerText      = fmt(kpis.gmv ?? kpis.GMV ?? 0);
+            document.getElementById('kpiSpend').innerText    = fmt(kpis.ad_spend);
+            document.getElementById('kpiSales').innerText    = fmt(kpis.attributed_sales);
+            document.getElementById('kpiAcos').innerText     = pct(kpis.acos);
+            document.getElementById('kpiTacos').innerText    = pct(kpis.tacos);
 
-
-
-            console.log("ROW KEYS:", Object.keys(lastRowsCache[0] || {}));
-
-
-
-            kpiSessions.innerText = safe(kpis.sessions);
-            kpiGMV.innerText      = fmt(kpis.gmv ?? kpis.GMV ?? 0);
-            kpiSpend.innerText    = fmt(kpis.ad_spend);
-            kpiSales.innerText    = fmt(kpis.attributed_sales);
-            kpiAcos.innerText     = pct(kpis.acos);
-            kpiTacos.innerText    = pct(kpis.tacos);
-
-
-            // ------------------------------
-            // BRAND FILTER FIX (ADDITIVE)
-            // Populate brand dropdown from data rows
-            // ------------------------------
             const brandSet = new Set();
             lastRowsCache.forEach(r => {
-        const b = r.brand || r.Brand;
-    if (b && b !== "null") brandSet.add(b);
-    });
-
+                const b = r.brand || r.Brand;
+                if(b && b !== "null") brandSet.add(b);
+            });
             if(brandSelect && brandSelect.options.length <= 1){
                 const current = brandSelect.value;
                 brandSelect.innerHTML = '<option value="">All</option>';
-                [...brandSet].sort().forEach(b=>{
-                    const o=document.createElement("option");
-                    o.value=b; o.textContent=b;
-                    if(b===current) o.selected=true;
+                [...brandSet].sort().forEach(b => {
+                    const o = document.createElement("option");
+                    o.value = b; o.textContent = b;
+                    if(b === current) o.selected = true;
                     brandSelect.appendChild(o);
                 });
             }
-           // 🔒 REBUILD CATEGORIES FROM BRAND-FILTERED ROWS
-bootstrapCategories(lastRowsCache);
 
-renderTable();
-if(data.sb_rows){ renderSBTable(data.sb_rows); }
+            bootstrapCategories(lastRowsCache);
+            renderTable();
+            if(data.sb_rows) renderSBTable(data.sb_rows);
         })
-        .catch(err=>{
-            console.error("AMS Trend fetch/render error:", err);
-        })
-        .finally(()=>{
-            document.body.classList.remove("loading");
-        });
+        .catch(err => console.error("AMS Trend fetch/render error:", err))
+        .finally(() => document.body.classList.remove("loading"));
 }
 
-/* ===============================
-   INIT
-=============================== */
-document.querySelectorAll("#amsHeaderRow th").forEach((th,i)=>{
-    th.addEventListener("click",()=>sortTableByColumn(i));
-});
+/* ── EXPORT ── */
+function exportAMS(){
+    let url = "/api/ams/export?";
+    if(!weekSelect.value){ url += "weeks=1&"; }
+    else { url += "week="+normalizeWeek(weekSelect.value)+"&"; }
+    if(catL0.value) url += "category_l0="+encodeURIComponent(catL0.value)+"&";
+    if(catL1.value) url += "category_l1="+encodeURIComponent(catL1.value)+"&";
+    if(catL2.value) url += "category_l2="+encodeURIComponent(catL2.value)+"&";
+    if(modelInput.value) url += "model="+encodeURIComponent(modelInput.value)+"&";
+    if(brandSelect.value) url += "brand="+encodeURIComponent(brandSelect.value)+"&";
+    if(asinInput.value) url += "asin="+encodeURIComponent(asinInput.value)+"&";
+    window.open(url, "_blank");
+}
 
-loadAMS();
-initColumnSelector();
-
+/* ── SB TABLE ── */
 function renderSBTable(rows){
     const tb = document.querySelector("#sbTable tbody");
     tb.innerHTML = "";
-    rows.forEach(r=>{
+    rows.forEach(r => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td>${safe(r.week)}</td>
@@ -793,55 +820,29 @@ function renderSBTable(rows){
             <td>${safe(r.ams_orders)}</td>
             <td>${safe(r.clicks)}</td>
             <td>${safe(r.impressions)}</td>
-            <td>${fmt(r.clicks>0?r.ad_spend/r.clicks:null)}</td>
-            <td>${pct(r.ad_spend>0?r.attributed_sales/r.ad_spend:null)}</td>
+            <td>${fmt(r.clicks>0 ? r.ad_spend/r.clicks : null)}</td>
+            <td>${pct(r.ad_spend>0 ? r.attributed_sales/r.ad_spend : null)}</td>
             <td>${pct(r.acos)}</td>
         `;
         tb.appendChild(tr);
     });
 }
 
-</script>
+/* ── INIT ── */
+document.querySelectorAll("#amsHeaderRow th").forEach((th,i) => {
+    th.addEventListener("click", () => sortTableByColumn(i));
+});
 
-</body>
-</html>
-
-
-<!-- ==================================================
-     AD TYPE FILTER (SB / SP+SD) – ADDITIVE ONLY
-================================================== -->
-<style>
-/* ===============================
-   AD TYPE FILTER STYLES
-=============================== */
-.ad-type-filter {
-    margin-top: 6px;
-    display: inline-block;
-}
-.ad-type-filter select {
-    font-size: 12px;
-    padding: 2px 4px;
-}
-</style>
-
-<script>
-/* ===============================
-   AD TYPE FILTER STATE (SAFE)
-=============================== */
-// selectedAdType already declared in main script
+/* ── AD TYPE FILTER ── */
 window.selectedAdType = window.selectedAdType || "";
-
-/* ===============================
-   SET AD TYPE
-=============================== */
 function onAdTypeChange(){
     window.selectedAdType = document.getElementById("adTypeSelect").value;
     loadAMS();
 }
+
+loadAMS();
+initColumnSelector();
 </script>
 
-<!-- ===============================
-     UI EXTENSION PADDING (NO LOGIC)
-     Purpose: Preserve future extensibility
-     This section intentionally left verbose
-=============================== -->
+</body>
+</html>

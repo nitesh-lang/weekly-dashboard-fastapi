@@ -3,332 +3,928 @@
 <head>
     <title>Weekly Unified Dashboard</title>
     <base target="_blank" rel="noopener noreferrer">
-
     <link rel="stylesheet" href="/static/css/dashboard_v2.css">
     {% include "_global_head.html" %}
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
     <style>
-        body { 
-    font-family: Arial; 
-    margin: 0; 
-    padding: 0;
-}
+        :root {
+            /* ── Backgrounds ── */
+            --bg:        #f5f6fa;
+            --bg2:       #ffffff;
+            --bg3:       #f8f9fc;
+            --surface:   #ffffff;
+            --surface2:  #f1f3f8;
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 10px;
-}
+            /* ── Borders ── */
+            --border:    #e8eaf0;
+            --border2:   #d5d9e6;
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 6px;
-            font-size: 12px;
-            text-align: right;
-            white-space: nowrap;
+            /* ── Text — proper black, no grey ── */
+            --text:      #111827;
+            --text2:     #1f2937;
+            --text3:     #374151;
+
+            /* ── Brand colours — softer, not neon ── */
+            --blue:      #4f6ef7;
+            --blue-dim:  #eef0fe;
+            --purple:    #7c5cbf;
+            --purple-dim:#f3eeff;
+            --green:     #0f9b6e;
+            --green-dim: #ecfdf6;
+            --amber:     #b45309;
+            --amber-dim: #fef3e2;
+
+            /* ── Header — indigo like reference ── */
+            --header-bg: #3d3587;
+
+            --radius:    8px;
+            --mono:      'IBM Plex Mono', monospace;
+            --sans:      'IBM Plex Sans', sans-serif;
         }
 
-        th { background: #f4f4f4; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
-        td:first-child, th:first-child { text-align: left; }
-        td:nth-child(2), th:nth-child(2) { text-align: left; }
-        td:nth-child(3), th:nth-child(3) { text-align: left; }
-
-        h2 { margin: 10px 0; }
-
-        .kpi {
-            display: inline-block;
-            border: 1px solid #ccc;
-            padding: 12px;
-            margin-right: 10px;
-            width: 22%;
-            vertical-align: top;
-        }
-
-        .auto-week {
-            margin: 10px 0;
-            padding: 8px;
-            background: #f8f9fa;
-            border-left: 4px solid #0b5ed7;
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
             font-size: 13px;
+            line-height: 1.5;
         }
 
-        a { text-decoration: none; color: #0b5ed7; }
-        a:hover { text-decoration: underline; }
+        a { text-decoration: none; color: var(--blue); }
+        a:hover { color: #3451d1; text-decoration: underline; }
 
-        .channel-head {
-            text-align: center;
-            font-weight: bold;
+        /* ── STICKY HEADER ── */
+        #sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
         }
 
-        .sub-head {
+        /* Title band — indigo like reference */
+        .header-title {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--header-bg);
+        }
+
+        .header-title h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .header-subtitle {
             font-size: 11px;
-            background: #fafafa;
+            color: rgba(255,255,255,0.6);
+            font-family: var(--mono);
+            letter-spacing: 0.5px;
         }
 
-        tfoot td {
-            font-weight: bold;
-            background: #fafafa;
+        .live-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #6ee7b7;
+            box-shadow: 0 0 6px #6ee7b7;
+            display: inline-block;
+            flex-shrink: 0;
+            animation: pulse 2.5s infinite;
         }
 
-        /* ================= NAV LINKS ================= */
+        @keyframes pulse {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        /* Nav — slightly lighter indigo strip */
         .nav-links {
-            margin: 10px 0 20px 0;
-            font-size: 14px;
+            padding: 0 24px;
+            background: #4a3f9e;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 34px;
         }
 
         .nav-links a {
-            margin-right: 16px;
-            font-weight: bold;
+            color: rgba(255,255,255,0.72);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 11px;
+            border-radius: 5px;
+            transition: all 0.15s;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.14);
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-links .sep {
+            color: rgba(255,255,255,0.25);
+            margin: 0 2px;
+            font-size: 13px;
         }
 
-        .nav-links span {
-            color: #999;
-            margin-right: 16px;
+        /* Filters row — clean white */
+        .filters-row {
+            padding: 8px 24px;
+            background: var(--bg2);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
         }
+
+        .week-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #eef0fe;
+            border: 1px solid #c7cefc;
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .filter-group { display: flex; align-items: center; gap: 7px; }
+        .filter-group label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #111827;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .filter-group select {
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--sans);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .filter-group select:focus { border-color: var(--blue); }
+
+        /* ── MULTI-WEEK PICKER ── */
+        .week-picker-wrap { position: relative; }
+
+        .week-picker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: var(--sans);
+            color: #111827;
+            cursor: pointer;
+            min-width: 140px;
+            justify-content: space-between;
+            transition: border-color 0.15s;
+        }
+        .week-picker-btn:hover { border-color: var(--blue); }
+
+        .week-picker-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            z-index: 500;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 8px 0 0 0;
+            min-width: 160px;
+        }
+        .week-picker-dropdown.open { display: block; }
+
+        .week-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            font-size: 12px;
+            color: #111827;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .week-option:hover { background: var(--blue-dim); }
+        .week-option input[type="checkbox"] {
+            accent-color: var(--header-bg);
+            cursor: pointer;
+        }
+
+        .week-picker-footer {
+            padding: 8px 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 4px;
+        }
+
+        .week-apply-btn {
+            width: 100%;
+            padding: 5px 0;
+            background: var(--header-bg);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            font-family: var(--sans);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .week-apply-btn:hover { background: #4a3f9e; }
+
+        /* ── KPI BAR ── white card strip */
+        .kpi-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .kpi {
+            padding: 14px 24px;
+            border-right: 1px solid var(--border);
+            position: relative;
+            background: var(--bg2);
+        }
+        .kpi:last-child { border-right: none; }
+
+        /* coloured left accent instead of bottom bar */
+        .kpi::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 3px;
+            border-radius: 0 2px 2px 0;
+        }
+        .kpi:nth-child(1)::before { background: var(--blue); }
+        .kpi:nth-child(2)::before { background: var(--green); }
+        .kpi:nth-child(3)::before { background: var(--purple); }
+        .kpi:nth-child(4)::before { background: var(--amber); }
+
+        .kpi-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            margin-bottom: 5px;
+        }
+        .kpi-value {
+            font-family: var(--mono);
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text);
+        }
+        .kpi:nth-child(1) .kpi-value { color: #3d3587; }
+        .kpi:nth-child(2) .kpi-value { color: #0f7a57; }
+        .kpi:nth-child(3) .kpi-value { color: #6040a8; }
+        .kpi:nth-child(4) .kpi-value { color: #92400e; }
+
+        /* ── MAIN ── */
+        .main-content { padding: 20px 24px 60px; }
+
+        /* ── SECTION HEADER ── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 22px 0 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .section-actions { display: flex; gap: 8px; align-items: center; }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 12px;
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            color: var(--text2);
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.15s;
+            background: var(--bg2);
+        }
+        .btn-ghost:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+            background: var(--blue-dim);
+            text-decoration: none;
+        }
+
+        /* ── SPARK CARDS ── */
+        .spark-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .spark-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .spark-card-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: #374151;
+            margin-bottom: 3px;
+        }
+        .spark-card-value {
+            font-family: var(--mono);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 1px;
+        }
+        .spark-card-sub {
+            font-size: 10px;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        canvas.spark { width: 100% !important; height: 42px !important; display: block; }
+
+        /* ── TABLE WRAPPERS ── */
+        .table-wrapper {
+            overflow: auto;
+            max-height: 460px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .table-wrapper-sm {
+            overflow: auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+
+        /* ── TABLE BASE ── */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: max-content;
+            min-width: 100%;
+        }
+
+        th, td {
+            padding: 8px 14px;
+            font-size: 12px;
+            text-align: right;
+            white-space: nowrap;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--text2);
+        }
+
+        th {
+            background: #f4f5fb;
+            color: #1f2937;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td:first-child, th:first-child,
+        td:nth-child(2), th:nth-child(2),
+        td:nth-child(3), th:nth-child(3) { text-align: left; }
+
+        td:nth-child(n+4) {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text);
+        }
+
+        tbody tr:nth-child(even) td { background: #fafbfd; }
+        tbody tr:hover td { background: #eef0fe !important; color: #3d3587 !important; }
+
+        tfoot td {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text) !important;
+            background: #f0f1fb !important;
+            position: sticky;
+            bottom: 0;
+            z-index: 2;
+            border-top: 2px solid var(--border2);
+        }
+
+        /* ── SKU TABLE FREEZE ── */
+        .sku-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            border-bottom: 2px solid var(--border2);
+        }
+
+        .sku-table th:nth-child(1), .sku-table td:nth-child(1) {
+            position: sticky; left: 0; z-index: 2;
+            min-width: 108px;
+            border-right: 1px solid var(--border2);
+        }
+        .sku-table th:nth-child(2), .sku-table td:nth-child(2) {
+            position: sticky; left: 108px; z-index: 2;
+            min-width: 95px;
+        }
+        .sku-table th:nth-child(3), .sku-table td:nth-child(3) {
+            position: sticky; left: 203px; z-index: 2;
+            min-width: 158px;
+            border-right: 2px solid var(--border2);
+        }
+
+        .sku-table thead th:nth-child(1),
+        .sku-table thead th:nth-child(2),
+        .sku-table thead th:nth-child(3) { z-index: 5; }
+
+        tfoot td:nth-child(1) { position: sticky; left: 0; z-index: 4; }
+        tfoot td:nth-child(2) { position: sticky; left: 108px; z-index: 4; }
+        tfoot td:nth-child(3) { position: sticky; left: 203px; z-index: 4; }
+
+        /* ── COL GROUP BANDS — pastel, not saturated ── */
+        .sku-table th:nth-child(4),.sku-table th:nth-child(5),
+        .sku-table th:nth-child(6),.sku-table th:nth-child(7) {
+            color: #3451c7; background: #eef1fd; border-left: 2px solid #c7d0f8;
+        }
+        .sku-table td:nth-child(4),.sku-table td:nth-child(5),
+        .sku-table td:nth-child(6),.sku-table td:nth-child(7) {
+            border-left: 1px solid #e4e8fb;
+        }
+        .sku-table th:nth-child(8),.sku-table th:nth-child(9),
+        .sku-table th:nth-child(10) {
+            color: #6040a8; background: #f3eeff; border-left: 2px solid #d8c9f5;
+        }
+        .sku-table td:nth-child(8),.sku-table td:nth-child(9),
+        .sku-table td:nth-child(10) { border-left: 1px solid #ece5fa; }
+
+        .sku-table th:nth-child(11),.sku-table th:nth-child(12),
+        .sku-table th:nth-child(13) {
+            color: #0a6e4e; background: #edfaf5; border-left: 2px solid #b6e8d6;
+        }
+        .sku-table td:nth-child(11),.sku-table td:nth-child(12),
+        .sku-table td:nth-child(13) { border-left: 1px solid #d4f2e7; }
+
+        .sku-table th:nth-child(14),.sku-table th:nth-child(15),
+        .sku-table th:nth-child(16) {
+            color: #92400e; background: #fef5e7; border-left: 2px solid #f8d9a0;
+        }
+        .sku-table td:nth-child(14),.sku-table td:nth-child(15),
+        .sku-table td:nth-child(16) { border-left: 1px solid #fdecc8; }
+
+        /* ── SIMPLE TABLES ── */
+        .simple-table { min-width: unset; width: 100%; }
+        .simple-table th { background: #f4f5fb; }
+        .simple-table td { color: var(--text); }
+        .simple-table td:first-child { color: var(--blue); font-weight: 500; }
+
+        /* ── TWO-COL ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ── AMS ── */
+        .ams-table th { color: #92400e; background: #fef5e7; }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5e8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0a8c8; }
     </style>
 </head>
 <body>
 
-<h1>📊 Weekly Unified Dashboard</h1>
+<!-- STICKY HEADER -->
+<div id="sticky-header">
+    <div class="header-title">
+        <h1><span class="live-dot"></span> Weekly Unified Dashboard</h1>
+        <span class="header-subtitle">AUTO · WEEKLY</span>
+    </div>
 
-<!-- ================= TOP NAV LINKS ================= -->
-<div class="nav-links">
-    <a href="/sales-trend">📈 Sales Trend</a>
-    <span>|</span>
-     <a href="/amazon-sales-trend">🛒 Amazon + 1P Trend</a>
-     <span>|</span>
-    <a href="/category-sales">🧩 Category Trend</a>
-    <span>|</span>
-    <a href="/inventory-dashboard">📦 Inventory Dashboard</a>
-    <span>|</span>
-    <a href="/ams-trend">📣 AMS Trend</a>
+    <nav class="nav-links">
+        <a href="/sales-trend">📈 Sales Trend</a>
+        <span class="sep">|</span>
+        <a href="/amazon-sales-trend">🛒 Amazon + 1P</a>
+        <span class="sep">|</span>
+        <a href="/category-sales">🧩 Category</a>
+        <span class="sep">|</span>
+        <a href="/inventory-dashboard">📦 Inventory</a>
+        <span class="sep">|</span>
+        <a href="/ams-trend">📣 AMS</a>
+    </nav>
+
+    <form method="get" id="filterForm" target="_self" class="filters-row">
+        {% if selected.weeks_display %}
+        <div class="week-badge">✅ {{ selected.weeks_display }}</div>
+        {% elif selected.week %}
+        <div class="week-badge">✅ {{ selected.week }}</div>
+        {% endif %}
+
+        <div class="filter-group">
+            <label>Weeks</label>
+            <div class="week-picker-wrap">
+                <button type="button" class="week-picker-btn" onclick="toggleWeekPicker()">
+                    <span id="week-picker-label">
+                        {% if selected.weeks %}{{ selected.weeks | join(', ') }}{% elif selected.week %}{{ selected.week }}{% else %}All Weeks{% endif %}
+                    </span>
+                    ▾
+                </button>
+                <div class="week-picker-dropdown" id="weekPickerDropdown">
+                    <label class="week-option">
+                        <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> <b>All</b>
+                    </label>
+                    {% for w in weeks %}
+                    <label class="week-option">
+                        <input type="checkbox" name="weeks" value="{{ w }}"
+                            {% if selected.weeks and w in selected.weeks %}checked{% elif selected.week == w %}checked{% endif %}
+                            onchange="updateWeekLabel()">
+                        {{ w }}
+                    </label>
+                    {% endfor %}
+                    <div class="week-picker-footer">
+                        <button type="button" class="week-apply-btn" onclick="applyWeeks()">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-group">
+            <label>Brand</label>
+            <select name="brand" onchange="autoRefresh()">
+                <option value="">All</option>
+                {% for b in brands %}
+                    <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>View</label>
+            <select name="view" onchange="autoRefresh()">
+                <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
+                <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
+            </select>
+        </div>
+    </form>
+
+    <div class="kpi-bar">
+        <div class="kpi">
+            <div class="kpi-label">Units Sold</div>
+            <div class="kpi-value">{{ kpis.units | int }}</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">GMV</div>
+            <div class="kpi-value fmt-kpi-inr" data-val="{{ kpis.gmv }}">₹ {{ kpis.gmv }}</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Inventory Value</div>
+            <div class="kpi-value fmt-kpi-inr" data-val="{{ kpis.inventory_value }}">₹ {{ kpis.inventory_value }}</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Sell-through %</div>
+            <div class="kpi-value">{{ kpis.sell_through }}%</div>
+        </div>
+    </div>
 </div>
 
-{% if selected.week %}
-<div class="auto-week">
-    ✅ Showing data for <b>{{ selected.week }}</b>
-</div>
-{% endif %}
+<!-- MAIN -->
+<div class="main-content">
 
-<!-- ================= FILTERS ================= -->
-<form method="get" id="filterForm" target="_self">
-    Week:
-    <select name="week" onchange="autoRefresh()">
-        <option value="">All</option>
-        {% for w in weeks %}
-            <option value="{{ w }}" {% if selected.week == w %}selected{% endif %}>{{ w }}</option>
+    <!-- SPARK CARDS -->
+    <div class="section-header" style="margin-top:4px;">
+        <div class="section-title">📊 Channel Distribution — {{ selected.week or 'All Weeks' }}</div>
+    </div>
+    <div class="spark-grid">
+        <div class="spark-card">
+            <div class="spark-card-label">Units by Channel</div>
+            <div class="spark-card-value" style="color:var(--blue)" id="sv-units">—</div>
+            <div class="spark-card-sub" id="ss-units">top channel</div>
+            <canvas class="spark" id="spark-units"></canvas>
+        </div>
+        <div class="spark-card">
+            <div class="spark-card-label">GMV by Channel</div>
+            <div class="spark-card-value" style="color:var(--green)" id="sv-gmv">—</div>
+            <div class="spark-card-sub" id="ss-gmv">top channel</div>
+            <canvas class="spark" id="spark-gmv"></canvas>
+        </div>
+        <div class="spark-card">
+            <div class="spark-card-label">NLC by Channel</div>
+            <div class="spark-card-value" style="color:var(--purple)" id="sv-nlc">—</div>
+            <div class="spark-card-sub" id="ss-nlc">across channels</div>
+            <canvas class="spark" id="spark-nlc"></canvas>
+        </div>
+        <div class="spark-card">
+            <div class="spark-card-label">Category Mix</div>
+            <div class="spark-card-value" style="color:var(--amber);font-size:13px;" id="sv-cat">—</div>
+            <div class="spark-card-sub" id="ss-cat">by GMV share</div>
+            <canvas class="spark" id="spark-cat"></canvas>
+        </div>
+    </div>
+
+    <!-- AMS -->
+    {% if ams_pivot %}
+    <div class="section-header">
+        <div class="section-title">📣 AMS Trend</div>
+    </div>
+    <div class="table-wrapper-sm">
+        <table class="ams-table">
+            <thead><tr>
+                <th>Week</th><th>Ad Spend (₹)</th><th>Attributed Sales (₹)</th><th>Sessions</th><th>ACOS %</th>
+            </tr></thead>
+            <tbody>
+            {% for r in ams_pivot %}
+            <tr>
+                <td style="font-family:var(--mono)">{{ r.week }}</td>
+                <td class="fmt-inr-cell" data-val="{{ r.ad_spend }}">₹ {{ r.ad_spend }}</td>
+                <td class="fmt-inr-cell" data-val="{{ r.attributed_sales }}">₹ {{ r.attributed_sales }}</td>
+                <td style="font-family:var(--mono)">{{ r.sessions | int }}</td>
+                <td>{{ "%.2f"|format(r.acos * 100) }}%</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- SKU TABLE -->
+    <div class="section-header">
+        <div class="section-title">📦 Sales by SKU — All Channels</div>
+        <div class="section-actions">
+            <a class="btn-ghost" href="/export/dashboard-sku?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">⬇ Export CSV</a>
+            <a class="btn-ghost" href="/drilldown?type=sales&amp;week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">Channel Drilldown →</a>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="sku-table">
+        <thead><tr>
+            <th>SKU</th><th>Model</th><th>Category</th>
+            <th>All Ch. Units</th><th>All Ch. Sales</th><th>All Ch. NLC</th><th>% Contrib</th>
+            <th>AM Units</th><th>AM Sales</th><th>AM NLC</th>
+            <th>1P Units</th><th>1P Sales</th><th>1P NLC</th>
+            <th>Amz Units</th><th>Amz Sales</th><th>Amz NLC</th>
+        </tr></thead>
+        <tbody>
+        {% for r in sku_rows %}
+        <tr>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--text)">{{ r.sku }}</td>
+            <td style="color:var(--text)">{{ r.model_no }}</td>
+            <td style="color:#111827">{{ r.category_l0 }}</td>
+            <td>{{ r.total_units | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.total_sales }}">₹ {{ r.total_sales }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.total_nlc }}">₹ {{ r.total_nlc }}</td>
+            <td style="color:#111827">{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+            <td>{{ r.amazon_am_units | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.amazon_am_sales }}">₹ {{ r.amazon_am_sales }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.amazon_am_nlc }}">₹ {{ r.amazon_am_nlc }}</td>
+            <td>{{ r.amazon_1p_units | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.amazon_1p_sales }}">₹ {{ r.amazon_1p_sales }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.amazon_1p_nlc }}">₹ {{ r.amazon_1p_nlc }}</td>
+            <td>{{ r.amazon_total_units | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.amazon_total_sales }}">₹ {{ r.amazon_total_sales }}</td>
+            <td class="fmt-inr-cell" data-val="{{ r.amazon_total_nlc }}">₹ {{ r.amazon_total_nlc }}</td>
+        </tr>
         {% endfor %}
-    </select>
+        </tbody>
+        <tfoot><tr>
+            <td colspan="3" style="text-align:left;color:#111827;font-weight:700;letter-spacing:1px">TOTAL</td>
+            <td>{{ sku_rows | sum(attribute='total_units') | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_sales') }}">₹ {{ sku_rows | sum(attribute='total_sales') }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_nlc') }}">₹ {{ sku_rows | sum(attribute='total_nlc') }}</td>
+            <td>100%</td>
+            <td>{{ sku_rows | sum(attribute='amazon_am_units') | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_am_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_am_sales') }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_am_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_am_nlc') }}</td>
+            <td>{{ sku_rows | sum(attribute='amazon_1p_units') | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_1p_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_1p_sales') }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_1p_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_1p_nlc') }}</td>
+            <td>{{ sku_rows | sum(attribute='amazon_total_units') | int }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_total_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_total_sales') }}</td>
+            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_total_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_total_nlc') }}</td>
+        </tr></tfoot>
+        </table>
+    </div>
 
-    Brand:
-    <select name="brand" onchange="autoRefresh()">
-        <option value="">All</option>
-        {% for b in brands %}
-            <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
-        {% endfor %}
-    </select>
+    <!-- CHANNEL + CATEGORY SIDE BY SIDE -->
+    <div class="two-col">
+        <div>
+            <div class="section-header">
+                <div class="section-title">📡 Channel Summary</div>
+                <a class="btn-ghost" href="/export/channel-summary?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">⬇ CSV</a>
+            </div>
+            <div class="table-wrapper-sm">
+                <table class="simple-table">
+                <thead><tr>
+                    <th>Channel</th><th>Units</th><th>GMV</th><th>NLC</th><th>% Contrib</th>
+                </tr></thead>
+                <tbody>
+                {% for r in channel_summary %}
+                <tr>
+                    <td><a href="/drilldown?type=sales&amp;week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}&amp;channel={{ r.channel | urlencode }}">{{ r.channel }}</a></td>
+                    <td style="font-family:var(--mono)">{{ r.units_sold | int }}</td>
+                    <td class="fmt-inr-cell" data-val="{{ r.gmv }}" style="font-family:var(--mono)">₹ {{ r.gmv }}</td>
+                    <td class="fmt-inr-cell" data-val="{{ r.sales_nlc }}" style="font-family:var(--mono)">₹ {{ r.sales_nlc }}</td>
+                    <td style="font-family:var(--mono)">{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
 
-    View:
-    <select name="view" onchange="autoRefresh()">
-        <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
-        <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
-    </select>
+        <div>
+            <div class="section-header">
+                <div class="section-title">🧩 Category Summary</div>
+                <a class="btn-ghost" href="/export/category-summary?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">⬇ CSV</a>
+            </div>
+            <div class="table-wrapper-sm">
+                <table class="simple-table">
+                <thead><tr>
+                    <th>Category (L0)</th><th>Units</th><th>GMV</th><th>% Contrib</th>
+                </tr></thead>
+                <tbody>
+                {% for r in category_summary %}
+                <tr>
+                    <td><a href="/category-sales?category={{ r.category_l0 | urlencode }}&amp;week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">{{ r.category_l0 }}</a></td>
+                    <td style="font-family:var(--mono)">{{ r.units_sold | int }}</td>
+                    <td class="fmt-inr-cell" data-val="{{ r.gross_sales }}" style="font-family:var(--mono)">₹ {{ r.gross_sales }}</td>
+                    <td style="font-family:var(--mono)">{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-    
-</form>
-
-<hr>
-
-<!-- ================= SALES KPIs ================= -->
-<h2>📌 Sales KPIs</h2>
-<div class="kpi"><b>Units Sold</b><br>{{ kpis.units }}</div>
-<div class="kpi"><b>GMV</b><br>₹ {{ kpis.gmv }}</div>
-<div class="kpi"><b>Inventory Value</b><br>₹ {{ kpis.inventory_value }}</div>
-<div class="kpi"><b>Sell-through %</b><br>{{ kpis.sell_through }}%</div>
-
-<!-- ================= AMS TREND ================= -->
-{% if ams_pivot %}
-<h2>📣 AMS Trend</h2>
-
-<table>
-<thead>
-<tr>
-    <th>Week</th>
-    <th>Ad Spend (₹)</th>
-    <th>Attributed Sales (₹)</th>
-    <th>Sessions</th>
-    <th>ACOS %</th>
-</tr>
-</thead>
-<tbody>
-{% for r in ams_pivot %}
-<tr>
-    <td>{{ r.week }}</td>
-    <td>₹ {{ r.ad_spend }}</td>
-    <td>₹ {{ r.attributed_sales }}</td>
-    <td>{{ r.sessions }}</td>
-    <td>{{ "%.2f"|format(r.acos * 100) }}%</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-{% endif %}
-
-<!-- ================= SKU SALES ================= -->
-<h2>
-📦 Sales by SKU – All Channels
-<div style="margin:8px 0;">
-    <a href="/export/dashboard-sku?week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
-        ⬇ Export SKU CSV
-    </a>
 </div>
-&nbsp;|&nbsp;
-<a href="/drilldown?type=sales&week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
-    View Channel-wise Drilldown →
-</a>
-</h2>
 
-<table>
-<thead>
-<tr>
-    <th>SKU</th>
-    <th>Model</th>
-    <th>Category</th>
-
-    <th>All Channels Units</th>
-    <th>All Channels Sales (₹)</th>
-    <th>All Channels NLC (₹)</th>
-    <th>All Channels % Contrib</th>
-
-    <th>AM Units</th>
-    <th>AM Sales (₹)</th>
-    <th>AM NLC (₹)</th>
-
-    <th>1P Units</th>
-    <th>1P Sales (₹)</th>
-    <th>1P NLC (₹)</th>
-
-    <th>Amazon Units</th>
-    <th>Amazon Sales (₹)</th>
-    <th>Amazon NLC (₹)</th>
-</tr>
-</thead>
-
-<tbody>
-{% for r in sku_rows %}
-<tr>
-    <td>{{ r.sku }}</td>
-    <td>{{ r.model_no }}</td>
-    <td>{{ r.category_l0 }}</td>
-
-    <td>{{ r.total_units }}</td>
-    <td>₹ {{ r.total_sales }}</td>
-    <td>₹ {{ r.total_nlc }}</td>
-    <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
-
-    <td>{{ r.amazon_am_units }}</td>
-    <td>₹ {{ r.amazon_am_sales }}</td>
-    <td>₹ {{ r.amazon_am_nlc }}</td>
-
-    <td>{{ r.amazon_1p_units }}</td>
-    <td>₹ {{ r.amazon_1p_sales }}</td>
-    <td>₹ {{ r.amazon_1p_nlc }}</td>
-
-    <td>{{ r.amazon_total_units }}</td>
-    <td>₹ {{ r.amazon_total_sales }}</td>
-    <td>₹ {{ r.amazon_total_nlc }}</td>
-</tr>
-{% endfor %}
-</tbody>
-
-<tfoot>
-<tr>
-    <td colspan="3">TOTAL</td>
-    <td>{{ sku_rows | sum(attribute='total_units') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='total_sales') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='total_nlc') }}</td>
-    <td>100%</td>
-
-    <td>{{ sku_rows | sum(attribute='amazon_am_units') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='amazon_am_sales') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='amazon_am_nlc') }}</td>
-
-    <td>{{ sku_rows | sum(attribute='amazon_1p_units') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='amazon_1p_sales') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='amazon_1p_nlc') }}</td>
-
-    <td>{{ sku_rows | sum(attribute='amazon_total_units') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='amazon_total_sales') }}</td>
-    <td>₹ {{ sku_rows | sum(attribute='amazon_total_nlc') }}</td>
-</tr>
-</tfoot>
-</table>
-
-<!-- ================= CHANNEL SUMMARY ================= -->
-<h2>📦 Channel Summary</h2>
-<div style="margin:8px 0;">
-    <a href="/export/channel-summary?week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
-        ⬇ Export Channel CSV
-    </a>
-</div>
-<table>
-<tr>
-    <th>Channel</th>
-    <th>Units Sold</th>
-    <th>GMV (₹)</th>
-    <th>Sales @ NLC (₹)</th>
-    <th>% Contrib</th>
-</tr>
-
-{% for r in channel_summary %}
-<tr>
-    <td>
-        <a href="/drilldown?type=sales&week={{ selected.week }}&brand={{ selected.brand | urlencode }}&channel={{ r.channel | urlencode }}">
-            {{ r.channel }}
-        </a>
-    </td>
-    <td>{{ r.units_sold }}</td>
-    <td>₹ {{ r.gmv }}</td>
-    <td>₹ {{ r.sales_nlc }}</td>
-    <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
-</tr>
-{% endfor %}
-</table>
-
-<!-- ================= CATEGORY SUMMARY ================= -->
-<h2>🧩 Category Summary</h2>
-<div style="margin:8px 0;">
-    <a href="/export/category-summary?week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
-        ⬇ Export Category CSV
-    </a>
-</div>
-<table>
-<tr>
-    <th>Category (L0)</th>
-    <th>Units</th>
-    <th>GMV (₹)</th>
-    <th>% Contrib</th>
-</tr>
-
-{% for r in category_summary %}
-<tr>
-    <td>
-        <a href="/category-sales?category={{ r.category_l0 | urlencode }}&week={{ selected.week }}&brand={{ selected.brand | urlencode }}">
-            {{ r.category_l0 }}
-        </a>
-    </td>
-    <td>{{ r.units_sold }}</td>
-    <td>₹ {{ r.gross_sales }}</td>
-    <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
-</tr>
-{% endfor %}
-</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="/static/js/table_sort.js"></script>
 <script>
-function autoRefresh() {
-    document.getElementById("filterForm").submit();
+function autoRefresh() { document.getElementById("filterForm").submit(); }
+
+/* ── Multi-week picker ── */
+function toggleWeekPicker() {
+    document.getElementById('weekPickerDropdown').classList.toggle('open');
 }
+
+// Close picker when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.week-picker-wrap')) {
+        document.getElementById('weekPickerDropdown')?.classList.remove('open');
+    }
+});
+
+function toggleAllWeeks(cb) {
+    document.querySelectorAll('input[name="weeks"]').forEach(c => c.checked = cb.checked);
+    updateWeekLabel();
+}
+
+function updateWeekLabel() {
+    const checked = Array.from(document.querySelectorAll('input[name="weeks"]:checked')).map(c => c.value);
+    const allCb = document.getElementById('wk-all');
+    const allBoxes = document.querySelectorAll('input[name="weeks"]');
+    if (allCb) allCb.checked = checked.length === allBoxes.length;
+    const label = document.getElementById('week-picker-label');
+    if (!label) return;
+    if (checked.length === 0 || checked.length === allBoxes.length) {
+        label.textContent = 'All Weeks';
+    } else if (checked.length <= 3) {
+        label.textContent = checked.join(', ');
+    } else {
+        label.textContent = checked.length + ' weeks selected';
+    }
+}
+
+function applyWeeks() {
+    document.getElementById('weekPickerDropdown').classList.remove('open');
+    document.getElementById('filterForm').submit();
+}
+
+/* ── INR formatter: finance-grade ── */
+function fmtINR(n) {
+    n = parseFloat(n);
+    if (isNaN(n)) return '₹0';
+    if (Math.abs(n) >= 1e7) return '₹' + (n/1e7).toFixed(2) + ' Cr';
+    if (Math.abs(n) >= 1e5) return '₹' + (n/1e5).toFixed(2) + ' L';
+    if (Math.abs(n) >= 1e3) return '₹' + (n/1e3).toFixed(1) + ' K';
+    return '₹' + n.toLocaleString('en-IN');
+}
+
+/* Apply to all table cells */
+document.querySelectorAll('.fmt-inr-cell').forEach(el => {
+    const v = parseFloat(el.dataset.val);
+    if (!isNaN(v)) el.textContent = fmtINR(v);
+});
+
+/* Apply to KPI bar */
+document.querySelectorAll('.fmt-kpi-inr').forEach(el => {
+    const v = parseFloat(el.dataset.val);
+    if (!isNaN(v)) el.textContent = fmtINR(v);
+});
+
+/* ── Sparkline builder ── */
+function buildSpark(id, labels, data, color) {
+    const canvas = document.getElementById(id);
+    if (!canvas || !data.length) return;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 0, 42);
+    grad.addColorStop(0, color + '55');
+    grad.addColorStop(1, color + '00');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{ data, backgroundColor: color + 'bb', borderRadius: 3, borderSkipped: false }]
+        },
+        options: {
+            responsive: false,
+            animation: { duration: 500 },
+            plugins: { legend: { display: false }, tooltip: {
+                callbacks: { label: c => fmtINR(c.raw) }
+            }},
+            scales: { x: { display: false }, y: { display: false } }
+        }
+    });
+}
+
+/* Build from channel + category data */
+(function() {
+    const ch = [
+        {% for r in channel_summary %}
+        { label: "{{ r.channel | replace('"','') | truncate(10, true, '') }}", gmv: {{ r.gmv }}, units: {{ r.units_sold }}, nlc: {{ r.sales_nlc }} },
+        {% endfor %}
+    ];
+
+    const cat = [
+        {% for r in category_summary %}
+        { label: "{{ r.category_l0 | replace('"','') | truncate(12, true, '') }}", gmv: {{ r.gross_sales }}, pct: {{ "%.2f"|format(r.sales_contribution_pct) }} },
+        {% endfor %}
+    ];
+
+    const top = ch.slice(0, 7);
+    const labels = top.map(d => d.label);
+
+    buildSpark('spark-units', labels, top.map(d=>d.units), '#2563eb');
+    document.getElementById('sv-units').textContent = top.reduce((s,d)=>s+d.units,0).toLocaleString('en-IN');
+    document.getElementById('ss-units').textContent = (top[0]?.label||'') + ' leads';
+
+    buildSpark('spark-gmv', labels, top.map(d=>d.gmv), '#059669');
+    document.getElementById('sv-gmv').textContent = fmtINR(top.reduce((s,d)=>s+d.gmv,0));
+    document.getElementById('ss-gmv').textContent = (top[0]?.label||'') + ': ' + fmtINR(top[0]?.gmv||0);
+
+    buildSpark('spark-nlc', labels, top.map(d=>d.nlc), '#7c3aed');
+    document.getElementById('sv-nlc').textContent = fmtINR(top.reduce((s,d)=>s+d.nlc,0));
+    document.getElementById('ss-nlc').textContent = top.length + ' channels';
+
+    const topCat = cat.slice(0,7);
+    buildSpark('spark-cat', topCat.map(d=>d.label), topCat.map(d=>d.gmv), '#d97706');
+    document.getElementById('sv-cat').textContent = topCat[0]?.label || '—';
+    document.getElementById('ss-cat').textContent = (topCat[0]?.pct||0) + '% of GMV · ' + topCat.length + ' categories';
+})();
 </script>
 </body>
 </html>

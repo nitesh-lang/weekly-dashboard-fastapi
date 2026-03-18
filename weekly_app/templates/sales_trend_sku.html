@@ -2,292 +2,748 @@
 <html>
 <head>
     <title>SKU Sales Trend</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: Arial; margin: 20px; }
-        h1 { margin-bottom: 10px; }
+        /* ══════════════════════════════════════════
+           DESIGN TOKENS — exact match to dashboard
+        ══════════════════════════════════════════ */
+        :root {
+            --bg:          #f5f6fa;
+            --bg2:         #ffffff;
+            --bg3:         #f8f9fc;
+            --surface:     #ffffff;
+            --surface2:    #f1f3f8;
+            --border:      #e8eaf0;
+            --border2:     #d5d9e6;
+            --text:        #111827;
+            --text2:       #1f2937;
+            --text3:       #374151;
+            --blue:        #4f6ef7;
+            --blue-dim:    #eef0fe;
+            --purple:      #7c5cbf;
+            --green:       #0f9b6e;
+            --amber:       #b45309;
+            --header-bg:   #3d3587;
+            --header-nav:  #4a3f9e;
+            --radius:      8px;
+            --mono:        'IBM Plex Mono', monospace;
+            --sans:        'IBM Plex Sans', sans-serif;
+        }
 
-        .note {
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
             font-size: 13px;
-            color: #555;
-            margin-bottom: 12px;
+            line-height: 1.5;
+            min-height: 100vh;
         }
 
-        .toolbar {
+        a { text-decoration: none; color: var(--blue); }
+        a:hover { color: #3451d1; text-decoration: underline; }
+
+        /* ══════════════════════════════════════════
+           STICKY HEADER — same as dashboard
+        ══════════════════════════════════════════ */
+        #sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+        }
+
+        .header-title {
+            padding: 12px 24px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            justify-content: space-between;
+            background: var(--header-bg);
+        }
+
+        .header-title h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .header-title .back-link {
+            font-size: 11px;
+            color: rgba(255,255,255,0.65);
+            font-family: var(--mono);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.15s;
+        }
+        .header-title .back-link:hover { color: #fff; text-decoration: none; }
+
+        .nav-strip {
+            padding: 0 24px;
+            background: var(--header-nav);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 34px;
+        }
+        .nav-strip a {
+            color: rgba(255,255,255,0.72);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 11px;
+            border-radius: 5px;
+            transition: all 0.15s;
+        }
+        .nav-strip a:hover {
+            background: rgba(255,255,255,0.14);
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-strip a.active {
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            font-weight: 600;
+        }
+        .nav-strip .sep { color: rgba(255,255,255,0.25); margin: 0 2px; }
+
+        /* ── Toolbar row ── */
+        .toolbar-row {
+            padding: 8px 24px;
+            background: var(--bg2);
+            display: flex;
+            align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
         }
 
-        .toolbar input {
-            padding: 6px;
+        .toolbar-row input[type="text"] {
+            padding: 5px 12px;
             font-size: 12px;
-            width: 260px;
+            font-family: var(--sans);
+            width: 240px;
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            background: var(--bg3);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.15s;
         }
+        .toolbar-row input[type="text"]:focus { border-color: var(--blue); }
+        .toolbar-row input[type="text"]::placeholder { color: var(--text3); }
 
-        .toolbar button {
-            padding: 6px 10px;
+        .toolbar-row select {
+            padding: 5px 10px;
             font-size: 12px;
+            font-family: var(--sans);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            background: var(--bg3);
+            color: var(--text);
+            outline: none;
             cursor: pointer;
+        }
+
+        .toolbar-spacer { flex: 1; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: var(--sans);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid var(--border2);
+            background: var(--bg2);
+            color: var(--text2);
+        }
+        .btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+            background: var(--blue-dim);
+        }
+        .btn-primary {
+            background: var(--header-bg);
+            color: #fff;
+            border-color: var(--header-bg);
+        }
+        .btn-primary:hover {
+            background: #4a3f9e;
+            border-color: #4a3f9e;
+            color: #fff;
+        }
+
+        /* ── Selection bar ── */
+        .selection-bar {
+            padding: 5px 24px;
+            background: var(--bg3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text3);
+        }
+
+        /* ── Note strip ── */
+        .note-strip {
+            padding: 6px 24px;
+            background: #eef0fe;
+            border-bottom: 1px solid #c7cefc;
+            font-size: 11px;
+            color: #4f6ef7;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ══════════════════════════════════════════
+           MAIN CONTENT
+        ══════════════════════════════════════════ */
+        .main-content { padding: 20px 24px 60px; }
+
+        /* ── Section header ── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        /* ══════════════════════════════════════════
+           TABLE
+        ══════════════════════════════════════════ */
+        .table-wrapper {
+            overflow: auto;
+            max-height: calc(100vh - 260px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
         }
 
         table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 10px;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: max-content;
+            min-width: 100%;
         }
 
         th, td {
-            border: 1px solid #ccc;
-            padding: 6px;
+            padding: 7px 14px;
             font-size: 12px;
             text-align: right;
             white-space: nowrap;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--text2);
         }
 
         th {
-            background: #f4f4f4;
+            background: #f4f5fb;
+            color: #1f2937;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             cursor: pointer;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            border-bottom: 2px solid var(--border2);
+            user-select: none;
+            transition: background 0.12s;
         }
+        th:hover { background: #eaecf7; color: var(--header-bg); }
+        th.sorted-asc::after  { content: " ▲"; font-size: 9px; color: var(--blue); }
+        th.sorted-desc::after { content: " ▼"; font-size: 9px; color: var(--blue); }
 
-        th.sorted-asc::after { content: " ▲"; }
-        th.sorted-desc::after { content: " ▼"; }
-
-        td:first-child, th:first-child,
+        /* Checkbox + text cols left-align */
+        td:nth-child(1), th:nth-child(1),
         td:nth-child(2), th:nth-child(2),
         td:nth-child(3), th:nth-child(3),
         td:nth-child(4), th:nth-child(4),
-        td:nth-child(5), th:nth-child(5) {
-            text-align: left;
+        td:nth-child(5), th:nth-child(5) { text-align: left; }
+
+        /* Freeze first 5 cols */
+        th:nth-child(1), td:nth-child(1) {
+            position: sticky; left: 0; z-index: 2; min-width: 36px;
+            border-right: 1px solid var(--border2);
+        }
+        th:nth-child(2), td:nth-child(2) {
+            position: sticky; left: 36px; z-index: 2; min-width: 140px;
+        }
+        th:nth-child(3), td:nth-child(3) {
+            position: sticky; left: 176px; z-index: 2; min-width: 140px;
+        }
+        th:nth-child(4), td:nth-child(4) {
+            position: sticky; left: 316px; z-index: 2; min-width: 120px;
+        }
+        th:nth-child(5), td:nth-child(5) {
+            position: sticky; left: 436px; z-index: 2; min-width: 110px;
+            border-right: 2px solid var(--border2);
         }
 
-        .up { color: green; font-weight: bold; }
-        .down { color: red; font-weight: bold; }
-        .flat { color: #555; font-weight: bold; }
+        /* corner frozen header cells */
+        thead th:nth-child(1),
+        thead th:nth-child(2),
+        thead th:nth-child(3),
+        thead th:nth-child(4),
+        thead th:nth-child(5) { z-index: 5; }
 
-        .apply-bar {
-            margin-top: 8px;
+        /* Alternating rows */
+        tbody tr:nth-child(even) td { background: #fafbfd; }
+        tbody tr:hover td { background: #eef0fe !important; }
+        tbody tr:nth-child(even) td:nth-child(1),
+        tbody tr:nth-child(even) td:nth-child(2),
+        tbody tr:nth-child(even) td:nth-child(3),
+        tbody tr:nth-child(even) td:nth-child(4),
+        tbody tr:nth-child(even) td:nth-child(5) { background: #fafbfd; }
+        tbody tr:hover td:nth-child(1),
+        tbody tr:hover td:nth-child(2),
+        tbody tr:hover td:nth-child(3),
+        tbody tr:hover td:nth-child(4),
+        tbody tr:hover td:nth-child(5) { background: #eef0fe !important; }
+
+        /* Number cols mono */
+        td:nth-child(n+6) {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text);
+        }
+
+        /* Trend badges */
+        .up   { color: #0a6e4e; font-weight: 700; background: #ecfdf6; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
+        .down { color: #b91c1c; font-weight: 700; background: #fef2f2; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
+        .flat { color: #374151; font-weight: 700; background: #f3f4f6; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
+
+        /* Checkbox style */
+        input[type="checkbox"] {
+            width: 14px; height: 14px;
+            cursor: pointer;
+            accent-color: var(--header-bg);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5e8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0a8c8; }
+
+        /* ── MULTI-WEEK PICKER ── */
+        .week-picker-wrap { position: relative; }
+
+        .week-picker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: var(--sans);
+            color: #111827;
+            cursor: pointer;
+            min-width: 160px;
+            justify-content: space-between;
+            transition: border-color 0.15s;
+        }
+        .week-picker-btn:hover { border-color: var(--blue); }
+
+        .week-picker-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            z-index: 500;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 8px 0 0 0;
+            min-width: 170px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        .week-picker-dropdown.open { display: block; }
+
+        .week-option {
             display: flex;
+            align-items: center;
             gap: 8px;
+            padding: 5px 14px;
+            font-size: 12px;
+            color: #111827;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .week-option:hover { background: var(--blue-dim); }
+        .week-option input[type="checkbox"] { accent-color: var(--header-bg); cursor: pointer; }
+
+        .week-picker-footer {
+            padding: 8px 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 4px;
+            position: sticky;
+            bottom: 0;
+            background: var(--bg2);
+        }
+        .week-apply-btn {
+            width: 100%;
+            padding: 5px 0;
+            background: var(--header-bg);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            font-family: var(--sans);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .week-apply-btn:hover { background: #4a3f9e; }
+
+        .week-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #eef0fe;
+            border: 1px solid #c7cefc;
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
         }
     </style>
 </head>
 <body>
 
-<h1>📈 SKU Sales Trend (Last 4 Weeks)</h1>
-<a href="/dashboard">← Back to Dashboard</a>
+<!-- ══════════════════ STICKY HEADER ══════════════════ -->
+<div id="sticky-header">
 
-<p class="note">
-    Auto-updates as new weekly data is uploaded.<br>
-    Units are toggleable with ₹.
-</p>
-
-
-<div class="toolbar">
-    <input id="filterBox" placeholder="Filter SKU / Model / Category">
-    <select id="brandFilter" name="brand">
-        <option value="">All Brands</option>
-        {% for b in brands %}
-            <option value="{{ b|lower|trim }}"
-            {% if selected_brand and (b|lower|trim) == (selected_brand|lower|trim) %}selected{% endif %}>
-            {{ b }}
-            </option>
-        {% endfor %}
-    </select>
-    <div>
-
-
-        <button onclick="toggleMetric()">Toggle Units / ₹</button>
-        <button onclick="exportTable()">Export Excel</button>
+    <div class="header-title">
+        <h1>📈 SKU Sales Trend — Last 4 Weeks</h1>
+        <a class="back-link" href="/dashboard">← Back to Dashboard</a>
     </div>
+
+    <nav class="nav-strip">
+        <a href="/sales-trend" class="active">📈 Sales Trend</a>
+        <span class="sep">·</span>
+        <a href="/amazon-sales-trend">🛒 Amazon + 1P Trend</a>
+        <span class="sep">·</span>
+        <a href="/category-sales">🧩 Category Trend</a>
+        <span class="sep">·</span>
+        <a href="/inventory-dashboard">📦 Inventory</a>
+        <span class="sep">·</span>
+        <a href="/ams-trend">📣 AMS</a>
+        <span class="sep">·</span>
+        <a href="/dashboard">🏠 Dashboard</a>
+    </nav>
+
+    <div class="note-strip">
+        ℹ️ Auto-updates as new weekly data is uploaded &nbsp;·&nbsp; Toggle between Units and ₹ Sales using the button below
+    </div>
+
+    <div class="toolbar-row">
+        <input type="text" id="filterBox" placeholder="🔍  Filter by SKU / Model / Category…">
+
+        <!-- Multi-week picker -->
+        <div class="week-picker-wrap">
+            <button type="button" class="week-picker-btn" onclick="toggleWeekPicker()">
+                <span id="week-picker-label">
+                    {% if selected_weeks %}{{ selected_weeks | join(', ') }}{% else %}All Weeks{% endif %}
+                </span>
+                ▾
+            </button>
+            <div class="week-picker-dropdown" id="weekPickerDropdown">
+                <label class="week-option">
+                    <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> <b>All</b>
+                </label>
+                {% for w in weeks %}
+                <label class="week-option">
+                    <input type="checkbox" name="sel_weeks" value="{{ w }}"
+                        {% if selected_weeks and w in selected_weeks %}checked{% endif %}
+                        onchange="updateWeekLabel()">
+                    {{ w }}
+                </label>
+                {% endfor %}
+                <div class="week-picker-footer">
+                    <button type="button" class="week-apply-btn" onclick="applyWeekFilter()">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brand filter -->
+        <select id="brandFilter" name="brand">
+            <option value="">All Brands</option>
+            {% for b in brands %}
+                <option value="{{ b|lower|trim }}"
+                {% if selected_brand and (b|lower|trim) == (selected_brand|lower|trim) %}selected{% endif %}>
+                {{ b }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <div class="toolbar-spacer"></div>
+
+        <button class="btn" onclick="toggleMetric()">⇄ Toggle Units / ₹</button>
+        <button class="btn btn-primary" onclick="exportTable()">⬇ Export CSV</button>
+    </div>
+
+    <div class="selection-bar">
+        <button class="btn" onclick="applyCheckboxFilter()">✓ Apply Selection</button>
+        <button class="btn" onclick="resetCheckboxFilter()">✕ Reset Selection</button>
+        <span id="selection-count"></span>
+    </div>
+
 </div>
 
-<div class="apply-bar">
-    <button onclick="applyCheckboxFilter()">Apply Selection</button>
-    <button onclick="resetCheckboxFilter()">Reset Selection</button>
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div class="main-content">
+
+    <div class="section-header">
+        <div class="section-title">📊 SKU Performance — Week-over-Week</div>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="trendTable">
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="selectAll"></th>
+            <th>Model</th>
+            <th>Category L0</th>
+            <th>Category L1</th>
+            <th>Category L2</th>
+
+            {% for w in weeks %}
+                <th>{{ w }} Sales ₹</th>
+            {% endfor %}
+            {% for w in weeks %}
+                <th>{{ w }} Units</th>
+            {% endfor %}
+            {% for w in weeks %}
+                <th>{{ w }} Sales %</th>
+            {% endfor %}
+
+            <th>Last 4W Units</th>
+            <th>4W Avg</th>
+            <th>Inventory</th>
+            <th>Trend</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for r in rows %}
+        <tr data-brand="{{ r.brand | lower | trim }}">
+            <td><input type="checkbox" class="row-check"></td>
+            <td style="font-weight:600;color:#111827">{{ r.model }}</td>
+            <td style="color:#1f2937">{{ r.category_l0 }}</td>
+            <td style="color:#1f2937">{{ r.category_l1 }}</td>
+            <td style="color:#1f2937">{{ r.category_l2 }}</td>
+
+            {% for w in weeks %}
+            <td class="metric"
+                data-units="{{ r[w ~ '_units'] }}"
+                data-sales="{{ '%.0f'|format(r[w ~ '_sales']) }}">
+                {{ '%.0f'|format(r[w ~ '_sales']) }}
+            </td>
+            {% endfor %}
+
+            {% for w in weeks %}
+            <td class="metric"
+                data-units="{{ r[w ~ '_units'] }}"
+                data-sales="{{ r[w ~ '_sales'] }}">
+                {{ r[w ~ '_units'] }}
+            </td>
+            {% endfor %}
+
+            {% for w in weeks %}
+            <td data-sort="{{ r[w ~ '_sales_pct']|default(0) }}">
+                {{ '%.2f'|format((r[w ~ '_sales_pct']|default(0))|float) }}%
+            </td>
+            {% endfor %}
+
+            <td style="font-weight:700;color:#111827">{{ r.last_4w_units }}</td>
+            <td>{{ r.avg_4w }}</td>
+            <td>{{ r.inventory_units }}</td>
+
+            <td data-sort="{% if r.trend=='UP' %}3{% elif r.trend=='FLAT' %}2{% else %}1{% endif %}">
+                {% if r.trend == "UP" %}
+                    <span class="up">↑ UP</span>
+                {% elif r.trend == "DOWN" %}
+                    <span class="down">↓ DOWN</span>
+                {% else %}
+                    <span class="flat">→ FLAT</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
 </div>
-
-<table id="trendTable">
-<thead>
-<tr>
-    <th><input type="checkbox" id="selectAll"></th>
-    <th>Model</th>
-    <th>Category L0</th>
-    <th>Category L1</th>
-    <th>Category L2</th>
-
-    {% for w in weeks %}
-        <th>{{ w }} Sales ₹</th>
-    {% endfor %}
-    {% for w in weeks %}
-        <th>{{ w }} Units</th>
-    {% endfor %}
-    {% for w in weeks %}
-        <th>{{ w }} Sales %</th>
-    {% endfor %}
-
-    <th>Last 4W Units</th>
-    <th>4W Avg</th>
-    <th>Inventory Units</th>
-    <th>Trend</th>
-</tr>
-</thead>
-
-<tbody>
-{% for r in rows %}
-<tr data-brand="{{ r.brand | lower | trim }}">
-
-
-
-    <td><input type="checkbox" class="row-check"></td>
-
-    <td>{{ r.model }}</td>
-    <td>{{ r.category_l0 }}</td>
-    <td>{{ r.category_l1 }}</td>
-    <td>{{ r.category_l2 }}</td>
-
-    {% for w in weeks %}
-<td class="metric"
-    data-units="{{ r[w ~ '_units'] }}"
-    data-sales="{{ "%.0f"|format(r[w ~ '_sales']) }}">
-    {{ "%.0f"|format(r[w ~ '_sales']) }}
-</td>
-    {% endfor %}
-
-    {% for w in weeks %}
-        <td class="metric" data-units="{{ r[w ~ '_units'] }}" data-sales="{{ r[w ~ '_sales'] }}">
-            {{ r[w ~ '_units'] }}
-        </td>
-    {% endfor %}
-
-    {% for w in weeks %}
-        <td data-sort="{{ r[w ~ '_sales_pct']|default(0) }}">
-            {{ "%.2f"|format((r[w ~ '_sales_pct']|default(0))|float) }}%
-        </td>
-    {% endfor %}
-
-    <td>{{ r.last_4w_units }}</td>
-    <td>{{ r.avg_4w }}</td>
-    <td>{{ r.inventory_units }}</td>
-
-    <td data-sort="{% if r.trend=='UP' %}3{% elif r.trend=='FLAT' %}2{% else %}1{% endif %}">
-        {% if r.trend == "UP" %}
-            <span class="up">↑ UP</span>
-        {% elif r.trend == "DOWN" %}
-            <span class="down">↓ DOWN</span>
-        {% else %}
-            <span class="flat">→ FLAT</span>
-        {% endif %}
-    </td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-
 
 <script>
-/* TEXT FILTER */
+/* ── Multi-week picker ── */
+function toggleWeekPicker() {
+    document.getElementById('weekPickerDropdown').classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.week-picker-wrap')) {
+        document.getElementById('weekPickerDropdown')?.classList.remove('open');
+    }
+});
+
+function toggleAllWeeks(cb) {
+    document.querySelectorAll('input[name="sel_weeks"]').forEach(c => c.checked = cb.checked);
+    updateWeekLabel();
+}
+
+function updateWeekLabel() {
+    const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
+    const allCb = document.getElementById('wk-all');
+    const allBoxes = document.querySelectorAll('input[name="sel_weeks"]');
+    if (allCb) allCb.checked = (checked.length === allBoxes.length);
+    const label = document.getElementById('week-picker-label');
+    if (!label) return;
+    if (!checked.length || checked.length === allBoxes.length) label.textContent = 'All Weeks';
+    else if (checked.length <= 3) label.textContent = checked.join(', ');
+    else label.textContent = checked.length + ' weeks selected';
+}
+
+function applyWeekFilter() {
+    document.getElementById('weekPickerDropdown').classList.remove('open');
+    const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
+    const brand = document.getElementById('brandFilter').value;
+    const params = new URLSearchParams();
+    checked.forEach(w => params.append('sel_weeks', w));
+    if (brand) params.append('brand', brand);
+    window.location.href = '/sales-trend?' + params.toString();
+}
+
+/* ── Filter ── */
 document.getElementById("filterBox").addEventListener("keyup", function () {
     const q = this.value.toLowerCase();
     document.querySelectorAll("#trendTable tbody tr").forEach(r => {
-    r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
-    
+        r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
     });
 });
 
-/* TOGGLE ₹ / UNITS */
+/* ── Toggle ₹ / Units ── */
 let showingUnits = false;
-function toggleMetric(){
+function toggleMetric() {
     showingUnits = !showingUnits;
-    document.querySelectorAll(".metric").forEach(td=>{
-        td.innerText = showingUnits ? td.dataset.units : td.dataset.sales;
+    document.querySelectorAll(".metric").forEach(td => {
+        td.textContent = showingUnits ? td.dataset.units : td.dataset.sales;
     });
+    document.querySelector('[onclick="toggleMetric()"]').textContent =
+        showingUnits ? '⇄ Showing Units' : '⇄ Showing ₹ Sales';
 }
 
-/* APPLY MULTI-SELECT FILTER (FIXED) */
-function applyCheckboxFilter(){
+/* ── Checkbox selection ── */
+function applyCheckboxFilter() {
     const rows = document.querySelectorAll("#trendTable tbody tr");
     const checked = document.querySelectorAll(".row-check:checked");
-
-    if (checked.length === 0) {
-        rows.forEach(r => r.style.display = "");
-        return;
-    }
-
+    if (checked.length === 0) { rows.forEach(r => r.style.display = ""); return; }
     rows.forEach(r => {
         r.style.display = r.querySelector(".row-check").checked ? "" : "none";
     });
 }
 
-function resetCheckboxFilter(){
+function resetCheckboxFilter() {
     document.querySelectorAll(".row-check").forEach(cb => cb.checked = false);
     document.getElementById("selectAll").checked = false;
     document.querySelectorAll("#trendTable tbody tr").forEach(r => r.style.display = "");
+    updateCount();
 }
 
-/* SELECT ALL */
-document.getElementById("selectAll").addEventListener("change", function(){
+document.getElementById("selectAll").addEventListener("change", function () {
     document.querySelectorAll(".row-check").forEach(cb => cb.checked = this.checked);
+    updateCount();
 });
 
-/* SORTING – UNCHANGED */
+document.addEventListener("change", function(e) {
+    if (e.target.classList.contains("row-check")) updateCount();
+});
+
+function updateCount() {
+    const n = document.querySelectorAll(".row-check:checked").length;
+    document.getElementById("selection-count").textContent = n > 0 ? n + ' row(s) selected' : '';
+}
+
+/* ── Sort ── */
 document.querySelectorAll("th").forEach((header, colIndex) => {
     let asc = true;
     header.addEventListener("click", () => {
-        const table = header.closest("table");
-        const tbody = table.querySelector("tbody");
+        if (colIndex === 0) return; // skip checkbox col
+        const tbody = document.querySelector("#trendTable tbody");
         const rows = Array.from(tbody.querySelectorAll("tr"));
-
         document.querySelectorAll("th").forEach(h => h.classList.remove("sorted-asc", "sorted-desc"));
         header.classList.add(asc ? "sorted-asc" : "sorted-desc");
-
         rows.sort((a, b) => {
-            // Keep Grand Total always at bottom
-            if (a.children[1].innerText.trim() === "Grand Total") return 1;
-            if (b.children[1].innerText.trim() === "Grand Total") return -1;
-            const A = a.children[colIndex]?.dataset.sort || a.children[colIndex]?.innerText.replace(/[₹,%]/g,"").trim();
-            const B = b.children[colIndex]?.dataset.sort || b.children[colIndex]?.innerText.replace(/[₹,%]/g,"").trim();
+            if (a.children[1]?.innerText.trim() === "Grand Total") return 1;
+            if (b.children[1]?.innerText.trim() === "Grand Total") return -1;
+            const A = a.children[colIndex]?.dataset.sort || a.children[colIndex]?.innerText.replace(/[₹,%↑↓→]/g, "").trim();
+            const B = b.children[colIndex]?.dataset.sort || b.children[colIndex]?.innerText.replace(/[₹,%↑↓→]/g, "").trim();
             const nA = parseFloat(A), nB = parseFloat(B);
             if (!isNaN(nA) && !isNaN(nB)) return asc ? nA - nB : nB - nA;
             return asc ? A.localeCompare(B) : B.localeCompare(A);
         });
-
         rows.forEach(r => tbody.appendChild(r));
         asc = !asc;
     });
 });
 
-/* EXPORT */
-function exportTable(){
-    let csv=[];
-    document.querySelectorAll("#trendTable tr").forEach(r=>{
-        let row=[];
-        r.querySelectorAll("th,td").forEach((c,i)=>{
-    if(i===0) return;   // skip checkbox column
-    row.push(c.innerText.replace(/,/g,""));
-});
+/* ── Export CSV ── */
+function exportTable() {
+    let csv = [];
+    document.querySelectorAll("#trendTable tr").forEach(r => {
+        let row = [];
+        r.querySelectorAll("th, td").forEach((c, i) => {
+            if (i === 0) return; // skip checkbox
+            row.push('"' + c.innerText.replace(/"/g, '""').replace(/\n/g, ' ') + '"');
+        });
         csv.push(row.join(","));
     });
-    const blob=new Blob([csv.join("\n")],{type:"text/csv"});
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="sku_sales_trend.csv";
+    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "sku_sales_trend.csv";
     a.click();
 }
 
-/* BRAND FILTER – BACKEND DRIVEN */
-document.getElementById("brandFilter").addEventListener("change", function(){
+/* ── Brand filter (backend) ── */
+document.getElementById("brandFilter").addEventListener("change", function () {
     const b = this.value;
-    if (b) {
-        window.location.href = `/sales-trend?brand=${b}`;
-    } else {
-        window.location.href = `/sales-trend`;
-    }
+    const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
+    const params = new URLSearchParams();
+    checked.forEach(w => params.append('sel_weeks', w));
+    if (b) params.append('brand', b);
+    window.location.href = '/sales-trend?' + (params.toString() || '');
 });
-
 </script>
-
 </body>
 </html>

@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 import pandas as pd
 from pathlib import Path
 import urllib.parse
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from weekly_app.etl.sales_auto_etl import run_sales_auto_etl
 
@@ -76,26 +76,40 @@ def is_amazon_am(ch: str) -> bool:
 def dashboard(
     request: Request,
     week: str = None,
+    weeks: List[str] = Query(default=[]),   # ← multi-week checkboxes
     brand: str = None,
     view: str = "mapped",
 ):
 
     # =================================================
-    # WEEK NORMALIZATION (LOCKED)
+    # MULTI-WEEK RESOLUTION
     # =================================================
-    if week and week.startswith("Week") and " " not in week:
-        week = week.replace("Week", "Week ")
+    def _fix_week(w):
+        w = str(w).strip()
+        if w.startswith("Week") and " " not in w:
+            w = w.replace("Week", "Week ")
+        return w
+
+    # Build active_weeks — prefer multi-select; fall back to single ?week=
+    if weeks:
+        active_weeks = [_fix_week(w) for w in weeks if w.strip()]
+    elif week:
+        active_weeks = [_fix_week(week)]
+    else:
+        active_weeks = []
 
     selected = {
-        "week": week,
-        "brand": brand,
-        "view": view
+        "week":           active_weeks[0] if len(active_weeks) == 1 else None,
+        "weeks":          active_weeks,
+        "weeks_display":  ", ".join(active_weeks) if active_weeks else "All Weeks",
+        "brand":          brand,
+        "view":           view,
     }
 
     # =================================================
-    # AUTO SELECT LATEST WEEK (LOCKED)
+    # AUTO SELECT LATEST WEEK IF NOTHING CHOSEN
     # =================================================
-    if not week and SALES_FILE.exists():
+    if not active_weeks and SALES_FILE.exists():
         try:
             all_weeks = (
                 pd.read_csv(SALES_FILE)["week"]
@@ -115,8 +129,10 @@ def dashboard(
             all_weeks.sort(key=_wk)
 
             if all_weeks:
-                week = all_weeks[-1]
-                selected["week"] = week
+                active_weeks = [all_weeks[-1]]
+                selected["week"] = active_weeks[0]
+                selected["weeks"] = active_weeks
+                selected["weeks_display"] = active_weeks[0]
         except Exception:
             pass
 
@@ -176,8 +192,9 @@ def dashboard(
     if "category_l0" in sales.columns:
         sales["category_l0_norm"] = sales["category_l0"].apply(norm)
 
-    if week:
-        sales = sales[sales["week"] == week]
+    # ── Filter by selected weeks (single or multiple) ──
+    if active_weeks:
+        sales = sales[sales["week"].isin(active_weeks)]
 
         # ✅ STEP 2 — BRAND FILTER (CORRECT PLACE)
     if brand and "brand" in sales.columns:
@@ -322,16 +339,18 @@ def dashboard(
     category_summary = round_df(category_summary_df).to_dict("records")
 
     # =================================================
-    # 🔥 AMS PIVOT (ADD-ONLY)
+    # AMS PIVOT — supports single or multiple weeks
     # =================================================
     ams_pivot = []
 
-    if AMS_FILE.exists() and week:
+    if AMS_FILE.exists() and active_weeks:
         try:
             ams = pd.read_csv(AMS_FILE)
             ams["week"] = ams["week"].astype(str)
 
-            ams = ams[ams["week"] == week.replace("Week", "").strip()]
+            # Convert active_weeks to numeric week numbers for AMS file
+            ams_week_nums = [w.replace("Week", "").strip() for w in active_weeks]
+            ams = ams[ams["week"].isin(ams_week_nums)]
 
             ams_pivot_df = (
                 ams.groupby("week", as_index=False)

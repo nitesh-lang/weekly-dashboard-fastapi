@@ -3,478 +3,646 @@
 <head>
 <meta charset="UTF-8">
 <title>Inventory Dashboard</title>
-
-<!-- ======================================================
-     INVENTORY DASHBOARD UI – SAAS POLISHED VERSION
-     - Week + Brand Filters
-     - KPI Cards
-     - Aging Buckets
-     - Channel → Location Summary
-     - Inventory Details Table
-     - Global Text Filter
-     - Column-wise Filters (Fast + Combined)
-     - CSV Export (Filtered Only)
-     - Sticky Header
-     - No Section Removed
-====================================================== -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
 <style>
-
-/* ======================================================
-   GLOBAL
-====================================================== */
-
-body {
-    font-family: Inter, Arial, Helvetica, sans-serif;
-    margin: 20px;
-    background: #f6f8fb;
-    color: #1e293b;
-}
-
-h1 { margin-bottom: 6px; font-size: 22px; }
-h2 { margin-top: 40px; margin-bottom: 14px; font-size: 18px; }
-
-a {
-    text-decoration: none;
-    color: #2563eb;
-}
-
-.note {
-    font-size: 13px;
-    color: #64748b;
-    margin-bottom: 16px;
-}
-
-/* ======================================================
-   FILTER BAR
-====================================================== */
-
-.filters {
-    background: #ffffff;
-    padding: 14px;
-    border-radius: 10px;
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    margin: 16px 0 24px 0;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
-}
-
-.filters select,
-.filters button {
-    padding: 7px 10px;
-    font-size: 12px;
-    border-radius: 6px;
-    border: 1px solid #d1d5db;
-}
-
-.filters button {
-    background: #2563eb;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* ======================================================
-   KPI CARDS
-====================================================== */
-
-.kpis {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 40px;
-}
-
-.kpi {
-    background: white;
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
-}
-
-.kpi b {
-    font-size: 13px;
-    color: #64748b;
-}
-
-.kpi .val {
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 6px;
-}
-
-/* ======================================================
-   TABLE STYLING
-====================================================== */
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    background: white;
-}
-
-th, td {
-    border: 1px solid #e5e7eb;
-    padding: 6px 8px;
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-th {
-    background: #f1f5f9;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    text-align: center;
-}
-
-td { text-align: right; }
-
-td:nth-child(-n+9) {
-    text-align: left;
-}
-
-.section-divider {
-    margin-top: 50px;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 20px;
-}
-
-/* ======================================================
-   INVENTORY TOOLBAR
-====================================================== */
-
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.toolbar input {
-    padding: 6px;
-    font-size: 12px;
-    width: 320px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-}
-
-.toolbar button {
-    padding: 7px 12px;
-    font-size: 12px;
-    border-radius: 6px;
-    border: none;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
-}
-
-/* ======================================================
-   COLUMN FILTER ROW
-====================================================== */
-
-#columnFilters th {
-    background: #ffffff;
-    position: sticky;
-    top: 32px;
-    z-index: 1;
-}
-
-#columnFilters input {
-    width: 100%;
-    padding: 4px;
-    font-size: 11px;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-}
-
-/* ======================================================
-   RESPONSIVE
-====================================================== */
-
-@media (max-width: 1200px) {
-    .kpis {
-        grid-template-columns: repeat(2, 1fr);
+    :root {
+        --bg:         #f5f6fa;
+        --bg2:        #ffffff;
+        --bg3:        #f8f9fc;
+        --border:     #e8eaf0;
+        --border2:    #d5d9e6;
+        --text:       #111827;
+        --text2:      #1f2937;
+        --text3:      #374151;
+        --blue:       #4f6ef7;
+        --blue-dim:   #eef0fe;
+        --green:      #0f9b6e;
+        --green-dim:  #ecfdf6;
+        --purple:     #7c5cbf;
+        --amber:      #b45309;
+        --amber-dim:  #fef3e2;
+        --header-bg:  #3d3587;
+        --header-nav: #4a3f9e;
+        --radius:     8px;
+        --mono:       'IBM Plex Mono', monospace;
+        --sans:       'IBM Plex Sans', sans-serif;
     }
-}
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: var(--sans);
+        background: var(--bg);
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    a { text-decoration: none; color: var(--blue); }
+    a:hover { color: #3451d1; text-decoration: underline; }
+
+    /* ── STICKY HEADER ── */
+    #sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+
+    .header-title {
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--header-bg);
+    }
+    .header-title h1 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+    .back-link {
+        font-size: 11px;
+        color: rgba(255,255,255,0.65);
+        font-family: var(--mono);
+        transition: color 0.15s;
+    }
+    .back-link:hover { color: #fff; text-decoration: none; }
+
+    .nav-strip {
+        padding: 0 24px;
+        background: var(--header-nav);
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        height: 34px;
+    }
+    .nav-strip a {
+        color: rgba(255,255,255,0.72);
+        font-size: 12px;
+        font-weight: 500;
+        padding: 3px 11px;
+        border-radius: 5px;
+        transition: all 0.15s;
+    }
+    .nav-strip a:hover { background: rgba(255,255,255,0.14); color: #fff; text-decoration: none; }
+    .nav-strip a.active { background: rgba(255,255,255,0.18); color: #fff; font-weight: 600; }
+    .nav-strip .sep { color: rgba(255,255,255,0.25); margin: 0 2px; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+        padding: 8px 24px;
+        background: var(--bg2);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .filter-group { display: flex; align-items: center; gap: 7px; }
+    .filter-group label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+    .filter-bar select {
+        padding: 5px 10px;
+        font-size: 12px;
+        font-family: var(--sans);
+        border: 1px solid var(--border2);
+        border-radius: 6px;
+        background: var(--bg3);
+        color: var(--text);
+        outline: none;
+        cursor: pointer;
+        transition: border-color 0.15s;
+    }
+    .filter-bar select:focus { border-color: var(--blue); }
+
+    .note-strip {
+        padding: 6px 24px;
+        background: var(--blue-dim);
+        border-bottom: 1px solid #c7cefc;
+        font-size: 11px;
+        color: var(--header-bg);
+        font-weight: 500;
+    }
+
+    .btn-apply {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 16px;
+        background: var(--header-bg);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        font-family: var(--sans);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+    .btn-apply:hover { background: #4a3f9e; }
+
+    /* ── KPI BAR ── */
+    .kpi-bar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+    .kpi {
+        background: var(--bg2);
+        padding: 14px 24px;
+        position: relative;
+    }
+    .kpi::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 20%; bottom: 20%;
+        width: 3px;
+        border-radius: 0 2px 2px 0;
+    }
+    .kpi:nth-child(1)::before { background: var(--blue); }
+    .kpi:nth-child(2)::before { background: var(--green); }
+    .kpi:nth-child(3)::before { background: var(--purple); }
+    .kpi:nth-child(4)::before { background: var(--amber); }
+
+    .kpi-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.9px;
+        margin-bottom: 5px;
+    }
+    .kpi-value {
+        font-family: var(--mono);
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+    }
+    .kpi:nth-child(1) .kpi-value { color: #3d3587; }
+    .kpi:nth-child(2) .kpi-value { color: #0f7a57; }
+    .kpi:nth-child(3) .kpi-value { color: #6040a8; }
+    .kpi:nth-child(4) .kpi-value { color: #92400e; }
+
+    /* ── MAIN ── */
+    .main-content { padding: 20px 24px 60px; }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 22px 0 10px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--border);
+    }
+    .section-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+    }
+
+    .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 12px;
+        border: 1px solid var(--border2);
+        border-radius: 6px;
+        color: var(--text2);
+        font-size: 11px;
+        font-weight: 500;
+        background: var(--bg2);
+        cursor: pointer;
+        font-family: var(--sans);
+        transition: all 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+
+    /* ── TOOLBAR (search + export) ── */
+    .toolbar-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .toolbar-row input[type="text"] {
+        padding: 5px 12px;
+        font-size: 12px;
+        font-family: var(--sans);
+        width: 300px;
+        border: 1px solid var(--border2);
+        border-radius: 6px;
+        background: var(--bg3);
+        color: var(--text);
+        outline: none;
+        transition: border-color 0.15s;
+    }
+    .toolbar-row input[type="text"]:focus { border-color: var(--blue); }
+    .toolbar-row input[type="text"]::placeholder { color: var(--text3); }
+
+    /* ── TABLE WRAPPERS ── */
+    .table-wrapper {
+        overflow: auto;
+        max-height: 360px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        margin-bottom: 8px;
+    }
+    .table-wrapper-sm {
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    /* ── TWO-COL for aging + channel ── */
+    .two-col {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 16px;
+        align-items: start;
+    }
+
+    /* ── TABLE BASE ── */
+    table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: max-content;
+        min-width: 100%;
+    }
+
+    th, td {
+        padding: 7px 14px;
+        font-size: 12px;
+        white-space: nowrap;
+        border-bottom: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        background: var(--bg2);
+        color: var(--text2);
+        text-align: right;
+    }
+
+    th {
+        background: #f4f5fb;
+        color: var(--text2);
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        border-bottom: 2px solid var(--border2);
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.12s;
+        text-align: center;
+    }
+    th:hover { background: #eaecf7; color: var(--header-bg); }
+
+    /* Left-align first 9 cols of details table */
+    #inventoryTable td:nth-child(-n+9),
+    #inventoryTable th:nth-child(-n+9) { text-align: left; }
+
+    /* Left-align aging + channel first cols */
+    .aging-table td:first-child,
+    .aging-table th:first-child,
+    .channel-table td:first-child,
+    .channel-table td:nth-child(2),
+    .channel-table th:first-child,
+    .channel-table th:nth-child(2) { text-align: left; }
+
+    tbody tr:nth-child(even) td { background: #fafbfd; }
+    tbody tr:hover td { background: #eef0fe !important; }
+
+    /* Mono numbers */
+    #inventoryTable td:nth-child(n+10),
+    .channel-table td:nth-child(n+3) {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text);
+    }
+
+    /* Column filter row */
+    #columnFilters th {
+        background: var(--bg3);
+        position: sticky;
+        top: 35px;
+        z-index: 2;
+        padding: 4px 6px;
+    }
+    #columnFilters input {
+        width: 100%;
+        padding: 3px 6px;
+        font-size: 11px;
+        font-family: var(--sans);
+        border: 1px solid var(--border2);
+        border-radius: 4px;
+        outline: none;
+        color: var(--text);
+        background: var(--bg2);
+    }
+    #columnFilters input:focus { border-color: var(--blue); }
+
+    /* Aging bucket bar */
+    .aging-bar-wrap { display: flex; align-items: center; gap: 8px; }
+    .aging-bar { height: 6px; border-radius: 3px; background: var(--blue); min-width: 2px; }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5e8; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a0a8c8; }
+
+    @media (max-width: 900px) {
+        .kpi-bar  { grid-template-columns: repeat(2,1fr); }
+        .two-col  { grid-template-columns: 1fr; }
+    }
 </style>
 </head>
-
 <body>
 
-<h1>📦 Inventory Dashboard</h1>
-<a href="/dashboard">← Back to Dashboard</a>
+<!-- ── STICKY HEADER ── -->
+<div id="sticky-header">
 
-<p class="note">
-Showing inventory snapshot for: <b>{{ latest_week }}</b><br>
-Inventory Value = Units × NLC
-</p>
+    <div class="header-title">
+        <h1>📦 Inventory Dashboard</h1>
+        <a class="back-link" href="/dashboard">← Back to Dashboard</a>
+    </div>
 
-<!-- ================= FILTERS ================= -->
+    <nav class="nav-strip">
+        <a href="/sales-trend">📈 Sales Trend</a>
+        <span class="sep">·</span>
+        <a href="/amazon-sales-trend">🛒 Amazon + 1P</a>
+        <span class="sep">·</span>
+        <a href="/category-sales">🧩 Category</a>
+        <span class="sep">·</span>
+        <a href="/inventory-dashboard" class="active">📦 Inventory Dashboard</a>
+        <span class="sep">·</span>
+        <a href="/ams-trend">📣 AMS</a>
+        <span class="sep">·</span>
+        <a href="/dashboard">🏠 Dashboard</a>
+    </nav>
 
-<div class="filters">
-<form method="get" action="/inventory-dashboard">
+    <form method="get" action="/inventory-dashboard">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Week</label>
+                <select name="week">
+                    <option value="">Latest</option>
+                    {% for w in available_weeks %}
+                    <option value="{{ w }}" {% if w == latest_week %}selected{% endif %}>{{ w }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Brand</label>
+                <select name="brand">
+                    <option value="">All</option>
+                    {% for b in available_brands %}
+                    <option value="{{ b }}" {% if b == request.query_params.get('brand') %}selected{% endif %}>{{ b }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-apply">Apply</button>
+        </div>
+    </form>
 
-<label><b>Week:</b></label>
-<select name="week">
-<option value="">Latest</option>
-{% for w in available_weeks %}
-<option value="{{ w }}" {% if w == latest_week %}selected{% endif %}>
-{{ w }}
-</option>
-{% endfor %}
-</select>
+    <div class="note-strip">
+        📅 Snapshot: <b>{{ latest_week }}</b> &nbsp;·&nbsp; Inventory Value = Units × NLC
+    </div>
 
-<label><b>Brand:</b></label>
-<select name="brand">
-<option value="">All</option>
-{% for b in available_brands %}
-<option value="{{ b }}"
-{% if b == request.query_params.get('brand') %}selected{% endif %}>
-{{ b }}
-</option>
-{% endfor %}
-</select>
+    <!-- KPI BAR -->
+    <div class="kpi-bar">
+        <div class="kpi">
+            <div class="kpi-label">Total Units</div>
+            <div class="kpi-value">{{ "{:,}".format(kpis.total_units) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Total Inventory Value</div>
+            <div class="kpi-value">₹ {{ "{:,.0f}".format(kpis.total_value) }}</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">In-Transit %</div>
+            <div class="kpi-value">{{ "%.1f"|format(kpis.in_transit_pct) }}%</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">Unsellable %</div>
+            <div class="kpi-value">{{ "%.1f"|format(kpis.unsellable_pct) }}%</div>
+        </div>
+    </div>
 
-<button type="submit">Apply</button>
+</div><!-- /#sticky-header -->
 
-</form>
+<!-- ── MAIN ── -->
+<div class="main-content">
+
+    <!-- Aging + Channel side by side -->
+    <div class="two-col">
+
+        <!-- AGING BUCKETS -->
+        <div>
+            <div class="section-header">
+                <div class="section-title">📦 Inventory Aging Buckets</div>
+            </div>
+            <div class="table-wrapper-sm">
+                <table class="aging-table">
+                <thead><tr><th>Bucket</th><th>Units</th></tr></thead>
+                <tbody>
+                {% for b in aging %}
+                <tr>
+                    <td style="color:#111827;font-weight:500">{{ b.bucket }}</td>
+                    <td>
+                        <div class="aging-bar-wrap">
+                            <span style="font-family:var(--mono);font-size:11px;color:#111827">{{ b.units }}</span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CHANNEL → LOCATION SUMMARY -->
+        <div>
+            <div class="section-header">
+                <div class="section-title">📊 Channel → Location Summary</div>
+            </div>
+            <div class="table-wrapper-sm">
+                <table class="channel-table">
+                <thead><tr>
+                    <th>Channel</th>
+                    <th>Location</th>
+                    <th>Units</th>
+                    <th>Value (₹)</th>
+                </tr></thead>
+                <tbody>
+                {% for r in channel_summary %}
+                <tr>
+                    <td style="color:#111827;font-weight:500">{{ r.channel }}</td>
+                    <td style="color:#1f2937">{{ r.location }}</td>
+                    <td>{{ r.units }}</td>
+                    <td>₹ {{ "%.0f"|format(r.value) }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INVENTORY DETAILS -->
+    <div class="section-header" style="margin-top:28px">
+        <div class="section-title">📦 Inventory Details</div>
+        <button class="btn-ghost" onclick="exportTable()">⬇ Export CSV</button>
+    </div>
+
+    <div class="toolbar-row">
+        <input type="text" id="globalFilter" placeholder="🔍  Search model, SKU, brand, channel…">
+    </div>
+
+    <div class="table-wrapper">
+        <table id="inventoryTable">
+        <thead>
+        <tr>
+            <th onclick="sortTable(0)">Week</th>
+            <th onclick="sortTable(1)">Brand</th>
+            <th onclick="sortTable(2)">Model</th>
+            <th onclick="sortTable(3)">SKU</th>
+            <th onclick="sortTable(4)">Category L0</th>
+            <th onclick="sortTable(5)">Category L1</th>
+            <th onclick="sortTable(6)">Category L2</th>
+            <th onclick="sortTable(7)">Channel</th>
+            <th onclick="sortTable(8)">Location</th>
+            <th onclick="sortTable(9)">Units ⇅</th>
+            <th onclick="sortTable(10)">NLC (₹) ⇅</th>
+            <th onclick="sortTable(11)">Value (₹) ⇅</th>
+        </tr>
+        <tr id="columnFilters">
+            <th><input data-col="0" placeholder="week"></th>
+            <th><input data-col="1" placeholder="brand"></th>
+            <th><input data-col="2" placeholder="model"></th>
+            <th><input data-col="3" placeholder="sku"></th>
+            <th><input data-col="4" placeholder="cat l0"></th>
+            <th><input data-col="5" placeholder="cat l1"></th>
+            <th><input data-col="6" placeholder="cat l2"></th>
+            <th><input data-col="7" placeholder="channel"></th>
+            <th><input data-col="8" placeholder="location"></th>
+            <th><input data-col="9"></th>
+            <th><input data-col="10"></th>
+            <th><input data-col="11"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>{{ r.week }}</td>
+            <td style="color:#111827">{{ r.brand }}</td>
+            <td style="font-weight:600;color:#111827">{{ r.model }}</td>
+            <td style="font-family:var(--mono);font-size:11px">{{ r.sku or "—" }}</td>
+            <td style="color:#1f2937">{{ r.category_l0 }}</td>
+            <td style="color:#1f2937">{{ r.category_l1 }}</td>
+            <td style="color:#1f2937">{{ r.category_l2 }}</td>
+            <td style="color:#1f2937">{{ r.channel }}</td>
+            <td style="color:#1f2937">{{ r.type }}</td>
+            <td>{{ r.inventory_units }}</td>
+            <td>₹ {{ "%.0f"|format(r.nlc) }}</td>
+            <td>₹ {{ "%.0f"|format(r.inventory_value) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
 </div>
-
-<!-- ================= KPI CARDS ================= -->
-
-<div class="kpis">
-
-<div class="kpi">
-<b>Total Units</b>
-<div class="val">{{ kpis.total_units }}</div>
-</div>
-
-<div class="kpi">
-<b>Total Inventory Value</b>
-<div class="val">₹ {{ "%.2f"|format(kpis.total_value) }}</div>
-</div>
-
-<div class="kpi">
-<b>In-Transit %</b>
-<div class="val">{{ "%.1f"|format(kpis.in_transit_pct) }}%</div>
-</div>
-
-<div class="kpi">
-<b>Unsellable %</b>
-<div class="val">{{ "%.1f"|format(kpis.unsellable_pct) }}%</div>
-</div>
-
-</div>
-
-<!-- ================= AGING ================= -->
-
-<h2>📦 Inventory Aging Buckets</h2>
-
-<table>
-<tr>
-<th>Bucket</th>
-<th>Units</th>
-</tr>
-
-{% for b in aging %}
-<tr>
-<td>{{ b.bucket }}</td>
-<td>{{ b.units }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<!-- ================= CHANNEL SUMMARY ================= -->
-
-<h2 class="section-divider">📊 Channel → Location Summary</h2>
-
-<table>
-<tr>
-<th>Channel</th>
-<th>Location</th>
-<th>Units</th>
-<th>Value (₹)</th>
-</tr>
-
-{% for r in channel_summary %}
-<tr>
-<td>{{ r.channel }}</td>
-<td>{{ r.location }}</td>
-<td>{{ r.units }}</td>
-<td>₹ {{ "%.2f"|format(r.value) }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<!-- ================= INVENTORY DETAILS ================= -->
-
-<h2 class="section-divider">📦 Inventory Details</h2>
-
-<div class="toolbar">
-<input id="globalFilter" placeholder="Global Search">
-<button onclick="exportTable()">Export CSV</button>
-</div>
-
-<div style="overflow-x:auto;">
-<table id="inventoryTable">
-
-<thead>
-<tr>
-<th>Week</th>
-<th>Brand</th>
-<th>Model</th>
-<th>SKU</th>
-<th>Category L0</th>
-<th>Category L1</th>
-<th>Category L2</th>
-<th>Channel</th>
-<th>Location</th>
-<th onclick="sortTable(9)">Units ⇅</th>
-<th onclick="sortTable(10)">NLC (₹) ⇅</th>
-<th onclick="sortTable(11)">Value (₹) ⇅</th>
-</tr>
-
-<tr id="columnFilters">
-<th><input data-col="0"></th>
-<th><input data-col="1"></th>
-<th><input data-col="2"></th>
-<th><input data-col="3"></th>
-<th><input data-col="4"></th>
-<th><input data-col="5"></th>
-<th><input data-col="6"></th>
-<th><input data-col="7"></th>
-<th><input data-col="8"></th>
-<th><input data-col="9"></th>
-<th><input data-col="10"></th>
-<th><input data-col="11"></th>
-</tr>
-</thead>
-
-<tbody>
-{% for r in rows %}
-<tr>
-<td>{{ r.week }}</td>
-<td>{{ r.brand }}</td>
-<td>{{ r.model }}</td>
-<td>{{ r.sku or "-" }}</td>
-<td>{{ r.category_l0 }}</td>
-<td>{{ r.category_l1 }}</td>
-<td>{{ r.category_l2 }}</td>
-<td>{{ r.channel }}</td>
-<td>{{ r.type }}</td>
-<td>{{ r.inventory_units }}</td>
-<td>₹ {{ "%.2f"|format(r.nlc) }}</td>
-<td>₹ {{ "%.2f"|format(r.inventory_value) }}</td>
-</tr>
-{% endfor %}
-</tbody>
-
-</table>
-</div>
-
-<!-- ================= SCRIPT ================= -->
 
 <script>
-
 const globalInput = document.getElementById("globalFilter");
-const columnInputs = document.querySelectorAll("#columnFilters input");
-const rows = document.querySelectorAll("#inventoryTable tbody tr");
+const colInputs   = document.querySelectorAll("#columnFilters input");
+const bodyRows    = document.querySelectorAll("#inventoryTable tbody tr");
 
 function applyFilters() {
-
-    const globalVal = globalInput.value.toLowerCase();
-
-    rows.forEach(row => {
-
+    const g = globalInput.value.toLowerCase();
+    bodyRows.forEach(row => {
         let show = true;
-
-    if (globalVal) {
-    const modelCell = row.children[2].innerText.toLowerCase().trim();
-    if (modelCell !== globalVal) {
-        show = false;
-    }
-}
-
-
-        columnInputs.forEach(input => {
-            const col = input.dataset.col;
-            const val = input.value.toLowerCase();
-            if (val) {
-        const cellText = row.children[col].innerText.toLowerCase().trim();
-
-if (cellText !== val) {
-    show = false;
-}
-            }
+        if (g && !row.innerText.toLowerCase().includes(g)) show = false;
+        colInputs.forEach(inp => {
+            const val = inp.value.toLowerCase().trim();
+            if (!val) return;
+            const cell = row.children[inp.dataset.col]?.innerText.toLowerCase().trim() || '';
+            if (!cell.includes(val)) show = false;
         });
-
         row.style.display = show ? "" : "none";
-
     });
 }
 
 globalInput.addEventListener("keyup", applyFilters);
-columnInputs.forEach(input => {
-    input.addEventListener("keyup", applyFilters);
-});
+colInputs.forEach(inp => inp.addEventListener("keyup", applyFilters));
 
-function exportTable() {
-
-    let csv = [];
-
-    document.querySelectorAll("#inventoryTable thead tr:first-child th")
-        .forEach(th => csv.push(th.innerText));
-
-    let header = csv.join(",");
-    let lines = [header];
-
-    rows.forEach(row => {
-
-        if (row.style.display === "none") return;
-
-        let cols = row.querySelectorAll("td");
-        let data = [];
-
-        cols.forEach(col => {
-            data.push(col.innerText.replace(/,/g,""));
-        });
-
-        lines.push(data.join(","));
-    });
-
-    const blob = new Blob([lines.join("\n")], {type:"text/csv"});
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "inventory_dashboard_filtered.csv";
-    link.click();
-}
 function sortTable(col) {
-
     const tbody = document.querySelector("#inventoryTable tbody");
-    const rows = Array.from(tbody.querySelectorAll("tr"));
-
-    const asc = tbody.getAttribute("data-sort") !== "asc";
-
-    rows.sort((a,b)=>{
-        let A = a.children[col].innerText.replace(/[₹,]/g,"");
-        let B = b.children[col].innerText.replace(/[₹,]/g,"");
-
-        A = parseFloat(A) || 0;
-        B = parseFloat(B) || 0;
-
-        return asc ? A - B : B - A;
+    const rows  = Array.from(tbody.querySelectorAll("tr"));
+    const asc   = tbody.getAttribute("data-sort-col") !== String(col) ||
+                  tbody.getAttribute("data-sort-dir") !== "asc";
+    rows.sort((a, b) => {
+        let A = a.children[col]?.innerText.replace(/[₹,]/g,"").trim() || "";
+        let B = b.children[col]?.innerText.replace(/[₹,]/g,"").trim() || "";
+        const nA = parseFloat(A), nB = parseFloat(B);
+        if (!isNaN(nA) && !isNaN(nB)) return asc ? nA - nB : nB - nA;
+        return asc ? A.localeCompare(B) : B.localeCompare(A);
     });
-
     tbody.innerHTML = "";
     rows.forEach(r => tbody.appendChild(r));
-
-    tbody.setAttribute("data-sort", asc ? "asc" : "desc");
+    tbody.setAttribute("data-sort-col", col);
+    tbody.setAttribute("data-sort-dir", asc ? "asc" : "desc");
 }
 
-</script>
+function exportTable() {
+    let lines = [];
+    const headers = Array.from(document.querySelectorAll("#inventoryTable thead tr:first-child th"))
+                        .map(th => '"' + th.innerText.replace(/[⇅]/g,'').trim() + '"');
+    lines.push(headers.join(","));
+    bodyRows.forEach(row => {
+        if (row.style.display === "none") return;
+        const cols = Array.from(row.querySelectorAll("td"))
+                         .map(td => '"' + td.innerText.replace(/"/g,'""').trim() + '"');
+        lines.push(cols.join(","));
+    });
+    const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "inventory_dashboard.csv";
+    a.click();
+}
 
+/* Aging bar widths */
+(function() {
+    const cells = Array.from(document.querySelectorAll('.aging-table tbody tr td:nth-child(2)'));
+    const vals  = cells.map(td => parseInt(td.querySelector('span')?.textContent || '0') || 0);
+    const max   = Math.max(...vals, 1);
+    cells.forEach((td, i) => {
+        const pct = vals[i] / max;
+        const bar = document.createElement('div');
+        bar.className = 'aging-bar';
+        bar.style.width = Math.round(pct * 100) + 'px';
+        const wrap = td.querySelector('.aging-bar-wrap');
+        if (wrap) wrap.prepend(bar);
+    });
+})();
+</script>
 </body>
 </html>

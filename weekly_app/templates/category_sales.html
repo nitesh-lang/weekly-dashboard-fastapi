@@ -3,143 +3,556 @@
 <head>
     <title>Category Sales</title>
     <link rel="stylesheet" href="/static/css/category_sales.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg:         #f5f6fa;
+            --bg2:        #ffffff;
+            --bg3:        #f8f9fc;
+            --border:     #e8eaf0;
+            --border2:    #d5d9e6;
+            --text:       #111827;
+            --text2:      #1f2937;
+            --text3:      #374151;
+            --blue:       #4f6ef7;
+            --blue-dim:   #eef0fe;
+            --header-bg:  #3d3587;
+            --header-nav: #4a3f9e;
+            --radius:     8px;
+            --mono:       'IBM Plex Mono', monospace;
+            --sans:       'IBM Plex Sans', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: Arial;
-            margin: 20px;
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        a { text-decoration: none; color: var(--blue); }
+        a:hover { color: #3451d1; text-decoration: underline; }
+
+        /* ── STICKY HEADER ── */
+        #sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+        }
+
+        .header-title {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--header-bg);
+        }
+        .header-title h1 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        .back-link {
+            font-size: 11px;
+            color: rgba(255,255,255,0.65);
+            font-family: var(--mono);
+            transition: color 0.15s;
+        }
+        .back-link:hover { color: #fff; text-decoration: none; }
+
+        .nav-strip {
+            padding: 0 24px;
+            background: var(--header-nav);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 34px;
+        }
+        .nav-strip a {
+            color: rgba(255,255,255,0.72);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 11px;
+            border-radius: 5px;
+            transition: all 0.15s;
+        }
+        .nav-strip a:hover { background: rgba(255,255,255,0.14); color: #fff; text-decoration: none; }
+        .nav-strip a.active { background: rgba(255,255,255,0.18); color: #fff; font-weight: 600; }
+        .nav-strip .sep { color: rgba(255,255,255,0.25); margin: 0 2px; }
+
+        /* ── FILTER BAR ── */
+        .filter-bar {
+            padding: 8px 24px;
+            background: var(--bg2);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-group { display: flex; align-items: center; gap: 7px; }
+        .filter-group label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .filter-bar select {
+            padding: 5px 10px;
+            font-size: 12px;
+            font-family: var(--sans);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            background: var(--bg3);
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .filter-bar select:focus { border-color: var(--blue); }
+
+        .btn-apply {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 16px;
+            background: var(--header-bg);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: var(--sans);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .btn-apply:hover { background: #4a3f9e; }
+
+        /* ── WEEK PICKER ── */
+        .week-picker-wrap { position: relative; }
+
+        .week-picker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: var(--sans);
+            color: var(--text);
+            cursor: pointer;
+            min-width: 160px;
+            justify-content: space-between;
+            transition: border-color 0.15s;
+        }
+        .week-picker-btn:hover { border-color: var(--blue); }
+
+        .week-picker-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            z-index: 500;
+            background: var(--bg2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 8px 0 0 0;
+            min-width: 170px;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        .week-picker-dropdown.open { display: block; }
+
+        .week-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            font-size: 12px;
+            color: var(--text);
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .week-option:hover { background: var(--blue-dim); }
+        .week-option input[type="checkbox"] { accent-color: var(--header-bg); cursor: pointer; }
+
+        .week-picker-footer {
+            padding: 8px 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 4px;
+            position: sticky;
+            bottom: 0;
+            background: var(--bg2);
+        }
+        .week-apply-btn {
+            width: 100%;
+            padding: 5px 0;
+            background: var(--header-bg);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            font-family: var(--sans);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .week-apply-btn:hover { background: #4a3f9e; }
+
+        /* ── BREADCRUMB ── */
+        .breadcrumb {
+            padding: 8px 24px;
+            background: var(--bg3);
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .breadcrumb a { color: var(--blue); font-weight: 500; }
+        .breadcrumb .crumb-sep { color: var(--border2); }
+
+        /* ── MAIN CONTENT ── */
+        .main-content { padding: 20px 24px 60px; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .level-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: #eef0fe;
+            color: var(--header-bg);
+            border: 1px solid #c7cefc;
+        }
+
+        /* ── TABLE ── */
+        .table-wrapper {
+            overflow: auto;
+            max-height: calc(100vh - 280px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
         }
 
         table {
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             width: 100%;
+            min-width: 500px;
         }
 
         th, td {
-            border: 1px solid #ccc;
-            padding: 6px;
-            font-size: 13px;
+            padding: 8px 16px;
+            font-size: 12px;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            background: var(--bg2);
+            color: var(--text2);
+            text-align: right;
+            white-space: nowrap;
         }
 
         th {
-            background: #f4f4f4;
+            background: #f4f5fb;
+            color: var(--text2);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            border-bottom: 2px solid var(--border2);
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.12s;
+        }
+        th:hover { background: #eaecf7; color: var(--header-bg); }
+        th:first-child, td:first-child { text-align: left; }
+        th.sorted-asc::after  { content: " ▲"; font-size: 9px; color: var(--blue); }
+        th.sorted-desc::after { content: " ▼"; font-size: 9px; color: var(--blue); }
+
+        /* GMV col — mono */
+        td:nth-child(3) { font-family: var(--mono); font-size: 11px; color: var(--text); }
+        td:nth-child(2) { font-family: var(--mono); font-size: 11px; color: var(--text); }
+
+        tbody tr:nth-child(even) td { background: #fafbfd; }
+        tbody tr:hover td { background: #eef0fe !important; }
+
+        /* Category link col */
+        td:first-child { color: var(--text); font-weight: 500; min-width: 260px; }
+        td:first-child a { color: var(--blue); font-weight: 500; }
+        td:first-child a:hover { color: #3451d1; }
+
+        /* GMV bar visual */
+        .gmv-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        .gmv-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #4f6ef7, #7c5cbf);
+            min-width: 2px;
+            flex-shrink: 0;
         }
 
-        a {
-            color: #0b5ed7;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .toolbar {
-            margin: 12px 0;
-            padding: 8px;
-            border: 1px solid #ddd;
-            background: #fafafa;
-        }
-
-        select {
-            padding: 4px;
-            font-size: 13px;
-        }
-
-        button {
-            padding: 4px 10px;
-            font-size: 13px;
-        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5e8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0a8c8; }
     </style>
 </head>
-
 <body>
 
-<h2>🧩 Category Sales</h2>
-<a href="/dashboard">← Back to Dashboard</a>
+<!-- ── STICKY HEADER ── -->
+<div id="sticky-header">
 
-<!-- FILTER BAR -->
-<div class="toolbar">
-    <form method="get" action="/category-sales">
+    <div class="header-title">
+        <h1>🧩 Category Sales</h1>
+        <a class="back-link" href="/dashboard">← Back to Dashboard</a>
+    </div>
 
+    <nav class="nav-strip">
+        <a href="/sales-trend">📈 Sales Trend</a>
+        <span class="sep">·</span>
+        <a href="/amazon-sales-trend">🛒 Amazon + 1P</a>
+        <span class="sep">·</span>
+        <a href="/category-sales" class="active">🧩 Category Trend</a>
+        <span class="sep">·</span>
+        <a href="/inventory-dashboard">📦 Inventory</a>
+        <span class="sep">·</span>
+        <a href="/ams-trend">📣 AMS</a>
+        <span class="sep">·</span>
+        <a href="/dashboard">🏠 Dashboard</a>
+    </nav>
+
+    <!-- FILTER BAR -->
+    <form method="get" action="/category-sales" id="filterForm">
         <input type="hidden" name="level" value="{{ level }}">
-
         {% if value %}
-            <input type="hidden" name="value" value="{{ value }}">
+        <input type="hidden" name="value" value="{{ value }}">
         {% endif %}
 
-        <!-- WEEK FILTER -->
-        <label>Week:</label>
-        <select name="week">
-            <option value="">All</option>
+        <div class="filter-bar">
 
-            {% for w in weeks %}
-                <option value="{{ w }}"
-                    {% if week == w %}selected{% endif %}>
-                    {{ w }}
-                </option>
-            {% endfor %}
-        </select>
+            <!-- Multi-week picker -->
+            <div class="filter-group">
+                <label>Weeks</label>
+                <div class="week-picker-wrap">
+                    <button type="button" class="week-picker-btn" onclick="toggleWeekPicker()">
+                        <span id="week-picker-label">
+                            {% if week %}{{ week }}{% else %}All Weeks{% endif %}
+                        </span>
+                        ▾
+                    </button>
+                    <div class="week-picker-dropdown" id="weekPickerDropdown">
+                        <label class="week-option">
+                            <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> <b>All</b>
+                        </label>
+                        {% for w in weeks %}
+                        <label class="week-option">
+                            <input type="checkbox" name="sel_weeks" value="{{ w }}"
+                                {% if week == w %}checked{% endif %}
+                                onchange="updateWeekLabel()">
+                            {{ w }}
+                        </label>
+                        {% endfor %}
+                        <div class="week-picker-footer">
+                            <button type="button" class="week-apply-btn" onclick="submitForm()">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        &nbsp;&nbsp;
+            <div class="filter-group">
+                <label>Brand</label>
+                <select name="brand">
+                    <option value="">All Brands</option>
+                    {% for b in ["nexlev","audio array","tonor","white mulberry"] %}
+                        <option value="{{ b }}"
+                            {% if selected_brand and selected_brand == b %}selected{% endif %}>
+                            {{ b | title }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <!-- BRAND FILTER -->
-        <label>Brand:</label>
-        <select name="brand">
-            <option value="">All Brands</option>
-
-            {% for b in ["nexlev","audio array","tonor","white mulberry"] %}
-                <option value="{{ b }}"
-                    {% if selected_brand and selected_brand == b %}selected{% endif %}>
-                    {{ b | title }}
-                </option>
-            {% endfor %}
-        </select>
-
-        &nbsp;&nbsp;
-
-        <button type="submit">Apply</button>
+            <button type="submit" class="btn-apply">Apply</button>
+        </div>
     </form>
+
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Category</th>
-            <th>Units Sold</th>
-            <th>GMV (₹)</th>
-        </tr>
-    </thead>
+<!-- ── BREADCRUMB ── -->
+<div class="breadcrumb">
+    <a href="/category-sales?level=l0{% if week %}&week={{ week }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}">
+        All Categories
+    </a>
+    {% if level == "l1" and value %}
+        <span class="crumb-sep">›</span>
+        <span>{{ value }}</span>
+    {% elif level == "l2" and value %}
+        <span class="crumb-sep">›</span>
+        <span>{{ value }}</span>
+    {% endif %}
+    &nbsp;
+    <span class="level-badge">
+        {% if level == "l0" %}L0 — Top Level{% elif level == "l1" %}L1 — Sub-Category{% else %}L2 — Leaf{% endif %}
+    </span>
+</div>
 
-    <tbody>
-    {% for r in rows %}
+<!-- ── MAIN ── -->
+<div class="main-content">
+
+    <div class="section-header">
+        <div class="section-title">
+            🧩 Category Breakdown
+            {% if week %} — {{ week }}{% endif %}
+            {% if selected_brand %} · {{ selected_brand | title }}{% endif %}
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="catTable">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Units Sold</th>
+                <th>GMV (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for r in rows %}
         <tr>
             <td>
                 {% if level == "l0" %}
-                    <!-- L0 → L1 -->
                     <a href="/category-sales?level=l1&value={{ r.category_l0 | urlencode }}{% if week %}&week={{ week | urlencode }}{% endif %}{% if selected_brand %}&brand={{ selected_brand | urlencode }}{% endif %}">
                         {{ r.category_l0 }}
                     </a>
-
                 {% elif level == "l1" %}
-                    <!-- L1 → L2 -->
                     <a href="/category-sales?level=l2&value={{ r.category_l1 | urlencode }}{% if week %}&week={{ week | urlencode }}{% endif %}{% if selected_brand %}&brand={{ selected_brand | urlencode }}{% endif %}">
                         {{ r.category_l1 }}
                     </a>
-
                 {% else %}
-                    <!-- L2 FINAL -->
                     {{ r.category_l2 }}
                 {% endif %}
             </td>
-
-            <td>{{ r.units_sold }}</td>
-            <td>{{ r.gross_sales }}</td>
+            <td data-val="{{ r.units_sold }}">{{ r.units_sold }}</td>
+            <td data-val="{{ r.gross_sales }}">
+                <div class="gmv-bar-wrap">
+                    <span class="gmv-val">₹ {{ r.gross_sales }}</span>
+                </div>
+            </td>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
+</div>
+
 <script src="/static/js/category_sales_sort.js"></script>
+<script>
+/* ── Week picker ── */
+function toggleWeekPicker() {
+    document.getElementById('weekPickerDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.week-picker-wrap'))
+        document.getElementById('weekPickerDropdown')?.classList.remove('open');
+});
+function toggleAllWeeks(cb) {
+    document.querySelectorAll('input[name="sel_weeks"]').forEach(c => c.checked = cb.checked);
+    updateWeekLabel();
+}
+function updateWeekLabel() {
+    const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
+    const allBoxes = document.querySelectorAll('input[name="sel_weeks"]');
+    const allCb = document.getElementById('wk-all');
+    if (allCb) allCb.checked = (checked.length === allBoxes.length);
+    const label = document.getElementById('week-picker-label');
+    if (!label) return;
+    if (!checked.length || checked.length === allBoxes.length) label.textContent = 'All Weeks';
+    else if (checked.length <= 3) label.textContent = checked.join(', ');
+    else label.textContent = checked.length + ' weeks selected';
+}
+function submitForm() {
+    document.getElementById('weekPickerDropdown').classList.remove('open');
+    document.getElementById('filterForm').submit();
+}
+
+/* ── Table sort ── */
+document.querySelectorAll('#catTable th').forEach((th, i) => {
+    let asc = true;
+    th.addEventListener('click', () => {
+        const tbody = document.querySelector('#catTable tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        document.querySelectorAll('#catTable th').forEach(h => h.classList.remove('sorted-asc','sorted-desc'));
+        th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
+        rows.sort((a, b) => {
+            const A = a.children[i]?.dataset.val || a.children[i]?.innerText.replace(/[₹,]/g,'').trim();
+            const B = b.children[i]?.dataset.val || b.children[i]?.innerText.replace(/[₹,]/g,'').trim();
+            const nA = parseFloat(A), nB = parseFloat(B);
+            if (!isNaN(nA) && !isNaN(nB)) return asc ? nA - nB : nB - nA;
+            return asc ? A.localeCompare(B) : B.localeCompare(A);
+        });
+        rows.forEach(r => tbody.appendChild(r));
+        asc = !asc;
+    });
+});
+
+/* ── GMV bar widths ── */
+(function() {
+    const gmvCells = Array.from(document.querySelectorAll('#catTable tbody tr td:nth-child(3)'));
+    const vals = gmvCells.map(td => parseFloat(td.dataset.val) || 0);
+    const max = Math.max(...vals, 1);
+    const BAR_MAX_PX = 80;
+    gmvCells.forEach((td, i) => {
+        const pct = vals[i] / max;
+        const w = Math.round(pct * BAR_MAX_PX);
+        const val = td.querySelector('.gmv-val');
+        const bar = document.createElement('div');
+        bar.className = 'gmv-bar';
+        bar.style.width = w + 'px';
+        td.innerHTML = '';
+        const wrap = document.createElement('div');
+        wrap.className = 'gmv-bar-wrap';
+        wrap.appendChild(bar);
+        wrap.appendChild(val || (() => { const s = document.createElement('span'); s.textContent = '₹ ' + vals[i].toLocaleString('en-IN'); return s; })());
+        td.appendChild(wrap);
+    });
+})();
+</script>
 </body>
 </html>

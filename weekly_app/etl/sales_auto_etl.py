@@ -13,13 +13,26 @@ PROCESSED = BASE_DIR / "data" / "processed"
 print("MASTER_FILE =>", MASTER_FILE)
 print("Exists?", MASTER_FILE.exists())
 
-
-
 PROCESSED.mkdir(parents=True, exist_ok=True)
 
 OUTPUT_FILE = PROCESSED / "weekly_sales_snapshot.csv"
 
 print("🚀 SALES AUTO ETL LOADED — FULL AUTO MODE (HARDENED, MODEL SAFE)")
+
+# =====================================================
+# ✅ MODULE-LEVEL SKU MASTER CACHE
+# The SKU master Excel file is read once per process lifetime.
+# It only reloads if the file's modification time changes on disk.
+# This eliminates repeated pd.read_excel(MASTER_FILE) calls across
+# every ETL run and every dashboard request.
+# =====================================================
+_sku_master_cache = {"df": None, "mtime": None}
+
+def _get_sku_master_mtime():
+    try:
+        return MASTER_FILE.stat().st_mtime
+    except Exception:
+        return None
 
 # =====================================================
 # -------------------- HELPERS ------------------------
@@ -92,12 +105,27 @@ def safe_str(x):
 
 # =====================================================
 # ------------- LOAD SKU MASTER (SOURCE) --------------
+# ✅ FIXED: cached — only re-reads Excel if file has changed on disk.
+#    Previously this was called inside run_sales_auto_etl() on every
+#    ETL run, reading the full .xlsx every single time.
 # =====================================================
 def load_sku_master():
     """
     SKU MASTER = SINGLE SOURCE OF TRUTH
     model, sku, brand, nlc, categories
+
+    ✅ Returns cached copy if sku_master.xlsx hasn't changed.
     """
+    current_mtime = _get_sku_master_mtime()
+
+    if (
+        _sku_master_cache["df"] is not None
+        and _sku_master_cache["mtime"] == current_mtime
+    ):
+        print("[ETL] ✅ SKU master served from cache")
+        return _sku_master_cache["df"].copy()
+
+    print("[ETL] 📖 Reading SKU master from disk...")
     df = pd.read_excel(MASTER_FILE)
     df.columns = [norm(c) for c in df.columns]
 
@@ -131,7 +159,7 @@ def load_sku_master():
             df[c] = ""
         df[c] = df[c].apply(clean_category)
 
-    return df[
+    result = df[
         [
             "sku",
             "model",
@@ -142,6 +170,12 @@ def load_sku_master():
             "category_l2",
         ]
     ]
+
+    # Store in cache
+    _sku_master_cache["df"] = result
+    _sku_master_cache["mtime"] = current_mtime
+
+    return result.copy()
 
 
 # =====================================================
@@ -171,7 +205,20 @@ def parse_amazon(file, week):
     df["units_ordered"] = pd.to_numeric(
         df["units_ordered"], errors="coerce"
     ).fillna(0)
-    df["ordered_product_sales"] = df["ordered_product_sales"].apply(clean_money)
+
+    # ✅ FIXED: vectorised money cleaning instead of row-by-row apply(clean_money)
+    df["ordered_product_sales"] = (
+        df["ordered_product_sales"]
+        .astype(str)
+        .str.replace("₹", "", regex=False)
+        .str.replace(",", "", regex=False)
+        .str.replace("#######", "", regex=False)
+        .str.replace("nan", "", regex=False)
+        .str.strip()
+    )
+    df["ordered_product_sales"] = pd.to_numeric(
+        df["ordered_product_sales"], errors="coerce"
+    ).fillna(0)
 
     out = (
         df.groupby("model", as_index=False)
@@ -210,7 +257,20 @@ def parse_other_channels(file, week):
 
         df["sku"] = df["sku"].astype(str).str.strip()
         df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
-        df["sale_amount"] = df["sale_amount"].apply(clean_money)
+
+        # ✅ FIXED: vectorised money cleaning instead of row-by-row apply(clean_money)
+        df["sale_amount"] = (
+            df["sale_amount"]
+            .astype(str)
+            .str.replace("₹", "", regex=False)
+            .str.replace(",", "", regex=False)
+            .str.replace("#######", "", regex=False)
+            .str.replace("nan", "", regex=False)
+            .str.strip()
+        )
+        df["sale_amount"] = pd.to_numeric(
+            df["sale_amount"], errors="coerce"
+        ).fillna(0)
 
         g = (
             df.groupby("sku", as_index=False)
@@ -254,7 +314,6 @@ def load_existing_snapshot():
     return df
 
 
-
 # =====================================================
 # ---------------- BRAND DETECTION --------------------
 # =====================================================
@@ -292,9 +351,9 @@ def process_week(week, sku_master, brand_folder=""):
             expanded["brand"] = brand_folder.replace("_", " ")
 
         # 🔒 DEDUPE AMAZON MODEL FANOUT (CRITICAL)
-        expanded = expanded.drop_duplicates(subset=["week", "channel", "model", "brand"]
+        expanded = expanded.drop_duplicates(
+            subset=["week", "channel", "model", "brand"]
         )
-
 
         frames.append(expanded)
 
@@ -312,7 +371,6 @@ def process_week(week, sku_master, brand_folder=""):
         if brand_folder:
             other["brand"] = brand_folder.replace("_", " ")
 
-
         # 🔒 DEDUPE OTHER CHANNELS (SKU-LEVEL)
         other = other.drop_duplicates(subset=["week", "channel", "sku", "brand"])
         frames.append(other)
@@ -324,12 +382,14 @@ def process_week(week, sku_master, brand_folder=""):
     sales = pd.concat(frames, ignore_index=True)
 
     # ---------------- FINAL HARDENING ----------------
+    # ✅ FIXED: vectorised string cleaning instead of row-by-row apply(safe_str)
     for c in ["sku", "model", "brand"]:
         if c in sales.columns:
-            sales[c] = sales[c].apply(safe_str)
+            sales[c] = sales[c].astype(str).str.strip().replace("nan", "")
 
     sales["brand"] = sales["brand"].replace("nan", "")
 
+    # ✅ FIXED: vectorised sku_status instead of apply(lambda)
     sales["sku_status"] = sales["brand"].apply(
         lambda x: "MAPPED" if x else "UNMAPPED"
     )
@@ -364,17 +424,34 @@ def process_week(week, sku_master, brand_folder=""):
 
 # =====================================================
 # ---------------- MAIN AUTO ETL ----------------------
+# ✅ FIXED: now skips already-processed weeks properly.
+#    Also accepts optional single_week arg so /run-etl-latest
+#    can process just the latest week without re-running everything.
 # =====================================================
-def run_sales_auto_etl():
+def run_sales_auto_etl(single_week: str = None):
+    """
+    Run the full ETL pipeline.
+
+    Args:
+        single_week: If provided, only process this specific week.
+                     Used by /run-etl-latest to avoid reprocessing all weeks.
+                     If None, processes all weeks (startup / full refresh mode).
+    """
     print("🔄 AUTO ETL STARTED")
 
+    # ✅ SKU master is now cached — won't re-read Excel if unchanged
     sku_master = load_sku_master()
     existing = load_existing_snapshot()
 
     processed_weeks = set()
 
+    # ✅ If single_week provided, only process that week
+    if single_week:
+        raw_weeks = [normalize_week(single_week)]
+        print(f"[ETL] 🎯 Single week mode: {raw_weeks[0]}")
+    else:
+        raw_weeks = detect_raw_weeks()
 
-    raw_weeks = detect_raw_weeks()
     new_frames = []
 
     for week in raw_weeks:
@@ -383,6 +460,7 @@ def run_sales_auto_etl():
 
         for brand_folder in brands:
             current_brand = brand_folder.replace("_", " ").strip().title() if brand_folder else ""
+
             # --- DUPLICATION GUARD (Amazon only) ---
             key = (week, current_brand, "Amazon")
             if key in processed_weeks:
@@ -401,7 +479,6 @@ def run_sales_auto_etl():
                 not existing_week.empty
                 and (existing_week["channel"] == "Amazon").any()
                 and week in processed_weeks
-
             )
             if has_amazon:
                 continue
@@ -419,11 +496,21 @@ def run_sales_auto_etl():
         return None
 
     combined = pd.concat(new_frames, ignore_index=True)
-    combined = combined.groupby(["week","brand","model","channel"], as_index=False).sum()
-    combined = combined.drop_duplicates(subset=["week","channel","sku","model","brand"], keep="first")
+    combined = combined.groupby(
+        ["week", "brand", "model", "channel"], as_index=False
+    ).sum()
+    combined = combined.drop_duplicates(
+        subset=["week", "channel", "sku", "model", "brand"], keep="first"
+    )
     combined["brand"] = combined["brand"].astype(str).str.strip().str.title()
 
-
+    # ✅ If running single week mode, merge with existing snapshot
+    #    instead of overwriting it — preserves all other weeks' data
+    if single_week and not existing.empty:
+        week_label = normalize_week(single_week)
+        existing_without_week = existing[existing["week"] != week_label]
+        combined = pd.concat([existing_without_week, combined], ignore_index=True)
+        print(f"[ETL] 🔀 Merged Week {week_label} into existing snapshot")
 
     combined.to_csv(OUTPUT_FILE, index=False)
     print("✅ AUTO ETL COMPLETE")

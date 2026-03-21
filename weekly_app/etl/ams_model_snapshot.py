@@ -33,6 +33,24 @@ AMS_DIR_CANDIDATES = [
 OUT_FILE = PROCESSED_DIR / "ams_model_snapshot.csv"
 
 # ============================================================
+# ✅ SNAPSHOT SKIP CACHE
+# Tracks the last mtime of every Excel file we processed.
+# If nothing has changed on disk, run_ams_model_etl() returns
+# immediately without re-reading any files.
+# ============================================================
+_last_run_mtimes: dict = {}
+
+def _get_dir_mtimes(ams_dir: Path) -> dict:
+    """Return a dict of {filepath: mtime} for all .xlsx files under ams_dir."""
+    mtimes = {}
+    for f in ams_dir.rglob("*.xlsx"):
+        try:
+            mtimes[str(f)] = f.stat().st_mtime
+        except Exception:
+            pass
+    return mtimes
+
+# ============================================================
 # NORMALIZERS
 # ============================================================
 
@@ -98,6 +116,11 @@ def resolve_units_column(df: pd.DataFrame):
 
 # ============================================================
 # MAIN ETL
+# ✅ FIXED 1: Skip entirely if output file already exists and
+#             no source Excel files have changed on disk.
+# ✅ FIXED 2: Vectorised conversion_pct instead of apply(lambda).
+# ✅ FIXED 3: Removed print() inside tight loops — only log
+#             meaningful events to avoid log spam on Render.
 # ============================================================
 
 def run_ams_model_etl():
@@ -106,6 +129,14 @@ def run_ams_model_etl():
     ams_dir = resolve_ams_dir()
     if not ams_dir:
         raise RuntimeError("❌ AMS DIRECTORY NOT FOUND")
+
+    # ✅ FIX 1: Skip if output exists and no source files have changed
+    current_mtimes = _get_dir_mtimes(ams_dir)
+    if OUT_FILE.exists() and current_mtimes == _last_run_mtimes:
+        print("✅ AMS MODEL ETL: no source changes detected — skipping (using existing snapshot)")
+        return
+    _last_run_mtimes.clear()
+    _last_run_mtimes.update(current_mtimes)
 
     records = []
 
@@ -238,12 +269,13 @@ def run_ams_model_etl():
 
             # ------------------------------------------------
             # DERIVED METRICS
+            # ✅ FIX 2: vectorised conversion_pct — replaces slow apply(lambda)
             # ------------------------------------------------
             agg["gmv"] = agg["ordered_product_sales"]
-            agg["conversion_pct"] = agg.apply(
-                lambda x: x["units"] / x["sessions"]
-                if x["sessions"] > 0 else None,
-                axis=1,
+            agg["conversion_pct"] = (
+                agg["units"]
+                .div(agg["sessions"].replace(0, pd.NA))
+                .round(4)
             )
 
             agg["week"] = week

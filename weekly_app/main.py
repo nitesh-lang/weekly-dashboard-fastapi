@@ -2,6 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse, HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 import traceback
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta
 from pathlib import Path
 
 # --------------------
@@ -26,21 +29,43 @@ from weekly_app.routes.category_sales import router as category_sales_router
 from weekly_app.routes.inventory_dashboard import router as inventory_dashboard_router
 
 # Optional / legacy viewers (UNCHANGED)
-# from weekly_app.routes.viewer import router as sales_router
-from weekly_app.routes.inventory_dashboard import router as inventory_dashboard_router
 from weekly_app.routes.reconciliation_viewer import router as reco_router
 from weekly_app.routes.channel_summary_viewer import router as channel_summary_router
 
 print("🔥🔥🔥 MAIN.PY LOADED — ROUTERS WILL BE MOUNTED 🔥🔥🔥")
 
 # =====================================================
-# APP (DEBUG ENABLED)
+# GLOBAL IN-MEMORY CACHE
+# =====================================================
+
+_cache = {}
+
+def get_cached(key):
+    """Return cached data if it exists and hasn't expired. Otherwise None."""
+    entry = _cache.get(key)
+    if entry and datetime.now() < entry["expires"]:
+        return entry["data"]
+    return None
+
+def set_cached(key, data, ttl_minutes=10):
+    """Store data in cache with a TTL (default 10 minutes)."""
+    _cache[key] = {
+        "data": data,
+        "expires": datetime.now() + timedelta(minutes=ttl_minutes)
+    }
+
+def clear_cache():
+    """Clear all cached entries. Call this after an ETL run."""
+    _cache.clear()
+    print("🧹 Cache cleared")
+
+# =====================================================
+# APP (DEBUG DISABLED FOR PRODUCTION PERFORMANCE)
 # =====================================================
 app = FastAPI(
     title="Weekly Dashboard",
-    debug=True   # 🔥 SHOW FULL TRACEBACKS
+    debug=False  # ✅ FIXED: was True — adds overhead on every request
 )
-
 
 from fastapi.staticfiles import StaticFiles
 app.mount("/static", StaticFiles(directory="weekly_app/static"), name="static")
@@ -95,9 +120,8 @@ print("✅ ams_trend_router mounted")
 
 # --------------------
 # ROUTERS (LEGACY / SAFE)
+# ✅ FIXED: removed duplicate inventory_dashboard_router mount that was here
 # --------------------
-# app.include_router(sales_router)
-app.include_router(inventory_dashboard_router)
 app.include_router(reco_router)
 app.include_router(channel_summary_router)
 
@@ -129,6 +153,12 @@ def health():
 
 @app.get("/ping")
 def ping():
+    """
+    ✅ Use this endpoint with UptimeRobot (free) to keep the server warm.
+    Set UptimeRobot to ping every 5 minutes:
+    https://weekly-dashboard-fastapi.onrender.com/ping
+    This eliminates the 20-30 second cold start on Render's starter plan.
+    """
     return {"status": "app running"}
 
 # =====================================================
@@ -190,6 +220,9 @@ def run_etl_latest():
                 "message": "ETL skipped (missing files or no valid data)"
             }
 
+        # ✅ Clear cache after ETL so fresh data is served immediately
+        clear_cache()
+
         return {
             "status": "success",
             "week": latest_week,
@@ -208,13 +241,14 @@ def run_etl_latest():
         )
 
 # =====================================================
-# ✅ AUTO ETL – AMS & INVENTORY SNAPSHOTS (UNCHANGED)
+# ✅ AUTO ETL – AMS & INVENTORY SNAPSHOTS
+# ✅ FIXED: now async + runs in background so it does NOT block server startup
 # =====================================================
 from weekly_app.etl.ams_model_snapshot import run_ams_model_etl
 from weekly_app.etl.inventory_model_snapshot import run_inventory_etl
 
 @app.on_event("startup")
-def auto_run_supporting_etl():
+async def auto_run_supporting_etl():
     """
     AUTO-RUN SUPPORTING ETL ON APP STARTUP
 
@@ -222,22 +256,29 @@ def auto_run_supporting_etl():
     ✔ Inventory model snapshot
     ✔ No UI dependency
     ✔ Safe to re-run
+    ✅ FIXED: now runs in background thread so server is ready immediately
+       Old version blocked startup — users got timeouts while ETL ran
     """
 
-    try:
-        print("🚀 AUTO ETL: Generating AMS model snapshot...")
-        run_ams_model_etl()
-        print("✅ AMS model snapshot ready")
+    async def run_in_background():
+        loop = asyncio.get_event_loop()
+        executor = ThreadPoolExecutor()
 
-    except Exception:
-        print("❌ AMS MODEL ETL FAILED")
-        traceback.print_exc()
+        try:
+            print("🚀 AUTO ETL: Generating AMS model snapshot...")
+            await loop.run_in_executor(executor, run_ams_model_etl)
+            print("✅ AMS model snapshot ready")
+        except Exception:
+            print("❌ AMS MODEL ETL FAILED")
+            traceback.print_exc()
 
-    try:
-        print("🚀 AUTO ETL: Generating Inventory model snapshot...")
-        run_inventory_etl()
-        print("✅ Inventory model snapshot ready")
+        try:
+            print("🚀 AUTO ETL: Generating Inventory model snapshot...")
+            await loop.run_in_executor(executor, run_inventory_etl)
+            print("✅ Inventory model snapshot ready")
+        except Exception:
+            print("❌ INVENTORY MODEL ETL FAILED")
+            traceback.print_exc()
 
-    except Exception:
-        print("❌ INVENTORY MODEL ETL FAILED")
-        traceback.print_exc()
+    # ✅ Fire and forget — server starts accepting requests immediately
+    asyncio.create_task(run_in_background())

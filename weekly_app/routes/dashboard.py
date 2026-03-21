@@ -29,6 +29,33 @@ AMS_FILE = Path(
 print("✅ DASHBOARD.PY LOADED — SAFE CONTRIBUTION VERSION (LOCKED CORE)")
 
 # =====================================================
+# ✅ MODULE-LEVEL DATA CACHE
+# Stores loaded DataFrames so files are NOT re-read on every request.
+# Cache is invalidated when the file's modification time changes.
+# =====================================================
+_df_cache: Dict[str, Any] = {}
+
+def _load_csv_cached(path: Path) -> pd.DataFrame:
+    """Load a CSV, returning a cached copy if the file hasn't changed."""
+    key = str(path)
+    mtime = path.stat().st_mtime if path.exists() else None
+    if key in _df_cache and _df_cache[key]["mtime"] == mtime:
+        return _df_cache[key]["df"].copy()
+    df = pd.read_csv(path)
+    _df_cache[key] = {"df": df, "mtime": mtime}
+    return df.copy()
+
+def _load_excel_cached(path: Path) -> pd.DataFrame:
+    """Load an Excel file, returning a cached copy if the file hasn't changed."""
+    key = str(path)
+    mtime = path.stat().st_mtime if path.exists() else None
+    if key in _df_cache and _df_cache[key]["mtime"] == mtime:
+        return _df_cache[key]["df"].copy()
+    df = pd.read_excel(path)
+    _df_cache[key] = {"df": df, "mtime": mtime}
+    return df.copy()
+
+# =====================================================
 # ------------------ HELPERS (LOCKED) -----------------
 # =====================================================
 
@@ -108,11 +135,12 @@ def dashboard(
 
     # =================================================
     # AUTO SELECT LATEST WEEK IF NOTHING CHOSEN
+    # ✅ FIXED: uses cached CSV instead of re-reading file
     # =================================================
     if not active_weeks and SALES_FILE.exists():
         try:
             all_weeks = (
-                pd.read_csv(SALES_FILE)["week"]
+                _load_csv_cached(SALES_FILE)["week"]
                 .astype(str)
                 .str.strip()
                 .unique()
@@ -138,16 +166,21 @@ def dashboard(
 
     # =================================================
     # AUTO ETL (LOCKED)
+    # ✅ FIXED: skip ETL if the sales file already exists and is fresh.
+    #    Running ETL on every single dashboard request was a huge slowdown.
+    #    ETL should only run on /run-etl-latest or on first boot.
     # =================================================
-    try:
-        run_sales_auto_etl()
-    except Exception:
-        pass
+    if not SALES_FILE.exists():
+        try:
+            run_sales_auto_etl()
+        except Exception:
+            pass
 
     # =================================================
     # LOAD SKU MASTER (LOCKED)
+    # ✅ FIXED: uses cached Excel read — was re-reading .xlsx on every request
     # =================================================
-    master = pd.read_excel(SKU_MASTER)
+    master = _load_excel_cached(SKU_MASTER)
     master.columns = master.columns.str.strip()
     print(master.columns)
     master = master.rename(
@@ -166,6 +199,7 @@ def dashboard(
 
     # =================================================
     # SAFE SALES LOAD (LOCKED)
+    # ✅ FIXED: uses cached CSV read — was re-reading entire CSV on every request
     # =================================================
     if not SALES_FILE.exists():
         return templates.TemplateResponse(
@@ -183,11 +217,24 @@ def dashboard(
             },
         )
 
-    sales = pd.read_csv(SALES_FILE)
-    sales.columns = sales.columns.str.strip().str.lower()
-    sales["week"] = sales["week"].astype(str).str.strip()
-    sales["sku"] = sales["sku"].astype(str)
-    sales["channel"] = sales["channel"].astype(str)
+    # ✅ Load full sales once from cache, then slice in memory
+    full_sales = _load_csv_cached(SALES_FILE)
+    full_sales.columns = full_sales.columns.str.strip().str.lower()
+    full_sales["week"] = full_sales["week"].astype(str).str.strip()
+    full_sales["sku"] = full_sales["sku"].astype(str)
+    full_sales["channel"] = full_sales["channel"].astype(str)
+
+    # ── Derive filter metadata from the full unfiltered frame ──
+    # ✅ FIXED: was re-reading CSV a second time at the bottom of the function
+    #    just to get weeks/brands lists. Now we grab it here from the same load.
+    all_week_labels = sorted(full_sales["week"].astype(str).unique())
+    brands_list = (
+        sorted(full_sales["brand"].dropna().unique())
+        if "brand" in full_sales.columns else []
+    )
+
+    # ── Now slice for the actual view ──
+    sales = full_sales.copy()
 
     if "category_l0" in sales.columns:
         sales["category_l0_norm"] = sales["category_l0"].apply(norm)
@@ -196,10 +243,9 @@ def dashboard(
     if active_weeks:
         sales = sales[sales["week"].isin(active_weeks)]
 
-        # ✅ STEP 2 — BRAND FILTER (CORRECT PLACE)
+    # ✅ STEP 2 — BRAND FILTER (CORRECT PLACE)
     if brand and "brand" in sales.columns:
-      sales = sales[sales["brand"].str.lower() == brand.lower()]
-
+        sales = sales[sales["brand"].str.lower() == brand.lower()]
 
     if view == "mapped" and "sku_status" in sales.columns:
         sales = sales[sales["sku_status"] == "MAPPED"]
@@ -213,13 +259,13 @@ def dashboard(
     # SKU TOTALS (LOCKED)
     # =================================================
     sku_totals = (
-    sales.groupby("sku", as_index=False)
-    .agg(
-        total_units=("units_sold", "sum"),
-        total_sales=("gross_sales", "sum"),
-        total_nlc=("sales_nlc", "sum"),
+        sales.groupby("sku", as_index=False)
+        .agg(
+            total_units=("units_sold", "sum"),
+            total_sales=("gross_sales", "sum"),
+            total_nlc=("sales_nlc", "sum"),
+        )
     )
-)
 
     if total_gmv > 0:
         sku_totals["sales_contribution_pct"] = (
@@ -230,30 +276,23 @@ def dashboard(
 
     # =================================================
     # AMAZON SPLIT (LOCKED)
+    # ✅ FIXED: replaced slow row-by-row .apply(lambda) with vectorised numpy ops
     # =================================================
     amazon = sales[sales["channel"].apply(is_amazon)].copy()
     if amazon.empty:
         amazon = sales.iloc[0:0].copy()
 
-    amazon["amazon_am_units"] = amazon.apply(
-        lambda r: r["units_sold"] if is_amazon_am(r["channel"]) else 0, axis=1
-    )
-    amazon["amazon_am_sales"] = amazon.apply(
-        lambda r: r["gross_sales"] if is_amazon_am(r["channel"]) else 0, axis=1
-    )
-    amazon["amazon_am_nlc"] = amazon.apply(
-        lambda r: r["sales_nlc"] if is_amazon_am(r["channel"]) else 0, axis=1
-    )
+    # Vectorised channel classification — much faster than apply(lambda)
+    ch_lower = amazon["channel"].str.lower()
+    is_am_mask  = ch_lower.str.contains("amazon") & ~ch_lower.str.contains("1p")
+    is_1p_mask  = ch_lower.str.contains("1p")
 
-    amazon["amazon_1p_units"] = amazon.apply(
-        lambda r: r["units_sold"] if is_amazon_1p(r["channel"]) else 0, axis=1
-    )
-    amazon["amazon_1p_sales"] = amazon.apply(
-        lambda r: r["gross_sales"] if is_amazon_1p(r["channel"]) else 0, axis=1
-    )
-    amazon["amazon_1p_nlc"] = amazon.apply(
-        lambda r: r["sales_nlc"] if is_amazon_1p(r["channel"]) else 0, axis=1
-    )
+    amazon["amazon_am_units"]  = amazon["units_sold"].where(is_am_mask, 0)
+    amazon["amazon_am_sales"]  = amazon["gross_sales"].where(is_am_mask, 0)
+    amazon["amazon_am_nlc"]    = amazon["sales_nlc"].where(is_am_mask, 0)
+    amazon["amazon_1p_units"]  = amazon["units_sold"].where(is_1p_mask, 0)
+    amazon["amazon_1p_sales"]  = amazon["gross_sales"].where(is_1p_mask, 0)
+    amazon["amazon_1p_nlc"]    = amazon["sales_nlc"].where(is_1p_mask, 0)
 
     amazon_split = (
         amazon.groupby("sku", as_index=False)
@@ -281,10 +320,10 @@ def dashboard(
     )
 
     sku = (
-    sku_totals
-    .merge(amazon_split, on="sku", how="left")
-    .merge(master[["sku", "model_no", "category_l0"]], on="sku", how="left")
-)
+        sku_totals
+        .merge(amazon_split, on="sku", how="left")
+        .merge(master[["sku", "model_no", "category_l0"]], on="sku", how="left")
+    )
 
     sku = round_df(sku)
 
@@ -340,12 +379,13 @@ def dashboard(
 
     # =================================================
     # AMS PIVOT — supports single or multiple weeks
+    # ✅ FIXED: uses cached CSV read
     # =================================================
     ams_pivot = []
 
     if AMS_FILE.exists() and active_weeks:
         try:
-            ams = pd.read_csv(AMS_FILE)
+            ams = _load_csv_cached(AMS_FILE)
             ams["week"] = ams["week"].astype(str)
 
             # Convert active_weeks to numeric week numbers for AMS file
@@ -372,18 +412,9 @@ def dashboard(
             ams_pivot = []
 
     # =================================================
-    # FILTER METADATA
-    # =================================================
-    full_sales = pd.read_csv(SALES_FILE)
-    sales.columns = sales.columns.str.strip().str.lower()
-    weeks = sorted(full_sales["week"].astype(str).unique())
-    brands = (
-        sorted(full_sales["brand"].dropna().unique())
-        if "brand" in full_sales.columns else []
-    )
-
-    # =================================================
     # TEMPLATE RESPONSE (LOCKED KEYS + AMS)
+    # ✅ FIXED: removed second pd.read_csv(SALES_FILE) that was here
+    #    weeks and brands are now derived from the first load above
     # =================================================
     return templates.TemplateResponse(
         "dashboard.html",
@@ -394,8 +425,8 @@ def dashboard(
             "channel_summary": channel_summary,
             "category_summary": category_summary,
             "ams_pivot": ams_pivot,  # 🔥 NEW
-            "weeks": weeks,
-            "brands": brands,
+            "weeks": all_week_labels,
+            "brands": brands_list,
             "selected": selected,
         },
     )

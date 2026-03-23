@@ -17,6 +17,8 @@
             --text3:      #374151;
             --blue:       #4f6ef7;
             --blue-dim:   #eef0fe;
+            --green:      #0f9b6e;
+            --green-dim:  #ecfdf6;
             --header-bg:  #3d3587;
             --header-nav: #4a3f9e;
             --radius:     8px;
@@ -31,7 +33,7 @@
             font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.5;
         }
 
@@ -47,14 +49,14 @@
         }
 
         .header-title {
-            padding: 12px 24px;
+            padding: 12px 28px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: var(--header-bg);
         }
         .header-title h1 {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
             color: #fff;
             display: flex;
@@ -62,7 +64,7 @@
             gap: 9px;
         }
         .back-link {
-            font-size: 11px;
+            font-size: 12px;
             color: rgba(255,255,255,0.65);
             font-family: var(--mono);
             transition: color 0.15s;
@@ -70,18 +72,18 @@
         .back-link:hover { color: #fff; text-decoration: none; }
 
         .nav-strip {
-            padding: 0 24px;
+            padding: 0 28px;
             background: var(--header-nav);
             display: flex;
             align-items: center;
             gap: 2px;
-            height: 34px;
+            height: 36px;
         }
         .nav-strip a {
             color: rgba(255,255,255,0.72);
             font-size: 12px;
             font-weight: 500;
-            padding: 3px 11px;
+            padding: 3px 12px;
             border-radius: 5px;
             transition: all 0.15s;
         }
@@ -91,16 +93,16 @@
 
         /* ── FILTER BAR ── */
         .filter-bar {
-            padding: 8px 24px;
+            padding: 10px 28px;
             background: var(--bg2);
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 18px;
             flex-wrap: wrap;
             border-bottom: 1px solid var(--border);
         }
 
-        .filter-group { display: flex; align-items: center; gap: 7px; }
+        .filter-group { display: flex; align-items: center; gap: 8px; }
         .filter-group label {
             font-size: 11px;
             font-weight: 700;
@@ -110,8 +112,8 @@
         }
 
         .filter-bar select {
-            padding: 5px 10px;
-            font-size: 12px;
+            padding: 6px 12px;
+            font-size: 13px;
             font-family: var(--sans);
             border: 1px solid var(--border2);
             border-radius: 6px;
@@ -126,12 +128,12 @@
         .btn-apply {
             display: inline-flex;
             align-items: center;
-            padding: 5px 16px;
+            padding: 6px 18px;
             background: var(--header-bg);
             color: #fff;
             border: none;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 13px;
             font-family: var(--sans);
             font-weight: 600;
             cursor: pointer;
@@ -146,15 +148,15 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 5px 12px;
+            padding: 6px 14px;
             background: var(--bg3);
             border: 1px solid var(--border2);
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 13px;
             font-family: var(--sans);
             color: var(--text);
             cursor: pointer;
-            min-width: 160px;
+            min-width: 170px;
             justify-content: space-between;
             transition: border-color 0.15s;
         }
@@ -171,8 +173,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
             padding: 8px 0 0 0;
-            min-width: 170px;
-            max-height: 280px;
+            min-width: 180px;
+            max-height: 300px;
             overflow-y: auto;
         }
         .week-picker-dropdown.open { display: block; }
@@ -181,8 +183,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 5px 14px;
-            font-size: 12px;
+            padding: 6px 16px;
+            font-size: 13px;
             color: var(--text);
             cursor: pointer;
             transition: background 0.1s;
@@ -200,12 +202,12 @@
         }
         .week-apply-btn {
             width: 100%;
-            padding: 5px 0;
+            padding: 6px 0;
             background: var(--header-bg);
             color: #fff;
             border: none;
             border-radius: 5px;
-            font-size: 12px;
+            font-size: 13px;
             font-family: var(--sans);
             font-weight: 600;
             cursor: pointer;
@@ -214,35 +216,19 @@
 
         /* ── BREADCRUMB ── */
         .breadcrumb {
-            padding: 8px 24px;
+            padding: 10px 28px;
             background: var(--bg3);
             border-bottom: 1px solid var(--border);
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text3);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: wrap;
         }
         .breadcrumb a { color: var(--blue); font-weight: 500; }
         .breadcrumb .crumb-sep { color: var(--border2); }
 
-        /* ── MAIN CONTENT ── */
-        .main-content { padding: 20px 24px 60px; }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 0 0 12px 0;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border);
-        }
-        .section-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text);
-        }
         .level-badge {
             font-size: 11px;
             font-weight: 600;
@@ -253,10 +239,27 @@
             border: 1px solid #c7cefc;
         }
 
+        /* ── MAIN CONTENT ── */
+        .main-content { padding: 20px 28px 60px; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 0 14px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
         /* ── TABLE ── */
         .table-wrapper {
             overflow: auto;
-            max-height: calc(100vh - 280px);
+            max-height: calc(100vh - 260px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: 0 1px 4px rgba(0,0,0,0.04);
@@ -266,12 +269,11 @@
             border-collapse: separate;
             border-spacing: 0;
             width: 100%;
-            min-width: 500px;
         }
 
         th, td {
-            padding: 8px 16px;
-            font-size: 12px;
+            padding: 11px 20px;
+            font-size: 13px;
             border-bottom: 1px solid var(--border);
             border-right: 1px solid var(--border);
             background: var(--bg2);
@@ -283,7 +285,7 @@
         th {
             background: #f4f5fb;
             color: var(--text2);
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -300,28 +302,44 @@
         th.sorted-asc::after  { content: " ▲"; font-size: 9px; color: var(--blue); }
         th.sorted-desc::after { content: " ▼"; font-size: 9px; color: var(--blue); }
 
-        /* GMV col — mono */
-        td:nth-child(3) { font-family: var(--mono); font-size: 11px; color: var(--text); }
-        td:nth-child(2) { font-family: var(--mono); font-size: 11px; color: var(--text); }
+        /* units col */
+        td:nth-child(2) { font-family: var(--mono); font-size: 13px; color: var(--text); }
+        /* gmv col */
+        td:nth-child(3) { font-family: var(--mono); font-size: 13px; color: var(--text); }
+        /* pct col */
+        td:nth-child(4) { font-family: var(--mono); font-size: 13px; color: #6040a8; font-weight: 600; }
 
         tbody tr:nth-child(even) td { background: #fafbfd; }
         tbody tr:hover td { background: #eef0fe !important; }
 
+        /* Grand total row */
+        tbody tr:last-child td {
+            font-weight: 700;
+            background: #f0f1fb !important;
+            border-top: 2px solid var(--border2);
+            color: var(--header-bg) !important;
+        }
+
         /* Category link col */
-        td:first-child { color: var(--text); font-weight: 500; min-width: 260px; }
-        td:first-child a { color: var(--blue); font-weight: 500; }
+        td:first-child {
+            color: var(--text);
+            font-weight: 500;
+            min-width: 320px;
+            font-size: 14px;
+        }
+        td:first-child a { color: var(--blue); font-weight: 600; }
         td:first-child a:hover { color: #3451d1; }
 
         /* GMV bar visual */
         .gmv-bar-wrap {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             justify-content: flex-end;
         }
         .gmv-bar {
-            height: 6px;
-            border-radius: 3px;
+            height: 8px;
+            border-radius: 4px;
             background: linear-gradient(90deg, #4f6ef7, #7c5cbf);
             min-width: 2px;
             flex-shrink: 0;
@@ -450,6 +468,7 @@
                 <th>Category</th>
                 <th>Units Sold</th>
                 <th>GMV (₹)</th>
+                <th>% of GMV</th>
             </tr>
         </thead>
         <tbody>
@@ -471,9 +490,10 @@
             <td data-val="{{ r.units_sold }}">{{ r.units_sold }}</td>
             <td data-val="{{ r.gross_sales }}">
                 <div class="gmv-bar-wrap">
-                    <span class="gmv-val">₹ {{ r.gross_sales }}</span>
+                    <span class="gmv-val">{{ r.gross_sales }}</span>
                 </div>
             </td>
+            <td class="pct-cell" data-gmv="{{ r.gross_sales }}">—</td>
         </tr>
         {% endfor %}
         </tbody>
@@ -512,6 +532,70 @@ function submitForm() {
     document.getElementById('filterForm').submit();
 }
 
+/* ── INR formatter ── */
+function fmtINR(n) {
+    n = parseFloat(n);
+    if (isNaN(n)) return '₹0';
+    if (Math.abs(n) >= 1e7) return '₹' + (n/1e7).toFixed(2) + ' Cr';
+    if (Math.abs(n) >= 1e5) return '₹' + (n/1e5).toFixed(2) + ' L';
+    if (Math.abs(n) >= 1e3) return '₹' + (n/1e3).toFixed(1) + ' K';
+    return '₹' + n.toLocaleString('en-IN');
+}
+
+/* ── GMV bar + % of GMV ── */
+(function() {
+    const rows = Array.from(document.querySelectorAll('#catTable tbody tr'));
+    // exclude grand total (last row)
+    const dataRows = rows.slice(0, -1);
+    const gmvCells = dataRows.map(r => r.querySelector('td:nth-child(3)'));
+    const vals = gmvCells.map(td => {
+        // strip ₹ and commas from text
+        const raw = td.dataset.val || td.textContent.replace(/[₹,\s]/g,'');
+        return parseFloat(raw) || 0;
+    });
+    const totalGMV = vals.reduce((s,v) => s+v, 0) || 1;
+    const maxVal = Math.max(...vals, 1);
+    const BAR_MAX_PX = 200;
+
+    gmvCells.forEach((td, i) => {
+        const v = vals[i];
+        const w = Math.round((v / maxVal) * BAR_MAX_PX);
+        const bar = document.createElement('div');
+        bar.className = 'gmv-bar';
+        bar.style.width = w + 'px';
+        const label = document.createElement('span');
+        label.textContent = fmtINR(v);
+        td.innerHTML = '';
+        const wrap = document.createElement('div');
+        wrap.className = 'gmv-bar-wrap';
+        wrap.appendChild(bar);
+        wrap.appendChild(label);
+        td.appendChild(wrap);
+    });
+
+    // Fill % of GMV column
+    dataRows.forEach((row, i) => {
+        const pctCell = row.querySelector('.pct-cell');
+        if (pctCell) {
+            const pct = totalGMV > 0 ? ((vals[i] / totalGMV) * 100).toFixed(1) : '0.0';
+            pctCell.textContent = pct + '%';
+        }
+    });
+
+    // Grand total row GMV formatting
+    const grandRow = rows[rows.length - 1];
+    if (grandRow) {
+        const grandGMV = grandRow.querySelector('td:nth-child(3)');
+        const grandPct = grandRow.querySelector('.pct-cell');
+        if (grandGMV) {
+            const raw = grandGMV.dataset.val || grandGMV.textContent.replace(/[₹,\s]/g,'');
+            const v = parseFloat(raw) || 0;
+            grandGMV.textContent = fmtINR(v);
+        }
+        if (grandPct) grandPct.textContent = '100%';
+    }
+})();
+
 /* ── Table sort ── */
 document.querySelectorAll('#catTable th').forEach((th, i) => {
     let asc = true;
@@ -521,8 +605,8 @@ document.querySelectorAll('#catTable th').forEach((th, i) => {
         document.querySelectorAll('#catTable th').forEach(h => h.classList.remove('sorted-asc','sorted-desc'));
         th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
         rows.sort((a, b) => {
-            const A = a.children[i]?.dataset.val || a.children[i]?.innerText.replace(/[₹,]/g,'').trim();
-            const B = b.children[i]?.dataset.val || b.children[i]?.innerText.replace(/[₹,]/g,'').trim();
+            const A = a.children[i]?.dataset.val || a.children[i]?.innerText.replace(/[₹,\sCrLK%]/g,'').trim();
+            const B = b.children[i]?.dataset.val || b.children[i]?.innerText.replace(/[₹,\sCrLK%]/g,'').trim();
             const nA = parseFloat(A), nB = parseFloat(B);
             if (!isNaN(nA) && !isNaN(nB)) return asc ? nA - nB : nB - nA;
             return asc ? A.localeCompare(B) : B.localeCompare(A);
@@ -531,28 +615,6 @@ document.querySelectorAll('#catTable th').forEach((th, i) => {
         asc = !asc;
     });
 });
-
-/* ── GMV bar widths ── */
-(function() {
-    const gmvCells = Array.from(document.querySelectorAll('#catTable tbody tr td:nth-child(3)'));
-    const vals = gmvCells.map(td => parseFloat(td.dataset.val) || 0);
-    const max = Math.max(...vals, 1);
-    const BAR_MAX_PX = 80;
-    gmvCells.forEach((td, i) => {
-        const pct = vals[i] / max;
-        const w = Math.round(pct * BAR_MAX_PX);
-        const val = td.querySelector('.gmv-val');
-        const bar = document.createElement('div');
-        bar.className = 'gmv-bar';
-        bar.style.width = w + 'px';
-        td.innerHTML = '';
-        const wrap = document.createElement('div');
-        wrap.className = 'gmv-bar-wrap';
-        wrap.appendChild(bar);
-        wrap.appendChild(val || (() => { const s = document.createElement('span'); s.textContent = '₹ ' + vals[i].toLocaleString('en-IN'); return s; })());
-        td.appendChild(wrap);
-    });
-})();
 </script>
 </body>
 </html>

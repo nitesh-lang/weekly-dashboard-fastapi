@@ -229,7 +229,7 @@ def dashboard(
     #    just to get weeks/brands lists. Now we grab it here from the same load.
     all_week_labels = sorted(full_sales["week"].astype(str).unique())
     brands_list = (
-        sorted(full_sales["brand"].dropna().unique())
+        sorted(full_sales["brand"].dropna().astype(str).str.strip().unique())
         if "brand" in full_sales.columns else []
     )
 

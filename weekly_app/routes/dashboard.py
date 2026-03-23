@@ -16,7 +16,16 @@ router = APIRouter()
 from jinja2 import Environment, FileSystemLoader
 from starlette.templating import Jinja2Templates
 
-_jinja_env = Environment(loader=FileSystemLoader("weekly_app/templates"))
+_jinja_env = Environment(
+    loader=FileSystemLoader("weekly_app/templates"),
+    cache_size=0,
+)
+# ✅ Override get_template to never pass globals
+_orig_get_template = _jinja_env.get_template
+def _safe_get_template(name, *args, **kwargs):
+    return _orig_get_template(name)
+_jinja_env.get_template = _safe_get_template
+
 templates = Jinja2Templates(env=_jinja_env)
 
 # =====================================================
@@ -434,17 +443,16 @@ def dashboard(
     def _sanitize(rows):
         return [{k: _safe(v) for k, v in row.items()} for row in rows]
 
-    return templates.TemplateResponse(
-        "dashboard.html",
-        {
-            "request": request,
-            "kpis": kpis,
-            "sku_rows": _sanitize(sku.to_dict("records")),
-            "channel_summary": _sanitize(channel_summary),
-            "category_summary": _sanitize(category_summary),
-            "ams_pivot": _sanitize(ams_pivot),
-            "weeks": all_week_labels,
-            "brands": brands_list,
-            "selected": selected,
-        },
+    template = _jinja_env.get_template("dashboard.html")
+    html = template.render(
+        request=request,
+        kpis=kpis,
+        sku_rows=_sanitize(sku.to_dict("records")),
+        channel_summary=_sanitize(channel_summary),
+        category_summary=_sanitize(category_summary),
+        ams_pivot=_sanitize(ams_pivot),
+        weeks=all_week_labels,
+        brands=brands_list,
+        selected=selected,
     )
+    return HTMLResponse(content=html)

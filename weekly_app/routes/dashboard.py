@@ -237,6 +237,7 @@ def dashboard(
     sales = full_sales.copy()
 
     if "category_l0" in sales.columns:
+        sales["category_l0"] = sales["category_l0"].astype(str).fillna("").replace("nan", "")
         sales["category_l0_norm"] = sales["category_l0"].apply(norm)
 
     # ── Filter by selected weeks (single or multiple) ──
@@ -359,6 +360,8 @@ def dashboard(
     # =================================================
     # CATEGORY SUMMARY (LOCKED)
     # =================================================
+    if "category_l0_norm" not in sales.columns:
+        sales["category_l0_norm"] = ""
     category_summary_df = (
         sales.groupby(["category_l0", "category_l0_norm"], as_index=False)
         .agg(

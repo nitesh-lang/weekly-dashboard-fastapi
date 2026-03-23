@@ -215,20 +215,12 @@ def dashboard(
     # ✅ FIXED: uses cached CSV read — was re-reading entire CSV on every request
     # =================================================
     if not SALES_FILE.exists():
-        return templates.TemplateResponse(
-            "dashboard.html",
-            {
-                "request": request,
-                "kpis": {"units": 0, "gmv": 0, "inventory_value": 0, "sell_through": 0},
-                "sku_rows": [],
-                "channel_summary": [],
-                "category_summary": [],
-                "ams_pivot": [],
-                "weeks": [],
-                "brands": [],
-                "selected": selected,
-            },
-        )
+        return HTMLResponse(_jinja_env.get_template("dashboard.html").render(
+            request=request,
+            kpis={"units": 0, "gmv": 0, "inventory_value": 0, "sell_through": 0},
+            sku_rows=[], channel_summary=[], category_summary=[],
+            ams_pivot=[], weeks=[], brands=[], selected=selected,
+        ))
 
     # ✅ Load full sales once from cache, then slice in memory
     full_sales = _load_csv_cached(SALES_FILE)

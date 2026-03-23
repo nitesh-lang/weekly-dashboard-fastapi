@@ -13,7 +13,8 @@ import urllib.parse
 # ROUTER INIT
 # =====================================================
 router = APIRouter()
-templates = Jinja2Templates(directory="weekly_app/templates")
+from jinja2 import Environment, FileSystemLoader
+_env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
 
 # =====================================================
 # FILE PATHS
@@ -209,18 +210,10 @@ def drilldown(
     # EMPTY SAFE RENDER
     # =====================================================
     if base.empty:
-        return templates.TemplateResponse(
-            "drilldown_sales.html",
-            {
-                "request": request,
-                "week": week,
-                "channel": channel,
-                "brand": brand,   # ✅ ADD THIS
-                "available_brands": available_brands,  # ← ADD THIS
-                "channel_summary": [],
-                "sku_channel_rows": [],
-            },
-        )
+        return HTMLResponse(_env.get_template("drilldown_sales.html").render(
+            request=request, week=week, channel=channel, brand=brand,
+            available_brands=available_brands, channel_summary=[], sku_channel_rows=[],
+        ))
 
     # =====================================================
     # CHANNEL SUMMARY (UNCHANGED CORE LOGIC)
@@ -346,18 +339,12 @@ def drilldown(
             if export == "csv":
              return csv_response(sku, f"sales_drilldown_{week}.csv")
 
-            return templates.TemplateResponse(
-                "drilldown_sales.html",
-                {
-                    "request": request,
-                    "week": week,
-                    "channel": "ALL",
-                     "brand": brand,   # ✅ ADD
-                     "available_brands": available_brands,  # ← ADD THIS
-                    "channel_summary": _sanitize(channel_summary),
-                    "sku_channel_rows": _sanitize(sku.to_dict("records")),
-                },
-            )
+            return HTMLResponse(_env.get_template("drilldown_sales.html").render(
+                request=request, week=week, channel="ALL", brand=brand,
+                available_brands=available_brands,
+                channel_summary=_sanitize(channel_summary),
+                sku_channel_rows=_sanitize(sku.to_dict("records")),
+            ))
 
         # =================================================
         # AMAZON ONLY (WITH CONTRIBUTION %)
@@ -390,18 +377,12 @@ def drilldown(
             if export == "csv":
              return csv_response(sku, f"sales_drilldown_{week}.csv")
 
-            return templates.TemplateResponse(
-                "drilldown_sales.html",
-                {
-                    "request": request,
-                    "week": week,
-                    "channel": "Amazon",
-                    "brand": brand,   # ✅ ADD
-                    "available_brands": available_brands,  # ← ADD THIS
-                    "channel_summary": _sanitize(channel_summary),
-                    "sku_channel_rows": _sanitize(sku.to_dict("records")),
-                },
-            )
+            return HTMLResponse(_env.get_template("drilldown_sales.html").render(
+                request=request, week=week, channel="Amazon", brand=brand,
+                available_brands=available_brands,
+                channel_summary=_sanitize(channel_summary),
+                sku_channel_rows=_sanitize(sku.to_dict("records")),
+            ))
 
         # =================================================
         # SINGLE NON-AMAZON CHANNEL
@@ -431,18 +412,12 @@ def drilldown(
         if export == "csv":
          return csv_response(sku, f"sales_drilldown_{week}.csv")
 
-        return templates.TemplateResponse(
-            "drilldown_sales.html",
-            {
-                "request": request,
-                "week": week,
-                "channel": channel,
-                 "brand": brand,   # ✅ ADD
-                 "available_brands": available_brands,  # ← ADD THIS
-                "channel_summary": _sanitize(channel_summary),
-                "sku_channel_rows": _sanitize(sku.to_dict("records")),
-            },
-        )
+        return HTMLResponse(_env.get_template("drilldown_sales.html").render(
+            request=request, week=week, channel=channel, brand=brand,
+            available_brands=available_brands,
+            channel_summary=_sanitize(channel_summary),
+            sku_channel_rows=_sanitize(sku.to_dict("records")),
+        ))
 
     # =====================================================
     # CATEGORY DRILLDOWN (MODEL SAFE)
@@ -465,18 +440,12 @@ def drilldown(
 
         sku = round_df(sku)
 
-        return templates.TemplateResponse(
-            "drilldown_sales.html",
-            {
-                "request": request,
-                "week": week,
-                "channel": f"Category: {value}",
-                "brand": brand,   # ✅ ADD
-                "available_brands": available_brands,  # ← ADD THIS
-                "channel_summary": _sanitize(channel_summary),
-                "sku_channel_rows": _sanitize(sku.to_dict("records")),
-            },
-        )
+        return HTMLResponse(_env.get_template("drilldown_sales.html").render(
+            request=request, week=week, channel=f"Category: {value}", brand=brand,
+            available_brands=available_brands,
+            channel_summary=_sanitize(channel_summary),
+            sku_channel_rows=_sanitize(sku.to_dict("records")),
+        ))
 
     # =====================================================
     # FALLBACK

@@ -424,15 +424,21 @@ def dashboard(
     # ✅ FIXED: removed second pd.read_csv(SALES_FILE) that was here
     #    weeks and brands are now derived from the first load above
     # =================================================
+    def _safe(v):
+        return str(v) if isinstance(v, (dict, list)) else v
+
+    def _sanitize(rows):
+        return [{k: _safe(v) for k, v in row.items()} for row in rows]
+
     return templates.TemplateResponse(
         "dashboard.html",
         {
             "request": request,
             "kpis": kpis,
-            "sku_rows": sku.to_dict("records"),
-            "channel_summary": channel_summary,
-            "category_summary": category_summary,
-            "ams_pivot": ams_pivot,  # 🔥 NEW
+            "sku_rows": _sanitize(sku.to_dict("records")),
+            "channel_summary": _sanitize(channel_summary),
+            "category_summary": _sanitize(category_summary),
+            "ams_pivot": _sanitize(ams_pivot),
             "weeks": all_week_labels,
             "brands": brands_list,
             "selected": selected,

@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from typing import List
 import pandas as pd
 from pathlib import Path
 import urllib.parse
@@ -52,11 +53,14 @@ def format_inr(x):   # 👈 SAME INDENT LEVEL AS extract_week
 @router.get("/category-sales", response_class=HTMLResponse)
 def category_sales(
     request: Request,
-    level: str = "l0",            # l0 | l1 | l2
+    level: str = "l0",
     value: str | None = None,
     week: str | None = None,
+    weeks: List[str] = Query(default=[]),
+    sel_weeks: List[str] = Query(default=[]),
     brand: str | None = None,
 ):
+    active = weeks or sel_weeks
     # ---------------- LOAD FILE ----------------
     if not SALES_FILE.exists():
         return HTMLResponse("Sales file not found", status_code=500)
@@ -86,14 +90,22 @@ def category_sales(
     latest_week_num = df["week_num"].max()
 
     # ---------------- WEEK FILTER ----------------
-    if week not in (None, "", "None"):
+    if active:
+        active_nums = [extract_week(w) for w in active if extract_week(w)]
+        if active_nums:
+            df = df[df["week_num"].isin(active_nums)]
+            week = ", ".join(f"Week {n}" for n in sorted(active_nums))
+        else:
+            df = df[df["week_num"] == latest_week_num]
+            week = f"Week {latest_week_num}"
+    elif week not in (None, "", "None"):
         selected_week = extract_week(week)
         if selected_week is not None:
             df = df[df["week_num"] == selected_week]
-            week = selected_week
+            week = f"Week {selected_week}"
     else:
         df = df[df["week_num"] == latest_week_num]
-        week = latest_week_num
+        week = f"Week {latest_week_num}"
 
     # ---------------- BRAND FILTER ----------------
     if brand not in (None, "", "None"):

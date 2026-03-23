@@ -693,7 +693,7 @@
         <div class="section-title">📦 Sales by SKU — All Channels</div>
         <div class="section-actions">
             <a class="btn-ghost" href="/export/dashboard-sku?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">⬇ Export CSV</a>
-            <a class="btn-ghost" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">Channel Drilldown →</a>
+            <a class="btn-ghost" target="_self" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">Channel Drilldown →</a>
         </div>
     </div>
 
@@ -762,7 +762,7 @@
                 <tbody>
                 {% for r in channel_summary %}
                 <tr>
-                    <td><a href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}&amp;channel={{ r.channel | urlencode }}">{{ r.channel }}</a></td>
+                    <td><a target="_self" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}&amp;channel={{ r.channel | urlencode }}">{{ r.channel }}</a></td>
                     <td style="font-family:var(--mono)">{{ r.units_sold | int }}</td>
                     <td class="fmt-inr-cell" data-val="{{ r.gmv }}" style="font-family:var(--mono)">₹ {{ r.gmv }}</td>
                     <td class="fmt-inr-cell" data-val="{{ r.sales_nlc }}" style="font-family:var(--mono)">₹ {{ r.sales_nlc }}</td>
@@ -787,7 +787,7 @@
                 <tbody>
                 {% for r in category_summary %}
                 <tr>
-                    <td><a href="/category-sales?category={{ r.category_l0 | urlencode }}{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">{{ r.category_l0 }}</a></td>
+                    <td><a target="_self" href="/category-sales?category={{ r.category_l0 | urlencode }}{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">{{ r.category_l0 }}</a></td>
                     <td style="font-family:var(--mono)">{{ r.units_sold | int }}</td>
                     <td class="fmt-inr-cell" data-val="{{ r.gross_sales }}" style="font-family:var(--mono)">₹ {{ r.gross_sales }}</td>
                     <td style="font-family:var(--mono)">{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>

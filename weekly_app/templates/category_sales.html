@@ -328,9 +328,9 @@
             white-space: nowrap;
             font-size: 14px;
         }
-        td:nth-child(2), th:nth-child(2) { width: 120px; }
-        td:nth-child(3), th:nth-child(3) { width: 260px; }
-        td:nth-child(4), th:nth-child(4) { width: 100px; }
+        td:nth-child(2), th:nth-child(2) { width: 90px; }
+        td:nth-child(3), th:nth-child(3) { width: 180px; }
+        td:nth-child(4), th:nth-child(4) { width: 80px; }
         td:first-child a { color: var(--blue); font-weight: 600; }
         td:first-child a:hover { color: #3451d1; }
 
@@ -559,7 +559,7 @@ function fmtINR(n) {
     });
     const totalGMV = vals.reduce((s,v) => s+v, 0) || 1;
     const maxVal = Math.max(...vals, 1);
-    const BAR_MAX_PX = 200;
+    const BAR_MAX_PX = 80;
 
     gmvCells.forEach((td, i) => {
         const v = vals[i];

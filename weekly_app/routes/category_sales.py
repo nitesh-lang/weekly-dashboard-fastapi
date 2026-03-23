@@ -7,7 +7,8 @@ import urllib.parse
 import re
 
 router = APIRouter()
-templates = Jinja2Templates(directory="weekly_app/templates")
+from jinja2 import Environment, FileSystemLoader
+_env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
 
 SALES_FILE = Path("data/processed/weekly_sales_snapshot.csv")
 
@@ -134,15 +135,12 @@ def category_sales(
 
 
     # ---------------- RENDER ----------------
-    return templates.TemplateResponse(
-        "category_sales.html",
-        {
-            "request": request,
-            "rows": summary.to_dict("records"),
-            "weeks": available_weeks,           # ✅ THIS FIXES WEEK 5 VISIBILITY
-            "level": level,
-            "value": value,
-            "week": f"Week {week}" if week else None,
-            "selected_brand": brand,
-        },
-    )
+    return HTMLResponse(_env.get_template("category_sales.html").render(
+        request=request,
+        rows=summary.to_dict("records"),
+        weeks=available_weeks,
+        level=level,
+        value=value,
+        week=f"Week {week}" if week else None,
+        selected_brand=brand,
+    ))

@@ -187,7 +187,7 @@ def drilldown(
     # 🔥 SINGLE SOURCE OF TRUTH
     base = sales.merge(master, on="sku", how="left")
     base["Brand"] = base["Brand"].astype(str).str.strip()
-    if brand and "Brand" in base.columns:
+    if brand and brand != "None" and "Brand" in base.columns:
         base = base[base["Brand"].astype(str).str.strip().str.lower() == brand.strip().lower()
                     ]
     available_brands = sorted(

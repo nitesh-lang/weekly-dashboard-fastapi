@@ -267,6 +267,11 @@ def run_ams_model_etl():
             if agg.empty:
                 continue
 
+            # ✅ Force numeric on all aggregated columns — groupby can return object dtype
+            for col in ["sessions", "units", "buybox_pct", "ordered_product_sales"]:
+                if col in agg.columns:
+                    agg[col] = pd.to_numeric(agg[col], errors="coerce").fillna(0)
+
             # ------------------------------------------------
             # DERIVED METRICS
             # ✅ FIX 2: vectorised conversion_pct — replaces slow apply(lambda)

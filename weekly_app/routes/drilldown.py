@@ -198,6 +198,12 @@ def drilldown(
     .tolist()
 )
 
+    def _safe(v):
+        return str(v) if isinstance(v, (dict, list)) else v
+
+    def _sanitize(rows):
+        return [{k: _safe(v) for k, v in row.items()} for row in rows]
+
     
     # =====================================================
     # EMPTY SAFE RENDER
@@ -348,8 +354,8 @@ def drilldown(
                     "channel": "ALL",
                      "brand": brand,   # ✅ ADD
                      "available_brands": available_brands,  # ← ADD THIS
-                    "channel_summary": channel_summary,
-                    "sku_channel_rows": sku.to_dict("records"),
+                    "channel_summary": _sanitize(channel_summary),
+                    "sku_channel_rows": _sanitize(sku.to_dict("records")),
                 },
             )
 
@@ -392,8 +398,8 @@ def drilldown(
                     "channel": "Amazon",
                     "brand": brand,   # ✅ ADD
                     "available_brands": available_brands,  # ← ADD THIS
-                    "channel_summary": channel_summary,
-                    "sku_channel_rows": sku.to_dict("records"),
+                    "channel_summary": _sanitize(channel_summary),
+                    "sku_channel_rows": _sanitize(sku.to_dict("records")),
                 },
             )
 
@@ -433,8 +439,8 @@ def drilldown(
                 "channel": channel,
                  "brand": brand,   # ✅ ADD
                  "available_brands": available_brands,  # ← ADD THIS
-                "channel_summary": channel_summary,
-                "sku_channel_rows": sku.to_dict("records"),
+                "channel_summary": _sanitize(channel_summary),
+                "sku_channel_rows": _sanitize(sku.to_dict("records")),
             },
         )
 
@@ -467,8 +473,8 @@ def drilldown(
                 "channel": f"Category: {value}",
                 "brand": brand,   # ✅ ADD
                 "available_brands": available_brands,  # ← ADD THIS
-                "channel_summary": channel_summary,
-                "sku_channel_rows": sku.to_dict("records"),
+                "channel_summary": _sanitize(channel_summary),
+                "sku_channel_rows": _sanitize(sku.to_dict("records")),
             },
         )
 

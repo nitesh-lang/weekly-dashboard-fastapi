@@ -64,8 +64,11 @@ def clear_cache():
 # =====================================================
 app = FastAPI(
     title="Weekly Dashboard",
-    debug=False  # ✅ FIXED: was True — adds overhead on every request
+    debug=False,
 )
+
+import os
+os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
 
 from fastapi.staticfiles import StaticFiles
 app.mount("/static", StaticFiles(directory="weekly_app/static"), name="static")

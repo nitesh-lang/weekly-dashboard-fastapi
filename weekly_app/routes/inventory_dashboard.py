@@ -10,7 +10,8 @@ import pandas as pd
 import re
 
 router = APIRouter()
-templates = Jinja2Templates(directory="weekly_app/templates")
+from jinja2 import Environment, FileSystemLoader
+_env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 RAW_INV_DIR = BASE_DIR / "data" / "raw" / "inventory"
@@ -110,10 +111,10 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
     df = load_all_inventory()
 
     if df.empty:
-        return templates.TemplateResponse("inventory_dashboard.html",{
-            "request":request,"rows":[],"latest_week":"NA",
-            "kpis":{},"aging":[],"channel_summary":[],
-            "available_weeks":[],"available_brands":[]})
+        return HTMLResponse(_env.get_template("inventory_dashboard.html").render(
+            request=request, rows=[], latest_week="NA",
+            kpis={}, aging=[], channel_summary=[],
+            available_weeks=[], available_brands=[]))
 
     available_weeks = sorted(df["week"].dropna().unique(), key=extract_week_num)
     available_brands = sorted(df["brand"].dropna().unique())
@@ -190,13 +191,13 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
         for _,r in cs.iterrows()
     ]
 
-    return templates.TemplateResponse("inventory_dashboard.html",{
-        "request":request,
-        "rows":rows,
-        "latest_week":active_week,
-        "kpis":kpis,
-        "aging":aging,
-        "channel_summary":channel_summary,
-        "available_weeks":available_weeks,
-        "available_brands":available_brands
-    })
+    return HTMLResponse(_env.get_template("inventory_dashboard.html").render(
+        request=request,
+        rows=rows,
+        latest_week=active_week,
+        kpis=kpis,
+        aging=aging,
+        channel_summary=channel_summary,
+        available_weeks=available_weeks,
+        available_brands=available_brands,
+    ))

@@ -138,35 +138,6 @@ def load_inventory(latest_week):
 
     return df.set_index("model")["inv_units_model"].to_dict()
 
-    try:
-        f = find_file(DATA_DIR, ["inventory_model_snapshot"])
-    except FileNotFoundError:
-        return {}
-
-    df = pd.read_csv(f)
-    df.columns = [c.strip().lower() for c in df.columns]
-
-    df["model"] = df["model"].apply(norm_model)
-    df["inventory_units"] = pd.to_numeric(
-        df["inventory_units"], errors="coerce"
-    ).fillna(0)
-
-    df["week_num"] = df["week"].apply(extract_week)
-
-    if "channel" in df.columns:
-        df["channel"] = df["channel"].astype(str).str.lower().str.strip()
-        df = df[df["channel"].isin(["amazon", "1p sales", "ampm"])]
-
-    df = df[df["week_num"] == latest_week]
-
-# ✅ aggregate AFTER filtering channels
-    df = (
-    df.groupby("model", as_index=False)["inventory_units"]
-    .sum()
-)
-
-    return df.set_index("model")["inventory_units"].to_dict()
-
 
 # ============================================================
 # TREND LOGIC
@@ -278,11 +249,11 @@ def build_amazon_sales_trend(sales_df, business_df):
 
         if model not in data:
             data[model] = {
-                "brand": r.get("brand"),
+                "brand": str(r.get("brand", "") or ""),
                 "model": model,
-                "category_l0": r.get("category_l0"),
-                "category_l1": r.get("category_l1"),
-                "category_l2": r.get("category_l2"),
+                "category_l0": str(r.get("category_l0", "") or ""),
+                "category_l1": str(r.get("category_l1", "") or ""),
+                "category_l2": str(r.get("category_l2", "") or ""),
                 "weeks": {}
             }
 
@@ -430,7 +401,7 @@ def amazon_sales_trend(request: Request, brand: str = "All"):
 
     rows, weeks = build_amazon_sales_trend(sales, business)
 
-    brands = sorted(load_sales()["brand"].dropna().unique())
+    brands = sorted(sales["brand"].dropna().astype(str).unique())
 
     return templates.TemplateResponse(
         "sales_trend_amazon.html",

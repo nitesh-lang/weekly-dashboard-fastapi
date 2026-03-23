@@ -142,11 +142,11 @@ def sales_trend(request: Request, brand: str = "All"):
         week = r["week"]
 
         data.setdefault(model, {
-            "brand": r.get("brand"),
+            "brand": str(r.get("brand", "") or ""),
             "model": model,
-            "category_l0": r.get("category_l0"),
-            "category_l1": r.get("category_l1"),
-            "category_l2": r.get("category_l2"),
+            "category_l0": str(r.get("category_l0", "") or ""),
+            "category_l1": str(r.get("category_l1", "") or ""),
+            "category_l2": str(r.get("category_l2", "") or ""),
             "weeks": {}
         })
 
@@ -205,7 +205,7 @@ def sales_trend(request: Request, brand: str = "All"):
         
     rows.append(grand)   # ✅ HERE (after loop ends)
 
-    brands = sorted(load_sales()["brand"].dropna().unique())
+    brands = sorted(sales["brand"].dropna().astype(str).unique())
 
     return templates.TemplateResponse(
         "sales_trend_sku.html",

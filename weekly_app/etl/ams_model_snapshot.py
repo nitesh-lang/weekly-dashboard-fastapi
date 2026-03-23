@@ -273,8 +273,8 @@ def run_ams_model_etl():
             # ------------------------------------------------
             agg["gmv"] = agg["ordered_product_sales"]
             agg["conversion_pct"] = (
-                agg["units"]
-                .div(agg["sessions"].replace(0, pd.NA))
+                pd.to_numeric(agg["units"], errors="coerce")
+                .div(pd.to_numeric(agg["sessions"], errors="coerce").replace(0, pd.NA))
                 .round(4)
             )
 

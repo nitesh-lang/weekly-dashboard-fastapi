@@ -15,7 +15,8 @@ import re
 # ============================================================
 
 router = APIRouter()
-templates = Jinja2Templates(directory="weekly_app/templates")
+from jinja2 import Environment, FileSystemLoader
+_env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = BASE_DIR / "data" / "processed"
@@ -403,14 +404,11 @@ def amazon_sales_trend(request: Request, brand: str = "All"):
 
     brands = sorted(sales["brand"].dropna().astype(str).unique())
 
-    return templates.TemplateResponse(
-        "sales_trend_amazon.html",
-        {
-            "request": request,
-            "rows": rows,
-            "weeks": weeks,
-            "brands": brands,
-            "selected_brand": brand,
-            "page_title": "Amazon + 1P Sales Trend"
-        }
-    )
+    return HTMLResponse(_env.get_template("sales_trend_amazon.html").render(
+        request=request,
+        rows=rows,
+        weeks=weeks,
+        brands=brands,
+        selected_brand=brand,
+        page_title="Amazon + 1P Sales Trend",
+    ))

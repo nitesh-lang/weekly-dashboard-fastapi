@@ -326,6 +326,11 @@ def dashboard(
         .merge(master[["sku", "model_no", "category_l0"]], on="sku", how="left")
     )
 
+    # ✅ Ensure no dict/unhashable values leak into template
+    for col in ["model_no", "category_l0"]:
+        if col in sku.columns:
+            sku[col] = sku[col].astype(str).replace("nan", "")
+
     sku = round_df(sku)
 
     kpis = {

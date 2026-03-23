@@ -467,22 +467,6 @@ def run_sales_auto_etl(single_week: str = None):
                 continue
             processed_weeks.add(key)
 
-            if existing.empty or "week" not in existing.columns or "brand" not in existing.columns:
-                existing_week = existing.iloc[0:0]
-            else:
-                existing_week = existing[
-                    (existing["week"] == week)
-                    & (existing["brand"] == current_brand)
-                ]
-
-            has_amazon = (
-                not existing_week.empty
-                and (existing_week["channel"] == "Amazon").any()
-                and week in processed_weeks
-            )
-            if has_amazon:
-                continue
-
             label = f"{week}/{brand_folder}" if brand_folder else week
             print(f"[ETL] ▶ Processing {label}")
 
@@ -494,14 +478,22 @@ def run_sales_auto_etl(single_week: str = None):
     if not new_frames:
         print("⚠ No new frames generated — check raw files & brand folders")
         return None
-
+    
     combined = pd.concat(new_frames, ignore_index=True)
-    combined = combined.groupby(
-        ["week", "brand", "model", "channel"], as_index=False
-    ).sum()
+
+    # ✅ FIX: separate numeric and string cols before groupby
+    # Prevents NAType crash when unmapped SKUs have NaN in string columns
+    group_keys = ["week", "brand", "model", "channel"]
+    numeric_cols = ["units_sold", "gross_sales", "gmv", "nlc", "sales_nlc"]
+    str_cols = ["sku", "sku_status", "category_l0", "category_l1", "category_l2"]
+
+    combined_num = combined.groupby(group_keys, as_index=False)[numeric_cols].sum()
+    combined_str = combined.groupby(group_keys, as_index=False)[str_cols].first()
+    combined = combined_num.merge(combined_str, on=group_keys, how="left")
+
     combined = combined.drop_duplicates(
-        subset=["week", "channel", "sku", "model", "brand"], keep="first"
-    )
+    subset=["week", "channel", "sku", "model", "brand"], keep="first"
+)
     combined["brand"] = combined["brand"].astype(str).str.strip().str.title()
 
     # ✅ If running single week mode, merge with existing snapshot

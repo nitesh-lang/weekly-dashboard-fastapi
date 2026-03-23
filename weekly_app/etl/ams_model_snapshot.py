@@ -279,9 +279,10 @@ def run_ams_model_etl():
             agg["gmv"] = agg["ordered_product_sales"]
             agg["conversion_pct"] = (
                 pd.to_numeric(agg["units"], errors="coerce")
-                .div(pd.to_numeric(agg["sessions"], errors="coerce").replace(0, pd.NA))
+                .div(pd.to_numeric(agg["sessions"], errors="coerce").replace(0, float("nan")))
                 .round(4)
-            )
+                .fillna(0)
+)
 
             agg["week"] = week
 

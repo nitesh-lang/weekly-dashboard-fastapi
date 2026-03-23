@@ -283,5 +283,13 @@ async def auto_run_supporting_etl():
             print("❌ INVENTORY MODEL ETL FAILED")
             traceback.print_exc()
 
+        try:
+            print("🚀 AUTO ETL: Generating Sales snapshot...")
+            await loop.run_in_executor(executor, run_sales_auto_etl)
+            print("✅ Sales snapshot ready")
+        except Exception:
+            print("❌ SALES AUTO ETL FAILED")
+            traceback.print_exc()
+            
     # ✅ Fire and forget — server starts accepting requests immediately
     asyncio.create_task(run_in_background())

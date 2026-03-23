@@ -13,7 +13,11 @@ from weekly_app.etl.sales_auto_etl import run_sales_auto_etl
 # ROUTER + TEMPLATE INIT
 # =====================================================
 router = APIRouter()
-templates = Jinja2Templates(directory="weekly_app/templates")
+from jinja2 import Environment, FileSystemLoader
+from starlette.templating import Jinja2Templates
+
+_jinja_env = Environment(loader=FileSystemLoader("weekly_app/templates"))
+templates = Jinja2Templates(env=_jinja_env)
 
 # =====================================================
 # FILE PATHS

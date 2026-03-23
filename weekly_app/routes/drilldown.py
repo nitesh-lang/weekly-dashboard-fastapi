@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
+from typing import List
 from fastapi.responses import HTMLResponse
 from fastapi.responses import StreamingResponse
 from io import BytesIO
@@ -80,7 +82,7 @@ def is_amazon_am(ch: str) -> bool:
 # =====================================================
 # ---------------- LOADERS (SAFE) ---------------------
 # =====================================================
-def load_base_sales(week: str | None):
+def load_base_sales(weeks: list | None):
     """
     Loads base sales snapshot.
     Handles missing file / missing columns safely.
@@ -101,8 +103,10 @@ def load_base_sales(week: str | None):
             sales[c] = sales[c].apply(norm)
 
     # ---------------- WEEK FILTER ------------------------
-    if week not in (None, "", "None"):
-        sales = sales[sales["week"] == week]
+    if weeks:
+        active = [w for w in weeks if w not in (None, "", "None")]
+        if active:
+            sales = sales[sales["week"].isin(active)]
 
     # ---------------- NUMERIC SANITIZATION ---------------
     for c in ["units_sold", "gross_sales", "sales_nlc"]:
@@ -150,7 +154,8 @@ def drilldown(
     request: Request,
     type: str,
     week: str | None = None,
-    brand: str | None = None,   # ← ADD THIS
+    weeks: List[str] = Query(default=[]),
+    brand: str | None = None,
     channel: str | None = None,
     level: str | None = None,
     value: str | None = None,
@@ -169,7 +174,14 @@ def drilldown(
     type = type.lower().strip()
     channel = channel.strip() if channel else None
 
-    sales = load_base_sales(week)
+    if weeks:
+        active_weeks = [w.strip() for w in weeks if w.strip()]
+    elif week and week not in ("None", ""):
+        active_weeks = [week.strip()]
+    else:
+        active_weeks = []
+
+    sales = load_base_sales(active_weeks)
     master = load_master()
     # 🔥 SINGLE SOURCE OF TRUTH
     base = sales.merge(master, on="sku", how="left")

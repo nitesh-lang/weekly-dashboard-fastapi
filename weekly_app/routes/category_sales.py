@@ -68,9 +68,12 @@ def category_sales(
     df = pd.read_csv(SALES_FILE)
 
     # ---------------- NORMALIZE TEXT ----------------
-    for c in ["category_l0", "category_l1", "category_l2", "brand"]:
+    for c in ["brand"]:
         if c in df.columns:
             df[c] = df[c].apply(norm)
+    for c in ["category_l0", "category_l1", "category_l2"]:
+        if c in df.columns:
+            df[c] = df[c].astype(str).str.strip().str.title()
 
     # ---------------- WEEK NORMALIZATION ----------------
     df["week_num"] = df["week"].apply(extract_week)
@@ -141,9 +144,9 @@ def category_sales(
                             "gross_sales": summary["gross_sales"].sum(),
                             }])
     summary = pd.concat([summary, total_row], ignore_index=True)
-    # ---------------- FORMAT GMV (ACCOUNTING STYLE) ----------------
-    summary["gross_sales"] = summary["gross_sales"].apply(format_inr)
-    summary["units_sold"] = summary["units_sold"].astype(int)
+    # ✅ Keep as raw numbers — JS in template handles formatting
+    summary["gross_sales"] = pd.to_numeric(summary["gross_sales"], errors="coerce").fillna(0).round(0).astype(int)
+    summary["units_sold"] = pd.to_numeric(summary["units_sold"], errors="coerce").fillna(0).round(0).astype(int)
 
 
     # ---------------- RENDER ----------------
@@ -153,6 +156,6 @@ def category_sales(
         weeks=available_weeks,
         level=level,
         value=value,
-        week=f"Week {week}" if week else None,
+        week=week,
         selected_brand=brand,
     ))

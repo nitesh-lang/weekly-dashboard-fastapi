@@ -16,7 +16,8 @@ import json
 # ROUTER CONFIG
 # ==================================================
 router = APIRouter(prefix="/api/ams", tags=["AMS Trend"])
-templates = Jinja2Templates(directory="weekly_app/templates")
+from jinja2 import Environment, FileSystemLoader
+_env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
 
 # ==================================================
 # DATA SOURCES
@@ -312,10 +313,7 @@ def get_ams_trend(
 # ==================================================
 @router.get("/view", response_class=HTMLResponse)
 def ams_trend_view(request: Request):
-    return templates.TemplateResponse(
-        "ams_trend.html",
-        {"request": request}
-    )
+    return HTMLResponse(_env.get_template("ams_trend.html").render(request=request))
 
 # ==================================================
 # EXPORT CSV

@@ -421,6 +421,7 @@
 
         <div class="toolbar-spacer"></div>
 
+        <button class="btn" onclick="resetFilters()" style="color:#dc2626;border-color:#fecaca;background:#fef2f2">✕ Reset Filters</button>
         <button class="btn" onclick="toggleMetric()">⇄ Toggle Units / ₹</button>
         <button class="btn btn-primary" onclick="exportTable()">⬇ Export CSV</button>
     </div>
@@ -642,6 +643,10 @@ function applyAllFilters() {
     checked.forEach(w => params.append('sel_weeks', w));
     if (brand) params.append('brand', brand);
     window.location.href = '/amazon-sales-trend?' + params.toString();
+}
+
+function resetFilters() {
+    window.location.href = '/amazon-sales-trend';
 }
 </script>
 </body>

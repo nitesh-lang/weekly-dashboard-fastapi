@@ -395,14 +395,14 @@
                 <label class="week-option">
                     <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> <b>All</b>
                 </label>
-                {% for w in weeks %}
-                <label class="week-option">
-                    <input type="checkbox" name="sel_weeks" value="{{ w }}"
-                        {% if selected_weeks and w in selected_weeks %}checked{% endif %}
-                        onchange="updateWeekLabel()">
-                    {{ w }}
-                </label>
-                {% endfor %}
+                 {% for w in all_weeks %}
+            <label class="week-option">
+                <input type="checkbox" name="sel_weeks" value="{{ w }}"
+                    {% if selected_weeks and w in selected_weeks %}checked{% endif %}
+                    onchange="updateWeekLabel()">
+                {{ w }}
+            </label>
+            {% endfor %}
                 <div class="week-picker-footer">
                     <button type="button" class="week-apply-btn" onclick="applyWeekFilter()">Apply</button>
                 </div>
@@ -632,13 +632,17 @@ function exportTable() {
 
 /* ── Brand filter ── */
 document.getElementById("brandFilter").addEventListener("change", function () {
-    const b = this.value;
+    applyAllFilters();
+});
+
+function applyAllFilters() {
+    const brand = document.getElementById('brandFilter').value;
     const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
     const params = new URLSearchParams();
     checked.forEach(w => params.append('sel_weeks', w));
-    if (b) params.append('brand', b);
-    window.location.href = '/amazon-sales-trend?' + (params.toString() || '');
-});
+    if (brand) params.append('brand', brand);
+    window.location.href = '/amazon-sales-trend?' + params.toString();
+}
 </script>
 </body>
 </html>

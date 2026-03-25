@@ -3,7 +3,8 @@
 # DUPLICATE SAFE • ZERO SAFE • GRAND TOTAL FIXED
 # ============================================================
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
+from typing import List, Optional
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
@@ -164,7 +165,7 @@ def trend(seq):
 # CORE BUILDER
 # ============================================================
 
-def build_amazon_sales_trend(sales_df, business_df):
+def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
 
     # -------- LAST 4 WEEKS ----------
     weeks_df = (
@@ -174,6 +175,10 @@ def build_amazon_sales_trend(sales_df, business_df):
         .sort_values("week_num")
         .tail(4)
     )
+
+    # ✅ Filter to selected weeks if provided
+    if sel_weeks:
+        weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
 
     weeks = weeks_df["week"].tolist()
 
@@ -374,41 +379,50 @@ def build_amazon_sales_trend(sales_df, business_df):
 # ============================================================
 
 @router.get("/amazon-sales-trend", response_class=HTMLResponse)
-def amazon_sales_trend(request: Request, brand: str = "All"):
-
+def amazon_sales_trend(
+    request: Request,
+    brand: str = "All",
+    sel_weeks: Optional[List[str]] = Query(default=None)
+):
     sales = load_sales()
 
     # -------- FILTER AMAZON + 1P ----------
     sales = sales[
-        sales["channel"]
-         .astype(str)
-         .str.strip()
-         .str.lower()
-         .isin(["amazon", "1p sales"])
-         ]
+        sales["channel"].astype(str).str.strip().str.lower()
+        .isin(["amazon", "1p sales"])
+    ]
+
+    # -------- ALL BRANDS (for dropdown) — before brand filter ----------
+    all_brands = sorted(sales["brand"].dropna().astype(str).unique())
 
     if brand and brand != "All":
-        brand_clean = str(brand).strip().lower()
-
         sales = sales[
-            sales["brand"]
-            .astype(str)
-            .str.strip()
-            .str.lower()
-            == brand_clean
+            sales["brand"].astype(str).str.strip().str.lower()
+            == str(brand).strip().lower()
         ]
 
     business = load_business()
 
-    rows, weeks = build_amazon_sales_trend(sales, business)
+    rows, weeks = build_amazon_sales_trend(sales, business, sel_weeks)
 
-    brands = sorted(sales["brand"].dropna().astype(str).unique())
+    # Get all available weeks for the picker (unfiltered)
+    all_sales = load_sales()
+    all_sales = all_sales[
+        all_sales["channel"].astype(str).str.strip().str.lower()
+        .isin(["amazon", "1p sales"])
+    ]
+    all_weeks = sorted(
+        all_sales["week"].dropna().unique().tolist(),
+        key=lambda x: extract_week(x) or 0
+    )
 
     return HTMLResponse(_env.get_template("sales_trend_amazon.html").render(
         request=request,
         rows=rows,
         weeks=weeks,
-        brands=brands,
+        all_weeks=all_weeks,
+        brands=all_brands,
         selected_brand=brand,
+        selected_weeks=sel_weeks or [],
         page_title="Amazon + 1P Sales Trend",
     ))

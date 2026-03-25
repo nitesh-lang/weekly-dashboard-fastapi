@@ -161,6 +161,7 @@ def load_inventory_snapshot() -> pd.DataFrame:
 def get_ams_trend(
     week: Optional[int] = Query(None),
     weeks: Optional[int] = Query(None),
+    sel_weeks: Optional[list[int]] = Query(default=None),
     category_l0: Optional[str] = Query(None),
     category_l1: Optional[str] = Query(None),
     category_l2: Optional[str] = Query(None),
@@ -219,7 +220,9 @@ def get_ams_trend(
     # ===============================
     # FILTERS
     # ===============================
-    if week:
+    if sel_weeks:
+        df = df[df["week"].isin(sel_weeks)]
+    elif week:
         df = df[df["week"] == week]
     elif latest_week is not None:
         df = df[df["week"] == latest_week]
@@ -313,7 +316,12 @@ def get_ams_trend(
 # ==================================================
 @router.get("/view", response_class=HTMLResponse)
 def ams_trend_view(request: Request):
-    return HTMLResponse(_env.get_template("ams_trend.html").render(request=request))
+    df = load_ams_data()
+    all_weeks = sorted(df["week"].dropna().unique().astype(int).tolist())
+    return HTMLResponse(_env.get_template("ams_trend.html").render(
+        request=request,
+        all_weeks=all_weeks,
+    ))
 
 # ==================================================
 # EXPORT CSV
@@ -321,6 +329,7 @@ def ams_trend_view(request: Request):
 @router.get("/export")
 def export_ams_trend(
     week: Optional[int] = Query(None),
+    sel_weeks: Optional[list[int]] = Query(default=None),
     category_l0: Optional[str] = Query(None),
     category_l1: Optional[str] = Query(None),
     category_l2: Optional[str] = Query(None),
@@ -332,6 +341,7 @@ def export_ams_trend(
     response = get_ams_trend(
         week=week,
         weeks=None,
+        sel_weeks=sel_weeks,
         category_l0=category_l0,
         category_l1=category_l1,
         category_l2=category_l2,

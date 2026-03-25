@@ -480,7 +480,7 @@
                 <label class="week-option">
                     <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> <b>All</b>
                 </label>
-                {% for w in weeks %}
+                {% for w in all_weeks %}
                 <label class="week-option">
                     <input type="checkbox" name="sel_weeks" value="{{ w }}"
                         {% if selected_weeks and w in selected_weeks %}checked{% endif %}
@@ -507,15 +507,12 @@
 
         <div class="toolbar-spacer"></div>
 
+        <button class="btn" onclick="resetFilters()" style="color:#dc2626;border-color:#fecaca;background:#fef2f2">✕ Reset Filters</button>
         <button class="btn" onclick="toggleMetric()">⇄ Toggle Units / ₹</button>
         <button class="btn btn-primary" onclick="exportTable()">⬇ Export CSV</button>
     </div>
 
-    <div class="selection-bar">
-        <button class="btn" onclick="applyCheckboxFilter()">✓ Apply Selection</button>
-        <button class="btn" onclick="resetCheckboxFilter()">✕ Reset Selection</button>
-        <span id="selection-count"></span>
-    </div>
+    <div class="selection-bar" style="display:none"></div>
 
 </div>
 
@@ -737,13 +734,17 @@ function exportTable() {
 
 /* ── Brand filter (backend) ── */
 document.getElementById("brandFilter").addEventListener("change", function () {
-    const b = this.value;
+    const brand = this.value;
     const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
     const params = new URLSearchParams();
     checked.forEach(w => params.append('sel_weeks', w));
-    if (b) params.append('brand', b);
-    window.location.href = '/sales-trend?' + (params.toString() || '');
+    if (brand) params.append('brand', brand);
+    window.location.href = '/sales-trend?' + params.toString();
 });
+
+function resetFilters() {
+    window.location.href = '/sales-trend';
+}
 </script>
 </body>
 </html>

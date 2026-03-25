@@ -3,7 +3,8 @@
 # SALES TREND – LAST 4 WEEKS (WITH BRAND FILTER)
 # ============================================================
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Query
+from typing import List, Optional
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
@@ -114,9 +115,17 @@ def trend(units):
 # ============================================================
 
 @router.get("/sales-trend", response_class=HTMLResponse)
-def sales_trend(request: Request, brand: str = "All"):
-
+def sales_trend(
+    request: Request,
+    brand: str = "All",
+    sel_weeks: Optional[List[str]] = Query(default=None)
+):
     sales = load_sales()
+
+    all_weeks = sorted(
+        sales["week"].dropna().unique().tolist(),
+        key=lambda x: int(re.search(r"\d+", str(x)).group()) if re.search(r"\d+", str(x)) else 0
+    )
 
     base = sales
     if brand and brand != "All":
@@ -127,8 +136,12 @@ def sales_trend(request: Request, brand: str = "All"):
         .dropna()
         .drop_duplicates()
         .sort_values("week_num")
-        .tail(4)
     )
+
+    if sel_weeks:
+        weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
+    else:
+        weeks_df = weeks_df.tail(4)
 
     weeks = weeks_df["week"].tolist()
     latest_week = weeks_df["week_num"].iloc[-1]
@@ -212,7 +225,9 @@ def sales_trend(request: Request, brand: str = "All"):
         request=request,
         rows=rows,
         weeks=weeks,
+        all_weeks=all_weeks,
         brands=brands,
         selected_brand=brand,
+        selected_weeks=sel_weeks or [],
     ))
 

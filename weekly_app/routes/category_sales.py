@@ -150,12 +150,18 @@ def category_sales(
 
 
     # ---------------- RENDER ----------------
+    all_brands = sorted(
+        pd.read_csv(SALES_FILE)["brand"].dropna().apply(norm).unique().tolist()
+    )
+
     return HTMLResponse(_env.get_template("category_sales.html").render(
         request=request,
         rows=summary.to_dict("records"),
         weeks=available_weeks,
+        brands=all_brands,
         level=level,
         value=value,
         week=week,
         selected_brand=brand,
+        sel_weeks=active,
     ))

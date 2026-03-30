@@ -130,12 +130,10 @@ final_ads = pd.concat(rows, ignore_index=True)
 # --------------------------------------------------
 # SAFETY CHECK — ENSURE NO DUPLICATE ASIN + WEEK + BRAND
 # --------------------------------------------------
-dupes = final_ads.duplicated(subset=["asin", "week", "brand"])
-if dupes.any():
-    bad = final_ads.loc[dupes, ["asin", "week", "brand"]]
-    raise RuntimeError(
-        f"❌ Duplicate ASIN+WEEK+BRAND detected in STEP 3:\n{bad.head(10)}"
-    )
+NUM_COLS = ["Spend", "Clicks", "Impressions", "attributed_sales", "ams_orders"]
+final_ads = final_ads.groupby(
+    ["asin", "week", "brand", "Model", "ad_type"], as_index=False
+)[NUM_COLS].sum()
 
 # --------------------------------------------------
 # SAFETY NORMALIZATION

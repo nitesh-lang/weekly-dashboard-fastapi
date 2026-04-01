@@ -292,6 +292,15 @@ async def auto_run_supporting_etl():
         except Exception:
             print("❌ SALES AUTO ETL FAILED")
             traceback.print_exc()
+
+        try:
+            from weekly_app.etl.build_ai_context import build_ai_context
+            print("🤖 Building AI context JSON...")
+            await loop.run_in_executor(executor, build_ai_context)
+            print("✅ AI context ready")
+        except Exception:
+            print("❌ AI CONTEXT BUILD FAILED")
+            traceback.print_exc()
             
     # ✅ Fire and forget — server starts accepting requests immediately
     asyncio.create_task(run_in_background())

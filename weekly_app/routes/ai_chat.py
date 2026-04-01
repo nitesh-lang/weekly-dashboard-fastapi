@@ -1,5 +1,6 @@
 """
-AI Chat route — loads ALL data (sales + AMS + inventory) on every request.
+AI Chat route — reads pre-computed ai_context.json (fast).
+Falls back to live CSV processing if JSON not found.
 Supports multi-turn conversation history.
 """
 
@@ -7,6 +8,7 @@ import os
 import json
 import anthropic
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
@@ -17,9 +19,10 @@ router = APIRouter(prefix="/api/ai", tags=["ai-chat"])
 
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
-SALES_CSV     = Path("data/processed/weekly_sales_snapshot.csv")
-AMS_CSV       = Path("data/processed/business_ads_joined.csv")
-INVENTORY_CSV = Path("data/processed/inventory_model_snapshot.csv")
+AI_CONTEXT_JSON = Path("data/processed/ai_context.json")
+SALES_CSV       = Path("data/processed/weekly_sales_snapshot.csv")
+AMS_CSV         = Path("data/processed/business_ads_joined.csv")
+INVENTORY_CSV   = Path("data/processed/inventory_model_snapshot.csv")
 
 
 class Message(BaseModel):
@@ -35,148 +38,117 @@ class ChatRequest(BaseModel):
     page: str = "dashboard"
 
 
-def safe_sum(df, col):
-    return round(float(df[col].sum()), 2) if col in df.columns else 0
+# ── Smart context trimmer ─────────────────────────────────────────────────────
+def cap_list(lst, n):
+    """Hard cap any list to n items."""
+    return lst[:n] if isinstance(lst, list) else lst
 
-def safe_mean(df, col):
-    v = df[col].replace([float("inf"), float("-inf")], pd.NA).dropna()
-    return round(float(v.mean()), 4) if len(v) > 0 else None
-
-def get_last_n_weeks(df, week_col="week", n=4):
-    try:
-        weeks = sorted(df[week_col].dropna().unique(), key=lambda w: int("".join(filter(str.isdigit, str(w)))))
-        return weeks[-n:]
-    except Exception:
-        return list(df[week_col].dropna().unique())
-
-def filter_brand(df, brand, col="Brand"):
-    if brand and brand not in ("All", "") and col in df.columns:
-        return df[df[col].str.lower() == brand.lower()]
-    return df
-
-
-def load_sales_context(week: str, brand: str) -> dict:
-    if not SALES_CSV.exists():
-        return {"sales_error": "weekly_sales_snapshot.csv not found"}
-
-    df = pd.read_csv(SALES_CSV, low_memory=False)
-    df = filter_brand(df, brand, "Brand")
-
-    all_weeks = get_last_n_weeks(df, "week", 99) if "week" in df.columns else []
-    last4 = all_weeks[-4:]
-    df4 = df[df["week"].isin(last4)] if "week" in df.columns else df
-    dfw = df[df["week"] == week] if week and week not in ("All Weeks", "") and "week" in df.columns else df
-
-    ctx = {
-        "all_weeks_available": all_weeks,
-        "last_4_weeks": last4,
-        "selected_week": week,
-        "kpis": {
-            "units": int(dfw["units_sold"].sum()) if "units_sold" in dfw.columns else 0,
-            "gmv": safe_sum(dfw, "gmv"),
-            "nlc": safe_sum(dfw, "sales_nlc"),
-        },
+def trim_context_for_question(context: dict, question: str) -> dict:
+    """
+    Filter context to only what's relevant for the question.
+    Reduces tokens and improves answer quality.
+    """
+    q = question.lower()
+    trimmed = {
+        "generated_at":       context.get("generated_at"),
+        "alerts":             context.get("alerts", []),
+        "alert_count":        context.get("alert_count", 0),
+        "high_alerts":        context.get("high_alerts", 0),
+        "all_weeks":          context.get("all_weeks", []),
+        "last_4_weeks":       context.get("last_4_weeks", []),
+        "latest_week":        context.get("latest_week"),
+        "latest_week_kpis":   context.get("latest_week_kpis", {}),
+        "last4_kpis":         context.get("last4_kpis", {}),
+        "ams_last4_kpis":     context.get("ams_last4_kpis", {}),
+        "ams_latest_week_kpis": context.get("ams_latest_week_kpis", {}),
     }
 
-    if "week" in df.columns:
-        agg = {k: (v, "sum") for k, v in [("units","units_sold"),("gmv","gmv"),("nlc","sales_nlc")] if v in df.columns}
-        if agg:
-            ctx["weekly_sales_trend"] = df.groupby("week").agg(**agg).reset_index().sort_values("week").to_dict(orient="records")
+    is_overview  = any(w in q for w in ["overview","overall","full","summary","analysis","everything","business","picture"])
+    is_channel  = any(w in q for w in ["channel","amazon","flipkart","offline","b2b","b2c"])
+    is_category = any(w in q for w in ["category","watch","microphone","headphone","earphone"])
+    is_ams      = any(w in q for w in ["ams","ads","spend","roas","acos","tacos","asin","attributed","campaign"])
+    is_trend    = any(w in q for w in ["trend","week","wow","growth","decline","last 4","history"])
+    is_model    = any(w in q for w in ["model","sku","asin","k1","k2","fs","es","jr","mk","me"])
+    is_inventory= any(w in q for w in ["inventory","stock","oos","out of stock","days","sell-through","sell through"])
+    is_alert    = any(w in q for w in ["alert","risk","issue","problem","concern","flag","anomal"])
 
-    if "channel" in df4.columns:
-        agg = {k: (v, "sum") for k, v in [("units","units_sold"),("gmv","gmv"),("nlc","sales_nlc")] if v in df4.columns}
-        if agg:
-            ctx["channel_breakdown"] = df4.groupby("channel").agg(**agg).sort_values("gmv", ascending=False).reset_index().to_dict(orient="records")
+    if is_overview or is_channel:
+        trimmed["channel_breakdown"]     = cap_list(context.get("channel_breakdown", []), 10)
+        trimmed["category_breakdown"]    = cap_list(context.get("category_breakdown", []), 8)
+        trimmed["weekly_sales_trend"]    = cap_list(context.get("weekly_sales_trend", []), 13)
+        trimmed["ams_weekly_trend"]      = cap_list(context.get("ams_weekly_trend", []), 13)
+        trimmed["top_models_last4"]      = cap_list(context.get("top_models_last4", []), 15)
+        trimmed["model_ams_performance"] = cap_list(context.get("model_ams_performance", []), 15)
 
-    cat_col = next((c for c in ["category_l0","Category","category"] if c in df4.columns), None)
-    if cat_col:
-        agg = {k: (v, "sum") for k, v in [("units","units_sold"),("gmv","gmv")] if v in df4.columns}
-        if agg:
-            ctx["category_breakdown"] = df4.groupby(cat_col).agg(**agg).sort_values("gmv", ascending=False).reset_index().to_dict(orient="records")
+    if is_category:
+        trimmed["category_breakdown"] = cap_list(context.get("category_breakdown", []), 8)
 
-    sku_col = next((c for c in ["FBA SKU","SKU","sku"] if c in df4.columns), None)
-    model_col = next((c for c in ["Model","model"] if c in df4.columns), None)
-    grp = [c for c in [sku_col, model_col, cat_col] if c]
-    if grp and "gmv" in df4.columns:
-        agg = {k: (v, "sum") for k, v in [("units","units_sold"),("gmv","gmv"),("nlc","sales_nlc")] if v in df4.columns}
-        ctx["top_skus_models"] = df4.groupby(grp).agg(**agg).sort_values("gmv", ascending=False).head(25).reset_index().to_dict(orient="records")
+    if is_ams or is_overview:
+        trimmed["model_ams_performance"]  = cap_list(context.get("model_ams_performance", []), 15)
+        trimmed["asin_ams_performance"]   = cap_list(context.get("asin_ams_performance", []), 15)
+        trimmed["ams_weekly_trend"]       = cap_list(context.get("ams_weekly_trend", []), 13)
+        if is_trend or is_model:
+            trimmed["model_ams_weekly_trend"] = cap_list(context.get("model_ams_weekly_trend", []), 60)
 
-    if model_col and "week" in df.columns and "gmv" in df.columns:
-        agg = {k: (v, "sum") for k, v in [("units","units_sold"),("gmv","gmv")] if v in df.columns}
-        ctx["model_weekly_sales"] = df.groupby([model_col, "week"]).agg(**agg).reset_index().sort_values([model_col, "week"]).to_dict(orient="records")
+    if is_trend or is_overview:
+        trimmed["weekly_sales_trend"] = cap_list(context.get("weekly_sales_trend", []), 13)
+        trimmed["ams_weekly_trend"]   = cap_list(context.get("ams_weekly_trend", []), 13)
 
-    return ctx
+    if is_model or is_trend:
+        trimmed["top_models_latest_week"] = cap_list(context.get("top_models_latest_week", []), 15)
+        trimmed["top_models_last4"]       = cap_list(context.get("top_models_last4", []), 15)
+        trimmed["model_weekly_sales"]     = cap_list(context.get("model_weekly_sales", []), 60)
+        trimmed["model_ams_weekly_trend"] = cap_list(context.get("model_ams_weekly_trend", []), 60)
+        trimmed["model_ams_performance"]  = cap_list(context.get("model_ams_performance", []), 15)
 
+    if is_inventory or is_alert or is_overview:
+        trimmed["inventory"] = cap_list(context.get("inventory", []), 20)
+        trimmed["alerts"]    = cap_list(context.get("alerts", []), 10)
 
-def load_ams_context(week: str, brand: str) -> dict:
-    if not AMS_CSV.exists():
-        return {"ams_error": "business_ads_joined.csv not found"}
+    if not any([is_overview, is_channel, is_category, is_ams, is_trend, is_model, is_inventory, is_alert]):
+        trimmed["top_models_last4"]      = cap_list(context.get("top_models_last4", []), 10)
+        trimmed["channel_breakdown"]     = cap_list(context.get("channel_breakdown", []), 8)
+        trimmed["model_ams_performance"] = cap_list(context.get("model_ams_performance", []), 10)
 
-    df = pd.read_csv(AMS_CSV, low_memory=False)
-    df = filter_brand(df, brand, "brand")
-
-    all_weeks = get_last_n_weeks(df, "week", 99) if "week" in df.columns else []
-    last4 = all_weeks[-4:]
-    df4 = df[df["week"].isin(last4)] if "week" in df.columns else df
-
-    ctx = {
-        "ams_last_4_weeks": last4,
-        "ams_overall": {
-            "total_spend": safe_sum(df4, "Spend"),
-            "total_attributed_sales": safe_sum(df4, "attributed_sales"),
-            "total_gmv": safe_sum(df4, "gmv"),
-            "total_clicks": int(df4["Clicks"].sum()) if "Clicks" in df4.columns else 0,
-            "total_impressions": int(df4["Impressions"].sum()) if "Impressions" in df4.columns else 0,
-            "avg_acos": safe_mean(df4, "acos"),
-            "avg_roas": safe_mean(df4, "roas"),
-            "avg_tacos": safe_mean(df4, "tacos"),
-        },
-    }
-
-    if "week" in df.columns:
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","Clicks","Impressions"] if col in df.columns}
-        if agg:
-            ctx["ams_weekly_trend"] = df.groupby("week").agg(**agg).reset_index().sort_values("week").to_dict(orient="records")
-
-    if "model" in df4.columns:
-        grp = [c for c in ["model","asin","brand","category_l0"] if c in df4.columns]
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","Clicks","Impressions","units"] if col in df4.columns}
-        mp = df4.groupby(grp).agg(**agg).reset_index()
-        if "Spend" in mp.columns and "attributed_sales" in mp.columns:
-            mp["acos"] = (mp["Spend"] / mp["attributed_sales"].replace(0, float("nan"))).round(4)
-            mp["roas"] = (mp["attributed_sales"] / mp["Spend"].replace(0, float("nan"))).round(2)
-        ctx["model_ams_performance"] = mp.sort_values("gmv" if "gmv" in mp.columns else "Spend", ascending=False).head(30).to_dict(orient="records")
-
-    if "model" in df.columns and "week" in df.columns:
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","units","Clicks"] if col in df.columns}
-        if agg:
-            ctx["model_ams_weekly_trend"] = df.groupby(["model","week"]).agg(**agg).reset_index().sort_values(["model","week"]).to_dict(orient="records")
-
-    if "asin" in df4.columns:
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","Clicks"] if col in df4.columns}
-        if agg:
-            ap = df4.groupby("asin").agg(**agg).reset_index()
-            if "Spend" in ap.columns and "attributed_sales" in ap.columns:
-                ap["acos"] = (ap["Spend"] / ap["attributed_sales"].replace(0, float("nan"))).round(4)
-                ap["roas"] = (ap["attributed_sales"] / ap["Spend"].replace(0, float("nan"))).round(2)
-            ctx["asin_ams_performance"] = ap.sort_values("gmv" if "gmv" in ap.columns else "Spend", ascending=False).head(20).to_dict(orient="records")
-
-    return ctx
+    return trimmed
 
 
-def load_inventory_context(brand: str) -> dict:
-    if not INVENTORY_CSV.exists():
-        return {}
-    try:
-        df = pd.read_csv(INVENTORY_CSV, low_memory=False)
-        df = filter_brand(df, brand, "Brand")
-        return {"inventory": df.head(40).to_dict(orient="records")}
-    except Exception as e:
-        return {"inventory_error": str(e)}
+# ── Load context (JSON first, CSV fallback) ───────────────────────────────────
+def load_context(week: str, brand: str) -> dict:
+    if AI_CONTEXT_JSON.exists():
+        try:
+            with open(AI_CONTEXT_JSON) as f:
+                ctx = json.load(f)
+            # If brand filter active, note it (full re-filter would require CSV)
+            ctx["active_brand_filter"] = brand if brand not in ("All","") else "All Brands"
+            ctx["active_week_filter"]  = week
+            return ctx
+        except Exception:
+            pass
+
+    # Fallback: live CSV processing (slower)
+    print("⚠️  ai_context.json not found — falling back to live CSV processing")
+    from weekly_app.etl.build_ai_context import build_sales_context, build_ams_context, build_inventory_context, detect_anomalies
+    sales_ctx     = build_sales_context(brand)
+    ams_ctx       = build_ams_context(brand)
+    inventory_ctx = build_inventory_context(brand)
+    alerts        = detect_anomalies(sales_ctx, ams_ctx, inventory_ctx)
+    return {**sales_ctx, **ams_ctx, **inventory_ctx, "alerts": alerts}
 
 
+# ── System prompt ─────────────────────────────────────────────────────────────
 def build_system_prompt(context: dict, week: str, brand: str, page: str) -> str:
     ctx_str = json.dumps(context, indent=2, default=str)
+
+    # Alert summary for top of prompt
+    alerts = context.get("alerts", [])
+    high   = [a for a in alerts if a.get("severity") == "high"]
+    alert_summary = ""
+    if alerts:
+        alert_summary = f"\n⚠️  ACTIVE ALERTS ({len(alerts)} total, {len(high)} high priority):\n"
+        for a in alerts[:6]:
+            icon = "🔴" if a.get("severity") == "high" else "🟡"
+            alert_summary += f"  {icon} {a.get('message','')}\n"
 
     page_focus = {
         "ams-trend":   "User is on AMS/Ads page — lead with ad performance insights.",
@@ -185,40 +157,39 @@ def build_system_prompt(context: dict, week: str, brand: str, page: str) -> str:
         "dashboard":   "User is on main Dashboard — lead with overall GMV and channel insights.",
     }.get(page, "")
 
-    return f"""You are an advanced e-commerce business analyst AI inside a Weekly Unified Dashboard for a brand selling watches and electronics on Amazon India and other channels (brands include Fossil, Nexlev, Audio_Array, White_Mulberry, Tonor).
+    return f"""You are an advanced e-commerce business analyst AI inside a Weekly Unified Dashboard for a brand selling watches and electronics on Amazon India and other channels (Fossil, Nexlev, Audio_Array, White_Mulberry, Tonor).
 
 YOU HAVE COMPLETE ACCESS TO ALL DATA:
-- Sales: GMV, units, NLC by SKU/model/channel/category/week
-- AMS/Ads: Spend, ROAS, ACOS, TACOS, attributed sales, clicks, impressions by model/ASIN/week  
-- Inventory: stock levels, sell-through rates
-
+- Sales: GMV, units, NLC by SKU/model/channel/category/week — WITH week-over-week % deltas pre-calculated
+- AMS/Ads: Spend, ROAS, ACOS, TACOS, attributed sales, clicks, impressions by model/ASIN/week — WITH WoW deltas
+- Inventory: stock levels, sell-through — JOINED with AMS to flag spend-on-OOS risks
+- Anomaly alerts: pre-detected issues flagged automatically
+{alert_summary}
 FILTERS — Week: {week} | Brand: {brand if brand not in ('All','') else 'All Brands'}
 {page_focus}
 
-COMPLETE DATASET:
+DATA:
 {ctx_str}
 
 HOW TO ANSWER:
 - Use ONLY the data above. Never invent numbers.
-- Currency: ₹ with Cr (crore), L (lakh), K (thousand).
-- For trend questions: pull from model_ams_weekly_trend, model_weekly_sales, ams_weekly_trend — show week-by-week numbers.
-- For model/ASIN: use model_ams_performance, asin_ams_performance, top_skus_models.
-- For channels: use channel_breakdown.
-- Flag: ACOS > 50% = high spend risk. ROAS < 2 = low return. Zero sales SKUs.
-- For "overall analysis" or "give me a full picture": structure your answer as:
-  **Sales Overview** → **Top Channels** → **Top Models** → **AMS Performance** → **Risks & Recommendations**
-- Short questions: 3-5 sentences. Deep analysis: use bold headers and bullet points.
-- You remember the conversation — reference earlier questions naturally."""
+- WoW delta fields like gmv_wow_pct are pre-calculated — use them directly.
+- Currency: ₹ with Cr (crore=10M), L (lakh=100K), K (thousand).
+- For "overall analysis" or "full picture": structure as:
+  **Sales Overview** → **Channel Mix** → **Top Models** → **AMS Performance** → **Alerts & Risks**
+- For model/ASIN trends: use model_ams_weekly_trend and model_weekly_sales — show week-by-week numbers.
+- For alerts: explain what they mean and what action to take.
+- Flag: ACOS > 60% = high risk. ROAS < 2 = low return. Stock < 14 days = reorder urgently.
+- Short questions: 3-5 sentences. Deep analysis: bold headers + bullets.
+- You have conversation history — reference earlier answers naturally."""
 
 
+# ── Main endpoint ─────────────────────────────────────────────────────────────
 @router.post("/ai-chat")
 async def ai_chat(request: Request, body: ChatRequest):
-    context = {}
-    context.update(load_sales_context(body.week, body.brand))
-    context.update(load_ams_context(body.week, body.brand))
-    context.update(load_inventory_context(body.brand))
-
-    system_prompt = build_system_prompt(context, body.week, body.brand, body.page)
+    full_context    = load_context(body.week, body.brand)
+    trimmed_context = trim_context_for_question(full_context, body.question)
+    system_prompt   = build_system_prompt(trimmed_context, body.week, body.brand, body.page)
 
     messages = [{"role": m.role, "content": m.content} for m in body.history[-10:]]
     messages.append({"role": "user", "content": body.question})
@@ -248,12 +219,44 @@ async def ai_chat(request: Request, body: ChatRequest):
     )
 
 
+# ── Health check ──────────────────────────────────────────────────────────────
 @router.get("/ai-chat/health")
 async def ai_chat_health():
+    ctx_exists = AI_CONTEXT_JSON.exists()
+    ctx_age    = None
+    alert_count = 0
+    if ctx_exists:
+        try:
+            with open(AI_CONTEXT_JSON) as f:
+                ctx = json.load(f)
+            ctx_age     = ctx.get("generated_at")
+            alert_count = ctx.get("alert_count", 0)
+        except Exception:
+            pass
     return {
-        "status": "ok",
-        "api_key_set": bool(os.environ.get("ANTHROPIC_API_KEY")),
-        "sales_csv": SALES_CSV.exists(),
-        "ams_csv": AMS_CSV.exists(),
-        "inventory_csv": INVENTORY_CSV.exists(),
+        "status":          "ok",
+        "api_key_set":     bool(os.environ.get("ANTHROPIC_API_KEY")),
+        "context_json":    ctx_exists,
+        "context_built_at": ctx_age,
+        "active_alerts":   alert_count,
+        "sales_csv":       SALES_CSV.exists(),
+        "ams_csv":         AMS_CSV.exists(),
+        "inventory_csv":   INVENTORY_CSV.exists(),
     }
+
+
+# ── Manual rebuild trigger ────────────────────────────────────────────────────
+@router.post("/ai-chat/rebuild-context")
+async def rebuild_context():
+    """Manually trigger context rebuild. Also called automatically after ETL."""
+    try:
+        from weekly_app.etl.build_ai_context import build_ai_context
+        ctx = build_ai_context()
+        return {
+            "status":      "ok",
+            "alerts":      ctx.get("alert_count", 0),
+            "high_alerts": ctx.get("high_alerts", 0),
+            "built_at":    ctx.get("generated_at"),
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}

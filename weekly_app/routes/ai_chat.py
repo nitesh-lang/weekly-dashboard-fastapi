@@ -21,15 +21,7 @@ client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 AI_CONTEXT_JSON = Path("data/processed/ai_context.json")
 SALES_CSV       = Path("data/processed/weekly_sales_snapshot.csv")
-AMS_CSV = next(
-    (p for p in [
-        Path("data/processed/business_ads_joined.csv"),
-        Path("data/raw/business_ads_joined.csv"),
-        Path("data/ams/business_ads_joined.csv"),
-        Path("weekly_app/data/business_ads_joined.csv"),
-    ] if p.exists()),
-    Path("data/processed/business_ads_joined.csv")
-)
+AMS_CSV = Path("data/ams_weekly_data/processed_ads/business_ads_joined.csv")
 INVENTORY_CSV   = Path("data/processed/inventory_model_snapshot.csv")
 
 

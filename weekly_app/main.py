@@ -11,6 +11,7 @@ from pathlib import Path
 # ROUTE IMPORTS
 # --------------------
 from weekly_app.routes.ams_trend import router as ams_trend_router
+from weekly_app.routes.ai_chat import router as ai_chat_router
 from weekly_app.routes.upload import router as upload_router
 from weekly_app.routes.dashboard import router as dashboard_router
 from weekly_app.routes.exports import router as export_router
@@ -111,6 +112,7 @@ app.include_router(inventory_dashboard_router)
 
 # ✅ AMS TREND ROUTER (NEW)
 app.include_router(ams_trend_router)
+app.include_router(ai_chat_router)
 
 print("✅ upload_router mounted")
 print("✅ dashboard_router mounted")

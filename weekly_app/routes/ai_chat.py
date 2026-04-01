@@ -248,16 +248,17 @@ INSTRUCTIONS:
 @router.post("/ai-chat")
 async def ai_chat(request: Request, body: ChatRequest):
     # Load context based on current page
-    if body.page == "ams-trend":
-        context = load_ams_context(body.week, body.brand)
-    elif body.page == "inventory":
+    if body.page == "inventory":
         context = load_inventory_context(body.brand)
     else:
-        # dashboard / sales-trend: load sales + ams summary
+        # Always load both sales + full AMS on every page
         context = load_sales_context(body.week, body.brand)
         ams = load_ams_context(body.week, body.brand)
         if "error" not in ams:
-            context["ams_summary"] = ams.get("ams_summary_last4", {})
+            context["ams_summary_last4"]    = ams.get("ams_summary_last4", {})
+            context["ams_weekly_trend"]     = ams.get("ams_weekly_trend", [])
+            context["model_performance"]    = ams.get("model_performance", [])
+            context["model_weekly_trend"]   = ams.get("model_weekly_trend", [])
 
     system_prompt = build_system_prompt(context, body.week, body.brand, body.page)
 

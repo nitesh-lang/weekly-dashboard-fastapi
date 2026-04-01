@@ -18,9 +18,14 @@ from pathlib import Path
 from datetime import datetime
 
 SALES_CSV     = Path("data/processed/weekly_sales_snapshot.csv")
-AMS_CSV = Path("data/ams_weekly_data/processed_ads/business_ads_joined.csv")
+AMS_CSV       = Path("data/ams_weekly_data/processed_ads/business_ads_joined.csv")
 INVENTORY_CSV = Path("data/processed/inventory_model_snapshot.csv")
 OUTPUT_JSON   = Path("data/processed/ai_context.json")
+
+# All sum columns from business_ads_joined.csv
+AMS_SUM_COLS  = ["Spend","Clicks","Impressions","attributed_sales","ams_orders","gmv","units","sessions"]
+# All mean columns (ratios — averaging makes more sense than summing)
+AMS_MEAN_COLS = ["buy_box_pct","conversion_pct","acos","roas","tacos","cac"]
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -177,18 +182,23 @@ def build_ams_context(brand_filter=None):
     dfp = df[df["week"] == prev]     if prev   else pd.DataFrame()
 
     def ams_kpis(d):
-        spend = float(d["Spend"].sum()) if "Spend" in d.columns else 0
-        attr  = float(d["attributed_sales"].sum()) if "attributed_sales" in d.columns else 0
-        gmv   = float(d["gmv"].sum()) if "gmv" in d.columns else 0
+        def s(col): return round(float(d[col].sum()), 2) if col in d.columns else 0
+        def m(col): return safe(d[col].replace([np.inf,-np.inf], np.nan).mean()) if col in d.columns else None
         return {
-            "spend":            round(spend, 2),
-            "attributed_sales": round(attr, 2),
-            "gmv":              round(gmv, 2),
-            "clicks":           int(d["Clicks"].sum()) if "Clicks" in d.columns else 0,
-            "impressions":      int(d["Impressions"].sum()) if "Impressions" in d.columns else 0,
-            "acos":             safe(d["acos"].replace([np.inf,-np.inf], np.nan).mean()) if "acos" in d.columns else None,
-            "roas":             safe(d["roas"].replace([np.inf,-np.inf], np.nan).mean()) if "roas" in d.columns else None,
-            "tacos":            safe(d["tacos"].replace([np.inf,-np.inf], np.nan).mean()) if "tacos" in d.columns else None,
+            "spend":            s("Spend"),
+            "attributed_sales": s("attributed_sales"),
+            "ams_orders":       s("ams_orders"),
+            "gmv":              s("gmv"),
+            "units":            s("units"),
+            "clicks":           s("Clicks"),
+            "impressions":      s("Impressions"),
+            "sessions":         s("sessions"),
+            "acos":             m("acos"),
+            "roas":             m("roas"),
+            "tacos":            m("tacos"),
+            "buy_box_pct":      m("buy_box_pct"),
+            "conversion_pct":   m("conversion_pct"),
+            "cac":              m("cac"),
         }
 
     l_kpis = ams_kpis(dfl)
@@ -206,44 +216,62 @@ def build_ams_context(brand_filter=None):
 
     # ── AMS weekly trend ──
     if "week" in df.columns:
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","Clicks","Impressions"] if col in df.columns}
+        agg = {col: (col, "sum") for col in AMS_SUM_COLS if col in df.columns}
+        agg.update({col: (col, "mean") for col in AMS_MEAN_COLS if col in df.columns})
         if agg:
             trend = df.groupby("week").agg(**agg).reset_index().sort_values("week")
-            for col in ["Spend","gmv"]:
+            for col in ["Spend","gmv","attributed_sales"]:
                 if col in trend.columns:
                     trend[f"{col}_wow_pct"] = trend[col].pct_change().mul(100).round(2)
             ctx["ams_weekly_trend"] = df_to_records(trend)
 
     # ── Per-model AMS performance (last 4 weeks) ──
     if "model" in df4.columns:
-        grp = [c for c in ["model","asin","brand","category_l0"] if c in df4.columns]
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","Clicks","Impressions","units"] if col in df4.columns}
-        mp  = df4.groupby(grp).agg(**agg).reset_index()
+        grp = [c for c in ["model","asin","child_asin","brand","category_l0","category_l1","category_l2"] if c in df4.columns]
+        agg = {col: (col, "sum") for col in AMS_SUM_COLS if col in df4.columns}
+        agg.update({col: (col, "mean") for col in AMS_MEAN_COLS if col in df4.columns})
+        mp = df4.groupby(grp).agg(**agg).reset_index()
+        # Recalculate ratios from aggregated sums for accuracy
         if "Spend" in mp.columns and "attributed_sales" in mp.columns:
             mp["acos"] = (mp["Spend"] / mp["attributed_sales"].replace(0, np.nan)).round(4)
             mp["roas"] = (mp["attributed_sales"] / mp["Spend"].replace(0, np.nan)).round(2)
         if "Spend" in mp.columns and "gmv" in mp.columns:
             mp["tacos"] = (mp["Spend"] / mp["gmv"].replace(0, np.nan)).round(4)
+        if "units" in mp.columns and "sessions" in mp.columns:
+            mp["conversion_pct"] = (mp["units"] / mp["sessions"].replace(0, np.nan)).round(4)
         ctx["model_ams_performance"] = df_to_records(mp.sort_values("gmv" if "gmv" in mp.columns else "Spend", ascending=False).head(30))
 
     # ── Model × week AMS trend ──
     if "model" in df.columns and "week" in df.columns:
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","units","Clicks"] if col in df.columns}
+        agg = {col: (col, "sum") for col in AMS_SUM_COLS if col in df.columns}
         if agg:
             mwt = df.groupby(["model","week"]).agg(**agg).reset_index().sort_values(["model","week"])
-            for col in ["Spend","gmv"]:
+            # Recalculate ratios per row
+            if "Spend" in mwt.columns and "attributed_sales" in mwt.columns:
+                mwt["acos"] = (mwt["Spend"] / mwt["attributed_sales"].replace(0, np.nan)).round(4)
+                mwt["roas"] = (mwt["attributed_sales"] / mwt["Spend"].replace(0, np.nan)).round(2)
+            if "Spend" in mwt.columns and "gmv" in mwt.columns:
+                mwt["tacos"] = (mwt["Spend"] / mwt["gmv"].replace(0, np.nan)).round(4)
+            if "units" in mwt.columns and "sessions" in mwt.columns:
+                mwt["conversion_pct"] = (mwt["units"] / mwt["sessions"].replace(0, np.nan)).round(4)
+            for col in ["Spend","gmv","attributed_sales"]:
                 if col in mwt.columns:
                     mwt[f"{col}_wow_pct"] = mwt.groupby("model")[col].pct_change().mul(100).round(2)
             ctx["model_ams_weekly_trend"] = df_to_records(mwt)
 
     # ── ASIN level ──
     if "asin" in df4.columns:
-        agg = {col: (col, "sum") for col in ["Spend","attributed_sales","gmv","Clicks"] if col in df4.columns}
+        grp = [c for c in ["asin","child_asin","model","brand","category_l0","category_l1"] if c in df4.columns]
+        agg = {col: (col, "sum") for col in AMS_SUM_COLS if col in df4.columns}
         if agg:
-            ap = df4.groupby("asin").agg(**agg).reset_index()
+            ap = df4.groupby(grp).agg(**agg).reset_index()
             if "Spend" in ap.columns and "attributed_sales" in ap.columns:
                 ap["acos"] = (ap["Spend"] / ap["attributed_sales"].replace(0, np.nan)).round(4)
                 ap["roas"] = (ap["attributed_sales"] / ap["Spend"].replace(0, np.nan)).round(2)
+            if "Spend" in ap.columns and "gmv" in ap.columns:
+                ap["tacos"] = (ap["Spend"] / ap["gmv"].replace(0, np.nan)).round(4)
+            if "units" in ap.columns and "sessions" in ap.columns:
+                ap["conversion_pct"] = (ap["units"] / ap["sessions"].replace(0, np.nan)).round(4)
             ctx["asin_ams_performance"] = df_to_records(ap.sort_values("gmv" if "gmv" in ap.columns else "Spend", ascending=False).head(20))
 
     return ctx

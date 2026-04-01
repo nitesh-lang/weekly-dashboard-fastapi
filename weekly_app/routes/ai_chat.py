@@ -34,52 +34,66 @@ class ChatRequest(BaseModel):
 # ── Internal: fetch your existing dashboard data ────────────────────────────
 async def fetch_dashboard_context(base_url: str, week: str, brand: str, view: str) -> dict:
     """
-    Calls your existing FastAPI endpoints to pull live data.
-    Adjust the endpoint paths to match your actual routes.
+    Reads directly from the weekly_sales_snapshot.csv produced by your ETL.
     """
-    params = {"weeks": week, "brand": brand, "view": view}
+    import pandas as pd
     context = {}
 
-    async with httpx.AsyncClient(base_url=base_url, timeout=15.0) as http:
-        # Sales summary (units, GMV, NLC)
-        try:
-            r = await http.get("/api/sales-summary", params=params)
-            if r.status_code == 200:
-                context["sales_summary"] = r.json()
-        except Exception:
-            pass
+    try:
+        df = pd.read_csv("data/processed/weekly_sales_snapshot.csv", low_memory=False)
 
-        # Top SKUs
-        try:
-            r = await http.get("/api/sku-sales", params={**params, "limit": 15})
-            if r.status_code == 200:
-                context["top_skus"] = r.json()
-        except Exception:
-            pass
+        # Filter by brand if specified
+        if brand and brand != "All" and brand != "":
+            if "Brand" in df.columns:
+                df = df[df["Brand"] == brand]
 
-        # AMS / ads performance
-        try:
-            r = await http.get("/api/ams-summary", params=params)
-            if r.status_code == 200:
-                context["ams"] = r.json()
-        except Exception:
-            pass
+        # Filter by week if specified (skip if "All Weeks")
+        if week and week != "All Weeks" and "week" in df.columns:
+            df = df[df["week"] == week]
 
-        # Channel distribution
-        try:
-            r = await http.get("/api/channel-distribution", params=params)
-            if r.status_code == 200:
-                context["channels"] = r.json()
-        except Exception:
-            pass
+        # Summary KPIs
+        numeric_cols = df.select_dtypes(include="number").columns.tolist()
+        context["summary"] = {
+            "total_units": int(df["units_sold"].sum()) if "units_sold" in df.columns else 0,
+            "total_gmv": round(float(df["gmv"].sum()), 2) if "gmv" in df.columns else 0,
+            "total_nlc": round(float(df["sales_nlc"].sum()), 2) if "sales_nlc" in df.columns else 0,
+            "weeks_included": df["week"].unique().tolist() if "week" in df.columns else [],
+            "brands_included": df["Brand"].unique().tolist() if "Brand" in df.columns else [],
+        }
 
-        # Sales trend (week-over-week)
-        try:
-            r = await http.get("/api/sales-trend", params=params)
-            if r.status_code == 200:
-                context["sales_trend"] = r.json()
-        except Exception:
-            pass
+        # Top SKUs by GMV
+        if "FBA SKU" in df.columns and "gmv" in df.columns:
+            top_skus = (
+                df.groupby("FBA SKU")
+                .agg(units=("units_sold", "sum"), gmv=("gmv", "sum"))
+                .sort_values("gmv", ascending=False)
+                .head(15)
+                .reset_index()
+            )
+            context["top_skus"] = top_skus.to_dict(orient="records")
+
+        # Channel breakdown
+        if "channel" in df.columns and "gmv" in df.columns:
+            channels = (
+                df.groupby("channel")
+                .agg(units=("units_sold", "sum"), gmv=("gmv", "sum"))
+                .sort_values("gmv", ascending=False)
+                .reset_index()
+            )
+            context["channels"] = channels.to_dict(orient="records")
+
+        # Week-over-week trend
+        if "week" in df.columns and "gmv" in df.columns:
+            trend = (
+                df.groupby("week")
+                .agg(units=("units_sold", "sum"), gmv=("gmv", "sum"))
+                .reset_index()
+                .sort_values("week")
+            )
+            context["sales_trend"] = trend.to_dict(orient="records")
+
+    except Exception as e:
+        context["error"] = f"Could not load sales data: {str(e)}"
 
     return context
 

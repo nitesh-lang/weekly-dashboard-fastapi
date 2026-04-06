@@ -616,8 +616,8 @@ document.querySelectorAll('#catTable th').forEach((th, i) => {
         document.querySelectorAll('#catTable th').forEach(h => h.classList.remove('sorted-asc','sorted-desc'));
         th.classList.add(asc ? 'sorted-asc' : 'sorted-desc');
         rows.sort((a, b) => {
-            const A = a.children[i]?.dataset.val || a.children[i]?.innerText.replace(/[₹,\sCrLK%]/g,'').trim();
-            const B = b.children[i]?.dataset.val || b.children[i]?.innerText.replace(/[₹,\sCrLK%]/g,'').trim();
+            const A = a.children[i]?.dataset.val ?? a.children[i]?.innerText.replace(/[₹,\sCrLK%]/g,'').trim();
+            const B = b.children[i]?.dataset.val ?? b.children[i]?.innerText.replace(/[₹,\sCrLK%]/g,'').trim();
             const nA = parseFloat(A), nB = parseFloat(B);
             if (!isNaN(nA) && !isNaN(nB)) return asc ? nA - nB : nB - nA;
             return asc ? A.localeCompare(B) : B.localeCompare(A);

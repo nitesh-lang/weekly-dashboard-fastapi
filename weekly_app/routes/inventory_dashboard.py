@@ -17,6 +17,9 @@ _env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0
 # ✅ Module-level cache — avoids re-reading xlsx on every request
 _inv_cache: Dict[str, Any] = {}
 
+BASE_DIR = Path(__file__).resolve().parents[2]
+RAW_INV_DIR = BASE_DIR / "data" / "raw" / "inventory"
+
 def _get_dir_mtimes() -> dict:
     mtimes = {}
     if not RAW_INV_DIR.exists():
@@ -27,9 +30,6 @@ def _get_dir_mtimes() -> dict:
         except Exception:
             pass
     return mtimes
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-RAW_INV_DIR = BASE_DIR / "data" / "raw" / "inventory"
 
 # ============================================================
 # HELPERS
@@ -53,6 +53,7 @@ def extract_brand(path: Path):
     if "white" in p or "mulberry" in p: return "White Mulberry"
     if "audio" in p: return "Audio Array"
     if "tonor" in p: return "Tonor"
+    if "fossil" in p: return "Fossil"
     return "Unknown"
 
 # ============================================================

@@ -11,7 +11,22 @@ import re
 
 router = APIRouter()
 from jinja2 import Environment, FileSystemLoader
+from typing import Dict, Any
 _env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
+
+# ✅ Module-level cache — avoids re-reading xlsx on every request
+_inv_cache: Dict[str, Any] = {}
+
+def _get_dir_mtimes() -> dict:
+    mtimes = {}
+    if not RAW_INV_DIR.exists():
+        return mtimes
+    for f in RAW_INV_DIR.rglob("*.xlsx"):
+        try:
+            mtimes[str(f)] = f.stat().st_mtime
+        except Exception:
+            pass
+    return mtimes
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 RAW_INV_DIR = BASE_DIR / "data" / "raw" / "inventory"
@@ -45,6 +60,10 @@ def extract_brand(path: Path):
 # ============================================================
 
 def load_all_inventory():
+    # ✅ Return cached DataFrame if no xlsx files changed
+    current_mtimes = _get_dir_mtimes()
+    if _inv_cache.get("mtimes") == current_mtimes and "df" in _inv_cache:
+        return _inv_cache["df"].copy()
 
     frames = []
 
@@ -99,7 +118,11 @@ def load_all_inventory():
     data = pd.concat(frames, ignore_index=True)
     data["week_num"] = data["week"].apply(extract_week_num)
 
-    return data
+    # ✅ Cache the result
+    _inv_cache["df"] = data
+    _inv_cache["mtimes"] = current_mtimes
+
+    return data.copy()
 
 # ============================================================
 # DASHBOARD ROUTE
@@ -135,9 +158,6 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
     # ========================================================
     # AGGREGATION FIX
     # ========================================================
-    # BRAND FILTER
-    if brand:
-     df = df[df["brand"]==brand]
 
 # >>> ADD THIS BLOCK <<<
     df[["category_l0","category_l1","category_l2"]] = \

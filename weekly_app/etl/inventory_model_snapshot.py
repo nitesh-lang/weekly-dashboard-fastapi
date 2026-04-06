@@ -60,6 +60,10 @@ def extract_brand(file_path: Path):
         return "White Mulberry"
     if "audio" in ref or "array" in ref:
         return "Audio Array"
+    if "fossil" in ref:
+        return "Fossil"
+    if "tonor" in ref:
+        return "Tonor"
     if "am" in ref:
         return "AMPM"
 

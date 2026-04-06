@@ -575,6 +575,7 @@ function fmtINR(n) {
         const label = document.createElement('span');
         label.textContent = fmtINR(v);
         td.innerHTML = '';
+        td.dataset.val = v;  // ✅ restore data-val after innerHTML wipe
         const wrap = document.createElement('div');
         wrap.className = 'gmv-bar-wrap';
         wrap.appendChild(bar);
@@ -588,6 +589,7 @@ function fmtINR(n) {
         if (pctCell) {
             const pct = totalGMV > 0 ? ((vals[i] / totalGMV) * 100).toFixed(1) : '0.0';
             pctCell.textContent = pct + '%';
+            pctCell.dataset.val = pct;  // ✅ store numeric for sort
         }
     });
 

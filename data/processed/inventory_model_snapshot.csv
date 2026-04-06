@@ -372,46 +372,46 @@ Week 10,Nexlev,VC-05,736.0,0
 Week 10,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
 Week 10,Nexlev,VC-06,57.0,0
 Week 10,Nexlev,WF-02-BL,22.0,0
-Week 10,Unknown,D2,0.0,0
-Week 10,Unknown,D5,2.0,0
-Week 10,Unknown,G11,10.0,0
-Week 10,Unknown,K1,48.0,0
-Week 10,Unknown,K20,0.0,0
-Week 10,Unknown,K9,0.0,0
-Week 10,Unknown,ORCA001,17.0,0
-Week 10,Unknown,Q9,0.0,0
-Week 10,Unknown,S20,54.0,0
-Week 10,Unknown,T10,12.0,0
-Week 10,Unknown,T20,67.0,0
-Week 10,Unknown,T20LP,69.0,0
-Week 10,Unknown,T30,16.0,0
-Week 10,Unknown,T90,8.0,0
-Week 10,Unknown,TC-2030,12.0,0
-Week 10,Unknown,TC-777,452.0,0
-Week 10,Unknown,TC-777 PRO,49.0,0
-Week 10,Unknown,TC20,10.0,0
-Week 10,Unknown,TC30,376.0,0
-Week 10,Unknown,TC30+,10.0,0
-Week 10,Unknown,TC30S,50.0,0
-Week 10,Unknown,TC30S+,19.0,0
-Week 10,Unknown,TC310,70.0,0
-Week 10,Unknown,TC310+,226.0,0
-Week 10,Unknown,TC40,24.0,0
-Week 10,Unknown,TC40S,77.0,0
-Week 10,Unknown,TC777PRO,420.0,0
-Week 10,Unknown,TD310,507.0,0
-Week 10,Unknown,TD310+,191.0,0
-Week 10,Unknown,TD510,33.0,0
-Week 10,Unknown,TD510+,5.0,0
-Week 10,Unknown,TM20,20.0,0
-Week 10,Unknown,TM310,90.0,0
-Week 10,Unknown,"TONOR
+Week 10,Tonor,D2,0.0,0
+Week 10,Tonor,D5,2.0,0
+Week 10,Tonor,G11,10.0,0
+Week 10,Tonor,K1,48.0,0
+Week 10,Tonor,K20,0.0,0
+Week 10,Tonor,K9,0.0,0
+Week 10,Tonor,ORCA001,17.0,0
+Week 10,Tonor,Q9,0.0,0
+Week 10,Tonor,S20,54.0,0
+Week 10,Tonor,T10,12.0,0
+Week 10,Tonor,T20,67.0,0
+Week 10,Tonor,T20LP,69.0,0
+Week 10,Tonor,T30,16.0,0
+Week 10,Tonor,T90,8.0,0
+Week 10,Tonor,TC-2030,12.0,0
+Week 10,Tonor,TC-777,452.0,0
+Week 10,Tonor,TC-777 PRO,49.0,0
+Week 10,Tonor,TC20,10.0,0
+Week 10,Tonor,TC30,376.0,0
+Week 10,Tonor,TC30+,10.0,0
+Week 10,Tonor,TC30S,50.0,0
+Week 10,Tonor,TC30S+,19.0,0
+Week 10,Tonor,TC310,70.0,0
+Week 10,Tonor,TC310+,226.0,0
+Week 10,Tonor,TC40,24.0,0
+Week 10,Tonor,TC40S,77.0,0
+Week 10,Tonor,TC777PRO,420.0,0
+Week 10,Tonor,TD310,507.0,0
+Week 10,Tonor,TD310+,191.0,0
+Week 10,Tonor,TD510,33.0,0
+Week 10,Tonor,TD510+,5.0,0
+Week 10,Tonor,TM20,20.0,0
+Week 10,Tonor,TM310,90.0,0
+Week 10,Tonor,"TONOR
 K1",1026.0,0
-Week 10,Unknown,TONORG11,240.0,0
-Week 10,Unknown,TONORS20,204.0,0
-Week 10,Unknown,TONORTC-2030,80.0,0
-Week 10,Unknown,TONORTM20,150.0,0
-Week 10,Unknown,TRL-20,16.0,0
+Week 10,Tonor,TONORG11,240.0,0
+Week 10,Tonor,TONORS20,204.0,0
+Week 10,Tonor,TONORTC-2030,80.0,0
+Week 10,Tonor,TONORTM20,150.0,0
+Week 10,Tonor,TRL-20,16.0,0
 Week 10,White Mulberry,6021-3081-BB,0.0,0
 Week 10,White Mulberry,6023-1168,0.0,0
 Week 10,White Mulberry,6023-210-SIOC,0.0,0
@@ -852,39 +852,39 @@ Week 11,Nexlev,VC-05,727.0,0
 Week 11,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
 Week 11,Nexlev,VC-06,57.0,0
 Week 11,Nexlev,WF-02-BL,16.0,0
-Week 11,Unknown,D2,0.0,0
-Week 11,Unknown,D5,2.0,0
-Week 11,Unknown,G11,260.0,0
-Week 11,Unknown,K1,1078.0,0
-Week 11,Unknown,K20,0.0,0
-Week 11,Unknown,K9,0.0,0
-Week 11,Unknown,ORCA001,17.0,0
-Week 11,Unknown,Q9,0.0,0
-Week 11,Unknown,S20,257.0,0
-Week 11,Unknown,T10,12.0,0
-Week 11,Unknown,T20,64.0,0
-Week 11,Unknown,T20LP,69.0,0
-Week 11,Unknown,T30,51.0,0
-Week 11,Unknown,T90,16.0,0
-Week 11,Unknown,TC-2030,91.0,0
-Week 11,Unknown,TC-777,448.0,0
-Week 11,Unknown,TC-777 PRO,468.0,0
-Week 11,Unknown,TC20,10.0,0
-Week 11,Unknown,TC30,372.0,0
-Week 11,Unknown,TC30+,9.0,0
-Week 11,Unknown,TC30S,50.0,0
-Week 11,Unknown,TC30S+,19.0,0
-Week 11,Unknown,TC310,49.0,0
-Week 11,Unknown,TC310+,223.0,0
-Week 11,Unknown,TC40,23.0,0
-Week 11,Unknown,TC40S,85.0,0
-Week 11,Unknown,TD310,509.0,0
-Week 11,Unknown,TD310+,450.0,0
-Week 11,Unknown,TD510,39.0,0
-Week 11,Unknown,TD510+,5.0,0
-Week 11,Unknown,TM20,170.0,0
-Week 11,Unknown,TM310,91.0,0
-Week 11,Unknown,TRL-20,16.0,0
+Week 11,Tonor,D2,0.0,0
+Week 11,Tonor,D5,2.0,0
+Week 11,Tonor,G11,260.0,0
+Week 11,Tonor,K1,1078.0,0
+Week 11,Tonor,K20,0.0,0
+Week 11,Tonor,K9,0.0,0
+Week 11,Tonor,ORCA001,17.0,0
+Week 11,Tonor,Q9,0.0,0
+Week 11,Tonor,S20,257.0,0
+Week 11,Tonor,T10,12.0,0
+Week 11,Tonor,T20,64.0,0
+Week 11,Tonor,T20LP,69.0,0
+Week 11,Tonor,T30,51.0,0
+Week 11,Tonor,T90,16.0,0
+Week 11,Tonor,TC-2030,91.0,0
+Week 11,Tonor,TC-777,448.0,0
+Week 11,Tonor,TC-777 PRO,468.0,0
+Week 11,Tonor,TC20,10.0,0
+Week 11,Tonor,TC30,372.0,0
+Week 11,Tonor,TC30+,9.0,0
+Week 11,Tonor,TC30S,50.0,0
+Week 11,Tonor,TC30S+,19.0,0
+Week 11,Tonor,TC310,49.0,0
+Week 11,Tonor,TC310+,223.0,0
+Week 11,Tonor,TC40,23.0,0
+Week 11,Tonor,TC40S,85.0,0
+Week 11,Tonor,TD310,509.0,0
+Week 11,Tonor,TD310+,450.0,0
+Week 11,Tonor,TD510,39.0,0
+Week 11,Tonor,TD510+,5.0,0
+Week 11,Tonor,TM20,170.0,0
+Week 11,Tonor,TM310,91.0,0
+Week 11,Tonor,TRL-20,16.0,0
 Week 11,White Mulberry,6021-3081-BB,0.0,0
 Week 11,White Mulberry,6023-1168,0.0,0
 Week 11,White Mulberry,6023-210-SIOC,0.0,0
@@ -1181,6 +1181,386 @@ Week 12,Audio Array,W3,20.0,0
 Week 12,Audio Array,W5,20.0,0
 Week 12,Audio Array,XM-16,10.0,0
 Week 12,Audio Array,XM-24,10.0,0
+Week 12,Fossil,AR11338,4.0,0
+Week 12,Fossil,AR11360,4.0,0
+Week 12,Fossil,AR11484,4.0,0
+Week 12,Fossil,AR11499,1.0,0
+Week 12,Fossil,AR11500,3.0,0
+Week 12,Fossil,AR11558,2.0,0
+Week 12,Fossil,AR11568,5.0,0
+Week 12,Fossil,AR11575,4.0,0
+Week 12,Fossil,AR11582,8.0,0
+Week 12,Fossil,AR11589,4.0,0
+Week 12,Fossil,AR11596,4.0,0
+Week 12,Fossil,AR11606,4.0,0
+Week 12,Fossil,AR11610,9.0,0
+Week 12,Fossil,AR11620,6.0,0
+Week 12,Fossil,AR11621,3.0,0
+Week 12,Fossil,AR11622,6.0,0
+Week 12,Fossil,AR11623,4.0,0
+Week 12,Fossil,AR11624,1.0,0
+Week 12,Fossil,AR11625,4.0,0
+Week 12,Fossil,AR11626,5.0,0
+Week 12,Fossil,AR11635,3.0,0
+Week 12,Fossil,AR11636,7.0,0
+Week 12,Fossil,AR11637,4.0,0
+Week 12,Fossil,AR11639,3.0,0
+Week 12,Fossil,AR11640,0.0,0
+Week 12,Fossil,AR11660,3.0,0
+Week 12,Fossil,AR11661,3.0,0
+Week 12,Fossil,AR11662,5.0,0
+Week 12,Fossil,AR11663,5.0,0
+Week 12,Fossil,AR11664,3.0,0
+Week 12,Fossil,AR11665,7.0,0
+Week 12,Fossil,AR11666,11.0,0
+Week 12,Fossil,AR11669,7.0,0
+Week 12,Fossil,AR11671,3.0,0
+Week 12,Fossil,AR11672,2.0,0
+Week 12,Fossil,AR11673,3.0,0
+Week 12,Fossil,AR11674,4.0,0
+Week 12,Fossil,AR11676,4.0,0
+Week 12,Fossil,AR11677,2.0,0
+Week 12,Fossil,AR11688,2.0,0
+Week 12,Fossil,AR11689,4.0,0
+Week 12,Fossil,AR11690,3.0,0
+Week 12,Fossil,AR11691,5.0,0
+Week 12,Fossil,AR11692,1.0,0
+Week 12,Fossil,AR11693,5.0,0
+Week 12,Fossil,AR11694,3.0,0
+Week 12,Fossil,AR11706,5.0,0
+Week 12,Fossil,AR11707,3.0,0
+Week 12,Fossil,AR11708,3.0,0
+Week 12,Fossil,AR11713,1.0,0
+Week 12,Fossil,AR11714,4.0,0
+Week 12,Fossil,AR11718,3.0,0
+Week 12,Fossil,AR11754,3.0,0
+Week 12,Fossil,AR11755,3.0,0
+Week 12,Fossil,AR11756,8.0,0
+Week 12,Fossil,AR11757,3.0,0
+Week 12,Fossil,AR11759,8.0,0
+Week 12,Fossil,AR11770,3.0,0
+Week 12,Fossil,AR11771,10.0,0
+Week 12,Fossil,AR11772,10.0,0
+Week 12,Fossil,AR11773,10.0,0
+Week 12,Fossil,AR11774,3.0,0
+Week 12,Fossil,AR11783,11.0,0
+Week 12,Fossil,AR1676,1.0,0
+Week 12,Fossil,AR1926,13.0,0
+Week 12,Fossil,AR1979,18.0,0
+Week 12,Fossil,AR2434,3.0,0
+Week 12,Fossil,AR2502,6.0,0
+Week 12,Fossil,AR60076,1.0,0
+Week 12,Fossil,AR60079,1.0,0
+Week 12,Fossil,AR60080,4.0,0
+Week 12,Fossil,AR70010,7.0,0
+Week 12,Fossil,AR80065SET,1.0,0
+Week 12,Fossil,AR80083SET,4.0,0
+Week 12,Fossil,AR80087SET,6.0,0
+Week 12,Fossil,AX1343,299.0,0
+Week 12,Fossil,AX1350,1.0,0
+Week 12,Fossil,AX1739,4.0,0
+Week 12,Fossil,AX1742,3.0,0
+Week 12,Fossil,AX1746,16.0,0
+Week 12,Fossil,AX1764,2.0,0
+Week 12,Fossil,AX1767,4.0,0
+Week 12,Fossil,AX1769,15.0,0
+Week 12,Fossil,AX1867,2.0,0
+Week 12,Fossil,AX1956,6.0,0
+Week 12,Fossil,AX1962,1.0,0
+Week 12,Fossil,AX1964,1.0,0
+Week 12,Fossil,AX1970,10.0,0
+Week 12,Fossil,AX1971,16.0,0
+Week 12,Fossil,AX1972,15.0,0
+Week 12,Fossil,AX1973,16.0,0
+Week 12,Fossil,AX2101,1.0,0
+Week 12,Fossil,AX2413,14.0,0
+Week 12,Fossil,AX2429,1.0,0
+Week 12,Fossil,AX2454,4.0,0
+Week 12,Fossil,AX2459,3.0,0
+Week 12,Fossil,AX2460,9.0,0
+Week 12,Fossil,AX2461,58.0,0
+Week 12,Fossil,AX2462,4.0,0
+Week 12,Fossil,AX2463,35.0,0
+Week 12,Fossil,AX2766,8.0,0
+Week 12,Fossil,AX2767,8.0,0
+Week 12,Fossil,AX2820,2.0,0
+Week 12,Fossil,AX2821,2.0,0
+Week 12,Fossil,AX2822,8.0,0
+Week 12,Fossil,AX2823,5.0,0
+Week 12,Fossil,AX4173,4.0,0
+Week 12,Fossil,AX4180,38.0,0
+Week 12,Fossil,AX4181,14.0,0
+Week 12,Fossil,AX4182,11.0,0
+Week 12,Fossil,AX4183,28.0,0
+Week 12,Fossil,AX4184,89.0,0
+Week 12,Fossil,AX4186,8.0,0
+Week 12,Fossil,AX4199,4.0,0
+Week 12,Fossil,AX4405,20.0,0
+Week 12,Fossil,AX4406,24.0,0
+Week 12,Fossil,AX4407,23.0,0
+Week 12,Fossil,AX4408,30.0,0
+Week 12,Fossil,AX4621,3.0,0
+Week 12,Fossil,AX4625,8.0,0
+Week 12,Fossil,AX5176,9.0,0
+Week 12,Fossil,AX5616,1.0,0
+Week 12,Fossil,AX5724,7.0,0
+Week 12,Fossil,AX5725,7.0,0
+Week 12,Fossil,AX5729,1.0,0
+Week 12,Fossil,AX5730,4.0,0
+Week 12,Fossil,AX5732,3.0,0
+Week 12,Fossil,AX5734,1.0,0
+Week 12,Fossil,AX5735,2.0,0
+Week 12,Fossil,AX5901,20.0,0
+Week 12,Fossil,AX5911,14.0,0
+Week 12,Fossil,AX5916,1.0,0
+Week 12,Fossil,AX7151SET,9.0,0
+Week 12,Fossil,AX7161SET,1.0,0
+Week 12,Fossil,AX7163SET,8.0,0
+Week 12,Fossil,AX7165SET,6.0,0
+Week 12,Fossil,AX7167SET,2.0,0
+Week 12,Fossil,AX7175SET,6.0,0
+Week 12,Fossil,AX7176SET,8.0,0
+Week 12,Fossil,BQ3181,3.0,0
+Week 12,Fossil,BQ3502,3.0,0
+Week 12,Fossil,CH2882,9.0,0
+Week 12,Fossil,CH2885,108.0,0
+Week 12,Fossil,DZ1206,3.0,0
+Week 12,Fossil,DZ2189,4.0,0
+Week 12,Fossil,DZ2210SET,6.0,0
+Week 12,Fossil,DZ2212,5.0,0
+Week 12,Fossil,DZ2213,5.0,0
+Week 12,Fossil,DZ2214,7.0,0
+Week 12,Fossil,DZ2215,3.0,0
+Week 12,Fossil,DZ2234,2.0,0
+Week 12,Fossil,DZ4548,2.0,0
+Week 12,Fossil,DZ4627,5.0,0
+Week 12,Fossil,DZ4640,2.0,0
+Week 12,Fossil,DZ4659,2.0,0
+Week 12,Fossil,DZ4662,2.0,0
+Week 12,Fossil,DZ4665,10.0,0
+Week 12,Fossil,DZ4667,3.0,0
+Week 12,Fossil,DZ4670,1.0,0
+Week 12,Fossil,DZ4671,3.0,0
+Week 12,Fossil,DZ4702,8.0,0
+Week 12,Fossil,DZ4703,8.0,0
+Week 12,Fossil,DZ4709,7.0,0
+Week 12,Fossil,DZ5609,3.0,0
+Week 12,Fossil,DZ5611,3.0,0
+Week 12,Fossil,DZ5612,4.0,0
+Week 12,Fossil,DZ5613,4.0,0
+Week 12,Fossil,DZ5618,2.0,0
+Week 12,Fossil,DZ7395,2.0,0
+Week 12,Fossil,DZ7487,2.0,0
+Week 12,Fossil,ES2811,2.0,0
+Week 12,Fossil,ES3020,63.0,0
+Week 12,Fossil,ES3284,27.0,0
+Week 12,Fossil,ES3352,3.0,0
+Week 12,Fossil,ES3405,16.0,0
+Week 12,Fossil,ES3466,10.0,0
+Week 12,Fossil,ES3843,88.0,0
+Week 12,Fossil,ES4433,108.0,0
+Week 12,Fossil,ES4519,111.0,0
+Week 12,Fossil,ES4628,36.0,0
+Week 12,Fossil,ES4879,4.0,0
+Week 12,Fossil,ES5271,3.0,0
+Week 12,Fossil,ES5278,2.0,0
+Week 12,Fossil,ES5303,7.0,0
+Week 12,Fossil,ES5306,9.0,0
+Week 12,Fossil,ES5310,13.0,0
+Week 12,Fossil,ES5319,11.0,0
+Week 12,Fossil,ES5323,16.0,0
+Week 12,Fossil,ES5329,22.0,0
+Week 12,Fossil,ES5331,3.0,0
+Week 12,Fossil,ES5334,1.0,0
+Week 12,Fossil,ES5338,22.0,0
+Week 12,Fossil,ES5349,24.0,0
+Week 12,Fossil,ES5350,8.0,0
+Week 12,Fossil,ES5357,16.0,0
+Week 12,Fossil,ES5358,23.0,0
+Week 12,Fossil,ES5361,86.0,0
+Week 12,Fossil,ES5362,1.0,0
+Week 12,Fossil,ES5363,15.0,0
+Week 12,Fossil,ES5364,17.0,0
+Week 12,Fossil,ES5380,3.0,0
+Week 12,Fossil,ES5381,2.0,0
+Week 12,Fossil,ES5386,7.0,0
+Week 12,Fossil,ES5387SET,11.0,0
+Week 12,Fossil,ES5388,81.0,0
+Week 12,Fossil,ES5398,4.0,0
+Week 12,Fossil,ES5399,4.0,0
+Week 12,Fossil,ES5400,4.0,0
+Week 12,Fossil,ES5402,1.0,0
+Week 12,Fossil,ES5417,3.0,0
+Week 12,Fossil,ES5418,7.0,0
+Week 12,Fossil,ES5419,17.0,0
+Week 12,Fossil,ES5420,5.0,0
+Week 12,Fossil,ES5421,4.0,0
+Week 12,Fossil,ES5422,3.0,0
+Week 12,Fossil,ES5434,7.0,0
+Week 12,Fossil,ES5438,4.0,0
+Week 12,Fossil,ES5439,12.0,0
+Week 12,Fossil,ES5443,21.0,0
+Week 12,Fossil,ES5444,13.0,0
+Week 12,Fossil,ES5451,16.0,0
+Week 12,Fossil,ES5452,71.0,0
+Week 12,Fossil,ES5455,3.0,0
+Week 12,Fossil,ES5456,7.0,0
+Week 12,Fossil,ES5472,16.0,0
+Week 12,Fossil,FS4735,62.0,0
+Week 12,Fossil,FS4795,491.0,0
+Week 12,Fossil,FS4812,12.0,0
+Week 12,Fossil,FS4813,58.0,0
+Week 12,Fossil,FS4867,16.0,0
+Week 12,Fossil,FS5164,1.0,0
+Week 12,Fossil,FS5237,4.0,0
+Week 12,Fossil,FS5308,63.0,0
+Week 12,Fossil,FS5447,1.0,0
+Week 12,Fossil,FS5452,6.0,0
+Week 12,Fossil,FS5512,21.0,0
+Week 12,Fossil,FS5525,23.0,0
+Week 12,Fossil,FS5665,48.0,0
+Week 12,Fossil,FS5699,11.0,0
+Week 12,Fossil,FS5708SET,4.0,0
+Week 12,Fossil,FS5792,52.0,0
+Week 12,Fossil,FS5822,1.0,0
+Week 12,Fossil,FS5855,18.0,0
+Week 12,Fossil,FS5901,9.0,0
+Week 12,Fossil,FS5963,45.0,0
+Week 12,Fossil,FS5971,2.0,0
+Week 12,Fossil,FS6029,18.0,0
+Week 12,Fossil,FS6032,18.0,0
+Week 12,Fossil,FS6045,5.0,0
+Week 12,Fossil,FS6048,15.0,0
+Week 12,Fossil,FS6056,6.0,0
+Week 12,Fossil,FS6071,4.0,0
+Week 12,Fossil,FS6081SET,6.0,0
+Week 12,Fossil,FS6085,4.0,0
+Week 12,Fossil,FS6086,27.0,0
+Week 12,Fossil,FS6087,14.0,0
+Week 12,Fossil,FS6089,19.0,0
+Week 12,Fossil,FS6090,14.0,0
+Week 12,Fossil,FS6094,19.0,0
+Week 12,Fossil,FS6104,10.0,0
+Week 12,Fossil,FS6106,42.0,0
+Week 12,Fossil,FS6107,5.0,0
+Week 12,Fossil,FS6108,5.0,0
+Week 12,Fossil,FS6110,1.0,0
+Week 12,Fossil,FS6111,55.0,0
+Week 12,Fossil,FS6112,20.0,0
+Week 12,Fossil,FS6113,21.0,0
+Week 12,Fossil,FS6128,7.0,0
+Week 12,Fossil,FS6129,6.0,0
+Week 12,Fossil,FS6131,157.0,0
+Week 12,Fossil,FS6132,18.0,0
+Week 12,Fossil,FS6133,4.0,0
+Week 12,Fossil,FS6139,7.0,0
+Week 12,Fossil,FS6140,6.0,0
+Week 12,Fossil,FS6143,1.0,0
+Week 12,Fossil,FS6144,4.0,0
+Week 12,Fossil,FS6145SET,1.0,0
+Week 12,Fossil,FS6149,3.0,0
+Week 12,Fossil,FS6150,11.0,0
+Week 12,Fossil,FS6151,9.0,0
+Week 12,Fossil,FS6154,16.0,0
+Week 12,Fossil,FS6161,9.0,0
+Week 12,Fossil,FS6162,21.0,0
+Week 12,Fossil,FS6163,19.0,0
+Week 12,Fossil,FS6164,16.0,0
+Week 12,Fossil,JR1401,232.0,0
+Week 12,Fossil,JR1487,129.0,0
+Week 12,Fossil,ME3061,8.0,0
+Week 12,Fossil,ME3098,33.0,0
+Week 12,Fossil,ME3206,12.0,0
+Week 12,Fossil,ME3218,22.0,0
+Week 12,Fossil,ME3253,16.0,0
+Week 12,Fossil,ME3254,7.0,0
+Week 12,Fossil,ME3260,31.0,0
+Week 12,Fossil,ME3261,9.0,0
+Week 12,Fossil,ME3265,7.0,0
+Week 12,Fossil,ME3266,19.0,0
+Week 12,Fossil,ME3270,19.0,0
+Week 12,Fossil,MK2833,1.0,0
+Week 12,Fossil,MK3190,7.0,0
+Week 12,Fossil,MK4339,4.0,0
+Week 12,Fossil,MK4709,2.0,0
+Week 12,Fossil,MK4710,15.0,0
+Week 12,Fossil,MK4805,1.0,0
+Week 12,Fossil,MK4817SET,3.0,0
+Week 12,Fossil,MK4822,2.0,0
+Week 12,Fossil,MK4824,6.0,0
+Week 12,Fossil,MK4829,3.0,0
+Week 12,Fossil,MK4842,14.0,0
+Week 12,Fossil,MK4843,3.0,0
+Week 12,Fossil,MK4845,4.0,0
+Week 12,Fossil,MK4847,1.0,0
+Week 12,Fossil,MK4863,2.0,0
+Week 12,Fossil,MK4864,4.0,0
+Week 12,Fossil,MK4873,5.0,0
+Week 12,Fossil,MK4882,5.0,0
+Week 12,Fossil,MK4923,3.0,0
+Week 12,Fossil,MK4931,3.0,0
+Week 12,Fossil,MK4932,3.0,0
+Week 12,Fossil,MK4933,3.0,0
+Week 12,Fossil,MK4934,3.0,0
+Week 12,Fossil,MK4935,3.0,0
+Week 12,Fossil,MK4962,7.0,0
+Week 12,Fossil,MK4963,3.0,0
+Week 12,Fossil,MK4964,3.0,0
+Week 12,Fossil,MK4965,3.0,0
+Week 12,Fossil,MK4966,3.0,0
+Week 12,Fossil,MK4997,10.0,0
+Week 12,Fossil,MK4998,10.0,0
+Week 12,Fossil,MK4999,7.0,0
+Week 12,Fossil,MK5491,23.0,0
+Week 12,Fossil,MK6485,32.0,0
+Week 12,Fossil,MK7474,4.0,0
+Week 12,Fossil,MK7488,3.0,0
+Week 12,Fossil,MK7504,1.0,0
+Week 12,Fossil,MK7506,6.0,0
+Week 12,Fossil,MK7519LE,2.0,0
+Week 12,Fossil,MK7528,2.0,0
+Week 12,Fossil,MK7559,4.0,0
+Week 12,Fossil,MK7568,7.0,0
+Week 12,Fossil,MK7570SET,2.0,0
+Week 12,Fossil,MK7572,10.0,0
+Week 12,Fossil,MK7573,9.0,0
+Week 12,Fossil,MK7574,10.0,0
+Week 12,Fossil,MK7581,8.0,0
+Week 12,Fossil,MK7582,2.0,0
+Week 12,Fossil,MK7583,2.0,0
+Week 12,Fossil,MK7584,8.0,0
+Week 12,Fossil,MK7587,7.0,0
+Week 12,Fossil,MK7589,8.0,0
+Week 12,Fossil,MK7590,6.0,0
+Week 12,Fossil,MK8603,4.0,0
+Week 12,Fossil,MK9113,7.0,0
+Week 12,Fossil,MK9152,9.0,0
+Week 12,Fossil,MK9153,4.0,0
+Week 12,Fossil,MK9156,3.0,0
+Week 12,Fossil,MK9163,3.0,0
+Week 12,Fossil,MK9165,6.0,0
+Week 12,Fossil,MK9176,6.0,0
+Week 12,Fossil,MK9177,7.0,0
+Week 12,Fossil,MK9178,3.0,0
+Week 12,Fossil,MK9179,8.0,0
+Week 12,Fossil,MK9185,1.0,0
+Week 12,Fossil,MK9191,16.0,0
+Week 12,Fossil,MK9192,5.0,0
+Week 12,Fossil,MK9193,7.0,0
+Week 12,Fossil,MK9195,17.0,0
+Week 12,Fossil,MK9196,4.0,0
+Week 12,Fossil,MK9198,4.0,0
+Week 12,Fossil,MK9201,4.0,0
+Week 12,Fossil,MK9220,5.0,0
+Week 12,Fossil,MK9221,3.0,0
+Week 12,Fossil,MK9222,3.0,0
+Week 12,Fossil,MK9223,2.0,0
+Week 12,Fossil,MK9240,3.0,0
+Week 12,Fossil,MK9242,3.0,0
+Week 12,Fossil,MK9245SET,2.0,0
+Week 12,Fossil,MKO1224,3.0,0
+Week 12,Fossil,SKW2694,6.0,0
+Week 12,Fossil,SKW3121,1.0,0
 Week 12,Nexlev,AP-01,64.0,0
 Week 12,Nexlev,AP-02,2.0,0
 Week 12,Nexlev,AP-03,859.0,0
@@ -1327,420 +1707,40 @@ Week 12,Nexlev,VC-05,723.0,0
 Week 12,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
 Week 12,Nexlev,VC-06,57.0,0
 Week 12,Nexlev,WF-02-BL,16.0,0
-Week 12,Unknown,AR11338,4.0,0
-Week 12,Unknown,AR11360,4.0,0
-Week 12,Unknown,AR11484,4.0,0
-Week 12,Unknown,AR11499,1.0,0
-Week 12,Unknown,AR11500,3.0,0
-Week 12,Unknown,AR11558,2.0,0
-Week 12,Unknown,AR11568,5.0,0
-Week 12,Unknown,AR11575,4.0,0
-Week 12,Unknown,AR11582,8.0,0
-Week 12,Unknown,AR11589,4.0,0
-Week 12,Unknown,AR11596,4.0,0
-Week 12,Unknown,AR11606,4.0,0
-Week 12,Unknown,AR11610,9.0,0
-Week 12,Unknown,AR11620,6.0,0
-Week 12,Unknown,AR11621,3.0,0
-Week 12,Unknown,AR11622,6.0,0
-Week 12,Unknown,AR11623,4.0,0
-Week 12,Unknown,AR11624,1.0,0
-Week 12,Unknown,AR11625,4.0,0
-Week 12,Unknown,AR11626,5.0,0
-Week 12,Unknown,AR11635,3.0,0
-Week 12,Unknown,AR11636,7.0,0
-Week 12,Unknown,AR11637,4.0,0
-Week 12,Unknown,AR11639,3.0,0
-Week 12,Unknown,AR11640,0.0,0
-Week 12,Unknown,AR11660,3.0,0
-Week 12,Unknown,AR11661,3.0,0
-Week 12,Unknown,AR11662,5.0,0
-Week 12,Unknown,AR11663,5.0,0
-Week 12,Unknown,AR11664,3.0,0
-Week 12,Unknown,AR11665,7.0,0
-Week 12,Unknown,AR11666,11.0,0
-Week 12,Unknown,AR11669,7.0,0
-Week 12,Unknown,AR11671,3.0,0
-Week 12,Unknown,AR11672,2.0,0
-Week 12,Unknown,AR11673,3.0,0
-Week 12,Unknown,AR11674,4.0,0
-Week 12,Unknown,AR11676,4.0,0
-Week 12,Unknown,AR11677,2.0,0
-Week 12,Unknown,AR11688,2.0,0
-Week 12,Unknown,AR11689,4.0,0
-Week 12,Unknown,AR11690,3.0,0
-Week 12,Unknown,AR11691,5.0,0
-Week 12,Unknown,AR11692,1.0,0
-Week 12,Unknown,AR11693,5.0,0
-Week 12,Unknown,AR11694,3.0,0
-Week 12,Unknown,AR11706,5.0,0
-Week 12,Unknown,AR11707,3.0,0
-Week 12,Unknown,AR11708,3.0,0
-Week 12,Unknown,AR11713,1.0,0
-Week 12,Unknown,AR11714,4.0,0
-Week 12,Unknown,AR11718,3.0,0
-Week 12,Unknown,AR11754,3.0,0
-Week 12,Unknown,AR11755,3.0,0
-Week 12,Unknown,AR11756,8.0,0
-Week 12,Unknown,AR11757,3.0,0
-Week 12,Unknown,AR11759,8.0,0
-Week 12,Unknown,AR11770,3.0,0
-Week 12,Unknown,AR11771,10.0,0
-Week 12,Unknown,AR11772,10.0,0
-Week 12,Unknown,AR11773,10.0,0
-Week 12,Unknown,AR11774,3.0,0
-Week 12,Unknown,AR11783,11.0,0
-Week 12,Unknown,AR1676,1.0,0
-Week 12,Unknown,AR1926,13.0,0
-Week 12,Unknown,AR1979,18.0,0
-Week 12,Unknown,AR2434,3.0,0
-Week 12,Unknown,AR2502,6.0,0
-Week 12,Unknown,AR60076,1.0,0
-Week 12,Unknown,AR60079,1.0,0
-Week 12,Unknown,AR60080,4.0,0
-Week 12,Unknown,AR70010,7.0,0
-Week 12,Unknown,AR80065SET,1.0,0
-Week 12,Unknown,AR80083SET,4.0,0
-Week 12,Unknown,AR80087SET,6.0,0
-Week 12,Unknown,AX1343,299.0,0
-Week 12,Unknown,AX1350,1.0,0
-Week 12,Unknown,AX1739,4.0,0
-Week 12,Unknown,AX1742,3.0,0
-Week 12,Unknown,AX1746,16.0,0
-Week 12,Unknown,AX1764,2.0,0
-Week 12,Unknown,AX1767,4.0,0
-Week 12,Unknown,AX1769,15.0,0
-Week 12,Unknown,AX1867,2.0,0
-Week 12,Unknown,AX1956,6.0,0
-Week 12,Unknown,AX1962,1.0,0
-Week 12,Unknown,AX1964,1.0,0
-Week 12,Unknown,AX1970,10.0,0
-Week 12,Unknown,AX1971,16.0,0
-Week 12,Unknown,AX1972,15.0,0
-Week 12,Unknown,AX1973,16.0,0
-Week 12,Unknown,AX2101,1.0,0
-Week 12,Unknown,AX2413,14.0,0
-Week 12,Unknown,AX2429,1.0,0
-Week 12,Unknown,AX2454,4.0,0
-Week 12,Unknown,AX2459,3.0,0
-Week 12,Unknown,AX2460,9.0,0
-Week 12,Unknown,AX2461,58.0,0
-Week 12,Unknown,AX2462,4.0,0
-Week 12,Unknown,AX2463,35.0,0
-Week 12,Unknown,AX2766,8.0,0
-Week 12,Unknown,AX2767,8.0,0
-Week 12,Unknown,AX2820,2.0,0
-Week 12,Unknown,AX2821,2.0,0
-Week 12,Unknown,AX2822,8.0,0
-Week 12,Unknown,AX2823,5.0,0
-Week 12,Unknown,AX4173,4.0,0
-Week 12,Unknown,AX4180,38.0,0
-Week 12,Unknown,AX4181,14.0,0
-Week 12,Unknown,AX4182,11.0,0
-Week 12,Unknown,AX4183,28.0,0
-Week 12,Unknown,AX4184,89.0,0
-Week 12,Unknown,AX4186,8.0,0
-Week 12,Unknown,AX4199,4.0,0
-Week 12,Unknown,AX4405,20.0,0
-Week 12,Unknown,AX4406,24.0,0
-Week 12,Unknown,AX4407,23.0,0
-Week 12,Unknown,AX4408,30.0,0
-Week 12,Unknown,AX4621,3.0,0
-Week 12,Unknown,AX4625,8.0,0
-Week 12,Unknown,AX5176,9.0,0
-Week 12,Unknown,AX5616,1.0,0
-Week 12,Unknown,AX5724,7.0,0
-Week 12,Unknown,AX5725,7.0,0
-Week 12,Unknown,AX5729,1.0,0
-Week 12,Unknown,AX5730,4.0,0
-Week 12,Unknown,AX5732,3.0,0
-Week 12,Unknown,AX5734,1.0,0
-Week 12,Unknown,AX5735,2.0,0
-Week 12,Unknown,AX5901,20.0,0
-Week 12,Unknown,AX5911,14.0,0
-Week 12,Unknown,AX5916,1.0,0
-Week 12,Unknown,AX7151SET,9.0,0
-Week 12,Unknown,AX7161SET,1.0,0
-Week 12,Unknown,AX7163SET,8.0,0
-Week 12,Unknown,AX7165SET,6.0,0
-Week 12,Unknown,AX7167SET,2.0,0
-Week 12,Unknown,AX7175SET,6.0,0
-Week 12,Unknown,AX7176SET,8.0,0
-Week 12,Unknown,BQ3181,3.0,0
-Week 12,Unknown,BQ3502,3.0,0
-Week 12,Unknown,CH2882,9.0,0
-Week 12,Unknown,CH2885,108.0,0
-Week 12,Unknown,D2,0.0,0
-Week 12,Unknown,D5,2.0,0
-Week 12,Unknown,DZ1206,3.0,0
-Week 12,Unknown,DZ2189,4.0,0
-Week 12,Unknown,DZ2210SET,6.0,0
-Week 12,Unknown,DZ2212,5.0,0
-Week 12,Unknown,DZ2213,5.0,0
-Week 12,Unknown,DZ2214,7.0,0
-Week 12,Unknown,DZ2215,3.0,0
-Week 12,Unknown,DZ2234,2.0,0
-Week 12,Unknown,DZ4548,2.0,0
-Week 12,Unknown,DZ4627,5.0,0
-Week 12,Unknown,DZ4640,2.0,0
-Week 12,Unknown,DZ4659,2.0,0
-Week 12,Unknown,DZ4662,2.0,0
-Week 12,Unknown,DZ4665,10.0,0
-Week 12,Unknown,DZ4667,3.0,0
-Week 12,Unknown,DZ4670,1.0,0
-Week 12,Unknown,DZ4671,3.0,0
-Week 12,Unknown,DZ4702,8.0,0
-Week 12,Unknown,DZ4703,8.0,0
-Week 12,Unknown,DZ4709,7.0,0
-Week 12,Unknown,DZ5609,3.0,0
-Week 12,Unknown,DZ5611,3.0,0
-Week 12,Unknown,DZ5612,4.0,0
-Week 12,Unknown,DZ5613,4.0,0
-Week 12,Unknown,DZ5618,2.0,0
-Week 12,Unknown,DZ7395,2.0,0
-Week 12,Unknown,DZ7487,2.0,0
-Week 12,Unknown,ES2811,2.0,0
-Week 12,Unknown,ES3020,63.0,0
-Week 12,Unknown,ES3284,27.0,0
-Week 12,Unknown,ES3352,3.0,0
-Week 12,Unknown,ES3405,16.0,0
-Week 12,Unknown,ES3466,10.0,0
-Week 12,Unknown,ES3843,88.0,0
-Week 12,Unknown,ES4433,108.0,0
-Week 12,Unknown,ES4519,111.0,0
-Week 12,Unknown,ES4628,36.0,0
-Week 12,Unknown,ES4879,4.0,0
-Week 12,Unknown,ES5271,3.0,0
-Week 12,Unknown,ES5278,2.0,0
-Week 12,Unknown,ES5303,7.0,0
-Week 12,Unknown,ES5306,9.0,0
-Week 12,Unknown,ES5310,13.0,0
-Week 12,Unknown,ES5319,11.0,0
-Week 12,Unknown,ES5323,16.0,0
-Week 12,Unknown,ES5329,22.0,0
-Week 12,Unknown,ES5331,3.0,0
-Week 12,Unknown,ES5334,1.0,0
-Week 12,Unknown,ES5338,22.0,0
-Week 12,Unknown,ES5349,24.0,0
-Week 12,Unknown,ES5350,8.0,0
-Week 12,Unknown,ES5357,16.0,0
-Week 12,Unknown,ES5358,23.0,0
-Week 12,Unknown,ES5361,86.0,0
-Week 12,Unknown,ES5362,1.0,0
-Week 12,Unknown,ES5363,15.0,0
-Week 12,Unknown,ES5364,17.0,0
-Week 12,Unknown,ES5380,3.0,0
-Week 12,Unknown,ES5381,2.0,0
-Week 12,Unknown,ES5386,7.0,0
-Week 12,Unknown,ES5387SET,11.0,0
-Week 12,Unknown,ES5388,81.0,0
-Week 12,Unknown,ES5398,4.0,0
-Week 12,Unknown,ES5399,4.0,0
-Week 12,Unknown,ES5400,4.0,0
-Week 12,Unknown,ES5402,1.0,0
-Week 12,Unknown,ES5417,3.0,0
-Week 12,Unknown,ES5418,7.0,0
-Week 12,Unknown,ES5419,17.0,0
-Week 12,Unknown,ES5420,5.0,0
-Week 12,Unknown,ES5421,4.0,0
-Week 12,Unknown,ES5422,3.0,0
-Week 12,Unknown,ES5434,7.0,0
-Week 12,Unknown,ES5438,4.0,0
-Week 12,Unknown,ES5439,12.0,0
-Week 12,Unknown,ES5443,21.0,0
-Week 12,Unknown,ES5444,13.0,0
-Week 12,Unknown,ES5451,16.0,0
-Week 12,Unknown,ES5452,71.0,0
-Week 12,Unknown,ES5455,3.0,0
-Week 12,Unknown,ES5456,7.0,0
-Week 12,Unknown,ES5472,16.0,0
-Week 12,Unknown,FS4735,62.0,0
-Week 12,Unknown,FS4795,491.0,0
-Week 12,Unknown,FS4812,12.0,0
-Week 12,Unknown,FS4813,58.0,0
-Week 12,Unknown,FS4867,16.0,0
-Week 12,Unknown,FS5164,1.0,0
-Week 12,Unknown,FS5237,4.0,0
-Week 12,Unknown,FS5308,63.0,0
-Week 12,Unknown,FS5447,1.0,0
-Week 12,Unknown,FS5452,6.0,0
-Week 12,Unknown,FS5512,21.0,0
-Week 12,Unknown,FS5525,23.0,0
-Week 12,Unknown,FS5665,48.0,0
-Week 12,Unknown,FS5699,11.0,0
-Week 12,Unknown,FS5708SET,4.0,0
-Week 12,Unknown,FS5792,52.0,0
-Week 12,Unknown,FS5822,1.0,0
-Week 12,Unknown,FS5855,18.0,0
-Week 12,Unknown,FS5901,9.0,0
-Week 12,Unknown,FS5963,45.0,0
-Week 12,Unknown,FS5971,2.0,0
-Week 12,Unknown,FS6029,18.0,0
-Week 12,Unknown,FS6032,18.0,0
-Week 12,Unknown,FS6045,5.0,0
-Week 12,Unknown,FS6048,15.0,0
-Week 12,Unknown,FS6056,6.0,0
-Week 12,Unknown,FS6071,4.0,0
-Week 12,Unknown,FS6081SET,6.0,0
-Week 12,Unknown,FS6085,4.0,0
-Week 12,Unknown,FS6086,27.0,0
-Week 12,Unknown,FS6087,14.0,0
-Week 12,Unknown,FS6089,19.0,0
-Week 12,Unknown,FS6090,14.0,0
-Week 12,Unknown,FS6094,19.0,0
-Week 12,Unknown,FS6104,10.0,0
-Week 12,Unknown,FS6106,42.0,0
-Week 12,Unknown,FS6107,5.0,0
-Week 12,Unknown,FS6108,5.0,0
-Week 12,Unknown,FS6110,1.0,0
-Week 12,Unknown,FS6111,55.0,0
-Week 12,Unknown,FS6112,20.0,0
-Week 12,Unknown,FS6113,21.0,0
-Week 12,Unknown,FS6128,7.0,0
-Week 12,Unknown,FS6129,6.0,0
-Week 12,Unknown,FS6131,157.0,0
-Week 12,Unknown,FS6132,18.0,0
-Week 12,Unknown,FS6133,4.0,0
-Week 12,Unknown,FS6139,7.0,0
-Week 12,Unknown,FS6140,6.0,0
-Week 12,Unknown,FS6143,1.0,0
-Week 12,Unknown,FS6144,4.0,0
-Week 12,Unknown,FS6145SET,1.0,0
-Week 12,Unknown,FS6149,3.0,0
-Week 12,Unknown,FS6150,11.0,0
-Week 12,Unknown,FS6151,9.0,0
-Week 12,Unknown,FS6154,16.0,0
-Week 12,Unknown,FS6161,9.0,0
-Week 12,Unknown,FS6162,21.0,0
-Week 12,Unknown,FS6163,19.0,0
-Week 12,Unknown,FS6164,16.0,0
-Week 12,Unknown,G11,258.0,0
-Week 12,Unknown,JR1401,232.0,0
-Week 12,Unknown,JR1487,129.0,0
-Week 12,Unknown,K1,1073.0,0
-Week 12,Unknown,K20,0.0,0
-Week 12,Unknown,K9,0.0,0
-Week 12,Unknown,ME3061,8.0,0
-Week 12,Unknown,ME3098,33.0,0
-Week 12,Unknown,ME3206,12.0,0
-Week 12,Unknown,ME3218,22.0,0
-Week 12,Unknown,ME3253,16.0,0
-Week 12,Unknown,ME3254,7.0,0
-Week 12,Unknown,ME3260,31.0,0
-Week 12,Unknown,ME3261,9.0,0
-Week 12,Unknown,ME3265,7.0,0
-Week 12,Unknown,ME3266,19.0,0
-Week 12,Unknown,ME3270,19.0,0
-Week 12,Unknown,MK2833,1.0,0
-Week 12,Unknown,MK3190,7.0,0
-Week 12,Unknown,MK4339,4.0,0
-Week 12,Unknown,MK4709,2.0,0
-Week 12,Unknown,MK4710,15.0,0
-Week 12,Unknown,MK4805,1.0,0
-Week 12,Unknown,MK4817SET,3.0,0
-Week 12,Unknown,MK4822,2.0,0
-Week 12,Unknown,MK4824,6.0,0
-Week 12,Unknown,MK4829,3.0,0
-Week 12,Unknown,MK4842,14.0,0
-Week 12,Unknown,MK4843,3.0,0
-Week 12,Unknown,MK4845,4.0,0
-Week 12,Unknown,MK4847,1.0,0
-Week 12,Unknown,MK4863,2.0,0
-Week 12,Unknown,MK4864,4.0,0
-Week 12,Unknown,MK4873,5.0,0
-Week 12,Unknown,MK4882,5.0,0
-Week 12,Unknown,MK4923,3.0,0
-Week 12,Unknown,MK4931,3.0,0
-Week 12,Unknown,MK4932,3.0,0
-Week 12,Unknown,MK4933,3.0,0
-Week 12,Unknown,MK4934,3.0,0
-Week 12,Unknown,MK4935,3.0,0
-Week 12,Unknown,MK4962,7.0,0
-Week 12,Unknown,MK4963,3.0,0
-Week 12,Unknown,MK4964,3.0,0
-Week 12,Unknown,MK4965,3.0,0
-Week 12,Unknown,MK4966,3.0,0
-Week 12,Unknown,MK4997,10.0,0
-Week 12,Unknown,MK4998,10.0,0
-Week 12,Unknown,MK4999,7.0,0
-Week 12,Unknown,MK5491,23.0,0
-Week 12,Unknown,MK6485,32.0,0
-Week 12,Unknown,MK7474,4.0,0
-Week 12,Unknown,MK7488,3.0,0
-Week 12,Unknown,MK7504,1.0,0
-Week 12,Unknown,MK7506,6.0,0
-Week 12,Unknown,MK7519LE,2.0,0
-Week 12,Unknown,MK7528,2.0,0
-Week 12,Unknown,MK7559,4.0,0
-Week 12,Unknown,MK7568,7.0,0
-Week 12,Unknown,MK7570SET,2.0,0
-Week 12,Unknown,MK7572,10.0,0
-Week 12,Unknown,MK7573,9.0,0
-Week 12,Unknown,MK7574,10.0,0
-Week 12,Unknown,MK7581,8.0,0
-Week 12,Unknown,MK7582,2.0,0
-Week 12,Unknown,MK7583,2.0,0
-Week 12,Unknown,MK7584,8.0,0
-Week 12,Unknown,MK7587,7.0,0
-Week 12,Unknown,MK7589,8.0,0
-Week 12,Unknown,MK7590,6.0,0
-Week 12,Unknown,MK8603,4.0,0
-Week 12,Unknown,MK9113,7.0,0
-Week 12,Unknown,MK9152,9.0,0
-Week 12,Unknown,MK9153,4.0,0
-Week 12,Unknown,MK9156,3.0,0
-Week 12,Unknown,MK9163,3.0,0
-Week 12,Unknown,MK9165,6.0,0
-Week 12,Unknown,MK9176,6.0,0
-Week 12,Unknown,MK9177,7.0,0
-Week 12,Unknown,MK9178,3.0,0
-Week 12,Unknown,MK9179,8.0,0
-Week 12,Unknown,MK9185,1.0,0
-Week 12,Unknown,MK9191,16.0,0
-Week 12,Unknown,MK9192,5.0,0
-Week 12,Unknown,MK9193,7.0,0
-Week 12,Unknown,MK9195,17.0,0
-Week 12,Unknown,MK9196,4.0,0
-Week 12,Unknown,MK9198,4.0,0
-Week 12,Unknown,MK9201,4.0,0
-Week 12,Unknown,MK9220,5.0,0
-Week 12,Unknown,MK9221,3.0,0
-Week 12,Unknown,MK9222,3.0,0
-Week 12,Unknown,MK9223,2.0,0
-Week 12,Unknown,MK9240,3.0,0
-Week 12,Unknown,MK9242,3.0,0
-Week 12,Unknown,MK9245SET,2.0,0
-Week 12,Unknown,MKO1224,3.0,0
-Week 12,Unknown,ORCA001,17.0,0
-Week 12,Unknown,Q9,0.0,0
-Week 12,Unknown,S20,255.0,0
-Week 12,Unknown,SKW2694,6.0,0
-Week 12,Unknown,SKW3121,1.0,0
-Week 12,Unknown,T10,12.0,0
-Week 12,Unknown,T20,60.0,0
-Week 12,Unknown,T20LP,69.0,0
-Week 12,Unknown,T30,51.0,0
-Week 12,Unknown,T90,12.0,0
-Week 12,Unknown,TC-2030,91.0,0
-Week 12,Unknown,TC-777,438.0,0
-Week 12,Unknown,TC-777 PRO,35.0,0
-Week 12,Unknown,TC20,10.0,0
-Week 12,Unknown,TC30,366.0,0
-Week 12,Unknown,TC30+,9.0,0
-Week 12,Unknown,TC30S,50.0,0
-Week 12,Unknown,TC30S+,19.0,0
-Week 12,Unknown,TC310,47.0,0
-Week 12,Unknown,TC310+,224.0,0
-Week 12,Unknown,TC40,23.0,0
-Week 12,Unknown,TC40S,85.0,0
-Week 12,Unknown,TC777PRO,416.0,0
-Week 12,Unknown,TD310,508.0,0
-Week 12,Unknown,TD310+,449.0,0
-Week 12,Unknown,TD510,38.0,0
-Week 12,Unknown,TD510+,5.0,0
-Week 12,Unknown,TM20,171.0,0
-Week 12,Unknown,TM310,91.0,0
-Week 12,Unknown,TRL-20,16.0,0
+Week 12,Tonor,D2,0.0,0
+Week 12,Tonor,D5,2.0,0
+Week 12,Tonor,G11,258.0,0
+Week 12,Tonor,K1,1073.0,0
+Week 12,Tonor,K20,0.0,0
+Week 12,Tonor,K9,0.0,0
+Week 12,Tonor,ORCA001,17.0,0
+Week 12,Tonor,Q9,0.0,0
+Week 12,Tonor,S20,255.0,0
+Week 12,Tonor,T10,12.0,0
+Week 12,Tonor,T20,60.0,0
+Week 12,Tonor,T20LP,69.0,0
+Week 12,Tonor,T30,51.0,0
+Week 12,Tonor,T90,12.0,0
+Week 12,Tonor,TC-2030,91.0,0
+Week 12,Tonor,TC-777,438.0,0
+Week 12,Tonor,TC-777 PRO,35.0,0
+Week 12,Tonor,TC20,10.0,0
+Week 12,Tonor,TC30,366.0,0
+Week 12,Tonor,TC30+,9.0,0
+Week 12,Tonor,TC30S,50.0,0
+Week 12,Tonor,TC30S+,19.0,0
+Week 12,Tonor,TC310,47.0,0
+Week 12,Tonor,TC310+,224.0,0
+Week 12,Tonor,TC40,23.0,0
+Week 12,Tonor,TC40S,85.0,0
+Week 12,Tonor,TC777PRO,416.0,0
+Week 12,Tonor,TD310,508.0,0
+Week 12,Tonor,TD310+,449.0,0
+Week 12,Tonor,TD510,38.0,0
+Week 12,Tonor,TD510+,5.0,0
+Week 12,Tonor,TM20,171.0,0
+Week 12,Tonor,TM310,91.0,0
+Week 12,Tonor,TRL-20,16.0,0
 Week 12,White Mulberry,6021-3081-BB,0.0,0
 Week 12,White Mulberry,6023-1168,0.0,0
 Week 12,White Mulberry,6023-210-SIOC,0.0,0
@@ -2034,6 +2034,357 @@ Week 13,Audio Array,W3,20.0,0
 Week 13,Audio Array,W5,20.0,0
 Week 13,Audio Array,XM-16,10.0,0
 Week 13,Audio Array,XM-24,10.0,0
+Week 13,Fossil,AR11338,4.0,0
+Week 13,Fossil,AR11360,4.0,0
+Week 13,Fossil,AR11484,4.0,0
+Week 13,Fossil,AR11499,1.0,0
+Week 13,Fossil,AR11500,5.0,0
+Week 13,Fossil,AR11558,2.0,0
+Week 13,Fossil,AR11568,3.0,0
+Week 13,Fossil,AR11575,5.0,0
+Week 13,Fossil,AR11582,6.0,0
+Week 13,Fossil,AR11596,4.0,0
+Week 13,Fossil,AR11610,9.0,0
+Week 13,Fossil,AR11620,2.0,0
+Week 13,Fossil,AR11621,2.0,0
+Week 13,Fossil,AR11622,6.0,0
+Week 13,Fossil,AR11623,3.0,0
+Week 13,Fossil,AR11624,1.0,0
+Week 13,Fossil,AR11625,3.0,0
+Week 13,Fossil,AR11626,2.0,0
+Week 13,Fossil,AR11635,2.0,0
+Week 13,Fossil,AR11636,7.0,0
+Week 13,Fossil,AR11637,4.0,0
+Week 13,Fossil,AR11639,0.0,0
+Week 13,Fossil,AR11640,0.0,0
+Week 13,Fossil,AR11660,2.0,0
+Week 13,Fossil,AR11661,7.0,0
+Week 13,Fossil,AR11662,3.0,0
+Week 13,Fossil,AR11663,3.0,0
+Week 13,Fossil,AR11664,3.0,0
+Week 13,Fossil,AR11665,7.0,0
+Week 13,Fossil,AR11666,10.0,0
+Week 13,Fossil,AR11669,5.0,0
+Week 13,Fossil,AR11671,2.0,0
+Week 13,Fossil,AR11672,4.0,0
+Week 13,Fossil,AR11674,3.0,0
+Week 13,Fossil,AR11676,4.0,0
+Week 13,Fossil,AR11677,2.0,0
+Week 13,Fossil,AR11688,2.0,0
+Week 13,Fossil,AR11689,9.0,0
+Week 13,Fossil,AR11690,3.0,0
+Week 13,Fossil,AR11691,3.0,0
+Week 13,Fossil,AR11693,5.0,0
+Week 13,Fossil,AR11694,3.0,0
+Week 13,Fossil,AR11706,4.0,0
+Week 13,Fossil,AR11707,3.0,0
+Week 13,Fossil,AR11708,3.0,0
+Week 13,Fossil,AR11713,2.0,0
+Week 13,Fossil,AR11714,4.0,0
+Week 13,Fossil,AR11718,3.0,0
+Week 13,Fossil,AR11754,3.0,0
+Week 13,Fossil,AR11756,7.0,0
+Week 13,Fossil,AR11757,3.0,0
+Week 13,Fossil,AR11759,7.0,0
+Week 13,Fossil,AR11770,3.0,0
+Week 13,Fossil,AR11771,7.0,0
+Week 13,Fossil,AR11772,9.0,0
+Week 13,Fossil,AR11773,8.0,0
+Week 13,Fossil,AR11774,3.0,0
+Week 13,Fossil,AR11783,10.0,0
+Week 13,Fossil,AR1676,1.0,0
+Week 13,Fossil,AR1926,13.0,0
+Week 13,Fossil,AR1979,17.0,0
+Week 13,Fossil,AR2434,2.0,0
+Week 13,Fossil,AR2502,6.0,0
+Week 13,Fossil,AR60076,1.0,0
+Week 13,Fossil,AR60079,1.0,0
+Week 13,Fossil,AR60080,4.0,0
+Week 13,Fossil,AR70010,4.0,0
+Week 13,Fossil,AR80065SET,1.0,0
+Week 13,Fossil,AR80083SET,4.0,0
+Week 13,Fossil,AR80087SET,6.0,0
+Week 13,Fossil,AX1343,298.0,0
+Week 13,Fossil,AX1739,4.0,0
+Week 13,Fossil,AX1742,3.0,0
+Week 13,Fossil,AX1764,1.0,0
+Week 13,Fossil,AX1767,1.0,0
+Week 13,Fossil,AX1769,15.0,0
+Week 13,Fossil,AX1956,8.0,0
+Week 13,Fossil,AX1962,3.0,0
+Week 13,Fossil,AX1964,1.0,0
+Week 13,Fossil,AX1970,10.0,0
+Week 13,Fossil,AX1971,12.0,0
+Week 13,Fossil,AX1972,13.0,0
+Week 13,Fossil,AX1973,13.0,0
+Week 13,Fossil,AX2101,1.0,0
+Week 13,Fossil,AX2413,10.0,0
+Week 13,Fossil,AX2454,3.0,0
+Week 13,Fossil,AX2460,0.0,0
+Week 13,Fossil,AX2461,28.0,0
+Week 13,Fossil,AX2463,35.0,0
+Week 13,Fossil,AX2766,7.0,0
+Week 13,Fossil,AX2767,7.0,0
+Week 13,Fossil,AX2820,2.0,0
+Week 13,Fossil,AX2821,3.0,0
+Week 13,Fossil,AX2822,6.0,0
+Week 13,Fossil,AX2823,5.0,0
+Week 13,Fossil,AX4173,3.0,0
+Week 13,Fossil,AX4180,2.0,0
+Week 13,Fossil,AX4181,14.0,0
+Week 13,Fossil,AX4182,32.0,0
+Week 13,Fossil,AX4183,22.0,0
+Week 13,Fossil,AX4184,72.0,0
+Week 13,Fossil,AX4186,14.0,0
+Week 13,Fossil,AX4199,4.0,0
+Week 13,Fossil,AX4405,18.0,0
+Week 13,Fossil,AX4406,21.0,0
+Week 13,Fossil,AX4407,21.0,0
+Week 13,Fossil,AX4408,27.0,0
+Week 13,Fossil,AX4621,3.0,0
+Week 13,Fossil,AX4625,7.0,0
+Week 13,Fossil,AX5176,7.0,0
+Week 13,Fossil,AX5724,9.0,0
+Week 13,Fossil,AX5725,7.0,0
+Week 13,Fossil,AX5730,4.0,0
+Week 13,Fossil,AX5732,2.0,0
+Week 13,Fossil,AX5734,1.0,0
+Week 13,Fossil,AX5735,1.0,0
+Week 13,Fossil,AX5901,22.0,0
+Week 13,Fossil,AX5911,14.0,0
+Week 13,Fossil,AX5916,1.0,0
+Week 13,Fossil,AX7151SET,7.0,0
+Week 13,Fossil,AX7161SET,1.0,0
+Week 13,Fossil,AX7163SET,9.0,0
+Week 13,Fossil,AX7165SET,4.0,0
+Week 13,Fossil,AX7167SET,2.0,0
+Week 13,Fossil,AX7175SET,6.0,0
+Week 13,Fossil,AX7176SET,8.0,0
+Week 13,Fossil,BQ3181,1.0,0
+Week 13,Fossil,CH2882,2.0,0
+Week 13,Fossil,CH2885,62.0,0
+Week 13,Fossil,DZ1206,3.0,0
+Week 13,Fossil,DZ2189,4.0,0
+Week 13,Fossil,DZ2210SET,5.0,0
+Week 13,Fossil,DZ2212,5.0,0
+Week 13,Fossil,DZ2213,5.0,0
+Week 13,Fossil,DZ2214,5.0,0
+Week 13,Fossil,DZ2215,2.0,0
+Week 13,Fossil,DZ4627,5.0,0
+Week 13,Fossil,DZ4640,2.0,0
+Week 13,Fossil,DZ4659,2.0,0
+Week 13,Fossil,DZ4662,2.0,0
+Week 13,Fossil,DZ4665,9.0,0
+Week 13,Fossil,DZ4667,4.0,0
+Week 13,Fossil,DZ4670,1.0,0
+Week 13,Fossil,DZ4671,3.0,0
+Week 13,Fossil,DZ4702,7.0,0
+Week 13,Fossil,DZ4703,6.0,0
+Week 13,Fossil,DZ4709,6.0,0
+Week 13,Fossil,DZ5609,2.0,0
+Week 13,Fossil,DZ5611,3.0,0
+Week 13,Fossil,DZ5612,3.0,0
+Week 13,Fossil,DZ5613,3.0,0
+Week 13,Fossil,DZ5618,1.0,0
+Week 13,Fossil,DZ7395,2.0,0
+Week 13,Fossil,DZ7487,2.0,0
+Week 13,Fossil,ES2811,0.0,0
+Week 13,Fossil,ES3020,53.0,0
+Week 13,Fossil,ES3284,24.0,0
+Week 13,Fossil,ES3405,10.0,0
+Week 13,Fossil,ES3466,155.0,0
+Week 13,Fossil,ES3843,82.0,0
+Week 13,Fossil,ES4433,123.0,0
+Week 13,Fossil,ES4519,100.0,0
+Week 13,Fossil,ES4628,36.0,0
+Week 13,Fossil,ES5271,4.0,0
+Week 13,Fossil,ES5278,2.0,0
+Week 13,Fossil,ES5303,7.0,0
+Week 13,Fossil,ES5306,8.0,0
+Week 13,Fossil,ES5310,12.0,0
+Week 13,Fossil,ES5319,12.0,0
+Week 13,Fossil,ES5323,13.0,0
+Week 13,Fossil,ES5329,23.0,0
+Week 13,Fossil,ES5331,2.0,0
+Week 13,Fossil,ES5338,18.0,0
+Week 13,Fossil,ES5349,21.0,0
+Week 13,Fossil,ES5350,8.0,0
+Week 13,Fossil,ES5357,15.0,0
+Week 13,Fossil,ES5358,20.0,0
+Week 13,Fossil,ES5361,74.0,0
+Week 13,Fossil,ES5363,14.0,0
+Week 13,Fossil,ES5364,22.0,0
+Week 13,Fossil,ES5380,3.0,0
+Week 13,Fossil,ES5381,3.0,0
+Week 13,Fossil,ES5386,4.0,0
+Week 13,Fossil,ES5387SET,10.0,0
+Week 13,Fossil,ES5388,71.0,0
+Week 13,Fossil,ES5398,3.0,0
+Week 13,Fossil,ES5399,3.0,0
+Week 13,Fossil,ES5400,2.0,0
+Week 13,Fossil,ES5402,0.0,0
+Week 13,Fossil,ES5417,3.0,0
+Week 13,Fossil,ES5418,5.0,0
+Week 13,Fossil,ES5419,15.0,0
+Week 13,Fossil,ES5420,5.0,0
+Week 13,Fossil,ES5421,4.0,0
+Week 13,Fossil,ES5422,3.0,0
+Week 13,Fossil,ES5434,6.0,0
+Week 13,Fossil,ES5438,3.0,0
+Week 13,Fossil,ES5439,11.0,0
+Week 13,Fossil,ES5443,16.0,0
+Week 13,Fossil,ES5444,14.0,0
+Week 13,Fossil,ES5451,16.0,0
+Week 13,Fossil,ES5452,65.0,0
+Week 13,Fossil,ES5456,6.0,0
+Week 13,Fossil,ES5472,14.0,0
+Week 13,Fossil,FS4735,60.0,0
+Week 13,Fossil,FS4795,470.0,0
+Week 13,Fossil,FS4812,6.0,0
+Week 13,Fossil,FS4813,54.0,0
+Week 13,Fossil,FS4867,212.0,0
+Week 13,Fossil,FS5164,1.0,0
+Week 13,Fossil,FS5237,2.0,0
+Week 13,Fossil,FS5308,90.0,0
+Week 13,Fossil,FS5452,4.0,0
+Week 13,Fossil,FS5512,24.0,0
+Week 13,Fossil,FS5525,21.0,0
+Week 13,Fossil,FS5699,9.0,0
+Week 13,Fossil,FS5708SET,4.0,0
+Week 13,Fossil,FS5792,48.0,0
+Week 13,Fossil,FS5822,1.0,0
+Week 13,Fossil,FS5855,16.0,0
+Week 13,Fossil,FS5901,8.0,0
+Week 13,Fossil,FS5963,41.0,0
+Week 13,Fossil,FS5971,2.0,0
+Week 13,Fossil,FS6029,18.0,0
+Week 13,Fossil,FS6032,15.0,0
+Week 13,Fossil,FS6045,5.0,0
+Week 13,Fossil,FS6048,23.0,0
+Week 13,Fossil,FS6056,6.0,0
+Week 13,Fossil,FS6071,2.0,0
+Week 13,Fossil,FS6081SET,6.0,0
+Week 13,Fossil,FS6085,4.0,0
+Week 13,Fossil,FS6086,24.0,0
+Week 13,Fossil,FS6087,16.0,0
+Week 13,Fossil,FS6089,14.0,0
+Week 13,Fossil,FS6090,14.0,0
+Week 13,Fossil,FS6094,22.0,0
+Week 13,Fossil,FS6104,15.0,0
+Week 13,Fossil,FS6106,44.0,0
+Week 13,Fossil,FS6107,3.0,0
+Week 13,Fossil,FS6108,6.0,0
+Week 13,Fossil,FS6110,3.0,0
+Week 13,Fossil,FS6111,51.0,0
+Week 13,Fossil,FS6112,20.0,0
+Week 13,Fossil,FS6113,18.0,0
+Week 13,Fossil,FS6128,5.0,0
+Week 13,Fossil,FS6129,6.0,0
+Week 13,Fossil,FS6131,142.0,0
+Week 13,Fossil,FS6132,18.0,0
+Week 13,Fossil,FS6133,4.0,0
+Week 13,Fossil,FS6139,7.0,0
+Week 13,Fossil,FS6140,6.0,0
+Week 13,Fossil,FS6144,3.0,0
+Week 13,Fossil,FS6145SET,0.0,0
+Week 13,Fossil,FS6149,3.0,0
+Week 13,Fossil,FS6150,14.0,0
+Week 13,Fossil,FS6151,9.0,0
+Week 13,Fossil,FS6154,14.0,0
+Week 13,Fossil,FS6161,8.0,0
+Week 13,Fossil,FS6162,19.0,0
+Week 13,Fossil,FS6163,16.0,0
+Week 13,Fossil,FS6164,14.0,0
+Week 13,Fossil,JR1401,425.0,0
+Week 13,Fossil,JR1487,189.0,0
+Week 13,Fossil,ME3061,10.0,0
+Week 13,Fossil,ME3098,32.0,0
+Week 13,Fossil,ME3206,16.0,0
+Week 13,Fossil,ME3218,21.0,0
+Week 13,Fossil,ME3253,14.0,0
+Week 13,Fossil,ME3254,3.0,0
+Week 13,Fossil,ME3260,24.0,0
+Week 13,Fossil,ME3261,7.0,0
+Week 13,Fossil,ME3265,8.0,0
+Week 13,Fossil,ME3266,18.0,0
+Week 13,Fossil,ME3270,16.0,0
+Week 13,Fossil,MK2833,0.0,0
+Week 13,Fossil,MK3190,9.0,0
+Week 13,Fossil,MK4339,4.0,0
+Week 13,Fossil,MK4709,2.0,0
+Week 13,Fossil,MK4710,16.0,0
+Week 13,Fossil,MK4805,1.0,0
+Week 13,Fossil,MK4817SET,3.0,0
+Week 13,Fossil,MK4822,1.0,0
+Week 13,Fossil,MK4824,6.0,0
+Week 13,Fossil,MK4829,3.0,0
+Week 13,Fossil,MK4842,14.0,0
+Week 13,Fossil,MK4843,3.0,0
+Week 13,Fossil,MK4845,4.0,0
+Week 13,Fossil,MK4847,1.0,0
+Week 13,Fossil,MK4863,2.0,0
+Week 13,Fossil,MK4864,4.0,0
+Week 13,Fossil,MK4873,5.0,0
+Week 13,Fossil,MK4882,3.0,0
+Week 13,Fossil,MK4923,3.0,0
+Week 13,Fossil,MK4931,3.0,0
+Week 13,Fossil,MK4932,3.0,0
+Week 13,Fossil,MK4933,3.0,0
+Week 13,Fossil,MK4934,3.0,0
+Week 13,Fossil,MK4935,3.0,0
+Week 13,Fossil,MK4962,7.0,0
+Week 13,Fossil,MK4963,3.0,0
+Week 13,Fossil,MK4964,3.0,0
+Week 13,Fossil,MK4965,3.0,0
+Week 13,Fossil,MK4966,3.0,0
+Week 13,Fossil,MK4997,10.0,0
+Week 13,Fossil,MK4998,10.0,0
+Week 13,Fossil,MK4999,7.0,0
+Week 13,Fossil,MK5491,21.0,0
+Week 13,Fossil,MK6485,29.0,0
+Week 13,Fossil,MK7474,4.0,0
+Week 13,Fossil,MK7488,3.0,0
+Week 13,Fossil,MK7506,6.0,0
+Week 13,Fossil,MK7519LE,2.0,0
+Week 13,Fossil,MK7528,1.0,0
+Week 13,Fossil,MK7559,5.0,0
+Week 13,Fossil,MK7568,6.0,0
+Week 13,Fossil,MK7572,9.0,0
+Week 13,Fossil,MK7573,7.0,0
+Week 13,Fossil,MK7574,9.0,0
+Week 13,Fossil,MK7581,7.0,0
+Week 13,Fossil,MK7583,2.0,0
+Week 13,Fossil,MK7584,7.0,0
+Week 13,Fossil,MK7587,5.0,0
+Week 13,Fossil,MK7589,7.0,0
+Week 13,Fossil,MK7590,6.0,0
+Week 13,Fossil,MK8603,4.0,0
+Week 13,Fossil,MK9113,7.0,0
+Week 13,Fossil,MK9152,7.0,0
+Week 13,Fossil,MK9153,4.0,0
+Week 13,Fossil,MK9156,3.0,0
+Week 13,Fossil,MK9163,3.0,0
+Week 13,Fossil,MK9176,7.0,0
+Week 13,Fossil,MK9177,7.0,0
+Week 13,Fossil,MK9178,3.0,0
+Week 13,Fossil,MK9179,6.0,0
+Week 13,Fossil,MK9191,17.0,0
+Week 13,Fossil,MK9192,5.0,0
+Week 13,Fossil,MK9193,7.0,0
+Week 13,Fossil,MK9195,16.0,0
+Week 13,Fossil,MK9196,1.0,0
+Week 13,Fossil,MK9198,7.0,0
+Week 13,Fossil,MK9201,3.0,0
+Week 13,Fossil,MK9220,3.0,0
+Week 13,Fossil,MK9221,3.0,0
+Week 13,Fossil,MK9222,3.0,0
+Week 13,Fossil,MK9223,2.0,0
+Week 13,Fossil,MK9240,3.0,0
+Week 13,Fossil,MK9242,3.0,0
+Week 13,Fossil,MK9245SET,2.0,0
+Week 13,Fossil,MKO1224,2.0,0
+Week 13,Fossil,SKW2694,2.0,0
+Week 13,Fossil,SKW3121,1.0,0
 Week 13,Nexlev,AP-01,64.0,0
 Week 13,Nexlev,AP-02,2.0,0
 Week 13,Nexlev,AP-03,828.0,0
@@ -2178,392 +2529,41 @@ Week 13,Nexlev,VC-05,696.0,0
 Week 13,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
 Week 13,Nexlev,VC-06,57.0,0
 Week 13,Nexlev,WF-02-BL,18.0,0
-Week 13,Unknown,AR11338,4.0,0
-Week 13,Unknown,AR11360,4.0,0
-Week 13,Unknown,AR11484,4.0,0
-Week 13,Unknown,AR11499,1.0,0
-Week 13,Unknown,AR11500,5.0,0
-Week 13,Unknown,AR11558,2.0,0
-Week 13,Unknown,AR11568,3.0,0
-Week 13,Unknown,AR11575,5.0,0
-Week 13,Unknown,AR11582,6.0,0
-Week 13,Unknown,AR11596,4.0,0
-Week 13,Unknown,AR11610,9.0,0
-Week 13,Unknown,AR11620,2.0,0
-Week 13,Unknown,AR11621,2.0,0
-Week 13,Unknown,AR11622,6.0,0
-Week 13,Unknown,AR11623,3.0,0
-Week 13,Unknown,AR11624,1.0,0
-Week 13,Unknown,AR11625,3.0,0
-Week 13,Unknown,AR11626,2.0,0
-Week 13,Unknown,AR11635,2.0,0
-Week 13,Unknown,AR11636,7.0,0
-Week 13,Unknown,AR11637,4.0,0
-Week 13,Unknown,AR11639,0.0,0
-Week 13,Unknown,AR11640,0.0,0
-Week 13,Unknown,AR11660,2.0,0
-Week 13,Unknown,AR11661,7.0,0
-Week 13,Unknown,AR11662,3.0,0
-Week 13,Unknown,AR11663,3.0,0
-Week 13,Unknown,AR11664,3.0,0
-Week 13,Unknown,AR11665,7.0,0
-Week 13,Unknown,AR11666,10.0,0
-Week 13,Unknown,AR11669,5.0,0
-Week 13,Unknown,AR11671,2.0,0
-Week 13,Unknown,AR11672,4.0,0
-Week 13,Unknown,AR11674,3.0,0
-Week 13,Unknown,AR11676,4.0,0
-Week 13,Unknown,AR11677,2.0,0
-Week 13,Unknown,AR11688,2.0,0
-Week 13,Unknown,AR11689,9.0,0
-Week 13,Unknown,AR11690,3.0,0
-Week 13,Unknown,AR11691,3.0,0
-Week 13,Unknown,AR11693,5.0,0
-Week 13,Unknown,AR11694,3.0,0
-Week 13,Unknown,AR11706,4.0,0
-Week 13,Unknown,AR11707,3.0,0
-Week 13,Unknown,AR11708,3.0,0
-Week 13,Unknown,AR11713,2.0,0
-Week 13,Unknown,AR11714,4.0,0
-Week 13,Unknown,AR11718,3.0,0
-Week 13,Unknown,AR11754,3.0,0
-Week 13,Unknown,AR11756,7.0,0
-Week 13,Unknown,AR11757,3.0,0
-Week 13,Unknown,AR11759,7.0,0
-Week 13,Unknown,AR11770,3.0,0
-Week 13,Unknown,AR11771,7.0,0
-Week 13,Unknown,AR11772,9.0,0
-Week 13,Unknown,AR11773,8.0,0
-Week 13,Unknown,AR11774,3.0,0
-Week 13,Unknown,AR11783,10.0,0
-Week 13,Unknown,AR1676,1.0,0
-Week 13,Unknown,AR1926,13.0,0
-Week 13,Unknown,AR1979,17.0,0
-Week 13,Unknown,AR2434,2.0,0
-Week 13,Unknown,AR2502,6.0,0
-Week 13,Unknown,AR60076,1.0,0
-Week 13,Unknown,AR60079,1.0,0
-Week 13,Unknown,AR60080,4.0,0
-Week 13,Unknown,AR70010,4.0,0
-Week 13,Unknown,AR80065SET,1.0,0
-Week 13,Unknown,AR80083SET,4.0,0
-Week 13,Unknown,AR80087SET,6.0,0
-Week 13,Unknown,AX1343,298.0,0
-Week 13,Unknown,AX1739,4.0,0
-Week 13,Unknown,AX1742,3.0,0
-Week 13,Unknown,AX1764,1.0,0
-Week 13,Unknown,AX1767,1.0,0
-Week 13,Unknown,AX1769,15.0,0
-Week 13,Unknown,AX1956,8.0,0
-Week 13,Unknown,AX1962,3.0,0
-Week 13,Unknown,AX1964,1.0,0
-Week 13,Unknown,AX1970,10.0,0
-Week 13,Unknown,AX1971,12.0,0
-Week 13,Unknown,AX1972,13.0,0
-Week 13,Unknown,AX1973,13.0,0
-Week 13,Unknown,AX2101,1.0,0
-Week 13,Unknown,AX2413,10.0,0
-Week 13,Unknown,AX2454,3.0,0
-Week 13,Unknown,AX2460,0.0,0
-Week 13,Unknown,AX2461,28.0,0
-Week 13,Unknown,AX2463,35.0,0
-Week 13,Unknown,AX2766,7.0,0
-Week 13,Unknown,AX2767,7.0,0
-Week 13,Unknown,AX2820,2.0,0
-Week 13,Unknown,AX2821,3.0,0
-Week 13,Unknown,AX2822,6.0,0
-Week 13,Unknown,AX2823,5.0,0
-Week 13,Unknown,AX4173,3.0,0
-Week 13,Unknown,AX4180,2.0,0
-Week 13,Unknown,AX4181,14.0,0
-Week 13,Unknown,AX4182,32.0,0
-Week 13,Unknown,AX4183,22.0,0
-Week 13,Unknown,AX4184,72.0,0
-Week 13,Unknown,AX4186,14.0,0
-Week 13,Unknown,AX4199,4.0,0
-Week 13,Unknown,AX4405,18.0,0
-Week 13,Unknown,AX4406,21.0,0
-Week 13,Unknown,AX4407,21.0,0
-Week 13,Unknown,AX4408,27.0,0
-Week 13,Unknown,AX4621,3.0,0
-Week 13,Unknown,AX4625,7.0,0
-Week 13,Unknown,AX5176,7.0,0
-Week 13,Unknown,AX5724,9.0,0
-Week 13,Unknown,AX5725,7.0,0
-Week 13,Unknown,AX5730,4.0,0
-Week 13,Unknown,AX5732,2.0,0
-Week 13,Unknown,AX5734,1.0,0
-Week 13,Unknown,AX5735,1.0,0
-Week 13,Unknown,AX5901,22.0,0
-Week 13,Unknown,AX5911,14.0,0
-Week 13,Unknown,AX5916,1.0,0
-Week 13,Unknown,AX7151SET,7.0,0
-Week 13,Unknown,AX7161SET,1.0,0
-Week 13,Unknown,AX7163SET,9.0,0
-Week 13,Unknown,AX7165SET,4.0,0
-Week 13,Unknown,AX7167SET,2.0,0
-Week 13,Unknown,AX7175SET,6.0,0
-Week 13,Unknown,AX7176SET,8.0,0
-Week 13,Unknown,BQ3181,1.0,0
-Week 13,Unknown,CH2882,2.0,0
-Week 13,Unknown,CH2885,62.0,0
-Week 13,Unknown,D2,0.0,0
-Week 13,Unknown,D5,2.0,0
-Week 13,Unknown,DZ1206,3.0,0
-Week 13,Unknown,DZ2189,4.0,0
-Week 13,Unknown,DZ2210SET,5.0,0
-Week 13,Unknown,DZ2212,5.0,0
-Week 13,Unknown,DZ2213,5.0,0
-Week 13,Unknown,DZ2214,5.0,0
-Week 13,Unknown,DZ2215,2.0,0
-Week 13,Unknown,DZ4627,5.0,0
-Week 13,Unknown,DZ4640,2.0,0
-Week 13,Unknown,DZ4659,2.0,0
-Week 13,Unknown,DZ4662,2.0,0
-Week 13,Unknown,DZ4665,9.0,0
-Week 13,Unknown,DZ4667,4.0,0
-Week 13,Unknown,DZ4670,1.0,0
-Week 13,Unknown,DZ4671,3.0,0
-Week 13,Unknown,DZ4702,7.0,0
-Week 13,Unknown,DZ4703,6.0,0
-Week 13,Unknown,DZ4709,6.0,0
-Week 13,Unknown,DZ5609,2.0,0
-Week 13,Unknown,DZ5611,3.0,0
-Week 13,Unknown,DZ5612,3.0,0
-Week 13,Unknown,DZ5613,3.0,0
-Week 13,Unknown,DZ5618,1.0,0
-Week 13,Unknown,DZ7395,2.0,0
-Week 13,Unknown,DZ7487,2.0,0
-Week 13,Unknown,ES2811,0.0,0
-Week 13,Unknown,ES3020,53.0,0
-Week 13,Unknown,ES3284,24.0,0
-Week 13,Unknown,ES3405,10.0,0
-Week 13,Unknown,ES3466,155.0,0
-Week 13,Unknown,ES3843,82.0,0
-Week 13,Unknown,ES4433,123.0,0
-Week 13,Unknown,ES4519,100.0,0
-Week 13,Unknown,ES4628,36.0,0
-Week 13,Unknown,ES5271,4.0,0
-Week 13,Unknown,ES5278,2.0,0
-Week 13,Unknown,ES5303,7.0,0
-Week 13,Unknown,ES5306,8.0,0
-Week 13,Unknown,ES5310,12.0,0
-Week 13,Unknown,ES5319,12.0,0
-Week 13,Unknown,ES5323,13.0,0
-Week 13,Unknown,ES5329,23.0,0
-Week 13,Unknown,ES5331,2.0,0
-Week 13,Unknown,ES5338,18.0,0
-Week 13,Unknown,ES5349,21.0,0
-Week 13,Unknown,ES5350,8.0,0
-Week 13,Unknown,ES5357,15.0,0
-Week 13,Unknown,ES5358,20.0,0
-Week 13,Unknown,ES5361,74.0,0
-Week 13,Unknown,ES5363,14.0,0
-Week 13,Unknown,ES5364,22.0,0
-Week 13,Unknown,ES5380,3.0,0
-Week 13,Unknown,ES5381,3.0,0
-Week 13,Unknown,ES5386,4.0,0
-Week 13,Unknown,ES5387SET,10.0,0
-Week 13,Unknown,ES5388,71.0,0
-Week 13,Unknown,ES5398,3.0,0
-Week 13,Unknown,ES5399,3.0,0
-Week 13,Unknown,ES5400,2.0,0
-Week 13,Unknown,ES5402,0.0,0
-Week 13,Unknown,ES5417,3.0,0
-Week 13,Unknown,ES5418,5.0,0
-Week 13,Unknown,ES5419,15.0,0
-Week 13,Unknown,ES5420,5.0,0
-Week 13,Unknown,ES5421,4.0,0
-Week 13,Unknown,ES5422,3.0,0
-Week 13,Unknown,ES5434,6.0,0
-Week 13,Unknown,ES5438,3.0,0
-Week 13,Unknown,ES5439,11.0,0
-Week 13,Unknown,ES5443,16.0,0
-Week 13,Unknown,ES5444,14.0,0
-Week 13,Unknown,ES5451,16.0,0
-Week 13,Unknown,ES5452,65.0,0
-Week 13,Unknown,ES5456,6.0,0
-Week 13,Unknown,ES5472,14.0,0
-Week 13,Unknown,FS4735,60.0,0
-Week 13,Unknown,FS4795,470.0,0
-Week 13,Unknown,FS4812,6.0,0
-Week 13,Unknown,FS4813,54.0,0
-Week 13,Unknown,FS4867,212.0,0
-Week 13,Unknown,FS5164,1.0,0
-Week 13,Unknown,FS5237,2.0,0
-Week 13,Unknown,FS5308,90.0,0
-Week 13,Unknown,FS5452,4.0,0
-Week 13,Unknown,FS5512,24.0,0
-Week 13,Unknown,FS5525,21.0,0
-Week 13,Unknown,FS5699,9.0,0
-Week 13,Unknown,FS5708SET,4.0,0
-Week 13,Unknown,FS5792,48.0,0
-Week 13,Unknown,FS5822,1.0,0
-Week 13,Unknown,FS5855,16.0,0
-Week 13,Unknown,FS5901,8.0,0
-Week 13,Unknown,FS5963,41.0,0
-Week 13,Unknown,FS5971,2.0,0
-Week 13,Unknown,FS6029,18.0,0
-Week 13,Unknown,FS6032,15.0,0
-Week 13,Unknown,FS6045,5.0,0
-Week 13,Unknown,FS6048,23.0,0
-Week 13,Unknown,FS6056,6.0,0
-Week 13,Unknown,FS6071,2.0,0
-Week 13,Unknown,FS6081SET,6.0,0
-Week 13,Unknown,FS6085,4.0,0
-Week 13,Unknown,FS6086,24.0,0
-Week 13,Unknown,FS6087,16.0,0
-Week 13,Unknown,FS6089,14.0,0
-Week 13,Unknown,FS6090,14.0,0
-Week 13,Unknown,FS6094,22.0,0
-Week 13,Unknown,FS6104,15.0,0
-Week 13,Unknown,FS6106,44.0,0
-Week 13,Unknown,FS6107,3.0,0
-Week 13,Unknown,FS6108,6.0,0
-Week 13,Unknown,FS6110,3.0,0
-Week 13,Unknown,FS6111,51.0,0
-Week 13,Unknown,FS6112,20.0,0
-Week 13,Unknown,FS6113,18.0,0
-Week 13,Unknown,FS6128,5.0,0
-Week 13,Unknown,FS6129,6.0,0
-Week 13,Unknown,FS6131,142.0,0
-Week 13,Unknown,FS6132,18.0,0
-Week 13,Unknown,FS6133,4.0,0
-Week 13,Unknown,FS6139,7.0,0
-Week 13,Unknown,FS6140,6.0,0
-Week 13,Unknown,FS6144,3.0,0
-Week 13,Unknown,FS6145SET,0.0,0
-Week 13,Unknown,FS6149,3.0,0
-Week 13,Unknown,FS6150,14.0,0
-Week 13,Unknown,FS6151,9.0,0
-Week 13,Unknown,FS6154,14.0,0
-Week 13,Unknown,FS6161,8.0,0
-Week 13,Unknown,FS6162,19.0,0
-Week 13,Unknown,FS6163,16.0,0
-Week 13,Unknown,FS6164,14.0,0
-Week 13,Unknown,G11,251.0,0
-Week 13,Unknown,JR1401,425.0,0
-Week 13,Unknown,JR1487,189.0,0
-Week 13,Unknown,K1,1063.0,0
-Week 13,Unknown,K20,0.0,0
-Week 13,Unknown,K9,0.0,0
-Week 13,Unknown,ME3061,10.0,0
-Week 13,Unknown,ME3098,32.0,0
-Week 13,Unknown,ME3206,16.0,0
-Week 13,Unknown,ME3218,21.0,0
-Week 13,Unknown,ME3253,14.0,0
-Week 13,Unknown,ME3254,3.0,0
-Week 13,Unknown,ME3260,24.0,0
-Week 13,Unknown,ME3261,7.0,0
-Week 13,Unknown,ME3265,8.0,0
-Week 13,Unknown,ME3266,18.0,0
-Week 13,Unknown,ME3270,16.0,0
-Week 13,Unknown,MK2833,0.0,0
-Week 13,Unknown,MK3190,9.0,0
-Week 13,Unknown,MK4339,4.0,0
-Week 13,Unknown,MK4709,2.0,0
-Week 13,Unknown,MK4710,16.0,0
-Week 13,Unknown,MK4805,1.0,0
-Week 13,Unknown,MK4817SET,3.0,0
-Week 13,Unknown,MK4822,1.0,0
-Week 13,Unknown,MK4824,6.0,0
-Week 13,Unknown,MK4829,3.0,0
-Week 13,Unknown,MK4842,14.0,0
-Week 13,Unknown,MK4843,3.0,0
-Week 13,Unknown,MK4845,4.0,0
-Week 13,Unknown,MK4847,1.0,0
-Week 13,Unknown,MK4863,2.0,0
-Week 13,Unknown,MK4864,4.0,0
-Week 13,Unknown,MK4873,5.0,0
-Week 13,Unknown,MK4882,3.0,0
-Week 13,Unknown,MK4923,3.0,0
-Week 13,Unknown,MK4931,3.0,0
-Week 13,Unknown,MK4932,3.0,0
-Week 13,Unknown,MK4933,3.0,0
-Week 13,Unknown,MK4934,3.0,0
-Week 13,Unknown,MK4935,3.0,0
-Week 13,Unknown,MK4962,7.0,0
-Week 13,Unknown,MK4963,3.0,0
-Week 13,Unknown,MK4964,3.0,0
-Week 13,Unknown,MK4965,3.0,0
-Week 13,Unknown,MK4966,3.0,0
-Week 13,Unknown,MK4997,10.0,0
-Week 13,Unknown,MK4998,10.0,0
-Week 13,Unknown,MK4999,7.0,0
-Week 13,Unknown,MK5491,21.0,0
-Week 13,Unknown,MK6485,29.0,0
-Week 13,Unknown,MK7474,4.0,0
-Week 13,Unknown,MK7488,3.0,0
-Week 13,Unknown,MK7506,6.0,0
-Week 13,Unknown,MK7519LE,2.0,0
-Week 13,Unknown,MK7528,1.0,0
-Week 13,Unknown,MK7559,5.0,0
-Week 13,Unknown,MK7568,6.0,0
-Week 13,Unknown,MK7572,9.0,0
-Week 13,Unknown,MK7573,7.0,0
-Week 13,Unknown,MK7574,9.0,0
-Week 13,Unknown,MK7581,7.0,0
-Week 13,Unknown,MK7583,2.0,0
-Week 13,Unknown,MK7584,7.0,0
-Week 13,Unknown,MK7587,5.0,0
-Week 13,Unknown,MK7589,7.0,0
-Week 13,Unknown,MK7590,6.0,0
-Week 13,Unknown,MK8603,4.0,0
-Week 13,Unknown,MK9113,7.0,0
-Week 13,Unknown,MK9152,7.0,0
-Week 13,Unknown,MK9153,4.0,0
-Week 13,Unknown,MK9156,3.0,0
-Week 13,Unknown,MK9163,3.0,0
-Week 13,Unknown,MK9176,7.0,0
-Week 13,Unknown,MK9177,7.0,0
-Week 13,Unknown,MK9178,3.0,0
-Week 13,Unknown,MK9179,6.0,0
-Week 13,Unknown,MK9191,17.0,0
-Week 13,Unknown,MK9192,5.0,0
-Week 13,Unknown,MK9193,7.0,0
-Week 13,Unknown,MK9195,16.0,0
-Week 13,Unknown,MK9196,1.0,0
-Week 13,Unknown,MK9198,7.0,0
-Week 13,Unknown,MK9201,3.0,0
-Week 13,Unknown,MK9220,3.0,0
-Week 13,Unknown,MK9221,3.0,0
-Week 13,Unknown,MK9222,3.0,0
-Week 13,Unknown,MK9223,2.0,0
-Week 13,Unknown,MK9240,3.0,0
-Week 13,Unknown,MK9242,3.0,0
-Week 13,Unknown,MK9245SET,2.0,0
-Week 13,Unknown,MKO1224,2.0,0
-Week 13,Unknown,ORCA001,13.0,0
-Week 13,Unknown,Q9,0.0,0
-Week 13,Unknown,S20,245.0,0
-Week 13,Unknown,SKW2694,2.0,0
-Week 13,Unknown,SKW3121,1.0,0
-Week 13,Unknown,T10,13.0,0
-Week 13,Unknown,T20,60.0,0
-Week 13,Unknown,T20LP,69.0,0
-Week 13,Unknown,T30,51.0,0
-Week 13,Unknown,T90,10.0,0
-Week 13,Unknown,TC-2030,91.0,0
-Week 13,Unknown,TC-777,420.0,0
-Week 13,Unknown,TC-777 PRO,25.0,0
-Week 13,Unknown,TC20,10.0,0
-Week 13,Unknown,TC30,360.0,0
-Week 13,Unknown,TC30+,9.0,0
-Week 13,Unknown,TC30S,44.0,0
-Week 13,Unknown,TC30S+,19.0,0
-Week 13,Unknown,TC310,64.0,0
-Week 13,Unknown,TC310+,203.0,0
-Week 13,Unknown,TC40,18.0,0
-Week 13,Unknown,TC40S,79.0,0
-Week 13,Unknown,TC777 PRO,30.0,0
-Week 13,Unknown,TC777PRO,406.0,0
-Week 13,Unknown,TD310,508.0,0
-Week 13,Unknown,TD310+,442.0,0
-Week 13,Unknown,TD510,34.0,0
-Week 13,Unknown,TD510+,5.0,0
-Week 13,Unknown,TM20,171.0,0
-Week 13,Unknown,TM310,89.0,0
-Week 13,Unknown,TRL-20,16.0,0
+Week 13,Tonor,D2,0.0,0
+Week 13,Tonor,D5,2.0,0
+Week 13,Tonor,G11,251.0,0
+Week 13,Tonor,K1,1063.0,0
+Week 13,Tonor,K20,0.0,0
+Week 13,Tonor,K9,0.0,0
+Week 13,Tonor,ORCA001,13.0,0
+Week 13,Tonor,Q9,0.0,0
+Week 13,Tonor,S20,245.0,0
+Week 13,Tonor,T10,13.0,0
+Week 13,Tonor,T20,60.0,0
+Week 13,Tonor,T20LP,69.0,0
+Week 13,Tonor,T30,51.0,0
+Week 13,Tonor,T90,10.0,0
+Week 13,Tonor,TC-2030,91.0,0
+Week 13,Tonor,TC-777,420.0,0
+Week 13,Tonor,TC-777 PRO,25.0,0
+Week 13,Tonor,TC20,10.0,0
+Week 13,Tonor,TC30,360.0,0
+Week 13,Tonor,TC30+,9.0,0
+Week 13,Tonor,TC30S,44.0,0
+Week 13,Tonor,TC30S+,19.0,0
+Week 13,Tonor,TC310,64.0,0
+Week 13,Tonor,TC310+,203.0,0
+Week 13,Tonor,TC40,18.0,0
+Week 13,Tonor,TC40S,79.0,0
+Week 13,Tonor,TC777 PRO,30.0,0
+Week 13,Tonor,TC777PRO,406.0,0
+Week 13,Tonor,TD310,508.0,0
+Week 13,Tonor,TD310+,442.0,0
+Week 13,Tonor,TD510,34.0,0
+Week 13,Tonor,TD510+,5.0,0
+Week 13,Tonor,TM20,171.0,0
+Week 13,Tonor,TM310,89.0,0
+Week 13,Tonor,TRL-20,16.0,0
 Week 13,White Mulberry,6021-3081-BB,0.0,0
 Week 13,White Mulberry,6023-1168,0.0,0
 Week 13,White Mulberry,6023-210-SIOC,0.0,0
@@ -2655,6 +2655,785 @@ Week 13,White Mulberry,WM-USE06-WB,0.0,0
 Week 13,White Mulberry,WM-USE06-WH,1.0,0
 Week 13,White Mulberry,WM-USE06-WW,0.0,0
 Week 13,White Mulberry,WM1ML,535.0,0
+Week 14,Audio Array,A3-XLR,997.0,0
+Week 14,Audio Array,AA-01,452.0,0
+Week 14,Audio Array,AA-02,1120.0,0
+Week 14,Audio Array,AA-03,459.0,0
+Week 14,Audio Array,AA-04,542.0,0
+Week 14,Audio Array,AA-05,2599.0,0
+Week 14,Audio Array,AA-06,233.0,0
+Week 14,Audio Array,AA-07,3.0,0
+Week 14,Audio Array,AA-08,1.0,0
+Week 14,Audio Array,AA-09,2.0,0
+Week 14,Audio Array,AA-10,3.0,0
+Week 14,Audio Array,AA-11,0.0,0
+Week 14,Audio Array,AA-12,7.0,0
+Week 14,Audio Array,AA-13,0.0,0
+Week 14,Audio Array,AA-14,1.0,0
+Week 14,Audio Array,AA-15,0.0,0
+Week 14,Audio Array,AA-17,1.0,0
+Week 14,Audio Array,AA-18,4.0,0
+Week 14,Audio Array,AA-19,289.0,0
+Week 14,Audio Array,AA-19 WL,199.0,0
+Week 14,Audio Array,AA-19BL,156.0,0
+Week 14,Audio Array,AA-19WL,30.0,0
+Week 14,Audio Array,AA-20,467.0,0
+Week 14,Audio Array,AA-21,832.0,0
+Week 14,Audio Array,AA-22,489.0,0
+Week 14,Audio Array,AA-25,806.0,0
+Week 14,Audio Array,AA-25M,44.0,0
+Week 14,Audio Array,AA-26,2780.0,0
+Week 14,Audio Array,AB-01,6.0,0
+Week 14,Audio Array,AC-3XL,905.0,0
+Week 14,Audio Array,AC-6XL,2739.0,0
+Week 14,Audio Array,AE831,20.0,0
+Week 14,Audio Array,AH-40 SL,2235.0,0
+Week 14,Audio Array,AH-45 BK,2216.0,0
+Week 14,Audio Array,AH-50,3319.0,0
+Week 14,Audio Array,AH-60 BL,925.0,0
+Week 14,Audio Array,AH-60 RD,641.0,0
+Week 14,Audio Array,AI-02,7.0,0
+Week 14,Audio Array,AI-02 2X2| METALLIC RED,0.0,0
+Week 14,Audio Array,AI-03,303.0,0
+Week 14,Audio Array,AI-04,148.0,0
+Week 14,Audio Array,AI-04 BLACK,1.0,0
+Week 14,Audio Array,AI-04 RED,5404.0,0
+Week 14,Audio Array,AI-05,0.0,0
+Week 14,Audio Array,AI-06,130.0,0
+Week 14,Audio Array,AI-08,1.0,0
+Week 14,Audio Array,AI-09,3.0,0
+Week 14,Audio Array,AI-10,1684.0,0
+Week 14,Audio Array,AI-11,1277.0,0
+Week 14,Audio Array,AI-12,1360.0,0
+Week 14,Audio Array,AI-13,2064.0,0
+Week 14,Audio Array,AI-14,600.0,0
+Week 14,Audio Array,AK-37-B,301.0,0
+Week 14,Audio Array,AK-37-W,103.0,0
+Week 14,Audio Array,AK-61 NEO,93.0,0
+Week 14,Audio Array,AK-61 PRO,86.0,0
+Week 14,Audio Array,AM-A1,3.0,0
+Week 14,Audio Array,AM-C1,6736.0,0
+Week 14,Audio Array,AM-C10,670.0,0
+Week 14,Audio Array,AM-C11,50.0,0
+Week 14,Audio Array,AM-C11 PRO,814.0,0
+Week 14,Audio Array,AM-C11X,170.0,0
+Week 14,Audio Array,AM-C11X PRO,37.0,0
+Week 14,Audio Array,AM-C12,3.0,0
+Week 14,Audio Array,AM-C13,39.0,0
+Week 14,Audio Array,AM-C14,0.0,0
+Week 14,Audio Array,AM-C15,4.0,0
+Week 14,Audio Array,AM-C16,0.0,0
+Week 14,Audio Array,AM-C17,6.0,0
+Week 14,Audio Array,AM-C18,3.0,0
+Week 14,Audio Array,AM-C19,0.0,0
+Week 14,Audio Array,AM-C2,859.0,0
+Week 14,Audio Array,AM-C20,7.0,0
+Week 14,Audio Array,AM-C21,0.0,0
+Week 14,Audio Array,AM-C22,3.0,0
+Week 14,Audio Array,AM-C23,6.0,0
+Week 14,Audio Array,AM-C24,2.0,0
+Week 14,Audio Array,AM-C25,0.0,0
+Week 14,Audio Array,AM-C26,0.0,0
+Week 14,Audio Array,AM-C27,7.0,0
+Week 14,Audio Array,AM-C28,827.0,0
+Week 14,Audio Array,AM-C29,12.0,0
+Week 14,Audio Array,AM-C3,314.0,0
+Week 14,Audio Array,AM-C30,23.0,0
+Week 14,Audio Array,AM-C31,3.0,0
+Week 14,Audio Array,AM-C32,11.0,0
+Week 14,Audio Array,AM-C33,41.0,0
+Week 14,Audio Array,AM-C34,2.0,0
+Week 14,Audio Array,AM-C35,5.0,0
+Week 14,Audio Array,AM-C36,8.0,0
+Week 14,Audio Array,AM-C37,10.0,0
+Week 14,Audio Array,AM-C38,8.0,0
+Week 14,Audio Array,AM-C39,485.0,0
+Week 14,Audio Array,AM-C3A,604.0,0
+Week 14,Audio Array,AM-C4,85.0,0
+Week 14,Audio Array,AM-C40,33.0,0
+Week 14,Audio Array,AM-C41,266.0,0
+Week 14,Audio Array,AM-C42,180.0,0
+Week 14,Audio Array,AM-C43,1073.0,0
+Week 14,Audio Array,AM-C44,226.0,0
+Week 14,Audio Array,AM-C44 PRO,41.0,0
+Week 14,Audio Array,AM-C45,868.0,0
+Week 14,Audio Array,AM-C45 PRO,24.0,0
+Week 14,Audio Array,AM-C46,2480.0,0
+Week 14,Audio Array,AM-C47,749.0,0
+Week 14,Audio Array,AM-C48,457.0,0
+Week 14,Audio Array,AM-C49,500.0,0
+Week 14,Audio Array,AM-C5,2159.0,0
+Week 14,Audio Array,AM-C50,500.0,0
+Week 14,Audio Array,AM-C51,250.0,0
+Week 14,Audio Array,AM-C52,250.0,0
+Week 14,Audio Array,AM-C6,52.0,0
+Week 14,Audio Array,AM-C7,43.0,0
+Week 14,Audio Array,AM-C8,1.0,0
+Week 14,Audio Array,AM-C9,1.0,0
+Week 14,Audio Array,AM-K1,29.0,0
+Week 14,Audio Array,AM-K2,3.0,0
+Week 14,Audio Array,AM-K3,0.0,0
+Week 14,Audio Array,AM-MIX10,215.0,0
+Week 14,Audio Array,AM-MIX4 OTG,600.0,0
+Week 14,Audio Array,AM-MIX6,213.0,0
+Week 14,Audio Array,AM-MIX8,6.0,0
+Week 14,Audio Array,AM-PRO12,5.0,0
+Week 14,Audio Array,AM-PRO16,10.0,0
+Week 14,Audio Array,AM-PRO24,10.0,0
+Week 14,Audio Array,AM-S1,2196.0,0
+Week 14,Audio Array,AM-S2,2040.0,0
+Week 14,Audio Array,AM-S6,50.0,0
+Week 14,Audio Array,AM-W10,498.0,0
+Week 14,Audio Array,AM-W11,503.0,0
+Week 14,Audio Array,AM-W12,595.0,0
+Week 14,Audio Array,AM-W13,381.0,0
+Week 14,Audio Array,AM-W14,439.0,0
+Week 14,Audio Array,AM-W15,8.0,0
+Week 14,Audio Array,AM-W16,220.0,0
+Week 14,Audio Array,AM-W17,1472.0,0
+Week 14,Audio Array,AM-W18,2135.0,0
+Week 14,Audio Array,AM-W19,531.0,0
+Week 14,Audio Array,AM-W20,225.0,0
+Week 14,Audio Array,AM-W21,65.0,0
+Week 14,Audio Array,AM-W22,1246.0,0
+Week 14,Audio Array,AM-W22 DUPLICATE,54.0,0
+Week 14,Audio Array,AM-W23,458.0,0
+Week 14,Audio Array,AM-W24,432.0,0
+Week 14,Audio Array,AM-W32,1353.0,0
+Week 14,Audio Array,AM-W32 PRO,100.0,0
+Week 14,Audio Array,AM-W33,819.0,0
+Week 14,Audio Array,AM-W33 PRO,200.0,0
+Week 14,Audio Array,AM-W34,247.0,0
+Week 14,Audio Array,AM-W35,349.0,0
+Week 14,Audio Array,AM-W36,124.0,0
+Week 14,Audio Array,AM-W36 PRO,100.0,0
+Week 14,Audio Array,AM-W45,692.0,0
+Week 14,Audio Array,AM-W46,33.0,0
+Week 14,Audio Array,AM-W47 WIRED,807.0,0
+Week 14,Audio Array,AM-W47 WIRELESS,99.0,0
+Week 14,Audio Array,AM-W47 WIRLESS,353.0,0
+Week 14,Audio Array,AM-W48,34.0,0
+Week 14,Audio Array,AS-01,1.0,0
+Week 14,Audio Array,BE-4,200.0,0
+Week 14,Audio Array,BM320,1.0,0
+Week 14,Audio Array,DP-718H,20.0,0
+Week 14,Audio Array,GB-01 (AM-C43 +AI-10),12.0,0
+Week 14,Audio Array,GB-02 (AM-C43 + AI-11),13.0,0
+Week 14,Audio Array,GB-03 (AI-12 + AM-C43),12.0,0
+Week 14,Audio Array,GB-04 (AM-C45 + AI-06),21.0,0
+Week 14,Audio Array,GB-05 (AM-C43 + AI-06),40.0,0
+Week 14,Audio Array,JT1,3.0,0
+Week 14,Audio Array,JTG800,40.0,0
+Week 14,Audio Array,KB-01 (AM-W32 + AI-12),21.0,0
+Week 14,Audio Array,M6,100.0,0
+Week 14,Audio Array,M8,319.0,0
+Week 14,Audio Array,MT-12,59.0,0
+Week 14,Audio Array,PB-01 (AM-C11 + AI-04),16.0,0
+Week 14,Audio Array,PB-02 (AI-04 RED + AM-C11 + AA-05),35.0,0
+Week 14,Audio Array,PB-03 (AI-04 RED + AM-C11 X 2),37.0,0
+Week 14,Audio Array,PB-04 (AI-04 RED + AM-C44 X 2),34.0,0
+Week 14,Audio Array,PB-05 (AA-05 + AM-C11 + AI-04),12.0,0
+Week 14,Audio Array,PB-06 (AA-05 + AM-C44 + AI-04),27.0,0
+Week 14,Audio Array,PB-07 (AA-05 + AM-C45 + AI-04),23.0,0
+Week 14,Audio Array,PB-08 (AM-C1 + AI-04),5.0,0
+Week 14,Audio Array,PB-09 (AM-C45 + AI-06 + AA-05),23.0,0
+Week 14,Audio Array,PB-10 (AM-C2+AI-04+AH-60-BL),30.0,0
+Week 14,Audio Array,PB-11 (AM-C44+AA-05+AH-45-BK),13.0,0
+Week 14,Audio Array,PB-12 (AM-C11+AA-05+AI-04+AH-60-RD),7.0,0
+Week 14,Audio Array,PB-13 (AM-C43+AH-40-SL+AI-11),0.0,0
+Week 14,Audio Array,PB-14 (AM-C43+AH-40-SL+AI-12),15.0,0
+Week 14,Audio Array,SB-01,2600.0,0
+Week 14,Audio Array,T-835,40.0,0
+Week 14,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",11.0,0
+Week 14,Audio Array,UB-02 (AM-S1 + AA-21),2.0,0
+Week 14,Audio Array,UB-03 (AM-S1 + AA-22),8.0,0
+Week 14,Audio Array,USB718,20.0,0
+Week 14,Audio Array,W3,20.0,0
+Week 14,Audio Array,W5,20.0,0
+Week 14,Audio Array,XM-16,10.0,0
+Week 14,Audio Array,XM-24,10.0,0
+Week 14,Fossil,AR11338,4.0,0
+Week 14,Fossil,AR11360,4.0,0
+Week 14,Fossil,AR11484,4.0,0
+Week 14,Fossil,AR11500,4.0,0
+Week 14,Fossil,AR11558,2.0,0
+Week 14,Fossil,AR11568,4.0,0
+Week 14,Fossil,AR11575,5.0,0
+Week 14,Fossil,AR11582,8.0,0
+Week 14,Fossil,AR11596,4.0,0
+Week 14,Fossil,AR11610,8.0,0
+Week 14,Fossil,AR11620,5.0,0
+Week 14,Fossil,AR11621,2.0,0
+Week 14,Fossil,AR11622,6.0,0
+Week 14,Fossil,AR11623,3.0,0
+Week 14,Fossil,AR11624,1.0,0
+Week 14,Fossil,AR11625,3.0,0
+Week 14,Fossil,AR11626,4.0,0
+Week 14,Fossil,AR11635,1.0,0
+Week 14,Fossil,AR11636,7.0,0
+Week 14,Fossil,AR11637,4.0,0
+Week 14,Fossil,AR11639,1.0,0
+Week 14,Fossil,AR11660,3.0,0
+Week 14,Fossil,AR11661,7.0,0
+Week 14,Fossil,AR11662,5.0,0
+Week 14,Fossil,AR11663,5.0,0
+Week 14,Fossil,AR11664,3.0,0
+Week 14,Fossil,AR11665,7.0,0
+Week 14,Fossil,AR11666,8.0,0
+Week 14,Fossil,AR11669,5.0,0
+Week 14,Fossil,AR11671,3.0,0
+Week 14,Fossil,AR11672,4.0,0
+Week 14,Fossil,AR11674,3.0,0
+Week 14,Fossil,AR11676,3.0,0
+Week 14,Fossil,AR11677,2.0,0
+Week 14,Fossil,AR11688,2.0,0
+Week 14,Fossil,AR11689,9.0,0
+Week 14,Fossil,AR11690,3.0,0
+Week 14,Fossil,AR11691,3.0,0
+Week 14,Fossil,AR11693,5.0,0
+Week 14,Fossil,AR11694,3.0,0
+Week 14,Fossil,AR11706,4.0,0
+Week 14,Fossil,AR11707,3.0,0
+Week 14,Fossil,AR11708,3.0,0
+Week 14,Fossil,AR11713,1.0,0
+Week 14,Fossil,AR11714,4.0,0
+Week 14,Fossil,AR11718,3.0,0
+Week 14,Fossil,AR11754,3.0,0
+Week 14,Fossil,AR11756,7.0,0
+Week 14,Fossil,AR11757,3.0,0
+Week 14,Fossil,AR11759,7.0,0
+Week 14,Fossil,AR11770,3.0,0
+Week 14,Fossil,AR11771,8.0,0
+Week 14,Fossil,AR11772,9.0,0
+Week 14,Fossil,AR11773,8.0,0
+Week 14,Fossil,AR11774,3.0,0
+Week 14,Fossil,AR11783,11.0,0
+Week 14,Fossil,AR1676,1.0,0
+Week 14,Fossil,AR1926,11.0,0
+Week 14,Fossil,AR1979,15.0,0
+Week 14,Fossil,AR2434,3.0,0
+Week 14,Fossil,AR2502,6.0,0
+Week 14,Fossil,AR60076,1.0,0
+Week 14,Fossil,AR60079,1.0,0
+Week 14,Fossil,AR60080,4.0,0
+Week 14,Fossil,AR70010,7.0,0
+Week 14,Fossil,AR80065SET,1.0,0
+Week 14,Fossil,AR80083SET,3.0,0
+Week 14,Fossil,AR80087SET,6.0,0
+Week 14,Fossil,AX1343,298.0,0
+Week 14,Fossil,AX1742,3.0,0
+Week 14,Fossil,AX1764,2.0,0
+Week 14,Fossil,AX1767,5.0,0
+Week 14,Fossil,AX1769,15.0,0
+Week 14,Fossil,AX1956,8.0,0
+Week 14,Fossil,AX1962,1.0,0
+Week 14,Fossil,AX1964,1.0,0
+Week 14,Fossil,AX1970,10.0,0
+Week 14,Fossil,AX1971,11.0,0
+Week 14,Fossil,AX1972,13.0,0
+Week 14,Fossil,AX1973,13.0,0
+Week 14,Fossil,AX2101,1.0,0
+Week 14,Fossil,AX2413,11.0,0
+Week 14,Fossil,AX2454,2.0,0
+Week 14,Fossil,AX2460,4.0,0
+Week 14,Fossil,AX2461,22.0,0
+Week 14,Fossil,AX2463,29.0,0
+Week 14,Fossil,AX2766,7.0,0
+Week 14,Fossil,AX2767,7.0,0
+Week 14,Fossil,AX2820,2.0,0
+Week 14,Fossil,AX2821,3.0,0
+Week 14,Fossil,AX2822,5.0,0
+Week 14,Fossil,AX2823,5.0,0
+Week 14,Fossil,AX4173,3.0,0
+Week 14,Fossil,AX4180,26.0,0
+Week 14,Fossil,AX4181,12.0,0
+Week 14,Fossil,AX4182,29.0,0
+Week 14,Fossil,AX4183,22.0,0
+Week 14,Fossil,AX4184,61.0,0
+Week 14,Fossil,AX4186,14.0,0
+Week 14,Fossil,AX4199,4.0,0
+Week 14,Fossil,AX4405,18.0,0
+Week 14,Fossil,AX4406,21.0,0
+Week 14,Fossil,AX4407,21.0,0
+Week 14,Fossil,AX4408,27.0,0
+Week 14,Fossil,AX4621,2.0,0
+Week 14,Fossil,AX4625,7.0,0
+Week 14,Fossil,AX5176,6.0,0
+Week 14,Fossil,AX5724,8.0,0
+Week 14,Fossil,AX5725,7.0,0
+Week 14,Fossil,AX5730,3.0,0
+Week 14,Fossil,AX5732,2.0,0
+Week 14,Fossil,AX5734,1.0,0
+Week 14,Fossil,AX5735,1.0,0
+Week 14,Fossil,AX5901,22.0,0
+Week 14,Fossil,AX5911,14.0,0
+Week 14,Fossil,AX7151SET,8.0,0
+Week 14,Fossil,AX7161SET,1.0,0
+Week 14,Fossil,AX7163SET,9.0,0
+Week 14,Fossil,AX7165SET,3.0,0
+Week 14,Fossil,AX7167SET,2.0,0
+Week 14,Fossil,AX7175SET,6.0,0
+Week 14,Fossil,AX7176SET,8.0,0
+Week 14,Fossil,BQ3181,1.0,0
+Week 14,Fossil,CH2882,5.0,0
+Week 14,Fossil,CH2885,43.0,0
+Week 14,Fossil,DZ1206,3.0,0
+Week 14,Fossil,DZ2189,3.0,0
+Week 14,Fossil,DZ2210SET,6.0,0
+Week 14,Fossil,DZ2212,5.0,0
+Week 14,Fossil,DZ2213,5.0,0
+Week 14,Fossil,DZ2214,5.0,0
+Week 14,Fossil,DZ2215,3.0,0
+Week 14,Fossil,DZ4627,5.0,0
+Week 14,Fossil,DZ4640,2.0,0
+Week 14,Fossil,DZ4659,2.0,0
+Week 14,Fossil,DZ4662,2.0,0
+Week 14,Fossil,DZ4665,9.0,0
+Week 14,Fossil,DZ4667,3.0,0
+Week 14,Fossil,DZ4670,1.0,0
+Week 14,Fossil,DZ4671,3.0,0
+Week 14,Fossil,DZ4702,7.0,0
+Week 14,Fossil,DZ4703,6.0,0
+Week 14,Fossil,DZ4709,6.0,0
+Week 14,Fossil,DZ5609,3.0,0
+Week 14,Fossil,DZ5611,2.0,0
+Week 14,Fossil,DZ5612,4.0,0
+Week 14,Fossil,DZ5613,4.0,0
+Week 14,Fossil,DZ5618,2.0,0
+Week 14,Fossil,DZ7395,2.0,0
+Week 14,Fossil,DZ7487,2.0,0
+Week 14,Fossil,ES3020,54.0,0
+Week 14,Fossil,ES3284,25.0,0
+Week 14,Fossil,ES3405,5.0,0
+Week 14,Fossil,ES3466,138.0,0
+Week 14,Fossil,ES3843,65.0,0
+Week 14,Fossil,ES4433,114.0,0
+Week 14,Fossil,ES4519,93.0,0
+Week 14,Fossil,ES4628,35.0,0
+Week 14,Fossil,ES5271,4.0,0
+Week 14,Fossil,ES5278,2.0,0
+Week 14,Fossil,ES5303,7.0,0
+Week 14,Fossil,ES5306,8.0,0
+Week 14,Fossil,ES5310,10.0,0
+Week 14,Fossil,ES5319,12.0,0
+Week 14,Fossil,ES5323,14.0,0
+Week 14,Fossil,ES5329,21.0,0
+Week 14,Fossil,ES5331,3.0,0
+Week 14,Fossil,ES5338,17.0,0
+Week 14,Fossil,ES5349,19.0,0
+Week 14,Fossil,ES5350,8.0,0
+Week 14,Fossil,ES5357,13.0,0
+Week 14,Fossil,ES5358,18.0,0
+Week 14,Fossil,ES5361,75.0,0
+Week 14,Fossil,ES5363,14.0,0
+Week 14,Fossil,ES5364,17.0,0
+Week 14,Fossil,ES5380,3.0,0
+Week 14,Fossil,ES5381,3.0,0
+Week 14,Fossil,ES5386,3.0,0
+Week 14,Fossil,ES5387SET,10.0,0
+Week 14,Fossil,ES5388,53.0,0
+Week 14,Fossil,ES5398,4.0,0
+Week 14,Fossil,ES5399,3.0,0
+Week 14,Fossil,ES5400,3.0,0
+Week 14,Fossil,ES5417,3.0,0
+Week 14,Fossil,ES5418,5.0,0
+Week 14,Fossil,ES5419,15.0,0
+Week 14,Fossil,ES5420,5.0,0
+Week 14,Fossil,ES5421,4.0,0
+Week 14,Fossil,ES5422,3.0,0
+Week 14,Fossil,ES5434,7.0,0
+Week 14,Fossil,ES5438,3.0,0
+Week 14,Fossil,ES5439,2.0,0
+Week 14,Fossil,ES5443,14.0,0
+Week 14,Fossil,ES5444,13.0,0
+Week 14,Fossil,ES5451,13.0,0
+Week 14,Fossil,ES5452,65.0,0
+Week 14,Fossil,ES5456,6.0,0
+Week 14,Fossil,ES5472,14.0,0
+Week 14,Fossil,FS4735,59.0,0
+Week 14,Fossil,FS4795,445.0,0
+Week 14,Fossil,FS4812,5.0,0
+Week 14,Fossil,FS4813,53.0,0
+Week 14,Fossil,FS4867,208.0,0
+Week 14,Fossil,FS5308,102.0,0
+Week 14,Fossil,FS5452,3.0,0
+Week 14,Fossil,FS5512,22.0,0
+Week 14,Fossil,FS5525,21.0,0
+Week 14,Fossil,FS5699,8.0,0
+Week 14,Fossil,FS5708SET,4.0,0
+Week 14,Fossil,FS5792,47.0,0
+Week 14,Fossil,FS5855,9.0,0
+Week 14,Fossil,FS5901,7.0,0
+Week 14,Fossil,FS5963,40.0,0
+Week 14,Fossil,FS5971,2.0,0
+Week 14,Fossil,FS6029,19.0,0
+Week 14,Fossil,FS6032,14.0,0
+Week 14,Fossil,FS6045,5.0,0
+Week 14,Fossil,FS6048,23.0,0
+Week 14,Fossil,FS6056,6.0,0
+Week 14,Fossil,FS6071,3.0,0
+Week 14,Fossil,FS6081SET,6.0,0
+Week 14,Fossil,FS6085,4.0,0
+Week 14,Fossil,FS6086,24.0,0
+Week 14,Fossil,FS6087,16.0,0
+Week 14,Fossil,FS6089,11.0,0
+Week 14,Fossil,FS6090,13.0,0
+Week 14,Fossil,FS6094,20.0,0
+Week 14,Fossil,FS6104,14.0,0
+Week 14,Fossil,FS6106,40.0,0
+Week 14,Fossil,FS6107,3.0,0
+Week 14,Fossil,FS6108,3.0,0
+Week 14,Fossil,FS6110,2.0,0
+Week 14,Fossil,FS6111,49.0,0
+Week 14,Fossil,FS6112,19.0,0
+Week 14,Fossil,FS6113,15.0,0
+Week 14,Fossil,FS6128,5.0,0
+Week 14,Fossil,FS6129,6.0,0
+Week 14,Fossil,FS6131,102.0,0
+Week 14,Fossil,FS6132,16.0,0
+Week 14,Fossil,FS6133,3.0,0
+Week 14,Fossil,FS6139,7.0,0
+Week 14,Fossil,FS6140,6.0,0
+Week 14,Fossil,FS6144,4.0,0
+Week 14,Fossil,FS6145SET,1.0,0
+Week 14,Fossil,FS6149,3.0,0
+Week 14,Fossil,FS6150,14.0,0
+Week 14,Fossil,FS6151,9.0,0
+Week 14,Fossil,FS6154,14.0,0
+Week 14,Fossil,FS6161,8.0,0
+Week 14,Fossil,FS6162,17.0,0
+Week 14,Fossil,FS6163,15.0,0
+Week 14,Fossil,FS6164,14.0,0
+Week 14,Fossil,JR1401,361.0,0
+Week 14,Fossil,JR1487,161.0,0
+Week 14,Fossil,ME3061,10.0,0
+Week 14,Fossil,ME3098,29.0,0
+Week 14,Fossil,ME3206,15.0,0
+Week 14,Fossil,ME3218,22.0,0
+Week 14,Fossil,ME3253,13.0,0
+Week 14,Fossil,ME3254,3.0,0
+Week 14,Fossil,ME3260,23.0,0
+Week 14,Fossil,ME3261,7.0,0
+Week 14,Fossil,ME3265,7.0,0
+Week 14,Fossil,ME3266,18.0,0
+Week 14,Fossil,ME3270,15.0,0
+Week 14,Fossil,MK3190,8.0,0
+Week 14,Fossil,MK4339,4.0,0
+Week 14,Fossil,MK4709,2.0,0
+Week 14,Fossil,MK4710,14.0,0
+Week 14,Fossil,MK4805,1.0,0
+Week 14,Fossil,MK4817SET,3.0,0
+Week 14,Fossil,MK4822,1.0,0
+Week 14,Fossil,MK4824,6.0,0
+Week 14,Fossil,MK4829,2.0,0
+Week 14,Fossil,MK4842,14.0,0
+Week 14,Fossil,MK4843,3.0,0
+Week 14,Fossil,MK4845,4.0,0
+Week 14,Fossil,MK4847,1.0,0
+Week 14,Fossil,MK4863,1.0,0
+Week 14,Fossil,MK4864,4.0,0
+Week 14,Fossil,MK4873,5.0,0
+Week 14,Fossil,MK4882,5.0,0
+Week 14,Fossil,MK4923,3.0,0
+Week 14,Fossil,MK4931,3.0,0
+Week 14,Fossil,MK4932,3.0,0
+Week 14,Fossil,MK4933,2.0,0
+Week 14,Fossil,MK4934,3.0,0
+Week 14,Fossil,MK4935,3.0,0
+Week 14,Fossil,MK4962,7.0,0
+Week 14,Fossil,MK4963,3.0,0
+Week 14,Fossil,MK4964,2.0,0
+Week 14,Fossil,MK4965,3.0,0
+Week 14,Fossil,MK4966,2.0,0
+Week 14,Fossil,MK4997,10.0,0
+Week 14,Fossil,MK4998,10.0,0
+Week 14,Fossil,MK4999,7.0,0
+Week 14,Fossil,MK5491,19.0,0
+Week 14,Fossil,MK6485,28.0,0
+Week 14,Fossil,MK7474,4.0,0
+Week 14,Fossil,MK7488,3.0,0
+Week 14,Fossil,MK7506,6.0,0
+Week 14,Fossil,MK7519LE,2.0,0
+Week 14,Fossil,MK7528,1.0,0
+Week 14,Fossil,MK7559,5.0,0
+Week 14,Fossil,MK7568,6.0,0
+Week 14,Fossil,MK7572,9.0,0
+Week 14,Fossil,MK7573,6.0,0
+Week 14,Fossil,MK7574,9.0,0
+Week 14,Fossil,MK7581,7.0,0
+Week 14,Fossil,MK7583,2.0,0
+Week 14,Fossil,MK7584,7.0,0
+Week 14,Fossil,MK7587,5.0,0
+Week 14,Fossil,MK7589,7.0,0
+Week 14,Fossil,MK7590,6.0,0
+Week 14,Fossil,MK8603,4.0,0
+Week 14,Fossil,MK9113,7.0,0
+Week 14,Fossil,MK9152,7.0,0
+Week 14,Fossil,MK9153,4.0,0
+Week 14,Fossil,MK9156,3.0,0
+Week 14,Fossil,MK9163,3.0,0
+Week 14,Fossil,MK9176,7.0,0
+Week 14,Fossil,MK9177,6.0,0
+Week 14,Fossil,MK9178,3.0,0
+Week 14,Fossil,MK9179,4.0,0
+Week 14,Fossil,MK9191,17.0,0
+Week 14,Fossil,MK9192,4.0,0
+Week 14,Fossil,MK9193,7.0,0
+Week 14,Fossil,MK9195,14.0,0
+Week 14,Fossil,MK9196,3.0,0
+Week 14,Fossil,MK9198,7.0,0
+Week 14,Fossil,MK9201,3.0,0
+Week 14,Fossil,MK9220,3.0,0
+Week 14,Fossil,MK9221,3.0,0
+Week 14,Fossil,MK9222,3.0,0
+Week 14,Fossil,MK9223,2.0,0
+Week 14,Fossil,MK9240,3.0,0
+Week 14,Fossil,MK9242,3.0,0
+Week 14,Fossil,MK9245SET,2.0,0
+Week 14,Fossil,MKO1224,2.0,0
+Week 14,Fossil,SKW2694,5.0,0
+Week 14,Fossil,SKW3121,1.0,0
+Week 14,Nexlev,AP-01,64.0,0
+Week 14,Nexlev,AP-02,2.0,0
+Week 14,Nexlev,AP-03,815.0,0
+Week 14,Nexlev,AP-04,500.0,0
+Week 14,Nexlev,BM-01,0.0,0
+Week 14,Nexlev,BM-02,242.0,0
+Week 14,Nexlev,BM-03,1.0,0
+Week 14,Nexlev,BR-01,312.0,0
+Week 14,Nexlev,CAP-05,500.0,0
+Week 14,Nexlev,CF-01,63.0,0
+Week 14,Nexlev,CFM-01,497.0,0
+Week 14,Nexlev,CFM-02,23.0,0
+Week 14,Nexlev,CFM-03,259.0,0
+Week 14,Nexlev,CM-01-BL,126.0,0
+Week 14,Nexlev,CM-02,48.0,0
+Week 14,Nexlev,CM-02-PR,1472.0,0
+Week 14,Nexlev,CR-01,588.0,0
+Week 14,Nexlev,DF-01-BK,4.0,0
+Week 14,Nexlev,DH-01,533.0,0
+Week 14,Nexlev,EA-01,1031.0,0
+Week 14,Nexlev,EA-02,435.0,0
+Week 14,Nexlev,EM-01,1.0,0
+Week 14,Nexlev,EM-02,17.0,0
+Week 14,Nexlev,ET-01-BK,1179.0,0
+Week 14,Nexlev,ET-02-GN,251.0,0
+Week 14,Nexlev,ET-03-BL,41.0,0
+Week 14,Nexlev,ETC-04,100.0,0
+Week 14,Nexlev,ETC-04-WH,1232.0,0
+Week 14,Nexlev,ETC-05-PI,169.0,0
+Week 14,Nexlev,ETC-07,2672.0,0
+Week 14,Nexlev,ETC-07-WH,101.0,0
+Week 14,Nexlev,ETC-08,73.0,0
+Week 14,Nexlev,ETC-08 - BLUE,1034.0,0
+Week 14,Nexlev,ETC-08-BL,150.0,0
+Week 14,Nexlev,ETR-06,99.0,0
+Week 14,Nexlev,FM-01,1.0,0
+Week 14,Nexlev,FM-02,1.0,0
+Week 14,Nexlev,FS-01,1896.0,0
+Week 14,Nexlev,GS-01,4.0,0
+Week 14,Nexlev,GS-02,990.0,0
+Week 14,Nexlev,GS-04,45.0,0
+Week 14,Nexlev,GS-05,943.0,0
+Week 14,Nexlev,HB-01,45.0,0
+Week 14,Nexlev,HD-01,1346.0,0
+Week 14,Nexlev,HD-02,863.0,0
+Week 14,Nexlev,HM-01,583.0,0
+Week 14,Nexlev,HM-02,165.0,0
+Week 14,Nexlev,HS-01,524.0,0
+Week 14,Nexlev,HS-02,130.0,0
+Week 14,Nexlev,HSB-03,1870.0,0
+Week 14,Nexlev,HSB-04,1357.0,0
+Week 14,Nexlev,HU-01,37.0,0
+Week 14,Nexlev,HU-02,966.0,0
+Week 14,Nexlev,IPL-01,44.0,0
+Week 14,Nexlev,KE-01,538.0,0
+Week 14,Nexlev,KE-02,186.0,0
+Week 14,Nexlev,KE-03,1460.0,0
+Week 14,Nexlev,KM-01,103.0,0
+Week 14,Nexlev,LE-01,217.0,0
+Week 14,Nexlev,LE-02,1222.0,0
+Week 14,Nexlev,LE-03,226.0,0
+Week 14,Nexlev,LE-04,601.0,0
+Week 14,Nexlev,LE-06,11.0,0
+Week 14,Nexlev,LE-07,2.0,0
+Week 14,Nexlev,LE-08,33.0,0
+Week 14,Nexlev,LR-01,608.0,0
+Week 14,Nexlev,LR-01 SET OF 2 BLADES,6.0,0
+Week 14,Nexlev,LR-02,1103.0,0
+Week 14,Nexlev,LR-02 SET OF 2 BLADES,8.0,0
+Week 14,Nexlev,LR-03,3656.0,0
+Week 14,Nexlev,MC-01,1412.0,0
+Week 14,Nexlev,MF-01,1918.0,0
+Week 14,Nexlev,MG-01,167.0,0
+Week 14,Nexlev,MGC-03,73.0,0
+Week 14,Nexlev,MGS-02,27.0,0
+Week 14,Nexlev,MM-01,2.0,0
+Week 14,Nexlev,MR-01,1586.0,0
+Week 14,Nexlev,MR-02,732.0,0
+Week 14,Nexlev,MR-02 HEPA FILTER,1.0,0
+Week 14,Nexlev,MR-03,504.0,0
+Week 14,Nexlev,NP-01,400.0,0
+Week 14,Nexlev,NP-02,670.0,0
+Week 14,Nexlev,NP-03,589.0,0
+Week 14,Nexlev,NP-04,0.0,0
+Week 14,Nexlev,NP-05,43.0,0
+Week 14,Nexlev,NP-06,226.0,0
+Week 14,Nexlev,NP-07,294.0,0
+Week 14,Nexlev,PB-01,773.0,0
+Week 14,Nexlev,PM-01,5.0,0
+Week 14,Nexlev,PM-02,53.0,0
+Week 14,Nexlev,SC-01,1116.0,0
+Week 14,Nexlev,SC-01 SET OF SPARES,0.0,0
+Week 14,Nexlev,SC-02,22.0,0
+Week 14,Nexlev,SC-02 SET OF SPARES,0.0,0
+Week 14,Nexlev,SC-03,84.0,0
+Week 14,Nexlev,SC-04,1231.0,0
+Week 14,Nexlev,SC-04 SET OF 2 MOPS,0.0,0
+Week 14,Nexlev,SC-04 SPARE SET,6.0,0
+Week 14,Nexlev,SC-05,2147.0,0
+Week 14,Nexlev,SC-05 SC-05 - SET OF SPARES,5.0,0
+Week 14,Nexlev,SM-01,457.0,0
+Week 14,Nexlev,SM-01 SET OF 2 MOPS,0.0,0
+Week 14,Nexlev,SP-01,500.0,0
+Week 14,Nexlev,SPM-01,504.0,0
+Week 14,Nexlev,SPM-01 SET OF 2 MOPS,15.0,0
+Week 14,Nexlev,SS-01,120.0,0
+Week 14,Nexlev,SS-02,822.0,0
+Week 14,Nexlev,SS-02 SET OF SPARES,9.0,0
+Week 14,Nexlev,ST-01,529.0,0
+Week 14,Nexlev,ST-01 ST-01 SET OF HOOKS,0.0,0
+Week 14,Nexlev,ST-02,200.0,0
+Week 14,Nexlev,ST-03,100.0,0
+Week 14,Nexlev,SW-01,576.0,0
+Week 14,Nexlev,T-01,47.0,0
+Week 14,Nexlev,T-02,1316.0,0
+Week 14,Nexlev,TI-01,100.0,0
+Week 14,Nexlev,TI-02,706.0,0
+Week 14,Nexlev,TIC-03,79.0,0
+Week 14,Nexlev,TIC-04,31.0,0
+Week 14,Nexlev,TM-01,471.0,0
+Week 14,Nexlev,TM-02,281.0,0
+Week 14,Nexlev,TM-03,1000.0,0
+Week 14,Nexlev,TM-04,3.0,0
+Week 14,Nexlev,TM-05,60.0,0
+Week 14,Nexlev,TR-05,66.0,0
+Week 14,Nexlev,V-01,589.0,0
+Week 14,Nexlev,V-01 BLACK,48.0,0
+Week 14,Nexlev,V-01 RG,1006.0,0
+Week 14,Nexlev,V-01 ROSE GOLD,116.0,0
+Week 14,Nexlev,V-02,696.0,0
+Week 14,Nexlev,V-03,2969.0,0
+Week 14,Nexlev,VC-01,2843.0,0
+Week 14,Nexlev,VC-01 HEPA,0.0,0
+Week 14,Nexlev,VC-02,848.0,0
+Week 14,Nexlev,VC-03,829.0,0
+Week 14,Nexlev,VC-04,385.0,0
+Week 14,Nexlev,VC-05,699.0,0
+Week 14,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
+Week 14,Nexlev,VC-06,58.0,0
+Week 14,Nexlev,WF-02-BL,18.0,0
+Week 14,Tonor,D2,0.0,0
+Week 14,Tonor,D5,2.0,0
+Week 14,Tonor,G11,253.0,0
+Week 14,Tonor,K1,1057.0,0
+Week 14,Tonor,K20,0.0,0
+Week 14,Tonor,K9,0.0,0
+Week 14,Tonor,ORCA001,13.0,0
+Week 14,Tonor,Q9,0.0,0
+Week 14,Tonor,S20,244.0,0
+Week 14,Tonor,T10,13.0,0
+Week 14,Tonor,T20,54.0,0
+Week 14,Tonor,T20LP,68.0,0
+Week 14,Tonor,T30,51.0,0
+Week 14,Tonor,T90,9.0,0
+Week 14,Tonor,TC-2030,91.0,0
+Week 14,Tonor,TC-777,413.0,0
+Week 14,Tonor,TC-777 PRO,29.0,0
+Week 14,Tonor,TC20,10.0,0
+Week 14,Tonor,TC30,355.0,0
+Week 14,Tonor,TC30+,9.0,0
+Week 14,Tonor,TC30S,44.0,0
+Week 14,Tonor,TC30S+,19.0,0
+Week 14,Tonor,TC310,61.0,0
+Week 14,Tonor,TC310+,200.0,0
+Week 14,Tonor,TC40,17.0,0
+Week 14,Tonor,TC40S,73.0,0
+Week 14,Tonor,TC777 PRO,30.0,0
+Week 14,Tonor,TC777PRO,379.0,0
+Week 14,Tonor,TD310,508.0,0
+Week 14,Tonor,TD310+,440.0,0
+Week 14,Tonor,TD510,31.0,0
+Week 14,Tonor,TD510+,5.0,0
+Week 14,Tonor,TM20,171.0,0
+Week 14,Tonor,TM310,89.0,0
+Week 14,Tonor,TRL-20,16.0,0
+Week 14,White Mulberry,6780-4679-WHT-SIOC,1.0,0
+Week 14,White Mulberry,GS1ML,6.0,0
+Week 14,White Mulberry,GS2ML,15.0,0
+Week 14,White Mulberry,HA1ML,45.0,0
+Week 14,White Mulberry,HA2ML,15.0,0
+Week 14,White Mulberry,HD1ML,6.0,0
+Week 14,White Mulberry,HDGS1ML,16.0,0
+Week 14,White Mulberry,HDMSP1ML,15.0,0
+Week 14,White Mulberry,HDWF1ML,438.0,0
+Week 14,White Mulberry,MS1ML,507.0,0
+Week 14,White Mulberry,MS2ML,5.0,0
+Week 14,White Mulberry,POS BRACKET,138.0,0
+Week 14,White Mulberry,POS2M,28.0,0
+Week 14,White Mulberry,POS2MK,19.0,0
+Week 14,White Mulberry,POSS-01,73.0,0
+Week 14,White Mulberry,TVCF1ML,765.0,0
+Week 14,White Mulberry,TVCT1ML,338.0,0
+Week 14,White Mulberry,TVFM1ML,776.0,0
+Week 14,White Mulberry,TVLF1ML,814.0,0
+Week 14,White Mulberry,TVMF1ML,922.0,0
+Week 14,White Mulberry,VLMS1ML,378.0,0
+Week 14,White Mulberry,WM-CT03MA-100,0.0,0
+Week 14,White Mulberry,WM-CT03MA-120,0.0,0
+Week 14,White Mulberry,WM-CT03OA-100,0.0,0
+Week 14,White Mulberry,WM-CT03OA-120,0.0,0
+Week 14,White Mulberry,WM-DT02-BK,0.0,0
+Week 14,White Mulberry,WM-GD07-CB,25.0,0
+Week 14,White Mulberry,WM-GS1M-BK,867.0,0
+Week 14,White Mulberry,WM-GS2M-BK,444.0,0
+Week 14,White Mulberry,WM-HA1M-BK,663.0,0
+Week 14,White Mulberry,WM-HA2M-BK,402.0,0
+Week 14,White Mulberry,WM-LOD-BK,15.0,0
+Week 14,White Mulberry,WM-LOD-CF,78.0,0
+Week 14,White Mulberry,WM-LOD-IN,28.0,0
+Week 14,White Mulberry,WM-LOD-WH,200.0,0
+Week 14,White Mulberry,WM-LODJ-BK,0.0,0
+Week 14,White Mulberry,WM-LODJ-CF,0.0,0
+Week 14,White Mulberry,WM-LODJ-IN,0.0,0
+Week 14,White Mulberry,WM-LODN-BK,3.0,0
+Week 14,White Mulberry,WM-LODN-WH,3.0,0
+Week 14,White Mulberry,WM-LWS-CF,0.0,0
+Week 14,White Mulberry,WM-LWS-GR,0.0,0
+Week 14,White Mulberry,WM-MD09-BK,0.0,0
+Week 14,White Mulberry,WM-MDL-BK,18.0,0
+Week 14,White Mulberry,WM-MDL-WH,23.0,0
+Week 14,White Mulberry,WM-MH05P-BK,6.0,0
+Week 14,White Mulberry,WM-MH05P-CF,0.0,0
+Week 14,White Mulberry,WM-MH05P-WH,2.0,0
+Week 14,White Mulberry,WM-MODL-BBW,1.0,0
+Week 14,White Mulberry,WM-MODL-BK,4.0,0
+Week 14,White Mulberry,WM-MODL-WH,70.0,0
+Week 14,White Mulberry,WM-OD-CL,0.0,0
+Week 14,White Mulberry,WM-SE08-BK,0.0,0
+Week 14,White Mulberry,WM-SE08-CF,78.0,0
+Week 14,White Mulberry,WM-SE08-WD,0.0,0
+Week 14,White Mulberry,WM-SE08-WH,8.0,0
+Week 14,White Mulberry,WM-SEH04P-BK,0.0,0
+Week 14,White Mulberry,WM-SEH04P-CF,3.0,0
+Week 14,White Mulberry,WM-SEH04P-WH,0.0,0
+Week 14,White Mulberry,WM-SMD09-WH,15.0,0
+Week 14,White Mulberry,WM-SWZ0021-BK,0.0,0
+Week 14,White Mulberry,WM-USE06-BK,3.0,0
+Week 14,White Mulberry,WM-USE06-WB,0.0,0
+Week 14,White Mulberry,WM-USE06-WH,1.0,0
+Week 14,White Mulberry,WM-USE06-WW,0.0,0
+Week 14,White Mulberry,WM1ML,591.0,0
 Week 4,Audio Array,AA-01,488.0,0
 Week 4,Audio Array,AA-02,1195.0,0
 Week 4,Audio Array,AA-03,645.0,0
@@ -2989,39 +3768,39 @@ Week 4,Nexlev,VC-05,660.0,0
 Week 4,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",0.0,0
 Week 4,Nexlev,VC-06,545.0,0
 Week 4,Nexlev,WF-02-BL,29.0,0
-Week 4,Unknown,D2,0.0,0
-Week 4,Unknown,D5,2.0,0
-Week 4,Unknown,G11,56.0,0
-Week 4,Unknown,K1,208.0,0
-Week 4,Unknown,K20,0.0,0
-Week 4,Unknown,K9,0.0,0
-Week 4,Unknown,ORCA001,17.0,0
-Week 4,Unknown,Q9,0.0,0
-Week 4,Unknown,S20,81.0,0
-Week 4,Unknown,T10,12.0,0
-Week 4,Unknown,T20,70.0,0
-Week 4,Unknown,T20LP,74.0,0
-Week 4,Unknown,T30,26.0,0
-Week 4,Unknown,T90,10.0,0
-Week 4,Unknown,TC-2030,17.0,0
-Week 4,Unknown,TC-777,474.0,0
-Week 4,Unknown,TC-777 PRO,560.0,0
-Week 4,Unknown,TC20,10.0,0
-Week 4,Unknown,TC30,398.0,0
-Week 4,Unknown,TC30+,0.0,0
-Week 4,Unknown,TC30S,52.0,0
-Week 4,Unknown,TC30S+,20.0,0
-Week 4,Unknown,TC310,70.0,0
-Week 4,Unknown,TC310+,239.0,0
-Week 4,Unknown,TC40,29.0,0
-Week 4,Unknown,TC40S,86.0,0
-Week 4,Unknown,TD310,14.0,0
-Week 4,Unknown,TD310+,296.0,0
-Week 4,Unknown,TD510,71.0,0
-Week 4,Unknown,TD510+,5.0,0
-Week 4,Unknown,TM20,29.0,0
-Week 4,Unknown,TM310,65.0,0
-Week 4,Unknown,TRL-20,17.0,0
+Week 4,Tonor,D2,0.0,0
+Week 4,Tonor,D5,2.0,0
+Week 4,Tonor,G11,56.0,0
+Week 4,Tonor,K1,208.0,0
+Week 4,Tonor,K20,0.0,0
+Week 4,Tonor,K9,0.0,0
+Week 4,Tonor,ORCA001,17.0,0
+Week 4,Tonor,Q9,0.0,0
+Week 4,Tonor,S20,81.0,0
+Week 4,Tonor,T10,12.0,0
+Week 4,Tonor,T20,70.0,0
+Week 4,Tonor,T20LP,74.0,0
+Week 4,Tonor,T30,26.0,0
+Week 4,Tonor,T90,10.0,0
+Week 4,Tonor,TC-2030,17.0,0
+Week 4,Tonor,TC-777,474.0,0
+Week 4,Tonor,TC-777 PRO,560.0,0
+Week 4,Tonor,TC20,10.0,0
+Week 4,Tonor,TC30,398.0,0
+Week 4,Tonor,TC30+,0.0,0
+Week 4,Tonor,TC30S,52.0,0
+Week 4,Tonor,TC30S+,20.0,0
+Week 4,Tonor,TC310,70.0,0
+Week 4,Tonor,TC310+,239.0,0
+Week 4,Tonor,TC40,29.0,0
+Week 4,Tonor,TC40S,86.0,0
+Week 4,Tonor,TD310,14.0,0
+Week 4,Tonor,TD310+,296.0,0
+Week 4,Tonor,TD510,71.0,0
+Week 4,Tonor,TD510+,5.0,0
+Week 4,Tonor,TM20,29.0,0
+Week 4,Tonor,TM310,65.0,0
+Week 4,Tonor,TRL-20,17.0,0
 Week 4,White Mulberry,6021-3081-BB,0.0,0
 Week 4,White Mulberry,6023-1168,0.0,0
 Week 4,White Mulberry,6023-210-SIOC,0.0,0
@@ -3420,39 +4199,39 @@ Week 5,Nexlev,VC-04,321.0,0
 Week 5,Nexlev,VC-05,500.0,0
 Week 5,Nexlev,VC-06,583.0,0
 Week 5,Nexlev,WF-02-BL,24.0,0
-Week 5,Unknown,D2,0.0,0
-Week 5,Unknown,D5,2.0,0
-Week 5,Unknown,G11,46.0,0
-Week 5,Unknown,K1,162.0,0
-Week 5,Unknown,K20,0.0,0
-Week 5,Unknown,K9,0.0,0
-Week 5,Unknown,ORCA001,17.0,0
-Week 5,Unknown,Q9,0.0,0
-Week 5,Unknown,S20,74.0,0
-Week 5,Unknown,T10,12.0,0
-Week 5,Unknown,T20,66.0,0
-Week 5,Unknown,T20LP,68.0,0
-Week 5,Unknown,T30,20.0,0
-Week 5,Unknown,T90,9.0,0
-Week 5,Unknown,TC-2030,15.0,0
-Week 5,Unknown,TC-777,466.0,0
-Week 5,Unknown,TC-777 PRO,522.0,0
-Week 5,Unknown,TC20,10.0,0
-Week 5,Unknown,TC30,397.0,0
-Week 5,Unknown,TC30+,0.0,0
-Week 5,Unknown,TC30S,51.0,0
-Week 5,Unknown,TC30S+,20.0,0
-Week 5,Unknown,TC310,76.0,0
-Week 5,Unknown,TC310+,233.0,0
-Week 5,Unknown,TC40,28.0,0
-Week 5,Unknown,TC40S,86.0,0
-Week 5,Unknown,TD310,9.0,0
-Week 5,Unknown,TD310+,292.0,0
-Week 5,Unknown,TD510,66.0,0
-Week 5,Unknown,TD510+,5.0,0
-Week 5,Unknown,TM20,28.0,0
-Week 5,Unknown,TM310,65.0,0
-Week 5,Unknown,TRL-20,16.0,0
+Week 5,Tonor,D2,0.0,0
+Week 5,Tonor,D5,2.0,0
+Week 5,Tonor,G11,46.0,0
+Week 5,Tonor,K1,162.0,0
+Week 5,Tonor,K20,0.0,0
+Week 5,Tonor,K9,0.0,0
+Week 5,Tonor,ORCA001,17.0,0
+Week 5,Tonor,Q9,0.0,0
+Week 5,Tonor,S20,74.0,0
+Week 5,Tonor,T10,12.0,0
+Week 5,Tonor,T20,66.0,0
+Week 5,Tonor,T20LP,68.0,0
+Week 5,Tonor,T30,20.0,0
+Week 5,Tonor,T90,9.0,0
+Week 5,Tonor,TC-2030,15.0,0
+Week 5,Tonor,TC-777,466.0,0
+Week 5,Tonor,TC-777 PRO,522.0,0
+Week 5,Tonor,TC20,10.0,0
+Week 5,Tonor,TC30,397.0,0
+Week 5,Tonor,TC30+,0.0,0
+Week 5,Tonor,TC30S,51.0,0
+Week 5,Tonor,TC30S+,20.0,0
+Week 5,Tonor,TC310,76.0,0
+Week 5,Tonor,TC310+,233.0,0
+Week 5,Tonor,TC40,28.0,0
+Week 5,Tonor,TC40S,86.0,0
+Week 5,Tonor,TD310,9.0,0
+Week 5,Tonor,TD310+,292.0,0
+Week 5,Tonor,TD510,66.0,0
+Week 5,Tonor,TD510+,5.0,0
+Week 5,Tonor,TM20,28.0,0
+Week 5,Tonor,TM310,65.0,0
+Week 5,Tonor,TRL-20,16.0,0
 Week 5,White Mulberry,6021-3081-BB,0.0,0
 Week 5,White Mulberry,6023-1168,0.0,0
 Week 5,White Mulberry,6023-210-SIOC,0.0,0
@@ -3868,39 +4647,39 @@ Week 6,Nexlev,VC-04,546.0,0
 Week 6,Nexlev,VC-05,787.0,0
 Week 6,Nexlev,VC-06,635.0,0
 Week 6,Nexlev,WF-02-BL,34.0,0
-Week 6,Unknown,D2,0.0,0
-Week 6,Unknown,D5,2.0,0
-Week 6,Unknown,G11,33.0,0
-Week 6,Unknown,K1,141.0,0
-Week 6,Unknown,K20,0.0,0
-Week 6,Unknown,K9,0.0,0
-Week 6,Unknown,ORCA001,17.0,0
-Week 6,Unknown,Q9,0.0,0
-Week 6,Unknown,S20,81.0,0
-Week 6,Unknown,T10,12.0,0
-Week 6,Unknown,T20,95.0,0
-Week 6,Unknown,T20LP,67.0,0
-Week 6,Unknown,T30,20.0,0
-Week 6,Unknown,T90,9.0,0
-Week 6,Unknown,TC-2030,13.0,0
-Week 6,Unknown,TC-777,465.0,0
-Week 6,Unknown,TC-777 PRO,535.0,0
-Week 6,Unknown,TC20,10.0,0
-Week 6,Unknown,TC30,398.0,0
-Week 6,Unknown,TC30+,5.0,0
-Week 6,Unknown,TC30S,50.0,0
-Week 6,Unknown,TC30S+,21.0,0
-Week 6,Unknown,TC310,82.0,0
-Week 6,Unknown,TC310+,228.0,0
-Week 6,Unknown,TC40,29.0,0
-Week 6,Unknown,TC40S,85.0,0
-Week 6,Unknown,TD310,2.0,0
-Week 6,Unknown,TD310+,264.0,0
-Week 6,Unknown,TD510,61.0,0
-Week 6,Unknown,TD510+,5.0,0
-Week 6,Unknown,TM20,66.0,0
-Week 6,Unknown,TM310,125.0,0
-Week 6,Unknown,TRL-20,16.0,0
+Week 6,Tonor,D2,0.0,0
+Week 6,Tonor,D5,2.0,0
+Week 6,Tonor,G11,33.0,0
+Week 6,Tonor,K1,141.0,0
+Week 6,Tonor,K20,0.0,0
+Week 6,Tonor,K9,0.0,0
+Week 6,Tonor,ORCA001,17.0,0
+Week 6,Tonor,Q9,0.0,0
+Week 6,Tonor,S20,81.0,0
+Week 6,Tonor,T10,12.0,0
+Week 6,Tonor,T20,95.0,0
+Week 6,Tonor,T20LP,67.0,0
+Week 6,Tonor,T30,20.0,0
+Week 6,Tonor,T90,9.0,0
+Week 6,Tonor,TC-2030,13.0,0
+Week 6,Tonor,TC-777,465.0,0
+Week 6,Tonor,TC-777 PRO,535.0,0
+Week 6,Tonor,TC20,10.0,0
+Week 6,Tonor,TC30,398.0,0
+Week 6,Tonor,TC30+,5.0,0
+Week 6,Tonor,TC30S,50.0,0
+Week 6,Tonor,TC30S+,21.0,0
+Week 6,Tonor,TC310,82.0,0
+Week 6,Tonor,TC310+,228.0,0
+Week 6,Tonor,TC40,29.0,0
+Week 6,Tonor,TC40S,85.0,0
+Week 6,Tonor,TD310,2.0,0
+Week 6,Tonor,TD310+,264.0,0
+Week 6,Tonor,TD510,61.0,0
+Week 6,Tonor,TD510+,5.0,0
+Week 6,Tonor,TM20,66.0,0
+Week 6,Tonor,TM310,125.0,0
+Week 6,Tonor,TRL-20,16.0,0
 Week 6,White Mulberry,-,119.0,0
 Week 6,White Mulberry,6021-3081-BB,0.0,0
 Week 6,White Mulberry,6023-1168,0.0,0
@@ -4311,56 +5090,56 @@ Week 7,Nexlev,VC-05,773.0,0
 Week 7,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
 Week 7,Nexlev,VC-06,637.0,0
 Week 7,Nexlev,WF-02-BL,34.0,0
-Week 7,Unknown,D2,0.0,0
-Week 7,Unknown,D5,2.0,0
-Week 7,Unknown,G11,252.0,0
-Week 7,Unknown,K1,1124.0,0
-Week 7,Unknown,ORCA001,7.0,0
-Week 7,Unknown,S20,259.0,0
-Week 7,Unknown,T10,12.0,0
-Week 7,Unknown,T20,61.0,0
-Week 7,Unknown,T20LP,68.0,0
-Week 7,Unknown,T30,8.0,0
-Week 7,Unknown,T90,8.0,0
-Week 7,Unknown,TC-2030,81.0,0
-Week 7,Unknown,TC-777,91.0,0
-Week 7,Unknown,TC-777 PRO,38.0,0
-Week 7,Unknown,TC20,4.0,0
-Week 7,Unknown,TC30,76.0,0
-Week 7,Unknown,TC30+,11.0,0
-Week 7,Unknown,TC30S,50.0,0
-Week 7,Unknown,TC30S+,21.0,0
-Week 7,Unknown,TC310,74.0,0
-Week 7,Unknown,TC310+,227.0,0
-Week 7,Unknown,TC40,6.0,0
-Week 7,Unknown,TC40S,23.0,0
-Week 7,Unknown,TC777 PRO,30.0,0
-Week 7,Unknown,TC777PRO,464.0,0
-Week 7,Unknown,TD310,509.0,0
-Week 7,Unknown,TD310+,235.0,0
-Week 7,Unknown,TD510,55.0,0
-Week 7,Unknown,TD510+,5.0,0
-Week 7,Unknown,TM20,179.0,0
-Week 7,Unknown,TM310,95.0,0
-Week 7,Unknown,"TONOR
+Week 7,Tonor,D2,0.0,0
+Week 7,Tonor,D5,2.0,0
+Week 7,Tonor,G11,252.0,0
+Week 7,Tonor,K1,1124.0,0
+Week 7,Tonor,ORCA001,7.0,0
+Week 7,Tonor,S20,259.0,0
+Week 7,Tonor,T10,12.0,0
+Week 7,Tonor,T20,61.0,0
+Week 7,Tonor,T20LP,68.0,0
+Week 7,Tonor,T30,8.0,0
+Week 7,Tonor,T90,8.0,0
+Week 7,Tonor,TC-2030,81.0,0
+Week 7,Tonor,TC-777,91.0,0
+Week 7,Tonor,TC-777 PRO,38.0,0
+Week 7,Tonor,TC20,4.0,0
+Week 7,Tonor,TC30,76.0,0
+Week 7,Tonor,TC30+,11.0,0
+Week 7,Tonor,TC30S,50.0,0
+Week 7,Tonor,TC30S+,21.0,0
+Week 7,Tonor,TC310,74.0,0
+Week 7,Tonor,TC310+,227.0,0
+Week 7,Tonor,TC40,6.0,0
+Week 7,Tonor,TC40S,23.0,0
+Week 7,Tonor,TC777 PRO,30.0,0
+Week 7,Tonor,TC777PRO,464.0,0
+Week 7,Tonor,TD310,509.0,0
+Week 7,Tonor,TD310+,235.0,0
+Week 7,Tonor,TD510,55.0,0
+Week 7,Tonor,TD510+,5.0,0
+Week 7,Tonor,TM20,179.0,0
+Week 7,Tonor,TM310,95.0,0
+Week 7,Tonor,"TONOR
 K1",16.0,0
-Week 7,Unknown,"TONOR
+Week 7,Tonor,"TONOR
 ORCA001",10.0,0
-Week 7,Unknown,TONORG11,10.0,0
-Week 7,Unknown,TONORK20,0.0,0
-Week 7,Unknown,TONORK9,0.0,0
-Week 7,Unknown,TONORQ9,0.0,0
-Week 7,Unknown,TONORS20,17.0,0
-Week 7,Unknown,TONORT20,16.0,0
-Week 7,Unknown,TONORT30,10.0,0
-Week 7,Unknown,TONORTC-2030,11.0,0
-Week 7,Unknown,TONORTC-777,370.0,0
-Week 7,Unknown,TONORTC20,6.0,0
-Week 7,Unknown,TONORTC30,311.0,0
-Week 7,Unknown,TONORTC40,23.0,0
-Week 7,Unknown,TONORTC40S,62.0,0
-Week 7,Unknown,TONORTM20,2.0,0
-Week 7,Unknown,TRL-20,16.0,0
+Week 7,Tonor,TONORG11,10.0,0
+Week 7,Tonor,TONORK20,0.0,0
+Week 7,Tonor,TONORK9,0.0,0
+Week 7,Tonor,TONORQ9,0.0,0
+Week 7,Tonor,TONORS20,17.0,0
+Week 7,Tonor,TONORT20,16.0,0
+Week 7,Tonor,TONORT30,10.0,0
+Week 7,Tonor,TONORTC-2030,11.0,0
+Week 7,Tonor,TONORTC-777,370.0,0
+Week 7,Tonor,TONORTC20,6.0,0
+Week 7,Tonor,TONORTC30,311.0,0
+Week 7,Tonor,TONORTC40,23.0,0
+Week 7,Tonor,TONORTC40S,62.0,0
+Week 7,Tonor,TONORTM20,2.0,0
+Week 7,Tonor,TRL-20,16.0,0
 Week 7,White Mulberry,6021-3081-BB,0.0,0
 Week 7,White Mulberry,6023-1168,0.0,0
 Week 7,White Mulberry,6023-210-SIOC,0.0,0
@@ -4801,45 +5580,45 @@ Week 8,Nexlev,VC-05,761.0,0
 Week 8,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
 Week 8,Nexlev,VC-06,637.0,0
 Week 8,Nexlev,WF-02-BL,34.0,0
-Week 8,Unknown,D2,0.0,0
-Week 8,Unknown,D5,2.0,0
-Week 8,Unknown,G11,20.0,0
-Week 8,Unknown,K1,88.0,0
-Week 8,Unknown,K20,0.0,0
-Week 8,Unknown,K9,0.0,0
-Week 8,Unknown,ORCA001,17.0,0
-Week 8,Unknown,Q9,0.0,0
-Week 8,Unknown,S20,71.0,0
-Week 8,Unknown,T10,12.0,0
-Week 8,Unknown,T20,71.0,0
-Week 8,Unknown,T20LP,69.0,0
-Week 8,Unknown,T30,17.0,0
-Week 8,Unknown,T90,8.0,0
-Week 8,Unknown,TC-2030,10.0,0
-Week 8,Unknown,TC-777,455.0,0
-Week 8,Unknown,TC-777 PRO,492.0,0
-Week 8,Unknown,TC20,10.0,0
-Week 8,Unknown,TC30,379.0,0
-Week 8,Unknown,TC30+,11.0,0
-Week 8,Unknown,TC30S,50.0,0
-Week 8,Unknown,TC30S+,20.0,0
-Week 8,Unknown,TC310,71.0,0
-Week 8,Unknown,TC310+,231.0,0
-Week 8,Unknown,TC40,28.0,0
-Week 8,Unknown,TC40S,85.0,0
-Week 8,Unknown,TD310,507.0,0
-Week 8,Unknown,TD310+,203.0,0
-Week 8,Unknown,TD510,52.0,0
-Week 8,Unknown,TD510+,5.0,0
-Week 8,Unknown,TM20,29.0,0
-Week 8,Unknown,TM310,93.0,0
-Week 8,Unknown,"TONOR
+Week 8,Tonor,D2,0.0,0
+Week 8,Tonor,D5,2.0,0
+Week 8,Tonor,G11,20.0,0
+Week 8,Tonor,K1,88.0,0
+Week 8,Tonor,K20,0.0,0
+Week 8,Tonor,K9,0.0,0
+Week 8,Tonor,ORCA001,17.0,0
+Week 8,Tonor,Q9,0.0,0
+Week 8,Tonor,S20,71.0,0
+Week 8,Tonor,T10,12.0,0
+Week 8,Tonor,T20,71.0,0
+Week 8,Tonor,T20LP,69.0,0
+Week 8,Tonor,T30,17.0,0
+Week 8,Tonor,T90,8.0,0
+Week 8,Tonor,TC-2030,10.0,0
+Week 8,Tonor,TC-777,455.0,0
+Week 8,Tonor,TC-777 PRO,492.0,0
+Week 8,Tonor,TC20,10.0,0
+Week 8,Tonor,TC30,379.0,0
+Week 8,Tonor,TC30+,11.0,0
+Week 8,Tonor,TC30S,50.0,0
+Week 8,Tonor,TC30S+,20.0,0
+Week 8,Tonor,TC310,71.0,0
+Week 8,Tonor,TC310+,231.0,0
+Week 8,Tonor,TC40,28.0,0
+Week 8,Tonor,TC40S,85.0,0
+Week 8,Tonor,TD310,507.0,0
+Week 8,Tonor,TD310+,203.0,0
+Week 8,Tonor,TD510,52.0,0
+Week 8,Tonor,TD510+,5.0,0
+Week 8,Tonor,TM20,29.0,0
+Week 8,Tonor,TM310,93.0,0
+Week 8,Tonor,"TONOR
 K1",1026.0,0
-Week 8,Unknown,TONORG11,240.0,0
-Week 8,Unknown,TONORS20,204.0,0
-Week 8,Unknown,TONORTC-2030,80.0,0
-Week 8,Unknown,TONORTM20,150.0,0
-Week 8,Unknown,TRL-20,16.0,0
+Week 8,Tonor,TONORG11,240.0,0
+Week 8,Tonor,TONORS20,204.0,0
+Week 8,Tonor,TONORTC-2030,80.0,0
+Week 8,Tonor,TONORTM20,150.0,0
+Week 8,Tonor,TRL-20,16.0,0
 Week 8,White Mulberry,6021-3081-BB,0.0,0
 Week 8,White Mulberry,6023-1168,0.0,0
 Week 8,White Mulberry,6023-210-SIOC,0.0,0
@@ -5278,39 +6057,39 @@ Week 9,Nexlev,VC-05,758.0,0
 Week 9,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,0
 Week 9,Nexlev,VC-06,637.0,0
 Week 9,Nexlev,WF-02-BL,33.0,0
-Week 9,Unknown,D2,0.0,0
-Week 9,Unknown,D5,2.0,0
-Week 9,Unknown,G11,250.0,0
-Week 9,Unknown,K1,1086.0,0
-Week 9,Unknown,K20,0.0,0
-Week 9,Unknown,K9,0.0,0
-Week 9,Unknown,ORCA001,17.0,0
-Week 9,Unknown,Q9,0.0,0
-Week 9,Unknown,S20,263.0,0
-Week 9,Unknown,T10,12.0,0
-Week 9,Unknown,T20,73.0,0
-Week 9,Unknown,T20LP,69.0,0
-Week 9,Unknown,T30,16.0,0
-Week 9,Unknown,T90,8.0,0
-Week 9,Unknown,TC-2030,92.0,0
-Week 9,Unknown,TC-777,457.0,0
-Week 9,Unknown,TC-777 PRO,517.0,0
-Week 9,Unknown,TC20,10.0,0
-Week 9,Unknown,TC30,358.0,0
-Week 9,Unknown,TC30+,11.0,0
-Week 9,Unknown,TC30S,50.0,0
-Week 9,Unknown,TC30S+,19.0,0
-Week 9,Unknown,TC310,68.0,0
-Week 9,Unknown,TC310+,227.0,0
-Week 9,Unknown,TC40,8.0,0
-Week 9,Unknown,TC40S,85.0,0
-Week 9,Unknown,TD310,507.0,0
-Week 9,Unknown,TD310+,194.0,0
-Week 9,Unknown,TD510,42.0,0
-Week 9,Unknown,TD510+,5.0,0
-Week 9,Unknown,TM20,170.0,0
-Week 9,Unknown,TM310,86.0,0
-Week 9,Unknown,TRL-20,16.0,0
+Week 9,Tonor,D2,0.0,0
+Week 9,Tonor,D5,2.0,0
+Week 9,Tonor,G11,250.0,0
+Week 9,Tonor,K1,1086.0,0
+Week 9,Tonor,K20,0.0,0
+Week 9,Tonor,K9,0.0,0
+Week 9,Tonor,ORCA001,17.0,0
+Week 9,Tonor,Q9,0.0,0
+Week 9,Tonor,S20,263.0,0
+Week 9,Tonor,T10,12.0,0
+Week 9,Tonor,T20,73.0,0
+Week 9,Tonor,T20LP,69.0,0
+Week 9,Tonor,T30,16.0,0
+Week 9,Tonor,T90,8.0,0
+Week 9,Tonor,TC-2030,92.0,0
+Week 9,Tonor,TC-777,457.0,0
+Week 9,Tonor,TC-777 PRO,517.0,0
+Week 9,Tonor,TC20,10.0,0
+Week 9,Tonor,TC30,358.0,0
+Week 9,Tonor,TC30+,11.0,0
+Week 9,Tonor,TC30S,50.0,0
+Week 9,Tonor,TC30S+,19.0,0
+Week 9,Tonor,TC310,68.0,0
+Week 9,Tonor,TC310+,227.0,0
+Week 9,Tonor,TC40,8.0,0
+Week 9,Tonor,TC40S,85.0,0
+Week 9,Tonor,TD310,507.0,0
+Week 9,Tonor,TD310+,194.0,0
+Week 9,Tonor,TD510,42.0,0
+Week 9,Tonor,TD510+,5.0,0
+Week 9,Tonor,TM20,170.0,0
+Week 9,Tonor,TM310,86.0,0
+Week 9,Tonor,TRL-20,16.0,0
 Week 9,White Mulberry,6021-3081-BB,0.0,0
 Week 9,White Mulberry,6023-1168,0.0,0
 Week 9,White Mulberry,6023-210-SIOC,0.0,0

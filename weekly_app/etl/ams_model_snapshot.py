@@ -198,9 +198,16 @@ def run_ams_model_etl():
             # ------------------------------------------------
             # SALES (TRUTH)
             # ------------------------------------------------
-            if "ordered_product_sales" in df.columns:
+            sales_col_candidates = [
+                "ordered_product_sales",
+                "14 day total sales",
+                "14 day total sales (₹)",
+                "attributed sales",
+            ]
+            sales_col = next((c for c in sales_col_candidates if c in df.columns), None)
+            if sales_col:
                 df["ordered_product_sales"] = pd.to_numeric(
-                    df["ordered_product_sales"], errors="coerce"
+                    df[sales_col], errors="coerce"
                 ).fillna(0)
             else:
                 df["ordered_product_sales"] = 0

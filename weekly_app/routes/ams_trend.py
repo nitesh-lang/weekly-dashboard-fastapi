@@ -119,7 +119,11 @@ def load_ams_data() -> pd.DataFrame:
         "Clicks": "clicks",
         "Impressions": "impressions",
         "ordered_product_sales": "gmv",
+        "14 day total sales": "gmv",
+        "14 day total sales (₹)": "gmv",
         "units_ordered": "units",
+        "14 day total units": "units",
+        "14 day total units (#)": "units",
     }
     df = df.rename(columns={k: v for k, v in rename.items() if k in df.columns})
     # NORMALIZE CATEGORY COLUMNS (FIX CATEGORY FILTER)

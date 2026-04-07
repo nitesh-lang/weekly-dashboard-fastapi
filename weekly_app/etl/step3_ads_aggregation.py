@@ -63,6 +63,8 @@ for brand_dir in AMS_DATA_DIR.iterdir():
 
 
     for ads_file in brand_dir.glob("ads_report_week*.xlsx"):
+        if ads_file.name.startswith("~$"):
+            continue
         week = extract_week(ads_file.name)
         if not week:
             continue

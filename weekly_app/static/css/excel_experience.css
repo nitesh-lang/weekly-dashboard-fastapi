@@ -1,0 +1,491 @@
+/* =============================================================
+   EXCEL EXPERIENCE  v1.0
+   Adds to dashboard_standards.css — import after it.
+   Brings: tight row density, AutoFilter dropdowns,
+   number formatting, copy feedback, context menu,
+   freeze pane shadows, row/col highlight, status bar.
+   ============================================================= */
+
+
+/* ── 1. TIGHT ROW DENSITY (Excel default: ~20px rows) ──────── */
+
+/* Override looser web defaults across all tables */
+.ds-excel table,
+table.ds-excel {
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+.ds-excel thead th,
+table.ds-excel thead th {
+  height: 22px;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #f0f2f5;
+  border: 1px solid #c8cbd4;
+  color: #1f2937;
+  white-space: nowrap;
+  user-select: none;
+  vertical-align: middle;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ds-excel tbody td,
+table.ds-excel tbody td {
+  height: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  border: 1px solid #d4d6de;
+  color: #111827;
+  white-space: nowrap;
+  vertical-align: middle;
+  background: #ffffff;
+  line-height: 20px;
+}
+
+/* Alternating row shade — Excel default */
+.ds-excel tbody tr:nth-child(even) td,
+table.ds-excel tbody tr:nth-child(even) td {
+  background: #f9fafb;
+}
+
+/* Row hover — Excel selection blue */
+.ds-excel tbody tr:hover td,
+table.ds-excel tbody tr:hover td {
+  background: #e8eeff !important;
+  cursor: default;
+}
+
+/* Selected row */
+.ds-excel tbody tr.xl-selected td,
+table.ds-excel tbody tr.xl-selected td {
+  background: #cdd5ff !important;
+  color: #111827;
+}
+
+/* Numeric cells — right-aligned, monospace */
+.ds-excel td.xl-num,
+table.ds-excel td.xl-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Consolas', 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+}
+
+/* Negative numbers in red — Excel convention */
+.ds-excel td.xl-neg,
+table.ds-excel td.xl-neg {
+  color: #c0392b !important;
+}
+
+/* Totals / bold rows */
+.ds-excel tr.xl-total td,
+table.ds-excel tr.xl-total td {
+  background: #e8f0fe !important;
+  font-weight: 700;
+  border-top: 2px solid #4f6ef7;
+}
+
+/* ── 2. COLUMN HEADER — sort + autofilter zone ──────────────── */
+
+.xl-th-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  width: 100%;
+}
+
+.xl-th-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sort arrow */
+.xl-sort-btn {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  opacity: 0;
+  border-radius: 2px;
+  transition: opacity 0.1s;
+}
+
+th:hover .xl-sort-btn,
+th.xl-asc .xl-sort-btn,
+th.xl-desc .xl-sort-btn {
+  opacity: 1;
+}
+
+th.xl-asc  .xl-sort-btn { color: #4f6ef7; }
+th.xl-desc .xl-sort-btn { color: #4f6ef7; }
+th.xl-asc  .xl-sort-btn::after { content: "▲"; }
+th.xl-desc .xl-sort-btn::after { content: "▼"; }
+th:not(.xl-asc):not(.xl-desc) .xl-sort-btn::after { content: "⇅"; }
+
+/* AutoFilter dropdown arrow */
+.xl-filter-arrow {
+  flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+  background: #ffffff;
+  border: 1px solid #b0b4c8;
+  border-radius: 2px;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  transition: all 0.1s;
+  line-height: 1;
+}
+
+.xl-filter-arrow:hover,
+th.xl-filter-active .xl-filter-arrow {
+  background: #4f6ef7;
+  border-color: #4f6ef7;
+  color: #fff;
+}
+
+th.xl-filter-active .xl-filter-arrow::after { content: "▼"; }
+th:not(.xl-filter-active) .xl-filter-arrow::after { content: "▾"; }
+
+
+/* ── 3. AUTOFILTER DROPDOWN PANEL ───────────────────────────── */
+
+.xl-dropdown {
+  position: fixed;
+  z-index: 9999;
+  background: #ffffff;
+  border: 1px solid #c8cbd4;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+  min-width: 180px;
+  max-width: 260px;
+  font-size: 12px;
+  color: #111827;
+  display: none;
+}
+
+.xl-dropdown.open { display: flex; flex-direction: column; }
+
+.xl-dd-search {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e8eaf0;
+}
+
+.xl-dd-search input {
+  width: 100%;
+  height: 24px;
+  padding: 2px 7px;
+  font-size: 11px;
+  border: 1px solid #d0d3de;
+  border-radius: 3px;
+  outline: none;
+  color: #111827;
+}
+
+.xl-dd-search input:focus { border-color: #4f6ef7; }
+
+.xl-dd-list {
+  overflow-y: auto;
+  max-height: 220px;
+  padding: 4px 0;
+}
+
+.xl-dd-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.08s;
+}
+
+.xl-dd-item:hover { background: #f0f2ff; }
+
+.xl-dd-item input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  accent-color: #4f6ef7;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.xl-dd-item.xl-dd-selectall {
+  font-weight: 700;
+  border-bottom: 1px solid #e8eaf0;
+  margin-bottom: 2px;
+  padding-bottom: 5px;
+}
+
+.xl-dd-footer {
+  padding: 6px 8px;
+  border-top: 1px solid #e8eaf0;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.xl-dd-btn {
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #d0d3de;
+  background: #f5f6fa;
+  color: #374151;
+  transition: all 0.1s;
+}
+
+.xl-dd-btn.xl-dd-ok {
+  background: #4f6ef7;
+  border-color: #4f6ef7;
+  color: #fff;
+}
+
+.xl-dd-btn:hover { filter: brightness(0.94); }
+
+/* Count badge on filter arrow when active */
+.xl-filter-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #4f6ef7;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+th .xl-filter-arrow-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+
+/* ── 4. FREEZE PANE SHADOW ──────────────────────────────────── */
+
+/* Applied by JS when scrollLeft > 0 */
+.ds-excel .xl-freeze-shadow::after,
+table.ds-excel .xl-freeze-shadow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.07), transparent);
+  pointer-events: none;
+}
+
+.ds-excel thead th.xl-frozen,
+.ds-excel tbody td.xl-frozen,
+table.ds-excel thead th.xl-frozen,
+table.ds-excel tbody td.xl-frozen {
+  position: sticky;
+  z-index: 3;
+  background: inherit;
+}
+
+.ds-excel thead th.xl-frozen { z-index: 12; background: #f0f2f5; }
+
+
+/* ── 5. COPY FLASH FEEDBACK ─────────────────────────────────── */
+
+.xl-copy-flash {
+  animation: xl-flash 0.35s ease;
+}
+
+@keyframes xl-flash {
+  0%   { background: #bbf7d0 !important; }
+  100% { background: inherit; }
+}
+
+/* Copy toast */
+.xl-copy-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 6px;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.xl-copy-toast.show { opacity: 1; }
+
+
+/* ── 6. EXCEL STATUS BAR ────────────────────────────────────── */
+
+.xl-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 3px 12px;
+  background: #3d3587;
+  color: rgba(255,255,255,0.85);
+  font-size: 11px;
+  font-family: 'Consolas', 'IBM Plex Mono', monospace;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  min-height: 22px;
+  flex-wrap: wrap;
+}
+
+.xl-status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.xl-status-item span.label {
+  color: rgba(255,255,255,0.5);
+  font-size: 10px;
+}
+
+.xl-status-item span.value {
+  color: #fff;
+  font-weight: 600;
+}
+
+.xl-status-sep {
+  color: rgba(255,255,255,0.2);
+}
+
+
+/* ── 7. CONTEXT MENU (right-click) ──────────────────────────── */
+
+.xl-context-menu {
+  position: fixed;
+  z-index: 99998;
+  background: #ffffff;
+  border: 1px solid #c8cbd4;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  padding: 4px 0;
+  min-width: 160px;
+  font-size: 12px;
+  display: none;
+}
+
+.xl-context-menu.open { display: block; }
+
+.xl-ctx-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  color: #111827;
+  cursor: pointer;
+  transition: background 0.08s;
+}
+
+.xl-ctx-item:hover { background: #f0f2ff; }
+
+.xl-ctx-item .xl-ctx-icon {
+  width: 14px;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.xl-ctx-sep {
+  height: 1px;
+  background: #e8eaf0;
+  margin: 3px 0;
+}
+
+.xl-ctx-kbd {
+  margin-left: auto;
+  font-size: 10px;
+  color: #9ca3af;
+  font-family: 'Consolas', monospace;
+}
+
+
+/* ── 8. ROW COUNT + FILTER STATUS ───────────────────────────── */
+
+.xl-row-info {
+  font-size: 11px;
+  color: #6b7280;
+  padding: 4px 12px;
+  border-bottom: 1px solid #e8eaf0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fafbff;
+}
+
+.xl-row-info .xl-filtered {
+  color: #4f6ef7;
+  font-weight: 600;
+}
+
+.xl-row-info .xl-clear-filters {
+  color: #dc2626;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+}
+.xl-row-info .xl-clear-filters:hover { text-decoration: underline; }
+
+
+/* ── 9. NUMBER FORMAT UTILITIES ─────────────────────────────── */
+
+/* Currency — ₹ prefix, right-aligned */
+.xl-inr { text-align: right; font-variant-numeric: tabular-nums; }
+.xl-inr::before { content: "₹"; color: #6b7280; font-size: 10px; margin-right: 1px; }
+
+/* Percentage */
+.xl-pct { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Positive delta */
+.xl-pos { color: #0f9b6e; font-weight: 600; }
+.xl-neg-val { color: #dc2626; font-weight: 600; }
+
+
+/* ── 10. COLUMN RESIZE HANDLE (future) ──────────────────────── */
+
+th.xl-resizable { position: relative; }
+
+.xl-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  cursor: col-resize;
+  background: transparent;
+  z-index: 5;
+}
+
+.xl-resize-handle:hover { background: #4f6ef7; opacity: 0.5; }

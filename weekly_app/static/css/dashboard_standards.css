@@ -1,0 +1,722 @@
+/* =============================================================
+   DASHBOARD STANDARDS  v1.0
+   Drop into _global_head.html — fixes filter/sort/table
+   inconsistencies across all modules.
+   No backend changes needed.
+   =============================================================
+
+   TABLE OF CONTENTS
+   1. CSS Variables (single source of truth)
+   2. Filter Bar — unified layout
+   3. Button System — one class per intent
+   4. Active Filter Chips
+   5. Week Picker — consistent dropdown
+   6. Tables — sticky header, sticky first col, hover, sort arrows
+   7. Totals Row
+   8. Heatmap / Conditional Formatting Utilities
+   9. Row Highlight + Selection
+  10. Column Filter Inputs (inline Excel-style)
+  11. Toast / Status Feedback
+  12. Responsive tweaks
+   ============================================================= */
+
+
+/* ── 1. CSS Variables ─────────────────────────────────────── */
+:root {
+  /* Brand (inherited from existing pages) */
+  --ds-header:      #3d3587;
+  --ds-nav:         #4a3f9e;
+  --ds-blue:        #4f6ef7;
+  --ds-blue-dim:    #eef0fe;
+  --ds-green:       #0f9b6e;
+  --ds-green-dim:   #ecfdf6;
+  --ds-amber:       #b45309;
+  --ds-amber-dim:   #fef3e2;
+  --ds-red:         #dc2626;
+  --ds-red-dim:     #fef2f2;
+  --ds-purple:      #7c5cbf;
+  --ds-purple-dim:  #f3eeff;
+
+  /* Surfaces */
+  --ds-bg:          #f5f6fa;
+  --ds-surface:     #ffffff;
+  --ds-surface2:    #f8f9fc;
+  --ds-border:      #e8eaf0;
+  --ds-border2:     #d5d9e6;
+
+  /* Text */
+  --ds-text:        #111827;
+  --ds-text2:       #374151;
+  --ds-text3:       #6b7280;
+
+  /* Filter bar */
+  --ds-filter-h:    48px;
+
+  /* Table */
+  --ds-row-hover:   #f0f2ff;
+  --ds-row-sel:     #e8ecff;
+  --ds-sort-color:  #4f6ef7;
+
+  /* Heatmap stops */
+  --ds-heat-0:      #ecfdf6;  /* best  */
+  --ds-heat-1:      #d1fae5;
+  --ds-heat-2:      #fef3e2;  /* mid   */
+  --ds-heat-3:      #fee2e2;
+  --ds-heat-4:      #fecaca;  /* worst */
+  --ds-heat-text-g: #065f46;
+  --ds-heat-text-a: #92400e;
+  --ds-heat-text-r: #991b1b;
+
+  /* Transitions */
+  --ds-ease:        0.15s ease;
+}
+
+
+/* ── 2. Filter Bar ────────────────────────────────────────── */
+
+/*
+  Usage:
+  <form id="filterForm" class="ds-filter-bar" method="get">
+    <div class="ds-filter-group">
+      <label>Brand</label>
+      <select name="brand">…</select>
+    </div>
+    <div class="ds-filter-actions">
+      <button type="submit" class="ds-btn ds-btn-apply">Apply</button>
+      <button type="button" class="ds-btn ds-btn-reset" onclick="dsResetFilters()">✕ Reset</button>
+      <button type="button" class="ds-btn ds-btn-export" onclick="dsExportCSV()">⬇ Export</button>
+    </div>
+  </form>
+  <div class="ds-chip-row" id="dsChipRow"></div>
+*/
+
+.ds-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 8px 20px;
+  background: var(--ds-surface);
+  border-bottom: 1px solid var(--ds-border);
+  min-height: var(--ds-filter-h);
+}
+
+.ds-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ds-filter-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ds-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.ds-filter-group select,
+.ds-filter-group input[type="text"],
+.ds-filter-group input[type="search"] {
+  background: var(--ds-surface2);
+  border: 1px solid var(--ds-border2);
+  color: var(--ds-text);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--ds-ease);
+  height: 30px;
+}
+
+.ds-filter-group select:focus,
+.ds-filter-group input:focus {
+  border-color: var(--ds-blue);
+  box-shadow: 0 0 0 2px rgba(79,110,247,0.12);
+}
+
+/* Search box wider */
+.ds-filter-group input[type="text"],
+.ds-filter-group input[type="search"] {
+  width: 200px;
+}
+
+.ds-filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+
+/* ── 3. Button System ─────────────────────────────────────── */
+
+/*
+  .ds-btn              — base (neutral, ghost)
+  .ds-btn-apply        — primary blue
+  .ds-btn-reset        — soft red
+  .ds-btn-export       — neutral with icon
+  .ds-btn-secondary    — muted action
+*/
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 13px;
+  height: 30px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--ds-border2);
+  background: var(--ds-surface);
+  color: var(--ds-text2);
+  transition: all var(--ds-ease);
+  white-space: nowrap;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.ds-btn:hover {
+  background: var(--ds-surface2);
+  border-color: #b0b4c8;
+}
+
+.ds-btn:active { transform: scale(0.98); }
+
+/* Apply — solid blue */
+.ds-btn-apply {
+  background: var(--ds-blue);
+  color: #fff;
+  border-color: var(--ds-blue);
+  font-weight: 600;
+}
+.ds-btn-apply:hover {
+  background: #3451d1;
+  border-color: #3451d1;
+  color: #fff;
+}
+
+/* Reset — soft red */
+.ds-btn-reset {
+  background: var(--ds-red-dim);
+  color: var(--ds-red);
+  border-color: #fecaca;
+}
+.ds-btn-reset:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
+/* Export — muted with icon */
+.ds-btn-export {
+  background: var(--ds-surface2);
+  color: var(--ds-text2);
+}
+
+/* Metric toggle */
+.ds-btn-toggle {
+  background: var(--ds-purple-dim);
+  color: var(--ds-purple);
+  border-color: #d8b4fe;
+}
+.ds-btn-toggle:hover { background: #ede9fe; }
+
+/* Back link */
+.ds-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--ds-text3);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 5px;
+  transition: all var(--ds-ease);
+}
+.ds-back-link:hover {
+  color: var(--ds-blue);
+  background: var(--ds-blue-dim);
+  text-decoration: none;
+}
+
+
+/* ── 4. Active Filter Chips ───────────────────────────────── */
+
+/*
+  Auto-generated by ds-filter-chips.js.
+  Shows below filter bar: [Brand: Nexlev ✕] [Weeks: 12, 13 ✕]
+*/
+
+.ds-chip-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 20px;
+  background: var(--ds-surface);
+  border-bottom: 1px solid var(--ds-border);
+  min-height: 34px;
+}
+
+.ds-chip-row:empty { display: none; }
+
+.ds-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--ds-blue-dim);
+  border: 1px solid #c7cefc;
+  color: var(--ds-blue);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  cursor: default;
+}
+
+.ds-chip .ds-chip-name {
+  color: var(--ds-text3);
+  font-weight: 400;
+}
+
+.ds-chip button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  opacity: 0.6;
+  transition: opacity var(--ds-ease);
+}
+.ds-chip button:hover { opacity: 1; }
+
+.ds-chip-label {
+  font-size: 11px;
+  color: var(--ds-text3);
+  margin-right: 4px;
+}
+
+
+/* ── 5. Week Picker — unified ─────────────────────────────── */
+
+.ds-week-picker-wrap { position: relative; }
+
+.ds-week-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  height: 30px;
+  background: var(--ds-surface2);
+  border: 1px solid var(--ds-border2);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--ds-text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color var(--ds-ease);
+}
+.ds-week-btn:hover { border-color: var(--ds-blue); }
+.ds-week-btn::after {
+  content: "▾";
+  font-size: 10px;
+  color: var(--ds-text3);
+  margin-left: 2px;
+}
+
+.ds-week-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 300;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border2);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  padding: 8px 0;
+  min-width: 160px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.ds-week-dropdown.open { display: block; }
+
+.ds-week-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--ds-text);
+  cursor: pointer;
+  transition: background var(--ds-ease);
+}
+.ds-week-option:hover { background: var(--ds-surface2); }
+
+.ds-week-option input[type="checkbox"] {
+  accent-color: var(--ds-header);
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+}
+
+.ds-week-divider {
+  height: 1px;
+  background: var(--ds-border);
+  margin: 4px 0;
+}
+
+.ds-week-footer {
+  padding: 6px 14px 2px;
+  display: flex;
+  gap: 6px;
+}
+
+
+/* ── 6. Tables ────────────────────────────────────────────── */
+
+/* Wrapper — horizontal + vertical scroll */
+.ds-table-wrap {
+  overflow: auto;
+  border-radius: 8px;
+  border: 1px solid var(--ds-border);
+  background: var(--ds-surface);
+  position: relative;
+}
+
+/* Base table — resets any page-specific overrides */
+.ds-table {
+  width: 100%;
+  min-width: max-content;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 12.5px;
+  background: var(--ds-surface);
+}
+
+/* ── Sticky header ── */
+.ds-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f4f5fb;
+  border-bottom: 2px solid var(--ds-border2);
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ds-text);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--ds-ease);
+}
+
+.ds-table thead th:hover { background: #e8eaf8; }
+
+/* ── Sort indicators ── */
+.ds-table thead th::after {
+  content: " ⇅";
+  font-size: 9px;
+  color: var(--ds-text3);
+  opacity: 0.45;
+}
+.ds-table thead th.ds-sort-asc::after  { content: " ▲"; color: var(--ds-sort-color); opacity: 1; }
+.ds-table thead th.ds-sort-desc::after { content: " ▼"; color: var(--ds-sort-color); opacity: 1; }
+.ds-table thead th.ds-no-sort::after   { content: ""; }
+
+/* ── Sticky first column ── */
+.ds-table thead th:first-child,
+.ds-table tbody td:first-child,
+.ds-table tfoot td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  background: inherit;
+}
+.ds-table thead th:first-child { z-index: 15; background: #f4f5fb; }
+
+/* Shadow on sticky col when table is scrolled */
+.ds-table-wrap.scrolled-x .ds-table th:first-child,
+.ds-table-wrap.scrolled-x .ds-table td:first-child {
+  box-shadow: 2px 0 6px rgba(0,0,0,0.07);
+}
+
+/* ── Body cells ── */
+.ds-table tbody td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--ds-border);
+  color: var(--ds-text);
+  white-space: nowrap;
+  vertical-align: middle;
+  background: var(--ds-surface);
+}
+
+/* ── Row hover ── */
+.ds-table tbody tr:hover td {
+  background: var(--ds-row-hover) !important;
+}
+
+/* ── Selected row ── */
+.ds-table tbody tr.ds-selected td {
+  background: var(--ds-row-sel) !important;
+}
+
+/* ── Number cells ── right-align by default ── */
+.ds-table td.ds-num,
+.ds-table th.ds-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* ── Column group dividers (channel separators) ── */
+.ds-table td.ds-col-sep,
+.ds-table th.ds-col-sep {
+  border-left: 2px solid var(--ds-border2);
+}
+
+
+/* ── 7. Totals / Footer Row ───────────────────────────────── */
+
+.ds-table tfoot tr td {
+  position: sticky;
+  bottom: 0;
+  background: #f0f2ff;
+  border-top: 2px solid #c7cefc;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--ds-text);
+  padding: 6px 10px;
+  z-index: 4;
+  white-space: nowrap;
+}
+
+.ds-table tfoot tr td:first-child {
+  z-index: 16;
+  background: #f0f2ff;
+}
+
+.ds-total-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ds-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+/* ── 8. Heatmap / Conditional Formatting ─────────────────── */
+
+/*
+  Usage: add data-heat="0..100" to any <td>
+  JS in dashboard_standards.js will apply the right class.
+  Or apply classes directly:
+*/
+
+.ds-heat-best  { background: var(--ds-heat-0) !important; color: var(--ds-heat-text-g) !important; }
+.ds-heat-good  { background: var(--ds-heat-1) !important; color: var(--ds-heat-text-g) !important; }
+.ds-heat-mid   { background: var(--ds-heat-2) !important; color: var(--ds-heat-text-a) !important; }
+.ds-heat-bad   { background: var(--ds-heat-3) !important; color: var(--ds-heat-text-r) !important; }
+.ds-heat-worst { background: var(--ds-heat-4) !important; color: var(--ds-heat-text-r) !important; }
+
+/* Stock / inventory levels */
+.ds-stock-ok      { background: var(--ds-green-dim)  !important; color: #065f46 !important; font-weight:600; }
+.ds-stock-low     { background: var(--ds-amber-dim)  !important; color: #92400e !important; font-weight:600; }
+.ds-stock-out     { background: var(--ds-red-dim)    !important; color: var(--ds-red) !important; font-weight:600; }
+
+/* Trend badges */
+.ds-trend-up   { color: var(--ds-green);  font-weight:700; }
+.ds-trend-flat { color: var(--ds-amber);  font-weight:600; }
+.ds-trend-down { color: var(--ds-red);    font-weight:700; }
+
+/* Delta chips */
+.ds-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+.ds-delta-pos { background: var(--ds-green-dim); color: #065f46; }
+.ds-delta-neg { background: var(--ds-red-dim);   color: var(--ds-red); }
+.ds-delta-neu { background: var(--ds-surface2);  color: var(--ds-text3); }
+
+
+/* ── 9. Row Highlight + Checkbox Selection ────────────────── */
+
+.ds-table tbody tr.ds-row-check-col td:first-child {
+  padding: 4px 8px;
+}
+
+.ds-row-cb {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--ds-header);
+  cursor: pointer;
+}
+
+.ds-sel-bar {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 20px;
+  background: var(--ds-blue-dim);
+  border-bottom: 1px solid #c7cefc;
+  font-size: 12px;
+  color: var(--ds-blue);
+  font-weight: 600;
+}
+.ds-sel-bar.visible { display: flex; }
+
+.ds-sel-bar .ds-sel-count { font-weight: 700; }
+
+
+/* ── 10. Column Filter Inputs ─────────────────────────────── */
+
+/*
+  Second header row with per-column search inputs.
+  Add class="ds-col-filter-row" to the <tr>.
+*/
+
+.ds-col-filter-row th {
+  padding: 3px 6px;
+  background: #f8f9fc;
+  position: sticky;
+  top: 30px;  /* below the main header row */
+  z-index: 9;
+  border-bottom: 1px solid var(--ds-border);
+}
+
+.ds-col-filter-row th input {
+  width: 100%;
+  height: 24px;
+  padding: 2px 7px;
+  font-size: 11px;
+  border: 1px solid var(--ds-border2);
+  border-radius: 4px;
+  background: var(--ds-surface);
+  color: var(--ds-text);
+  outline: none;
+  transition: border-color var(--ds-ease);
+}
+
+.ds-col-filter-row th input:focus {
+  border-color: var(--ds-blue);
+}
+
+.ds-col-filter-row th input::placeholder {
+  color: var(--ds-text3);
+  font-style: italic;
+}
+
+
+/* ── 11. Toast Notifications ──────────────────────────────── */
+
+#ds-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.ds-toast-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.20);
+  animation: ds-toast-in 0.2s ease forwards;
+  pointer-events: all;
+}
+
+.ds-toast-msg.ds-toast-success { background: #065f46; }
+.ds-toast-msg.ds-toast-warn    { background: #92400e; }
+.ds-toast-msg.ds-toast-out     { animation: ds-toast-out 0.3s ease forwards; }
+
+@keyframes ds-toast-in  { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes ds-toast-out { from { opacity:1; } to { opacity:0; transform:translateY(4px); } }
+
+
+/* ── 12. Responsive ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .ds-filter-bar {
+    gap: 8px;
+    padding: 6px 12px;
+  }
+
+  .ds-filter-actions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .ds-filter-group input[type="text"],
+  .ds-filter-group input[type="search"] {
+    width: 140px;
+  }
+}
+
+
+/* ── Backwards-compat shims ───────────────────────────────── */
+
+/*
+  These rules make existing pages that still use old class names
+  get the new look automatically — no template edits needed for
+  look-and-feel. Behavior fixes (auto-submit removal etc.) are
+  handled in dashboard_standards.js.
+*/
+
+/* Old button variants → new system */
+.btn-apply          { composes: ds-btn ds-btn-apply from global; }
+button.btn-apply,
+input[type="submit"].btn-apply {
+  background: var(--ds-blue) !important;
+  color: #fff !important;
+  border-color: var(--ds-blue) !important;
+  font-weight: 600 !important;
+}
+
+/* Old reset styles → unified */
+.btn[style*="dc2626"],
+button[style*="dc2626"] {
+  background: var(--ds-red-dim) !important;
+  color: var(--ds-red) !important;
+  border-color: #fecaca !important;
+  style: none !important;
+}
+
+/* Sort indicators across old class names */
+th.sorted-asc,
+th.sort-asc   { position: relative; }
+th.sorted-asc::after,
+th.sort-asc::after  { content: " ▲" !important; font-size: 9px; color: var(--ds-sort-color); }
+th.sorted-desc::after,
+th.sort-desc::after { content: " ▼" !important; font-size: 9px; color: var(--ds-sort-color); }
+
+/* All tbody rows — ensure hover works even if page overrides it */
+tbody tr:hover td:not(.ds-heat-best):not(.ds-heat-good):not(.ds-heat-mid):not(.ds-heat-bad):not(.ds-heat-worst):not(.ds-stock-ok):not(.ds-stock-low):not(.ds-stock-out) {
+  background-color: var(--ds-row-hover) !important;
+}

@@ -528,5 +528,4 @@ table[data-xl]:not(.xl-ready) tbody::after {
   100% { background-position: -200% 0; }
 }
 
-/* Filter arrows don't show until table is ready — avoids flash */
-table[data-xl]:not(.xl-ready) .xl-filter-arrow { display: none; }
+/* Filter arrows show immediately — injected in Phase 1 */

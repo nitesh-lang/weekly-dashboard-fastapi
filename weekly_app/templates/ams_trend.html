@@ -795,6 +795,8 @@ function renderTable(){
         `;
         tb.appendChild(tr);
     });
+    // Rebuild AutoFilter after rows are injected
+    if (window.XLTable) XLTable.reinit('#amsTable');
 }
 
 /* ── MAIN LOAD ── */
@@ -909,6 +911,8 @@ function renderSBTable(rows){
         `;
         tb.appendChild(tr);
     });
+    // Rebuild AutoFilter after rows are injected
+    if (window.XLTable) XLTable.reinit('#sbTable');
 }
 
 /* ── INIT ── */

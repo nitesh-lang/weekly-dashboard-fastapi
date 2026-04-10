@@ -258,9 +258,9 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
             data[model] = {
                 "brand": str(r.get("brand", "") or ""),
                 "model": model,
-                "category_l0": str(r.get("category_l0", "") or ""),
-                "category_l1": str(r.get("category_l1", "") or ""),
-                "category_l2": str(r.get("category_l2", "") or ""),
+                "category_l0": str(r.get("category_l0", "") or "").replace("nan", ""),
+                "category_l1": str(r.get("category_l1", "") or "").replace("nan", ""),
+                "category_l2": str(r.get("category_l2", "") or "").replace("nan", ""),
                 "weeks": {}
             }
 

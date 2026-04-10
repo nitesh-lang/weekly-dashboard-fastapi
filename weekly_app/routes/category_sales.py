@@ -148,6 +148,11 @@ def category_sales(
     summary["gross_sales"] = pd.to_numeric(summary["gross_sales"], errors="coerce").fillna(0).round(0).astype(int)
     summary["units_sold"] = pd.to_numeric(summary["units_sold"], errors="coerce").fillna(0).round(0).astype(int)
 
+    # ── GMV % — compute before Grand Total distorts the denominator ──
+    total_gmv = summary.iloc[:-1]["gross_sales"].sum() or 1  # exclude Grand Total row
+    summary["gmv_pct"] = (summary["gross_sales"] / total_gmv * 100).round(1)
+    summary.loc[summary.index[-1], "gmv_pct"] = 100.0  # Grand Total = 100%
+
 
     # ---------------- RENDER ----------------
     all_brands = sorted(

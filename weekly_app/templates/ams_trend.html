@@ -541,7 +541,7 @@
         <table id="amsTable"
           data-xl
           data-xl-frozen="3"
-          data-xl-totals="8,9,10,11,20,21,22"
+          data-xl-totals="8,9,10,11,20,21,22,23"
           data-xl-heat="17"
           data-xl-key="ams-trend">
         <thead>
@@ -567,6 +567,7 @@
             <th>TACOS %</th>
             <th>CAC</th>
             <th>AMS Orders</th>
+            <th>Attributed Sales (₹)</th>
             <th>Clicks</th>
             <th>Impressions</th>
             <th>CPC (₹)</th>
@@ -738,7 +739,7 @@ function sortTableByColumn(colIndex){
             "week","SKU","Model","brand","asin","category_l0","category_l1","category_l2",
             "sessions","GMV","units","ad_spend","contribution_to_sales_pct",
             "attributed_sales_pct","organic_sales_pct","conversion_pct","roas","acos",
-            "tacos","cac","ams_orders","clicks","impressions",
+            "tacos","cac","ams_orders","attributed_sales","clicks","impressions",
             null,"buy_box_pct","inventory_ampm","inventory_1p","inventory_amazon",
             "inventory_total_amazon","pipeline_orders"
         ];
@@ -783,6 +784,7 @@ function renderTable(){
             <td>${pct(r.tacos ?? r.TACOS)}</td>
             <td>${fmt(r.cac)}</td>
             <td>${safe(r.ams_orders)}</td>
+            <td>${fmt(r.attributed_sales)}</td>
             <td>${safe(r.clicks)}</td>
             <td>${safe(r.impressions)}</td>
             <td>${fmt(r.clicks>0 ? r.ad_spend/r.clicks : null)}</td>

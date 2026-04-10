@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Query
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+import re
 import pandas as pd
 from pathlib import Path
 import urllib.parse
@@ -232,7 +233,10 @@ def dashboard(
     # ── Derive filter metadata from the full unfiltered frame ──
     # ✅ FIXED: was re-reading CSV a second time at the bottom of the function
     #    just to get weeks/brands lists. Now we grab it here from the same load.
-    all_week_labels = sorted(full_sales["week"].astype(str).unique())
+    all_week_labels = sorted(
+        full_sales["week"].astype(str).unique(),
+        key=lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else 0
+    )
     brands_list = (
         sorted(full_sales["brand"].dropna().astype(str).str.strip().unique())
         if "brand" in full_sales.columns else []

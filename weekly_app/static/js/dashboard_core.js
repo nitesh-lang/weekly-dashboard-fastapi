@@ -537,15 +537,15 @@ function fixNav(){
   });
 }
 
-/* ─── PATCH autoRefresh ──────────────────────────────────── */
+/* ─── PATCH autoRefresh — leave template's version intact ── */
 function patchAutoRefresh(){
-  if(typeof window.autoRefresh==="function"){
-    window.autoRefresh=function(){
-      // Pulse Apply button instead of auto-submitting
-      qsa("button[type='submit'],.btn-apply,.ds-btn-apply").forEach(function(b){
-        b.style.boxShadow="0 0 0 3px rgba(79,110,247,0.35)";
-        setTimeout(function(){b.style.boxShadow="";},1500);
-      });
+  // The template defines: function autoRefresh(){ document.getElementById("filterForm").submit(); }
+  // We do NOT override it — brand/view dropdowns need it to work normally
+  // Only define a fallback if no template version exists
+  if(typeof window.autoRefresh !== "function"){
+    window.autoRefresh = function(){
+      var form = document.getElementById("filterForm");
+      if(form) form.submit();
     };
   }
 }

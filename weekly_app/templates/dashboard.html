@@ -595,7 +595,7 @@
         </div>
         <div class="filter-group">
             <label>Brand</label>
-            <select name="brand">
+            <select name="brand" onchange="autoRefresh()">
                 <option value="">All</option>
                 {% for b in brands %}
                     <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
@@ -604,7 +604,7 @@
         </div>
         <div class="filter-group">
             <label>View</label>
-            <select name="view">
+            <select name="view" onchange="autoRefresh()">
                 <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
                 <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
             </select>

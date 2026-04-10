@@ -489,3 +489,44 @@ th.xl-resizable { position: relative; }
 }
 
 .xl-resize-handle:hover { background: #4f6ef7; opacity: 0.5; }
+
+
+/* ── PERFORMANCE — content-visibility ──────────────────────
+   Tells the browser to skip rendering off-screen rows.
+   Massive paint speedup on tables with 100+ rows.
+   contain-intrinsic-size prevents layout jank on scroll.
+──────────────────────────────────────────────────────────── */
+
+.ds-excel tbody tr {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 20px;
+}
+
+/* Skeleton shimmer on tables while XLTable is initialising */
+table[data-xl]:not(.xl-ready) tbody {
+  position: relative;
+}
+
+table[data-xl]:not(.xl-ready) tbody::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.6) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: xl-shimmer 1.2s ease infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes xl-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Filter arrows don't show until table is ready — avoids flash */
+table[data-xl]:not(.xl-ready) .xl-filter-arrow { display: none; }

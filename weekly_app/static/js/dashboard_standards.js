@@ -510,19 +510,34 @@
 
 
   /* ─────────────────────────────────────────────────────────
-     INIT — run everything on DOMContentLoaded
+     INIT — phased to avoid blocking first paint
   ───────────────────────────────────────────────────────── */
   function init() {
+    // Phase 1: critical path — patch behavior before user can interact
     patchAutoSubmit();
-    renderFilterChips();
-    initStickyColumnShadow();
-    initUniversalSort();
-    initColumnFilters();
-    initTotalsRow();
-    initHeatmap();
-    initKeyboardShortcuts();
-    initRowSelection();
     fixNav();
+    initKeyboardShortcuts();
+
+    // Phase 2: visual layer — next animation frame after paint
+    requestAnimationFrame(function () {
+      renderFilterChips();
+      initStickyColumnShadow();
+
+      // Phase 3: table work — idle time only
+      var doTableWork = function () {
+        initUniversalSort();
+        initColumnFilters();
+        initTotalsRow();
+        initHeatmap();
+        initRowSelection();
+      };
+
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(doTableWork, { timeout: 3000 });
+      } else {
+        setTimeout(doTableWork, 200);
+      }
+    });
   }
 
   if (document.readyState === "loading") {

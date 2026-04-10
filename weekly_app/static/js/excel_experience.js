@@ -735,16 +735,59 @@ window.XLTable = (function () {
     }
 
 
-    /* ── INIT ─────────────────────────────────────────────── */
+    /* ── PHASED INIT ───────────────────────────────────────
+       Phase 1 (immediate, sync)   — visual structure only:
+         freeze panes + filter arrows. Page looks correct fast.
+       Phase 2 (next frame)        — interaction layer:
+         row selection, context menu, keyboard shortcuts.
+       Phase 3 (idle / off-screen) — expensive computation:
+         heatmap, totals, number formatting, sort restore.
+         Deferred until browser is idle OR table scrolls into view.
+    ───────────────────────────────────────────────────────── */
+
+    // Phase 1 — immediate (< 5ms, pure DOM structure)
     applyFreeze();
     injectFilterArrows();
-    applyFilters();
-    buildTotalsRow();
-    applyHeatmap();
-    formatNumbers();
-    initStatusBar();
     initRowInfoBar();
-    restoreSort();
+
+    // Phase 2 — next animation frame (interaction wiring)
+    requestAnimationFrame(function () {
+      initStatusBar();
+
+      // Phase 3 — idle callback for expensive work
+      const doHeavyWork = function () {
+        buildTotalsRow();
+        applyHeatmap();
+        formatNumbers();
+        restoreSort();
+        applyFilters();
+      };
+
+      // Use IntersectionObserver: only do heavy work when
+      // table is actually visible on screen
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(function (entries, obs) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              obs.disconnect();
+              if ("requestIdleCallback" in window) {
+                requestIdleCallback(function () { doHeavyWork(); table.classList.add("xl-ready"); }, { timeout: 2000 });
+              } else {
+                setTimeout(function () { doHeavyWork(); table.classList.add("xl-ready"); }, 100);
+              }
+            }
+          });
+        }, { rootMargin: "200px" });
+        observer.observe(table);
+      } else {
+        // Fallback: idle callback or timeout
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(function () { doHeavyWork(); table.classList.add("xl-ready"); }, { timeout: 2000 });
+        } else {
+          setTimeout(function () { doHeavyWork(); table.classList.add("xl-ready"); }, 200);
+        }
+      }
+    });
   }
 
   /* ── Public API ────────────────────────────────────────── */
@@ -776,7 +819,43 @@ window.XLTable = (function () {
 })();
 
 
-/* Auto-init on DOMContentLoaded */
+/* Auto-init on DOMContentLoaded — staggered per table */
 document.addEventListener("DOMContentLoaded", function () {
-  XLTable.initAll();
+  const tables = Array.from(document.querySelectorAll("table[data-xl]"));
+  if (!tables.length) return;
+
+  // Build opts for each table from data attributes
+  function buildOpts(table) {
+    const o = {};
+    if (table.dataset.xlFrozen)  o.frozenCols  = parseInt(table.dataset.xlFrozen);
+    if (table.dataset.xlHeat)    o.heatCols    = table.dataset.xlHeat.split(",").map(Number);
+    if (table.dataset.xlTotals)  o.totalsCols  = table.dataset.xlTotals.split(",").map(Number);
+    if (table.dataset.xlKey)     o.storageKey  = table.dataset.xlKey;
+    return o;
+  }
+
+  // Init tables one per animation frame — never block the main thread
+  // for more than one table at a time
+  function initNext(index) {
+    if (index >= tables.length) return;
+    const table = tables[index];
+    try {
+      new XLInstance(table, buildOpts(table));
+    } catch (e) {
+      console.warn("XLTable init failed for", table.id, e);
+    }
+    // Schedule next table on the next idle slot
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(function () { initNext(index + 1); }, { timeout: 3000 });
+    } else {
+      setTimeout(function () { initNext(index + 1); }, 50);
+    }
+  }
+
+  // Start after first paint — let the browser render the page first
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      initNext(0);
+    });
+  });
 });

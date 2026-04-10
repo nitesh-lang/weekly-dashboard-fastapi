@@ -137,9 +137,7 @@ table.ds-excel tfoot td{
 @keyframes dc-shimmer{0%{opacity:.6}50%{opacity:1}100%{opacity:.6}}
 tr.dc-sentinel{animation:dc-shimmer 1.2s ease infinite;}
 
-/* ── PERFORMANCE: wrap for scroll containment only, no layout contain ──
-   contain:layout breaks absolutely-positioned children like dropdowns */
-.dc-wrap{ position:relative; }
+/* ── table-wrapper already provides scroll containment ── */
 
 /* ── BACKWARDS COMPAT: old sort class names still work ── */
 th.sorted-asc::after,th.sort-asc::after{content:" ▲";font-size:9px;color:var(--dc-blue);}

@@ -196,7 +196,7 @@ function initAutoFilter(table){
   });
   // Close on scroll - fixed dropdown doesn't follow the anchor
   window.addEventListener("scroll",closeDd,{passive:true});
-  document.querySelectorAll(".table-wrapper,.dc-wrap").forEach(function(el){
+  document.querySelectorAll(".table-wrapper,.table-wrapper-sm").forEach(function(el){
     el.addEventListener("scroll",closeDd,{passive:true});
   });
 
@@ -231,9 +231,9 @@ function applyFilter(table, filterState){
     row.style.display=show?"":"none";
     if(show) vis++;
   });
-  // Update row-info bar
-  var info=table.closest(".dc-wrap")&&table.closest(".dc-wrap").previousElementSibling;
-  if(info&&info.classList.contains("dc-row-info")){
+  // Update row-info bar - use stored reference
+  var info=table._rowInfo;
+  if(info){
     info.innerHTML=filterState.size>0
       ?"Showing <b>"+vis+"</b> of "+tot+" rows &nbsp;·&nbsp; <a class='dc-clear-f' href='#'>Clear filters</a>"
       :tot+" rows";
@@ -342,11 +342,14 @@ function initSelection(table){
 
 /* ─── STATUS BAR ─────────────────────────────────────────── */
 function initStatusBar(table){
-  var wrap=table.closest(".dc-wrap")||table.parentNode;
-  var bar=document.createElement("div");
-  bar.className="dc-status";
-  wrap.parentNode.insertBefore(bar,wrap.nextSibling);
-  table._statusBar=bar;
+  if(!table._statusBar){
+    var bar=document.createElement("div");
+    bar.className="dc-status";
+    bar._dcTable=table;
+    var wrap=table.closest(".table-wrapper,.table-wrapper-sm")||table.parentNode;
+    wrap.parentNode.insertBefore(bar,wrap.nextSibling);
+    table._statusBar=bar;
+  }
   updateStatus(table);
 }
 
@@ -381,7 +384,7 @@ function updateStatus(table){
 
 document.addEventListener("dcclear",function(e){
   var bar=e.target.closest(".dc-status"); if(!bar) return;
-  var table=bar.previousElementSibling&&bar.previousElementSibling.querySelector("table[data-xl]");
+  var table=bar._dcTable;
   if(!table) return;
   qsa("tr.dc-sel",table).forEach(function(r){r.classList.remove("dc-sel");});
   updateStatus(table);
@@ -443,7 +446,7 @@ function initFreeze(table){
       });
       left+=w;
     }
-    var wrap=table.closest(".dc-wrap,.table-wrapper,.table-wrapper-sm");
+    var wrap=table.closest(".table-wrapper,.table-wrapper-sm")||table.parentNode;
     if(wrap) wrap.addEventListener("scroll",function(){
       var sh=this.scrollLeft>2?"3px 0 6px rgba(0,0,0,0.08)":"";
       qsa("td[style*='sticky'],th[style*='sticky']",table).forEach(function(c){c.style.boxShadow=sh;});
@@ -475,10 +478,13 @@ function buildTotals(table){
 
 /* ─── ROW INFO BAR ───────────────────────────────────────── */
 function initRowInfo(table){
+  if(table._rowInfo) return;
   var bar=document.createElement("div"); bar.className="dc-row-info";
-  var wrap=table.closest(".dc-wrap,.table-wrapper,.table-wrapper-sm");
-  if(wrap) wrap.parentNode.insertBefore(bar,wrap);
-  var total=parseInt(table.dataset.totalRows||table.tBodies[0].rows.length,10);
+  var wrap=table.closest(".table-wrapper,.table-wrapper-sm")||table.parentNode;
+  wrap.parentNode.insertBefore(bar,wrap);
+  table._rowInfo=bar;
+  var total=parseInt(table.dataset.totalRows||"0",10)||
+            (table.tBodies[0]?table.tBodies[0].rows.length:0);
   bar.textContent=total+" rows";
 }
 
@@ -555,20 +561,21 @@ function initCtrlF(){
 
 /* ─── MAIN INIT ──────────────────────────────────────────── */
 function initTable(table){
-  var wrap=document.createElement("div"); wrap.className="dc-wrap";
-  table.parentNode.insertBefore(wrap,table); wrap.appendChild(table);
+  // Do NOT wrap the table - it's already in .table-wrapper
+  // Attaching a new wrapper breaks existing sticky CSS and overflow
 
   // Phase 1 — immediate (visual)
   initFreeze(table);
   initAutoFilter(table);
   initRowInfo(table);
   initSelection(table);
+
   // Right-click
   table.addEventListener("contextmenu",function(e){
     e.preventDefault();
     var ctx=getCtx(); ctx._table=table;
     var row=e.target.closest("tr");
-    if(row&&table.tBodies[0].contains(row)&&!row.classList.contains("dc-sel")){
+    if(row&&table.tBodies[0]&&table.tBodies[0].contains(row)&&!row.classList.contains("dc-sel")){
       qsa("tr.dc-sel",table.tBodies[0]).forEach(function(r){r.classList.remove("dc-sel");});
       row.classList.add("dc-sel"); updateStatus(table);
     }

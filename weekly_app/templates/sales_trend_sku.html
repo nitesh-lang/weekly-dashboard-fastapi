@@ -528,7 +528,11 @@
           data-xl
           data-xl-frozen="2"
           data-xl-totals="5,6,7,8,9,10,11,12,13,14,15"
-          data-xl-key="sales-trend-sku">
+          data-xl-key="sales-trend-sku"
+          data-api-url="/api/sales-trend/rows"
+          data-api-params="brand={{ selected_brand }}&{% for w in selected_weeks %}sel_weeks={{ w }}&{% endfor %}"
+          data-total-rows="{{ trend_total }}"
+          data-loaded-rows="{{ rows | length }}">
         <thead>
         <tr>
             <th><input type="checkbox" id="selectAll"></th>

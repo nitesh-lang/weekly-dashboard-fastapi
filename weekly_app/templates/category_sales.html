@@ -473,7 +473,8 @@
           data-xl-frozen="1"
           data-xl-totals="1,2"
           data-xl-heat="3"
-          data-xl-key="category-sales">
+          data-xl-key="category-sales"
+          data-total-rows="{{ rows | length }}">
         <thead>
             <tr>
                 <th>Category</th>
@@ -513,7 +514,7 @@
 
 </div>
 
-<script src="/static/js/category_sales_sort.js"></script>
+
 <script>
 /* ── Week picker ── */
 function toggleWeekPicker() {

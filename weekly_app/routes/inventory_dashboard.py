@@ -136,7 +136,7 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
 
     if df.empty:
         return HTMLResponse(_env.get_template("inventory_dashboard.html").render(
-            request=request, rows=[], latest_week="NA",
+            request=request, rows=[], inv_total=0, latest_week="NA",
             kpis={}, aging=[], channel_summary=[],
             available_weeks=[], available_brands=[]))
 
@@ -178,6 +178,12 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
 
     rows = df_agg.to_dict(orient="records")
 
+    # ── Performance: render first 100 rows, rest loaded on scroll ──
+    PAGE_SIZE = 100
+    all_rows = rows
+    rows = all_rows[:PAGE_SIZE]
+    inv_total = len(all_rows)
+
 
 
     # KPIs
@@ -215,6 +221,7 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
     return HTMLResponse(_env.get_template("inventory_dashboard.html").render(
         request=request,
         rows=rows,
+        inv_total=inv_total,
         latest_week=active_week,
         kpis=kpis,
         aging=aging,
@@ -222,3 +229,48 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
         available_weeks=available_weeks,
         available_brands=available_brands,
     ))
+
+
+# ── JSON API: paginated inventory rows for infinite scroll ────
+@router.get("/api/inventory/rows")
+def inventory_rows_api(
+    request: Request,
+    week: str = None,
+    brand: str = None,
+    page: int = 1,
+    page_size: int = 100,
+):
+    from fastapi.responses import JSONResponse
+    import math
+
+    try:
+        df = _load_inventory_data()
+        if df.empty:
+            return JSONResponse({"rows": [], "total": 0, "has_more": False})
+
+        if week:
+            df = df[df["week"].astype(str) == str(week)]
+        if brand and brand not in ("None", "All", ""):
+            df = df[df["brand"].str.lower() == brand.strip().lower()]
+
+        df_agg = df.groupby(
+            [c for c in ["week","brand","model","sku","category_l0","category_l1","category_l2","channel","type"] if c in df.columns],
+            as_index=False
+        ).agg({"inventory_units":"sum","inventory_value":"sum","nlc":"mean"})
+
+        def _safe(v):
+            if isinstance(v, float) and math.isnan(v): return 0
+            return v
+
+        all_rows = [{k: _safe(v) for k,v in row.items()} for row in df_agg.to_dict("records")]
+        start = (page - 1) * page_size
+        end   = start + page_size
+        return JSONResponse({
+            "rows": all_rows[start:end],
+            "total": len(all_rows),
+            "page": page,
+            "has_more": end < len(all_rows),
+        })
+    except Exception:
+        import traceback; traceback.print_exc()
+        return JSONResponse({"rows": [], "total": 0, "has_more": False})

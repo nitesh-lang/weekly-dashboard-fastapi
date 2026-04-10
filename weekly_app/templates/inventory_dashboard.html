@@ -521,7 +521,12 @@
           data-xl
           data-xl-frozen="3"
           data-xl-totals="9,10,11"
-          data-xl-key="inventory-detail">
+          data-xl-key="inventory-detail"
+          data-api-url="/api/inventory/rows"
+          data-api-params="week={{ request.query_params.get('week','') }}&brand={{ request.query_params.get('brand','') }}"
+          data-total-rows="{{ inv_total }}"
+          data-loaded-rows="{{ rows | length }}"
+          data-col-keys='["week","brand","model","sku","category_l0","category_l1","category_l2","channel","type","inventory_units","nlc","inventory_value"]'>
         <thead>
         <tr>
             <th onclick="sortTable(0)">Week</th>

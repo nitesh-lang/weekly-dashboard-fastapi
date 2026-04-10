@@ -3,7 +3,7 @@
 <head>
     <title>Weekly Unified Dashboard</title>
     <base target="_blank" rel="noopener noreferrer">
-    <link rel="stylesheet" href="/static/css/dashboard_v2.css">
+    
     {% include "_global_head.html" %}
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
@@ -705,7 +705,12 @@
           data-xl-frozen="3"
           data-xl-totals="3,4,5,6,7,8,9,10,11,12,13,14,15,16"
           data-xl-heat="6"
-          data-xl-key="dashboard-sku">
+          data-xl-key="dashboard-sku"
+          data-api-url="/api/dashboard/sku-rows"
+          data-api-params="week={{ selected.week }}&brand={{ selected.brand }}&view={{ selected.view }}"
+          data-total-rows="{{ sku_total }}"
+          data-loaded-rows="{{ sku_rows | length }}"
+          data-col-keys='["sku","model_no","category_l0","total_units","total_sales","total_nlc","sales_contribution_pct","amazon_am_units","amazon_am_sales","amazon_am_nlc","amazon_1p_units","amazon_1p_sales","amazon_1p_nlc","amazon_total_units","amazon_total_sales","amazon_total_nlc"]'>
         <thead><tr>
             <th>SKU</th><th>Model</th><th>Category</th>
             <th>All Ch. Units</th><th>All Ch. Sales</th><th>All Ch. NLC</th><th>% Contrib</th>
@@ -809,7 +814,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="/static/js/table_sort.js"></script>
+
 <script>
 function autoRefresh() { document.getElementById("filterForm").submit(); }
 

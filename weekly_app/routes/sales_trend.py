@@ -221,9 +221,15 @@ def sales_trend(
 
     brands = sorted(sales["brand"].dropna().astype(str).unique())
 
+    # ── Performance: render first 100 rows, rest loaded on scroll ──
+    all_rows = rows
+    PAGE_SIZE = 100
+    trend_total = len(all_rows)
+
     return HTMLResponse(_env.get_template("sales_trend_sku.html").render(
         request=request,
-        rows=rows,
+        rows=all_rows[:PAGE_SIZE],
+        trend_total=trend_total,
         weeks=weeks,
         all_weeks=all_weeks,
         brands=brands,
@@ -231,3 +237,66 @@ def sales_trend(
         selected_weeks=sel_weeks or [],
     ))
 
+
+
+# ── JSON API: paginated rows for sales trend infinite scroll ──
+@router.get("/api/sales-trend/rows")
+def sales_trend_rows_api(
+    request: Request,
+    brand: str = "All",
+    sel_weeks: Optional[List[str]] = Query(default=None),
+    page: int = 1,
+    page_size: int = 100,
+):
+    from fastapi.responses import JSONResponse
+    try:
+        sales = load_sales()
+        all_wks = sorted(sales["week"].dropna().unique().tolist(),
+            key=lambda x: int(re.search(r"\d+", str(x)).group()) if re.search(r"\d+", str(x)) else 0)
+
+        base = sales
+        if brand and brand != "All":
+            base = sales[sales["brand"] == brand.strip().lower()]
+
+        weeks_df = base[["week","week_num"]].dropna().drop_duplicates().sort_values("week_num")
+        if sel_weeks:
+            weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
+        else:
+            weeks_df = weeks_df.tail(4)
+        weeks = weeks_df["week"].tolist()
+
+        data = {}
+        for _, r in base.iterrows():
+            m, w = r["model"], r["week"]
+            data.setdefault(m, {"brand":str(r.get("brand","")or""),"model":m,
+                "category_l0":str(r.get("category_l0","")or""),
+                "category_l1":str(r.get("category_l1","")or""),
+                "category_l2":str(r.get("category_l2","")or""), "weeks":{}})
+            data[m]["weeks"].setdefault(w, {"units":0,"sales":0})
+            data[m]["weeks"][w]["units"] += r["units"]
+            data[m]["weeks"][w]["sales"] += r["sales"]
+
+        total_sales = {w: sum(v["weeks"].get(w,{}).get("sales",0) for v in data.values()) or 1 for w in weeks}
+        inventory = load_inventory(weeks_df["week_num"].iloc[-1] if not weeks_df.empty else 0)
+
+        rows = []
+        for m, v in data.items():
+            units_seq = [v["weeks"].get(w,{}).get("units",0) for w in weeks]
+            row = {"model":m,"brand":v.get("brand"),"category_l0":v["category_l0"],
+                   "category_l1":v["category_l1"],"category_l2":v["category_l2"],
+                   "last_4w_units":sum(units_seq),"avg_4w":round(sum(units_seq)/max(len(units_seq),1),2),
+                   "trend":trend(units_seq),"inventory_units":inventory.get(m,0)}
+            for w in weeks:
+                s = v["weeks"].get(w,{}).get("sales",0)
+                u = v["weeks"].get(w,{}).get("units",0)
+                row[f"{w}_units"] = u
+                row[f"{w}_sales"] = round(s,2)
+                row[f"{w}_sales_pct"] = round((s/total_sales[w])*100,2)
+            rows.append(row)
+
+        start = (page-1)*page_size
+        end   = start+page_size
+        return JSONResponse({"rows":rows[start:end],"total":len(rows),"page":page,"has_more":end<len(rows)})
+    except Exception:
+        import traceback; traceback.print_exc()
+        return JSONResponse({"rows":[],"total":0,"page":page,"has_more":False})

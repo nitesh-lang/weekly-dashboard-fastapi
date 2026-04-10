@@ -1,0 +1,147 @@
+/* DASHBOARD CORE v1.0 — lean replacement for both standards + excel CSS */
+:root{
+  --dc-blue:#4f6ef7;--dc-blue-dim:#eef0fe;--dc-header:#3d3587;
+  --dc-green:#0f9b6e;--dc-green-dim:#ecfdf6;
+  --dc-red:#dc2626;--dc-red-dim:#fef2f2;
+  --dc-amber:#b45309;--dc-amber-dim:#fef3e2;
+  --dc-border:#d4d6de;--dc-surface:#fff;--dc-surface2:#f9fafb;
+  --dc-hover:#e8eeff;--dc-sel:#cdd5ff;
+  --dc-text:#111827;--dc-text2:#6b7280;
+}
+
+/* ── TABLE BASE ── */
+table.ds-excel{width:100%;border-collapse:collapse;font-size:12px;background:var(--dc-surface);}
+table.ds-excel thead th{
+  height:22px;padding:0 6px;font-size:11px;font-weight:700;
+  background:#f0f2f5;border:1px solid var(--dc-border);
+  color:var(--dc-text);white-space:nowrap;user-select:none;vertical-align:middle;
+}
+table.ds-excel tbody td{
+  height:20px;padding:0 6px;font-size:12px;
+  border:1px solid var(--dc-border);color:var(--dc-text);
+  white-space:nowrap;vertical-align:middle;background:var(--dc-surface);
+  line-height:20px;
+}
+table.ds-excel tbody tr:nth-child(even) td{background:#f9fafb;}
+table.ds-excel tbody tr:hover td{background:var(--dc-hover)!important;cursor:default;}
+table.ds-excel tbody tr.dc-sel td{background:var(--dc-sel)!important;}
+table.ds-excel tbody tr.xl-total td{background:#e8f0fe!important;font-weight:700;border-top:2px solid var(--dc-blue);}
+
+/* ── NUMBERS ── */
+td.dc-num{text-align:right;font-variant-numeric:tabular-nums;font-family:'Consolas','IBM Plex Mono',monospace;font-size:11.5px;}
+td.dc-neg{color:#c0392b!important;}
+
+/* ── HEADER INNER ── */
+.dc-th-inner{display:flex;align-items:center;gap:3px;width:100%;}
+.dc-th-label{flex:1;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
+.dc-fa{
+  flex-shrink:0;width:13px;height:13px;border:1px solid #b0b4c8;border-radius:2px;
+  font-size:8px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--dc-text);background:#fff;
+  transition:all .1s;line-height:1;
+}
+.dc-fa:hover,.dc-fa.dc-fa-active{background:var(--dc-blue);border-color:var(--dc-blue);color:#fff;}
+th.dc-asc::after{content:" ▲";font-size:9px;color:var(--dc-blue);}
+th.dc-desc::after{content:" ▼";font-size:9px;color:var(--dc-blue);}
+
+/* ── DROPDOWN ── */
+.dc-dropdown{
+  position:absolute;z-index:9999;background:#fff;
+  border:1px solid var(--dc-border);border-radius:4px;
+  box-shadow:0 4px 16px rgba(0,0,0,.14);
+  min-width:180px;max-width:260px;font-size:12px;display:none;
+}
+.dc-dd-search{padding:6px 8px;border-bottom:1px solid #e8eaf0;}
+.dc-dd-search input{width:100%;height:24px;padding:2px 7px;font-size:11px;border:1px solid var(--dc-border);border-radius:3px;outline:none;color:var(--dc-text);}
+.dc-dd-search input:focus{border-color:var(--dc-blue);}
+.dc-dd-list{overflow-y:auto;max-height:220px;padding:4px 0;}
+.dc-dd-empty{padding:8px 14px;color:#9ca3af;font-size:11px;}
+.dc-dd-item{display:flex;align-items:center;gap:7px;padding:3px 10px;cursor:pointer;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .08s;}
+.dc-dd-item:hover{background:#f0f2ff;}
+.dc-dd-all{font-weight:700;border-bottom:1px solid #e8eaf0;margin-bottom:2px;padding-bottom:5px;}
+.dc-dd-item input[type='checkbox']{width:13px;height:13px;accent-color:var(--dc-blue);cursor:pointer;flex-shrink:0;}
+.dc-dd-footer{padding:6px 8px;border-top:1px solid #e8eaf0;display:flex;gap:6px;justify-content:flex-end;}
+.dc-dd-btn{padding:3px 10px;font-size:11px;font-weight:600;border-radius:3px;cursor:pointer;border:1px solid var(--dc-border);background:#f5f6fa;color:var(--dc-text2);}
+.dc-dd-ok{background:var(--dc-blue);border-color:var(--dc-blue);color:#fff;}
+
+/* ── STATUS BAR ── */
+.dc-status{
+  display:flex;align-items:center;gap:12px;padding:3px 12px;
+  background:var(--dc-header);color:rgba(255,255,255,.85);
+  font-size:11px;font-family:'Consolas','IBM Plex Mono',monospace;
+  border-top:1px solid rgba(255,255,255,.1);min-height:22px;flex-wrap:wrap;
+}
+.dc-s-item{display:flex;align-items:center;gap:4px;white-space:nowrap;}
+.dc-s-lbl{color:rgba(255,255,255,.5);font-size:10px;}
+.dc-s-val{color:#fff;font-weight:600;}
+.dc-s-sep{color:rgba(255,255,255,.2);}
+.dc-s-hint{opacity:.4;font-size:10px;}
+.dc-s-clear{color:rgba(255,255,255,.65);cursor:pointer;}
+.dc-s-clear:hover{color:#fff;}
+
+/* ── ROW INFO ── */
+.dc-row-info{font-size:11px;color:var(--dc-text2);padding:4px 12px;border-bottom:1px solid #e8eaf0;background:#fafbff;min-height:24px;}
+.dc-row-info .dc-clear-f{color:var(--dc-red);cursor:pointer;font-weight:600;}
+.dc-row-info b{color:var(--dc-blue);}
+
+/* ── CONTEXT MENU ── */
+.dc-ctx{position:absolute;z-index:99998;background:#fff;border:1px solid var(--dc-border);border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,.15);padding:4px 0;min-width:180px;font-size:12px;display:none;}
+.dc-ctx.open{display:block;}
+.dc-ctx-item{display:flex;align-items:center;gap:8px;padding:5px 14px;color:var(--dc-text);cursor:pointer;transition:background .08s;}
+.dc-ctx-item:hover{background:#f0f2ff;}
+.dc-ctx-sep{height:1px;background:#e8eaf0;margin:3px 0;}
+.dc-ctx-kbd{margin-left:auto;font-size:10px;color:#9ca3af;font-family:'Consolas',monospace;}
+
+/* ── COPY FLASH + TOAST ── */
+@keyframes dc-flash{0%{background:#bbf7d0!important}100%{background:inherit}}
+.dc-flash{animation:dc-flash .35s ease;}
+.xl-copy-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;font-size:12px;font-weight:500;padding:7px 16px;border-radius:6px;z-index:99999;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap;}
+.xl-copy-toast.show{opacity:1;}
+
+/* ── SENTINEL (load more) ── */
+tr.dc-sentinel td{background:#fafbff!important;color:#9ca3af;font-style:italic;}
+
+/* ── TOTALS ── */
+table.ds-excel tfoot td{
+  position:sticky;bottom:0;background:#f0f2ff;border-top:2px solid #c7cefc;
+  font-weight:700;font-size:12px;padding:4px 6px;z-index:4;white-space:nowrap;
+}
+.ds-total-label{font-size:10px;font-weight:700;color:var(--dc-blue);text-transform:uppercase;letter-spacing:.5px;}
+
+/* ── HEATMAP ── */
+.ds-heat-best{background:#ecfdf6!important;color:#065f46!important;}
+.ds-heat-good{background:#d1fae5!important;color:#065f46!important;}
+.ds-heat-mid{background:#fef3e2!important;color:#92400e!important;}
+.ds-heat-bad{background:#fee2e2!important;color:#991b1b!important;}
+.ds-heat-worst{background:#fecaca!important;color:#991b1b!important;}
+
+/* ── FILTER BAR BUTTONS (unified) ── */
+.ds-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;height:30px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--dc-border);background:var(--dc-surface);color:#374151;transition:all .15s;white-space:nowrap;text-decoration:none;line-height:1;}
+.ds-btn:hover{background:var(--dc-surface2);}
+.ds-btn-apply{background:var(--dc-blue);color:#fff;border-color:var(--dc-blue);font-weight:600;}
+.ds-btn-apply:hover{background:#3451d1;border-color:#3451d1;color:#fff;}
+.ds-btn-reset{background:var(--dc-red-dim);color:var(--dc-red);border-color:#fecaca;}
+.ds-btn-reset:hover{background:#fee2e2;}
+.ds-btn-export{background:var(--dc-surface2);color:#374151;}
+
+/* ── CHIP ROW ── */
+.ds-chip-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:5px 20px;background:#fff;border-bottom:1px solid #e8eaf0;min-height:32px;}
+.ds-chip-row:empty{display:none;}
+.ds-chip{display:inline-flex;align-items:center;gap:5px;background:var(--dc-blue-dim);border:1px solid #c7cefc;color:var(--dc-blue);font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;}
+.ds-chip-name{color:var(--dc-text2);font-weight:400;}
+.ds-chip button{background:none;border:none;cursor:pointer;color:inherit;font-size:13px;line-height:1;padding:0;opacity:.6;}
+.ds-chip button:hover{opacity:1;}
+.ds-chip-label{font-size:11px;color:var(--dc-text2);margin-right:4px;}
+
+/* ── SHIMMER while loading more rows ── */
+@keyframes dc-shimmer{0%{opacity:.6}50%{opacity:1}100%{opacity:.6}}
+tr.dc-sentinel{animation:dc-shimmer 1.2s ease infinite;}
+
+/* ── PERFORMANCE: no content-visibility on rows (causes layout thrash) ──
+   Only on the wrapper div */
+.dc-wrap{contain:layout style;}
+
+/* ── BACKWARDS COMPAT: old sort class names still work ── */
+th.sorted-asc::after,th.sort-asc::after{content:" ▲";font-size:9px;color:var(--dc-blue);}
+th.sorted-desc::after,th.sort-desc::after{content:" ▼";font-size:9px;color:var(--dc-blue);}
+tbody tr:hover td{background-color:var(--dc-hover)!important;}

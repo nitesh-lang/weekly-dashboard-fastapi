@@ -218,7 +218,7 @@ def dashboard(
         return HTMLResponse(_jinja_env.get_template("dashboard.html").render(
             request=request,
             kpis={"units": 0, "gmv": 0, "inventory_value": 0, "sell_through": 0},
-            sku_rows=[], channel_summary=[], category_summary=[],
+            sku_rows=[], sku_total=0, channel_summary=[], category_summary=[],
             ams_pivot=[], weeks=[], brands=[], selected=selected,
         ))
 
@@ -435,11 +435,16 @@ def dashboard(
     def _sanitize(rows):
         return [{k: _safe(v) for k, v in row.items()} for row in rows]
 
+    # ── Performance: render first 100 rows only, rest loaded on scroll ──
+    all_sku_rows = _sanitize(sku.to_dict("records"))
+    PAGE_SIZE = 100
+
     template = _jinja_env.get_template("dashboard.html")
     html = template.render(
         request=request,
         kpis=kpis,
-        sku_rows=_sanitize(sku.to_dict("records")),
+        sku_rows=all_sku_rows[:PAGE_SIZE],
+        sku_total=len(all_sku_rows),
         channel_summary=_sanitize(channel_summary),
         category_summary=_sanitize(category_summary),
         ams_pivot=_sanitize(ams_pivot),
@@ -448,3 +453,75 @@ def dashboard(
         selected=selected,
     )
     return HTMLResponse(content=html)
+
+# ── JSON API: paginated SKU rows for infinite scroll ──────────
+@router.get("/api/dashboard/sku-rows")
+def dashboard_sku_rows_api(
+    request: Request,
+    week: str = None,
+    weeks: List[str] = Query(default=[]),
+    brand: str = None,
+    view: str = "mapped",
+    page: int = 1,
+    page_size: int = 100,
+):
+    """Returns JSON rows for infinite scroll on dashboard SKU table."""
+    from fastapi.responses import JSONResponse
+
+    # Re-use same logic as main dashboard endpoint
+    def _fix_week(w):
+        w = str(w).strip()
+        if w.startswith("Week") and " " not in w:
+            w = w.replace("Week", "Week ")
+        return w
+
+    if weeks:
+        active_weeks = [_fix_week(w) for w in weeks if w.strip()]
+    elif week:
+        active_weeks = [_fix_week(week)]
+    else:
+        active_weeks = []
+
+    try:
+        full_sales = _load_csv_cached(SALES_FILE)
+        full_sales.columns = full_sales.columns.str.strip().str.lower()
+        full_sales["week"] = full_sales["week"].astype(str).str.strip()
+        full_sales["sku"] = full_sales["sku"].astype(str)
+
+        sales = full_sales.copy()
+        if active_weeks:
+            sales = sales[sales["week"].isin(active_weeks)]
+        if brand and brand not in ("None", "All", ""):
+            sales = sales[sales["brand"].str.strip().str.lower() == brand.strip().lower()]
+        if view == "mapped":
+            master = _load_csv_cached(MASTER_FILE)
+            master.columns = master.columns.str.strip().str.lower()
+            if "sku" in master.columns:
+                mapped_skus = set(master["sku"].astype(str).str.strip())
+                sales = sales[sales["sku"].isin(mapped_skus)]
+
+        sku_totals = sales.groupby("sku", as_index=False).agg(
+            units_sold=("units_sold","sum"), gmv=("gmv","sum"),
+            sales_nlc=("nlc","sum") if "nlc" in sales.columns else ("gmv","sum"),
+        )
+        total_gmv = sku_totals["gmv"].sum() or 1
+        sku_totals["sales_contribution_pct"] = (sku_totals["gmv"] / total_gmv * 100).round(2)
+        sku_totals = sku_totals.sort_values("gmv", ascending=False)
+
+        def _safe(v):
+            import math
+            if isinstance(v, float) and math.isnan(v): return 0
+            return str(v) if isinstance(v, (dict, list)) else v
+
+        all_rows = [{k: _safe(v) for k, v in row.items()} for row in sku_totals.to_dict("records")]
+        start = (page - 1) * page_size
+        end   = start + page_size
+        return JSONResponse({
+            "rows": all_rows[start:end],
+            "total": len(all_rows),
+            "page": page,
+            "has_more": end < len(all_rows),
+        })
+    except Exception as e:
+        import traceback; traceback.print_exc()
+        return JSONResponse({"rows": [], "total": 0, "page": page, "has_more": False})

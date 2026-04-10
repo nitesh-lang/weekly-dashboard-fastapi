@@ -1,0 +1,527 @@
+/* =============================================================
+   DESIGN SYSTEM v1.0
+   Replaces global-reset.css + dashboard_core.css typography
+   Single source of truth for all visual styling.
+   =============================================================
+   Loads after global-reset and dashboard_core.
+   Overrides only the visual layer — spacing, type, color.
+   Does NOT touch layout logic or JS-driven classes.
+   ============================================================= */
+
+/* ── GOOGLE FONTS ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── DESIGN TOKENS ────────────────────────────────────────── */
+:root {
+  --ds-brand:        #2B3AB6;
+  --ds-brand-dark:   #1e2a8a;
+  --ds-brand-nav:    #232f9e;
+
+  --ds-bg:           #f0f2f7;
+  --ds-surface:      #ffffff;
+  --ds-surface2:     #f7f8fc;
+  --ds-surface3:     #f4f6fc;
+
+  --ds-border:       #e2e5ef;
+  --ds-border2:      #d0d4e8;
+
+  --ds-text:         #0f1623;
+  --ds-text2:        #3d4a6b;
+  --ds-text3:        #6b7a99;
+
+  --ds-blue:         #2B3AB6;
+  --ds-blue-dim:     #eef0fd;
+  --ds-blue-mid:     #c7cdf7;
+  --ds-green:        #0d9266;
+  --ds-green-dim:    #e6f7f2;
+  --ds-amber:        #c47a00;
+  --ds-amber-dim:    #fff8e6;
+  --ds-red:          #d63b3b;
+  --ds-red-dim:      #fff0f0;
+  --ds-purple:       #6c3fd6;
+  --ds-purple-dim:   #f3eeff;
+
+  --ds-mono:         'JetBrains Mono', 'IBM Plex Mono', 'Consolas', monospace;
+  --ds-sans:         'Inter', 'IBM Plex Sans', system-ui, sans-serif;
+
+  --ds-radius:       8px;
+  --ds-radius-lg:    12px;
+
+  /* Overwrite old variables used by existing templates */
+  --blue:            var(--ds-blue);
+  --blue-dim:        var(--ds-blue-dim);
+  --green:           var(--ds-green);
+  --green-dim:       var(--ds-green-dim);
+  --amber:           var(--ds-amber);
+  --amber-dim:       var(--ds-amber-dim);
+  --red:             var(--ds-red);
+  --red-dim:         var(--ds-red-dim);
+  --text:            var(--ds-text);
+  --text2:           var(--ds-text2);
+  --text3:           var(--ds-text3);
+  --border:          var(--ds-border);
+  --border2:         var(--ds-border2);
+  --surface:         var(--ds-surface);
+  --surface2:        var(--ds-surface2);
+  --bg:              var(--ds-bg);
+  --bg2:             var(--ds-surface2);
+  --bg3:             var(--ds-surface3);
+  --header-bg:       var(--ds-brand);
+  --header-nav:      var(--ds-brand-nav);
+  --mono:            var(--ds-mono);
+  --sans:            var(--ds-sans);
+}
+
+/* ── BASE ─────────────────────────────────────────────────── */
+html, body {
+  font-family: var(--ds-sans) !important;
+  background: var(--ds-bg) !important;
+  color: var(--ds-text) !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── HEADER ───────────────────────────────────────────────── */
+.header-title {
+  background: var(--ds-brand) !important;
+  padding: 0 24px !important;
+  height: 52px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.header-title h1 {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.2px !important;
+  color: #fff !important;
+}
+
+.header-subtitle {
+  font-size: 11px !important;
+  color: rgba(255,255,255,.5) !important;
+  font-family: var(--ds-mono) !important;
+  letter-spacing: 1px !important;
+}
+
+/* ── NAV ──────────────────────────────────────────────────── */
+.nav-links, .nav-strip {
+  background: var(--ds-brand-nav) !important;
+  height: 36px !important;
+  padding: 0 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+.nav-links a, .nav-strip a {
+  color: rgba(255,255,255,.65) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 4px 12px !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  transition: all .15s !important;
+}
+
+.nav-links a:hover, .nav-strip a:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,.12) !important;
+  text-decoration: none !important;
+}
+
+.nav-links a.active, .nav-strip a.active {
+  color: #fff !important;
+  background: rgba(255,255,255,.18) !important;
+  font-weight: 600 !important;
+}
+
+/* ── FILTER BAR ───────────────────────────────────────────── */
+.filters-row, .filter-bar, .filter-panel, .toolbar-row {
+  background: var(--ds-surface) !important;
+  border-bottom: 1px solid var(--ds-border) !important;
+  padding: 9px 24px !important;
+  gap: 12px !important;
+  min-height: 48px !important;
+}
+
+.filter-group label, .fgroup label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--ds-text2) !important;
+  text-transform: uppercase !important;
+  letter-spacing: .6px !important;
+}
+
+.filter-group select,
+.filter-bar select,
+.filter-panel select,
+.filter-panel input[type="text"],
+.toolbar-row select,
+.toolbar-row input[type="text"],
+#brandFilter, #globalFilter, #filterBox {
+  height: 30px !important;
+  padding: 0 10px !important;
+  border: 1px solid var(--ds-border2) !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-family: var(--ds-sans) !important;
+  color: var(--ds-text) !important;
+  background: var(--ds-surface2) !important;
+  transition: border-color .15s, box-shadow .15s !important;
+}
+
+.filter-group select:focus,
+.filter-bar select:focus,
+#brandFilter:focus, #globalFilter:focus, #filterBox:focus {
+  border-color: var(--ds-blue) !important;
+  box-shadow: 0 0 0 3px rgba(43,58,182,.1) !important;
+  outline: none !important;
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn-apply, button[type="submit"].btn-apply {
+  height: 30px !important;
+  padding: 0 16px !important;
+  background: var(--ds-blue) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  font-family: var(--ds-sans) !important;
+  cursor: pointer !important;
+  transition: background .15s !important;
+}
+.btn-apply:hover { background: var(--ds-brand-dark) !important; }
+
+.btn, .btn-ghost, .ds-btn {
+  height: 30px !important;
+  padding: 0 14px !important;
+  background: var(--ds-surface2) !important;
+  color: var(--ds-text2) !important;
+  border: 1px solid var(--ds-border2) !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  font-family: var(--ds-sans) !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all .15s !important;
+}
+.btn:hover, .btn-ghost:hover, .ds-btn:hover {
+  background: var(--ds-border) !important;
+  color: var(--ds-text) !important;
+}
+
+.btn.btn-primary, .ds-btn-apply {
+  background: var(--ds-blue) !important;
+  color: #fff !important;
+  border-color: var(--ds-blue) !important;
+  font-weight: 700 !important;
+}
+.btn.btn-primary:hover { background: var(--ds-brand-dark) !important; }
+
+.btn.btn-danger, .ds-btn-reset,
+button[style*="dc2626"], .btn[style*="dc2626"] {
+  background: var(--ds-red-dim) !important;
+  color: var(--ds-red) !important;
+  border-color: #fca5a5 !important;
+}
+
+.ds-btn-export { background: var(--ds-surface2) !important; }
+
+/* Week Apply button */
+.week-apply-btn {
+  height: 26px !important;
+  padding: 0 14px !important;
+  background: var(--ds-blue) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 5px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  font-family: var(--ds-sans) !important;
+  cursor: pointer !important;
+}
+
+/* ── KPI BAR ──────────────────────────────────────────────── */
+.kpi-bar {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  background: var(--ds-surface) !important;
+  border-bottom: 1px solid var(--ds-border) !important;
+  gap: 0 !important;
+}
+
+.kpi {
+  padding: 14px 20px !important;
+  border-right: 1px solid var(--ds-border) !important;
+}
+.kpi:last-child { border-right: none !important; }
+
+.kpi-label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--ds-text3) !important;
+  text-transform: uppercase !important;
+  letter-spacing: .6px !important;
+  margin-bottom: 4px !important;
+}
+
+.kpi-value {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.5px !important;
+  line-height: 1.15 !important;
+  font-family: var(--ds-sans) !important;
+}
+
+/* ── TABLE WRAPPER ────────────────────────────────────────── */
+.table-wrapper, .table-wrapper-sm {
+  background: var(--ds-surface) !important;
+  border: 1px solid var(--ds-border) !important;
+  border-radius: var(--ds-radius-lg) !important;
+  overflow: auto !important;
+  margin: 0 24px 20px !important;
+}
+
+/* ── TABLE BASE ───────────────────────────────────────────── */
+table {
+  font-family: var(--ds-sans) !important;
+  font-size: 13px !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+}
+
+/* ── HEADER CELLS ─────────────────────────────────────────── */
+thead th {
+  background: var(--ds-surface3) !important;
+  padding: 8px 12px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--ds-text2) !important;
+  text-transform: uppercase !important;
+  letter-spacing: .5px !important;
+  border-bottom: 2px solid var(--ds-border2) !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+  vertical-align: middle !important;
+}
+
+thead th:hover { background: #eceffe !important; }
+
+/* ── BODY CELLS ───────────────────────────────────────────── */
+tbody td {
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+  color: var(--ds-text) !important;
+  border-bottom: 1px solid var(--ds-border) !important;
+  vertical-align: middle !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+  white-space: nowrap !important;
+}
+
+tbody tr:nth-child(even) td { background: #fafbff !important; }
+tbody tr:hover td            { background: #f0f3ff !important; }
+tbody tr.dc-sel td,
+tbody tr.xl-selected td      { background: #e8ecff !important; }
+
+/* Monospace numbers */
+td.dc-num, td.xl-num,
+td[class*="fmt-inr"],
+td:has(> *[class*="fmt"]) {
+  font-family: var(--ds-mono) !important;
+  font-size: 12px !important;
+  text-align: right !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* SKU column */
+td[style*="mono"], td[class*="sku"] {
+  font-family: var(--ds-mono) !important;
+  font-size: 11px !important;
+  color: var(--ds-text2) !important;
+}
+
+/* ── TFOOT / TOTALS ───────────────────────────────────────── */
+tfoot td, table.ds-excel tfoot td {
+  padding: 7px 12px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  background: #eceffe !important;
+  border-top: 2px solid var(--ds-blue-mid) !important;
+  color: var(--ds-text) !important;
+  font-family: var(--ds-sans) !important;
+}
+
+.ds-total-label, .total-lbl {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: var(--ds-blue) !important;
+  text-transform: uppercase !important;
+  letter-spacing: .6px !important;
+}
+
+/* ── SECTION HEADERS ──────────────────────────────────────── */
+.section-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 16px 24px 10px !important;
+}
+
+.section-title {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--ds-text) !important;
+  letter-spacing: -.1px !important;
+}
+
+/* ── ROW INFO BAR ─────────────────────────────────────────── */
+.dc-row-info, .xl-row-info {
+  font-size: 11px !important;
+  color: var(--ds-text3) !important;
+  padding: 6px 14px !important;
+  background: var(--ds-surface2) !important;
+  border-bottom: 1px solid var(--ds-border) !important;
+  font-family: var(--ds-sans) !important;
+}
+
+/* ── STATUS BAR ───────────────────────────────────────────── */
+.dc-status, .xl-status-bar {
+  background: var(--ds-brand) !important;
+  color: rgba(255,255,255,.8) !important;
+  font-size: 11px !important;
+  font-family: var(--ds-mono) !important;
+  padding: 4px 14px !important;
+  border-top: 1px solid rgba(255,255,255,.08) !important;
+}
+
+.dc-s-lbl, .xl-status-item .label { opacity: .5 !important; font-size: 10px !important; }
+.dc-s-val, .xl-status-item .value { color: #fff !important; font-weight: 600 !important; }
+
+/* ── AUTOFILTER DROPDOWN ──────────────────────────────────── */
+.dc-dropdown, .xl-dropdown {
+  border: 1px solid var(--ds-border2) !important;
+  border-radius: var(--ds-radius) !important;
+  box-shadow: 0 8px 24px rgba(15,22,35,.12) !important;
+  font-family: var(--ds-sans) !important;
+  font-size: 13px !important;
+}
+
+.dc-dd-ok, .xl-dd-ok {
+  background: var(--ds-blue) !important;
+  border-color: var(--ds-blue) !important;
+  font-weight: 700 !important;
+}
+
+/* ── CHIP ROW ─────────────────────────────────────────────── */
+.ds-chip-row {
+  background: var(--ds-surface) !important;
+  border-bottom: 1px solid var(--ds-border) !important;
+  padding: 5px 24px !important;
+}
+
+.ds-chip {
+  background: var(--ds-blue-dim) !important;
+  border: 1px solid var(--ds-blue-mid) !important;
+  color: var(--ds-blue) !important;
+  font-size: 11px !important;
+  font-family: var(--ds-sans) !important;
+}
+
+/* ── WEEK PICKER ──────────────────────────────────────────── */
+.week-picker-btn, .ds-week-btn {
+  height: 30px !important;
+  font-size: 13px !important;
+  font-family: var(--ds-sans) !important;
+  border: 1px solid var(--ds-border2) !important;
+  background: var(--ds-surface2) !important;
+  border-radius: 6px !important;
+  color: var(--ds-text) !important;
+}
+
+.week-picker-dropdown, .ds-week-dropdown {
+  border: 1px solid var(--ds-border2) !important;
+  border-radius: var(--ds-radius) !important;
+  box-shadow: 0 8px 24px rgba(15,22,35,.12) !important;
+  font-family: var(--ds-sans) !important;
+  font-size: 13px !important;
+}
+
+.week-option {
+  font-size: 13px !important;
+  padding: 5px 14px !important;
+  font-family: var(--ds-sans) !important;
+  color: var(--ds-text) !important;
+}
+
+/* ── NOTE STRIP ───────────────────────────────────────────── */
+.note-strip {
+  font-size: 12px !important;
+  padding: 6px 24px !important;
+  background: var(--ds-amber-dim) !important;
+  color: var(--ds-amber) !important;
+  border-bottom: 1px solid #fde68a !important;
+  font-family: var(--ds-sans) !important;
+}
+
+/* ── TREND BADGES ─────────────────────────────────────────── */
+.up, span.up, td .up { color: var(--ds-green) !important; font-weight: 700 !important; }
+.down, span.down, td .down { color: var(--ds-red) !important; font-weight: 700 !important; }
+.flat, span.flat, td .flat { color: var(--ds-text3) !important; font-weight: 500 !important; }
+
+/* ── BACK LINK ────────────────────────────────────────────── */
+.back-link, .ds-back-link {
+  font-size: 12px !important;
+  color: var(--ds-text3) !important;
+  font-family: var(--ds-sans) !important;
+  padding: 4px 8px 4px 0 !important;
+  text-decoration: none !important;
+}
+.back-link:hover { color: var(--ds-blue) !important; }
+
+/* ── AUTOFILTER ARROW ─────────────────────────────────────── */
+.dc-fa {
+  border: 1px solid var(--ds-border2) !important;
+  border-radius: 3px !important;
+  background: #fff !important;
+  color: var(--ds-text2) !important;
+  width: 14px !important;
+  height: 14px !important;
+  font-size: 8px !important;
+}
+.dc-fa:hover, .dc-fa.dc-fa-active {
+  background: var(--ds-blue) !important;
+  border-color: var(--ds-blue) !important;
+  color: #fff !important;
+}
+
+/* ── MAIN CONTENT PADDING ─────────────────────────────────── */
+.main-content {
+  padding: 0 !important;
+  background: var(--ds-bg) !important;
+}
+
+/* ── OVERRIDES: ensure global-reset doesn't fight us ─────── */
+th, td {
+  font-family: var(--ds-sans) !important;
+  font-size: 13px !important;
+}
+
+thead th {
+  font-size: 11px !important;
+}
+
+p { font-size: 13px !important; font-family: var(--ds-sans) !important; }
+a { color: var(--ds-blue) !important; }
+a:hover { text-decoration: underline !important; color: var(--ds-brand-dark) !important; }

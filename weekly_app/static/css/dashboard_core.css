@@ -46,7 +46,7 @@ th.dc-desc::after{content:" ▼";font-size:9px;color:var(--dc-blue);}
 
 /* ── DROPDOWN ── */
 .dc-dropdown{
-  position:absolute;z-index:9999;background:#fff;
+  position:fixed;z-index:9999;background:#fff;
   border:1px solid var(--dc-border);border-radius:4px;
   box-shadow:0 4px 16px rgba(0,0,0,.14);
   min-width:180px;max-width:260px;font-size:12px;display:none;
@@ -85,7 +85,7 @@ th.dc-desc::after{content:" ▼";font-size:9px;color:var(--dc-blue);}
 .dc-row-info b{color:var(--dc-blue);}
 
 /* ── CONTEXT MENU ── */
-.dc-ctx{position:absolute;z-index:99998;background:#fff;border:1px solid var(--dc-border);border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,.15);padding:4px 0;min-width:180px;font-size:12px;display:none;}
+.dc-ctx{position:fixed;z-index:99998;background:#fff;border:1px solid var(--dc-border);border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,.15);padding:4px 0;min-width:180px;font-size:12px;display:none;}
 .dc-ctx.open{display:block;}
 .dc-ctx-item{display:flex;align-items:center;gap:8px;padding:5px 14px;color:var(--dc-text);cursor:pointer;transition:background .08s;}
 .dc-ctx-item:hover{background:#f0f2ff;}
@@ -137,9 +137,9 @@ table.ds-excel tfoot td{
 @keyframes dc-shimmer{0%{opacity:.6}50%{opacity:1}100%{opacity:.6}}
 tr.dc-sentinel{animation:dc-shimmer 1.2s ease infinite;}
 
-/* ── PERFORMANCE: no content-visibility on rows (causes layout thrash) ──
-   Only on the wrapper div */
-.dc-wrap{contain:layout style;}
+/* ── PERFORMANCE: wrap for scroll containment only, no layout contain ──
+   contain:layout breaks absolutely-positioned children like dropdowns */
+.dc-wrap{ position:relative; }
 
 /* ── BACKWARDS COMPAT: old sort class names still work ── */
 th.sorted-asc::after,th.sort-asc::after{content:" ▲";font-size:9px;color:var(--dc-blue);}

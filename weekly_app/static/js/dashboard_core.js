@@ -164,7 +164,8 @@ function initAutoFilter(table){
 
     var rect=anchor.getBoundingClientRect();
     var left=Math.min(rect.left,window.innerWidth-230);
-    dropdown.style.cssText="display:flex;flex-direction:column;top:"+(rect.bottom+window.scrollY+2)+"px;left:"+left+"px";
+    // position:fixed — use viewport coords directly, no scrollY needed
+    dropdown.style.cssText="display:flex;flex-direction:column;top:"+(rect.bottom+4)+"px;left:"+left+"px;position:fixed;z-index:9999;";
     activeDd=dropdown;
 
     var dd=dropdown,si=qs("#"+sId,dd),li=qs("#"+lId,dd),ai=qs("#"+aId,dd);
@@ -192,6 +193,11 @@ function initAutoFilter(table){
     if(!activeDd) return;
     if(activeDd.contains(e.target)||e.target.closest(".dc-fa")) return;
     closeDd();
+  });
+  // Close on scroll - fixed dropdown doesn't follow the anchor
+  window.addEventListener("scroll",closeDd,{passive:true});
+  document.querySelectorAll(".table-wrapper,.dc-wrap").forEach(function(el){
+    el.addEventListener("scroll",closeDd,{passive:true});
   });
 
   // Public: rebuild after dynamic row injection
@@ -566,7 +572,7 @@ function initTable(table){
       qsa("tr.dc-sel",table.tBodies[0]).forEach(function(r){r.classList.remove("dc-sel");});
       row.classList.add("dc-sel"); updateStatus(table);
     }
-    ctx.style.cssText="display:block;top:"+(e.clientY+window.scrollY)+"px;left:"+Math.min(e.clientX,window.innerWidth-200)+"px";
+    ctx.style.cssText="display:block;top:"+e.clientY+"px;left:"+Math.min(e.clientX,window.innerWidth-200)+"px";
     ctx.classList.add("open");
   });
 

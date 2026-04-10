@@ -595,7 +595,7 @@
         </div>
         <div class="filter-group">
             <label>Brand</label>
-            <select name="brand" onchange="autoRefresh()">
+            <select name="brand">
                 <option value="">All</option>
                 {% for b in brands %}
                     <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
@@ -604,7 +604,7 @@
         </div>
         <div class="filter-group">
             <label>View</label>
-            <select name="view" onchange="autoRefresh()">
+            <select name="view">
                 <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
                 <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
             </select>
@@ -700,7 +700,12 @@
     </div>
 
     <div class="table-wrapper">
-        <table class="sku-table">
+        <table class="sku-table"
+          data-xl
+          data-xl-frozen="3"
+          data-xl-totals="3,4,5,6,7,8,9,10,11,12,13,14,15,16"
+          data-xl-heat="6"
+          data-xl-key="dashboard-sku">
         <thead><tr>
             <th>SKU</th><th>Model</th><th>Category</th>
             <th>All Ch. Units</th><th>All Ch. Sales</th><th>All Ch. NLC</th><th>% Contrib</th>

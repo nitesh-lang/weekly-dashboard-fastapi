@@ -417,6 +417,7 @@
                 </select>
             </div>
             <button type="submit" class="btn-apply">Apply</button>
+            <button type="button" class="ds-btn ds-btn-reset" onclick="resetInvFilters()">✕ Reset</button>
         </div>
     </form>
 
@@ -516,7 +517,11 @@
     </div>
 
     <div class="table-wrapper">
-        <table id="inventoryTable">
+        <table id="inventoryTable"
+          data-xl
+          data-xl-frozen="3"
+          data-xl-totals="9,10,11"
+          data-xl-key="inventory-detail">
         <thead>
         <tr>
             <th onclick="sortTable(0)">Week</th>
@@ -643,6 +648,17 @@ function exportTable() {
         if (wrap) wrap.prepend(bar);
     });
 })();
+
+function resetInvFilters() {
+    document.getElementById('globalFilter').value = '';
+    document.querySelectorAll('#columnFilters input').forEach(inp => inp.value = '');
+    document.querySelectorAll('#inventoryTable tbody tr').forEach(r => r.style.display = '');
+    const info = document.querySelector('.xl-row-info');
+    if (info) {
+        const total = document.querySelectorAll('#inventoryTable tbody tr').length;
+        info.innerHTML = total + ' rows';
+    }
+}
 </script>
 </body>
 </html>

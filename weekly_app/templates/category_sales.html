@@ -464,10 +464,16 @@
             {% if week %} — {{ week }}{% endif %}
             {% if selected_brand %} · {{ selected_brand | title }}{% endif %}
         </div>
+        <button class="ds-btn ds-btn-export" onclick="exportCategoryCSV()">⬇ Export CSV</button>
     </div>
 
     <div class="table-wrapper">
-        <table id="catTable">
+        <table id="catTable"
+          data-xl
+          data-xl-frozen="1"
+          data-xl-totals="1,2"
+          data-xl-heat="3"
+          data-xl-key="category-sales">
         <thead>
             <tr>
                 <th>Category</th>
@@ -626,6 +632,24 @@ document.querySelectorAll('#catTable th').forEach((th, i) => {
         asc = !asc;
     });
 });
+
+function exportCategoryCSV() {
+    const table = document.getElementById('catTable');
+    if (!table) return;
+    const rows = [];
+    const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText.trim());
+    rows.push(headers.join(','));
+    table.querySelectorAll('tbody tr').forEach(tr => {
+        if (tr.style.display === 'none') return;
+        const cells = Array.from(tr.querySelectorAll('td')).map(td => '"' + td.innerText.trim().replace(/"/g, '""') + '"');
+        rows.push(cells.join(','));
+    });
+    const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'category_sales.csv';
+    a.click();
+}
 </script>
 </body>
 </html>

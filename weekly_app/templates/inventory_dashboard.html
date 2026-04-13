@@ -583,25 +583,45 @@
 <script>
 const globalInput = document.getElementById("globalFilter");
 const colInputs   = document.querySelectorAll("#columnFilters input");
-const bodyRows    = document.querySelectorAll("#inventoryTable tbody tr");
+
+// ── Always query live tbody rows (captures rows added by infinite scroll) ──
+function getLiveRows() {
+    return Array.from(document.querySelectorAll(
+        "#inventoryTable tbody tr:not(.dc-sentinel):not(.xl-total)"
+    ));
+}
 
 function applyFilters() {
-    const g = globalInput.value.toLowerCase();
-    bodyRows.forEach(row => {
+    const g = globalInput.value.toLowerCase().trim();
+    const colFilters = Array.from(colInputs).map(inp => ({
+        col: parseInt(inp.dataset.col),
+        val: inp.value.toLowerCase().trim()
+    })).filter(f => f.val);
+
+    getLiveRows().forEach(row => {
+        if (row.classList.contains("dc-sentinel")) return;
         let show = true;
         if (g && !row.innerText.toLowerCase().includes(g)) show = false;
-        colInputs.forEach(inp => {
-            const val = inp.value.toLowerCase().trim();
-            if (!val) return;
-            const cell = row.children[inp.dataset.col]?.innerText.toLowerCase().trim() || '';
-            if (!cell.includes(val)) show = false;
+        colFilters.forEach(f => {
+            const cell = row.children[f.col]?.innerText.toLowerCase().trim() || '';
+            if (!cell.includes(f.val)) show = false;
         });
         row.style.display = show ? "" : "none";
     });
 }
 
-globalInput.addEventListener("keyup", applyFilters);
-colInputs.forEach(inp => inp.addEventListener("keyup", applyFilters));
+// ── Debounce so fast typing doesn't block while rows are still loading ──
+let _filterTimer;
+function debouncedFilter() {
+    clearTimeout(_filterTimer);
+    _filterTimer = setTimeout(applyFilters, 180);
+}
+
+globalInput.addEventListener("input", debouncedFilter);
+colInputs.forEach(inp => inp.addEventListener("input", debouncedFilter));
+
+// ── Re-run filter after each batch of rows loads (called by infinite scroll) ──
+window._invFilterRefresh = applyFilters;
 
 function sortTable(col) {
     const tbody = document.querySelector("#inventoryTable tbody");

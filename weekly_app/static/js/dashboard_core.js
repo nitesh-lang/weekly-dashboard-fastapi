@@ -129,6 +129,10 @@ function appendRows(table, rows){
     frag.appendChild(tr);
   });
   tbody.appendChild(frag);
+  // Re-apply any active filter so newly loaded rows respect current search terms
+  if(typeof window._invFilterRefresh === "function") window._invFilterRefresh();
+  // For dashboard_core autofilter tables, re-apply current filter without resetting state
+  if(table._applyCurrentFilter) table._applyCurrentFilter();
 }
 
 /* ─── AUTOFILTER ─────────────────────────────────────────── */
@@ -239,6 +243,10 @@ function initAutoFilter(table){
       th.querySelector(".dc-fa").onclick=function(e){e.stopPropagation();activeCol===ci&&activeDd?closeDd():openDd(ci,this);};
     });
     applyFilter(table,filterState);
+  };
+  // Re-apply current filter state to newly appended rows without clearing
+  table._applyCurrentFilter=function(){
+    if(filterState.size>0) applyFilter(table,filterState);
   };
 }
 

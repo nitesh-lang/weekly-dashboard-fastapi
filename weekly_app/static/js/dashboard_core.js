@@ -31,42 +31,67 @@ function initInfiniteScroll(table){
   var loaded   = parseInt(table.dataset.loadedRows||"0",10);
   if(!apiUrl || loaded >= total) return;
 
-  var tbody  = table.tBodies[0];
-  var page   = 2; // page 1 already rendered server-side
-  var loading= false;
+  var tbody   = table.tBodies[0];
+  var page    = 2;
+  var loading = false;
 
-  // Sentinel row at the bottom — observer watches this
+  // Find the scroll container — the table is inside .table-wrapper with overflow:auto
+  var scrollEl = table.closest(".table-wrapper,.table-wrapper-sm") || document.documentElement;
+
+  // Sentinel row appended at the bottom of tbody
   var sentinel = document.createElement("tr");
   sentinel.className = "dc-sentinel";
-  sentinel.innerHTML = '<td colspan="99" style="text-align:center;padding:10px;color:#9ca3af;font-size:11px">Loading more rows…</td>';
+  sentinel.innerHTML = '<td colspan="99" style="text-align:center;padding:12px;color:#9ca3af;font-size:11px;font-style:italic">Loading more rows…</td>';
   tbody.appendChild(sentinel);
 
-  var obs = new IntersectionObserver(function(entries){
-    if(!entries[0].isIntersecting || loading) return;
-    if(loaded >= total){ obs.disconnect(); sentinel.remove(); return; }
+  function loadNext(){
+    if(loading || loaded >= total) return;
     loading = true;
-
     var url = apiUrl+"?page="+page+"&page_size=100"+(apiParams?"&"+apiParams:"");
     fetch(url)
       .then(function(r){ return r.json(); })
       .then(function(data){
-        if(!data.rows || !data.rows.length){ obs.disconnect(); sentinel.remove(); return; }
+        if(!data.rows||!data.rows.length){ sentinel.remove(); loading=false; return; }
         appendRows(table, data.rows);
         loaded += data.rows.length;
         table.dataset.loadedRows = loaded;
         page++;
         loading = false;
-        if(!data.has_more){ obs.disconnect(); sentinel.remove(); }
-        else { tbody.appendChild(sentinel); } // re-attach sentinel at bottom
+        if(!data.has_more || loaded >= total){
+          sentinel.remove();
+        } else {
+          tbody.appendChild(sentinel); // keep sentinel at bottom
+        }
       })
-      .catch(function(){
-        loading = false;
-        sentinel.remove();
-        obs.disconnect();
-      });
-  }, {rootMargin:"400px"});
+      .catch(function(){ loading=false; });
+  }
 
+  // PRIMARY: IntersectionObserver with scroll container as root
+  // This fires when sentinel enters the visible area of the scroll container
+  var obsOpts = { root: scrollEl === document.documentElement ? null : scrollEl, rootMargin: "200px", threshold: 0 };
+  var obs = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting) loadNext();
+  }, obsOpts);
   obs.observe(sentinel);
+
+  // FALLBACK: scroll listener on the container in case observer root doesn't fire
+  function onScroll(){
+    if(loading || loaded >= total) return;
+    var rect = sentinel.getBoundingClientRect();
+    var containerRect = scrollEl === document.documentElement
+      ? { top:0, bottom: window.innerHeight }
+      : scrollEl.getBoundingClientRect();
+    if(rect.top <= containerRect.bottom + 300) loadNext();
+  }
+  scrollEl.addEventListener("scroll", onScroll, {passive:true});
+
+  // SAFETY NET: load all remaining rows automatically after 1.5s
+  // Handles cases where page renders but user never scrolls
+  setTimeout(function autoLoad(){
+    if(loaded >= total) return;
+    loadNext();
+    setTimeout(autoLoad, 800);
+  }, 1500);
 }
 
 function appendRows(table, rows){

@@ -509,7 +509,7 @@
     <!-- INVENTORY DETAILS -->
     <div class="section-header" style="margin-top:28px">
         <div class="section-title">📦 Inventory Details</div>
-        <button class="btn-ghost" onclick="exportTable()">⬇ Export CSV</button>
+        <a class="btn-ghost" id="inv-export-btn" href="/export/inventory-full">⬇ Export CSV</a>
     </div>
 
     <div class="toolbar-row">
@@ -665,5 +665,27 @@ function resetInvFilters() {
     }
 }
 </script>
+
+<script>
+(function(){
+    var btn = document.getElementById('inv-export-btn');
+    if(!btn) return;
+    function updateExportHref(){
+        var week = document.querySelector('select[name="week"]');
+        var brand = document.querySelector('select[name="brand"]');
+        var w = week ? encodeURIComponent(week.value) : '';
+        var b = brand ? encodeURIComponent(brand.value) : '';
+        btn.href = '/export/inventory-full?week=' + w + '&brand=' + b;
+    }
+    updateExportHref();
+    document.querySelectorAll('select[name="week"],select[name="brand"]').forEach(function(s){
+        s.addEventListener('change', updateExportHref);
+    });
+    // Also update on Apply click
+    var apply = document.querySelector('button[type="submit"], .btn-apply');
+    if(apply) apply.addEventListener('click', function(){ setTimeout(updateExportHref, 100); });
+})();
+</script>
+
 </body>
 </html>

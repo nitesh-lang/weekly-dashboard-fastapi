@@ -464,7 +464,7 @@
             {% if week %} — {{ week }}{% endif %}
             {% if selected_brand %} · {{ selected_brand | title }}{% endif %}
         </div>
-        <button class="ds-btn ds-btn-export" onclick="exportCategoryCSV()">⬇ Export CSV</button>
+        <a class="ds-btn ds-btn-export" id="cat-export-btn" href="/export/category-full">⬇ Export CSV</a>
     </div>
 
     <div class="table-wrapper">
@@ -635,22 +635,31 @@ document.querySelectorAll('#catTable th').forEach((th, i) => {
 });
 
 function exportCategoryCSV() {
-    const table = document.getElementById('catTable');
-    if (!table) return;
-    const rows = [];
-    const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.innerText.trim());
-    rows.push(headers.join(','));
-    table.querySelectorAll('tbody tr').forEach(tr => {
-        if (tr.style.display === 'none') return;
-        const cells = Array.from(tr.querySelectorAll('td')).map(td => '"' + td.innerText.trim().replace(/"/g, '""') + '"');
-        rows.push(cells.join(','));
-    });
-    const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'category_sales.csv';
-    a.click();
+    var btn = document.getElementById('cat-export-btn');
+    if(btn){ window.location.href = btn.href; return; }
+    window.location.href = '/export/category-full';
 }
+</script>
+
+<script>
+(function(){
+    function updateCatExport(){
+        var btn = document.getElementById('cat-export-btn');
+        if(!btn) return;
+        var brand = '';
+        var brandEl = document.querySelector('select[name="brand"]');
+        if(brandEl && brandEl.value) brand = brandEl.value;
+        var weeks = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(function(c){ return 'sel_weeks='+encodeURIComponent(c.value); });
+        var url = '/export/category-full';
+        var params = [];
+        if(brand) params.push('brand='+encodeURIComponent(brand));
+        if(weeks.length) params.push(weeks.join('&'));
+        if(params.length) url += '?' + params.join('&');
+        btn.href = url;
+    }
+    document.addEventListener('DOMContentLoaded', updateCatExport);
+    document.addEventListener('change', updateCatExport);
+})();
 </script>
 </body>
 </html>

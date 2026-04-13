@@ -509,7 +509,7 @@
 
         <button class="btn" onclick="resetFilters()" style="color:#dc2626;border-color:#fecaca;background:#fef2f2">✕ Reset Filters</button>
         <button class="btn" onclick="toggleMetric()">⇄ Toggle Units / ₹</button>
-        <button class="btn btn-primary" onclick="exportTable()">⬇ Export CSV</button>
+        <a class="btn btn-primary" id="sku-export-btn" href="/export/sales-trend-sku">⬇ Export CSV</a>
     </div>
 
     <div class="selection-bar" style="display:none"></div>
@@ -724,20 +724,14 @@ document.querySelectorAll("th").forEach((header, colIndex) => {
 
 /* ── Export CSV ── */
 function exportTable() {
-    let csv = [];
-    document.querySelectorAll("#trendTable tr").forEach(r => {
-        let row = [];
-        r.querySelectorAll("th, td").forEach((c, i) => {
-            if (i === 0) return; // skip checkbox
-            row.push('"' + c.innerText.replace(/"/g, '""').replace(/\n/g, ' ') + '"');
-        });
-        csv.push(row.join(","));
-    });
-    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "sku_sales_trend.csv";
-    a.click();
+    var btn = document.getElementById('sku-export-btn');
+    if(btn){ window.location.href = btn.href; return; }
+    // Fallback: build URL from current filters
+    var brand = (document.getElementById('brandFilter') || {}).value || 'All';
+    var weeks = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(function(c){ return 'sel_weeks='+encodeURIComponent(c.value); });
+    var url = '/export/sales-trend-sku?brand='+encodeURIComponent(brand);
+    if(weeks.length) url += '&' + weeks.join('&');
+    window.location.href = url;
 }
 
 /* ── Brand filter (backend) ── */
@@ -756,5 +750,21 @@ function resetFilters() {
 </script>
 <link rel="stylesheet" href="/static/css/ai_widget.css">
 <script src="/static/js/ai_widget.js" defer></script>
+
+<script>
+(function(){
+    function updateSkuExportHref(){
+        var btn = document.getElementById('sku-export-btn');
+        if(!btn) return;
+        var brand = (document.getElementById('brandFilter')||{}).value||'All';
+        var weeks = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(function(c){ return 'sel_weeks='+encodeURIComponent(c.value); });
+        var url = '/export/sales-trend-sku?brand='+encodeURIComponent(brand);
+        if(weeks.length) url += '&' + weeks.join('&');
+        btn.href = url;
+    }
+    document.addEventListener('DOMContentLoaded', updateSkuExportHref);
+    document.addEventListener('change', updateSkuExportHref);
+})();
+</script>
 </body>
 </html>

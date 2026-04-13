@@ -85,13 +85,13 @@ function initInfiniteScroll(table){
   }
   scrollEl.addEventListener("scroll", onScroll, {passive:true});
 
-  // SAFETY NET: load all remaining rows automatically after 1.5s
-  // Handles cases where page renders but user never scrolls
+  // SAFETY NET: auto-load all remaining rows even if scroll/observer never fires
+  // Waits for each fetch to complete before triggering next one
   setTimeout(function autoLoad(){
     if(loaded >= total) return;
-    loadNext();
-    setTimeout(autoLoad, 800);
-  }, 1500);
+    if(!loading){ loadNext(); }
+    setTimeout(autoLoad, 600);
+  }, 400);
 }
 
 function appendRows(table, rows){
@@ -619,19 +619,14 @@ function initTable(table){
   // Phase 2 — after first paint
   raf2(function(){
     initStatusBar(table);
-    // Phase 3 — idle + visible
-    var heavy=function(){
+    // Phase 3 — run immediately, don't gate behind intersection observer
+    // (the outer observer was preventing initInfiniteScroll from ever firing on Render)
+    idle(function(){
       buildTotals(table);
       restoreSort(table);
       initInfiniteScroll(table);
       table.classList.add("xl-ready");
-    };
-    if("IntersectionObserver"in window){
-      var obs=new IntersectionObserver(function(en,o){
-        if(en[0].isIntersecting){o.disconnect();idle(heavy);}
-      },{rootMargin:"300px"});
-      obs.observe(table);
-    } else { idle(heavy); }
+    });
   });
 }
 

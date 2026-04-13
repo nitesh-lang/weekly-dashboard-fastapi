@@ -439,15 +439,14 @@ def dashboard(
     def _sanitize(rows):
         return [{k: _safe(v) for k, v in row.items()} for row in rows]
 
-    # ── Performance: render first 100 rows only, rest loaded on scroll ──
+    # Send ALL rows in the initial HTML
     all_sku_rows = _sanitize(sku.to_dict("records"))
-    PAGE_SIZE = 100
 
     template = _jinja_env.get_template("dashboard.html")
     html = template.render(
         request=request,
         kpis=kpis,
-        sku_rows=all_sku_rows[:PAGE_SIZE],
+        sku_rows=all_sku_rows,
         sku_total=len(all_sku_rows),
         channel_summary=_sanitize(channel_summary),
         category_summary=_sanitize(category_summary),

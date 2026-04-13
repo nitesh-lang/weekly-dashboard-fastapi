@@ -178,12 +178,9 @@ def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str
 
     rows = df_agg.to_dict(orient="records")
 
-    # ── Performance: render first 100 rows, rest loaded on scroll ──
-    PAGE_SIZE = 100
+    # Send ALL rows in the initial HTML — no JS infinite scroll needed
     all_rows = rows
-    rows = all_rows[:PAGE_SIZE]
     inv_total = len(all_rows)
-
 
 
     # KPIs

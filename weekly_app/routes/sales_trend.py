@@ -221,14 +221,13 @@ def sales_trend(
 
     brands = sorted(sales["brand"].dropna().astype(str).unique())
 
-    # ── Performance: render first 100 rows, rest loaded on scroll ──
+    # Send ALL rows in the initial HTML
     all_rows = rows
-    PAGE_SIZE = 100
     trend_total = len(all_rows)
 
     return HTMLResponse(_env.get_template("sales_trend_sku.html").render(
         request=request,
-        rows=all_rows[:PAGE_SIZE],
+        rows=all_rows,
         trend_total=trend_total,
         weeks=weeks,
         all_weeks=all_weeks,

@@ -3464,6 +3464,7 @@ Week 15,Audio Array,AA-26,2750.0,0
 Week 15,Audio Array,AB-01,6.0,0
 Week 15,Audio Array,AC-3XL,901.0,0
 Week 15,Audio Array,AC-6XL,2722.0,0
+Week 15,Audio Array,AE831,20.0,0
 Week 15,Audio Array,AH-40 SL,2212.0,0
 Week 15,Audio Array,AH-45 BK,2222.0,0
 Week 15,Audio Array,AH-50,2809.0,0
@@ -3479,7 +3480,7 @@ Week 15,Audio Array,AI-06,127.0,0
 Week 15,Audio Array,AI-08,1.0,0
 Week 15,Audio Array,AI-09,3.0,0
 Week 15,Audio Array,AI-10,1662.0,0
-Week 15,Audio Array,AI-11,262.0,0
+Week 15,Audio Array,AI-11,1262.0,0
 Week 15,Audio Array,AI-12,1339.0,0
 Week 15,Audio Array,AI-13,2031.0,0
 Week 15,Audio Array,AI-14,600.0,0
@@ -3557,7 +3558,7 @@ Week 15,Audio Array,AM-PRO12,5.0,0
 Week 15,Audio Array,AM-PRO16,8.0,0
 Week 15,Audio Array,AM-PRO24,8.0,0
 Week 15,Audio Array,AM-S1,2093.0,0
-Week 15,Audio Array,AM-S2,1580.0,0
+Week 15,Audio Array,AM-S2,2576.0,0
 Week 15,Audio Array,AM-S6,50.0,0
 Week 15,Audio Array,AM-W10,498.0,0
 Week 15,Audio Array,AM-W11,503.0,0
@@ -3617,9 +3618,7 @@ Week 15,Audio Array,PB-12 (AM-C11+AA-05+AI-04+AH-60-RD),7.0,0
 Week 15,Audio Array,PB-13 (AM-C43+AH-40-SL+AI-11),0.0,0
 Week 15,Audio Array,PB-14 (AM-C43+AH-40-SL+AI-12),15.0,0
 Week 15,Audio Array,SB-01,2601.0,0
-Week 15,Audio Array,ST-03,100.0,0
 Week 15,Audio Array,T-835,40.0,0
-Week 15,Audio Array,TD310,504.0,0
 Week 15,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",11.0,0
 Week 15,Audio Array,UB-02 (AM-S1 + AA-21),11.0,0
 Week 15,Audio Array,UB-03 (AM-S1 + AA-22),7.0,0
@@ -4050,8 +4049,6 @@ Week 15,Fossil,SKW2694,5.0,0
 Week 15,Fossil,SKW3101,0.0,0
 Week 15,Fossil,SKW3121,1.0,0
 Week 15,Fossil,SKW6891,0.0,0
-Week 15,Nexlev,AI-11,1000.0,0
-Week 15,Nexlev,AM-S2,996.0,0
 Week 15,Nexlev,AP-01,64.0,0
 Week 15,Nexlev,AP-02,2.0,0
 Week 15,Nexlev,AP-03,858.0,0
@@ -4123,7 +4120,7 @@ Week 15,Nexlev,MG-01,172.0,0
 Week 15,Nexlev,MGC-03,73.0,0
 Week 15,Nexlev,MGS-02,26.0,0
 Week 15,Nexlev,MM-01,2.0,0
-Week 15,Nexlev,MR-01,783.0,0
+Week 15,Nexlev,MR-01,1785.0,0
 Week 15,Nexlev,MR-02,778.0,0
 Week 15,Nexlev,MR-02 HEPA FILTER,0.0,0
 Week 15,Nexlev,MR-03,504.0,0
@@ -4158,6 +4155,7 @@ Week 15,Nexlev,SS-02 SET OF SPARES,9.0,0
 Week 15,Nexlev,ST-01,513.0,0
 Week 15,Nexlev,ST-01 ST-01 SET OF HOOKS,0.0,0
 Week 15,Nexlev,ST-02,200.0,0
+Week 15,Nexlev,ST-03,100.0,0
 Week 15,Nexlev,SW-01,575.0,0
 Week 15,Nexlev,T-01,47.0,0
 Week 15,Nexlev,T-02,1297.0,0
@@ -4189,7 +4187,6 @@ Week 15,Tonor,D5,2.0,0
 Week 15,Tonor,G11,251.0,0
 Week 15,Tonor,K1,1049.0,0
 Week 15,Tonor,K20,0.0,0
-Week 15,Tonor,MR-01,1002.0,0
 Week 15,Tonor,ORCA001,15.0,0
 Week 15,Tonor,Q9,0.0,0
 Week 15,Tonor,S20,249.0,0
@@ -4210,7 +4207,7 @@ Week 15,Tonor,TC310,59.0,0
 Week 15,Tonor,TC310+,204.0,0
 Week 15,Tonor,TC40,16.0,0
 Week 15,Tonor,TC40S,73.0,0
-Week 15,Tonor,TD310,4.0,0
+Week 15,Tonor,TD310,508.0,0
 Week 15,Tonor,TD310+,419.0,0
 Week 15,Tonor,TD510,32.0,0
 Week 15,Tonor,TD510+,5.0,0

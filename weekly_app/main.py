@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse, HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 import traceback
+import uuid
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
@@ -77,20 +78,30 @@ app.mount("/static", StaticFiles(directory="weekly_app/static"), name="static")
 templates = Jinja2Templates(directory="weekly_app/templates")
 
 # =====================================================
-# GLOBAL ERROR HANDLER (SHOW TRACEBACK)
+# GLOBAL ERROR HANDLER
+# Sanitized 500: full traceback goes to server logs only. The client sees a
+# short reference id so support can correlate complaints with log entries.
+# Set DEBUG_HTML_TRACE=1 in the env to inline the trace for local debugging.
 # =====================================================
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    print("❌ UNHANDLED EXCEPTION ❌")
+    ref = uuid.uuid4().hex[:8]
+    print(f"❌ UNHANDLED EXCEPTION [ref={ref}] {request.method} {request.url.path}")
     traceback.print_exc()
 
-    return HTMLResponse(
-        content=f"""
-        <h2>Internal Server Error</h2>
-        <pre>{traceback.format_exc()}</pre>
-        """,
-        status_code=500,
-    )
+    if os.environ.get("DEBUG_HTML_TRACE") == "1":
+        body = (
+            "<h2>Internal Server Error</h2>"
+            f"<p>Reference: <code>{ref}</code></p>"
+            f"<pre>{traceback.format_exc()}</pre>"
+        )
+    else:
+        body = (
+            "<h2>Internal Server Error</h2>"
+            f"<p>Something went wrong. Reference: <code>{ref}</code></p>"
+        )
+
+    return HTMLResponse(content=body, status_code=500)
 
 # --------------------
 # ROUTERS (PRIMARY)

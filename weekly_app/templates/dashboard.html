@@ -694,7 +694,7 @@
     <div class="section-header">
         <div class="section-title">📦 Sales by SKU — All Channels</div>
         <div class="section-actions">
-            <a class="btn-ghost" href="/export/dashboard-sku?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">⬇ Export CSV</a>
+            <a class="btn-ghost" href="/export/dashboard-sku?{% for w in selected.weeks %}weeks={{ w | urlencode }}&amp;{% endfor %}brand={{ selected.brand | urlencode }}&amp;view={{ selected.view }}">⬇ Export CSV</a>
             <a class="btn-ghost" target="_self" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">Channel Drilldown →</a>
         </div>
     </div>

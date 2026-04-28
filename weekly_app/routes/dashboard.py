@@ -486,37 +486,124 @@ def dashboard_sku_rows_api(
         active_weeks = []
 
     try:
+        # ── MASTER (XLSX, not CSV) — same loader the main dashboard uses ──
+        master = _load_excel_cached(SKU_MASTER)
+        master.columns = master.columns.str.strip()
+        master = master.rename(columns={
+            "FBA SKU": "sku",
+            "Model No.": "model_no",
+            "Model": "model",
+        })
+        if "model_no" not in master.columns and "model" in master.columns:
+            master["model_no"] = master["model"]
+        master["sku"] = master["sku"].astype(str)
+        master = master[["sku", "model_no", "category_l0"]]
+
+        # ── SALES ──
         full_sales = _load_csv_cached(SALES_FILE)
         full_sales.columns = full_sales.columns.str.strip().str.lower()
         full_sales["week"] = full_sales["week"].astype(str).str.strip()
         full_sales["sku"] = full_sales["sku"].astype(str)
+        full_sales["channel"] = full_sales["channel"].astype(str)
+
+        # Default to latest week if nothing selected — matches initial render
+        if not active_weeks:
+            all_wks = full_sales["week"].astype(str).unique().tolist()
+            def _wk(w):
+                try:
+                    return int(w.replace("Week", "").strip())
+                except Exception:
+                    return -1
+            all_wks = [w for w in all_wks if _wk(w) >= 0]
+            all_wks.sort(key=_wk)
+            if all_wks:
+                active_weeks = [all_wks[-1]]
 
         sales = full_sales.copy()
         if active_weeks:
             sales = sales[sales["week"].isin(active_weeks)]
         if brand and brand not in ("None", "All", ""):
             sales = sales[sales["brand"].str.strip().str.lower() == brand.strip().lower()]
-        if view == "mapped":
-            master = _load_csv_cached(MASTER_FILE)
-            master.columns = master.columns.str.strip().str.lower()
-            if "sku" in master.columns:
-                mapped_skus = set(master["sku"].astype(str).str.strip())
-                sales = sales[sales["sku"].isin(mapped_skus)]
+        if view == "mapped" and "sku_status" in sales.columns:
+            sales = sales[sales["sku_status"] == "MAPPED"]
+
+        for c in ["units_sold", "gross_sales", "sales_nlc"]:
+            if c not in sales.columns:
+                sales[c] = 0
+            sales[c] = pd.to_numeric(sales[c], errors="coerce").fillna(0)
+
+        total_gmv = float(sales["gross_sales"].sum())
 
         sku_totals = sales.groupby("sku", as_index=False).agg(
-            units_sold=("units_sold","sum"), gmv=("gmv","sum"),
-            sales_nlc=("nlc","sum") if "nlc" in sales.columns else ("gmv","sum"),
+            total_units=("units_sold", "sum"),
+            total_sales=("gross_sales", "sum"),
+            total_nlc=("sales_nlc", "sum"),
         )
-        total_gmv = sku_totals["gmv"].sum() or 1
-        sku_totals["sales_contribution_pct"] = (sku_totals["gmv"] / total_gmv * 100).round(2)
-        sku_totals = sku_totals.sort_values("gmv", ascending=False)
+        if total_gmv > 0:
+            sku_totals["sales_contribution_pct"] = (
+                sku_totals["total_sales"] / total_gmv * 100
+            ).round(2)
+        else:
+            sku_totals["sales_contribution_pct"] = 0.0
+
+        # ── AMAZON SPLIT (AM / 1P / TOTAL) ──
+        amazon = sales[sales["channel"].apply(is_amazon)].copy()
+        if not amazon.empty:
+            ch_lower = amazon["channel"].str.lower()
+            is_am_mask = ch_lower.str.contains("amazon") & ~ch_lower.str.contains("1p")
+            is_1p_mask = ch_lower.str.contains("1p")
+
+            amazon["amazon_am_units"] = amazon["units_sold"].where(is_am_mask, 0)
+            amazon["amazon_am_sales"] = amazon["gross_sales"].where(is_am_mask, 0)
+            amazon["amazon_am_nlc"]   = amazon["sales_nlc"].where(is_am_mask, 0)
+            amazon["amazon_1p_units"] = amazon["units_sold"].where(is_1p_mask, 0)
+            amazon["amazon_1p_sales"] = amazon["gross_sales"].where(is_1p_mask, 0)
+            amazon["amazon_1p_nlc"]   = amazon["sales_nlc"].where(is_1p_mask, 0)
+
+            amazon_split = amazon.groupby("sku", as_index=False).agg(
+                amazon_am_units=("amazon_am_units", "sum"),
+                amazon_am_sales=("amazon_am_sales", "sum"),
+                amazon_am_nlc=("amazon_am_nlc", "sum"),
+                amazon_1p_units=("amazon_1p_units", "sum"),
+                amazon_1p_sales=("amazon_1p_sales", "sum"),
+                amazon_1p_nlc=("amazon_1p_nlc", "sum"),
+            )
+        else:
+            amazon_split = pd.DataFrame(columns=[
+                "sku",
+                "amazon_am_units", "amazon_am_sales", "amazon_am_nlc",
+                "amazon_1p_units", "amazon_1p_sales", "amazon_1p_nlc",
+            ])
+
+        amazon_split["amazon_total_units"] = (
+            amazon_split.get("amazon_am_units", 0) + amazon_split.get("amazon_1p_units", 0)
+        )
+        amazon_split["amazon_total_sales"] = (
+            amazon_split.get("amazon_am_sales", 0) + amazon_split.get("amazon_1p_sales", 0)
+        )
+        amazon_split["amazon_total_nlc"] = (
+            amazon_split.get("amazon_am_nlc", 0) + amazon_split.get("amazon_1p_nlc", 0)
+        )
+
+        sku = (
+            sku_totals
+            .merge(amazon_split, on="sku", how="left")
+            .merge(master, on="sku", how="left")
+        )
+
+        for col in ["model_no", "category_l0"]:
+            if col in sku.columns:
+                sku[col] = sku[col].astype(str).replace("nan", "")
+
+        sku = round_df(sku).fillna(0)
+        sku = sku.sort_values("total_sales", ascending=False)
 
         def _safe(v):
             import math
             if isinstance(v, float) and math.isnan(v): return 0
             return str(v) if isinstance(v, (dict, list)) else v
 
-        all_rows = [{k: _safe(v) for k, v in row.items()} for row in sku_totals.to_dict("records")]
+        all_rows = [{k: _safe(v) for k, v in row.items()} for row in sku.to_dict("records")]
         start = (page - 1) * page_size
         end   = start + page_size
         return JSONResponse({
@@ -525,6 +612,6 @@ def dashboard_sku_rows_api(
             "page": page,
             "has_more": end < len(all_rows),
         })
-    except Exception as e:
+    except Exception:
         import traceback; traceback.print_exc()
         return JSONResponse({"rows": [], "total": 0, "page": page, "has_more": False})

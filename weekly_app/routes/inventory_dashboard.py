@@ -241,14 +241,22 @@ def inventory_rows_api(
     import math
 
     try:
-        df = _load_inventory_data()
+        df = load_all_inventory()
         if df.empty:
             return JSONResponse({"rows": [], "total": 0, "has_more": False})
 
-        if week:
+        # Default to latest week if nothing selected — matches main route render
+        if not week:
+            mw = df["week_num"].max()
+            df = df[df["week_num"] == mw]
+        else:
             df = df[df["week"].astype(str) == str(week)]
         if brand and brand not in ("None", "All", ""):
             df = df[df["brand"].str.lower() == brand.strip().lower()]
+
+        for c in ["category_l0", "category_l1", "category_l2"]:
+            if c in df.columns:
+                df[c] = df[c].fillna("")
 
         df_agg = df.groupby(
             [c for c in ["week","brand","model","sku","category_l0","category_l1","category_l2","channel","type"] if c in df.columns],

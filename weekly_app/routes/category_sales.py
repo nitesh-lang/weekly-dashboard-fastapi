@@ -116,12 +116,15 @@ def category_sales(
         df = df[df["brand"] == brand]
 
     # ---------------- PARENT FILTER ----------------
+    # Categories are stored title-cased (see normalization above); value comes
+    # from the URL and is normalized to lowercase via norm(). Compare both
+    # sides through norm() so the case difference doesn't silently drop rows.
     if value:
         value = norm(value)
         if level == "l1":
-            df = df[df["category_l0"] == value]
+            df = df[df["category_l0"].apply(norm) == value]
         elif level == "l2":
-            df = df[df["category_l1"] == value]
+            df = df[df["category_l1"].apply(norm) == value]
 
     # ---------------- GROUP COLUMN ----------------
     group_col = f"category_{level}"

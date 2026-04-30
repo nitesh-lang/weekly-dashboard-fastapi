@@ -101,12 +101,37 @@ def load_inventory(latest_week):
 # ============================================================
 
 def trend(units):
-    if len(units) < 3:
+    """UP / DOWN / FLAT / N/A across an arbitrary-length week sequence.
+
+    Same rules as AM_sales_trend.trend() — see that docstring.
+    """
+    if not units:
         return "FLAT"
-    a, b, c = units[-3:]
-    if a < b < c:
+    if len(units) == 1:
+        return "N/A"
+    if len(units) == 2:
+        a, b = units
+        if b > a:
+            return "UP"
+        if b < a:
+            return "DOWN"
+        return "FLAT"
+
+    last = units[-1]
+    prior = units[:-1]
+    prior_avg = sum(prior) / len(prior)
+
+    if prior_avg <= 0:
+        if last > 0:
+            return "UP"
+        if last < 0:
+            return "DOWN"
+        return "FLAT"
+
+    pct = (last - prior_avg) / prior_avg
+    if pct > 0.05:
         return "UP"
-    if a > b > c:
+    if pct < -0.05:
         return "DOWN"
     return "FLAT"
 

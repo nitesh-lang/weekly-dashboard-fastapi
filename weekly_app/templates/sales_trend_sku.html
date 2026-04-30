@@ -336,6 +336,7 @@
         .up   { color: #0a6e4e; font-weight: 700; background: #ecfdf6; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
         .down { color: #b91c1c; font-weight: 700; background: #fef2f2; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
         .flat { color: #374151; font-weight: 700; background: #f3f4f6; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
+        .na   { color: #9ca3af; font-weight: 700; background: #f9fafb; padding: 2px 8px; border-radius: 20px; font-size: 11px; }
 
         /* Checkbox style */
         input[type="checkbox"] {
@@ -593,11 +594,13 @@
             <td>{{ r.avg_4w }}</td>
             <td>{{ r.inventory_units }}</td>
 
-            <td data-sort="{% if r.trend=='UP' %}3{% elif r.trend=='FLAT' %}2{% else %}1{% endif %}">
+            <td data-sort="{% if r.trend=='UP' %}3{% elif r.trend=='FLAT' %}2{% elif r.trend=='DOWN' %}1{% else %}0{% endif %}">
                 {% if r.trend == "UP" %}
                     <span class="up">↑ UP</span>
                 {% elif r.trend == "DOWN" %}
                     <span class="down">↓ DOWN</span>
+                {% elif r.trend == "N/A" %}
+                    <span class="na">— N/A</span>
                 {% else %}
                     <span class="flat">→ FLAT</span>
                 {% endif %}

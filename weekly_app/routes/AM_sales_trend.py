@@ -146,18 +146,44 @@ def load_inventory(latest_week):
 # ============================================================
 
 def trend(seq):
+    """UP / DOWN / FLAT / N/A across an arbitrary-length week sequence.
 
-    if len(seq) < 3:
+    - 0 values  → "FLAT"  (defensive; shouldn't happen for real rows)
+    - 1 value   → "N/A"   (single week selected — no comparison possible)
+    - 2 values  → direct last-vs-first compare
+    - 3+ values → last value vs average of all prior values, with a 5%
+                  deadband so tiny week-to-week wobble doesn't flip the
+                  arrow. Considers the full selected window, not just the
+                  last 3 weeks.
+    """
+    if not seq:
+        return "FLAT"
+    if len(seq) == 1:
+        return "N/A"
+    if len(seq) == 2:
+        a, b = seq
+        if b > a:
+            return "UP"
+        if b < a:
+            return "DOWN"
         return "FLAT"
 
-    a, b, c = seq[-3:]
+    last = seq[-1]
+    prior = seq[:-1]
+    prior_avg = sum(prior) / len(prior)
 
-    if a < b < c:
+    if prior_avg <= 0:
+        if last > 0:
+            return "UP"
+        if last < 0:
+            return "DOWN"
+        return "FLAT"
+
+    pct = (last - prior_avg) / prior_avg
+    if pct > 0.05:
         return "UP"
-
-    if a > b > c:
+    if pct < -0.05:
         return "DOWN"
-
     return "FLAT"
 
 

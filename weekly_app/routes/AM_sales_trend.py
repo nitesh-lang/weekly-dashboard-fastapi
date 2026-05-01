@@ -326,6 +326,17 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
         total_units = sum(units_seq)
         total_sessions = sum(sessions_seq)
 
+        # Two distinct conversion KPIs (was: same formula in both → identical numbers):
+        #   last_4w_conversion  = window-aggregate conversion
+        #                         (total_units / total_sessions × 100)
+        #                         — weighted by session volume
+        #   avg_4w_conversion   = simple mean of weekly conversion rates
+        #                         — each week weighted equally regardless of session volume
+        weekly_conv = [
+            (units_seq[i] / sessions_seq[i] * 100) if sessions_seq[i] > 0 else 0
+            for i in range(len(units_seq))
+        ]
+
         row = {
             "model": model,
             "brand": v.get("brand"),
@@ -340,7 +351,7 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
             "avg_4w_sessions": round(total_sessions / max(len(sessions_seq), 1), 2),
 
             "last_4w_conversion": round((total_units / total_sessions) * 100, 2) if total_sessions > 0 else 0,
-            "avg_4w_conversion": round((total_units / total_sessions) * 100, 2) if total_sessions > 0 else 0,
+            "avg_4w_conversion": round(sum(weekly_conv) / len(weekly_conv), 2) if weekly_conv else 0,
 
             "trend": trend(units_seq),
             "inventory_units": inventory_map.get(model, 0)

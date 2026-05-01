@@ -36,6 +36,7 @@ from weekly_app.routes.inventory_dashboard import router as inventory_dashboard_
 # Optional / legacy viewers (UNCHANGED)
 from weekly_app.routes.reconciliation_viewer import router as reco_router
 from weekly_app.routes.channel_summary_viewer import router as channel_summary_router
+from weekly_app.routes.viewer import router as sales_viewer_router
 
 print("🔥🔥🔥 MAIN.PY LOADED — ROUTERS WILL BE MOUNTED 🔥🔥🔥")
 
@@ -175,6 +176,7 @@ print("✅ ams_trend_router mounted")
 # --------------------
 app.include_router(reco_router)
 app.include_router(channel_summary_router)
+app.include_router(sales_viewer_router)
 
 # --------------------
 # DEFAULT LANDING

@@ -66,6 +66,67 @@ def apply_filters(df, week=None, brand=None, view="mapped"):
 
 
 # ==================================================
+# INVENTORY SOURCE
+# data/processed/inventory_model_snapshot.csv only carries model-level
+# rollups: [week, brand, model, inventory_units, inventory_value] — no
+# sku, channel, category_l0, type, nlc. So all the SKU+channel-level
+# exports were crashing on the missing columns.
+# Use the inventory dashboard's load_all_inventory() instead — it reads
+# the raw weekly xlsx files and produces a SKU+channel+category-rich
+# frame with everything those exports need.
+# ==================================================
+def _load_rich_inventory(with_sku_status: bool = False) -> pd.DataFrame:
+    """Returns SKU/channel/category-rich inventory.
+
+    If with_sku_status=True, joins against the SKU master to stamp each
+    row with sku_status = MAPPED/UNMAPPED so view-filters work.
+
+    Falls back to the lossy model-level CSV if the rich loader fails
+    (degraded mode — many endpoints will still produce empty results).
+    """
+    df = pd.DataFrame()
+    try:
+        from weekly_app.routes.inventory_dashboard import load_all_inventory
+        df = load_all_inventory()
+    except Exception:
+        df = pd.DataFrame()
+
+    if df is None or df.empty:
+        if INV_FILE.exists():
+            df = normalize(pd.read_csv(INV_FILE))
+
+    if df is None or df.empty:
+        return pd.DataFrame()
+
+    if with_sku_status and "sku" in df.columns:
+        try:
+            from weekly_app.routes.dashboard import _load_excel_cached, SKU_MASTER
+            master = _load_excel_cached(SKU_MASTER)
+            master.columns = master.columns.str.strip()
+            master = master.rename(columns={"FBA SKU": "sku"})
+            mapped_skus = (
+                set(master["sku"].astype(str).str.strip())
+                if "sku" in master.columns else set()
+            )
+            df = df.copy()
+            df["sku_status"] = df["sku"].astype(str).str.strip().apply(
+                lambda s: "MAPPED" if s in mapped_skus else "UNMAPPED"
+            )
+        except Exception:
+            pass
+
+    return df
+
+
+def _norm_channel(s: pd.Series) -> pd.Series:
+    """Channel values come from heterogeneous sources (sales snapshot vs
+    raw inventory xlsx); title-case both sides so groupby/merge align.
+    'Amazon' / '1P Sales' / 'D2C - Audio Array'.
+    """
+    return s.astype(str).str.strip().str.title()
+
+
+# ==================================================
 # CHANNEL SUMMARY (MATCH DASHBOARD)
 # ==================================================
 @router.get("/channel-summary")
@@ -74,10 +135,15 @@ def export_channel_summary(
     brand: str = Query(None),
 ):
     sales = normalize(pd.read_csv(SALES_FILE))
-    inv = normalize(pd.read_csv(INV_FILE))
+    inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, "mapped")
     inv = apply_filters(inv, week, brand, "mapped")
+
+    if "channel" in sales.columns:
+        sales["channel"] = _norm_channel(sales["channel"])
+    if "channel" in inv.columns:
+        inv["channel"] = _norm_channel(inv["channel"])
 
     sales_agg_kwargs = {
         "units_sold": ("units_sold", "sum"),
@@ -88,10 +154,13 @@ def export_channel_summary(
 
     s = sales.groupby("channel", as_index=False).agg(**sales_agg_kwargs)
 
-    i = inv.groupby("channel", as_index=False).agg(
-        inventory_units=("inventory_units", "sum"),
-        inventory_value=("inventory_value", "sum"),
-    )
+    if "channel" in inv.columns and not inv.empty:
+        i = inv.groupby("channel", as_index=False).agg(
+            inventory_units=("inventory_units", "sum"),
+            inventory_value=("inventory_value", "sum"),
+        )
+    else:
+        i = pd.DataFrame(columns=["channel", "inventory_units", "inventory_value"])
 
     out = s.merge(i, on="channel", how="outer").fillna(0)
     out["sell_through_pct"] = (
@@ -113,7 +182,7 @@ def export_category_summary(
     brand: str = Query(None),
 ):
     sales = normalize(pd.read_csv(SALES_FILE))
-    inv = normalize(pd.read_csv(INV_FILE))
+    inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, "mapped")
     inv = apply_filters(inv, week, brand, "mapped")
@@ -127,10 +196,13 @@ def export_category_summary(
 
     s = sales.groupby("category_l0", as_index=False).agg(**sales_agg_kwargs)
 
-    i = inv.groupby("category_l0", as_index=False).agg(
-        inventory_units=("inventory_units", "sum"),
-        inventory_value=("inventory_value", "sum"),
-    )
+    if "category_l0" in inv.columns and not inv.empty:
+        i = inv.groupby("category_l0", as_index=False).agg(
+            inventory_units=("inventory_units", "sum"),
+            inventory_value=("inventory_value", "sum"),
+        )
+    else:
+        i = pd.DataFrame(columns=["category_l0", "inventory_units", "inventory_value"])
 
     out = s.merge(i, on="category_l0", how="outer").fillna(0)
     out["sell_through_pct"] = (
@@ -167,18 +239,26 @@ def export_stockout(
     view: str = Query("mapped"),
 ):
     sales = normalize(pd.read_csv(SALES_FILE))
-    inv = normalize(pd.read_csv(INV_FILE))
+    inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, view)
     inv = apply_filters(inv, week, brand, view)
+
+    if "channel" in sales.columns:
+        sales["channel"] = _norm_channel(sales["channel"])
+    if "channel" in inv.columns:
+        inv["channel"] = _norm_channel(inv["channel"])
 
     s = sales.groupby(["sku", "channel"], as_index=False).agg(
         units_sold=("units_sold", "sum")
     )
 
-    i = inv.groupby(["sku", "channel"], as_index=False).agg(
-        inventory_units=("inventory_units", "sum")
-    )
+    if {"sku", "channel"}.issubset(inv.columns) and not inv.empty:
+        i = inv.groupby(["sku", "channel"], as_index=False).agg(
+            inventory_units=("inventory_units", "sum")
+        )
+    else:
+        i = pd.DataFrame(columns=["sku", "channel", "inventory_units"])
 
     df = s.merge(i, on=["sku", "channel"], how="outer").fillna(0)
     df["oversold"] = df["units_sold"] - df["inventory_units"]
@@ -198,20 +278,30 @@ def export_deadstock(
     view: str = Query("mapped"),
 ):
     sales = normalize(pd.read_csv(SALES_FILE))
-    inv = normalize(pd.read_csv(INV_FILE))
+    inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, view)
     inv = apply_filters(inv, week, brand, view)
 
-    sold_pairs = set(zip(sales["sku"], sales["channel"]))
+    if "channel" in sales.columns:
+        sales["channel"] = _norm_channel(sales["channel"])
+    if "channel" in inv.columns:
+        inv["channel"] = _norm_channel(inv["channel"])
 
-    dead = inv[
-        inv.apply(
-            lambda r: (r["sku"], r["channel"]) not in sold_pairs
-            and r["inventory_units"] > 0,
-            axis=1,
+    if not {"sku", "channel", "inventory_units"}.issubset(inv.columns) or inv.empty:
+        return csv_response(
+            pd.DataFrame(columns=["sku", "channel", "inventory_units"]),
+            "deadstock.csv",
         )
-    ]
+
+    sold_pairs = (
+        set(zip(sales["sku"].astype(str), sales["channel"].astype(str)))
+        if {"sku", "channel"}.issubset(sales.columns) else set()
+    )
+
+    inv = inv.copy()
+    inv["_pair"] = list(zip(inv["sku"].astype(str), inv["channel"].astype(str)))
+    dead = inv[(inv["inventory_units"] > 0) & (~inv["_pair"].isin(sold_pairs))].drop(columns=["_pair"])
 
     return csv_response(dead, "deadstock.csv")
 
@@ -231,23 +321,33 @@ def export_reconciliation(
     channel = clean_param(channel)
 
     sales = normalize(pd.read_csv(SALES_FILE))
-    inv = normalize(pd.read_csv(INV_FILE))
+    inv = _load_rich_inventory(with_sku_status=True)
 
     if week:
         sales = sales[sales["week"] == week]
-        inv = inv[inv["week"] == week]
+        if "week" in inv.columns:
+            inv = inv[inv["week"] == week]
 
     if brand:
         sales = sales[sales["brand"] == brand]
-        inv = inv[inv["brand"] == brand]
+        if "brand" in inv.columns:
+            inv = inv[inv["brand"] == brand]
 
     if channel:
         sales = sales[sales["channel"] == channel]
-        inv = inv[inv["channel"] == channel]
+        if "channel" in inv.columns:
+            inv = inv[inv["channel"] == channel]
 
     if view == "mapped":
-        sales = sales[sales["sku_status"] == "MAPPED"]
-        inv = inv[inv["sku_status"] == "MAPPED"]
+        if "sku_status" in sales.columns:
+            sales = sales[sales["sku_status"] == "MAPPED"]
+        if "sku_status" in inv.columns:
+            inv = inv[inv["sku_status"] == "MAPPED"]
+
+    if "channel" in sales.columns:
+        sales["channel"] = _norm_channel(sales["channel"])
+    if "channel" in inv.columns:
+        inv["channel"] = _norm_channel(inv["channel"])
 
     sales_g = sales.groupby(
         ["week", "brand", "channel", "sku", "sku_status"],
@@ -257,23 +357,21 @@ def export_reconciliation(
         gross_sales=("gross_sales", "sum"),
     )
 
-    inv_g = inv.groupby(
-        ["week", "brand", "channel", "sku", "sku_status"],
-        as_index=False,
-    ).agg(
-        inventory_units=("inventory_units", "sum"),
-        inventory_value=("inventory_value", "sum"),
-        nlc=("nlc", "max"),
-    )
-
-    out = (
-        sales_g.merge(
-            inv_g,
-            on=["week", "brand", "channel", "sku", "sku_status"],
-            how="outer",
+    inv_keys = ["week", "brand", "channel", "sku"]
+    if {*inv_keys, "inventory_units"}.issubset(inv.columns) and not inv.empty:
+        inv_g = inv.groupby(inv_keys, as_index=False).agg(
+            inventory_units=("inventory_units", "sum"),
+            inventory_value=("inventory_value", "sum"),
+            nlc=("nlc", "max") if "nlc" in inv.columns else ("inventory_units", "max"),
         )
-        .fillna(0)
-    )
+    else:
+        inv_g = pd.DataFrame(columns=inv_keys + ["inventory_units", "inventory_value", "nlc"])
+
+    out = sales_g.merge(inv_g, on=inv_keys, how="outer")
+    # Rows present only on the inv side have no sku_status — flag them
+    if "sku_status" in out.columns:
+        out["sku_status"] = out["sku_status"].fillna("INV-ONLY")
+    out = out.fillna(0)
 
     out["sell_through_gap"] = out["inventory_units"] - out["units_sold"]
     out["stockout_flag"] = out["units_sold"] > out["inventory_units"]
@@ -296,20 +394,23 @@ def export_unmapped(
     brand = clean_param(brand)
 
     sales = normalize(pd.read_csv(SALES_FILE))
-    inv = normalize(pd.read_csv(INV_FILE))
+    inv = _load_rich_inventory(with_sku_status=True)
 
-    sales = sales[sales["sku_status"] == "UNMAPPED"]
-    inv = inv[inv["sku_status"] == "UNMAPPED"]
+    if "sku_status" in sales.columns:
+        sales = sales[sales["sku_status"] == "UNMAPPED"]
+    if "sku_status" in inv.columns:
+        inv = inv[inv["sku_status"] == "UNMAPPED"]
 
     if week:
         sales = sales[sales["week"] == week]
-        inv = inv[inv["week"] == week]
-
+        if "week" in inv.columns:
+            inv = inv[inv["week"] == week]
     if brand:
         sales = sales[sales["brand"] == brand]
-        inv = inv[inv["brand"] == brand]
+        if "brand" in inv.columns:
+            inv = inv[inv["brand"] == brand]
 
-    out = pd.concat([sales, inv], ignore_index=True)
+    out = pd.concat([sales, inv], ignore_index=True) if not inv.empty else sales
     return csv_response(out, "unmapped.csv")
 
 # ==================================================

@@ -395,6 +395,131 @@ def dashboard(
     category_summary = round_df(category_summary_df).to_dict("records")
 
     # =================================================
+    # WEEKLY TREND DATA (last N weeks)
+    # - weekly_trend     : brand-filtered weekly GMV/units (full history)
+    # - weekly_all_brands: same but unfiltered by brand — used as the
+    #                      faint overlay on the trend chart so users see
+    #                      relative performance when a brand is selected
+    # - kpi_sparks_*     : last 8 weeks of each KPI (units / gmv / nlc)
+    #                      for the mini sparklines inside KPI tiles
+    # - brand_mix        : per-brand share of GMV for the selected weeks
+    #                      (donut chart). Computed from `sales` (already
+    #                      filtered by week+view) but NOT by brand.
+    # =================================================
+    def _wk_n(w):
+        m = re.search(r"\d+", str(w))
+        return int(m.group()) if m else 0
+
+    # Brand+view filter (NOT week) — full history we'll trim client-side
+    trend_base = full_sales.copy()
+    if brand and "brand" in trend_base.columns:
+        trend_base = trend_base[trend_base["brand"].str.lower() == brand.lower()]
+    if view == "mapped" and "sku_status" in trend_base.columns:
+        trend_base = trend_base[trend_base["sku_status"] == "MAPPED"]
+    for c in ["units_sold", "gross_sales", "sales_nlc"]:
+        if c not in trend_base.columns:
+            trend_base[c] = 0
+        trend_base[c] = pd.to_numeric(trend_base[c], errors="coerce").fillna(0)
+
+    weekly_trend_df = (
+        trend_base.groupby("week", as_index=False)
+        .agg(gmv=("gross_sales", "sum"), units=("units_sold", "sum"))
+    )
+    weekly_trend_df["_n"] = weekly_trend_df["week"].apply(_wk_n)
+    weekly_trend_df = weekly_trend_df.sort_values("_n")
+    weekly_trend = (
+        weekly_trend_df[["week", "gmv", "units"]]
+        .assign(gmv=lambda d: d["gmv"].round(0).astype(int),
+                units=lambda d: d["units"].round(0).astype(int))
+        .to_dict("records")
+    )
+
+    # All-brands overlay — only computed (and only used by the chart)
+    # when a specific brand is selected, to avoid duplicating the line.
+    weekly_all_brands = []
+    if brand:
+        all_b = full_sales.copy()
+        if view == "mapped" and "sku_status" in all_b.columns:
+            all_b = all_b[all_b["sku_status"] == "MAPPED"]
+        for c in ["units_sold", "gross_sales"]:
+            if c not in all_b.columns:
+                all_b[c] = 0
+            all_b[c] = pd.to_numeric(all_b[c], errors="coerce").fillna(0)
+        all_b_df = (
+            all_b.groupby("week", as_index=False)
+            .agg(gmv=("gross_sales", "sum"), units=("units_sold", "sum"))
+        )
+        all_b_df["_n"] = all_b_df["week"].apply(_wk_n)
+        all_b_df = all_b_df.sort_values("_n")
+        weekly_all_brands = (
+            all_b_df[["week", "gmv", "units"]]
+            .assign(gmv=lambda d: d["gmv"].round(0).astype(int),
+                    units=lambda d: d["units"].round(0).astype(int))
+            .to_dict("records")
+        )
+
+    # KPI sparklines — last 8 weeks
+    kpi_spark_df = weekly_trend_df.tail(8).copy()
+    if "sales_nlc" in trend_base.columns:
+        nlc_df = (
+            trend_base.groupby("week", as_index=False)
+            .agg(nlc=("sales_nlc", "sum"))
+        )
+        nlc_df["_n"] = nlc_df["week"].apply(_wk_n)
+        nlc_df = nlc_df.sort_values("_n").tail(8)
+        kpi_spark_df = kpi_spark_df.merge(nlc_df[["week", "nlc"]], on="week", how="left")
+    else:
+        kpi_spark_df["nlc"] = 0
+    kpi_spark_df["nlc"] = kpi_spark_df["nlc"].fillna(0)
+
+    kpi_sparks = {
+        "weeks": kpi_spark_df["week"].tolist(),
+        "units": [int(x) for x in kpi_spark_df["units"].tolist()],
+        "gmv":   [int(x) for x in kpi_spark_df["gmv"].tolist()],
+        "nlc":   [int(x) for x in kpi_spark_df["nlc"].tolist()],
+    }
+
+    # Week-over-week deltas (latest vs prior)
+    def _delta(seq):
+        if len(seq) < 2 or seq[-2] == 0:
+            return None
+        return round(((seq[-1] - seq[-2]) / seq[-2]) * 100, 1)
+
+    kpi_deltas = {
+        "units": _delta(kpi_sparks["units"]),
+        "gmv":   _delta(kpi_sparks["gmv"]),
+        "nlc":   _delta(kpi_sparks["nlc"]),
+    }
+
+    # Brand mix — share of GMV by brand for the SELECTED weeks
+    # (uses `sales` which is week-filtered but not brand-filtered when
+    # brand=None; if a brand is selected we skip showing the donut)
+    brand_mix = []
+    if "brand" in full_sales.columns and not brand:
+        bm_base = full_sales.copy()
+        if active_weeks:
+            bm_base = bm_base[bm_base["week"].isin(active_weeks)]
+        if view == "mapped" and "sku_status" in bm_base.columns:
+            bm_base = bm_base[bm_base["sku_status"] == "MAPPED"]
+        for c in ["gross_sales"]:
+            if c not in bm_base.columns:
+                bm_base[c] = 0
+            bm_base[c] = pd.to_numeric(bm_base[c], errors="coerce").fillna(0)
+        bm = bm_base.groupby("brand", as_index=False).agg(gmv=("gross_sales", "sum"))
+        bm = bm[bm["gmv"] > 0]
+        total = bm["gmv"].sum() or 1
+        bm["pct"] = (bm["gmv"] / total * 100).round(2)
+        bm = bm.sort_values("gmv", ascending=False)
+        brand_mix = bm.to_dict("records")
+
+    # Freshness label
+    from datetime import datetime as _dt
+    latest_week_label = (
+        sorted(all_week_labels, key=_wk_n)[-1] if all_week_labels else "—"
+    )
+    generated_at = _dt.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+
+    # =================================================
     # AMS PIVOT — supports single or multiple weeks
     # ✅ FIXED: uses cached CSV read
     # =================================================
@@ -454,6 +579,13 @@ def dashboard(
         weeks=all_week_labels,
         brands=brands_list,
         selected=selected,
+        weekly_trend=weekly_trend,
+        weekly_all_brands=weekly_all_brands,
+        brand_mix=brand_mix,
+        kpi_sparks=kpi_sparks,
+        kpi_deltas=kpi_deltas,
+        latest_week_label=latest_week_label,
+        generated_at=generated_at,
     )
     return HTMLResponse(content=html)
 

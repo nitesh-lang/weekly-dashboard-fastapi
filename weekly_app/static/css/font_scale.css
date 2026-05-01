@@ -1,13 +1,35 @@
 /* =============================================================
-   FONT SCALE — single source of truth for typography sizes.
-   Only font-size / line-height / font-weight is set here.
-   All other tokens (colors, padding, layout) remain in each
-   page's existing inline <style> block, so layout/views are
-   preserved as-is.
+   FONT SCALE — single source of truth for typography sizes
+   AND family across all pages. Only font properties are set
+   here; layout/colors/padding remain in each page's inline style.
 
    !important is used because each template's inline <style>
    sets its own font sizes; we override regardless of source order.
    ============================================================= */
+
+/* Load Inter once for every page. (design_system.css also loads
+   it but is only included by dashboard.html — others miss out.) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── GLOBAL FONT FAMILY ───────────────────────────────────── */
+/* Inter as primary (modern, optimized for screens, used by
+   Linear/Stripe/Vercel). Calibri for users who don't load Inter
+   (Windows fallback). Segoe UI / system as final layer. */
+html, body, button, input, select, textarea {
+  font-family: 'Inter', 'Calibri', 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Numeric / monospace cells stay tabular for column alignment. */
+td.dc-num, td.xl-num,
+td[class*="fmt-inr"],
+td[class*="mono"],
+.kpi-num, .kpi-value-mono,
+[style*="var(--mono)"], [style*="monospace"] {
+  font-family: 'JetBrains Mono', 'IBM Plex Mono', 'Consolas', monospace !important;
+  font-variant-numeric: tabular-nums !important;
+}
 
 /* ── BASE BODY ────────────────────────────────────────────── */
 html, body {

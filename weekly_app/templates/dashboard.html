@@ -531,6 +531,153 @@
         /* ── AMS ── */
         .ams-table th { color: #92400e; background: #fef5e7; }
 
+        /* ── KPI TILE UPGRADE ── bigger, with internal sparkline + delta */
+        .kpi { padding: 16px 22px 14px; }
+        .kpi-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 14px;
+        }
+        .kpi-num {
+            font-family: var(--mono);
+            font-size: 38px !important;
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.05;
+        }
+        .kpi:nth-child(1) .kpi-num { color: #3d3587; }
+        .kpi:nth-child(2) .kpi-num { color: #0f7a57; }
+        .kpi:nth-child(3) .kpi-num { color: #6040a8; }
+        .kpi:nth-child(4) .kpi-num { color: #92400e; }
+        .kpi-spark-wrap {
+            width: 110px;
+            height: 38px;
+            flex-shrink: 0;
+            opacity: 0.85;
+        }
+        .kpi-delta {
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 6px;
+            font-family: var(--mono);
+            letter-spacing: 0.2px;
+        }
+        .kpi-delta.up   { color: #0a6e4e; }
+        .kpi-delta.down { color: #b91c1c; }
+        .kpi-delta.flat { color: #6b7280; }
+
+        /* ── HEADER SUBTITLE / FRESHNESS ── */
+        .freshness {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: rgba(255,255,255,0.65);
+            margin-left: 8px;
+        }
+
+        /* ── WEEKLY TREND CHART ── */
+        .trend-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 22px 22px;
+            margin-bottom: 16px;
+        }
+        .trend-card .trend-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .trend-card .trend-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .trend-card .trend-sub {
+            font-size: 11px;
+            color: #6b7280;
+            font-family: var(--mono);
+            margin-left: 8px;
+        }
+        .trend-toggle {
+            display: inline-flex;
+            background: #f1f3f8;
+            border-radius: 7px;
+            padding: 2px;
+        }
+        .trend-toggle button {
+            border: none;
+            background: transparent;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .trend-toggle button.active {
+            background: var(--header-bg);
+            color: #fff;
+        }
+        .trend-canvas-wrap {
+            position: relative;
+            height: 280px;
+        }
+        .trend-legend {
+            margin-top: 10px;
+            display: flex;
+            gap: 16px;
+            font-size: 11px;
+            color: #4b5563;
+        }
+        .trend-legend .dot {
+            display: inline-block;
+            width: 10px; height: 10px;
+            border-radius: 2px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* ── BRAND MIX DONUT ── */
+        .brand-mix-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 16px;
+        }
+        .brand-mix-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+        .brand-mix-canvas-wrap { height: 200px; position: relative; }
+        .brand-mix-list { font-size: 12px; }
+        .brand-mix-list .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px dashed #e8eaf0;
+        }
+        .brand-mix-list .row:last-child { border-bottom: none; }
+        .brand-mix-list .label { display: flex; align-items: center; gap: 8px; }
+        .brand-mix-list .swatch {
+            width: 10px; height: 10px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .brand-mix-list .pct {
+            font-family: var(--mono);
+            font-weight: 700;
+            color: #111827;
+        }
+
         /* ── SCROLLBAR ── */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -543,7 +690,9 @@
 <!-- STICKY HEADER -->
 <div id="sticky-header">
     <div class="header-title">
-        <h1><span class="live-dot"></span> Weekly Unified Dashboard</h1>
+        <h1><span class="live-dot"></span> Weekly Unified Dashboard
+            <span class="freshness">· latest: {{ latest_week_label }} · generated {{ generated_at }}</span>
+        </h1>
         <span class="header-subtitle">AUTO · WEEKLY</span>
     </div>
 
@@ -614,25 +763,100 @@
     <div class="kpi-bar">
         <div class="kpi">
             <div class="kpi-label">Units Sold</div>
-            <div class="kpi-value">{{ kpis.units | int }}</div>
+            <div class="kpi-row">
+                <div>
+                    <div class="kpi-num" id="kpi-units">{{ kpis.units | int }}</div>
+                    {% if kpi_deltas.units is not none %}
+                    <div class="kpi-delta {% if kpi_deltas.units > 0 %}up{% elif kpi_deltas.units < 0 %}down{% else %}flat{% endif %}">
+                        {% if kpi_deltas.units > 0 %}▲{% elif kpi_deltas.units < 0 %}▼{% else %}→{% endif %}
+                        {{ '%+.1f' | format(kpi_deltas.units) }}% vs prior week
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="kpi-spark-wrap"><canvas id="kspark-units"></canvas></div>
+            </div>
         </div>
         <div class="kpi">
             <div class="kpi-label">GMV</div>
-            <div class="kpi-value fmt-kpi-inr" data-val="{{ kpis.gmv }}">₹ {{ kpis.gmv }}</div>
+            <div class="kpi-row">
+                <div>
+                    <div class="kpi-num fmt-kpi-inr" id="kpi-gmv" data-val="{{ kpis.gmv }}">₹ {{ kpis.gmv }}</div>
+                    {% if kpi_deltas.gmv is not none %}
+                    <div class="kpi-delta {% if kpi_deltas.gmv > 0 %}up{% elif kpi_deltas.gmv < 0 %}down{% else %}flat{% endif %}">
+                        {% if kpi_deltas.gmv > 0 %}▲{% elif kpi_deltas.gmv < 0 %}▼{% else %}→{% endif %}
+                        {{ '%+.1f' | format(kpi_deltas.gmv) }}% vs prior week
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="kpi-spark-wrap"><canvas id="kspark-gmv"></canvas></div>
+            </div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-label">NLC Sold</div>
+            <div class="kpi-row">
+                <div>
+                    <div class="kpi-num fmt-kpi-inr" id="kpi-nlc" data-val="{{ kpi_sparks.nlc[-1] if kpi_sparks.nlc else 0 }}">
+                        ₹ {{ kpi_sparks.nlc[-1] if kpi_sparks.nlc else 0 }}
+                    </div>
+                    {% if kpi_deltas.nlc is not none %}
+                    <div class="kpi-delta {% if kpi_deltas.nlc > 0 %}up{% elif kpi_deltas.nlc < 0 %}down{% else %}flat{% endif %}">
+                        {% if kpi_deltas.nlc > 0 %}▲{% elif kpi_deltas.nlc < 0 %}▼{% else %}→{% endif %}
+                        {{ '%+.1f' | format(kpi_deltas.nlc) }}% vs prior week
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="kpi-spark-wrap"><canvas id="kspark-nlc"></canvas></div>
+            </div>
         </div>
         <div class="kpi">
             <div class="kpi-label">Inventory Value</div>
-            <div class="kpi-value fmt-kpi-inr" data-val="{{ kpis.inventory_value }}">₹ {{ kpis.inventory_value }}</div>
-        </div>
-        <div class="kpi">
-            <div class="kpi-label">Sell-through %</div>
-            <div class="kpi-value">{{ kpis.sell_through }}%</div>
+            <div class="kpi-row">
+                <div>
+                    <div class="kpi-num fmt-kpi-inr" id="kpi-inv" data-val="{{ kpis.inventory_value }}">
+                        ₹ {{ kpis.inventory_value }}
+                    </div>
+                    <div class="kpi-delta flat">Sell-through {{ kpis.sell_through }}%</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- MAIN -->
 <div class="main-content">
+
+    <!-- WEEKLY SALES TREND CHART -->
+    <div class="trend-card">
+        <div class="trend-head">
+            <div>
+                <span class="trend-title">📈 Weekly Sales Trend</span>
+                <span class="trend-sub" id="trendSub">— last 12 weeks</span>
+            </div>
+            <div class="trend-toggle" id="trendToggle">
+                <button data-n="4">4w</button>
+                <button data-n="8">8w</button>
+                <button data-n="12" class="active">12w</button>
+                <button data-n="0">All</button>
+            </div>
+        </div>
+        <div class="trend-canvas-wrap">
+            <canvas id="weeklyTrendChart"></canvas>
+        </div>
+        <div class="trend-legend" id="trendLegend"></div>
+    </div>
+
+    {% if brand_mix and brand_mix | length > 1 %}
+    <!-- BRAND MIX DONUT -->
+    <div class="brand-mix-card">
+        <div class="section-header" style="padding:0 0 10px 0; margin:0; border:0;">
+            <div class="section-title">🏷️ Sales by Brand — {{ selected.weeks_display }}</div>
+        </div>
+        <div class="brand-mix-grid">
+            <div class="brand-mix-canvas-wrap"><canvas id="brandMixChart"></canvas></div>
+            <div class="brand-mix-list" id="brandMixList"></div>
+        </div>
+    </div>
+    {% endif %}
 
     <!-- SPARK CARDS -->
     <div class="section-header" style="margin-top:4px;">
@@ -936,6 +1160,216 @@ function buildSpark(id, labels, data, color) {
     buildSpark('spark-cat', topCat.map(d=>d.label), topCat.map(d=>d.gmv), '#d97706');
     document.getElementById('sv-cat').textContent = topCat[0]?.label || '—';
     document.getElementById('ss-cat').textContent = (topCat[0]?.pct||0) + '% of GMV · ' + topCat.length + ' categories';
+})();
+
+/* ─────────────────────────────────────────────────────────
+   KPI SPARKLINES inside KPI tiles (last 8 weeks)
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const sparks = {
+        weeks: {{ kpi_sparks.weeks | tojson }},
+        units: {{ kpi_sparks.units | tojson }},
+        gmv:   {{ kpi_sparks.gmv | tojson }},
+        nlc:   {{ kpi_sparks.nlc | tojson }},
+    };
+
+    function tileSpark(canvasId, data, color) {
+        const c = document.getElementById(canvasId);
+        if (!c || !data.length) return;
+        const ctx = c.getContext('2d');
+        c.width = c.offsetWidth * 2;   // crispness on retina
+        c.height = c.offsetHeight * 2;
+        ctx.scale(2, 2);
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sparks.weeks,
+                datasets: [{
+                    data, borderColor: color, borderWidth: 2,
+                    backgroundColor: color + '22', fill: true,
+                    tension: 0.35, pointRadius: 0, pointHoverRadius: 3,
+                }]
+            },
+            options: {
+                responsive: false,
+                animation: { duration: 600 },
+                plugins: { legend: { display: false }, tooltip: {
+                    callbacks: { title: c => c[0].label,
+                                 label: c => canvasId.endsWith('units')
+                                    ? c.raw.toLocaleString('en-IN') + ' units'
+                                    : fmtINR(c.raw) }
+                }},
+                scales: { x: { display: false }, y: { display: false, beginAtZero: true } }
+            }
+        });
+    }
+    tileSpark('kspark-units', sparks.units, '#3d3587');
+    tileSpark('kspark-gmv',   sparks.gmv,   '#0f7a57');
+    tileSpark('kspark-nlc',   sparks.nlc,   '#6040a8');
+})();
+
+/* ─────────────────────────────────────────────────────────
+   WEEKLY SALES TREND — line chart with brand-vs-all overlay
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const TREND      = {{ weekly_trend | tojson }};
+    const TREND_ALL  = {{ weekly_all_brands | tojson }};
+    const HAS_BRAND  = {{ 'true' if selected.brand else 'false' }};
+    const BRAND_NAME = "{{ selected.brand or 'All Brands' }}";
+
+    if (!TREND.length) return;
+
+    const canvas = document.getElementById('weeklyTrendChart');
+    if (!canvas) return;
+    let chart = null;
+    let activeN = 12;
+
+    function slice(arr, n) { return n <= 0 ? arr : arr.slice(-n); }
+
+    function render(n) {
+        activeN = n;
+        const data    = slice(TREND, n);
+        const dataAll = slice(TREND_ALL, n);
+        const labels  = data.map(r => r.week);
+
+        const datasets = [{
+            label: BRAND_NAME + ' GMV',
+            data: data.map(r => r.gmv),
+            borderColor: '#3d3587',
+            backgroundColor: '#3d358722',
+            borderWidth: 2.5,
+            tension: 0.35,
+            pointRadius: 3, pointHoverRadius: 6,
+            fill: true,
+            yAxisID: 'y',
+        }, {
+            label: BRAND_NAME + ' Units',
+            data: data.map(r => r.units),
+            borderColor: '#0f7a57',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            borderDash: [4, 4],
+            tension: 0.35,
+            pointRadius: 0, pointHoverRadius: 4,
+            yAxisID: 'y1',
+        }];
+        if (HAS_BRAND && dataAll.length) {
+            datasets.push({
+                label: 'All Brands GMV (overlay)',
+                data: dataAll.map(r => r.gmv),
+                borderColor: '#6b7280',
+                backgroundColor: 'transparent',
+                borderWidth: 1.5,
+                borderDash: [2, 4],
+                tension: 0.35,
+                pointRadius: 0, pointHoverRadius: 3,
+                yAxisID: 'y',
+            });
+        }
+
+        if (chart) chart.destroy();
+        chart = new Chart(canvas.getContext('2d'), {
+            type: 'line',
+            data: { labels, datasets },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: c => {
+                                const v = c.raw;
+                                if (c.dataset.yAxisID === 'y1') return c.dataset.label + ': ' + v.toLocaleString('en-IN');
+                                return c.dataset.label + ': ' + fmtINR(v);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#6b7280' } },
+                    y:  { position: 'left',  grid: { color: '#eef0f6' },
+                          ticks: { color: '#6b7280', callback: v => fmtINR(v) },
+                          title: { display: true, text: 'GMV (₹)', color: '#6b7280', font: { size: 11 } } },
+                    y1: { position: 'right', grid: { display: false },
+                          ticks: { color: '#6b7280', callback: v => v.toLocaleString('en-IN') },
+                          title: { display: true, text: 'Units', color: '#6b7280', font: { size: 11 } } },
+                }
+            }
+        });
+
+        // Sub-label
+        const sub = document.getElementById('trendSub');
+        if (sub) sub.textContent = '— ' + (n <= 0 ? 'all weeks' : 'last ' + n + ' weeks') + ' · ' + BRAND_NAME;
+
+        // Legend
+        const legend = document.getElementById('trendLegend');
+        if (legend) {
+            legend.innerHTML =
+              '<span><span class="dot" style="background:#3d3587"></span>'+BRAND_NAME+' GMV</span>' +
+              '<span><span class="dot" style="background:#0f7a57;border:1px dashed #0f7a57"></span>'+BRAND_NAME+' Units</span>' +
+              (HAS_BRAND ? '<span><span class="dot" style="background:#6b7280;border:1px dashed #6b7280"></span>All Brands GMV</span>' : '');
+        }
+    }
+
+    render(12);
+
+    document.querySelectorAll('#trendToggle button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#trendToggle button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            render(parseInt(btn.dataset.n, 10));
+        });
+    });
+})();
+
+/* ─────────────────────────────────────────────────────────
+   BRAND MIX DONUT
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const MIX = [
+        {% for r in brand_mix %}
+        { brand: "{{ r.brand | replace('"','') }}", gmv: {{ r.gmv }}, pct: {{ r.pct }} },
+        {% endfor %}
+    ];
+    if (!MIX.length) return;
+    const canvas = document.getElementById('brandMixChart');
+    if (!canvas) return;
+
+    const palette = ['#3d3587', '#0f7a57', '#92400e', '#6040a8', '#1d4ed8',
+                     '#be185d', '#0e7490', '#a16207', '#52525b', '#9f1239'];
+    const colors = MIX.map((_, i) => palette[i % palette.length]);
+
+    new Chart(canvas.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: MIX.map(d => d.brand),
+            datasets: [{ data: MIX.map(d => d.gmv), backgroundColor: colors,
+                         borderColor: '#fff', borderWidth: 2 }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            cutout: '62%',
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: c => c.label + ': ' + fmtINR(c.raw) + ' (' + MIX[c.dataIndex].pct.toFixed(1) + '%)'
+                    }
+                }
+            }
+        }
+    });
+
+    // Side list
+    const list = document.getElementById('brandMixList');
+    if (list) {
+        list.innerHTML = MIX.map((d, i) => `
+            <div class="row">
+                <span class="label"><span class="swatch" style="background:${colors[i]}"></span>${d.brand}</span>
+                <span class="pct">${d.pct.toFixed(1)}% · ${fmtINR(d.gmv)}</span>
+            </div>`).join('');
+    }
 })();
 </script>
 <link rel="stylesheet" href="/static/css/ai_widget.css">

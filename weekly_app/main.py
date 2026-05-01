@@ -101,6 +101,16 @@ app.add_middleware(
     max_age=14 * 24 * 60 * 60,  # 14 days
 )
 
+# Auto-seed the bootstrap user on first boot. Idempotent — does nothing
+# if the user already exists. Means a fresh Render deploy is usable
+# immediately without needing shell access to run scripts/seed_user.py.
+try:
+    from weekly_app.core.auth_users import ensure_initial_user
+    if ensure_initial_user():
+        print("✅ Auto-seeded initial user")
+except Exception as _e:
+    print(f"⚠ Auto-seed failed: {_e}")
+
 # =====================================================
 # GLOBAL ERROR HANDLER
 # Sanitized 500: full traceback goes to server logs only. The client sees a

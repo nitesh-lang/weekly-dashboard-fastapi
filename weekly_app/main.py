@@ -18,6 +18,7 @@ from weekly_app.routes.dashboard import router as dashboard_router
 from weekly_app.routes.exports import router as export_router
 from weekly_app.routes.drilldown import router as drilldown_router
 from weekly_app.routes.auth import router as auth_router
+from weekly_app.routes.analytics import router as analytics_router
 from fastapi.responses import HTMLResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.sessions import SessionMiddleware
@@ -160,6 +161,9 @@ app.include_router(inventory_dashboard_router)
 # ✅ AMS TREND ROUTER (NEW)
 app.include_router(ams_trend_router)
 app.include_router(ai_chat_router)
+
+# ✅ ANALYTICS ROUTER (NEW — Claude-powered cross-module page)
+app.include_router(analytics_router)
 
 print("✅ upload_router mounted")
 print("✅ dashboard_router mounted")

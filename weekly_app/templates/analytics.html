@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Analytics — Cross-Module Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/font_scale.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+<style>
+:root {
+    --bg:           #f5f6fa;
+    --bg2:          #ffffff;
+    --bg3:          #f8f9fc;
+    --border:       #e8eaf0;
+    --border2:      #d5d9e6;
+    --text:         #0f1623;
+    --text2:        #3d4a6b;
+    --text3:        #6b7a99;
+    --primary:      #3d3587;
+    --primary-dark: #4a3f9e;
+    --header-bg:    #2B3AB6;
+    --header-nav:   #232f9e;
+    --green:        #0a6e4e;
+    --green-dim:    #ecfdf6;
+    --red:          #b91c1c;
+    --red-dim:      #fef2f2;
+    --amber:        #b45309;
+    --amber-dim:    #fef5e7;
+    --blue:         #2563eb;
+    --indigo:       #4f46e5;
+    --purple:       #7c3aed;
+    --rose:         #e11d48;
+    --teal:         #0d9488;
+    --mono:         'JetBrains Mono', 'IBM Plex Mono', monospace;
+    --sans:         'Inter', 'Calibri', 'Segoe UI', system-ui, sans-serif;
+    --radius:       12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+a { text-decoration: none; color: var(--primary); }
+a:hover { text-decoration: underline; }
+
+/* ── HEADER / NAV ────────────────────────────────────────── */
+#sticky-header {
+    position: sticky; top: 0; z-index: 200;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+.header-title {
+    background: var(--header-bg);
+    padding: 14px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.header-title h1 {
+    color: #fff; font-weight: 700; letter-spacing: -0.4px;
+    display: flex; align-items: center; gap: 10px;
+}
+.header-title h1 .freshness {
+    font-family: var(--mono);
+    color: rgba(255,255,255,0.6);
+    margin-left: 10px;
+}
+.header-title .ai-badge {
+    background: linear-gradient(135deg, #f59e0b, #ec4899);
+    color: #fff; font-weight: 700;
+    padding: 5px 11px; border-radius: 20px;
+    box-shadow: 0 3px 10px rgba(236,72,153,0.4);
+    letter-spacing: 0.5px;
+}
+.nav-strip {
+    background: var(--header-nav);
+    padding: 0 28px; height: 38px;
+    display: flex; align-items: center; gap: 4px;
+}
+.nav-strip a {
+    color: rgba(255,255,255,0.7); font-weight: 500;
+    padding: 5px 13px; border-radius: 6px;
+    transition: all .15s;
+}
+.nav-strip a:hover { color: #fff; background: rgba(255,255,255,0.12); text-decoration: none; }
+.nav-strip a.active { color: #fff; background: rgba(255,255,255,0.18); font-weight: 600; }
+.nav-strip .sep { color: rgba(255,255,255,0.25); margin: 0 2px; }
+
+/* ── FILTER BAR ──────────────────────────────────────────── */
+.filters-row {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 28px;
+    display: flex; align-items: center; gap: 18px;
+    flex-wrap: wrap;
+}
+.filter-group { display: flex; flex-direction: column; gap: 3px; }
+.filter-group label {
+    font-size: 11px; font-weight: 700; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.6px;
+}
+.filter-group select {
+    height: 32px; padding: 0 10px;
+    border: 1px solid var(--border2); border-radius: 6px;
+    background: var(--bg3); color: var(--text);
+    font-family: inherit; outline: none;
+}
+.week-picker-wrap { position: relative; }
+.week-picker-btn {
+    height: 32px; padding: 0 14px;
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 6px; min-width: 180px;
+    display: inline-flex; align-items: center; justify-content: space-between;
+    cursor: pointer; gap: 6px;
+}
+.week-picker-dropdown {
+    display: none; position: absolute;
+    top: calc(100% + 4px); left: 0; z-index: 500;
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 8px; box-shadow: 0 8px 24px rgba(15,22,35,0.12);
+    min-width: 200px; max-height: 320px; overflow-y: auto;
+}
+.week-picker-dropdown.open { display: block; }
+.week-option {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 14px; cursor: pointer;
+}
+.week-option:hover { background: var(--bg3); }
+.week-option input { accent-color: var(--primary); cursor: pointer; }
+.week-picker-footer {
+    padding: 8px 14px; border-top: 1px solid var(--border);
+    position: sticky; bottom: 0; background: var(--bg2);
+}
+.week-apply-btn {
+    width: 100%; padding: 6px 0;
+    background: var(--primary); color: #fff;
+    border: none; border-radius: 5px; font-weight: 700; cursor: pointer;
+}
+.week-badge {
+    background: #ecfdf6; color: var(--green);
+    border: 1px solid #b8e5d2;
+    padding: 4px 11px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+}
+
+/* ── MAIN CONTENT ───────────────────────────────────────── */
+.main-content { padding: 22px 28px 60px; }
+
+/* ── HERO KPI GRID ──────────────────────────────────────── */
+.hero-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+}
+@media (max-width: 1100px) {
+    .hero-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.hero-tile {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+}
+.hero-tile::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 3px;
+}
+.hero-tile.purple::before { background: var(--purple); }
+.hero-tile.blue::before   { background: var(--blue); }
+.hero-tile.indigo::before { background: var(--indigo); }
+.hero-tile.amber::before  { background: var(--amber); }
+.hero-tile.rose::before   { background: var(--rose); }
+.hero-tile.green::before  { background: var(--green); }
+.hero-tile.red::before    { background: var(--red); }
+.hero-tile.teal::before   { background: var(--teal); }
+
+.hero-tile .label {
+    font-size: 11px; font-weight: 700;
+    color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.7px;
+}
+.hero-tile .value {
+    font-family: var(--mono); font-size: 30px; font-weight: 700;
+    letter-spacing: -0.8px; line-height: 1.05; margin-top: 4px;
+}
+.hero-tile.purple .value { color: var(--purple); }
+.hero-tile.blue .value   { color: var(--blue); }
+.hero-tile.indigo .value { color: var(--indigo); }
+.hero-tile.amber .value  { color: var(--amber); }
+.hero-tile.rose .value   { color: var(--rose); }
+.hero-tile.green .value  { color: var(--green); }
+.hero-tile.red .value    { color: var(--red); }
+.hero-tile.teal .value   { color: var(--teal); }
+.hero-tile .delta {
+    margin-top: 6px;
+    font-size: 11px; font-weight: 600; font-family: var(--mono);
+}
+.hero-tile .delta.up   { color: var(--green); }
+.hero-tile .delta.down { color: var(--red); }
+.hero-tile .delta.flat { color: var(--text3); }
+
+/* ── CARDS / SECTIONS ───────────────────────────────────── */
+.card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin-bottom: 16px;
+}
+.card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+}
+.card-title {
+    font-weight: 700; color: var(--text);
+}
+.card-sub {
+    font-family: var(--mono); font-size: 11px; color: var(--text3);
+    margin-left: 8px;
+}
+.card-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+@media (max-width: 1000px) { .card-grid-2 { grid-template-columns: 1fr; } }
+
+/* ── PULSE CHART ────────────────────────────────────────── */
+.pulse-canvas-wrap { position: relative; height: 280px; }
+
+/* ── HEATMAP ────────────────────────────────────────────── */
+.heat-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px 2px;
+}
+.heat-table th, .heat-table td {
+    padding: 8px 6px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 12px;
+}
+.heat-table thead th {
+    color: var(--text2); font-weight: 700;
+    font-size: 11px; letter-spacing: 0.4px;
+}
+.heat-table tbody th {
+    text-align: left;
+    color: var(--text); font-family: var(--sans);
+    font-weight: 600; padding-left: 4px;
+    background: transparent !important;
+    white-space: nowrap;
+}
+.heat-cell {
+    border-radius: 4px;
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* ── BRAND DONUT / GROWTH ──────────────────────────────── */
+.donut-wrap { height: 220px; position: relative; }
+.brand-list { font-size: 12px; max-height: 240px; overflow-y: auto; }
+.brand-list .row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 0; border-bottom: 1px dashed #e8eaf0;
+}
+.brand-list .row:last-child { border-bottom: none; }
+.brand-list .label { display: flex; align-items: center; gap: 8px; }
+.brand-list .swatch {
+    width: 10px; height: 10px; border-radius: 2px; display: inline-block;
+}
+.brand-list .pct { font-family: var(--mono); font-weight: 700; color: var(--text); }
+.growth-canvas-wrap { height: 240px; position: relative; }
+
+/* ── AMAZON FUNNEL ──────────────────────────────────────── */
+.funnel { display: flex; flex-direction: column; gap: 8px; padding: 6px 0; }
+.funnel-row {
+    display: grid; grid-template-columns: 130px 1fr 140px;
+    align-items: center; gap: 14px;
+}
+.funnel-row .lbl {
+    font-size: 12px; font-weight: 700; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.funnel-row .bar-wrap {
+    height: 26px;
+    background: #f1f3f8;
+    border-radius: 6px; overflow: hidden;
+    position: relative;
+}
+.funnel-row .bar {
+    height: 100%; border-radius: 6px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+}
+.funnel-row .val {
+    font-family: var(--mono); font-weight: 700;
+    text-align: right; color: var(--text);
+}
+
+/* ── MOVERS TABLES ──────────────────────────────────────── */
+.movers-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+@media (max-width: 1000px) { .movers-grid { grid-template-columns: 1fr; } }
+.movers-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.movers-table th {
+    text-align: left; padding: 6px 8px;
+    color: var(--text2); font-weight: 700;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px;
+    border-bottom: 1px solid var(--border);
+}
+.movers-table td {
+    padding: 7px 8px; border-bottom: 1px dashed #eef0f6;
+    font-family: var(--mono);
+}
+.movers-table td:first-child { font-family: var(--sans); }
+.movers-table .num { text-align: right; }
+.movers-table .pct.up   { color: var(--green); font-weight: 600; }
+.movers-table .pct.down { color: var(--red);   font-weight: 600; }
+
+/* ── AI INSIGHTS PANEL ──────────────────────────────────── */
+.ai-card {
+    background: linear-gradient(135deg, #faf8ff, #fff5f8);
+    border: 1px solid #e9d5ff;
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.ai-card::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 4px;
+    background: linear-gradient(180deg, #f59e0b, #ec4899, #7c3aed);
+}
+.ai-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+}
+.ai-title {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; color: var(--text);
+}
+.ai-title .pill {
+    background: linear-gradient(135deg, #f59e0b, #ec4899);
+    color: #fff; font-size: 10px; font-weight: 800;
+    padding: 3px 9px; border-radius: 20px; letter-spacing: 0.6px;
+}
+.ai-meta {
+    font-family: var(--mono); font-size: 11px; color: var(--text3);
+}
+.ai-actions { display: flex; gap: 8px; align-items: center; }
+.ai-btn {
+    padding: 6px 14px;
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 6px; font-weight: 600; cursor: pointer;
+    color: var(--text2); font-family: inherit;
+    transition: all .15s;
+}
+.ai-btn:hover { border-color: var(--primary); color: var(--primary); }
+.ai-body {
+    line-height: 1.65; color: var(--text);
+}
+.ai-body h2 {
+    font-size: 15px; margin: 14px 0 8px; color: var(--text);
+    font-weight: 700;
+}
+.ai-body h2:first-child { margin-top: 0; }
+.ai-body h3 { font-size: 13px; margin: 10px 0 4px; }
+.ai-body ul { margin: 6px 0 8px 22px; }
+.ai-body li { margin-bottom: 4px; }
+.ai-body strong { color: var(--text); }
+.ai-body code {
+    background: rgba(124,58,237,0.08);
+    padding: 1px 5px; border-radius: 4px;
+    font-family: var(--mono); font-size: 12px;
+}
+.ai-loading {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--text3);
+}
+.ai-spinner {
+    width: 14px; height: 14px;
+    border: 2px solid #e9d5ff;
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ── STICKY HEADER ── -->
+<div id="sticky-header">
+    <div class="header-title">
+        <h1>📊 Analytics — Cross-Module Intelligence
+            <span class="freshness">{{ generated_at }}</span>
+        </h1>
+        <span class="ai-badge">CLAUDE AI</span>
+    </div>
+
+    <nav class="nav-strip">
+        <a href="/dashboard">🏠 Dashboard</a>
+        <span class="sep">·</span>
+        <a href="/sales-trend">📈 Sales Trend</a>
+        <span class="sep">·</span>
+        <a href="/amazon-sales-trend">🛒 Amazon + 1P</a>
+        <span class="sep">·</span>
+        <a href="/category-sales">🧩 Category</a>
+        <span class="sep">·</span>
+        <a href="/inventory-dashboard">📦 Inventory</a>
+        <span class="sep">·</span>
+        <a href="/analytics" class="active">📊 Analytics</a>
+        <span class="sep">·</span>
+        <a href="/ams-trend">📣 AMS</a>
+    </nav>
+
+    <form method="get" id="filterForm" class="filters-row">
+        {% if selected.weeks_display %}
+            <div class="week-badge">✓ {{ selected.weeks_display }}</div>
+        {% endif %}
+        <div class="filter-group">
+            <label>Weeks</label>
+            <div class="week-picker-wrap">
+                <button type="button" class="week-picker-btn" onclick="toggleWeekPicker()">
+                    <span id="week-picker-label">
+                        {% if selected.weeks %}{{ selected.weeks | join(', ') }}{% else %}Latest{% endif %}
+                    </span>
+                    ▾
+                </button>
+                <div class="week-picker-dropdown" id="weekPickerDropdown">
+                    <label class="week-option">
+                        <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> <b>All</b>
+                    </label>
+                    {% for w in weeks %}
+                    <label class="week-option">
+                        <input type="checkbox" name="weeks" value="{{ w }}"
+                            {% if selected.weeks and w in selected.weeks %}checked{% endif %}
+                            onchange="updateWeekLabel()">
+                        {{ w }}
+                    </label>
+                    {% endfor %}
+                    <div class="week-picker-footer">
+                        <button type="button" class="week-apply-btn" onclick="applyWeeks()">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-group">
+            <label>Brand</label>
+            <select name="brand" onchange="autoRefresh()">
+                <option value="">All</option>
+                {% for b in brands %}
+                    <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>View</label>
+            <select name="view" onchange="autoRefresh()">
+                <option value="mapped" {% if selected.view == 'mapped' %}selected{% endif %}>Mapped Only</option>
+                <option value="all" {% if selected.view == 'all' %}selected{% endif %}>Include Unmapped</option>
+            </select>
+        </div>
+    </form>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main-content">
+
+    <!-- HERO KPI GRID -->
+    <div class="hero-grid">
+        {% for key, t in hero.items() %}
+        <div class="hero-tile {{ t.tint }}">
+            <div class="label">{{ t.label }}</div>
+            <div class="value fmt-{{ t.fmt }}" data-val="{{ t.value }}">{{ t.value }}</div>
+            {% if t.delta is not none %}
+                <div class="delta {% if t.delta > 0 %}up{% elif t.delta < 0 %}down{% else %}flat{% endif %}">
+                    {% if t.delta > 0 %}▲{% elif t.delta < 0 %}▼{% else %}→{% endif %}
+                    {{ '%+.1f' | format(t.delta) }}% vs prior
+                </div>
+            {% else %}
+                <div class="delta flat">—</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- AI INSIGHTS PANEL -->
+    <div class="ai-card">
+        <div class="ai-head">
+            <div class="ai-title">
+                <span class="pill">CLAUDE</span>
+                <span>🤖 AI Insights</span>
+                <span class="ai-meta" id="aiMeta">analyzing…</span>
+            </div>
+            <div class="ai-actions">
+                <button class="ai-btn" id="aiRegenBtn" onclick="loadInsights(true)">↻ Regenerate</button>
+            </div>
+        </div>
+        <div class="ai-body" id="aiBody">
+            <div class="ai-loading">
+                <div class="ai-spinner"></div>
+                Reading your data and writing observations…
+            </div>
+        </div>
+    </div>
+
+    <!-- SALES PULSE -->
+    <div class="card">
+        <div class="card-head">
+            <div class="card-title">📈 Sales Pulse <span class="card-sub">— GMV + Units, last 12 weeks</span></div>
+        </div>
+        <div class="pulse-canvas-wrap">
+            <canvas id="pulseChart"></canvas>
+        </div>
+    </div>
+
+    <!-- CHANNEL HEATMAP -->
+    {% if heatmap.channels %}
+    <div class="card">
+        <div class="card-head">
+            <div class="card-title">🔥 Channel Heatmap <span class="card-sub">— GMV by channel × week</span></div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="heat-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        {% for w in heatmap.weeks %}<th>{{ w }}</th>{% endfor %}
+                    </tr>
+                </thead>
+                <tbody id="heatBody">
+                    {% for ch in heatmap.channels %}
+                    <tr>
+                        <th>{{ ch }}</th>
+                        {% for v in heatmap['values'][loop.index0] %}
+                        <td class="heat-cell" data-val="{{ v }}">{{ v }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- BRAND SHARE + GROWTH -->
+    {% if brand_share or brand_growth %}
+    <div class="card-grid-2">
+        {% if brand_share %}
+        <div class="card">
+            <div class="card-head"><div class="card-title">🏷️ Brand Share <span class="card-sub">— current period</span></div></div>
+            <div class="donut-wrap"><canvas id="brandShareChart"></canvas></div>
+            <div class="brand-list" id="brandShareList" style="margin-top:12px"></div>
+        </div>
+        {% endif %}
+        {% if brand_growth %}
+        <div class="card">
+            <div class="card-head"><div class="card-title">📊 Brand Growth <span class="card-sub">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %}</span></div></div>
+            <div class="growth-canvas-wrap"><canvas id="brandGrowthChart"></canvas></div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- AMAZON FUNNEL -->
+    {% if ams_funnel %}
+    <div class="card">
+        <div class="card-head">
+            <div class="card-title">🛒 Amazon Funnel <span class="card-sub">— current period · ROAS {{ extra.roas }} · Conv {{ extra.conv }}%</span></div>
+        </div>
+        <div class="funnel" id="ams-funnel"></div>
+    </div>
+    {% endif %}
+
+    <!-- TOP MOVERS -->
+    {% if top_up or top_down %}
+    <div class="card">
+        <div class="card-head">
+            <div class="card-title">🏆 Top Movers <span class="card-sub">— biggest GMV swings vs prior period</span></div>
+        </div>
+        <div class="movers-grid">
+            <div>
+                <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px;">▲ RISERS</div>
+                <table class="movers-table">
+                    <thead><tr><th>SKU · Model</th><th class="num">GMV (cur)</th><th class="num">vs prior</th></tr></thead>
+                    <tbody>
+                    {% for r in top_up %}
+                    <tr>
+                        <td>{{ r.sku }} · <span style="color:var(--text3)">{{ r.model }}</span></td>
+                        <td class="num fmt-inr" data-val="{{ r.gmv_cur }}">{{ r.gmv_cur }}</td>
+                        <td class="num pct up">{% if r.pct is not none %}+{{ r.pct }}%{% else %}new{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px;">▼ DECLINERS</div>
+                <table class="movers-table">
+                    <thead><tr><th>SKU · Model</th><th class="num">GMV (cur)</th><th class="num">vs prior</th></tr></thead>
+                    <tbody>
+                    {% for r in top_down %}
+                    <tr>
+                        <td>{{ r.sku }} · <span style="color:var(--text3)">{{ r.model }}</span></td>
+                        <td class="num fmt-inr" data-val="{{ r.gmv_cur }}">{{ r.gmv_cur }}</td>
+                        <td class="num pct down">{% if r.pct is not none %}{{ r.pct }}%{% else %}—{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<script>
+/* ── INR / number formatters ─────────────────────────────── */
+function fmtINR(n) {
+    n = parseFloat(n);
+    if (isNaN(n)) return '₹0';
+    if (Math.abs(n) >= 1e7) return '₹' + (n/1e7).toFixed(2) + ' Cr';
+    if (Math.abs(n) >= 1e5) return '₹' + (n/1e5).toFixed(2) + ' L';
+    if (Math.abs(n) >= 1e3) return '₹' + (n/1e3).toFixed(1) + ' K';
+    return '₹' + n.toLocaleString('en-IN');
+}
+function fmtInt(n) {
+    n = parseFloat(n);
+    if (isNaN(n)) return '0';
+    return n.toLocaleString('en-IN');
+}
+function fmtPct(n) {
+    n = parseFloat(n);
+    if (isNaN(n)) return '0%';
+    return n.toFixed(2) + '%';
+}
+
+document.querySelectorAll('.fmt-inr').forEach(el => { const v = parseFloat(el.dataset.val); if (!isNaN(v)) el.textContent = fmtINR(v); });
+document.querySelectorAll('.fmt-int').forEach(el => { const v = parseFloat(el.dataset.val); if (!isNaN(v)) el.textContent = fmtInt(v); });
+document.querySelectorAll('.fmt-pct').forEach(el => { const v = parseFloat(el.dataset.val); if (!isNaN(v)) el.textContent = fmtPct(v); });
+
+/* ── Filter bar ──────────────────────────────────────────── */
+function autoRefresh() { document.getElementById('filterForm').submit(); }
+function toggleWeekPicker() {
+    document.getElementById('weekPickerDropdown').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+    if (!e.target.closest('.week-picker-wrap')) {
+        document.getElementById('weekPickerDropdown')?.classList.remove('open');
+    }
+});
+function toggleAllWeeks(cb) {
+    document.querySelectorAll('input[name="weeks"]').forEach(c => c.checked = cb.checked);
+    updateWeekLabel();
+}
+function updateWeekLabel() {
+    const checked = Array.from(document.querySelectorAll('input[name="weeks"]:checked')).map(c=>c.value);
+    const all = document.querySelectorAll('input[name="weeks"]');
+    const allCb = document.getElementById('wk-all');
+    if (allCb) allCb.checked = checked.length === all.length;
+    const lbl = document.getElementById('week-picker-label');
+    if (!lbl) return;
+    if (!checked.length) lbl.textContent = 'Latest';
+    else if (checked.length === all.length) lbl.textContent = 'All Weeks';
+    else if (checked.length <= 3) lbl.textContent = checked.join(', ');
+    else lbl.textContent = checked.length + ' weeks selected';
+}
+function applyWeeks() {
+    document.getElementById('weekPickerDropdown').classList.remove('open');
+    document.getElementById('filterForm').submit();
+}
+
+/* ─────────────────────────────────────────────────────────
+   PULSE CHART — weekly GMV + Units (dual axis)
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const data = {{ pulse | tojson }};
+    if (!data.length) return;
+    new Chart(document.getElementById('pulseChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: data.map(d => d.week),
+            datasets: [
+                {
+                    label: 'GMV (₹)',
+                    data: data.map(d => d.gmv),
+                    borderColor: '#3d3587',
+                    backgroundColor: '#3d358722',
+                    borderWidth: 2.5,
+                    tension: 0.35,
+                    pointRadius: 3, pointHoverRadius: 6,
+                    fill: true, yAxisID: 'y',
+                },
+                {
+                    label: 'Units',
+                    data: data.map(d => d.units),
+                    borderColor: '#0a6e4e',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    borderDash: [4, 4],
+                    tension: 0.35,
+                    pointRadius: 0, pointHoverRadius: 4,
+                    yAxisID: 'y1',
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top', align: 'end', labels: { boxWidth: 12, boxHeight: 4 } },
+                tooltip: { callbacks: { label: c => c.dataset.yAxisID === 'y1'
+                    ? c.dataset.label + ': ' + c.raw.toLocaleString('en-IN')
+                    : c.dataset.label + ': ' + fmtINR(c.raw) } }
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y:  { position: 'left',  ticks: { callback: v => fmtINR(v) }, grid: { color: '#eef0f6' }, title: { display: true, text: 'GMV (₹)' } },
+                y1: { position: 'right', ticks: { callback: v => v.toLocaleString('en-IN') }, grid: { display: false }, title: { display: true, text: 'Units' } }
+            }
+        }
+    });
+})();
+
+/* ─────────────────────────────────────────────────────────
+   HEATMAP — color cells by intensity
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const cells = document.querySelectorAll('.heat-cell');
+    if (!cells.length) return;
+    let maxVal = 0;
+    cells.forEach(c => { const v = parseFloat(c.dataset.val) || 0; if (v > maxVal) maxVal = v; });
+    cells.forEach(c => {
+        const v = parseFloat(c.dataset.val) || 0;
+        c.textContent = fmtINR(v);
+        const t = maxVal > 0 ? Math.min(v / maxVal, 1) : 0;
+        // Purple gradient: light to deep
+        const r = Math.round(245 - (245 - 61) * t);
+        const g = Math.round(243 - (243 - 53) * t);
+        const b = Math.round(252 - (252 - 135) * t);
+        c.style.background = `rgb(${r}, ${g}, ${b})`;
+        c.style.color = t > 0.55 ? '#fff' : '#0f1623';
+    });
+})();
+
+/* ─────────────────────────────────────────────────────────
+   BRAND SHARE DONUT
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const SHARE = {{ brand_share | tojson }};
+    const c = document.getElementById('brandShareChart');
+    if (!c || !SHARE.length) return;
+    const palette = ['#3d3587', '#0a6e4e', '#b45309', '#7c3aed', '#2563eb', '#e11d48', '#0d9488', '#a16207', '#52525b'];
+    const colors = SHARE.map((_, i) => palette[i % palette.length]);
+    new Chart(c.getContext('2d'), {
+        type: 'doughnut',
+        data: { labels: SHARE.map(d => d.brand),
+                datasets: [{ data: SHARE.map(d => d.gmv), backgroundColor: colors, borderColor: '#fff', borderWidth: 2 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            cutout: '60%',
+            plugins: { legend: { display: false },
+                       tooltip: { callbacks: { label: c => c.label + ': ' + fmtINR(c.raw) + ' (' + SHARE[c.dataIndex].pct.toFixed(1) + '%)' } } }
+        }
+    });
+    const list = document.getElementById('brandShareList');
+    if (list) list.innerHTML = SHARE.map((d, i) =>
+        `<div class="row"><span class="label"><span class="swatch" style="background:${colors[i]}"></span>${d.brand}</span>
+         <span class="pct">${d.pct.toFixed(1)}% · ${fmtINR(d.gmv)}</span></div>`
+    ).join('');
+})();
+
+/* ─────────────────────────────────────────────────────────
+   BRAND GROWTH BARS
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const GROWTH = {{ brand_growth | tojson }};
+    const c = document.getElementById('brandGrowthChart');
+    if (!c || !GROWTH.length) return;
+    const labels = GROWTH.map(d => d.brand);
+    const data = GROWTH.map(d => d.pct);
+    const colors = data.map(p => p >= 0 ? 'rgba(10,110,78,0.9)' : 'rgba(185,28,28,0.9)');
+    new Chart(c.getContext('2d'), {
+        type: 'bar',
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
+        options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: c => {
+                    const r = GROWTH[c.dataIndex];
+                    return c.label + ': ' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '% (' +
+                           fmtINR(r.gmv_prior) + ' → ' + fmtINR(r.gmv_cur) + ')';
+                }}}
+            },
+            scales: {
+                x: { ticks: { callback: v => v + '%' }, grid: { color: '#eef0f6' },
+                     title: { display: true, text: 'GMV change vs prior period' } },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+})();
+
+/* ─────────────────────────────────────────────────────────
+   AMAZON FUNNEL — horizontal bars, descending
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const F = {{ ams_funnel | tojson }};
+    if (!F) return;
+    const rows = [
+        { lbl: 'Impressions',     val: F.impressions, fmt: fmtInt },
+        { lbl: 'Clicks',          val: F.clicks,      fmt: fmtInt },
+        { lbl: 'Sessions',        val: F.sessions,    fmt: fmtInt },
+        { lbl: 'Units',           val: F.units,       fmt: fmtInt },
+        { lbl: 'Attributed (₹)',  val: F.attr_sales,  fmt: fmtINR },
+        { lbl: 'Ad Spend (₹)',    val: F.spend,       fmt: fmtINR },
+    ];
+    const max = Math.max(...rows.map(r => r.val)) || 1;
+    const wrap = document.getElementById('ams-funnel');
+    wrap.innerHTML = rows.map(r => {
+        const pct = (r.val / max) * 100;
+        return `<div class="funnel-row">
+            <div class="lbl">${r.lbl}</div>
+            <div class="bar-wrap"><div class="bar" style="width:${pct.toFixed(2)}%"></div></div>
+            <div class="val">${r.fmt(r.val)}</div>
+        </div>`;
+    }).join('');
+})();
+
+/* ─────────────────────────────────────────────────────────
+   AI INSIGHTS — auto-load + regenerate
+   ───────────────────────────────────────────────────────── */
+function buildInsightsURL(refresh) {
+    const u = new URL('/api/analytics/insights', window.location.origin);
+    document.querySelectorAll('input[name="weeks"]:checked').forEach(c => u.searchParams.append('weeks', c.value));
+    const brand = document.querySelector('select[name="brand"]')?.value;
+    const view = document.querySelector('select[name="view"]')?.value;
+    if (brand) u.searchParams.set('brand', brand);
+    if (view)  u.searchParams.set('view', view);
+    if (refresh) u.searchParams.set('refresh', '1');
+    return u.toString();
+}
+
+async function loadInsights(force) {
+    const body = document.getElementById('aiBody');
+    const meta = document.getElementById('aiMeta');
+    const btn  = document.getElementById('aiRegenBtn');
+    btn.disabled = true;
+    body.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div>Reading your data and writing observations…</div>';
+    meta.textContent = force ? 'regenerating…' : 'analyzing…';
+    try {
+        const r = await fetch(buildInsightsURL(force));
+        const j = await r.json();
+        const md = j.insights || '_No insights returned._';
+        body.innerHTML = marked.parse(md);
+        if (j.cached) {
+            meta.textContent = 'cached · ' + (j.age_sec || 0) + 's old';
+        } else {
+            meta.textContent = 'fresh';
+        }
+    } catch (e) {
+        body.innerHTML = '<div style="color:var(--red)">Failed to load AI insights: ' + e.message + '</div>';
+        meta.textContent = 'error';
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => loadInsights(false));
+</script>
+</body>
+</html>

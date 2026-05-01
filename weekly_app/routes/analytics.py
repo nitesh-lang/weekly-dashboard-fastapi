@@ -1,0 +1,484 @@
+"""
+Analytics — cross-module visualizations + Claude-powered insights.
+
+Routes:
+- GET /analytics                        Page (HTML)
+- GET /api/analytics/insights           AI insights as Markdown (JSON-wrapped)
+
+Data sources reused from existing routes:
+- weekly_sales_snapshot.csv             sales (week × brand × model × channel × sku)
+- ams_weekly_fact_with_category.csv     AMS metrics (week × asin)
+- inventory_dashboard.load_all_inventory  rich SKU+channel inventory (lazy)
+"""
+import os
+import re
+import time
+import json
+from pathlib import Path
+from typing import List, Optional, Dict, Any
+
+import pandas as pd
+from fastapi import APIRouter, Request, Query
+from fastapi.responses import HTMLResponse, JSONResponse
+from jinja2 import Environment, FileSystemLoader
+
+router = APIRouter()
+_env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
+
+SALES_FILE = Path("data/processed/weekly_sales_snapshot.csv")
+AMS_FILE = Path("data/ams_weekly_data/processed_ads/business_ads_joined.csv")
+
+# In-memory insights cache. Key: (frozenset of weeks, brand, view). 10-min TTL.
+_insight_cache: Dict[Any, Any] = {}
+_INSIGHT_TTL = 600
+
+
+# =====================================================
+# UTILS
+# =====================================================
+def _wk_n(w):
+    m = re.search(r"\d+", str(w))
+    return int(m.group()) if m else 0
+
+
+def _fix_week(w: str) -> str:
+    w = str(w).strip()
+    if w.startswith("Week") and " " not in w:
+        w = w.replace("Week", "Week ")
+    return w
+
+
+def _pct_change(cur, prev):
+    if prev in (0, None):
+        return None
+    return round(((cur - prev) / prev) * 100, 1)
+
+
+def _load_sales() -> pd.DataFrame:
+    df = pd.read_csv(SALES_FILE)
+    df.columns = df.columns.str.strip().str.lower()
+    df["week"] = df["week"].astype(str).str.strip()
+    df["sku"] = df["sku"].astype(str)
+    df["channel"] = df["channel"].astype(str).str.strip()
+    df["brand"] = df["brand"].astype(str).str.strip()
+    if "model" in df.columns:
+        df["model"] = df["model"].astype(str).str.strip()
+    for c in ["units_sold", "gross_sales", "sales_nlc"]:
+        if c not in df.columns:
+            df[c] = 0
+        df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0)
+    return df
+
+
+def _load_ams() -> pd.DataFrame:
+    if not AMS_FILE.exists():
+        return pd.DataFrame()
+    df = pd.read_csv(AMS_FILE)
+    df.columns = df.columns.str.strip()
+    if "week" in df.columns:
+        df["week"] = df["week"].astype(str).str.strip()
+        df["week"] = df["week"].str.replace(r"\.0$", "", regex=True)
+    return df
+
+
+# =====================================================
+# DATA LAYER (shared by page render + AI insights)
+# =====================================================
+def compute_analytics(
+    active_weeks: List[str],
+    brand: Optional[str],
+    view: str,
+) -> Dict[str, Any]:
+    """Aggregate everything the analytics page (and AI insights) need."""
+    sales = _load_sales()
+    all_weeks = sorted(sales["week"].dropna().unique().tolist(), key=_wk_n)
+
+    if not active_weeks and all_weeks:
+        active_weeks = [all_weeks[-1]]
+
+    brands_list = sorted(sales["brand"].dropna().unique().tolist())
+
+    # Current window
+    cur = sales.copy()
+    cur = cur[cur["week"].isin(active_weeks)]
+    if brand:
+        cur = cur[cur["brand"].str.lower() == brand.lower()]
+    if view == "mapped" and "sku_status" in cur.columns:
+        cur = cur[cur["sku_status"] == "MAPPED"]
+
+    # Prior window — same length, immediately preceding
+    n = len(active_weeks)
+    prior_weeks: List[str] = []
+    if n > 0 and len(all_weeks) > n:
+        try:
+            min_idx = min(all_weeks.index(w) for w in active_weeks if w in all_weeks)
+            prior_weeks = all_weeks[max(0, min_idx - n):min_idx]
+        except ValueError:
+            prior_weeks = []
+
+    prior = sales.copy()
+    if prior_weeks:
+        prior = prior[prior["week"].isin(prior_weeks)]
+    else:
+        prior = prior.iloc[0:0]
+    if brand and not prior.empty:
+        prior = prior[prior["brand"].str.lower() == brand.lower()]
+    if view == "mapped" and "sku_status" in prior.columns:
+        prior = prior[prior["sku_status"] == "MAPPED"]
+
+    # ─── HERO ─────────────────────────────────────────────
+    cur_gmv = float(cur["gross_sales"].sum())
+    cur_units = int(cur["units_sold"].sum())
+    cur_skus = int(cur[cur["units_sold"] > 0]["sku"].nunique())
+    cur_nlc = float(cur["sales_nlc"].sum()) if "sales_nlc" in cur.columns else 0.0
+
+    prior_gmv = float(prior["gross_sales"].sum())
+    prior_units = int(prior["units_sold"].sum())
+    prior_nlc = float(prior["sales_nlc"].sum()) if "sales_nlc" in prior.columns else 0.0
+
+    # AMS for the current window
+    ams = _load_ams()
+    ams_window = ams.copy()
+    if not ams_window.empty:
+        active_week_nums = [str(_wk_n(w)) for w in active_weeks]
+        ams_window = ams_window[ams_window["week"].astype(str).isin(active_week_nums)]
+        if brand and "brand" in ams_window.columns:
+            ams_window = ams_window[
+                ams_window["brand"].astype(str).str.lower() == brand.lower()
+            ]
+
+    def _sum(col):
+        if ams_window.empty or col not in ams_window.columns:
+            return 0.0
+        return float(pd.to_numeric(ams_window[col], errors="coerce").fillna(0).sum())
+
+    spend = _sum("Spend") or _sum("spend") or _sum("ad_spend")
+    attr_sales = _sum("attributed_sales")
+    sessions = _sum("sessions")
+    ams_units = _sum("units")
+    clicks = _sum("Clicks") or _sum("clicks")
+    impressions = _sum("Impressions") or _sum("impressions")
+
+    acos = round((spend / attr_sales * 100), 2) if attr_sales > 0 else 0.0
+    tacos = round((spend / cur_gmv * 100), 2) if cur_gmv > 0 else 0.0
+    conv = round((ams_units / sessions * 100), 2) if sessions > 0 else 0.0
+    roas = round((attr_sales / spend), 2) if spend > 0 else 0.0
+
+    hero = {
+        "gmv":         {"value": int(cur_gmv),       "delta": _pct_change(cur_gmv, prior_gmv),     "label": "GMV",          "fmt": "inr",  "tint": "purple"},
+        "units":       {"value": cur_units,           "delta": _pct_change(cur_units, prior_units), "label": "Units Sold",   "fmt": "int",  "tint": "blue"},
+        "active_skus": {"value": cur_skus,            "delta": None,                                "label": "Active SKUs",  "fmt": "int",  "tint": "indigo"},
+        "nlc":         {"value": int(cur_nlc),        "delta": _pct_change(cur_nlc, prior_nlc),     "label": "NLC Sold",     "fmt": "inr",  "tint": "amber"},
+        "spend":       {"value": int(spend),          "delta": None,                                "label": "Ad Spend",     "fmt": "inr",  "tint": "rose"},
+        "attr_sales":  {"value": int(attr_sales),     "delta": None,                                "label": "Attributed",   "fmt": "inr",  "tint": "green"},
+        "acos":        {"value": acos,                "delta": None,                                "label": "ACOS %",       "fmt": "pct",  "tint": "red"},
+        "tacos":       {"value": tacos,               "delta": None,                                "label": "TACOS %",      "fmt": "pct",  "tint": "teal"},
+    }
+    extra = {"sessions": int(sessions), "conv": conv, "roas": roas, "clicks": int(clicks), "impressions": int(impressions)}
+
+    # ─── SALES PULSE (12 weeks) ───────────────────────────
+    pulse_base = sales.copy()
+    if brand:
+        pulse_base = pulse_base[pulse_base["brand"].str.lower() == brand.lower()]
+    if view == "mapped" and "sku_status" in pulse_base.columns:
+        pulse_base = pulse_base[pulse_base["sku_status"] == "MAPPED"]
+    pulse = (
+        pulse_base.groupby("week", as_index=False)
+        .agg(gmv=("gross_sales", "sum"), units=("units_sold", "sum"))
+    )
+    pulse["_n"] = pulse["week"].apply(_wk_n)
+    pulse = pulse.sort_values("_n").tail(12)
+    pulse_data = (
+        pulse[["week", "gmv", "units"]]
+        .assign(gmv=lambda d: d["gmv"].round(0).astype(int),
+                units=lambda d: d["units"].round(0).astype(int))
+        .to_dict("records")
+    )
+
+    # ─── CHANNEL HEATMAP (channel × last 12 weeks) ───────
+    heat_base = pulse_base
+    last_12 = sorted(heat_base["week"].unique().tolist(), key=_wk_n)[-12:]
+    heat_base = heat_base[heat_base["week"].isin(last_12)]
+    if heat_base.empty:
+        heatmap = {"channels": [], "weeks": [], "values": []}
+    else:
+        pv = heat_base.pivot_table(
+            index="channel", columns="week", values="gross_sales",
+            aggfunc="sum", fill_value=0,
+        )
+        # Order columns by week number, rows by latest column desc
+        pv = pv[sorted(pv.columns, key=_wk_n)]
+        if len(pv.columns) > 0:
+            pv = pv.sort_values(pv.columns[-1], ascending=False)
+        heatmap = {
+            "channels": [str(c) for c in pv.index.tolist()],
+            "weeks": [str(c) for c in pv.columns.tolist()],
+            "values": [[round(float(pv.loc[ch, w])) for w in pv.columns] for ch in pv.index],
+        }
+
+    # ─── BRAND PERFORMANCE ───────────────────────────────
+    brand_share: List[Dict[str, Any]] = []
+    brand_growth: List[Dict[str, Any]] = []
+    if not brand:
+        # Share for current window
+        if not cur.empty:
+            bs = cur.groupby("brand", as_index=False).agg(gmv=("gross_sales", "sum"))
+            bs = bs[bs["gmv"] > 0]
+            total = bs["gmv"].sum() or 1
+            bs["pct"] = (bs["gmv"] / total * 100).round(2)
+            bs = bs.sort_values("gmv", ascending=False)
+            brand_share = [
+                {"brand": r["brand"], "gmv": int(r["gmv"]), "pct": float(r["pct"])}
+                for _, r in bs.iterrows()
+            ]
+
+        # Growth: cur vs prior
+        if not cur.empty and not prior.empty:
+            cur_b = cur.groupby("brand", as_index=False).agg(gmv=("gross_sales", "sum"))
+            pr_b = prior.groupby("brand", as_index=False).agg(gmv=("gross_sales", "sum"))
+            mg = cur_b.merge(pr_b, on="brand", how="outer", suffixes=("_cur", "_prior")).fillna(0)
+            mg["pct"] = mg.apply(
+                lambda r: ((r["gmv_cur"] - r["gmv_prior"]) / r["gmv_prior"] * 100)
+                if r["gmv_prior"] > 0 else None,
+                axis=1,
+            )
+            mg = mg.dropna(subset=["pct"]).sort_values("pct", ascending=False)
+            brand_growth = [
+                {"brand": r["brand"], "pct": round(float(r["pct"]), 1),
+                 "gmv_cur": int(r["gmv_cur"]), "gmv_prior": int(r["gmv_prior"])}
+                for _, r in mg.iterrows()
+            ]
+
+    # ─── AMAZON FUNNEL ───────────────────────────────────
+    ams_funnel: Optional[Dict[str, Any]] = None
+    if not ams_window.empty:
+        ams_funnel = {
+            "impressions": extra["impressions"],
+            "clicks": extra["clicks"],
+            "sessions": int(sessions),
+            "units": int(ams_units),
+            "attr_sales": int(attr_sales),
+            "spend": int(spend),
+        }
+
+    # ─── TOP MOVERS (cur vs prior) ───────────────────────
+    cur_sku = cur.groupby(["sku", "model"], as_index=False).agg(gmv=("gross_sales", "sum"))
+    pr_sku = prior.groupby(["sku", "model"], as_index=False).agg(gmv=("gross_sales", "sum"))
+    mv = cur_sku.merge(pr_sku, on=["sku", "model"], how="outer", suffixes=("_cur", "_prior")).fillna(0)
+    mv["delta"] = mv["gmv_cur"] - mv["gmv_prior"]
+    mv["pct"] = mv.apply(
+        lambda r: ((r["gmv_cur"] - r["gmv_prior"]) / r["gmv_prior"] * 100)
+        if r["gmv_prior"] > 0 else None,
+        axis=1,
+    )
+    top_up = (
+        mv[mv["gmv_cur"] > 0].sort_values("delta", ascending=False).head(5)
+        .to_dict("records")
+    )
+    top_down = (
+        mv[mv["gmv_prior"] > 0].sort_values("delta", ascending=True).head(5)
+        .to_dict("records")
+    )
+
+    return {
+        "all_weeks": all_weeks,
+        "active_weeks": active_weeks,
+        "prior_weeks": prior_weeks,
+        "brands_list": brands_list,
+        "hero": hero,
+        "extra": extra,
+        "pulse": pulse_data,
+        "heatmap": heatmap,
+        "brand_share": brand_share,
+        "brand_growth": brand_growth,
+        "ams_funnel": ams_funnel,
+        "top_up": [
+            {"sku": str(r["sku"]), "model": str(r["model"]),
+             "gmv_cur": int(r["gmv_cur"]), "gmv_prior": int(r["gmv_prior"]),
+             "delta": int(r["delta"]),
+             "pct": round(float(r["pct"]), 1) if r["pct"] is not None and pd.notna(r["pct"]) else None}
+            for r in top_up
+        ],
+        "top_down": [
+            {"sku": str(r["sku"]), "model": str(r["model"]),
+             "gmv_cur": int(r["gmv_cur"]), "gmv_prior": int(r["gmv_prior"]),
+             "delta": int(r["delta"]),
+             "pct": round(float(r["pct"]), 1) if r["pct"] is not None and pd.notna(r["pct"]) else None}
+            for r in top_down
+        ],
+    }
+
+
+# =====================================================
+# PAGE ROUTE
+# =====================================================
+@router.get("/analytics", response_class=HTMLResponse)
+def analytics_page(
+    request: Request,
+    week: Optional[str] = None,
+    weeks: List[str] = Query(default=[]),
+    brand: Optional[str] = None,
+    view: str = "mapped",
+):
+    if weeks:
+        active_weeks = [_fix_week(w) for w in weeks if str(w).strip()]
+    elif week:
+        active_weeks = [_fix_week(week)]
+    else:
+        active_weeks = []
+
+    data = compute_analytics(active_weeks, brand, view)
+
+    selected = {
+        "weeks": data["active_weeks"],
+        "weeks_display": ", ".join(data["active_weeks"]) if data["active_weeks"] else "All Weeks",
+        "brand": brand or "",
+        "view": view,
+    }
+
+    from datetime import datetime as _dt
+    generated_at = _dt.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+
+    return HTMLResponse(_env.get_template("analytics.html").render(
+        request=request,
+        selected=selected,
+        weeks=data["all_weeks"],
+        brands=data["brands_list"],
+        hero=data["hero"],
+        extra=data["extra"],
+        pulse=data["pulse"],
+        heatmap=data["heatmap"],
+        brand_share=data["brand_share"],
+        brand_growth=data["brand_growth"],
+        ams_funnel=data["ams_funnel"],
+        top_up=data["top_up"],
+        top_down=data["top_down"],
+        prior_period_label=", ".join(data["prior_weeks"]) if data["prior_weeks"] else None,
+        generated_at=generated_at,
+    ))
+
+
+# =====================================================
+# AI INSIGHTS API
+# =====================================================
+_SYSTEM_PROMPT = """You are a senior retail / e-commerce analytics consultant working
+with an Indian D2C and Amazon-first business. Given the JSON data below from a weekly
+dashboard, produce concise, actionable intelligence for the operator.
+
+Format your response as Markdown with TWO sections:
+
+## 📊 Observations
+3 to 5 bullet points covering:
+- Specific week-over-week changes (cite numbers)
+- Notable trends — rising or falling brands, channels, SKUs
+- Anomalies, surprising swings, or risk signals
+- Performance vs the prior comparable period
+
+## 🎯 Recommendations
+2 actionable next steps the operator can take this week. Be specific and concrete
+("Audit the top 3 ASINs by ACOS this week", not "review marketing").
+
+Rules:
+- Cite ACTUAL numbers from the data — no vague qualifiers.
+- Use ₹ for INR, % for percentages, comma-separated thousands.
+- Be direct. No hedging, no preamble, no platitudes, no apologies.
+- If a data section is missing or empty, skip the bullet for it.
+- Total response under 350 words.
+- Never invent data the JSON doesn't contain.
+"""
+
+
+@router.get("/api/analytics/insights")
+def analytics_insights(
+    request: Request,
+    week: Optional[str] = None,
+    weeks: List[str] = Query(default=[]),
+    brand: Optional[str] = None,
+    view: str = "mapped",
+    refresh: bool = False,
+):
+    if weeks:
+        active_weeks = [_fix_week(w) for w in weeks if str(w).strip()]
+    elif week:
+        active_weeks = [_fix_week(week)]
+    else:
+        active_weeks = []
+
+    cache_key = (tuple(sorted(active_weeks)), brand or "", view)
+
+    if not refresh and cache_key in _insight_cache:
+        ts, content = _insight_cache[cache_key]
+        if time.time() - ts < _INSIGHT_TTL:
+            return JSONResponse({
+                "insights": content,
+                "cached": True,
+                "age_sec": int(time.time() - ts),
+            })
+
+    data = compute_analytics(active_weeks, brand, view)
+
+    # Compact summary for the prompt — only the fields the model needs.
+    payload = {
+        "period": {
+            "current": data["active_weeks"],
+            "prior":   data["prior_weeks"],
+            "filter_brand": brand or None,
+            "filter_view":  view,
+        },
+        "headline": {k: v["value"] for k, v in data["hero"].items()},
+        "headline_deltas": {k: v["delta"] for k, v in data["hero"].items() if v["delta"] is not None},
+        "extra_metrics": data["extra"],
+        "weekly_trend": data["pulse"],
+        "channel_heatmap_top": (
+            [{"channel": ch, "by_week": dict(zip(data["heatmap"]["weeks"], vals))}
+             for ch, vals in zip(data["heatmap"]["channels"][:5], data["heatmap"]["values"][:5])]
+        ),
+        "brand_share": data["brand_share"][:8],
+        "brand_growth_top": data["brand_growth"][:5],
+        "brand_growth_bottom": data["brand_growth"][-5:] if len(data["brand_growth"]) > 5 else [],
+        "amazon_funnel": data["ams_funnel"],
+        "top_movers_up": data["top_up"],
+        "top_movers_down": data["top_down"],
+    }
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        return JSONResponse({
+            "insights": "_AI Insights unavailable — `ANTHROPIC_API_KEY` env var is not set._",
+            "cached": False,
+            "error": "missing_api_key",
+        })
+
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=api_key)
+        msg = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=1500,
+            system=[
+                {
+                    "type": "text",
+                    "text": _SYSTEM_PROMPT,
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+            messages=[
+                {"role": "user", "content": json.dumps(payload, indent=2)}
+            ],
+        )
+        markdown = "".join(
+            block.text for block in msg.content if getattr(block, "type", "") == "text"
+        ) or "_No content returned by AI._"
+    except Exception as e:
+        return JSONResponse({
+            "insights": f"_AI Insights failed: {type(e).__name__}: {e}_",
+            "cached": False,
+            "error": str(e),
+        })
+
+    _insight_cache[cache_key] = (time.time(), markdown)
+    return JSONResponse({
+        "insights": markdown,
+        "cached": False,
+        "age_sec": 0,
+    })

@@ -17,8 +17,11 @@ from weekly_app.routes.upload import router as upload_router
 from weekly_app.routes.dashboard import router as dashboard_router
 from weekly_app.routes.exports import router as export_router
 from weekly_app.routes.drilldown import router as drilldown_router
+from weekly_app.routes.auth import router as auth_router
 from fastapi.responses import HTMLResponse
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.sessions import SessionMiddleware
+from weekly_app.middleware.auth_guard import AuthGuardMiddleware
 
 # ✅ SALES TREND ROUTER (SKU / MODEL)
 from weekly_app.routes.sales_trend import router as sales_trend_router
@@ -78,6 +81,27 @@ app.mount("/static", StaticFiles(directory="weekly_app/static"), name="static")
 templates = Jinja2Templates(directory="weekly_app/templates")
 
 # =====================================================
+# AUTH MIDDLEWARE
+# Order matters: middleware added LAST is OUTERMOST. SessionMiddleware
+# must be outer so request.session is set up before AuthGuardMiddleware
+# reads it.
+# =====================================================
+SESSION_SECRET = os.environ.get("SESSION_SECRET")
+if not SESSION_SECRET:
+    SESSION_SECRET = "dev-insecure-secret-do-not-use-in-prod"
+    print("⚠ SESSION_SECRET not set — using insecure dev default. Set in env for production!")
+
+app.add_middleware(AuthGuardMiddleware)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=SESSION_SECRET,
+    session_cookie="weekly_session",
+    https_only=os.environ.get("COOKIE_SECURE", "0") == "1",
+    same_site="lax",
+    max_age=14 * 24 * 60 * 60,  # 14 days
+)
+
+# =====================================================
 # GLOBAL ERROR HANDLER
 # Sanitized 500: full traceback goes to server logs only. The client sees a
 # short reference id so support can correlate complaints with log entries.
@@ -106,6 +130,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 # --------------------
 # ROUTERS (PRIMARY)
 # --------------------
+app.include_router(auth_router)
 app.include_router(upload_router)
 app.include_router(dashboard_router)
 app.include_router(export_router)

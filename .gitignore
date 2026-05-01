@@ -1,2 +1,7 @@
 __pycache__/
 *.pyc
+
+# Auth — never commit user credentials or session secrets
+data/users.json
+.env
+.env.local

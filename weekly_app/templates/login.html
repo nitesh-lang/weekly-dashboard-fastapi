@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign in — Weekly Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/font_scale.css">
+<style>
+    :root {
+        --bg:           #f5f6fa;
+        --card:         #ffffff;
+        --border:       #e8eaf0;
+        --border2:      #d5d9e6;
+        --primary:      #3d3587;
+        --primary-dark: #4a3f9e;
+        --text:         #111827;
+        --text2:        #374151;
+        --error:        #b91c1c;
+        --error-bg:     #fef2f2;
+        --info:         #0a6e4e;
+        --info-bg:      #ecfdf6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'IBM Plex Sans', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex; align-items: center; justify-content: center;
+        padding: 24px;
+    }
+    .card {
+        background: var(--card);
+        width: 100%; max-width: 420px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        border: 1px solid var(--border);
+        overflow: hidden;
+    }
+    .head { background: var(--primary); color: #fff; padding: 20px 28px; }
+    .head h1 { font-weight: 700; }
+    .head .sub { color: rgba(255,255,255,0.7); margin-top: 4px; }
+    .body { padding: 24px 28px 28px; }
+    label {
+        display: block; font-weight: 600;
+        color: var(--text2); margin-bottom: 6px;
+    }
+    input {
+        width: 100%; padding: 9px 12px;
+        border: 1px solid var(--border2); border-radius: 6px;
+        background: #f8f9fc; color: var(--text);
+        outline: none; transition: border-color .15s, background .15s;
+        margin-bottom: 14px;
+    }
+    input:focus { border-color: var(--primary); background: #fff; }
+    .btn {
+        width: 100%; padding: 10px 12px;
+        background: var(--primary); color: #fff;
+        border: none; border-radius: 6px;
+        font-weight: 600; cursor: pointer;
+        transition: background .15s;
+    }
+    .btn:hover { background: var(--primary-dark); }
+    .alert {
+        padding: 9px 12px;
+        border-radius: 6px;
+        margin-bottom: 14px;
+    }
+    .alert.error { color: var(--error); background: var(--error-bg); border: 1px solid #fecaca; }
+    .alert.info  { color: var(--info);  background: var(--info-bg);  border: 1px solid #b8e5d2; }
+    .links { margin-top: 14px; display: flex; justify-content: space-between; }
+    .links a { color: var(--primary); text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    .footer {
+        margin-top: 18px; padding-top: 14px;
+        border-top: 1px solid var(--border);
+        color: #6b7280; text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="head">
+        <h1>🔐 Weekly Dashboard</h1>
+        <div class="sub">Sign in to continue</div>
+    </div>
+    <div class="body">
+        {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+        {% if info %}<div class="alert info">{{ info }}</div>{% endif %}
+        <form method="post" action="/login">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="username" required autofocus>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+            <button class="btn" type="submit">Sign in</button>
+        </form>
+        <div class="links">
+            <a href="/forgot-password">Forgot password?</a>
+            <span></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

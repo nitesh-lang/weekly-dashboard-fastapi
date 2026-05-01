@@ -1,0 +1,150 @@
+/* =============================================================
+   FONT SCALE — single source of truth for typography sizes.
+   Only font-size / line-height / font-weight is set here.
+   All other tokens (colors, padding, layout) remain in each
+   page's existing inline <style> block, so layout/views are
+   preserved as-is.
+
+   !important is used because each template's inline <style>
+   sets its own font sizes; we override regardless of source order.
+   ============================================================= */
+
+/* ── BASE BODY ────────────────────────────────────────────── */
+html, body {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+/* ── PAGE HEADER ──────────────────────────────────────────── */
+.header-title h1,
+.header-title h1 * {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+.back-link, .header-title a {
+  font-size: 12px !important;
+}
+
+/* ── NAV STRIP ────────────────────────────────────────────── */
+.nav-strip a, .nav-links a {
+  font-size: 13px !important;
+}
+
+/* ── NOTE STRIP ───────────────────────────────────────────── */
+.note-strip {
+  font-size: 13px !important;
+}
+
+/* ── FILTER / TOOLBAR LABELS ──────────────────────────────── */
+.filter-group label,
+.fgroup label,
+.toolbar-row label,
+.filter-bar label,
+.selection-bar {
+  font-size: 12px !important;
+}
+
+/* ── FORM CONTROLS ────────────────────────────────────────── */
+.toolbar-row select,
+.toolbar-row input[type="text"],
+.filter-group select,
+.filter-bar select,
+.filter-panel select,
+.filter-panel input[type="text"],
+#brandFilter, #globalFilter, #filterBox,
+.week-picker-btn, .ds-week-btn,
+.week-picker-dropdown, .ds-week-dropdown,
+.week-option,
+input[type="text"], input[type="search"], select {
+  font-size: 14px !important;
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn, .btn-ghost, .ds-btn, .btn-primary,
+.btn-apply, button[type="submit"],
+.week-apply-btn,
+button.btn, a.btn {
+  font-size: 13px !important;
+}
+
+/* ── SECTION TITLES (above each table) ────────────────────── */
+.section-title,
+.section-header .title,
+.section-header h2,
+.section-header h3 {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+/* ── KPI CARDS ────────────────────────────────────────────── */
+.kpi-label,
+.kpi-card .label,
+.kpi-card-label,
+.kpi .label,
+.kpi h4,
+.kpi-title {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: .6px !important;
+}
+
+.kpi-value,
+.kpi-num,
+.kpi-card .value,
+.kpi-card-value,
+.kpi .value,
+.kpi-big,
+.kpi-big-num,
+.kpi-amount,
+.metric-value {
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.5px !important;
+}
+
+/* ── TABLES ───────────────────────────────────────────────── */
+table, .simple-table, .sku-table, .ds-excel {
+  font-size: 14px !important;
+}
+
+thead th {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+tbody td {
+  font-size: 14px !important;
+}
+
+tfoot td, table.ds-excel tfoot td {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* monospace number cells / SKU columns */
+td.dc-num, td.xl-num,
+td[class*="fmt-inr"],
+td[class*="mono"],
+td[class*="sku"] {
+  font-size: 14px !important;
+}
+
+/* ── BADGES (UP / DOWN / FLAT / N/A) ──────────────────────── */
+.up, .down, .flat, .na,
+.badge, .pill, .chip, .ds-chip {
+  font-size: 12px !important;
+}
+
+/* ── ROW INFO / STATUS BARS ───────────────────────────────── */
+.dc-row-info, .xl-row-info,
+.dc-status, .xl-status-bar {
+  font-size: 12px !important;
+}
+
+/* ── GRAND TOTAL LABEL ────────────────────────────────────── */
+.ds-total-label, .total-lbl {
+  font-size: 12px !important;
+}

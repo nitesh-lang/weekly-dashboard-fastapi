@@ -449,11 +449,16 @@ def analytics_insights(
             "error": "missing_api_key",
         })
 
+    # Model is env-configurable so you can swap to Opus (premium quality) or
+    # Haiku (cheap/fast) without a code change. Defaults to Sonnet 4.6 — the
+    # right balance for retail-analytics insights.
+    model_id = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
+
     try:
         import anthropic
         client = anthropic.Anthropic(api_key=api_key)
         msg = client.messages.create(
-            model="claude-sonnet-4-6",
+            model=model_id,
             max_tokens=1500,
             system=[
                 {
@@ -481,4 +486,5 @@ def analytics_insights(
         "insights": markdown,
         "cached": False,
         "age_sec": 0,
+        "model": model_id,
     })

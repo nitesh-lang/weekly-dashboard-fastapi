@@ -22,6 +22,7 @@ def sales_snapshot_viewer(
     week: str | None = None,
     brand: str | None = None,
     channel: str | None = None,
+    sku: str | None = None,
 ):
     if not SALES_FILE.exists():
         return templates.TemplateResponse(
@@ -67,6 +68,10 @@ def sales_snapshot_viewer(
         filtered = filtered[
             filtered["channel"].astype(str).str.strip() == channel.strip()
         ]
+    if sku and "sku" in filtered.columns:
+        filtered = filtered[
+            filtered["sku"].astype(str).str.strip() == sku.strip()
+        ]
 
     rows = filtered.to_dict(orient="records")
 
@@ -82,6 +87,7 @@ def sales_snapshot_viewer(
                 "week": week or "",
                 "brand": brand or "",
                 "channel": channel or "",
+                "sku": sku or "",
             },
             "error": None,
         },

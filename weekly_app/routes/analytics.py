@@ -242,6 +242,47 @@ def compute_analytics(
             "values": [[round(float(pv.loc[ch, w])) for w in pv.columns] for ch in pv.index],
         }
 
+    # ─── CATEGORY PERFORMANCE ────────────────────────────
+    category_share: List[Dict[str, Any]] = []
+    category_growth: List[Dict[str, Any]] = []
+
+    if "category_l0" in cur.columns and not cur.empty:
+        cs_base = cur.copy()
+        cs_base["category_l0"] = (
+            cs_base["category_l0"].astype(str).str.strip()
+            .replace({"": "Uncategorized", "nan": "Uncategorized"})
+        )
+        cs = cs_base.groupby("category_l0", as_index=False).agg(gmv=("gross_sales", "sum"))
+        cs = cs[cs["gmv"] > 0]
+        total = cs["gmv"].sum() or 1
+        cs["pct"] = (cs["gmv"] / total * 100).round(2)
+        cs = cs.sort_values("gmv", ascending=False).head(10)
+        category_share = [
+            {"category": r["category_l0"], "gmv": int(r["gmv"]), "pct": float(r["pct"])}
+            for _, r in cs.iterrows()
+        ]
+
+        if not prior.empty and "category_l0" in prior.columns:
+            cur_c = cs_base.groupby("category_l0", as_index=False).agg(gmv=("gross_sales", "sum"))
+            pr_base = prior.copy()
+            pr_base["category_l0"] = (
+                pr_base["category_l0"].astype(str).str.strip()
+                .replace({"": "Uncategorized", "nan": "Uncategorized"})
+            )
+            pr_c = pr_base.groupby("category_l0", as_index=False).agg(gmv=("gross_sales", "sum"))
+            mg = cur_c.merge(pr_c, on="category_l0", how="outer", suffixes=("_cur", "_prior")).fillna(0)
+            mg["pct"] = mg.apply(
+                lambda r: ((r["gmv_cur"] - r["gmv_prior"]) / r["gmv_prior"] * 100)
+                if r["gmv_prior"] > 0 else None,
+                axis=1,
+            )
+            mg = mg.dropna(subset=["pct"]).sort_values("pct", ascending=False).head(10)
+            category_growth = [
+                {"category": r["category_l0"], "pct": round(float(r["pct"]), 1),
+                 "gmv_cur": int(r["gmv_cur"]), "gmv_prior": int(r["gmv_prior"])}
+                for _, r in mg.iterrows()
+            ]
+
     # ─── BRAND PERFORMANCE ───────────────────────────────
     brand_share: List[Dict[str, Any]] = []
     brand_growth: List[Dict[str, Any]] = []
@@ -288,9 +329,11 @@ def compute_analytics(
         }
 
     # ─── TOP MOVERS (cur vs prior) ───────────────────────
-    cur_sku = cur.groupby(["sku", "model"], as_index=False).agg(gmv=("gross_sales", "sum"))
-    pr_sku = prior.groupby(["sku", "model"], as_index=False).agg(gmv=("gross_sales", "sum"))
-    mv = cur_sku.merge(pr_sku, on=["sku", "model"], how="outer", suffixes=("_cur", "_prior")).fillna(0)
+    # Include brand so we can drill into the right /viewer/sales filter
+    keys = ["sku", "model"] + (["brand"] if "brand" in cur.columns else [])
+    cur_sku = cur.groupby(keys, as_index=False).agg(gmv=("gross_sales", "sum"))
+    pr_sku = prior.groupby(keys, as_index=False).agg(gmv=("gross_sales", "sum")) if not prior.empty else cur_sku.iloc[0:0].copy()
+    mv = cur_sku.merge(pr_sku, on=keys, how="outer", suffixes=("_cur", "_prior")).fillna(0)
     mv["delta"] = mv["gmv_cur"] - mv["gmv_prior"]
     mv["pct"] = mv.apply(
         lambda r: ((r["gmv_cur"] - r["gmv_prior"]) / r["gmv_prior"] * 100)
@@ -306,6 +349,20 @@ def compute_analytics(
         .to_dict("records")
     )
 
+    def _movers(rows):
+        out = []
+        for r in rows:
+            out.append({
+                "sku": str(r["sku"]),
+                "model": str(r["model"]),
+                "brand": str(r.get("brand", "")),
+                "gmv_cur": int(r["gmv_cur"]),
+                "gmv_prior": int(r["gmv_prior"]),
+                "delta": int(r["delta"]),
+                "pct": round(float(r["pct"]), 1) if r["pct"] is not None and pd.notna(r["pct"]) else None,
+            })
+        return out
+
     return {
         "all_weeks": all_weeks,
         "active_weeks": active_weeks,
@@ -317,21 +374,11 @@ def compute_analytics(
         "heatmap": heatmap,
         "brand_share": brand_share,
         "brand_growth": brand_growth,
+        "category_share": category_share,
+        "category_growth": category_growth,
         "ams_funnel": ams_funnel,
-        "top_up": [
-            {"sku": str(r["sku"]), "model": str(r["model"]),
-             "gmv_cur": int(r["gmv_cur"]), "gmv_prior": int(r["gmv_prior"]),
-             "delta": int(r["delta"]),
-             "pct": round(float(r["pct"]), 1) if r["pct"] is not None and pd.notna(r["pct"]) else None}
-            for r in top_up
-        ],
-        "top_down": [
-            {"sku": str(r["sku"]), "model": str(r["model"]),
-             "gmv_cur": int(r["gmv_cur"]), "gmv_prior": int(r["gmv_prior"]),
-             "delta": int(r["delta"]),
-             "pct": round(float(r["pct"]), 1) if r["pct"] is not None and pd.notna(r["pct"]) else None}
-            for r in top_down
-        ],
+        "top_up": _movers(top_up),
+        "top_down": _movers(top_down),
     }
 
 
@@ -376,6 +423,8 @@ def analytics_page(
         heatmap=data["heatmap"],
         brand_share=data["brand_share"],
         brand_growth=data["brand_growth"],
+        category_share=data["category_share"],
+        category_growth=data["category_growth"],
         ams_funnel=data["ams_funnel"],
         top_up=data["top_up"],
         top_down=data["top_down"],
@@ -490,6 +539,9 @@ def analytics_insights(
         "brand_share": data["brand_share"][:8],
         "brand_growth_top": data["brand_growth"][:5],
         "brand_growth_bottom": data["brand_growth"][-5:] if len(data["brand_growth"]) > 5 else [],
+        "category_share": data["category_share"][:8],
+        "category_growth_top": data["category_growth"][:5],
+        "category_growth_bottom": data["category_growth"][-5:] if len(data["category_growth"]) > 5 else [],
         "amazon_funnel": data["ams_funnel"],
         "top_movers_up": data["top_up"],
         "top_movers_down": data["top_down"],

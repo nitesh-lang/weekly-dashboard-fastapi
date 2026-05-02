@@ -5,6 +5,7 @@
 <title>Analytics — Cross-Module Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/css/font_scale.css">
+<script defer src="/static/js/page_chrome.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
 <style>
@@ -557,15 +558,34 @@ a:hover { text-decoration: underline; }
     <div class="card-grid-2">
         {% if brand_share %}
         <div class="card">
-            <div class="card-head"><div class="card-title">🏷️ Brand Share <span class="card-sub">— current period</span></div></div>
+            <div class="card-head"><div class="card-title">🏷️ Brand Share <span class="card-sub">— current period · click to filter</span></div></div>
             <div class="donut-wrap"><canvas id="brandShareChart"></canvas></div>
             <div class="brand-list" id="brandShareList" style="margin-top:12px"></div>
         </div>
         {% endif %}
         {% if brand_growth %}
         <div class="card">
-            <div class="card-head"><div class="card-title">📊 Brand Growth <span class="card-sub">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %}</span></div></div>
+            <div class="card-head"><div class="card-title">📊 Brand Growth <span class="card-sub">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %} · click bar to filter</span></div></div>
             <div class="growth-canvas-wrap"><canvas id="brandGrowthChart"></canvas></div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- CATEGORY SHARE + GROWTH -->
+    {% if category_share or category_growth %}
+    <div class="card-grid-2">
+        {% if category_share %}
+        <div class="card">
+            <div class="card-head"><div class="card-title">🧩 Category Share <span class="card-sub">— current period · click to drill in</span></div></div>
+            <div class="donut-wrap"><canvas id="categoryShareChart"></canvas></div>
+            <div class="brand-list" id="categoryShareList" style="margin-top:12px"></div>
+        </div>
+        {% endif %}
+        {% if category_growth %}
+        <div class="card">
+            <div class="card-head"><div class="card-title">📊 Category Growth <span class="card-sub">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %} · click bar to drill in</span></div></div>
+            <div class="growth-canvas-wrap"><canvas id="categoryGrowthChart"></canvas></div>
         </div>
         {% endif %}
     </div>
@@ -594,7 +614,7 @@ a:hover { text-decoration: underline; }
                     <thead><tr><th>SKU · Model</th><th class="num">GMV (cur)</th><th class="num">vs prior</th></tr></thead>
                     <tbody>
                     {% for r in top_up %}
-                    <tr>
+                    <tr class="mover-row" data-sku="{{ r.sku }}" data-brand="{{ r.brand }}" style="cursor:pointer">
                         <td>{{ r.sku }} · <span style="color:var(--text3)">{{ r.model }}</span></td>
                         <td class="num fmt-inr" data-val="{{ r.gmv_cur }}">{{ r.gmv_cur }}</td>
                         <td class="num pct up">{% if r.pct is not none %}+{{ r.pct }}%{% else %}new{% endif %}</td>
@@ -609,7 +629,7 @@ a:hover { text-decoration: underline; }
                     <thead><tr><th>SKU · Model</th><th class="num">GMV (cur)</th><th class="num">vs prior</th></tr></thead>
                     <tbody>
                     {% for r in top_down %}
-                    <tr>
+                    <tr class="mover-row" data-sku="{{ r.sku }}" data-brand="{{ r.brand }}" style="cursor:pointer">
                         <td>{{ r.sku }} · <span style="color:var(--text3)">{{ r.model }}</span></td>
                         <td class="num fmt-inr" data-val="{{ r.gmv_cur }}">{{ r.gmv_cur }}</td>
                         <td class="num pct down">{% if r.pct is not none %}{{ r.pct }}%{% else %}—{% endif %}</td>
@@ -733,7 +753,22 @@ function applyWeeks() {
 })();
 
 /* ─────────────────────────────────────────────────────────
-   HEATMAP — color cells by intensity
+   FILTER CARRY HELPER — preserves weeks/view when navigating
+   ───────────────────────────────────────────────────────── */
+function carryParams(extra) {
+    const params = new URLSearchParams(window.location.search);
+    const out = new URLSearchParams();
+    params.getAll('weeks').forEach(w => { out.append('weeks', w); out.append('sel_weeks', w); });
+    const view = params.get('view'); if (view) out.set('view', view);
+    Object.entries(extra || {}).forEach(([k, v]) => {
+        if (v !== undefined && v !== null && v !== '') out.set(k, v);
+    });
+    const s = out.toString();
+    return s ? '?' + s : '';
+}
+
+/* ─────────────────────────────────────────────────────────
+   HEATMAP — color cells by intensity + click-to-drill
    ───────────────────────────────────────────────────────── */
 (function() {
     const cells = document.querySelectorAll('.heat-cell');
@@ -751,10 +786,27 @@ function applyWeeks() {
         c.style.background = `rgb(${r}, ${g}, ${b})`;
         c.style.color = t > 0.55 ? '#fff' : '#0f1623';
     });
+    // Click-to-drill: each heat cell knows its (channel, week) from row + column
+    document.querySelectorAll('#heatBody tr').forEach(tr => {
+        const ch = tr.querySelector('th')?.textContent.trim();
+        if (!ch) return;
+        const tds = tr.querySelectorAll('td');
+        const headerCells = document.querySelectorAll('.heat-table thead th');
+        tds.forEach((td, i) => {
+            const wk = headerCells[i + 1]?.textContent.trim();
+            if (!wk) return;
+            td.style.cursor = 'pointer';
+            td.title = `${ch} · ${wk} — click to inspect`;
+            td.addEventListener('click', () => {
+                window.location.href = '/viewer/sales?week=' + encodeURIComponent(wk) +
+                                       '&channel=' + encodeURIComponent(ch);
+            });
+        });
+    });
 })();
 
 /* ─────────────────────────────────────────────────────────
-   BRAND SHARE DONUT
+   BRAND SHARE DONUT — clickable
    ───────────────────────────────────────────────────────── */
 (function() {
     const SHARE = {{ brand_share | tojson }};
@@ -769,19 +821,25 @@ function applyWeeks() {
         options: {
             responsive: true, maintainAspectRatio: false,
             cutout: '60%',
+            onClick: (_, items) => {
+                if (!items.length) return;
+                window.location.href = '/analytics' + carryParams({brand: SHARE[items[0].index].brand});
+            },
+            onHover: (e, items) => { e.native.target.style.cursor = items.length ? 'pointer' : 'default'; },
             plugins: { legend: { display: false },
-                       tooltip: { callbacks: { label: c => c.label + ': ' + fmtINR(c.raw) + ' (' + SHARE[c.dataIndex].pct.toFixed(1) + '%)' } } }
+                       tooltip: { callbacks: { label: c => c.label + ': ' + fmtINR(c.raw) + ' (' + SHARE[c.dataIndex].pct.toFixed(1) + '%) — click to filter' } } }
         }
     });
     const list = document.getElementById('brandShareList');
     if (list) list.innerHTML = SHARE.map((d, i) =>
-        `<div class="row"><span class="label"><span class="swatch" style="background:${colors[i]}"></span>${d.brand}</span>
-         <span class="pct">${d.pct.toFixed(1)}% · ${fmtINR(d.gmv)}</span></div>`
+        `<div class="row" style="cursor:pointer" onclick="window.location='/analytics' + carryParams({brand: ${JSON.stringify(d.brand)}})">
+            <span class="label"><span class="swatch" style="background:${colors[i]}"></span>${d.brand}</span>
+            <span class="pct">${d.pct.toFixed(1)}% · ${fmtINR(d.gmv)}</span></div>`
     ).join('');
 })();
 
 /* ─────────────────────────────────────────────────────────
-   BRAND GROWTH BARS
+   BRAND GROWTH BARS — clickable
    ───────────────────────────────────────────────────────── */
 (function() {
     const GROWTH = {{ brand_growth | tojson }};
@@ -796,12 +854,17 @@ function applyWeeks() {
         options: {
             indexAxis: 'y',
             responsive: true, maintainAspectRatio: false,
+            onClick: (_, items) => {
+                if (!items.length) return;
+                window.location.href = '/analytics' + carryParams({brand: GROWTH[items[0].index].brand});
+            },
+            onHover: (e, items) => { e.native.target.style.cursor = items.length ? 'pointer' : 'default'; },
             plugins: {
                 legend: { display: false },
                 tooltip: { callbacks: { label: c => {
                     const r = GROWTH[c.dataIndex];
                     return c.label + ': ' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '% (' +
-                           fmtINR(r.gmv_prior) + ' → ' + fmtINR(r.gmv_cur) + ')';
+                           fmtINR(r.gmv_prior) + ' → ' + fmtINR(r.gmv_cur) + ') — click to filter';
                 }}}
             },
             scales: {
@@ -812,6 +875,90 @@ function applyWeeks() {
         }
     });
 })();
+
+/* ─────────────────────────────────────────────────────────
+   CATEGORY SHARE DONUT — clickable, drills to /category-sales
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const SHARE = {{ category_share | tojson }};
+    const c = document.getElementById('categoryShareChart');
+    if (!c || !SHARE.length) return;
+    const palette = ['#7c3aed', '#0d9488', '#e11d48', '#b45309', '#2563eb', '#0a6e4e', '#3d3587', '#a16207', '#52525b'];
+    const colors = SHARE.map((_, i) => palette[i % palette.length]);
+    new Chart(c.getContext('2d'), {
+        type: 'doughnut',
+        data: { labels: SHARE.map(d => d.category),
+                datasets: [{ data: SHARE.map(d => d.gmv), backgroundColor: colors, borderColor: '#fff', borderWidth: 2 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            cutout: '60%',
+            onClick: (_, items) => {
+                if (!items.length) return;
+                window.location.href = '/category-sales' + carryParams({level: 'l1', value: SHARE[items[0].index].category});
+            },
+            onHover: (e, items) => { e.native.target.style.cursor = items.length ? 'pointer' : 'default'; },
+            plugins: { legend: { display: false },
+                       tooltip: { callbacks: { label: c => c.label + ': ' + fmtINR(c.raw) + ' (' + SHARE[c.dataIndex].pct.toFixed(1) + '%) — click to drill in' } } }
+        }
+    });
+    const list = document.getElementById('categoryShareList');
+    if (list) list.innerHTML = SHARE.map((d, i) =>
+        `<div class="row" style="cursor:pointer" onclick="window.location='/category-sales' + carryParams({level: 'l1', value: ${JSON.stringify(d.category)}})">
+            <span class="label"><span class="swatch" style="background:${colors[i]}"></span>${d.category}</span>
+            <span class="pct">${d.pct.toFixed(1)}% · ${fmtINR(d.gmv)}</span></div>`
+    ).join('');
+})();
+
+/* ─────────────────────────────────────────────────────────
+   CATEGORY GROWTH BARS — clickable
+   ───────────────────────────────────────────────────────── */
+(function() {
+    const GROWTH = {{ category_growth | tojson }};
+    const c = document.getElementById('categoryGrowthChart');
+    if (!c || !GROWTH.length) return;
+    const labels = GROWTH.map(d => d.category);
+    const data = GROWTH.map(d => d.pct);
+    const colors = data.map(p => p >= 0 ? 'rgba(13,148,136,0.9)' : 'rgba(225,29,72,0.9)');
+    new Chart(c.getContext('2d'), {
+        type: 'bar',
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
+        options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: false,
+            onClick: (_, items) => {
+                if (!items.length) return;
+                window.location.href = '/category-sales' + carryParams({level: 'l1', value: GROWTH[items[0].index].category});
+            },
+            onHover: (e, items) => { e.native.target.style.cursor = items.length ? 'pointer' : 'default'; },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: c => {
+                    const r = GROWTH[c.dataIndex];
+                    return c.label + ': ' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '% (' +
+                           fmtINR(r.gmv_prior) + ' → ' + fmtINR(r.gmv_cur) + ') — click to drill in';
+                }}}
+            },
+            scales: {
+                x: { ticks: { callback: v => v + '%' }, grid: { color: '#eef0f6' },
+                     title: { display: true, text: 'GMV change vs prior period' } },
+                y: { grid: { display: false } }
+            }
+        }
+    });
+})();
+
+/* ─────────────────────────────────────────────────────────
+   TOP MOVERS — row click drills into /viewer/sales?sku=...
+   ───────────────────────────────────────────────────────── */
+document.querySelectorAll('.mover-row').forEach(tr => {
+    tr.addEventListener('click', () => {
+        const sku = tr.dataset.sku;
+        const brand = tr.dataset.brand;
+        const extra = {sku};
+        if (brand) extra.brand = brand;
+        window.location.href = '/viewer/sales' + carryParams(extra);
+    });
+});
 
 /* ─────────────────────────────────────────────────────────
    AMAZON FUNNEL — horizontal bars, descending

@@ -57,22 +57,21 @@ def _pct_change(cur, prev):
 # =====================================================
 # ANALYTICS-SPECIFIC BUSINESS RULES
 # Applied at load time so every chart, KPI, top mover, and the AI
-# insights all see the same filtered/normalized data.
+# insights all see the same filtered data.
 #
-#  1. Fossil is excluded from analytics. (Other pages still show it.)
-#  2. "1p Sales" channel rolls up into "Amazon" — both are Amazon
-#     (1P = Vendor Central, the rest = Seller Central). Combining them
-#     gives a single Amazon line in the channel heatmap and avoids
-#     double-rows in the AI summary.
+#  - Fossil is excluded from analytics. (Other pages still show it.)
+#  - "1P Sales" stays as its own row in the channel heatmap (separate
+#    channel in the data). It's Amazon Vendor Central; the "Amazon"
+#    channel is Amazon Seller Central. The AI prompt is told to group
+#    them when summarizing Amazon performance, but the chart keeps
+#    them visually separate so the operator can see the SC vs VC mix.
 # =====================================================
 EXCLUDED_BRANDS = {"fossil"}
 
-CHANNEL_RENAME = {
-    "1p sales": "Amazon",
-    "1p":       "Amazon",
-    "1psales":  "Amazon",
-    "amazon":   "Amazon",
-}
+# Channels that should be treated as Amazon when computing aggregates
+# such as "Amazon GMV" or in AI summaries. NOT used to rename channels
+# in the heatmap.
+AMAZON_CHANNELS_LOWER = {"amazon", "1p sales", "1p", "1psales"}
 
 
 def _load_sales() -> pd.DataFrame:
@@ -91,11 +90,6 @@ def _load_sales() -> pd.DataFrame:
 
     # Drop excluded brands
     df = df[~df["brand"].str.lower().isin(EXCLUDED_BRANDS)]
-
-    # Roll up 1P → Amazon (case-insensitive lookup, original case preserved otherwise)
-    ch_lower = df["channel"].str.lower()
-    df["channel"] = df["channel"].mask(ch_lower.isin(CHANNEL_RENAME),
-                                       ch_lower.map(CHANNEL_RENAME))
 
     return df
 
@@ -397,6 +391,16 @@ _SYSTEM_PROMPT = """You are a senior retail / e-commerce analytics consultant wo
 with an Indian D2C and Amazon-first business. Given the JSON data below from a weekly
 dashboard, produce concise, actionable intelligence for the operator.
 
+Important data conventions (read before analyzing):
+- The channels "Amazon" and "1P Sales" are BOTH Amazon — "Amazon" is
+  Amazon Seller Central and "1P Sales" is Amazon Vendor Central. When
+  you talk about "Amazon performance" or "Amazon GMV", you must
+  combine BOTH channels' numbers. Treat them as one Amazon business
+  in the narrative; only call them out separately if there's a
+  meaningful SC-vs-VC story.
+- The brand "Fossil" has been deliberately excluded from this view.
+  Don't mention it.
+
 Format your response as Markdown with TWO sections:
 
 ## 📊 Observations
@@ -449,6 +453,18 @@ def analytics_insights(
 
     data = compute_analytics(active_weeks, brand, view)
 
+    # Pre-compute a combined Amazon GMV across "Amazon" + "1P Sales" so the
+    # AI doesn't have to add the channels itself (and can't accidentally
+    # report Amazon as just one of them).
+    heat = data["heatmap"]
+    amazon_total_by_week: dict = {}
+    amazon_total_period: int = 0
+    for ch_name, vals in zip(heat["channels"], heat["values"]):
+        if ch_name.strip().lower() in AMAZON_CHANNELS_LOWER:
+            for wk, v in zip(heat["weeks"], vals):
+                amazon_total_by_week[wk] = amazon_total_by_week.get(wk, 0) + int(v)
+                amazon_total_period += int(v)
+
     # Compact summary for the prompt — only the fields the model needs.
     payload = {
         "period": {
@@ -456,6 +472,12 @@ def analytics_insights(
             "prior":   data["prior_weeks"],
             "filter_brand": brand or None,
             "filter_view":  view,
+        },
+        "data_conventions": {
+            "amazon_is_combined_of": ["Amazon", "1P Sales"],
+            "amazon_combined_gmv_period": amazon_total_period,
+            "amazon_combined_gmv_by_week": amazon_total_by_week,
+            "excluded_brands": ["Fossil"],
         },
         "headline": {k: v["value"] for k, v in data["hero"].items()},
         "headline_deltas": {k: v["delta"] for k, v in data["hero"].items() if v["delta"] is not None},

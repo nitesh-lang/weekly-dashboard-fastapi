@@ -54,6 +54,27 @@ def _pct_change(cur, prev):
     return round(((cur - prev) / prev) * 100, 1)
 
 
+# =====================================================
+# ANALYTICS-SPECIFIC BUSINESS RULES
+# Applied at load time so every chart, KPI, top mover, and the AI
+# insights all see the same filtered/normalized data.
+#
+#  1. Fossil is excluded from analytics. (Other pages still show it.)
+#  2. "1p Sales" channel rolls up into "Amazon" — both are Amazon
+#     (1P = Vendor Central, the rest = Seller Central). Combining them
+#     gives a single Amazon line in the channel heatmap and avoids
+#     double-rows in the AI summary.
+# =====================================================
+EXCLUDED_BRANDS = {"fossil"}
+
+CHANNEL_RENAME = {
+    "1p sales": "Amazon",
+    "1p":       "Amazon",
+    "1psales":  "Amazon",
+    "amazon":   "Amazon",
+}
+
+
 def _load_sales() -> pd.DataFrame:
     df = pd.read_csv(SALES_FILE)
     df.columns = df.columns.str.strip().str.lower()
@@ -67,6 +88,15 @@ def _load_sales() -> pd.DataFrame:
         if c not in df.columns:
             df[c] = 0
         df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0)
+
+    # Drop excluded brands
+    df = df[~df["brand"].str.lower().isin(EXCLUDED_BRANDS)]
+
+    # Roll up 1P → Amazon (case-insensitive lookup, original case preserved otherwise)
+    ch_lower = df["channel"].str.lower()
+    df["channel"] = df["channel"].mask(ch_lower.isin(CHANNEL_RENAME),
+                                       ch_lower.map(CHANNEL_RENAME))
+
     return df
 
 
@@ -78,6 +108,8 @@ def _load_ams() -> pd.DataFrame:
     if "week" in df.columns:
         df["week"] = df["week"].astype(str).str.strip()
         df["week"] = df["week"].str.replace(r"\.0$", "", regex=True)
+    if "brand" in df.columns:
+        df = df[~df["brand"].astype(str).str.lower().isin(EXCLUDED_BRANDS)]
     return df
 
 

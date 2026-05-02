@@ -7,27 +7,30 @@
    sets its own font sizes; we override regardless of source order.
    ============================================================= */
 
-/* Load Inter once for every page. (design_system.css also loads
-   it but is only included by dashboard.html — others miss out.) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* Load Geist (sans + mono) once for every page. Geist is Vercel's 2023
+   release — modern, distinctive, used by Vercel, v0, Linear-adjacent
+   tools. Inter stays as a graceful fallback (most browsers will have
+   it cached anyway). */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 /* ── GLOBAL FONT FAMILY ───────────────────────────────────── */
-/* Inter as primary (modern, optimized for screens, used by
-   Linear/Stripe/Vercel). Calibri for users who don't load Inter
-   (Windows fallback). Segoe UI / system as final layer. */
+/* Geist as primary. Inter as the next fallback (already cached for
+   most users). Calibri for Windows users who don't load Geist.
+   Segoe UI / system-ui as the final OS-default layer. */
 html, body, button, input, select, textarea {
-  font-family: 'Inter', 'Calibri', 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+  font-family: 'Geist', 'Inter', 'Calibri', 'Segoe UI', system-ui, -apple-system, sans-serif !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
+  font-feature-settings: 'cv11', 'ss01', 'ss03' !important;  /* Geist's straight-cut alternates for clarity */
 }
 
 /* Numeric / monospace cells stay tabular for column alignment. */
 td.dc-num, td.xl-num,
 td[class*="fmt-inr"],
 td[class*="mono"],
-.kpi-num, .kpi-value-mono,
+.kpi-num, .kpi-value-mono, .kpi-value, .value,
 [style*="var(--mono)"], [style*="monospace"] {
-  font-family: 'JetBrains Mono', 'IBM Plex Mono', 'Consolas', monospace !important;
+  font-family: 'Geist Mono', 'JetBrains Mono', 'IBM Plex Mono', 'Consolas', monospace !important;
   font-variant-numeric: tabular-nums !important;
 }
 

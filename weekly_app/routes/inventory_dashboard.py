@@ -130,7 +130,23 @@ def load_all_inventory():
 # ============================================================
 
 @router.get("/inventory-dashboard", response_class=HTMLResponse)
-def inventory_dashboard(request: Request, week: str|None=Query(None), brand: str|None=Query(None)):
+def inventory_dashboard(
+    request: Request,
+    week: str | None = Query(None),
+    # Persistence aliases — page_chrome.js forwards `weeks`/`sel_weeks`
+    # from other modules. Inventory dashboard is single-week, so we take
+    # the first one. Without these, cross-page filter persistence drops
+    # the week silently.
+    weeks: list[str] = Query(default=[]),
+    sel_weeks: list[str] = Query(default=[]),
+    brand: str | None = Query(None),
+    # Accepted but unused — viewer dashboard has no mapped/all toggle.
+    view: str | None = Query(None),
+):
+    if not week:
+        carry = [w for w in list(weeks) + list(sel_weeks) if str(w).strip()]
+        if carry:
+            week = carry[0]
 
     df = load_all_inventory()
 

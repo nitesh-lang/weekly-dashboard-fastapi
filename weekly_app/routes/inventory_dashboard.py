@@ -57,6 +57,50 @@ def extract_brand(path: Path):
     return "Unknown"
 
 # ============================================================
+# CHANNEL → TYPE MAPPING (operator-defined, canonical)
+# Raw inventory xlsx files put one of these codes in the channel
+# column; the TYPE column should display the high-level location
+# bucket. Mapping below is the single source of truth.
+# ============================================================
+CHANNEL_TO_TYPE = {
+    "pipeline":         "In-Transit Inventory",
+    "pipeline order":   "In-Transit Inventory",
+    "open order":       "In-Transit Inventory",
+    "blinkit":          "Marketplace",
+    "blinkit inv":      "Marketplace",
+    "amazon":           "Marketplace",
+    "1p":               "1P",
+    "ynt":              "Dispatch Partner",
+    "ampm":             "Warehouse",
+    "b2b-ampm":         "Warehouse",
+    "b2b - ampm":       "Warehouse",
+}
+
+# Hygiene for stray TYPE values when the channel isn't in our map.
+TYPE_NORMALIZE = {
+    "marketplace":          "Marketplace",
+    "market place":         "Marketplace",
+    "warehouse":            "Warehouse",
+    "1p":                   "1P",
+    "dispatch partner":     "Dispatch Partner",
+    "in-transit inventory": "In-Transit Inventory",
+    "in transit inventory": "In-Transit Inventory",
+    "in-transit":           "In-Transit Inventory",
+    "in transit":           "In-Transit Inventory",
+}
+
+
+def _resolve_type(channel, raw_type):
+    ch = str(channel or "").strip().lower()
+    if ch in CHANNEL_TO_TYPE:
+        return CHANNEL_TO_TYPE[ch]
+    t = str(raw_type or "").strip().lower()
+    if t in TYPE_NORMALIZE:
+        return TYPE_NORMALIZE[t]
+    cleaned = str(raw_type or "").strip().title()
+    return cleaned if cleaned and cleaned.lower() != "nan" else "—"
+
+# ============================================================
 # LOADER
 # ============================================================
 
@@ -89,11 +133,11 @@ def load_all_inventory():
 
         df["brand"] = extract_brand(file)
 
-        if "week" in df.columns:
-            df["week"] = df["week"].apply(extract_week)
-        else:
-            df["week"] = extract_week(file.parents[1].name)
-
+        # Always derive week from the folder name (e.g. "Week 17"). The
+        # week column inside the xlsx is unreliable across files / brands,
+        # but the folder structure (data/raw/inventory/Week N/<brand>/) is
+        # owned by us and consistent.
+        df["week"] = extract_week(file.parents[1].name)
         df = df.dropna(subset=["week"])
 
         for col in ["sku","category_l0","category_l1","category_l2","channel","type"]:
@@ -103,7 +147,9 @@ def load_all_inventory():
         df["model"] = df["model"].astype(str).str.strip()
         df["sku"] = df["sku"].astype(str).str.strip()
         df["channel"] = df["channel"].astype(str).str.title()
-        df["type"] = df["type"].astype(str).str.title()
+        # Resolve TYPE (location bucket) from CHANNEL using the
+        # operator-defined mapping; fall back to a normalized raw type.
+        df["type"] = df.apply(lambda r: _resolve_type(r["channel"], r["type"]), axis=1)
 
         df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
         df["nlc"] = pd.to_numeric(df.get("nlc",0), errors="coerce").fillna(0)

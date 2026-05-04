@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-04T19:03:20.988814",
+  "generated_at": "2026-05-04T19:14:50.861953",
   "alerts": [
     {
       "type": "low_roas",
@@ -163,17 +163,17 @@
   "latest_week": "Week 18",
   "prev_week": "Week 17",
   "latest_week_kpis": {
-    "units": 3320,
-    "gmv": 11949521.4547,
-    "nlc": 3819521.0,
-    "gmv_wow_pct": 15.62,
-    "units_wow_pct": 7.76,
-    "nlc_wow_pct": 8.69
+    "units": 3389,
+    "gmv": 12068086.4547,
+    "nlc": 3887145.0,
+    "gmv_wow_pct": 16.77,
+    "units_wow_pct": 10.0,
+    "nlc_wow_pct": 10.62
   },
   "last4_kpis": {
-    "units": 13430,
-    "gmv": 45346833.0338,
-    "nlc": 15137296.0
+    "units": 13499,
+    "gmv": 45465398.0338,
+    "nlc": 15204920.0
   },
   "weekly_sales_trend": [
     {
@@ -250,21 +250,21 @@
     },
     {
       "week": "Week 18",
-      "units": 3320.0,
-      "gmv": 11949521.4547,
-      "nlc": 3819521.0,
-      "gmv_wow_pct": 15.62,
-      "units_wow_pct": 7.76,
-      "nlc_wow_pct": 8.69
+      "units": 3389.0,
+      "gmv": 12068086.4547,
+      "nlc": 3887145.0,
+      "gmv_wow_pct": 16.77,
+      "units_wow_pct": 10.0,
+      "nlc_wow_pct": 10.62
     },
     {
       "week": "Week 4",
       "units": 4456.0,
       "gmv": 12460083.8427,
       "nlc": 4888681.0,
-      "gmv_wow_pct": 4.27,
-      "units_wow_pct": 34.22,
-      "nlc_wow_pct": 27.99
+      "gmv_wow_pct": 3.25,
+      "units_wow_pct": 31.48,
+      "nlc_wow_pct": 25.77
     },
     {
       "week": "Week 5",
@@ -318,28 +318,28 @@
       "units": 6627.0,
       "gmv": 30452465.7712,
       "nlc": 6152002.0,
-      "gmv_share_pct": 67.15
+      "gmv_share_pct": 66.98
     },
     {
       "channel": "1p Sales",
       "units": 4220.0,
       "gmv": 10392991.35,
       "nlc": 5957235.0,
-      "gmv_share_pct": 22.92
+      "gmv_share_pct": 22.86
     },
     {
       "channel": "B2B",
       "units": 1016.0,
       "gmv": 1974778.86,
       "nlc": 1454845.0,
-      "gmv_share_pct": 4.35
+      "gmv_share_pct": 4.34
     },
     {
       "channel": "Blinkit Sales",
       "units": 628.0,
       "gmv": 1051949.04,
       "nlc": 624056.0,
-      "gmv_share_pct": 2.32
+      "gmv_share_pct": 2.31
     },
     {
       "channel": "BI Worldwide",
@@ -350,17 +350,17 @@
     },
     {
       "channel": "D2C - Nexlev",
-      "units": 223.0,
-      "gmv": 413213.4147,
-      "nlc": 242323.0,
-      "gmv_share_pct": 0.91
+      "units": 292.0,
+      "gmv": 531778.4147,
+      "nlc": 309947.0,
+      "gmv_share_pct": 1.17
     },
     {
       "channel": "D2C - Audio Array",
       "units": 122.0,
       "gmv": 242979.286,
       "nlc": 186343.0,
-      "gmv_share_pct": 0.54
+      "gmv_share_pct": 0.53
     },
     {
       "channel": "CRED_B2C",
@@ -403,31 +403,31 @@
       "category_l0": "Traditional Watch",
       "units": 1933.0,
       "gmv": 19991829.661,
-      "gmv_share_pct": 44.14
+      "gmv_share_pct": 44.02
     },
     {
       "category_l0": "Home & Kitchen",
-      "units": 3421.0,
-      "gmv": 7791634.6238,
-      "gmv_share_pct": 17.2
+      "units": 3468.0,
+      "gmv": 7887917.6238,
+      "gmv_share_pct": 17.37
     },
     {
       "category_l0": "HPC",
-      "units": 1877.0,
-      "gmv": 2519913.3449,
-      "gmv_share_pct": 5.56
+      "units": 1899.0,
+      "gmv": 2542195.3449,
+      "gmv_share_pct": 5.6
     },
     {
       "category_l0": "Microphone Condenser",
       "units": 1046.0,
       "gmv": 2439271.1461,
-      "gmv_share_pct": 5.39
+      "gmv_share_pct": 5.37
     },
     {
       "category_l0": "Audio Interface",
       "units": 714.0,
       "gmv": 2329392.4012,
-      "gmv_share_pct": 5.14
+      "gmv_share_pct": 5.13
     },
     {
       "category_l0": "Monitor Arm",
@@ -439,25 +439,25 @@
       "category_l0": "Monitor Speakers",
       "units": 168.0,
       "gmv": 1171302.0698,
-      "gmv_share_pct": 2.59
+      "gmv_share_pct": 2.58
     },
     {
       "category_l0": "Microphone Conference",
       "units": 474.0,
       "gmv": 1145842.6243,
-      "gmv_share_pct": 2.53
+      "gmv_share_pct": 2.52
     },
     {
       "category_l0": "DJ Headphone",
       "units": 690.0,
       "gmv": 1000459.2358,
-      "gmv_share_pct": 2.21
+      "gmv_share_pct": 2.2
     },
     {
       "category_l0": "Microphone Accessories",
       "units": 806.0,
       "gmv": 958565.8466,
-      "gmv_share_pct": 2.12
+      "gmv_share_pct": 2.11
     },
     {
       "category_l0": "Desk",
@@ -469,7 +469,7 @@
       "category_l0": "Mixers",
       "units": 149.0,
       "gmv": 704903.9747,
-      "gmv_share_pct": 1.56
+      "gmv_share_pct": 1.55
     },
     {
       "category_l0": "Bundles",
@@ -511,7 +511,7 @@
       "category_l0": "Desk-Adjustable",
       "units": 26.0,
       "gmv": 297435.5932,
-      "gmv_share_pct": 0.66
+      "gmv_share_pct": 0.65
     },
     {
       "category_l0": "Dynamic Microphone",
@@ -623,14 +623,14 @@
       "model": "SC-01",
       "sku": "FBA78981",
       "category_l0": "Home & Kitchen",
-      "units": 171.0,
-      "gmv": 492299.3161,
-      "nlc": 305406.0,
+      "units": 173.0,
+      "gmv": 498857.3161,
+      "nlc": 308978.0,
       "units_prev": 167.0,
       "gmv_prev": 472483.8079,
       "nlc_prev": 298262.0,
-      "gmv_wow_pct": 4.19,
-      "units_wow_pct": 2.4
+      "gmv_wow_pct": 5.58,
+      "units_wow_pct": 3.59
     },
     {
       "model": "FS4795",
@@ -646,6 +646,19 @@
       "units_wow_pct": -11.11
     },
     {
+      "model": "SC-05",
+      "sku": "FBA79652",
+      "category_l0": "Home & Kitchen",
+      "units": 166.0,
+      "gmv": 373898.8131,
+      "nlc": 239538.0,
+      "units_prev": 127.0,
+      "gmv_prev": 284535.5929,
+      "nlc_prev": 183261.0,
+      "gmv_wow_pct": 31.41,
+      "units_wow_pct": 30.71
+    },
+    {
       "model": "AM-C1",
       "sku": "FBA75673",
       "category_l0": "Microphone Condenser",
@@ -657,19 +670,6 @@
       "nlc_prev": 238350.0,
       "gmv_wow_pct": -6.81,
       "units_wow_pct": -7.43
-    },
-    {
-      "model": "SC-05",
-      "sku": "FBA79652",
-      "category_l0": "Home & Kitchen",
-      "units": 163.0,
-      "gmv": 366355.8131,
-      "nlc": 235209.0,
-      "units_prev": 127.0,
-      "gmv_prev": 284535.5929,
-      "nlc_prev": 183261.0,
-      "gmv_wow_pct": 28.76,
-      "units_wow_pct": 28.35
     },
     {
       "model": "ES3466",
@@ -880,6 +880,19 @@
       "units_wow_pct": null
     },
     {
+      "model": "ST-01",
+      "sku": "FBA79679",
+      "category_l0": "Home & Kitchen",
+      "units": 24.0,
+      "gmv": 119625.3644,
+      "nlc": 82152.0,
+      "units_prev": 18.0,
+      "gmv_prev": 84696.4407,
+      "nlc_prev": 61614.0,
+      "gmv_wow_pct": 41.24,
+      "units_wow_pct": 33.33
+    },
+    {
       "model": "ES3843",
       "sku": "FBA66964",
       "category_l0": "Traditional Watch",
@@ -891,19 +904,6 @@
       "nlc_prev": 0.0,
       "gmv_wow_pct": 33.33,
       "units_wow_pct": 33.33
-    },
-    {
-      "model": "ST-01",
-      "sku": "FBA79679",
-      "category_l0": "Home & Kitchen",
-      "units": 23.0,
-      "gmv": 114541.3644,
-      "nlc": 78729.0,
-      "units_prev": 18.0,
-      "gmv_prev": 84696.4407,
-      "nlc_prev": 61614.0,
-      "gmv_wow_pct": 35.24,
-      "units_wow_pct": 27.78
     },
     {
       "model": "SC-03",
@@ -940,9 +940,9 @@
       "model": "SC-01",
       "sku": "FBA78981",
       "category_l0": "Home & Kitchen",
-      "units": 636.0,
-      "gmv": 1823451.2144,
-      "nlc": 1135896.0
+      "units": 638.0,
+      "gmv": 1830009.2144,
+      "nlc": 1139468.0
     },
     {
       "model": "AM-C1",
@@ -972,9 +972,9 @@
       "model": "SC-05",
       "sku": "FBA79652",
       "category_l0": "Home & Kitchen",
-      "units": 443.0,
-      "gmv": 1010211.3614,
-      "nlc": 639249.0
+      "units": 446.0,
+      "gmv": 1017754.3614,
+      "nlc": 643578.0
     },
     {
       "model": "FS6131",
@@ -1068,9 +1068,17 @@
       "model": "ST-01",
       "sku": "FBA79679",
       "category_l0": "Home & Kitchen",
-      "units": 86.0,
-      "gmv": 422936.4488,
-      "nlc": 294378.0
+      "units": 87.0,
+      "gmv": 428020.4488,
+      "nlc": 297801.0
+    },
+    {
+      "model": "GS-02",
+      "sku": "FBA78980",
+      "category_l0": "Home & Kitchen",
+      "units": 230.0,
+      "gmv": 403138.4757,
+      "nlc": 289800.0
     },
     {
       "model": "CH2885",
@@ -1079,14 +1087,6 @@
       "units": 62.0,
       "gmv": 396497.4576,
       "nlc": 0.0
-    },
-    {
-      "model": "GS-02",
-      "sku": "FBA78980",
-      "category_l0": "Home & Kitchen",
-      "units": 221.0,
-      "gmv": 385214.4757,
-      "nlc": 278460.0
     },
     {
       "model": "AX4184",
@@ -31257,11 +31257,11 @@
     {
       "model": "CM-02-PR",
       "week": "Week 18",
-      "units": 2.0,
-      "gmv": 2185.0,
-      "nlc": 1120.0,
-      "gmv_wow_pct": -53.76,
-      "units_wow_pct": -50.0
+      "units": 3.0,
+      "gmv": 3455.0,
+      "nlc": 1680.0,
+      "gmv_wow_pct": -26.89,
+      "units_wow_pct": -25.0
     },
     {
       "model": "CM-02-PR",
@@ -31269,8 +31269,8 @@
       "units": 14.0,
       "gmv": 17876.1429,
       "nlc": 7840.0,
-      "gmv_wow_pct": 718.13,
-      "units_wow_pct": 600.0
+      "gmv_wow_pct": 417.4,
+      "units_wow_pct": 366.67
     },
     {
       "model": "CM-02-PR",
@@ -31392,11 +31392,11 @@
     {
       "model": "CR-01",
       "week": "Week 18",
-      "units": 29.0,
-      "gmv": 17086.4571,
-      "nlc": 15457.0,
-      "gmv_wow_pct": 38.48,
-      "units_wow_pct": 31.82
+      "units": 30.0,
+      "gmv": 17705.4571,
+      "nlc": 15990.0,
+      "gmv_wow_pct": 43.49,
+      "units_wow_pct": 36.36
     },
     {
       "model": "CR-01",
@@ -31404,8 +31404,8 @@
       "units": 24.0,
       "gmv": 15280.2373,
       "nlc": 12792.0,
-      "gmv_wow_pct": -10.57,
-      "units_wow_pct": -17.24
+      "gmv_wow_pct": -13.7,
+      "units_wow_pct": -20.0
     },
     {
       "model": "CR-01",
@@ -42048,11 +42048,11 @@
     {
       "model": "ETC-04-WH",
       "week": "Week 18",
-      "units": 5.0,
-      "gmv": 3404.2373,
-      "nlc": 2060.0,
-      "gmv_wow_pct": -3.97,
-      "units_wow_pct": 0.0
+      "units": 6.0,
+      "gmv": 4122.2373,
+      "nlc": 2472.0,
+      "gmv_wow_pct": 16.29,
+      "units_wow_pct": 20.0
     },
     {
       "model": "ETC-04-WH",
@@ -42060,8 +42060,8 @@
       "units": 11.0,
       "gmv": 7173.9992,
       "nlc": 4532.0,
-      "gmv_wow_pct": 110.74,
-      "units_wow_pct": 120.0
+      "gmv_wow_pct": 74.03,
+      "units_wow_pct": 83.33
     },
     {
       "model": "ETC-04-WH",
@@ -42588,11 +42588,11 @@
     {
       "model": "ETR-06",
       "week": "Week 18",
-      "units": 4.0,
-      "gmv": 3755.9322,
-      "nlc": 2688.0,
-      "gmv_wow_pct": 317.33,
-      "units_wow_pct": 300.0
+      "units": 5.0,
+      "gmv": 4877.9322,
+      "nlc": 3360.0,
+      "gmv_wow_pct": 441.99,
+      "units_wow_pct": 400.0
     },
     {
       "model": "ETR-06",
@@ -42600,8 +42600,8 @@
       "units": 8.0,
       "gmv": 8726.8983,
       "nlc": 5376.0,
-      "gmv_wow_pct": 132.35,
-      "units_wow_pct": 100.0
+      "gmv_wow_pct": 78.91,
+      "units_wow_pct": 60.0
     },
     {
       "model": "ETR-06",
@@ -50697,11 +50697,11 @@
     {
       "model": "GS-02",
       "week": "Week 18",
-      "units": 38.0,
-      "gmv": 62792.4883,
-      "nlc": 47880.0,
-      "gmv_wow_pct": -42.96,
-      "units_wow_pct": -37.7
+      "units": 47.0,
+      "gmv": 80716.4883,
+      "nlc": 59220.0,
+      "gmv_wow_pct": -26.68,
+      "units_wow_pct": -22.95
     },
     {
       "model": "GS-02",
@@ -50709,8 +50709,8 @@
       "units": 85.0,
       "gmv": 157002.3364,
       "nlc": 107100.0,
-      "gmv_wow_pct": 150.03,
-      "units_wow_pct": 123.68
+      "gmv_wow_pct": 94.51,
+      "units_wow_pct": 80.85
     },
     {
       "model": "GS-02",
@@ -50967,11 +50967,11 @@
     {
       "model": "GS-05",
       "week": "Week 18",
-      "units": 23.0,
-      "gmv": 36333.6925,
-      "nlc": 22701.0,
-      "gmv_wow_pct": -14.65,
-      "units_wow_pct": -17.86
+      "units": 25.0,
+      "gmv": 39655.6925,
+      "nlc": 24675.0,
+      "gmv_wow_pct": -6.85,
+      "units_wow_pct": -10.71
     },
     {
       "model": "GS-05",
@@ -50979,8 +50979,8 @@
       "units": 61.0,
       "gmv": 100509.6785,
       "nlc": 60207.0,
-      "gmv_wow_pct": 176.63,
-      "units_wow_pct": 165.22
+      "gmv_wow_pct": 153.46,
+      "units_wow_pct": 144.0
     },
     {
       "model": "GS-05",
@@ -51372,11 +51372,11 @@
     {
       "model": "HD-02",
       "week": "Week 18",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": -100.0,
-      "units_wow_pct": -100.0
+      "units": 3.0,
+      "gmv": 2921.0,
+      "nlc": 1344.0,
+      "gmv_wow_pct": -93.25,
+      "units_wow_pct": -94.55
     },
     {
       "model": "HD-02",
@@ -51384,8 +51384,8 @@
       "units": 1.0,
       "gmv": 720.339,
       "nlc": 448.0,
-      "gmv_wow_pct": Infinity,
-      "units_wow_pct": Infinity
+      "gmv_wow_pct": -75.34,
+      "units_wow_pct": -66.67
     },
     {
       "model": "HD-02",
@@ -51813,11 +51813,11 @@
     {
       "model": "HM-01",
       "week": "Week 18",
-      "units": 14.0,
-      "gmv": 12971.0529,
-      "nlc": 6860.0,
-      "gmv_wow_pct": -7.2,
-      "units_wow_pct": -12.5
+      "units": 18.0,
+      "gmv": 17214.0529,
+      "nlc": 8820.0,
+      "gmv_wow_pct": 23.15,
+      "units_wow_pct": 12.5
     },
     {
       "model": "HM-01",
@@ -51825,8 +51825,8 @@
       "units": 45.0,
       "gmv": 35320.4708,
       "nlc": 22050.0,
-      "gmv_wow_pct": 172.3,
-      "units_wow_pct": 221.43
+      "gmv_wow_pct": 105.18,
+      "units_wow_pct": 150.0
     },
     {
       "model": "HM-01",
@@ -52083,11 +52083,11 @@
     {
       "model": "HS-01",
       "week": "Week 18",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": -100.0,
-      "units_wow_pct": -100.0
+      "units": 1.0,
+      "gmv": 718.0,
+      "nlc": 378.0,
+      "gmv_wow_pct": -49.99,
+      "units_wow_pct": -50.0
     },
     {
       "model": "HS-01",
@@ -52095,8 +52095,8 @@
       "units": 1.0,
       "gmv": 1075.4237,
       "nlc": 378.0,
-      "gmv_wow_pct": Infinity,
-      "units_wow_pct": Infinity
+      "gmv_wow_pct": 49.78,
+      "units_wow_pct": 0.0
     },
     {
       "model": "HS-01",
@@ -52758,11 +52758,11 @@
     {
       "model": "HU-02",
       "week": "Week 18",
-      "units": 61.0,
-      "gmv": 76245.6356,
-      "nlc": 49898.0,
-      "gmv_wow_pct": 96.69,
-      "units_wow_pct": 90.62
+      "units": 64.0,
+      "gmv": 81902.6356,
+      "nlc": 52352.0,
+      "gmv_wow_pct": 111.29,
+      "units_wow_pct": 100.0
     },
     {
       "model": "HU-02",
@@ -52770,8 +52770,8 @@
       "units": 3.0,
       "gmv": 5682.0,
       "nlc": 2454.0,
-      "gmv_wow_pct": -92.55,
-      "units_wow_pct": -95.08
+      "gmv_wow_pct": -93.06,
+      "units_wow_pct": -95.31
     },
     {
       "model": "HU-02",
@@ -53712,11 +53712,11 @@
     {
       "model": "KE-02",
       "week": "Week 18",
-      "units": 11.0,
-      "gmv": 18846.6054,
-      "nlc": 10780.0,
-      "gmv_wow_pct": -23.92,
-      "units_wow_pct": -26.67
+      "units": 12.0,
+      "gmv": 20371.6054,
+      "nlc": 11760.0,
+      "gmv_wow_pct": -17.76,
+      "units_wow_pct": -20.0
     },
     {
       "model": "KE-02",
@@ -53724,8 +53724,8 @@
       "units": 46.0,
       "gmv": 63450.1356,
       "nlc": 45080.0,
-      "gmv_wow_pct": 236.67,
-      "units_wow_pct": 318.18
+      "gmv_wow_pct": 211.46,
+      "units_wow_pct": 283.33
     },
     {
       "model": "KE-02",
@@ -54117,11 +54117,11 @@
     {
       "model": "LE-02",
       "week": "Week 18",
-      "units": 2.0,
-      "gmv": 3376.2712,
-      "nlc": 1620.0,
-      "gmv_wow_pct": -71.43,
-      "units_wow_pct": -71.43
+      "units": 3.0,
+      "gmv": 5172.2712,
+      "nlc": 2430.0,
+      "gmv_wow_pct": -56.23,
+      "units_wow_pct": -57.14
     },
     {
       "model": "LE-02",
@@ -54129,8 +54129,8 @@
       "units": 24.0,
       "gmv": 44043.2712,
       "nlc": 19440.0,
-      "gmv_wow_pct": 1204.49,
-      "units_wow_pct": 1100.0
+      "gmv_wow_pct": 751.53,
+      "units_wow_pct": 700.0
     },
     {
       "model": "LE-02",
@@ -54387,11 +54387,11 @@
     {
       "model": "LE-04",
       "week": "Week 18",
-      "units": 1.0,
-      "gmv": 1694.0678,
-      "nlc": 594.0,
-      "gmv_wow_pct": -40.33,
-      "units_wow_pct": -50.0
+      "units": 2.0,
+      "gmv": 3217.0678,
+      "nlc": 1188.0,
+      "gmv_wow_pct": 13.32,
+      "units_wow_pct": 0.0
     },
     {
       "model": "LE-04",
@@ -54399,8 +54399,8 @@
       "units": 9.0,
       "gmv": 13100.2339,
       "nlc": 5346.0,
-      "gmv_wow_pct": 673.3,
-      "units_wow_pct": 800.0
+      "gmv_wow_pct": 307.21,
+      "units_wow_pct": 350.0
     },
     {
       "model": "LE-04",
@@ -71397,11 +71397,11 @@
     {
       "model": "SC-01",
       "week": "Week 18",
-      "units": 171.0,
-      "gmv": 492299.3161,
-      "nlc": 305406.0,
-      "gmv_wow_pct": 4.19,
-      "units_wow_pct": 2.4
+      "units": 173.0,
+      "gmv": 498857.3161,
+      "nlc": 308978.0,
+      "gmv_wow_pct": 5.58,
+      "units_wow_pct": 3.59
     },
     {
       "model": "SC-01",
@@ -71409,8 +71409,8 @@
       "units": 86.0,
       "gmv": 265135.2203,
       "nlc": 153596.0,
-      "gmv_wow_pct": -46.14,
-      "units_wow_pct": -49.71
+      "gmv_wow_pct": -46.85,
+      "units_wow_pct": -50.29
     },
     {
       "model": "SC-01",
@@ -72225,11 +72225,11 @@
     {
       "model": "SC-05",
       "week": "Week 18",
-      "units": 163.0,
-      "gmv": 366355.8131,
-      "nlc": 235209.0,
-      "gmv_wow_pct": 28.76,
-      "units_wow_pct": 28.35
+      "units": 166.0,
+      "gmv": 373898.8131,
+      "nlc": 239538.0,
+      "gmv_wow_pct": 31.41,
+      "units_wow_pct": 30.71
     },
     {
       "model": "SC-05",
@@ -72237,8 +72237,8 @@
       "units": 67.0,
       "gmv": 168594.8136,
       "nlc": 96681.0,
-      "gmv_wow_pct": -53.98,
-      "units_wow_pct": -58.9
+      "gmv_wow_pct": -54.91,
+      "units_wow_pct": -59.64
     },
     {
       "model": "SC-05",
@@ -73773,11 +73773,11 @@
     {
       "model": "ST-01",
       "week": "Week 18",
-      "units": 23.0,
-      "gmv": 114541.3644,
-      "nlc": 78729.0,
-      "gmv_wow_pct": 35.24,
-      "units_wow_pct": 27.78
+      "units": 24.0,
+      "gmv": 119625.3644,
+      "nlc": 82152.0,
+      "gmv_wow_pct": 41.24,
+      "units_wow_pct": 33.33
     },
     {
       "model": "ST-01",
@@ -73785,8 +73785,8 @@
       "units": 30.0,
       "gmv": 162920.0,
       "nlc": 102690.0,
-      "gmv_wow_pct": 42.24,
-      "units_wow_pct": 30.43
+      "gmv_wow_pct": 36.19,
+      "units_wow_pct": 25.0
     },
     {
       "model": "ST-01",
@@ -73971,11 +73971,11 @@
     {
       "model": "SW-01",
       "week": "Week 18",
-      "units": 33.0,
-      "gmv": 27929.6695,
-      "nlc": 13497.0,
-      "gmv_wow_pct": -15.73,
-      "units_wow_pct": -17.5
+      "units": 34.0,
+      "gmv": 28916.6695,
+      "nlc": 13906.0,
+      "gmv_wow_pct": -12.75,
+      "units_wow_pct": -15.0
     },
     {
       "model": "SW-01",
@@ -73983,8 +73983,8 @@
       "units": 51.0,
       "gmv": 48235.0,
       "nlc": 20859.0,
-      "gmv_wow_pct": 72.7,
-      "units_wow_pct": 54.55
+      "gmv_wow_pct": 66.81,
+      "units_wow_pct": 50.0
     },
     {
       "model": "SW-01",
@@ -76968,11 +76968,11 @@
     {
       "model": "TM-01",
       "week": "Week 18",
-      "units": 4.0,
-      "gmv": 2302.0,
-      "nlc": 1932.0,
-      "gmv_wow_pct": -44.85,
-      "units_wow_pct": -50.0
+      "units": 8.0,
+      "gmv": 4434.0,
+      "nlc": 3864.0,
+      "gmv_wow_pct": 6.24,
+      "units_wow_pct": 0.0
     },
     {
       "model": "TM-01",
@@ -76980,8 +76980,8 @@
       "units": 12.0,
       "gmv": 6753.8475,
       "nlc": 5796.0,
-      "gmv_wow_pct": 193.39,
-      "units_wow_pct": 200.0
+      "gmv_wow_pct": 52.32,
+      "units_wow_pct": 50.0
     },
     {
       "model": "TM-01",
@@ -79074,11 +79074,11 @@
     {
       "model": "V-01 RG",
       "week": "Week 18",
-      "units": 29.0,
-      "gmv": 35008.9958,
-      "nlc": 19227.0,
-      "gmv_wow_pct": -18.71,
-      "units_wow_pct": -14.71
+      "units": 33.0,
+      "gmv": 40228.9958,
+      "nlc": 21879.0,
+      "gmv_wow_pct": -6.58,
+      "units_wow_pct": -2.94
     },
     {
       "model": "V-01 RG",
@@ -79086,8 +79086,8 @@
       "units": 67.0,
       "gmv": 86418.9153,
       "nlc": 44421.0,
-      "gmv_wow_pct": 146.85,
-      "units_wow_pct": 131.03
+      "gmv_wow_pct": 114.82,
+      "units_wow_pct": 103.03
     },
     {
       "model": "V-01 RG",
@@ -79479,11 +79479,11 @@
     {
       "model": "VC-01",
       "week": "Week 18",
-      "units": 35.0,
-      "gmv": 58793.5114,
-      "nlc": 38080.0,
-      "gmv_wow_pct": 26.98,
-      "units_wow_pct": 29.63
+      "units": 56.0,
+      "gmv": 97946.5114,
+      "nlc": 60928.0,
+      "gmv_wow_pct": 111.53,
+      "units_wow_pct": 107.41
     },
     {
       "model": "VC-01",
@@ -79491,8 +79491,8 @@
       "units": 120.0,
       "gmv": 215282.7966,
       "nlc": 130560.0,
-      "gmv_wow_pct": 266.17,
-      "units_wow_pct": 242.86
+      "gmv_wow_pct": 119.8,
+      "units_wow_pct": 114.29
     },
     {
       "model": "VC-01",
@@ -79695,11 +79695,11 @@
     {
       "model": "VC-02",
       "week": "Week 18",
-      "units": 7.0,
-      "gmv": 11858.1864,
-      "nlc": 9037.0,
-      "gmv_wow_pct": -1.76,
-      "units_wow_pct": 16.67
+      "units": 9.0,
+      "gmv": 16527.1864,
+      "nlc": 11619.0,
+      "gmv_wow_pct": 36.91,
+      "units_wow_pct": 50.0
     },
     {
       "model": "VC-02",
@@ -79707,8 +79707,8 @@
       "units": 1.0,
       "gmv": 2599.0,
       "nlc": 1291.0,
-      "gmv_wow_pct": -78.08,
-      "units_wow_pct": -85.71
+      "gmv_wow_pct": -84.27,
+      "units_wow_pct": -88.89
     },
     {
       "model": "VC-02",
@@ -79821,11 +79821,11 @@
     {
       "model": "VC-03",
       "week": "Week 18",
-      "units": 1.0,
-      "gmv": 1440.0,
-      "nlc": 803.0,
-      "gmv_wow_pct": 0.01,
-      "units_wow_pct": 0.0
+      "units": 2.0,
+      "gmv": 3236.0,
+      "nlc": 1606.0,
+      "gmv_wow_pct": 124.75,
+      "units_wow_pct": 100.0
     },
     {
       "model": "VC-03",
@@ -79833,8 +79833,8 @@
       "units": 4.0,
       "gmv": 6891.5085,
       "nlc": 3212.0,
-      "gmv_wow_pct": 378.58,
-      "units_wow_pct": 300.0
+      "gmv_wow_pct": 112.96,
+      "units_wow_pct": 100.0
     },
     {
       "model": "VC-03",
@@ -80091,11 +80091,11 @@
     {
       "model": "VC-05",
       "week": "Week 18",
-      "units": 8.0,
-      "gmv": 15266.9153,
-      "nlc": 8504.0,
-      "gmv_wow_pct": -0.07,
-      "units_wow_pct": -11.11
+      "units": 9.0,
+      "gmv": 17331.9153,
+      "nlc": 9567.0,
+      "gmv_wow_pct": 13.44,
+      "units_wow_pct": 0.0
     },
     {
       "model": "VC-05",
@@ -80103,8 +80103,8 @@
       "units": 10.0,
       "gmv": 16985.7966,
       "nlc": 10630.0,
-      "gmv_wow_pct": 11.26,
-      "units_wow_pct": 25.0
+      "gmv_wow_pct": -2.0,
+      "units_wow_pct": 11.11
     },
     {
       "model": "VC-05",

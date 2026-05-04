@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-04T19:14:50.861953",
+  "generated_at": "2026-05-04T19:18:57.338886",
   "alerts": [
     {
       "type": "low_roas",
@@ -329,10 +329,10 @@
     },
     {
       "channel": "B2B",
-      "units": 1016.0,
-      "gmv": 1974778.86,
-      "nlc": 1454845.0,
-      "gmv_share_pct": 4.34
+      "units": 1017.0,
+      "gmv": 1976685.86,
+      "nlc": 1456186.0,
+      "gmv_share_pct": 4.35
     },
     {
       "channel": "Blinkit Sales",
@@ -382,13 +382,6 @@
       "gmv": 25148.82,
       "nlc": 16558.0,
       "gmv_share_pct": 0.06
-    },
-    {
-      "channel": "Sheet1",
-      "units": 1.0,
-      "gmv": 1907.0,
-      "nlc": 1341.0,
-      "gmv_share_pct": 0.0
     },
     {
       "channel": "POP",

@@ -532,30 +532,35 @@
         .ams-table th { color: #92400e; background: #fef5e7; }
 
         /* ── KPI TILE UPGRADE ── bigger, with internal sparkline + delta */
-        .kpi { padding: 16px 22px 14px; }
+        /* Sparkline sits BELOW the number (stacked) so a long INR value
+           like "₹ 4.21 Cr" can't overlap a side-by-side chart in a
+           narrow tile. */
+        .kpi { padding: 16px 22px 14px; min-width: 0; }
         .kpi-row {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 14px;
+            display: block;
         }
         .kpi-num {
             font-family: var(--mono);
-            font-size: 38px !important;
+            font-size: 32px !important;
             font-weight: 700;
-            letter-spacing: -1px;
-            line-height: 1.05;
+            letter-spacing: -0.6px;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .kpi:nth-child(1) .kpi-num { color: #3d3587; }
         .kpi:nth-child(2) .kpi-num { color: #0f7a57; }
         .kpi:nth-child(3) .kpi-num { color: #6040a8; }
         .kpi:nth-child(4) .kpi-num { color: #92400e; }
         .kpi-spark-wrap {
-            width: 110px;
-            height: 38px;
-            flex-shrink: 0;
-            opacity: 0.85;
+            width: 100%;
+            height: 32px;
+            margin-top: 8px;
+            opacity: 0.7;
+            position: relative;
         }
+        .kpi-spark-wrap canvas { width: 100% !important; height: 100% !important; }
         .kpi-delta {
             font-size: 11px;
             font-weight: 700;
@@ -1178,11 +1183,7 @@ function buildSpark(id, labels, data, color) {
     function tileSpark(canvasId, data, color) {
         const c = document.getElementById(canvasId);
         if (!c || !data.length) return;
-        const ctx = c.getContext('2d');
-        c.width = c.offsetWidth * 2;   // crispness on retina
-        c.height = c.offsetHeight * 2;
-        ctx.scale(2, 2);
-        new Chart(ctx, {
+        new Chart(c.getContext('2d'), {
             type: 'line',
             data: {
                 labels: sparks.weeks,
@@ -1193,7 +1194,8 @@ function buildSpark(id, labels, data, color) {
                 }]
             },
             options: {
-                responsive: false,
+                responsive: true,
+                maintainAspectRatio: false,
                 animation: { duration: 600 },
                 plugins: { legend: { display: false }, tooltip: {
                     callbacks: { title: c => c[0].label,

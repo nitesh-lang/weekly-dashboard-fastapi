@@ -518,7 +518,7 @@ Week 10,Fossil,JR1401,Amazon,126.0,992232.2,992232.2,0.0,0.0,FBA66974,MAPPED,Tra
 Week 10,Fossil,JR1487,Amazon,27.0,198999.15,198999.15,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 10,Fossil,ME3061,Amazon,2.0,33040.68,33040.68,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 10,Fossil,ME3098,Amazon,0.0,0.0,0.0,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 10,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,,MAPPED,,,
+Week 10,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 10,Fossil,ME3206,Amazon,2.0,37277.97,37277.97,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 10,Fossil,ME3218,Amazon,2.0,31177.97,31177.97,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 10,Fossil,ME3253,Amazon,1.0,19486.44,19486.44,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -558,7 +558,7 @@ Week 10,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Wat
 Week 10,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 10,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 10,Fossil,MK4966,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 10,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 10,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 10,Fossil,MK4999,Amazon,1.0,13555.08,13555.08,0.0,0.0,FBA80049,MAPPED,Traditional Watch,,
 Week 10,Fossil,MK5491,Amazon,0.0,0.0,0.0,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 10,Fossil,MK6485,Amazon,5.0,103788.14,103788.14,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
@@ -1433,7 +1433,7 @@ Week 11,Fossil,JR1401,Amazon,37.0,336177.12,336177.12,0.0,0.0,FBA66974,MAPPED,Tr
 Week 11,Fossil,JR1487,Amazon,7.0,58965.25,58965.25,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 11,Fossil,ME3061,Amazon,0.0,0.0,0.0,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 11,Fossil,ME3098,Amazon,6.0,101669.49,101669.49,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 11,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,,MAPPED,,,
+Week 11,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 11,Fossil,ME3206,Amazon,2.0,37277.97,37277.97,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 11,Fossil,ME3218,Amazon,2.0,31177.97,31177.97,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 11,Fossil,ME3253,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -1472,7 +1472,7 @@ Week 11,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Wat
 Week 11,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 11,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 11,Fossil,MK4966,Amazon,1.0,12283.9,12283.9,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 11,Fossil,MK4967,Amazon,1.0,13555.08,13555.08,0.0,0.0,,MAPPED,,,
+Week 11,Fossil,MK4967,Amazon,1.0,13555.08,13555.08,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 11,Fossil,MK4999,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80049,MAPPED,Traditional Watch,,
 Week 11,Fossil,MK5491,Amazon,1.0,19486.44,19486.44,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 11,Fossil,MK6485,Amazon,2.0,41515.25,41515.25,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
@@ -4875,9 +4875,9 @@ Week 15,Fossil,AR11558,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79221,MAPPED,Traditional Wa
 Week 15,Fossil,AR11568,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79377,MAPPED,Traditional Watch,,
 Week 15,Fossil,AR11575,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79048,MAPPED,Traditional Watch,,
 Week 15,Fossil,AR11582,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79305,MAPPED,Traditional Watch,,
-Week 15,Fossil,AR11589,Amazon,1.0,14531.35593220339,14531.35593220339,0.0,0.0,,MAPPED,,,
+Week 15,Fossil,AR11589,Amazon,1.0,14531.35593220339,14531.35593220339,0.0,0.0,FBS79303,MAPPED,Traditional Watch,,
 Week 15,Fossil,AR11596,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79283,MAPPED,Traditional Watch,,
-Week 15,Fossil,AR11606,Amazon,2.0,47449.15254237288,47449.15254237288,0.0,0.0,,MAPPED,,,
+Week 15,Fossil,AR11606,Amazon,2.0,47449.15254237288,47449.15254237288,0.0,0.0,FBS79417,MAPPED,Traditional Watch,,
 Week 15,Fossil,AR11610,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79418,MAPPED,Traditional Watch,,
 Week 15,Fossil,AR11620,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79495,MAPPED,Traditional Watch,,
 Week 15,Fossil,AR11621,Amazon,2.0,23723.728813559323,23723.728813559323,0.0,0.0,FBA79496,MAPPED,Traditional Watch,,
@@ -4935,7 +4935,7 @@ Week 15,Fossil,AR80083SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79919,MAPPED,Traditional
 Week 15,Fossil,AR80087SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80040,MAPPED,Traditional Watch,,
 Week 15,Fossil,AX1343,Amazon,1.0,6818.64406779661,6818.64406779661,0.0,0.0,FBA75372,MAPPED,Traditional Watch,,
 Week 15,Fossil,AX1739,Amazon,1.0,14826.27118644068,14826.27118644068,0.0,0.0,FBA77972,MAPPED,Traditional Watch,,
-Week 15,Fossil,AX1746,Amazon,3.0,44478.81355932204,44478.81355932204,0.0,0.0,,MAPPED,,,
+Week 15,Fossil,AX1746,Amazon,3.0,44478.81355932204,44478.81355932204,0.0,0.0,FBA80095,MAPPED,Traditional Watch,,
 Week 15,Fossil,AX1764,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79409,MAPPED,Traditional Watch,,
 Week 15,Fossil,AX1767,Amazon,1.0,7878.813559322034,7878.813559322034,0.0,0.0,FBA79730,MAPPED,Traditional Watch,,
 Week 15,Fossil,AX1769,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79920,MAPPED,Traditional Watch,,
@@ -4999,7 +4999,7 @@ Week 15,Fossil,DZ2212,Amazon,1.0,12877.966101694916,12877.966101694916,0.0,0.0,F
 Week 15,Fossil,DZ2213,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79522,MAPPED,Traditional Watch,,
 Week 15,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
 Week 15,Fossil,DZ2215,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
-Week 15,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 15,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
 Week 15,Fossil,DZ4627,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
 Week 15,Fossil,DZ4640,Amazon,1.0,12751.694915254238,12751.694915254238,0.0,0.0,FBA79046,MAPPED,Traditional Watch,,
 Week 15,Fossil,DZ4659,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79288,MAPPED,Traditional Watch,,
@@ -5073,13 +5073,13 @@ Week 15,Fossil,FS4795,Amazon,57.0,700133.8983050848,700133.8983050848,0.0,0.0,FB
 Week 15,Fossil,FS4812,Amazon,1.0,6607.627118644068,6607.627118644068,0.0,0.0,FBA66648,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS4813,Amazon,1.0,11011.86440677966,11011.86440677966,0.0,0.0,FBA66640,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS4867,Amazon,68.0,509778.8135593221,509778.8135593221,0.0,0.0,FBA80093,MAPPED,Traditional Watch,,
-Week 15,Fossil,FS5151,Amazon,9.0,63875.42372881356,63875.42372881356,0.0,0.0,,MAPPED,,,
+Week 15,Fossil,FS5151,Amazon,9.0,63875.42372881356,63875.42372881356,0.0,0.0,FBS66987,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5237,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74358,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5308,Amazon,8.0,64359.32203389831,64359.32203389831,0.0,0.0,FBA67811,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5452,Amazon,2.0,22023.728813559323,22023.728813559323,0.0,0.0,FBA75146,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5512,Amazon,1.0,11011.86440677966,11011.86440677966,0.0,0.0,FBA70827,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5525,Amazon,3.0,36849.15254237288,36849.15254237288,0.0,0.0,FBA70774,MAPPED,Traditional Watch,,
-Week 15,Fossil,FS5665,Amazon,5.0,20328.81355932204,20328.81355932204,0.0,0.0,,MAPPED,,,
+Week 15,Fossil,FS5665,Amazon,5.0,20328.81355932204,20328.81355932204,0.0,0.0,FBA80096,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5699,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74245,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5708SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA76490,MAPPED,Traditional Watch,,
 Week 15,Fossil,FS5792,Amazon,3.0,36849.15254237288,36849.15254237288,0.0,0.0,FBA75077,MAPPED,Traditional Watch,,
@@ -5192,7 +5192,7 @@ Week 15,Fossil,MK9152,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79310,MAPPED,Traditional Wat
 Week 15,Fossil,MK9153,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79312,MAPPED,Traditional Watch,,
 Week 15,Fossil,MK9156,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79343,MAPPED,Traditional Watch,,
 Week 15,Fossil,MK9163,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79341,MAPPED,Traditional Watch,,
-Week 15,Fossil,MK9165,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 15,Fossil,MK9165,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79428,MAPPED,Traditional Watch,,
 Week 15,Fossil,MK9176,Amazon,1.0,10167.796610169493,10167.796610169493,0.0,0.0,FBA79555,MAPPED,Traditional Watch,,
 Week 15,Fossil,MK9177,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79556,MAPPED,Traditional Watch,,
 Week 15,Fossil,MK9178,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79557,MAPPED,Traditional Watch,,
@@ -5818,7 +5818,7 @@ Week 16,Fossil,AR11568,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79377,MAPPED,Traditional Wa
 Week 16,Fossil,AR11575,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79048,MAPPED,Traditional Watch,,
 Week 16,Fossil,AR11582,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79305,MAPPED,Traditional Watch,,
 Week 16,Fossil,AR11596,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79283,MAPPED,Traditional Watch,,
-Week 16,Fossil,AR11606,Amazon,1.0,23724.57627118644,23724.57627118644,0.0,0.0,,MAPPED,,,
+Week 16,Fossil,AR11606,Amazon,1.0,23724.57627118644,23724.57627118644,0.0,0.0,FBS79417,MAPPED,Traditional Watch,,
 Week 16,Fossil,AR11610,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79418,MAPPED,Traditional Watch,,
 Week 16,Fossil,AR11620,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79495,MAPPED,Traditional Watch,,
 Week 16,Fossil,AR11622,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79497,MAPPED,Traditional Watch,,
@@ -5875,7 +5875,7 @@ Week 16,Fossil,AR80083SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79919,MAPPED,Traditional
 Week 16,Fossil,AR80087SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80040,MAPPED,Traditional Watch,,
 Week 16,Fossil,AX1343,Amazon,1.0,6819.491525423729,6819.491525423729,0.0,0.0,FBA75372,MAPPED,Traditional Watch,,
 Week 16,Fossil,AX1739,Amazon,1.0,14826.27118644068,14826.27118644068,0.0,0.0,FBA77972,MAPPED,Traditional Watch,,
-Week 16,Fossil,AX1746,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 16,Fossil,AX1746,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80095,MAPPED,Traditional Watch,,
 Week 16,Fossil,AX1764,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79409,MAPPED,Traditional Watch,,
 Week 16,Fossil,AX1767,Amazon,2.0,18384.745762711864,18384.745762711864,0.0,0.0,FBA79730,MAPPED,Traditional Watch,,
 Week 16,Fossil,AX1769,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79920,MAPPED,Traditional Watch,,
@@ -5935,7 +5935,7 @@ Week 16,Fossil,DZ2212,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79521,MAPPED,Traditional Wat
 Week 16,Fossil,DZ2213,Amazon,1.0,12156.77966101695,12156.77966101695,0.0,0.0,FBA79522,MAPPED,Traditional Watch,,
 Week 16,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
 Week 16,Fossil,DZ2215,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
-Week 16,Fossil,DZ4548,Amazon,1.0,15250.84745762712,15250.84745762712,0.0,0.0,,MAPPED,,,
+Week 16,Fossil,DZ4548,Amazon,1.0,15250.84745762712,15250.84745762712,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
 Week 16,Fossil,DZ4627,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
 Week 16,Fossil,DZ4640,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79046,MAPPED,Traditional Watch,,
 Week 16,Fossil,DZ4659,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79288,MAPPED,Traditional Watch,,
@@ -6007,13 +6007,13 @@ Week 16,Fossil,FS4795,Amazon,36.0,429906.77966101695,429906.77966101695,0.0,0.0,
 Week 16,Fossil,FS4812,Amazon,0.0,0.0,0.0,0.0,0.0,FBA66648,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS4813,Amazon,2.0,22023.728813559323,22023.728813559323,0.0,0.0,FBA66640,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS4867,Amazon,46.0,367298.3050847458,367298.3050847458,0.0,0.0,FBA80093,MAPPED,Traditional Watch,,
-Week 16,Fossil,FS5151,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 16,Fossil,FS5151,Amazon,0.0,0.0,0.0,0.0,0.0,FBS66987,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5237,Amazon,1.0,7709.322033898306,7709.322033898306,0.0,0.0,FBA74358,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5308,Amazon,2.0,16089.830508474575,16089.830508474575,0.0,0.0,FBA67811,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5452,Amazon,1.0,11011.86440677966,11011.86440677966,0.0,0.0,FBA75146,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5512,Amazon,2.0,22023.728813559323,22023.728813559323,0.0,0.0,FBA70827,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5525,Amazon,1.0,12283.050847457627,12283.050847457627,0.0,0.0,FBA70774,MAPPED,Traditional Watch,,
-Week 16,Fossil,FS5665,Amazon,2.0,11859.322033898306,11859.322033898306,0.0,0.0,,MAPPED,,,
+Week 16,Fossil,FS5665,Amazon,2.0,11859.322033898306,11859.322033898306,0.0,0.0,FBA80096,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5699,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74245,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5792,Amazon,7.0,85981.3559322034,85981.3559322034,0.0,0.0,FBA75077,MAPPED,Traditional Watch,,
 Week 16,Fossil,FS5901,Amazon,0.0,0.0,0.0,0.0,0.0,FBA75320,MAPPED,Traditional Watch,,
@@ -6121,7 +6121,7 @@ Week 16,Fossil,MK9152,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79310,MAPPED,Traditional Wat
 Week 16,Fossil,MK9153,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79312,MAPPED,Traditional Watch,,
 Week 16,Fossil,MK9156,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79343,MAPPED,Traditional Watch,,
 Week 16,Fossil,MK9163,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79341,MAPPED,Traditional Watch,,
-Week 16,Fossil,MK9165,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 16,Fossil,MK9165,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79428,MAPPED,Traditional Watch,,
 Week 16,Fossil,MK9176,Amazon,1.0,10167.796610169493,10167.796610169493,0.0,0.0,FBA79555,MAPPED,Traditional Watch,,
 Week 16,Fossil,MK9177,Amazon,3.0,37365.254237288136,37365.254237288136,0.0,0.0,FBA79556,MAPPED,Traditional Watch,,
 Week 16,Fossil,MK9178,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79557,MAPPED,Traditional Watch,,
@@ -6692,9 +6692,9 @@ Week 17,Fossil,AR11558,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79221,MAPPED,Traditional Wa
 Week 17,Fossil,AR11568,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79377,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11575,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79048,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11582,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79305,MAPPED,Traditional Watch,,
-Week 17,Fossil,AR11589,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,AR11589,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79303,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11596,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79283,MAPPED,Traditional Watch,,
-Week 17,Fossil,AR11606,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,AR11606,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79417,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11610,Amazon,2.0,24566.10169491525,24566.10169491525,0.0,0.0,FBA79418,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11620,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79495,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11622,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79497,MAPPED,Traditional Watch,,
@@ -6721,7 +6721,7 @@ Week 17,Fossil,AR11676,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79728,MAPPED,Traditional Wa
 Week 17,Fossil,AR11689,Amazon,1.0,16944.91525423729,16944.91525423729,0.0,0.0,FBA79855,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11690,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79856,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11691,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79857,MAPPED,Traditional Watch,,
-Week 17,Fossil,AR11692,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,AR11692,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79858,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11693,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79859,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79860,MAPPED,Traditional Watch,,
 Week 17,Fossil,AR11706,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79861,MAPPED,Traditional Watch,,
@@ -6753,7 +6753,7 @@ Week 17,Fossil,AR80083SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79919,MAPPED,Traditional
 Week 17,Fossil,AR80087SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80040,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX1343,Amazon,0.0,0.0,0.0,0.0,0.0,FBA75372,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX1739,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77972,MAPPED,Traditional Watch,,
-Week 17,Fossil,AX1746,Amazon,4.0,59305.08474576272,59305.08474576272,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,AX1746,Amazon,4.0,59305.08474576272,59305.08474576272,0.0,0.0,FBA80095,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX1764,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79409,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX1767,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79730,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX1769,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79920,MAPPED,Traditional Watch,,
@@ -6770,7 +6770,7 @@ Week 17,Fossil,AX2454,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79317,MAPPED,Traditional Wat
 Week 17,Fossil,AX2460,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79624,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX2461,Amazon,2.0,18298.305084745763,18298.305084745763,0.0,0.0,FBA79625,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX2463,Amazon,1.0,20331.35593220339,20331.35593220339,0.0,0.0,FBA79731,MAPPED,Traditional Watch,,
-Week 17,Fossil,AX2761,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,AX2761,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79321,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX2766,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80028,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX2767,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80029,MAPPED,Traditional Watch,,
 Week 17,Fossil,AX2820,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79864,MAPPED,Traditional Watch,,
@@ -6817,8 +6817,8 @@ Week 17,Fossil,DZ2212,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79521,MAPPED,Traditional Wat
 Week 17,Fossil,DZ2213,Amazon,1.0,12156.77966101695,12156.77966101695,0.0,0.0,FBA79522,MAPPED,Traditional Watch,,
 Week 17,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
 Week 17,Fossil,DZ2215,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
-Week 17,Fossil,DZ2234,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
-Week 17,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,DZ2234,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80035,MAPPED,Traditional Watch,,
+Week 17,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
 Week 17,Fossil,DZ4627,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
 Week 17,Fossil,DZ4640,Amazon,1.0,12751.694915254238,12751.694915254238,0.0,0.0,FBA79046,MAPPED,Traditional Watch,,
 Week 17,Fossil,DZ4659,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79288,MAPPED,Traditional Watch,,
@@ -6860,7 +6860,7 @@ Week 17,Fossil,ES5350,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79422,MAPPED,Traditional Wat
 Week 17,Fossil,ES5357,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79525,MAPPED,Traditional Watch,,
 Week 17,Fossil,ES5358,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79526,MAPPED,Traditional Watch,,
 Week 17,Fossil,ES5361,Amazon,4.0,45742.372881355936,45742.372881355936,0.0,0.0,FBA79527,MAPPED,Traditional Watch,,
-Week 17,Fossil,ES5362,Amazon,5.0,57182.20338983051,57182.20338983051,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,ES5362,Amazon,5.0,57182.20338983051,57182.20338983051,0.0,0.0,FBA79528,MAPPED,Traditional Watch,,
 Week 17,Fossil,ES5363,Amazon,2.0,22871.186440677968,22871.186440677968,0.0,0.0,FBA79529,MAPPED,Traditional Watch,,
 Week 17,Fossil,ES5364,Amazon,2.0,20322.03389830509,20322.03389830509,0.0,0.0,FBA79530,MAPPED,Traditional Watch,,
 Week 17,Fossil,ES5380,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79629,MAPPED,Traditional Watch,,
@@ -6892,13 +6892,13 @@ Week 17,Fossil,FS4812,Amazon,2.0,15416.949152542376,15416.949152542376,0.0,0.0,F
 Week 17,Fossil,FS4813,Amazon,5.0,55059.32203389831,55059.32203389831,0.0,0.0,FBA66640,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS4867,Amazon,31.0,266573.72881355934,266573.72881355934,0.0,0.0,FBA80093,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5061,Amazon,3.0,23127.96610169492,23127.96610169492,0.0,0.0,,MAPPED,,,
-Week 17,Fossil,FS5151,Amazon,3.0,23127.96610169492,23127.96610169492,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,FS5151,Amazon,3.0,23127.96610169492,23127.96610169492,0.0,0.0,FBS66987,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5237,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74358,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5308,Amazon,5.0,40224.576271186445,40224.576271186445,0.0,0.0,FBA67811,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5452,Amazon,0.0,0.0,0.0,0.0,0.0,FBA75146,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5512,Amazon,2.0,22023.728813559323,22023.728813559323,0.0,0.0,FBA70827,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5525,Amazon,5.0,61415.254237288136,61415.254237288136,0.0,0.0,FBA70774,MAPPED,Traditional Watch,,
-Week 17,Fossil,FS5665,Amazon,2.0,11859.322033898306,11859.322033898306,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,FS5665,Amazon,2.0,11859.322033898306,11859.322033898306,0.0,0.0,FBA80096,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5699,Amazon,1.0,12283.050847457627,12283.050847457627,0.0,0.0,FBA74245,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5792,Amazon,4.0,49132.20338983051,49132.20338983051,0.0,0.0,FBA75077,MAPPED,Traditional Watch,,
 Week 17,Fossil,FS5855,Amazon,6.0,42995.76271186441,42995.76271186441,0.0,0.0,FBA75153,MAPPED,Traditional Watch,,
@@ -6946,7 +6946,7 @@ Week 17,Fossil,JR1401,Amazon,29.0,265691.5254237288,265691.5254237288,0.0,0.0,FB
 Week 17,Fossil,JR1487,Amazon,14.0,120388.13559322034,120388.13559322034,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 17,Fossil,ME3061,Amazon,1.0,0.0,0.0,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 17,Fossil,ME3098,Amazon,2.0,33888.135593220344,33888.135593220344,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 17,Fossil,ME3154,Amazon,1.0,16944.067796610172,16944.067796610172,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,ME3154,Amazon,1.0,16944.067796610172,16944.067796610172,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 17,Fossil,ME3206,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 17,Fossil,ME3218,Amazon,0.0,0.0,0.0,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 17,Fossil,ME3253,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -6963,7 +6963,7 @@ Week 17,Fossil,MK4710,Amazon,1.0,20757.627118644068,20757.627118644068,0.0,0.0,F
 Week 17,Fossil,MK4805,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79292,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4817SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79311,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4822,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79423,MAPPED,Traditional Watch,,
-Week 17,Fossil,MK4823,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,MK4823,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79424,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4824,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79425,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4829,Amazon,1.0,17368.64406779661,17368.64406779661,0.0,0.0,FBA79426,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4842,Amazon,1.0,15672.881355932204,15672.881355932204,0.0,0.0,FBA79539,MAPPED,Traditional Watch,,
@@ -6984,7 +6984,7 @@ Week 17,Fossil,MK4962,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79942,MAPPED,Traditional Wat
 Week 17,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
-Week 17,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4997,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80047,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4998,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80048,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK4999,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80049,MAPPED,Traditional Watch,,
@@ -6996,12 +6996,12 @@ Week 17,Fossil,MK7506,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79554,MAPPED,Traditional Wat
 Week 17,Fossil,MK7519LE,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79757,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7559,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79896,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7568,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80050,MAPPED,Traditional Watch,,
-Week 17,Fossil,MK7570SET,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,MK7570SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80051,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7572,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80069,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7573,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80070,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7574,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80071,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7581,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80052,MAPPED,Traditional Watch,,
-Week 17,Fossil,MK7582,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,MK7582,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80053,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7584,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80072,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7587,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80073,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK7589,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80055,MAPPED,Traditional Watch,,
@@ -7012,7 +7012,7 @@ Week 17,Fossil,MK9152,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79310,MAPPED,Traditional Wat
 Week 17,Fossil,MK9153,Amazon,1.0,19486.440677966104,19486.440677966104,0.0,0.0,FBA79312,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK9156,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79343,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK9163,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79341,MAPPED,Traditional Watch,,
-Week 17,Fossil,MK9165,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 17,Fossil,MK9165,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79428,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK9176,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79555,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK9177,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79556,MAPPED,Traditional Watch,,
 Week 17,Fossil,MK9178,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79557,MAPPED,Traditional Watch,,
@@ -7340,6 +7340,866 @@ Week 17,White Mulberry,WM-SMD09-WH,Amazon,0.0,0.0,0.0,6978.0,0.0,FBA79175,MAPPED
 Week 17,White Mulberry,WM-USE06-WH,Amazon,0.0,0.0,0.0,11345.0,0.0,FBA79165,MAPPED,Desk-Adjustable,USB-Motorized,
 Week 17,White Mulberry,WM1ML,1p Sales,62.0,152214.36,152214.36,1074.0,66588.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
 Week 17,White Mulberry,WM1ML,Amazon,0.0,0.0,0.0,1074.0,0.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,Audio Array,A3-XLR,Amazon,1.0,550.0,550.0,186.0,186.0,FBA79956,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-01,1p Sales,3.0,5463.54,5463.54,1130.0,3390.0,FBA75678,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-01,Amazon,0.0,0.0,0.0,1130.0,0.0,FBA75678,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-02,1p Sales,3.0,6353.4,6353.4,1345.0,4035.0,FBA75679,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-02,Amazon,0.0,0.0,0.0,1345.0,0.0,FBA75679,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-03,1p Sales,14.0,5920.32,5920.32,166.0,2324.0,FBA75683,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-03,Amazon,0.0,0.0,0.0,166.0,0.0,FBA75683,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-04,1p Sales,8.0,11518.68,11518.68,805.0,6440.0,FBA75684,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-04,Amazon,2.0,2879.661016949153,2879.661016949153,805.0,1610.0,FBA75684,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-05,1p Sales,29.0,17178.85,17178.85,259.0,7511.0,FBA76414,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-05,Amazon,8.0,4738.983050847458,4738.983050847458,259.0,2072.0,FBA76414,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-06,1p Sales,6.0,6605.08,6605.08,552.0,3312.0,FBA76597,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-06,Amazon,0.0,0.0,0.0,552.0,0.0,FBA76597,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-06,D2C - Audio Array,1.0,1167.0,1167.0,552.0,552.0,FBA76597,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-19,1p Sales,0.0,0.0,0.0,1809.0,0.0,FBA78973,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-19,Amazon,8.0,23592.37288135593,23592.37288135593,1809.0,14472.0,FBA78973,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-19BL,1p Sales,3.0,12709.32,12709.32,2743.0,8229.0,FBA79355,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-19BL,Amazon,0.0,0.0,0.0,2743.0,0.0,FBA79355,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-19WL,Amazon,0.0,0.0,0.0,2743.0,0.0,FBA79356,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-20,Amazon,0.0,0.0,0.0,1022.0,0.0,FBA78974,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-21,1p Sales,20.0,63542.4,63542.4,1731.0,34620.0,FBA78975,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-21,Amazon,1.0,3240.677966101695,3240.677966101695,1731.0,1731.0,FBA78975,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-22,1p Sales,3.0,9404.23,9404.23,1731.0,5193.0,FBA78976,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-22,Amazon,0.0,0.0,0.0,1731.0,0.0,FBA78976,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-25,1p Sales,2.0,1438.98,1438.98,301.0,602.0,FBA79064,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-25,Amazon,0.0,0.0,0.0,301.0,0.0,FBA79064,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-25M,Amazon,1.0,761.8644067796611,761.8644067796611,284.0,284.0,FBA79903,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-26,1p Sales,50.0,23262.66,23262.66,241.0,12050.0,FBA79694,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AA-26,Amazon,0.0,0.0,0.0,241.0,0.0,FBA79694,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AC-3XL,1p Sales,3.0,1141.52,1141.52,121.0,363.0,FBA79820,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AC-3XL,Amazon,0.0,0.0,0.0,121.0,0.0,FBA79820,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AC-6XL,1p Sales,25.0,11631.35,11631.35,157.0,3925.0,FBA77171,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AC-6XL,Amazon,1.0,465.2542372881357,465.2542372881357,157.0,157.0,FBA77171,MAPPED,Microphone Accessories,Accessories,
+Week 18,Audio Array,AH-40 SL,1p Sales,22.0,22354.2,22354.2,441.0,9702.0,FBA79838,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-40 SL,Amazon,0.0,0.0,0.0,441.0,0.0,FBA79838,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-40 SL,D2C - Audio Array,1.0,1167.0,1167.0,441.0,441.0,FBA79838,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-45 BK,1p Sales,36.0,48782.88,48782.88,567.0,20412.0,FBA79839,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-45 BK,Amazon,2.0,2764.406779661017,2764.406779661017,567.0,1134.0,FBA79839,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-45 BK,D2C - Audio Array,6.0,8349.0,8349.0,567.0,3402.0,FBA79839,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-50,1p Sales,72.0,121972.78,121972.78,1109.0,79848.0,FBA79813,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-50,Amazon,9.0,15246.610169491529,15246.610169491529,1109.0,9981.0,FBA79813,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-50,D2C - Audio Array,5.0,9106.0,9106.0,1109.0,5545.0,FBA79813,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-60 BL,1p Sales,10.0,16940.69,16940.69,1008.0,10080.0,FBA79841,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-60 BL,Amazon,2.0,3455.93220338983,3455.93220338983,1008.0,2016.0,FBA79841,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-60 RD,1p Sales,4.0,6776.27,6776.27,1008.0,4032.0,FBA79840,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AH-60 RD,Amazon,0.0,0.0,0.0,1008.0,0.0,FBA79840,MAPPED,DJ Headphone,DJ Headphone,
+Week 18,Audio Array,AI-03,1p Sales,3.0,9912.72,9912.72,2888.0,8664.0,FBA76863,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-03,Amazon,0.0,0.0,0.0,2888.0,0.0,FBA76863,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-03,D2C - Audio Array,1.0,3592.0,3592.0,2888.0,2888.0,FBA76863,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-04 Red,1p Sales,114.0,473293.13,473293.13,1998.0,227772.0,FBA76864,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-04 Red,Amazon,1.0,0.0,0.0,1998.0,1998.0,FBA76864,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-04 Red,B2B,1.0,3114.41,3114.41,1998.0,1998.0,FBA76864,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-04 Red,Blinkit Sales,1.0,4066.95,4066.95,1998.0,1998.0,FBA76864,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-04 Red,D2C - Audio Array,12.0,51193.0,51193.0,1998.0,23976.0,FBA76864,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-06,Amazon,0.0,0.0,0.0,2707.0,0.0,FBA79008,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-10,1p Sales,13.0,34042.37,34042.37,1384.0,17992.0,FBA79103,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-10,Amazon,0.0,0.0,0.0,1384.0,0.0,FBA79103,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-11,1p Sales,19.0,25746.52,25746.52,782.0,14858.0,FBA79104,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-11,Amazon,0.0,0.0,0.0,782.0,0.0,FBA79104,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-12,1p Sales,16.0,18969.47,18969.47,626.0,10016.0,FBA79105,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-12,Amazon,0.0,0.0,0.0,626.0,0.0,FBA79105,MAPPED,Audio Interface,Audio Interface,
+Week 18,Audio Array,AI-13,1p Sales,6.0,14486.46,14486.46,1612.0,9672.0,FBA79961,MAPPED,Mixers,4 channels Mixer,
+Week 18,Audio Array,AK-37-B,1p Sales,2.0,6777.96,6777.96,2140.0,4280.0,FBA79979,MAPPED,Electric Keyboard,37 Key Electronic Keyboard Black,
+Week 18,Audio Array,AK-37-B,Amazon,0.0,0.0,0.0,2140.0,0.0,FBA79979,MAPPED,Electric Keyboard,37 Key Electronic Keyboard Black,
+Week 18,Audio Array,AK-37-W,1p Sales,2.0,6777.96,6777.96,2211.0,4422.0,FBA79980,MAPPED,Electric Keyboard,37 Key Electronic Keyboard White,
+Week 18,Audio Array,AK-37-W,Amazon,0.0,0.0,0.0,2211.0,0.0,FBA79980,MAPPED,Electric Keyboard,37 Key Electronic Keyboard White,
+Week 18,Audio Array,AK-61 Neo,1p Sales,1.0,4236.44,4236.44,2716.0,2716.0,FBA79981,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LED DIsplay,
+Week 18,Audio Array,AK-61 Neo,Amazon,4.0,16945.76271186441,16945.76271186441,2716.0,10864.0,FBA79981,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LED DIsplay,
+Week 18,Audio Array,AK-61 Pro,1p Sales,2.0,9320.33,9320.33,3140.0,6280.0,FBA79982,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LCD DIsplay,
+Week 18,Audio Array,AK-61 Pro,Amazon,3.0,13980.508474576272,13980.508474576272,3140.0,9420.0,FBA79982,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LCD DIsplay,
+Week 18,Audio Array,AM-C1,1p Sales,150.0,345585.4,345585.4,1362.0,204300.0,FBA75673,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C1,Amazon,1.0,2304.237288135593,2304.237288135593,1362.0,1362.0,FBA75673,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C1,Blinkit Sales,5.0,11266.95,11266.95,1362.0,6810.0,FBA75673,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C1,D2C - Audio Array,6.0,14547.0,14547.0,1362.0,8172.0,FBA75673,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C10,1p Sales,2.0,6777.96,6777.96,2133.0,4266.0,FBA75690,MAPPED,Microphone Conference,Conference Microphone,
+Week 18,Audio Array,AM-C10,Amazon,0.0,0.0,0.0,2133.0,0.0,FBA75690,MAPPED,Microphone Conference,Conference Microphone,
+Week 18,Audio Array,AM-C11,1p Sales,1.0,3982.2,3982.2,2745.0,2745.0,FBA75692,MAPPED,Microphone Dynamic,USB/XLR Dynamic Mic,
+Week 18,Audio Array,AM-C11 Pro,1p Sales,3.0,12460.05,12460.05,3149.0,9447.0,FBA79654,MAPPED,Bundles,Bundles,
+Week 18,Audio Array,AM-C11 Pro,Amazon,0.0,0.0,0.0,3149.0,0.0,FBA79654,MAPPED,Bundles,Bundles,
+Week 18,Audio Array,AM-C11X,Amazon,0.0,0.0,0.0,2005.0,0.0,FBA78925,MAPPED,Microphone Dynamic,XLR Dynamic Mic,
+Week 18,Audio Array,AM-C11X Pro,Amazon,0.0,0.0,0.0,2264.0,0.0,FBA79846,MAPPED,Bundles,AM-C11X Pro,
+Week 18,Audio Array,AM-C13,1p Sales,1.0,464.02,464.02,492.0,492.0,FBA76716,MAPPED,Microphone Lapel,Lavalier Microphone,
+Week 18,Audio Array,AM-C13,Amazon,0.0,0.0,0.0,492.0,0.0,FBA76716,MAPPED,Microphone Lapel,Lavalier Microphone,
+Week 18,Audio Array,AM-C2,1p Sales,11.0,35414.4,35414.4,1956.0,21516.0,FBA75674,MAPPED,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C2,Amazon,0.0,0.0,0.0,1956.0,0.0,FBA75674,MAPPED,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C2,B2B,1.0,2415.25,2415.25,1956.0,1956.0,FBA75674,MAPPED,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C28,1p Sales,27.0,38211.81,38211.81,807.0,21789.0,FBA76862,MAPPED,Microphone Conference,Conference Microphone,
+Week 18,Audio Array,AM-C28,Amazon,12.0,13822.033898305086,13822.033898305086,807.0,9684.0,FBA76862,MAPPED,Microphone Conference,Conference Microphone,
+Week 18,Audio Array,AM-C29,Amazon,2.0,3388.135593220339,3388.135593220339,3248.0,6496.0,FBA77011,MAPPED,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C3,1p Sales,10.0,8042.4,8042.4,609.0,6090.0,FBA75675,MAPPED,Microphone Dynamic,Vocal Microphone,
+Week 18,Audio Array,AM-C3,Amazon,1.0,820.3389830508474,820.3389830508474,609.0,609.0,FBA75675,MAPPED,Microphone Dynamic,Vocal Microphone,
+Week 18,Audio Array,AM-C3,BI Worldwide,1.0,648.0,648.0,609.0,609.0,FBA75675,MAPPED,Microphone Dynamic,Vocal Microphone,
+Week 18,Audio Array,AM-C30,Amazon,0.0,0.0,0.0,2949.0,0.0,FBA78203,MAPPED,Microphone Condenser,RGB USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C32,Amazon,0.0,0.0,0.0,2418.0,0.0,FBA78205,MAPPED,Microphone Condenser,RGB USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C33,Amazon,0.0,0.0,0.0,247.0,0.0,FBA78420,MAPPED,Microphone Lapel,Lavalier Microphone,
+Week 18,Audio Array,AM-C36,Amazon,0.0,0.0,0.0,420.0,0.0,FBA78423,MAPPED,Microphone Lapel,Lavalier Microphone,
+Week 18,Audio Array,AM-C39,1p Sales,4.0,5759.33,5759.33,678.0,2712.0,FBA78960,MAPPED,Microphone Condenser,XLR Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C39,Amazon,0.0,0.0,0.0,678.0,0.0,FBA78960,MAPPED,Microphone Condenser,XLR Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C3a,1p Sales,3.0,2031.36,2031.36,482.0,1446.0,FBA79016,MAPPED,Microphone Dynamic,Vocal Microphone,
+Week 18,Audio Array,AM-C3a,Amazon,0.0,0.0,0.0,482.0,0.0,FBA79016,MAPPED,Microphone Dynamic,Vocal Microphone,
+Week 18,Audio Array,AM-C4,1p Sales,2.0,3218.64,3218.64,1569.0,3138.0,FBA75676,MAPPED,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C4,Amazon,2.0,3218.64406779661,3218.64406779661,1569.0,3138.0,FBA75676,MAPPED,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C40,1p Sales,0.0,0.0,0.0,3024.0,0.0,FBA78961,MAPPED,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 18,Audio Array,AM-C40,Amazon,1.0,2117.7966101694915,2117.7966101694915,3024.0,3024.0,FBA78961,MAPPED,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 18,Audio Array,AM-C41,1p Sales,4.0,5471.17,5471.17,1926.0,3852.0,FBA79009,MAPPED,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C41,Amazon,1.0,1380.5084745762713,1380.5084745762713,963.0,963.0,FBK79009,MAPPED,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C42,1p Sales,2.0,3981.36,3981.36,2768.0,2768.0,FBA79010,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C42,Amazon,1.0,1990.6779661016951,1990.6779661016951,1384.0,1384.0,FBA79010,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C42,D2C - Audio Array,1.0,2155.0,2155.0,1384.0,1384.0,FBA79010,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C43,1p Sales,10.0,21178.0,21178.0,1203.0,12030.0,FBA79011,MAPPED,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C43,Amazon,0.0,0.0,0.0,1203.0,0.0,FBA79011,MAPPED,Microphone Condenser,XLR Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C44,1p Sales,1.0,3982.2,3982.2,2526.0,2526.0,FBA79106,MAPPED,Microphone Dynamic,Dynamic Microphone,
+Week 18,Audio Array,AM-C44,Amazon,0.0,0.0,0.0,2526.0,0.0,FBA79106,MAPPED,Microphone Dynamic,Dynamic Microphone,
+Week 18,Audio Array,AM-C44,B2B,1.0,2987.29,2987.29,2526.0,2526.0,FBA79106,MAPPED,Microphone Dynamic,Dynamic Microphone,
+Week 18,Audio Array,AM-C44 Pro,1p Sales,1.0,4405.93,4405.93,3024.0,3024.0,FBA79655,MAPPED,Bundles,Bundles,
+Week 18,Audio Array,AM-C44 Pro,Amazon,0.0,0.0,0.0,3024.0,0.0,FBA79655,MAPPED,Bundles,Bundles,
+Week 18,Audio Array,AM-C45,1p Sales,5.0,14614.4,14614.4,1925.0,9625.0,FBA79379,MAPPED,Microphone Dynamic,Dynamic Microphone,
+Week 18,Audio Array,AM-C45,Amazon,1.0,2922.8813559322034,2922.8813559322034,1925.0,1925.0,FBA79379,MAPPED,Microphone Dynamic,Dynamic Microphone,
+Week 18,Audio Array,AM-C45,B2B,1.0,2881.0,2881.0,1925.0,1925.0,FBA79379,MAPPED,Microphone Dynamic,Dynamic Microphone,
+Week 18,Audio Array,AM-C45 Pro,Amazon,0.0,0.0,0.0,2268.0,0.0,FBA79653,MAPPED,Bundles,Bundles,
+Week 18,Audio Array,AM-C46,1p Sales,20.0,59644.0,59644.0,1865.0,37300.0,FBA79380,MAPPED,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 18,Audio Array,AM-C46,Amazon,1.0,3007.627118644068,3007.627118644068,1865.0,1865.0,FBA79380,MAPPED,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 18,Audio Array,AM-C46,BI Worldwide,1.0,2592.0,2592.0,1865.0,1865.0,FBA79380,MAPPED,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 18,Audio Array,AM-C46,Blinkit Sales,4.0,11925.42,11925.42,1865.0,7460.0,FBA79380,MAPPED,Microphone Condenser,Condenser Mic with Boom Arm,
+Week 18,Audio Array,AM-C47,1p Sales,3.0,7243.22,7243.22,1562.0,4686.0,FBA79783,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C47,Amazon,0.0,0.0,0.0,1562.0,0.0,FBA79783,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-C48,1p Sales,10.0,27957.6,27957.6,1805.0,18050.0,FBA79842,MAPPED,Microphone Dynamic,Microphone Dynamic,
+Week 18,Audio Array,AM-C48,Amazon,0.0,0.0,0.0,1805.0,0.0,FBA79842,MAPPED,Microphone Dynamic,Microphone Dynamic,
+Week 18,Audio Array,AM-C5,1p Sales,13.0,25328.01,25328.01,1310.0,17030.0,FBA75677,MAPPED,Microphone Conference,Conference Microphone,
+Week 18,Audio Array,AM-C5,Amazon,0.0,0.0,0.0,1310.0,0.0,FBA75677,MAPPED,Microphone Conference,Conference Microphone,
+Week 18,Audio Array,AM-C6,1p Sales,3.0,4827.96,4827.96,1675.0,5025.0,FBA75680,MAPPED,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C6,Amazon,1.0,1609.322033898305,1609.322033898305,1675.0,1675.0,FBA75680,MAPPED,Microphone Condenser,USB Microphone Kit - Tripod,
+Week 18,Audio Array,AM-C7,Amazon,0.0,0.0,0.0,1893.0,0.0,FBA75681,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
+Week 18,Audio Array,AM-K1,Amazon,1.0,8134.745762711865,8134.745762711865,6617.0,6617.0,FBA76742,MAPPED,Instrument Microphone Kit,Instrument Microphone - Drum Kit,
+Week 18,Audio Array,AM-Mix10,Amazon,0.0,0.0,0.0,5916.0,0.0,FBA79966,MAPPED,Mixers,10 channels mixer,
+Week 18,Audio Array,AM-Mix6,Amazon,0.0,0.0,0.0,4783.0,0.0,FBA79965,MAPPED,Mixers,6 channels mixer,
+Week 18,Audio Array,AM-Mix8,Amazon,0.0,0.0,0.0,12335.0,0.0,FBA79963,MAPPED,Mixers,8 channels Mixer,
+Week 18,Audio Array,AM-Pro12,1p Sales,1.0,19490.68,19490.68,13405.0,13405.0,FBA79964,MAPPED,Mixers,12 channels Mixer,
+Week 18,Audio Array,AM-Pro12,Amazon,1.0,19490.67796610169,19490.67796610169,13405.0,13405.0,FBA79964,MAPPED,Mixers,12 channels Mixer,
+Week 18,Audio Array,AM-S1,1p Sales,26.0,198283.13,198283.13,4107.0,106782.0,FBA79482,MAPPED,Monitor Speakers,Studio Monitor Speaker,
+Week 18,Audio Array,AM-S1,Amazon,5.0,37538.135593220344,37538.135593220344,4107.0,20535.0,FBA79482,MAPPED,Monitor Speakers,Studio Monitor Speaker,
+Week 18,Audio Array,AM-S1,B2B,1.0,14935.0,14935.0,4107.0,4107.0,FBA79482,MAPPED,Monitor Speakers,Studio Monitor Speaker,
+Week 18,Audio Array,AM-S2,1p Sales,34.0,201666.24,201666.24,3521.0,119714.0,FBA79848,MAPPED,Monitor Speakers,Studio Monitor Speaker,
+Week 18,Audio Array,AM-S2,Amazon,0.0,0.0,0.0,3521.0,0.0,FBA79848,MAPPED,Monitor Speakers,Studio Monitor Speaker,
+Week 18,Audio Array,AM-W12,1p Sales,3.0,10166.94,10166.94,2572.0,7716.0,FBA75688,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W12,Amazon,1.0,3456.7796610169494,3456.7796610169494,2572.0,2572.0,FBA75688,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W12,B2B,1.0,2542.37,2542.37,2572.0,2572.0,FBA75688,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W13,1p Sales,5.0,9186.44,9186.44,1205.0,6025.0,FBA75689,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W13,Amazon,0.0,0.0,0.0,1205.0,0.0,FBA75689,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W13,B2B,1.0,1398.31,1398.31,1205.0,1205.0,FBA75689,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W14,1p Sales,3.0,15251.7,15251.7,3843.0,11529.0,FBA75691,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W14,Amazon,1.0,5083.898305084746,5083.898305084746,3843.0,3843.0,FBA75691,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W16,1p Sales,4.0,4572.88,4572.88,698.0,2792.0,FBA79108,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W16,Amazon,0.0,0.0,0.0,698.0,0.0,FBA79108,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W16,Blinkit Sales,3.0,4022.88,4022.88,698.0,2094.0,FBA79108,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W17,1p Sales,1.0,1439.84,1439.84,1023.0,1023.0,FBA79107,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W17,Amazon,0.0,0.0,0.0,1023.0,0.0,FBA79107,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W17,Blinkit Sales,21.0,33795.76,33795.76,1023.0,21483.0,FBA79107,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W17,D2C - Audio Array,1.0,1526.0,1526.0,1023.0,1023.0,FBA79107,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W18,1p Sales,13.0,13099.16,13099.16,566.0,7358.0,FBA79109,MAPPED,Speaker Karaoke,Microphone with Speaker,
+Week 18,Audio Array,AM-W18,Amazon,0.0,0.0,0.0,566.0,0.0,FBA79109,MAPPED,Speaker Karaoke,Microphone with Speaker,
+Week 18,Audio Array,AM-W18,Blinkit Sales,0.0,0.0,0.0,566.0,0.0,FBA79109,MAPPED,Speaker Karaoke,Microphone with Speaker,
+Week 18,Audio Array,AM-W19,1p Sales,0.0,0.0,0.0,1070.0,0.0,FBA79815,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W19,Amazon,5.0,6776.271186440678,6776.271186440678,1070.0,5350.0,FBA79815,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W20,Amazon,0.0,0.0,0.0,1997.0,0.0,FBA79444,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W21,Amazon,0.0,0.0,0.0,2587.0,0.0,FBA79722,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W22,1p Sales,2.0,6015.25,6015.25,1760.0,3520.0,FBA79816,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W22,Amazon,0.0,0.0,0.0,1760.0,0.0,FBA79816,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W22,BI Worldwide,1.0,2590.0,2590.0,1760.0,1760.0,FBA79816,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W22 Duplicate,1p Sales,4.0,11522.04,11522.04,0.0,0.0,FBA80016,MAPPED,Microphone,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W22 Duplicate,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80016,MAPPED,Microphone,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W23,1p Sales,4.0,10166.1,10166.1,1482.0,5928.0,FBA79957,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W23,Amazon,0.0,0.0,0.0,1482.0,0.0,FBA79957,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W24,1p Sales,1.0,1609.32,1609.32,857.0,857.0,FBA79958,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W24,Amazon,0.0,0.0,0.0,857.0,0.0,FBA79958,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W24,D2C - Audio Array,8.0,13559.0,13559.0,857.0,6856.0,FBA79958,MAPPED,Microphone Wireless Lapel,Wireless Lapel Microphone,
+Week 18,Audio Array,AM-W32,1p Sales,2.0,6438.99,6438.99,2006.0,4012.0,FBA79445,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W32,B2B,1.0,2415.25,2415.25,2006.0,2006.0,FBA79445,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W33,1p Sales,2.0,3388.13,3388.13,803.0,1606.0,FBA79446,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W33,Amazon,0.0,0.0,0.0,803.0,0.0,FBA79446,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W33,B2B,1.0,1271.19,1271.19,803.0,803.0,FBA79446,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W34,1p Sales,1.0,3045.76,3045.76,2139.0,2139.0,FBA79447,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W34,Amazon,0.0,0.0,0.0,2139.0,0.0,FBA79447,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W35,1p Sales,3.0,9150.0,9150.0,1805.0,5415.0,FBA79448,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W35,Amazon,0.0,0.0,0.0,1805.0,0.0,FBA79448,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W36,1p Sales,7.0,37366.98,37366.98,3342.0,23394.0,FBA79449,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W36,Amazon,0.0,0.0,0.0,3342.0,0.0,FBA79449,MAPPED,Microphone Wireless Handheld,Wireless Microphone,
+Week 18,Audio Array,AM-W45,1p Sales,35.0,151241.56,151241.56,2683.0,93905.0,FBA79005,MAPPED,Microphone Conference,Wireless Conference Microphone,
+Week 18,Audio Array,AM-W45,Amazon,2.0,8745.762711864407,8745.762711864407,2683.0,5366.0,FBA79005,MAPPED,Microphone Conference,Wireless Conference Microphone,
+Week 18,Audio Array,AM-W45,Blinkit Sales,2.0,8642.37,8642.37,2683.0,5366.0,FBA79005,MAPPED,Microphone Conference,Wireless Conference Microphone,
+Week 18,Audio Array,AM-W45,D2C - Audio Array,1.0,4581.0,4581.0,2683.0,2683.0,FBA79005,MAPPED,Microphone Conference,Wireless Conference Microphone,
+Week 18,Audio Array,AM-W46,Amazon,0.0,0.0,0.0,3946.0,0.0,FBA79230,MAPPED,Speaker Karaoke,Microphone with Speaker,
+Week 18,Audio Array,AM-W47 Wired,1p Sales,7.0,7112.7,7112.7,477.0,3339.0,FBA79959,MAPPED,Voice Amplifier,Wired Voice Amplifier,
+Week 18,Audio Array,AM-W47 Wired,Amazon,0.0,0.0,0.0,477.0,0.0,FBA79959,MAPPED,Voice Amplifier,Wired Voice Amplifier,
+Week 18,Audio Array,AM-W47 Wired,B2B,1.0,762.71,762.71,477.0,477.0,FBA79959,MAPPED,Voice Amplifier,Wired Voice Amplifier,
+Week 18,Audio Array,AM-W47 Wireless,1p Sales,3.0,4827.96,4827.96,872.0,2616.0,FBA79960,MAPPED,Voice Amplifier,Wireless Voice Amplifier,
+Week 18,Audio Array,AM-W47 Wireless,Amazon,0.0,0.0,0.0,872.0,0.0,FBA79960,MAPPED,Voice Amplifier,Wireless Voice Amplifier,
+Week 18,Audio Array,AM-W48,B2B,1.0,5719.71,5719.71,11599.0,11599.0,FBA79983,MAPPED,Party Speaker,"Dual 12"" 160W Bluetooth Party Speaker",
+Week 18,Audio Array,GB-01 (AM-C43 +AI-10),1p Sales,2.0,9150.84,9150.84,2586.0,5172.0,FBA79824,MAPPED,Bundles,GB-01,
+Week 18,Audio Array,GB-01 (AM-C43 +AI-10),Amazon,0.0,0.0,0.0,2586.0,0.0,FBA79824,MAPPED,Bundles,GB-01,
+Week 18,Audio Array,GB-02 (AM-C43 + AI-11),1p Sales,1.0,3261.86,3261.86,1984.0,1984.0,FBA79825,MAPPED,Bundles,GB-02,
+Week 18,Audio Array,GB-02 (AM-C43 + AI-11),Amazon,2.0,6566.101694915255,6566.101694915255,1984.0,3968.0,FBA79825,MAPPED,Bundles,GB-02,
+Week 18,Audio Array,GB-03 (AI-12 + AM-C43),1p Sales,1.0,2668.64,2668.64,1829.0,1829.0,FBA79830,MAPPED,Bundles,GB-03,
+Week 18,Audio Array,GB-03 (AI-12 + AM-C43),Amazon,1.0,2668.64406779661,2668.64406779661,1829.0,1829.0,FBA79830,MAPPED,Bundles,GB-03,
+Week 18,Audio Array,GB-04 (AM-C45 + AI-06),Amazon,0.0,0.0,0.0,4631.0,0.0,FBA79831,MAPPED,Bundles,GB-04,
+Week 18,Audio Array,GB-05 (AM-C43 + AI-06),1p Sales,0.0,0.0,0.0,3910.0,0.0,FBA79832,MAPPED,Bundles,GB-05,
+Week 18,Audio Array,GB-05 (AM-C43 + AI-06),Amazon,0.0,0.0,0.0,3910.0,0.0,FBA79832,MAPPED,Bundles,GB-05,
+Week 18,Audio Array,KB-01 (AM-W32 + AI-12),Amazon,0.0,0.0,0.0,2631.0,0.0,FBA79822,MAPPED,Bundles,KB-01,
+Week 18,Audio Array,MT-12,1p Sales,1.0,8050.0,8050.0,3527.0,3527.0,FBA80007,MAPPED,Mixers,12 channels Mixer,
+Week 18,Audio Array,MT-12,Amazon,2.0,16100.0,16100.0,3527.0,7054.0,FBA80007,MAPPED,Mixers,12 channels Mixer,
+Week 18,Audio Array,PB-02 (AI-04 Red + AM-C11 + AA-05),Amazon,0.0,0.0,0.0,5119.0,0.0,FBA79826,MAPPED,Bundles,PB-02,
+Week 18,Audio Array,PB-03 (AI-04 Red + AM-C11 x 2),1p Sales,0.0,0.0,0.0,7723.0,0.0,FBA79827,MAPPED,Bundles,PB-03,
+Week 18,Audio Array,PB-03 (AI-04 Red + AM-C11 x 2),Amazon,0.0,0.0,0.0,7723.0,0.0,FBA79827,MAPPED,Bundles,PB-03,
+Week 18,Audio Array,PB-04 (AI-04 Red + AM-C44 x 2),Amazon,0.0,0.0,0.0,7170.0,0.0,FBA79833,MAPPED,Bundles,PB-04,
+Week 18,Audio Array,PB-05 (AA-05 + AM-C11 + AI-04),Amazon,0.0,0.0,0.0,5119.0,0.0,FBA79834,MAPPED,Bundles,PB-05,
+Week 18,Audio Array,PB-06 (AA-05 + AM-C44 + AI-04),Amazon,0.0,0.0,0.0,4842.0,0.0,FBA79835,MAPPED,Bundles,PB-06,
+Week 18,Audio Array,PB-07 (AA-05 + AM-C45 + AI-04),Amazon,0.0,0.0,0.0,4181.0,0.0,FBA79836,MAPPED,Bundles,PB-07,
+Week 18,Audio Array,PB-08 (AM-C1 + AI-04),1p Sales,1.0,5931.36,5931.36,3359.0,3359.0,FBA79844,MAPPED,Bundles,PB-08,
+Week 18,Audio Array,PB-10 (AM-C2+AI-04+AH-60-BL),1p Sales,4.0,33894.92,33894.92,4987.0,19948.0,FBA79904,MAPPED,Bundles,PB-10,
+Week 18,Audio Array,PB-10 (AM-C2+AI-04+AH-60-BL),Amazon,3.0,25421.186440677968,25421.186440677968,4987.0,14961.0,FBA79904,MAPPED,Bundles,PB-10,
+Week 18,Audio Array,PB-11 (AM-C44+AA-05+AH-45-BK),Amazon,0.0,0.0,0.0,3426.0,0.0,FBA79905,MAPPED,Bundles,PB-11,
+Week 18,Audio Array,PB-12 (AM-C11+AA-05+AI-04+AH-60-RD),Amazon,0.0,0.0,0.0,6153.0,0.0,FBA79906,MAPPED,Bundles,PB-12,
+Week 18,Audio Array,PB-14 (AM-C43+AH-40-SL+AI-12),Amazon,0.0,0.0,0.0,2281.0,0.0,FBA79908,MAPPED,Bundles,PB-14,
+Week 18,Audio Array,SB-01,1p Sales,3.0,3302.54,3302.54,685.0,2055.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
+Week 18,Audio Array,SB-01,Amazon,2.0,2201.694915254237,2201.694915254237,685.0,1370.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
+Week 18,Audio Array,SB-01,BI Worldwide,1.0,1008.0,1008.0,685.0,685.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
+Week 18,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",1p Sales,0.0,0.0,0.0,9528.0,0.0,FBA79821,MAPPED,Bundles,UB-01,
+Week 18,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",Amazon,0.0,0.0,0.0,9528.0,0.0,FBA79821,MAPPED,Bundles,UB-01,
+Week 18,Audio Array,UB-02 (AM-S1 + AA-21),1p Sales,1.0,9829.66,9829.66,5837.0,5837.0,FBA79845,MAPPED,Bundles,UB-02,
+Week 18,Audio Array,UB-02 (AM-S1 + AA-21),Amazon,1.0,9829.661016949152,9829.661016949152,5837.0,5837.0,FBA79845,MAPPED,Bundles,UB-02,
+Week 18,Audio Array,UB-03 (AM-S1 + AA-22),Amazon,0.0,0.0,0.0,5837.0,0.0,FBA79969,MAPPED,Bundles,UB-03,
+Week 18,Fossil,AR11338,Amazon,0.0,0.0,0.0,0.0,0.0,FBA75346,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11360,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74838,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11484,Amazon,0.0,0.0,0.0,0.0,0.0,FBA76447,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11500,Amazon,0.0,0.0,0.0,0.0,0.0,FBA76772,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11558,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79221,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11568,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79377,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11575,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79048,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11582,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79305,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11589,Amazon,1.0,14531.35593220339,14531.35593220339,0.0,0.0,FBS79303,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11596,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79283,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11606,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79417,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11610,Amazon,2.0,24566.10169491525,24566.10169491525,0.0,0.0,FBA79418,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11620,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79495,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11622,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79497,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11623,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79498,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11624,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79499,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11625,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79500,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11626,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79501,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11635,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79502,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11636,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79503,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11637,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79504,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11639,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79618,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11660,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79795,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11661,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79796,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11663,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79798,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11664,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79799,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11665,Amazon,2.0,27110.169491525427,27110.169491525427,0.0,0.0,FBA79723,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11666,Amazon,1.0,13555.084745762711,13555.084745762711,0.0,0.0,FBA79800,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11669,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79801,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11671,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79724,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11672,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79725,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11674,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79727,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11676,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79728,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11689,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79855,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11690,Amazon,1.0,15672.881355932204,15672.881355932204,0.0,0.0,FBA79856,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11691,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79857,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11692,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79858,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11693,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79859,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79860,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11706,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79861,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11707,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79862,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11708,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79863,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11713,Amazon,1.0,16944.91525423729,16944.91525423729,0.0,0.0,FBA79916,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11714,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79917,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11718,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79918,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11754,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80058,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11756,Amazon,1.0,12283.898305084746,12283.898305084746,0.0,0.0,FBA80059,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11759,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80061,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11770,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80062,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11771,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80063,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11772,Amazon,1.0,16944.91525423729,16944.91525423729,0.0,0.0,FBA80064,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11773,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80039,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11774,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80065,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR11783,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80066,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR1926,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69548,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR1979,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74251,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR2434,Amazon,2.0,45754.2372881356,45754.2372881356,0.0,0.0,FBA69556,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR2502,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69544,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR60079,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79506,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR60080,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79507,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR70010,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79040,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR80083SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79919,MAPPED,Traditional Watch,,
+Week 18,Fossil,AR80087SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80040,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1343,Amazon,0.0,0.0,0.0,0.0,0.0,FBA75372,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1739,Amazon,1.0,14826.27118644068,14826.27118644068,0.0,0.0,FBA77972,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1746,Amazon,4.0,59305.08474576272,59305.08474576272,0.0,0.0,FBA80095,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1764,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79409,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1767,Amazon,1.0,9192.372881355932,9192.372881355932,0.0,0.0,FBA79730,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1769,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79920,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1956,Amazon,1.0,10377.966101694916,10377.966101694916,0.0,0.0,FBA79158,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1962,Amazon,1.0,10377.966101694916,10377.966101694916,0.0,0.0,FBA79322,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79622,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1970,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79921,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1971,Amazon,1.0,14826.27118644068,14826.27118644068,0.0,0.0,FBA80025,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1972,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80026,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX1973,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80027,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2101,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69567,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2413,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74758,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2454,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79317,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2461,Amazon,1.0,9149.152542372882,9149.152542372882,0.0,0.0,FBA79625,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2463,Amazon,1.0,20331.35593220339,20331.35593220339,0.0,0.0,FBA79731,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2761,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79321,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2766,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80028,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2767,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80029,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2820,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79864,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2821,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79865,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2822,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79866,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX2823,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79867,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4173,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79923,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4180,Amazon,1.0,13554.237288135591,13554.237288135591,0.0,0.0,FBA79512,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4181,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79513,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4182,Amazon,1.0,13555.084745762711,13555.084745762711,0.0,0.0,FBA79514,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4183,Amazon,2.0,27107.627118644068,27107.627118644068,0.0,0.0,FBA79515,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4184,Amazon,13.0,176202.54237288138,176202.54237288138,0.0,0.0,FBA79627,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4186,Amazon,1.0,12283.050847457627,12283.050847457627,0.0,0.0,FBA79733,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4199,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79924,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4405,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80030,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4406,Amazon,1.0,12283.898305084746,12283.898305084746,0.0,0.0,FBA80031,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4407,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80032,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4408,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80033,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4621,Amazon,1.0,11436.440677966102,11436.440677966102,0.0,0.0,FBA79925,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX4625,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80034,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5176,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79735,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5724,Amazon,3.0,27950.84745762712,27950.84745762712,0.0,0.0,FBA79517,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5725,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79518,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5730,Amazon,1.0,10588.98305084746,10588.98305084746,0.0,0.0,FBA79868,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5732,Amazon,1.0,10588.98305084746,10588.98305084746,0.0,0.0,FBA79869,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5734,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79870,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5735,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79871,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5901,Amazon,1.0,13131.35593220339,13131.35593220339,0.0,0.0,FBA74927,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5911,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74952,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX5916,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79737,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX7151SET,Amazon,1.0,16944.91525423729,16944.91525423729,0.0,0.0,FBA79152,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX7161SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79520,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX7163SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79628,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX7165SET,Amazon,1.0,13554.237288135591,13554.237288135591,0.0,0.0,FBA79738,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX7167SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79740,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX7175SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79926,MAPPED,Traditional Watch,,
+Week 18,Fossil,AX7176SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79927,MAPPED,Traditional Watch,,
+Week 18,Fossil,BQ3181,Amazon,19.0,135205.93220338985,135205.93220338985,0.0,0.0,FBA74728,MAPPED,Traditional Watch,,
+Week 18,Fossil,CH2885,Amazon,3.0,20458.474576271183,20458.474576271183,0.0,0.0,FBA73952,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ2189,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79029,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ2210SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79414,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ2212,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79521,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ2213,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79522,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ2215,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ2234,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80035,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4627,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4659,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79288,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4662,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79411,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4665,Amazon,1.0,18216.10169491525,18216.10169491525,0.0,0.0,FBA79412,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4667,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79413,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4670,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79897,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4671,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79898,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4702,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80036,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4703,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80057,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ4709,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80037,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ5609,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79803,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ5611,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79804,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ5612,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79805,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ5613,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79806,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ5618,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79899,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ7395,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69579,MAPPED,Traditional Watch,,
+Week 18,Fossil,DZ7487,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79807,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES2811,Amazon,17.0,194405.08474576272,194405.08474576272,0.0,0.0,FBA66636,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES3020,Amazon,4.0,40656.77966101695,40656.77966101695,0.0,0.0,FBA66627,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES3284,Amazon,1.0,11011.86440677966,11011.86440677966,0.0,0.0,FBA66633,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES3466,Amazon,39.0,312231.3559322034,312231.3559322034,0.0,0.0,FBA67801,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES3843,Amazon,20.0,118593.22033898304,118593.22033898304,0.0,0.0,FBA66964,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES4433,Amazon,9.0,72411.86440677967,72411.86440677967,0.0,0.0,FBA69595,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES4519,Amazon,3.0,24017.79661016949,24017.79661016949,0.0,0.0,FBA70769,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES4628,Amazon,2.0,22022.03389830509,22022.03389830509,0.0,0.0,FBA71628,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5271,Amazon,0.0,0.0,0.0,0.0,0.0,FBA78013,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5303,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79222,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5306,Amazon,1.0,13554.237288135591,13554.237288135591,0.0,0.0,FBA79031,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5310,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79018,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5319,Amazon,1.0,10163.5593220339,10163.5593220339,0.0,0.0,FBA79145,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5323,Amazon,1.0,13554.237288135591,13554.237288135591,0.0,0.0,FBA79143,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5329,Amazon,3.0,30490.67796610169,30490.67796610169,0.0,0.0,FBA79324,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5331,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79323,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5338,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79319,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5349,Amazon,3.0,28463.5593220339,28463.5593220339,0.0,0.0,FBA79421,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5350,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79422,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5357,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79525,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5358,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79526,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5361,Amazon,5.0,57177.1186440678,57177.1186440678,0.0,0.0,FBA79527,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5362,Amazon,12.0,137237.28813559323,137237.28813559323,0.0,0.0,FBA79528,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5363,Amazon,3.0,34306.77966101695,34306.77966101695,0.0,0.0,FBA79529,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5364,Amazon,3.0,30483.050847457627,30483.050847457627,0.0,0.0,FBA79530,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5380,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79629,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5381,Amazon,1.0,9488.98305084746,9488.98305084746,0.0,0.0,FBA79630,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5386,Amazon,2.0,22871.186440677968,22871.186440677968,0.0,0.0,FBA79631,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5387SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79632,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5388,Amazon,3.0,30495.76271186441,30495.76271186441,0.0,0.0,FBA79633,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5398,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79741,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5399,Amazon,1.0,15673.728813559324,15673.728813559324,0.0,0.0,FBA79742,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5400,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79743,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5417,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79873,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5418,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79874,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5419,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79875,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5420,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79876,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5421,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79877,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5422,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79878,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5434,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79879,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5438,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79928,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5439,Amazon,7.0,71156.77966101695,71156.77966101695,0.0,0.0,FBA79929,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5443,Amazon,3.0,30495.76271186441,30495.76271186441,0.0,0.0,FBA79930,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5444,Amazon,1.0,13554.237288135591,13554.237288135591,0.0,0.0,FBA79931,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5451,Amazon,2.0,22872.881355932204,22872.881355932204,0.0,0.0,FBA79932,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5452,Amazon,5.0,57182.20338983051,57182.20338983051,0.0,0.0,FBA79933,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5456,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80042,MAPPED,Traditional Watch,,
+Week 18,Fossil,ES5472,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80043,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS4735,Amazon,2.0,22023.728813559323,22023.728813559323,0.0,0.0,FBA74721,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS4795,Amazon,32.0,393047.4576271187,393047.4576271187,0.0,0.0,FBA66963,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS4812,Amazon,1.0,7708.474576271187,7708.474576271187,0.0,0.0,FBA66648,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS4813,Amazon,6.0,66071.18644067796,66071.18644067796,0.0,0.0,FBA66640,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS4867,Amazon,36.0,309569.4915254238,309569.4915254238,0.0,0.0,FBA80093,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5151,Amazon,8.0,61674.576271186445,61674.576271186445,0.0,0.0,FBS66987,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5308,Amazon,6.0,48269.491525423735,48269.491525423735,0.0,0.0,FBA67811,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5452,Amazon,1.0,11011.016949152545,11011.016949152545,0.0,0.0,FBA75146,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5512,Amazon,1.0,11011.86440677966,11011.86440677966,0.0,0.0,FBA70827,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5525,Amazon,2.0,24565.254237288136,24565.254237288136,0.0,0.0,FBA70774,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5665,Amazon,3.0,17787.288135593222,17787.288135593222,0.0,0.0,FBA80096,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5699,Amazon,0.0,0.0,0.0,0.0,0.0,FBA74245,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5792,Amazon,4.0,49132.20338983051,49132.20338983051,0.0,0.0,FBA75077,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5855,Amazon,4.0,34394.91525423729,34394.91525423729,0.0,0.0,FBA75153,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5901,Amazon,1.0,10165.254237288136,10165.254237288136,0.0,0.0,FBA75320,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5963,Amazon,4.0,44045.76271186441,44045.76271186441,0.0,0.0,FBA76941,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS5971,Amazon,0.0,0.0,0.0,0.0,0.0,FBA78012,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6029,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79148,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6032,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79144,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6045,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79336,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6048,Amazon,3.0,40662.71186440678,40662.71186440678,0.0,0.0,FBA79334,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6056,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79432,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6071,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79533,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6081SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79634,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6085,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79636,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6086,Amazon,1.0,8599.152542372882,8599.152542372882,0.0,0.0,FBA79637,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6087,Amazon,1.0,8598.305084745763,8598.305084745763,0.0,0.0,FBA79638,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6089,Amazon,2.0,14231.35593220339,14231.35593220339,0.0,0.0,FBA79639,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6090,Amazon,1.0,11435.593220338984,11435.593220338984,0.0,0.0,FBA79640,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6094,Amazon,1.0,6775.42372881356,6775.42372881356,0.0,0.0,FBA79641,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6104,Amazon,4.0,54218.64406779662,54218.64406779662,0.0,0.0,FBA79746,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6106,Amazon,2.0,27107.627118644068,27107.627118644068,0.0,0.0,FBA79748,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6107,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79749,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6108,Amazon,1.0,12283.898305084746,12283.898305084746,0.0,0.0,FBA79750,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6111,Amazon,5.0,61413.5593220339,61413.5593220339,0.0,0.0,FBA79753,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6112,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79754,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6113,Amazon,4.0,44047.457627118645,44047.457627118645,0.0,0.0,FBA79755,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6128,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79880,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6129,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79881,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6131,Amazon,21.0,257961.86440677967,257961.86440677967,0.0,0.0,FBA79882,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6132,Amazon,3.0,36851.69491525424,36851.69491525424,0.0,0.0,FBA79883,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6133,Amazon,2.0,24567.79661016949,24567.79661016949,0.0,0.0,FBA79884,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6139,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79934,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6140,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79935,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6144,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79937,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6145SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79938,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6149,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79939,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6150,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79940,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6151,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79941,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6154,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80044,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6161,Amazon,1.0,11436.440677966102,11436.440677966102,0.0,0.0,FBA80045,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6162,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80067,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6163,Amazon,1.0,11012.71186440678,11012.71186440678,0.0,0.0,FBA80046,MAPPED,Traditional Watch,,
+Week 18,Fossil,FS6164,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80068,MAPPED,Traditional Watch,,
+Week 18,Fossil,JR1401,Amazon,57.0,540872.0338983051,540872.0338983051,0.0,0.0,FBA66974,MAPPED,Traditional Watch,,
+Week 18,Fossil,JR1487,Amazon,22.0,189181.3559322034,189181.3559322034,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3061,Amazon,0.0,0.0,0.0,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3098,Amazon,2.0,33888.135593220344,33888.135593220344,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3154,Amazon,0.0,0.0,0.0,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3206,Amazon,2.0,37277.1186440678,37277.1186440678,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3218,Amazon,1.0,19485.593220338986,19485.593220338986,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3253,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3254,Amazon,3.0,53374.576271186445,53374.576271186445,0.0,0.0,FBA79224,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3260,Amazon,1.0,18638.98305084746,18638.98305084746,0.0,0.0,FBA79335,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3261,Amazon,1.0,16944.91525423729,16944.91525423729,0.0,0.0,FBA79538,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3265,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79642,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3266,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79643,MAPPED,Traditional Watch,,
+Week 18,Fossil,ME3270,Amazon,3.0,50832.20338983051,50832.20338983051,0.0,0.0,FBA79885,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK3190,Amazon,4.0,48624.576271186445,48624.576271186445,0.0,0.0,FBA69614,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4339,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77066,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4709,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77995,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4710,Amazon,1.0,20757.627118644068,20757.627118644068,0.0,0.0,FBA77996,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4805,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79292,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4817SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79311,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4822,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79423,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4823,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79424,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4824,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79425,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4829,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79426,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4842,Amazon,1.0,15672.881355932204,15672.881355932204,0.0,0.0,FBA79539,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4843,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79540,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4845,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79541,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4847,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79542,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4863,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79644,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4864,Amazon,1.0,19487.288135593222,19487.288135593222,0.0,0.0,FBA79645,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4873,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79647,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4882,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79756,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4923,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79894,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4931,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79886,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4932,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79895,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4933,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79887,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4934,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79888,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4935,Amazon,1.0,19487.288135593222,19487.288135593222,0.0,0.0,FBA79889,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4962,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79942,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4997,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80047,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4998,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80048,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK4999,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80049,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK5491,Amazon,2.0,38972.88135593221,38972.88135593221,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK6485,Amazon,2.0,41515.254237288136,41515.254237288136,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7474,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79340,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7488,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79545,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7506,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79554,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7519LE,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79757,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7528,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79808,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7559,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79896,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7568,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80050,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7570SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80051,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7572,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80069,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7573,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80070,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7574,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80071,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7581,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80052,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7582,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80053,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7584,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80072,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7587,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80073,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7589,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80055,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK7590,Amazon,0.0,0.0,0.0,0.0,0.0,FBA80056,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK8603,Amazon,0.0,0.0,0.0,0.0,0.0,FBA67860,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9113,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79030,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9152,Amazon,1.0,19486.440677966104,19486.440677966104,0.0,0.0,FBA79310,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9153,Amazon,1.0,19486.440677966104,19486.440677966104,0.0,0.0,FBA79312,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9156,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79343,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9163,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79341,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9165,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79428,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9176,Amazon,2.0,20335.593220338986,20335.593220338986,0.0,0.0,FBA79555,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9177,Amazon,1.0,12455.084745762711,12455.084745762711,0.0,0.0,FBA79556,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9178,Amazon,3.0,31138.98305084746,31138.98305084746,0.0,0.0,FBA79557,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9179,Amazon,4.0,41518.64406779661,41518.64406779661,0.0,0.0,FBA79558,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9191,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79649,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9192,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79650,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9193,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79651,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9195,Amazon,2.0,19488.13559322034,19488.13559322034,0.0,0.0,FBA79758,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9196,Amazon,1.0,9744.06779661017,9744.06779661017,0.0,0.0,FBA79759,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9198,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79760,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9201,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79761,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9220,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79890,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9221,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79891,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9222,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79892,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9223,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79893,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9240,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79948,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Watch,,
+Week 18,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
+Week 18,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
+Week 18,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
+Week 18,Nexlev,,BI Worldwide,1.0,720.0,720.0,0.0,0.0,FBA79351,MAPPED,,,
+Week 18,Nexlev,,Myntra,1.0,1172.881,1172.881,0.0,0.0,FBА79381,MAPPED,,,
+Week 18,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
+Week 18,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
+Week 18,Nexlev,AP-03,Amazon,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 18,Nexlev,AP-03,BI Worldwide,3.0,7777.0,7777.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 18,Nexlev,AP-03,Blinkit Sales,1.0,2965.25,2965.25,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 18,Nexlev,AP-03,Myntra,1.0,5143.22,5143.22,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 18,Nexlev,AP-03,Pharmaeasy,1.0,3029.0,3029.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 18,Nexlev,AP-03 HEPA,Amazon,2.0,1853.398305084746,1853.398305084746,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares
+Week 18,Nexlev,BM-02,Amazon,1.0,1685.5932203389832,1685.5932203389832,970.0,970.0,FBA79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
+Week 18,Nexlev,BR-01,Amazon,26.0,30172.881355932204,30172.881355932204,536.0,13936.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
+Week 18,Nexlev,BR-01,Blinkit Sales,4.0,5416.95,5416.95,536.0,2144.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
+Week 18,Nexlev,CF-01,Amazon,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker
+Week 18,Nexlev,CFM-01,Amazon,57.0,130556.81355932204,130556.81355932204,1014.0,57798.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 18,Nexlev,CFM-01,B2B,6.0,12424.28,12424.28,1014.0,6084.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 18,Nexlev,CFM-01,BI Worldwide,1.0,2266.0,2266.0,1014.0,1014.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 18,Nexlev,CFM-01,Blinkit Sales,6.0,14516.95,14516.95,1014.0,6084.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 18,Nexlev,CFM-02,Amazon,5.0,25296.76271186441,25296.76271186441,3229.0,16145.0,FBA79689,MAPPED,HPC,Electric Massagers,Complete Leg Massager
+Week 18,Nexlev,CFM-03,Amazon,8.0,29655.084745762717,29655.084745762717,2004.0,16032.0,FBA79849,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 18,Nexlev,CM-01-BL,Amazon,1.0,1270.3389830508474,1270.3389830508474,560.0,560.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 18,Nexlev,CM-01-BL,Blinkit Sales,1.0,1143.22,1143.22,560.0,560.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 18,Nexlev,CM-01-BL,Pharmaeasy,1.0,1071.0,1071.0,560.0,560.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 18,Nexlev,CM-02-PR,Amazon,0.0,0.0,0.0,560.0,0.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 18,Nexlev,CM-02-PR,BI Worldwide,2.0,2185.0,2185.0,560.0,1120.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 18,Nexlev,CR-01,Amazon,26.0,14719.28813559322,14719.28813559322,533.0,13858.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
+Week 18,Nexlev,CR-01,BI Worldwide,2.0,1007.0,1007.0,533.0,1066.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
+Week 18,Nexlev,CR-01,Blinkit Sales,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
+Week 18,Nexlev,CR-01,Myntra,1.0,1360.169,1360.169,533.0,533.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
+Week 18,Nexlev,DF-01-BK,Amazon,1.0,1386.4406779661017,1386.4406779661017,1073.0,1073.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
+Week 18,Nexlev,DH-01,Amazon,25.0,105741.55932203388,105741.55932203388,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
+Week 18,Nexlev,EA-01,Amazon,14.0,13094.915254237289,13094.915254237289,710.0,9940.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 18,Nexlev,EA-01,BI Worldwide,1.0,890.0,890.0,710.0,710.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 18,Nexlev,EA-01,Blinkit Sales,2.0,1947.46,1947.46,710.0,1420.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 18,Nexlev,EA-02,Amazon,39.0,62257.62711864407,62257.62711864407,1345.0,52455.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 18,Nexlev,EA-02,Blinkit Sales,9.0,16263.56,16263.56,1345.0,12105.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 18,Nexlev,EM-02,Pharmaeasy,3.0,5133.0,5133.0,1422.0,4266.0,FBA79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro
+Week 18,Nexlev,ET-01-BK,Amazon,7.0,1712.7118644067796,1712.7118644067796,282.0,1974.0,FBA79233,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ET-01-BK,Myntra,1.0,779.661,779.661,295.0,295.0,FBA79373,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ET-01-BK,Pharmaeasy,1.0,376.0,376.0,282.0,282.0,FBA79233,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ET-02-GN,Amazon,9.0,2190.677966101695,2190.677966101695,282.0,2538.0,FBA79234,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ET-02-GN,B2B,6.0,2161.0,2161.0,577.0,1757.0,FBA79234,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-04-WH,Amazon,2.0,1254.2372881355932,1254.2372881355932,412.0,824.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-04-WH,Blinkit Sales,3.0,2150.0,2150.0,412.0,1236.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBA79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-05-PI,Pharmaeasy,2.0,1153.0,1153.0,413.0,826.0,FBA79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-07-WH,Amazon,2.0,1862.71186440678,1862.71186440678,371.0,742.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-07-WH,B2B,1.0,610.0,610.0,371.0,371.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-07-WH,BI Worldwide,6.0,2945.0,2945.0,371.0,2226.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-08-BL,Amazon,1.0,846.6101694915254,846.6101694915254,373.0,373.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-08-BL,BI Worldwide,3.0,1767.0,1767.0,373.0,1119.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-08-BL,Blinkit Sales,0.0,0.0,0.0,373.0,0.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-08-BL,Pharmaeasy,1.0,576.0,576.0,373.0,373.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETR-06,Amazon,1.0,1055.9322033898306,1055.9322033898306,672.0,672.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 18,Nexlev,ETR-06,BI Worldwide,3.0,2700.0,2700.0,672.0,2016.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 18,Nexlev,ETR-06,Blinkit Sales,0.0,0.0,0.0,672.0,0.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 18,Nexlev,FS-01,Amazon,12.0,17681.110169491527,17681.110169491527,896.0,10752.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
+Week 18,Nexlev,FS-01,BI Worldwide,9.0,11342.0,11342.0,896.0,8064.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
+Week 18,Nexlev,FS-01,Blinkit Sales,3.0,4446.61,4446.61,896.0,2688.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
+Week 18,Nexlev,GS-02,Amazon,23.0,35372.898305084746,35372.898305084746,1260.0,28980.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 18,Nexlev,GS-02,BI Worldwide,1.0,1584.0,1584.0,1260.0,1260.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 18,Nexlev,GS-02,Blinkit Sales,14.0,25835.59,25835.59,1260.0,17640.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 18,Nexlev,GS-04,Amazon,0.0,0.0,0.0,1512.0,0.0,FBA79229,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 18,Nexlev,GS-05,Amazon,11.0,17299.15254237288,17299.15254237288,987.0,10857.0,FBA79268,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 18,Nexlev,GS-05,BI Worldwide,1.0,1332.0,1332.0,987.0,987.0,FBA79268,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 18,Nexlev,GS-05,Blinkit Sales,11.0,17702.54,17702.54,987.0,10857.0,FBA79268,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 18,Nexlev,HB-01,Amazon,0.0,0.0,0.0,1175.0,0.0,FBA79676,MAPPED,HPC,Electric Massagers,Heated Wrap Belt
+Week 18,Nexlev,HD-01,Amazon,0.0,0.0,0.0,769.0,0.0,FBA79278,MAPPED,HPC,Hair Care,Hair Dryer
+Week 18,Nexlev,HD-01,BI Worldwide,1.0,936.0,936.0,769.0,769.0,FBA79278,MAPPED,HPC,Hair Care,Hair Dryer
+Week 18,Nexlev,HD-01,Blinkit Sales,0.0,0.0,0.0,769.0,0.0,FBA79278,MAPPED,HPC,Hair Care,Hair Dryer
+Week 18,Nexlev,HD-02,Amazon,0.0,0.0,0.0,448.0,0.0,FBA79348,MAPPED,HPC,Hair Care,Hair Dryer
+Week 18,Nexlev,HD-02,Blinkit Sales,0.0,0.0,0.0,448.0,0.0,FBA79348,MAPPED,HPC,Hair Care,Hair Dryer
+Week 18,Nexlev,HM-01,Amazon,1.0,842.3728813559322,842.3728813559322,490.0,490.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 18,Nexlev,HM-01,B2B,3.0,2429.0,2429.0,490.0,1470.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 18,Nexlev,HM-01,BI Worldwide,1.0,809.0,809.0,490.0,490.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 18,Nexlev,HM-01,Blinkit Sales,9.0,8890.68,8890.68,490.0,4410.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 18,Nexlev,HM-02,BI Worldwide,7.0,7927.0,7927.0,714.0,4998.0,FBA79333,MAPPED,HPC,Hair Care,Head Massager
+Week 18,Nexlev,HM-02,Blinkit Sales,1.0,1185.59,1185.59,714.0,714.0,FBA79333,MAPPED,HPC,Hair Care,Head Massager
+Week 18,Nexlev,HS-01,Amazon,0.0,0.0,0.0,378.0,0.0,FBA79272,MAPPED,HPC,Hair Care,Hair Straightener
+Week 18,Nexlev,HS-02,Amazon,0.0,0.0,0.0,389.0,0.0,FBA79273,MAPPED,HPC,Hair Care,Hair Straightener
+Week 18,Nexlev,HS-02,BI Worldwide,1.0,575.0,575.0,389.0,389.0,FBA79273,MAPPED,HPC,Hair Care,Hair Straightener
+Week 18,Nexlev,HSB-03,Amazon,0.0,0.0,0.0,868.0,0.0,FBA79405,MAPPED,HPC,Hair Care,Hair Straightener Brush - Corded
+Week 18,Nexlev,HSB-03,BI Worldwide,3.0,4103.0,4103.0,868.0,2604.0,FBA79405,MAPPED,HPC,Hair Care,Hair Straightener Brush - Corded
+Week 18,Nexlev,HSB-03,Blinkit Sales,0.0,0.0,0.0,868.0,0.0,FBA79405,MAPPED,HPC,Hair Care,Hair Straightener Brush - Corded
+Week 18,Nexlev,HSB-04,Amazon,19.0,36596.61016949153,36596.61016949153,961.0,18259.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 18,Nexlev,HSB-04,BI Worldwide,1.0,2028.0,2028.0,961.0,961.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 18,Nexlev,HSB-04,Blinkit Sales,5.0,11012.71,11012.71,961.0,4805.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 18,Nexlev,HU-01,Myntra,1.0,2092.373,2092.373,829.0,829.0,FBA79681,MAPPED,Home & Kitchen,Air Purifier,Humidifier Black
+Week 18,Nexlev,HU-02,Amazon,59.0,73235.63559322034,73235.63559322034,818.0,48262.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
+Week 18,Nexlev,HU-02,BI Worldwide,1.0,1512.0,1512.0,818.0,818.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
+Week 18,Nexlev,HU-02,Blinkit Sales,0.0,0.0,0.0,818.0,0.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
+Week 18,Nexlev,HU-02,Pharmaeasy,1.0,1498.0,1498.0,818.0,818.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
+Week 18,Nexlev,IPL-01,Blinkit Sales,0.0,0.0,0.0,1307.0,0.0,FBA79571,MAPPED,HPC,Skin Care,Laser Hair Remover Device
+Week 18,Nexlev,KE-01,Amazon,4.0,8132.203389830509,8132.203389830509,984.0,3936.0,FBA79488,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 18,Nexlev,KE-01,BI Worldwide,4.0,5041.0,5041.0,984.0,3936.0,FBA79488,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 18,Nexlev,KE-01,Blinkit Sales,0.0,0.0,0.0,984.0,0.0,FBA79488,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 18,Nexlev,KE-02,Amazon,4.0,6691.525423728814,6691.525423728814,980.0,3920.0,FBA79489,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 18,Nexlev,KE-02,Blinkit Sales,7.0,12155.08,12155.08,980.0,6860.0,FBA79489,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 18,Nexlev,KE-03,Amazon,0.0,0.0,0.0,324.0,0.0,FBA79809,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Kettle
+Week 18,Nexlev,KE-03,BI Worldwide,2.0,1178.0,1178.0,324.0,648.0,FBA79809,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Kettle
+Week 18,Nexlev,KE-03,Blinkit Sales,0.0,0.0,0.0,324.0,0.0,FBA79809,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Kettle
+Week 18,Nexlev,KM-01,Amazon,2.0,2455.93220338983,2455.93220338983,1039.0,2078.0,FBA79591,MAPPED,HPC,Electric Massagers,Knee Massager
+Week 18,Nexlev,KM-01,Blinkit Sales,0.0,0.0,0.0,1039.0,0.0,FBA79591,MAPPED,HPC,Electric Massagers,Knee Massager
+Week 18,Nexlev,LE-02,Amazon,2.0,3376.2711864406783,3376.2711864406783,810.0,1620.0,FBA79440,MAPPED,HPC,Hair Care,Hair Therapy Comb
+Week 18,Nexlev,LE-02,Blinkit Sales,0.0,0.0,0.0,810.0,0.0,FBA79440,MAPPED,HPC,Hair Care,Hair Therapy Comb
+Week 18,Nexlev,LE-03,Amazon,0.0,0.0,0.0,1089.0,0.0,FBA79443,MAPPED,HPC,Skin Care,LED Face & Skin Care Massager
+Week 18,Nexlev,LE-04,Amazon,1.0,1694.0677966101696,1694.0677966101696,594.0,594.0,FBA79469,MAPPED,HPC,Skin Care,Skin Lift Device
+Week 18,Nexlev,LE-04,Blinkit Sales,0.0,0.0,0.0,594.0,0.0,FBA79469,MAPPED,HPC,Skin Care,Skin Lift Device
+Week 18,Nexlev,LR-01,Amazon,2.0,1455.9322033898306,1455.9322033898306,444.0,888.0,FBA79279,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 18,Nexlev,LR-01,Blinkit Sales,5.0,3809.32,3809.32,444.0,2220.0,FBA79279,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 18,Nexlev,LR-01 Set of 2 blades,Amazon,1.0,317.79661016949154,317.79661016949154,108.0,108.0,FBA79606,MAPPED,Home & Kitchen,Set of 2 blades,Spares
+Week 18,Nexlev,LR-02,Amazon,9.0,11387.28813559322,11387.28813559322,899.0,8091.0,FBA79280,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 18,Nexlev,LR-02,Blinkit Sales,0.0,0.0,0.0,899.0,0.0,FBA79280,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 18,Nexlev,LR-02 Set of 2 blades,Amazon,1.0,402.542372881356,402.542372881356,145.0,145.0,FBA79607,MAPPED,Home & Kitchen,Set of 2 blades,Spares
+Week 18,Nexlev,LR-03,Amazon,6.0,1713.5593220338983,1713.5593220338983,145.0,870.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 18,Nexlev,LR-03,BI Worldwide,16.0,4258.0,4258.0,145.0,2320.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 18,Nexlev,LR-03,Blinkit Sales,4.0,1452.54,1452.54,145.0,580.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 18,Nexlev,MC-01,Amazon,8.0,3336.440677966102,3336.440677966102,297.0,2376.0,FBA79811,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper
+Week 18,Nexlev,MF-01,Amazon,1.0,507.6271186440678,507.6271186440678,261.0,261.0,FBA79810,MAPPED,Home & Kitchen,Kitchen Appliances,Milk Frother
+Week 18,Nexlev,MG-01,Amazon,0.0,0.0,0.0,926.0,0.0,FBA79596,MAPPED,HPC,Electric Massagers,Massage Gun
+Week 18,Nexlev,MG-01,Blinkit Sales,0.0,0.0,0.0,926.0,0.0,FBA79596,MAPPED,HPC,Electric Massagers,Massage Gun
+Week 18,Nexlev,MG-01,Myntra,2.0,5700.952,5700.952,926.0,1852.0,FBA79596,MAPPED,HPC,Electric Massagers,Massage Gun
+Week 18,Nexlev,MGC-03,Amazon,0.0,0.0,0.0,980.0,0.0,FBA79687,MAPPED,HPC,Electric Massagers,Hot & Cold Massage Gun
+Week 18,Nexlev,MGS-02,Amazon,0.0,0.0,0.0,436.0,0.0,FBA79686,MAPPED,HPC,Electric Massagers,Massage Gun - Mini
+Week 18,Nexlev,MR-01,Amazon,61.0,140883.89830508476,140883.89830508476,1162.0,70882.0,FBA79263,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 18,Nexlev,MR-01,BI Worldwide,1.0,2088.0,2088.0,1162.0,1162.0,FBA79263,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 18,Nexlev,MR-01,Blinkit Sales,2.0,4998.31,4998.31,1162.0,2324.0,FBA79263,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 18,Nexlev,MR-02,Amazon,30.0,86132.29661016949,86132.29661016949,1381.0,41430.0,FBA79439,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 18,Nexlev,MR-02,BI Worldwide,2.0,4897.0,4897.0,1381.0,2762.0,FBA79439,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 18,Nexlev,MR-02,Blinkit Sales,0.0,0.0,0.0,1381.0,0.0,FBA79439,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 18,Nexlev,MR-02 HEPA Filter,Amazon,1.0,148.3050847457627,148.3050847457627,45.0,45.0,FBA79721,MAPPED,Home & Kitchen,HEPA Filter,Spares
+Week 18,Nexlev,NP-01,Amazon,0.0,0.0,0.0,413.0,0.0,FBA78994,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 18,Nexlev,NP-02,Amazon,2.0,1184.7457627118645,1184.7457627118645,418.0,836.0,FBA78995,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 18,Nexlev,NP-03,Amazon,0.0,0.0,0.0,413.0,0.0,FBA78996,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 18,Nexlev,NP-03,B2B,1.0,647.0,647.0,413.0,413.0,FBA78996,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 18,Nexlev,NP-03,Blinkit Sales,0.0,0.0,0.0,413.0,0.0,FBA78996,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
+Week 18,Nexlev,NP-06,Amazon,0.0,0.0,0.0,501.0,0.0,FBA79677,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 18,Nexlev,NP-06,Blinkit Sales,0.0,0.0,0.0,501.0,0.0,FBA79677,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 18,Nexlev,NP-07,Amazon,0.0,0.0,0.0,501.0,0.0,FBA79678,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 18,Nexlev,PB-01,Amazon,29.0,56905.09322033898,56905.09322033898,1307.0,37903.0,FBA79812,MAPPED,Home & Kitchen,Kitchen Appliances,Portable Blender
+Week 18,Nexlev,PM-01,Blinkit Sales,0.0,0.0,0.0,969.0,0.0,FBA79675,MAPPED,HPC,Electric Massagers,Handheld Percussion Massager
+Week 18,Nexlev,PM-02,Amazon,0.0,0.0,0.0,963.0,0.0,FBA79690,MAPPED,HPC,Electric Massagers,Handheld Percussion Massager
+Week 18,Nexlev,SC-01,Amazon,124.0,381677.96610169497,381677.96610169497,1786.0,221464.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-01,B2B,45.0,104606.1,104606.1,1786.0,80370.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-01,Blinkit Sales,2.0,6015.25,6015.25,1786.0,3572.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-02,Blinkit Sales,0.0,0.0,0.0,1377.0,0.0,FBA79262,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-03,Amazon,20.0,113154.27118644069,113154.27118644069,4052.0,81040.0,FBA79277,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-04,Amazon,52.0,238852.55932203392,238852.55932203392,2695.0,140140.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-04,B2B,1.0,7033.0,7033.0,2695.0,2695.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-04,BI Worldwide,3.0,12964.0,12964.0,2695.0,8085.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-04,Blinkit Sales,0.0,0.0,0.0,2695.0,0.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-04 Spare Set,Amazon,2.0,466.1016949152543,466.1016949152543,40.0,80.0,FBA79843,MAPPED,Home & Kitchen,Spare Set,Spares
+Week 18,Nexlev,SC-05,Amazon,117.0,270555.9830508474,270555.9830508474,1443.0,168831.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-05,B2B,40.0,81355.93,81355.93,1443.0,57720.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-05,BI Worldwide,1.0,2160.0,2160.0,1443.0,1443.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-05,Blinkit Sales,5.0,12283.9,12283.9,1443.0,7215.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 18,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,0.0,0.0,0.0,350.0,0.0,FBA79912,MAPPED,Home & Kitchen,SC-05 - Set of Spares,Spares
+Week 18,Nexlev,SM-01,Amazon,10.0,25142.372881355936,25142.372881355936,2357.0,23570.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop
+Week 18,Nexlev,SM-01,Blinkit Sales,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop
+Week 18,Nexlev,SP-01,Amazon,1.0,8431.35593220339,8431.35593220339,0.0,0.0,FBA79971,MAPPED,,,
+Week 18,Nexlev,SPM-01,Amazon,5.0,15627.118644067798,15627.118644067798,2775.0,13875.0,FBA79468,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe
+Week 18,Nexlev,SPM-01 Set of 2 Mops,Amazon,0.0,0.0,0.0,250.0,0.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
+Week 18,Nexlev,SS-01,Amazon,1.0,2073.728813559322,2073.728813559322,1532.0,1532.0,FBA79451,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 18,Nexlev,SS-02,Amazon,11.0,11570.338983050846,11570.338983050846,1306.0,14366.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 18,Nexlev,SS-02,B2B,4.0,5763.0,5763.0,1306.0,5224.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 18,Nexlev,SS-02,BI Worldwide,1.0,1728.0,1728.0,1306.0,1306.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 18,Nexlev,SS-02,Blinkit Sales,4.0,5335.59,5335.59,1306.0,5224.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 18,Nexlev,SS-02 Set of Spares,Amazon,0.0,0.0,0.0,350.0,0.0,FBA79657,MAPPED,Home & Kitchen,Set of Spares,Spares
+Week 18,Nexlev,ST-01,Amazon,22.0,109931.36440677967,109931.36440677967,3423.0,75306.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
+Week 18,Nexlev,ST-01,B2B,1.0,4610.0,4610.0,3423.0,3423.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
+Week 18,Nexlev,SW-01,Amazon,33.0,27929.669491525423,27929.669491525423,409.0,13497.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine
+Week 18,Nexlev,SW-01,Blinkit Sales,0.0,0.0,0.0,409.0,0.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine
+Week 18,Nexlev,T-01,Blinkit Sales,2.0,1693.22,1693.22,516.0,1032.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 18,Nexlev,T-02,Amazon,1.0,1100.8474576271187,1100.8474576271187,606.0,606.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 18,Nexlev,T-02,BI Worldwide,1.0,915.0,915.0,606.0,606.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 18,Nexlev,T-02,Blinkit Sales,0.0,0.0,0.0,606.0,0.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 18,Nexlev,TI-01,Amazon,0.0,0.0,0.0,1250.0,0.0,FBA79466,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 18,Nexlev,TI-02,Amazon,0.0,0.0,0.0,865.0,0.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 18,Nexlev,TI-02,BI Worldwide,3.0,3455.0,3455.0,865.0,2595.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 18,Nexlev,TI-02,Blinkit Sales,2.0,3330.51,3330.51,865.0,1730.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 18,Nexlev,TIC-03,Amazon,0.0,0.0,0.0,814.0,0.0,FBA79474,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
+Week 18,Nexlev,TIC-03,Blinkit Sales,0.0,0.0,0.0,814.0,0.0,FBA79474,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
+Week 18,Nexlev,TIC-04,Amazon,0.0,0.0,0.0,1392.0,0.0,FBA79475,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
+Week 18,Nexlev,TM-01,Amazon,0.0,0.0,0.0,483.0,0.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 18,Nexlev,TM-01,BI Worldwide,4.0,2302.0,2302.0,483.0,1932.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 18,Nexlev,TM-01,Blinkit Sales,0.0,0.0,0.0,483.0,0.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 18,Nexlev,TM-02,Amazon,0.0,0.0,0.0,1302.0,0.0,FBA79481,MAPPED,HPC,Trimmers & Body Groomers,Intimate Trimmer
+Week 18,Nexlev,TM-02,Myntra,1.0,2679.661,2679.661,1302.0,1302.0,FBA79481,MAPPED,HPC,Trimmers & Body Groomers,Intimate Trimmer
+Week 18,Nexlev,TM-03,Amazon,0.0,0.0,0.0,594.0,0.0,FBA79483,MAPPED,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 18,Nexlev,TM-03,BI Worldwide,2.0,1512.0,1512.0,594.0,1188.0,FBA79483,MAPPED,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 18,Nexlev,TM-03,Blinkit Sales,1.0,846.61,846.61,594.0,594.0,FBA79483,MAPPED,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 18,Nexlev,TM-05,Amazon,0.0,0.0,0.0,1177.0,0.0,FBA79693,MAPPED,HPC,Trimmers & Body Groomers,Vacuum Trimmer
+Week 18,Nexlev,V-01,Amazon,3.0,3570.3389830508477,3570.3389830508477,728.0,2184.0,FBA79271,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-01 RG,Amazon,10.0,10183.050847457627,10183.050847457627,663.0,6630.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-01 RG,BI Worldwide,2.0,2159.0,2159.0,663.0,1326.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-01 RG,Blinkit Sales,16.0,20311.86,20311.86,663.0,10608.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-01 RG,Myntra,1.0,2355.085,2355.085,663.0,663.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-02,Amazon,1.0,2117.7966101694915,2117.7966101694915,1095.0,1095.0,FBA79492,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-02,Blinkit Sales,0.0,0.0,0.0,1095.0,0.0,FBA79492,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-03,Amazon,29.0,46883.898305084746,46883.898305084746,852.0,24708.0,FBA79493,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-03,BI Worldwide,4.0,6047.0,6047.0,852.0,3408.0,FBA79493,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,V-03,Blinkit Sales,0.0,0.0,0.0,852.0,0.0,FBA79493,MAPPED,HPC,Hair Care,Volumizer
+Week 18,Nexlev,VC-01,Amazon,28.0,46072.88135593221,46072.88135593221,1088.0,30464.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-01,B2B,2.0,4627.0,4627.0,1088.0,2176.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-01,BI Worldwide,3.0,4536.0,4536.0,1088.0,3264.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-01,Blinkit Sales,2.0,3557.63,3557.63,1088.0,2176.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-01 HEPA,Amazon,0.0,0.0,0.0,45.0,0.0,FBA79773,MAPPED,Home & Kitchen,HEPA,Spares
+Week 18,Nexlev,VC-02,Amazon,5.0,8471.186440677966,8471.186440677966,1291.0,6455.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-02,B2B,1.0,1587.0,1587.0,1291.0,1291.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-02,BI Worldwide,1.0,1800.0,1800.0,1291.0,1291.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-02,Blinkit Sales,0.0,0.0,0.0,1291.0,0.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-03,Amazon,0.0,0.0,0.0,803.0,0.0,FBA79480,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-03,BI Worldwide,1.0,1440.0,1440.0,803.0,803.0,FBA79480,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-03,Blinkit Sales,0.0,0.0,0.0,803.0,0.0,FBA79480,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-04,Amazon,0.0,0.0,0.0,1112.0,0.0,FBA79565,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-04,Blinkit Sales,0.0,0.0,0.0,1112.0,0.0,FBA79565,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-05,Amazon,2.0,3894.915254237289,3894.915254237289,1063.0,2126.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-05,B2B,1.0,3813.0,3813.0,1063.0,1063.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-05,BI Worldwide,5.0,7559.0,7559.0,1063.0,5315.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-05,Blinkit Sales,0.0,0.0,0.0,1063.0,0.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,"VC-05 VC-05 -Set of Spares(Crevice, Brush & Hose)",Amazon,0.0,0.0,0.0,350.0,0.0,FBA79913,MAPPED,Home & Kitchen,"VC-05 -Set of Spares(Crevice, Brush & Hose)",Spares
+Week 18,Nexlev,VC-06,BI Worldwide,1.0,1296.0,1296.0,954.0,954.0,FBA79599,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,VC-06,Blinkit Sales,0.0,0.0,0.0,954.0,0.0,FBA79599,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 18,Nexlev,WF-02-BL,BI Worldwide,1.0,900.0,900.0,562.0,562.0,FBA79352,MAPPED,Home & Kitchen,Pet Supplies,Water Fountain
+Week 18,Tonor,K1,Amazon,1.0,1609.322033898305,1609.322033898305,652.0,652.0,FBA77113,MAPPED,Dynamic Microphone,Hand held Mic,
+Week 18,Tonor,ORCA001,Amazon,0.0,0.0,0.0,2412.0,0.0,FBA77103,MAPPED,Condenser Microphone,Stand,
+Week 18,Tonor,S20,1p Sales,1.0,2247.46,2247.46,1086.0,1086.0,FBA77117,MAPPED,Accessories,Microphone Isolation Shield,
+Week 18,Tonor,S20,Amazon,1.0,2202.542372881356,2202.542372881356,1086.0,1086.0,FBA77117,MAPPED,Accessories,Microphone Isolation Shield,
+Week 18,Tonor,T20,1p Sales,1.0,2117.8,2117.8,1164.0,1164.0,FBA77106,MAPPED,Accessories,Boom Arm Kit,
+Week 18,Tonor,T20,Amazon,1.0,2075.42372881356,2075.42372881356,1164.0,1164.0,FBA77106,MAPPED,Accessories,Boom Arm Kit,
+Week 18,Tonor,T20LP,1p Sales,1.0,1948.31,1948.31,845.0,845.0,FBA79585,MAPPED,Accessories,Low Profile Boom Arm,
+Week 18,Tonor,T30,Amazon,2.0,4744.067796610169,4744.067796610169,1327.0,2654.0,FBA77105,MAPPED,Accessories,Boom Arm Kit,
+Week 18,Tonor,TC-777,1p Sales,5.0,9741.54,9741.54,1206.0,6030.0,FBA77101,MAPPED,Condenser Microphone,Tripod,
+Week 18,Tonor,TC-777 PRO,1p Sales,16.0,25749.12,25749.12,1086.0,17376.0,FBA79116,MAPPED,Condenser Microphone,Tripod - RGB,
+Week 18,Tonor,TC-777 PRO,Amazon,0.0,0.0,0.0,1086.0,0.0,FBA79116,MAPPED,Condenser Microphone,Tripod - RGB,
+Week 18,Tonor,TC30,1p Sales,4.0,7454.24,7454.24,1327.0,5308.0,FBA77111,MAPPED,Condenser Microphone,Tripod,
+Week 18,Tonor,TC30,Amazon,2.0,1863.5593220338983,1863.5593220338983,1327.0,2654.0,FBA77111,MAPPED,Condenser Microphone,Tripod,
+Week 18,Tonor,TC30S,Amazon,0.0,0.0,0.0,1448.0,0.0,FBA79574,MAPPED,Condenser Microphone,Tripod+RGB,
+Week 18,Tonor,TC30S+,Amazon,0.0,0.0,0.0,1749.0,0.0,FBA79576,MAPPED,Condenser Microphone,Boom Arm Kit + RGB,
+Week 18,Tonor,TC310,1p Sales,0.0,0.0,0.0,1206.0,0.0,FBA79113,MAPPED,Condenser Microphone,Tripod - RGB,
+Week 18,Tonor,TC310,Amazon,4.0,8471.186440677966,8471.186440677966,1206.0,4824.0,FBA79113,MAPPED,Condenser Microphone,Tripod - RGB,
+Week 18,Tonor,TC310+,1p Sales,5.0,12283.9,12283.9,1689.0,8445.0,FBA79114,MAPPED,Condenser Microphone,Boom Arm Kit - USB - RGB,
+Week 18,Tonor,TC310+,Amazon,0.0,0.0,0.0,1689.0,0.0,FBA79114,MAPPED,Condenser Microphone,Boom Arm Kit - USB - RGB,
+Week 18,Tonor,TC40,1p Sales,2.0,5701.69,5701.69,1930.0,3860.0,FBA77115,MAPPED,Condenser Microphone,Boom Arm Kit - USB,
+Week 18,Tonor,TC40,Amazon,0.0,0.0,0.0,1930.0,0.0,FBA77115,MAPPED,Condenser Microphone,Boom Arm Kit - USB,
+Week 18,Tonor,TC40S,Amazon,1.0,2965.254237288136,2965.254237288136,1930.0,1930.0,FBA77116,MAPPED,Condenser Microphone,Boom Arm Kit - USB - RGB,
+Week 18,Tonor,TD310,1p Sales,0.0,0.0,0.0,823.0,0.0,FBA79697,MAPPED,Dynamic Microphone,Hand held Mic + Stand,
+Week 18,Tonor,TD310+,1p Sales,3.0,5188.98,5188.98,921.0,2763.0,FBA79696,MAPPED,Dynamic Microphone,Hand held Mic + Boom Arm,
+Week 18,Tonor,TD310+,Amazon,6.0,10164.406779661018,10164.406779661018,921.0,5526.0,FBA79696,MAPPED,Dynamic Microphone,Hand held Mic + Boom Arm,
+Week 18,Tonor,TD510,1p Sales,0.0,0.0,0.0,2412.0,0.0,FBA79111,MAPPED,Dynamic Microphone,USB/XLR Mic,
+Week 18,Tonor,TD510,Amazon,2.0,6777.966101694916,6777.966101694916,2412.0,4824.0,FBA79111,MAPPED,Dynamic Microphone,USB/XLR Mic,
+Week 18,Tonor,TM310,Amazon,0.0,0.0,0.0,965.0,0.0,FBA79577,MAPPED,Conference Microphone,Wired,
+Week 18,White Mulberry,HDGS1ML,Amazon,2.0,13557.627118644068,13557.627118644068,3200.0,6400.0,FBK79793,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,HDWF1ML,1p Sales,8.0,21010.17,21010.17,1254.0,10032.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,HDWF1ML,Amazon,0.0,0.0,0.0,1254.0,0.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,MS1ML,1p Sales,6.0,10164.41,10164.41,720.0,4320.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,MS1ML,Amazon,1.0,1694.07,1694.07,720.0,720.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,POS2MK,Amazon,0.0,0.0,0.0,2722.0,0.0,FBK79785,MAPPED,Monitor Arm,POS Stand,
+Week 18,White Mulberry,POSS-01,Amazon,9.0,13552.542372881357,13552.542372881357,589.0,5301.0,FBK79786,MAPPED,Monitor Arm,POS Stand,
+Week 18,White Mulberry,TVCF1ML,Amazon,6.0,3737.288135593221,3737.288135593221,175.0,1050.0,FBK79787,MAPPED,Monitor Arm,TV Wall Mount,
+Week 18,White Mulberry,TVCT1ML,Amazon,34.0,12476.27118644068,12476.27118644068,113.0,3842.0,FBK79788,MAPPED,Monitor Arm,TV Wall Mount,
+Week 18,White Mulberry,TVFM1ML,Amazon,4.0,7115.254237288136,7115.254237288136,724.0,2896.0,FBK79791,MAPPED,Monitor Arm,TV Wall Mount,
+Week 18,White Mulberry,TVLF1ML,Amazon,6.0,3894.915254237289,3894.915254237289,230.0,1380.0,FBA79790,MAPPED,Monitor Arm,TV Wall Mount,
+Week 18,White Mulberry,TVMF1ML,Amazon,36.0,17755.93220338983,17755.93220338983,179.0,6444.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,
+Week 18,White Mulberry,VLMS1ML,Amazon,6.0,14232.203389830507,14232.203389830507,1130.0,6780.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-GD07-CB,Amazon,2.0,14235.593220338984,14235.593220338984,3269.0,6538.0,FBA79167,MAPPED,Desk,Gaming Desk,
+Week 18,White Mulberry,WM-GS1M-BK,1p Sales,11.0,25626.26,25626.26,1341.0,14751.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-GS1M-BK,Amazon,0.0,0.0,0.0,1341.0,0.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-GS1M-BK,BI Worldwide,1.0,1872.0,1872.0,1341.0,1341.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-GS1M-BK,Sheet1,1.0,1907.0,1907.0,1341.0,1341.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-GS2M-BK,1p Sales,3.0,11946.6,11946.6,2236.0,6708.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-GS2M-BK,Amazon,0.0,0.0,0.0,2236.0,0.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-HA1M-BK,1p Sales,-1.0,-1355.08,-1355.08,866.0,-866.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-HA1M-BK,Amazon,1.0,1355.084745762712,1355.084745762712,866.0,866.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-HA2M-BK,1p Sales,10.0,16940.64,16940.64,1380.0,13800.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-HA2M-BK,Amazon,5.0,6861.003559322034,6861.003559322034,1380.0,6900.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM-LOD-BK,Amazon,0.0,0.0,0.0,3943.0,0.0,FBA76416,MAPPED,Desk,L-Shaped Desk,
+Week 18,White Mulberry,WM-LOD-CF,Amazon,8.0,49391.52542372882,49391.52542372882,3943.0,31544.0,FBA76415,MAPPED,Desk,L-Shaped Desk,
+Week 18,White Mulberry,WM-LOD-IN,Amazon,1.0,7055.932203389831,7055.932203389831,3943.0,3943.0,FBA76418,MAPPED,Desk,L-Shaped Desk,
+Week 18,White Mulberry,WM-LOD-WH,Amazon,11.0,77544.69491525425,77544.69491525425,3943.0,43373.0,FBA76417,MAPPED,Desk,L-Shaped Desk,
+Week 18,White Mulberry,WM-MDL-BK,Amazon,1.0,11016.101694915254,11016.101694915254,6432.0,6432.0,FBA79659,MAPPED,Desk-Adjustable,Manual,
+Week 18,White Mulberry,WM-MDL-WH,Amazon,4.0,44064.40677966102,44064.40677966102,6432.0,25728.0,FBA79658,MAPPED,Desk-Adjustable,Manual,
+Week 18,White Mulberry,WM-MODL-WH,Amazon,2.0,23727.1186440678,23727.1186440678,7641.0,15282.0,FBA79662,MAPPED,Desk-Adjustable,Motorized,
+Week 18,White Mulberry,WM-SE08-CF,Amazon,5.0,59317.79661016949,59317.79661016949,7018.0,35090.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,
+Week 18,White Mulberry,WM-SMD09-WH,Amazon,2.0,14308.474576271186,14308.474576271186,6978.0,13956.0,FBA79175,MAPPED,Desk,L-Shaped Desk,
+Week 18,White Mulberry,WM-USE06-WH,Amazon,0.0,0.0,0.0,11345.0,0.0,FBA79165,MAPPED,Desk-Adjustable,USB-Motorized,
+Week 18,White Mulberry,WM1ML,1p Sales,68.0,167061.04,167061.04,1074.0,73032.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
+Week 18,White Mulberry,WM1ML,Amazon,8.0,19654.24,19654.24,1074.0,8592.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
 Week 4,Audio Array,AA-01,1p Sales,9.0,15755.08,15755.08,1130.0,10170.0,FBA75678,MAPPED,Microphone Accessories,Accessories,
 Week 4,Audio Array,AA-01,Amazon,1.0,2099.0,2099.0,1130.0,1130.0,FBA75678,MAPPED,Microphone Accessories,Accessories,
 Week 4,Audio Array,AA-02,1p Sales,7.0,14376.29,14376.29,1345.0,9415.0,FBA75679,MAPPED,Microphone Accessories,Accessories,
@@ -7616,7 +8476,7 @@ Week 4,Fossil,AR11677,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79729,MAPPED,Traditional Wat
 Week 4,Fossil,AR11688,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79854,MAPPED,Traditional Watch,,
 Week 4,Fossil,AR11690,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79856,MAPPED,Traditional Watch,,
 Week 4,Fossil,AR11691,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79857,MAPPED,Traditional Watch,,
-Week 4,Fossil,AR11692,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 4,Fossil,AR11692,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79858,MAPPED,Traditional Watch,,
 Week 4,Fossil,AR11693,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79859,MAPPED,Traditional Watch,,
 Week 4,Fossil,AR11694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79860,MAPPED,Traditional Watch,,
 Week 4,Fossil,AR11706,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79861,MAPPED,Traditional Watch,,
@@ -7661,7 +8521,7 @@ Week 4,Fossil,AX4183,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79515,MAPPED,Traditional Watc
 Week 4,Fossil,AX4184,Amazon,7.0,94885.59,94885.59,0.0,0.0,FBA79627,MAPPED,Traditional Watch,,
 Week 4,Fossil,AX4186,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79733,MAPPED,Traditional Watch,,
 Week 4,Fossil,AX4199,Amazon,1.0,13555.08,13555.08,0.0,0.0,FBA79924,MAPPED,Traditional Watch,,
-Week 4,Fossil,AX4614,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 4,Fossil,AX4614,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79516,MAPPED,Traditional Watch,,
 Week 4,Fossil,AX4617,Amazon,1.0,7116.1,7116.1,0.0,0.0,,MAPPED,,,
 Week 4,Fossil,AX4621,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79925,MAPPED,Traditional Watch,,
 Week 4,Fossil,AX5176,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79735,MAPPED,Traditional Watch,,
@@ -7802,7 +8662,7 @@ Week 4,Fossil,JR1401,Amazon,16.0,162661.02,162661.02,0.0,0.0,FBA66974,MAPPED,Tra
 Week 4,Fossil,JR1487,Amazon,6.0,54050.85,54050.85,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 4,Fossil,ME3061,Amazon,0.0,0.0,0.0,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 4,Fossil,ME3098,Amazon,5.0,84720.34,84720.34,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 4,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,,MAPPED,,,
+Week 4,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 4,Fossil,ME3206,Amazon,1.0,18638.98,18638.98,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 4,Fossil,ME3218,Amazon,1.0,19487.29,19487.29,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 4,Fossil,ME3253,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -7842,7 +8702,7 @@ Week 4,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watc
 Week 4,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 4,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 4,Fossil,MK4966,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 4,Fossil,MK4967,Amazon,1.0,13555.08,13555.08,0.0,0.0,,MAPPED,,,
+Week 4,Fossil,MK4967,Amazon,1.0,13555.08,13555.08,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 4,Fossil,MK5491,Amazon,3.0,58461.86,58461.86,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 4,Fossil,MK6485,Amazon,1.0,20757.63,20757.63,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
 Week 4,Fossil,MK7474,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79340,MAPPED,Traditional Watch,,
@@ -8495,7 +9355,7 @@ Week 5,Fossil,AR11677,Amazon,1.0,14531.36,14531.36,0.0,0.0,FBA79729,MAPPED,Tradi
 Week 5,Fossil,AR11688,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79854,MAPPED,Traditional Watch,,
 Week 5,Fossil,AR11690,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79856,MAPPED,Traditional Watch,,
 Week 5,Fossil,AR11691,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79857,MAPPED,Traditional Watch,,
-Week 5,Fossil,AR11692,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 5,Fossil,AR11692,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79858,MAPPED,Traditional Watch,,
 Week 5,Fossil,AR11693,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79859,MAPPED,Traditional Watch,,
 Week 5,Fossil,AR11694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79860,MAPPED,Traditional Watch,,
 Week 5,Fossil,AR11706,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79861,MAPPED,Traditional Watch,,
@@ -8542,7 +9402,7 @@ Week 5,Fossil,AX4183,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79515,MAPPED,Traditional Watc
 Week 5,Fossil,AX4184,Amazon,4.0,54220.34,54220.34,0.0,0.0,FBA79627,MAPPED,Traditional Watch,,
 Week 5,Fossil,AX4186,Amazon,2.0,24566.1,24566.1,0.0,0.0,FBA79733,MAPPED,Traditional Watch,,
 Week 5,Fossil,AX4199,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79924,MAPPED,Traditional Watch,,
-Week 5,Fossil,AX4614,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 5,Fossil,AX4614,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79516,MAPPED,Traditional Watch,,
 Week 5,Fossil,AX4617,Amazon,1.0,7116.1,7116.1,0.0,0.0,,MAPPED,,,
 Week 5,Fossil,AX4621,Amazon,2.0,22872.88,22872.88,0.0,0.0,FBA79925,MAPPED,Traditional Watch,,
 Week 5,Fossil,AX5176,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79735,MAPPED,Traditional Watch,,
@@ -8574,7 +9434,7 @@ Week 5,Fossil,DZ2213,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79522,MAPPED,Traditional Watc
 Week 5,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
 Week 5,Fossil,DZ2215,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
 Week 5,Fossil,DZ2219,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
-Week 5,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 5,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
 Week 5,Fossil,DZ4627,Amazon,1.0,19910.17,19910.17,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
 Week 5,Fossil,DZ4662,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79411,MAPPED,Traditional Watch,,
 Week 5,Fossil,DZ4665,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79412,MAPPED,Traditional Watch,,
@@ -8681,7 +9541,7 @@ Week 5,Fossil,JR1401,Amazon,0.0,0.0,0.0,0.0,0.0,FBA66974,MAPPED,Traditional Watc
 Week 5,Fossil,JR1487,Amazon,12.0,113013.56,113013.56,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 5,Fossil,ME3061,Amazon,0.0,0.0,0.0,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 5,Fossil,ME3098,Amazon,4.0,67776.27,67776.27,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 5,Fossil,ME3154,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 5,Fossil,ME3154,Amazon,0.0,0.0,0.0,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 5,Fossil,ME3206,Amazon,2.0,37277.97,37277.97,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 5,Fossil,ME3218,Amazon,0.0,0.0,0.0,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 5,Fossil,ME3253,Amazon,3.0,58461.86,58461.86,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -8721,7 +9581,7 @@ Week 5,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watc
 Week 5,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 5,Fossil,MK4965,Amazon,1.0,12283.9,12283.9,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 5,Fossil,MK4966,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 5,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 5,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 5,Fossil,MK5491,Amazon,2.0,38974.58,38974.58,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 5,Fossil,MK6485,Amazon,6.0,124545.76,124545.76,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
 Week 5,Fossil,MK7458,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
@@ -9386,7 +10246,7 @@ Week 6,Fossil,AR11677,Amazon,2.0,29061.86,29061.86,0.0,0.0,FBA79729,MAPPED,Tradi
 Week 6,Fossil,AR11688,Amazon,1.0,16944.92,16944.92,0.0,0.0,FBA79854,MAPPED,Traditional Watch,,
 Week 6,Fossil,AR11690,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79856,MAPPED,Traditional Watch,,
 Week 6,Fossil,AR11691,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79857,MAPPED,Traditional Watch,,
-Week 6,Fossil,AR11692,Amazon,3.0,50834.75,50834.75,0.0,0.0,,MAPPED,,,
+Week 6,Fossil,AR11692,Amazon,3.0,50834.75,50834.75,0.0,0.0,FBA79858,MAPPED,Traditional Watch,,
 Week 6,Fossil,AR11693,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79859,MAPPED,Traditional Watch,,
 Week 6,Fossil,AR11694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79860,MAPPED,Traditional Watch,,
 Week 6,Fossil,AR11706,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79861,MAPPED,Traditional Watch,,
@@ -9435,7 +10295,7 @@ Week 6,Fossil,AX4183,Amazon,1.0,13554.24,13554.24,0.0,0.0,FBA79515,MAPPED,Tradit
 Week 6,Fossil,AX4184,Amazon,1.0,13555.08,13555.08,0.0,0.0,FBA79627,MAPPED,Traditional Watch,,
 Week 6,Fossil,AX4186,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79733,MAPPED,Traditional Watch,,
 Week 6,Fossil,AX4199,Amazon,1.0,13555.08,13555.08,0.0,0.0,FBA79924,MAPPED,Traditional Watch,,
-Week 6,Fossil,AX4614,Amazon,1.0,9191.53,9191.53,0.0,0.0,,MAPPED,,,
+Week 6,Fossil,AX4614,Amazon,1.0,9191.53,9191.53,0.0,0.0,FBS79516,MAPPED,Traditional Watch,,
 Week 6,Fossil,AX4621,Amazon,2.0,22872.88,22872.88,0.0,0.0,FBA79925,MAPPED,Traditional Watch,,
 Week 6,Fossil,AX5176,Amazon,2.0,24566.1,24566.1,0.0,0.0,FBA79735,MAPPED,Traditional Watch,,
 Week 6,Fossil,AX5724,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79517,MAPPED,Traditional Watch,,
@@ -9466,7 +10326,7 @@ Week 6,Fossil,DZ2213,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79522,MAPPED,Traditional Watc
 Week 6,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
 Week 6,Fossil,DZ2215,Amazon,1.0,18215.25,18215.25,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
 Week 6,Fossil,DZ2219,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
-Week 6,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 6,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
 Week 6,Fossil,DZ4627,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
 Week 6,Fossil,DZ4662,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79411,MAPPED,Traditional Watch,,
 Week 6,Fossil,DZ4665,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79412,MAPPED,Traditional Watch,,
@@ -9575,7 +10435,7 @@ Week 6,Fossil,JR1401,Amazon,47.0,412083.9,412083.9,0.0,0.0,FBA66974,MAPPED,Tradi
 Week 6,Fossil,JR1487,Amazon,12.0,95816.95,95816.95,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 6,Fossil,ME3061,Amazon,1.0,16520.34,16520.34,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 6,Fossil,ME3098,Amazon,5.0,84720.34,84720.34,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 6,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,,MAPPED,,,
+Week 6,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 6,Fossil,ME3206,Amazon,2.0,37277.97,37277.97,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 6,Fossil,ME3218,Amazon,3.0,46768.64,46768.64,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 6,Fossil,ME3253,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -9615,7 +10475,7 @@ Week 6,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watc
 Week 6,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 6,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 6,Fossil,MK4966,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 6,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 6,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 6,Fossil,MK5491,Amazon,3.0,58459.32,58459.32,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 6,Fossil,MK6485,Amazon,6.0,124545.76,124545.76,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
 Week 6,Fossil,MK7474,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79340,MAPPED,Traditional Watch,,
@@ -10327,7 +11187,7 @@ Week 7,Fossil,AX4183,Amazon,6.0,81325.42,81325.42,0.0,0.0,FBA79515,MAPPED,Tradit
 Week 7,Fossil,AX4184,Amazon,2.0,27110.17,27110.17,0.0,0.0,FBA79627,MAPPED,Traditional Watch,,
 Week 7,Fossil,AX4186,Amazon,1.0,12283.05,12283.05,0.0,0.0,FBA79733,MAPPED,Traditional Watch,,
 Week 7,Fossil,AX4199,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79924,MAPPED,Traditional Watch,,
-Week 7,Fossil,AX4614,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 7,Fossil,AX4614,Amazon,0.0,0.0,0.0,0.0,0.0,FBS79516,MAPPED,Traditional Watch,,
 Week 7,Fossil,AX4621,Amazon,2.0,22872.88,22872.88,0.0,0.0,FBA79925,MAPPED,Traditional Watch,,
 Week 7,Fossil,AX5176,Amazon,2.0,24566.1,24566.1,0.0,0.0,FBA79735,MAPPED,Traditional Watch,,
 Week 7,Fossil,AX5724,Amazon,2.0,18633.9,18633.9,0.0,0.0,FBA79517,MAPPED,Traditional Watch,,
@@ -10357,7 +11217,7 @@ Week 7,Fossil,DZ2213,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79522,MAPPED,Traditional Watc
 Week 7,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
 Week 7,Fossil,DZ2215,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
 Week 7,Fossil,DZ2219,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
-Week 7,Fossil,DZ4548,Amazon,1.0,15250.85,15250.85,0.0,0.0,,MAPPED,,,
+Week 7,Fossil,DZ4548,Amazon,1.0,15250.85,15250.85,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
 Week 7,Fossil,DZ4627,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
 Week 7,Fossil,DZ4662,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79411,MAPPED,Traditional Watch,,
 Week 7,Fossil,DZ4665,Amazon,1.0,18216.1,18216.1,0.0,0.0,FBA79412,MAPPED,Traditional Watch,,
@@ -10468,7 +11328,7 @@ Week 7,Fossil,JR1401,Amazon,143.0,1186077.12,1186077.12,0.0,0.0,FBA66974,MAPPED,
 Week 7,Fossil,JR1487,Amazon,26.0,189173.73,189173.73,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 7,Fossil,ME3061,Amazon,1.0,16520.34,16520.34,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 7,Fossil,ME3098,Amazon,1.0,16944.07,16944.07,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 7,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,,MAPPED,,,
+Week 7,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 7,Fossil,ME3206,Amazon,2.0,37277.97,37277.97,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 7,Fossil,ME3218,Amazon,2.0,31177.97,31177.97,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 7,Fossil,ME3253,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -10508,7 +11368,7 @@ Week 7,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watc
 Week 7,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 7,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 7,Fossil,MK4966,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 7,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 7,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 7,Fossil,MK5491,Amazon,2.0,38972.88,38972.88,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 7,Fossil,MK6485,Amazon,9.0,186818.64,186818.64,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
 Week 7,Fossil,MK7474,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79340,MAPPED,Traditional Watch,,
@@ -11309,7 +12169,7 @@ Week 8,Fossil,DZ2213,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79522,MAPPED,Traditional Watc
 Week 8,Fossil,DZ2214,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79523,MAPPED,Traditional Watch,,
 Week 8,Fossil,DZ2215,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79524,MAPPED,Traditional Watch,,
 Week 8,Fossil,DZ2219,Amazon,1.0,8895.76,8895.76,0.0,0.0,,MAPPED,,,
-Week 8,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 8,Fossil,DZ4548,Amazon,0.0,0.0,0.0,0.0,0.0,FBS74343,MAPPED,Traditional Watch,,
 Week 8,Fossil,DZ4627,Amazon,0.0,0.0,0.0,0.0,0.0,FBA77988,MAPPED,Traditional Watch,,
 Week 8,Fossil,DZ4662,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79411,MAPPED,Traditional Watch,,
 Week 8,Fossil,DZ4665,Amazon,1.0,18216.1,18216.1,0.0,0.0,FBA79412,MAPPED,Traditional Watch,,
@@ -11416,7 +12276,7 @@ Week 8,Fossil,FTW4024,Amazon,1.0,19487.29,19487.29,0.0,0.0,,MAPPED,,,
 Week 8,Fossil,JR1401,Amazon,12.0,113867.8,113867.8,0.0,0.0,FBA66974,MAPPED,Traditional Watch,,
 Week 8,Fossil,JR1487,Amazon,19.0,163383.9,163383.9,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 8,Fossil,ME3061,Amazon,1.0,16520.34,16520.34,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
-Week 8,Fossil,ME3154,Amazon,2.0,33888.14,33888.14,0.0,0.0,,MAPPED,,,
+Week 8,Fossil,ME3154,Amazon,2.0,33888.14,33888.14,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 8,Fossil,ME3206,Amazon,1.0,18638.98,18638.98,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 8,Fossil,ME3218,Amazon,1.0,15588.98,15588.98,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 8,Fossil,ME3253,Amazon,2.0,38972.88,38972.88,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -11456,7 +12316,7 @@ Week 8,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watc
 Week 8,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 8,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 8,Fossil,MK4966,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 8,Fossil,MK4967,Amazon,1.0,13555.08,13555.08,0.0,0.0,,MAPPED,,,
+Week 8,Fossil,MK4967,Amazon,1.0,13555.08,13555.08,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 8,Fossil,MK5491,Amazon,6.0,116918.64,116918.64,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 8,Fossil,MK6485,Amazon,5.0,103788.14,103788.14,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
 Week 8,Fossil,MK7474,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79340,MAPPED,Traditional Watch,,
@@ -12332,7 +13192,7 @@ Week 9,Fossil,JR1401,Amazon,77.0,645227.97,645227.97,0.0,0.0,FBA66974,MAPPED,Tra
 Week 9,Fossil,JR1487,Amazon,23.0,183034.75,183034.75,0.0,0.0,FBA70527,MAPPED,Traditional Watch,,
 Week 9,Fossil,ME3061,Amazon,0.0,0.0,0.0,0.0,0.0,FBA66995,MAPPED,Traditional Watch,,
 Week 9,Fossil,ME3098,Amazon,0.0,0.0,0.0,0.0,0.0,FBA67803,MAPPED,Traditional Watch,,
-Week 9,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,,MAPPED,,,
+Week 9,Fossil,ME3154,Amazon,1.0,16944.07,16944.07,0.0,0.0,FBO76876,MAPPED,Traditional Watch,,
 Week 9,Fossil,ME3206,Amazon,2.0,37277.97,37277.97,0.0,0.0,FBA74972,MAPPED,Traditional Watch,,
 Week 9,Fossil,ME3218,Amazon,4.0,62355.93,62355.93,0.0,0.0,FBA75326,MAPPED,Traditional Watch,,
 Week 9,Fossil,ME3253,Amazon,2.0,38972.88,38972.88,0.0,0.0,FBA79223,MAPPED,Traditional Watch,,
@@ -12372,7 +13232,7 @@ Week 9,Fossil,MK4963,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79943,MAPPED,Traditional Watc
 Week 9,Fossil,MK4964,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79944,MAPPED,Traditional Watch,,
 Week 9,Fossil,MK4965,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79945,MAPPED,Traditional Watch,,
 Week 9,Fossil,MK4966,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79946,MAPPED,Traditional Watch,,
-Week 9,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 9,Fossil,MK4967,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79947,MAPPED,Traditional Watch,,
 Week 9,Fossil,MK5491,Amazon,1.0,19486.44,19486.44,0.0,0.0,FBA67266,MAPPED,Traditional Watch,,
 Week 9,Fossil,MK6485,Amazon,2.0,41515.25,41515.25,0.0,0.0,FBA74257,MAPPED,Traditional Watch,,
 Week 9,Fossil,MK7474,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79340,MAPPED,Traditional Watch,,

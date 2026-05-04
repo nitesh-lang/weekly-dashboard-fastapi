@@ -568,9 +568,9 @@
             <td style="color:#111827">{{ r.brand }}</td>
             <td style="font-weight:600;color:#111827">{{ r.model }}</td>
             <td style="font-family:var(--mono);font-size:11px">{{ r.sku or "—" }}</td>
-            <td style="color:#1f2937">{{ r.category_l0 }}</td>
-            <td style="color:#1f2937">{{ r.category_l1 }}</td>
-            <td style="color:#1f2937">{{ r.category_l2 }}</td>
+            <td>{% if r.category_l0 %}<span style="color:#1f2937">{{ r.category_l0 }}</span>{% else %}<span style="color:#dc2626;font-style:italic;font-size:11px">⚠ missing</span>{% endif %}</td>
+            <td>{% if r.category_l1 %}<span style="color:#1f2937">{{ r.category_l1 }}</span>{% else %}<span style="color:#dc2626;font-style:italic;font-size:11px">⚠ missing</span>{% endif %}</td>
+            <td>{% if r.category_l2 %}<span style="color:#1f2937">{{ r.category_l2 }}</span>{% else %}<span style="color:#dc2626;font-style:italic;font-size:11px">⚠ missing</span>{% endif %}</td>
             <td style="color:#1f2937">{{ r.channel }}</td>
             <td style="color:#1f2937">{{ r.type }}</td>
             <td>{{ r.inventory_units }}</td>

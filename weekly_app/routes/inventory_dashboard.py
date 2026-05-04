@@ -119,6 +119,52 @@ def load_all_inventory():
     data = pd.concat(frames, ignore_index=True)
     data["week_num"] = data["week"].apply(extract_week_num)
 
+    # =====================================================
+    # CATEGORY OVERRIDE FROM SKU MASTER (single source of truth)
+    # The raw inventory xlsx files have unreliable / inconsistent
+    # category fields. data/master/sku_master.xlsx is canonical —
+    # join on Model to populate category_l0 / l1 / l2 here so every
+    # downstream consumer (page, exports, analytics) sees the same
+    # mapping. Models not found in master leave the category fields
+    # blank; the template renders blanks as a red "missing" flag so
+    # the operator can spot models that need to be added to master.
+    # =====================================================
+    try:
+        master_path = BASE_DIR / "data" / "master" / "sku_master.xlsx"
+        if master_path.exists():
+            mst = pd.read_excel(master_path)
+            mst.columns = [c.strip().lower() for c in mst.columns]
+            if "model" in mst.columns:
+                cat_cols = [c for c in ["category_l0", "category_l1", "category_l2"]
+                            if c in mst.columns]
+                mst["model_key"] = mst["model"].astype(str).str.strip().str.upper()
+                mst_lookup = (
+                    mst[["model_key"] + cat_cols]
+                    .drop_duplicates(subset="model_key", keep="first")
+                )
+
+                # Drop the existing (unreliable) category columns from inventory
+                for c in ["category_l0", "category_l1", "category_l2"]:
+                    if c in data.columns:
+                        data = data.drop(columns=[c])
+
+                # Join master categories on uppercased Model
+                data["model_key"] = data["model"].astype(str).str.strip().str.upper()
+                data = data.merge(mst_lookup, on="model_key", how="left")
+                data = data.drop(columns=["model_key"])
+
+                # Normalize blanks so the template can detect them
+                for c in ["category_l0", "category_l1", "category_l2"]:
+                    if c in data.columns:
+                        data[c] = data[c].fillna("").astype(str).str.strip()
+                    else:
+                        data[c] = ""
+    except Exception as _e:
+        print(f"⚠ Inventory: master category override failed — {_e}")
+        for c in ["category_l0", "category_l1", "category_l2"]:
+            if c not in data.columns:
+                data[c] = ""
+
     # ✅ Cache the result
     _inv_cache["df"] = data
     _inv_cache["mtimes"] = current_mtimes

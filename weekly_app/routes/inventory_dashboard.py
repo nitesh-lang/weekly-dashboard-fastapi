@@ -120,14 +120,14 @@ def load_all_inventory():
     data["week_num"] = data["week"].apply(extract_week_num)
 
     # =====================================================
-    # CATEGORY OVERRIDE FROM SKU MASTER (single source of truth)
-    # The raw inventory xlsx files have unreliable / inconsistent
-    # category fields. data/master/sku_master.xlsx is canonical —
-    # join on Model to populate category_l0 / l1 / l2 here so every
-    # downstream consumer (page, exports, analytics) sees the same
-    # mapping. Models not found in master leave the category fields
-    # blank; the template renders blanks as a red "missing" flag so
-    # the operator can spot models that need to be added to master.
+    # MASTER OVERRIDE (single source of truth)
+    # Categories AND NLC come from data/master/sku_master.xlsx, joined
+    # on Model. Raw inventory xlsx values are ignored (they're stale /
+    # inconsistent across files). Missing-from-master models leave
+    # category cells blank → template renders them as "⚠ missing".
+    # NLC falls back to the raw xlsx value when master doesn't have it
+    # (lenient — keeps inventory_value populated for newly-added SKUs
+    # that haven't been priced in master yet).
     # =====================================================
     try:
         master_path = BASE_DIR / "data" / "master" / "sku_master.xlsx"
@@ -135,12 +135,14 @@ def load_all_inventory():
             mst = pd.read_excel(master_path)
             mst.columns = [c.strip().lower() for c in mst.columns]
             if "model" in mst.columns:
-                cat_cols = [c for c in ["category_l0", "category_l1", "category_l2"]
-                            if c in mst.columns]
+                lookup_cols = [c for c in ["category_l0", "category_l1", "category_l2", "nlc"]
+                               if c in mst.columns]
                 mst["model_key"] = mst["model"].astype(str).str.strip().str.upper()
                 mst_lookup = (
-                    mst[["model_key"] + cat_cols]
+                    mst[["model_key"] + lookup_cols]
                     .drop_duplicates(subset="model_key", keep="first")
+                    # rename nlc so it can coexist with the raw inventory nlc
+                    .rename(columns={"nlc": "nlc_master"})
                 )
 
                 # Drop the existing (unreliable) category columns from inventory
@@ -148,19 +150,28 @@ def load_all_inventory():
                     if c in data.columns:
                         data = data.drop(columns=[c])
 
-                # Join master categories on uppercased Model
+                # Join master on uppercased Model
                 data["model_key"] = data["model"].astype(str).str.strip().str.upper()
                 data = data.merge(mst_lookup, on="model_key", how="left")
                 data = data.drop(columns=["model_key"])
 
-                # Normalize blanks so the template can detect them
+                # Normalize blank categories so the template can detect them
                 for c in ["category_l0", "category_l1", "category_l2"]:
                     if c in data.columns:
                         data[c] = data[c].fillna("").astype(str).str.strip()
                     else:
                         data[c] = ""
+
+                # NLC: master takes priority; fall back to raw inventory NLC
+                if "nlc_master" in data.columns:
+                    raw_nlc = pd.to_numeric(data.get("nlc", 0), errors="coerce")
+                    master_nlc = pd.to_numeric(data["nlc_master"], errors="coerce")
+                    data["nlc"] = master_nlc.fillna(raw_nlc).fillna(0)
+                    data = data.drop(columns=["nlc_master"])
+                    # Recompute value with the canonical NLC
+                    data["inventory_value"] = data["qty"] * data["nlc"]
     except Exception as _e:
-        print(f"⚠ Inventory: master category override failed — {_e}")
+        print(f"⚠ Inventory: master category/NLC override failed — {_e}")
         for c in ["category_l0", "category_l1", "category_l2"]:
             if c not in data.columns:
                 data[c] = ""

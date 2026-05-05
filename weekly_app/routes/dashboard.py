@@ -118,7 +118,8 @@ def dashboard(
     request: Request,
     week: str = None,
     weeks: List[str] = Query(default=[]),   # ← multi-week checkboxes
-    brand: str = None,
+    brand: str = None,                       # legacy single-brand
+    brands: List[str] = Query(default=[]),  # ← multi-brand checkboxes
     view: str = "mapped",
 ):
 
@@ -139,11 +140,22 @@ def dashboard(
     else:
         active_weeks = []
 
+    # Build active_brands — prefer multi-select; fall back to single ?brand=
+    active_brands = [b.strip() for b in (brands or []) if b and b.strip()]
+    if not active_brands and brand and brand.strip().lower() not in ("none", "all", ""):
+        active_brands = [brand.strip()]
+
     selected = {
         "week":           active_weeks[0] if len(active_weeks) == 1 else None,
         "weeks":          active_weeks,
         "weeks_display":  ", ".join(active_weeks) if active_weeks else "All Weeks",
-        "brand":          brand,
+        # Legacy single-brand: filled when exactly one brand selected so
+        # downstream URL building (export buttons, drilldown links) keeps
+        # working unchanged. Set to None for multi-brand selections so
+        # those links don't lie about a single brand.
+        "brand":          active_brands[0] if len(active_brands) == 1 else None,
+        "brands":         active_brands,
+        "brands_display": ", ".join(active_brands) if active_brands else "All Brands",
         "view":           view,
     }
 
@@ -253,9 +265,10 @@ def dashboard(
     if active_weeks:
         sales = sales[sales["week"].isin(active_weeks)]
 
-    # ✅ STEP 2 — BRAND FILTER (CORRECT PLACE)
-    if brand and "brand" in sales.columns:
-        sales = sales[sales["brand"].str.lower() == brand.lower()]
+    # ✅ STEP 2 — BRAND FILTER (multi-select aware)
+    if active_brands and "brand" in sales.columns:
+        lowered = [b.lower() for b in active_brands]
+        sales = sales[sales["brand"].str.lower().isin(lowered)]
 
     if view == "mapped" and "sku_status" in sales.columns:
         sales = sales[sales["sku_status"] == "MAPPED"]
@@ -412,8 +425,9 @@ def dashboard(
 
     # Brand+view filter (NOT week) — full history we'll trim client-side
     trend_base = full_sales.copy()
-    if brand and "brand" in trend_base.columns:
-        trend_base = trend_base[trend_base["brand"].str.lower() == brand.lower()]
+    if active_brands and "brand" in trend_base.columns:
+        lowered = [b.lower() for b in active_brands]
+        trend_base = trend_base[trend_base["brand"].str.lower().isin(lowered)]
     if view == "mapped" and "sku_status" in trend_base.columns:
         trend_base = trend_base[trend_base["sku_status"] == "MAPPED"]
     for c in ["units_sold", "gross_sales", "sales_nlc"]:
@@ -435,9 +449,9 @@ def dashboard(
     )
 
     # All-brands overlay — only computed (and only used by the chart)
-    # when a specific brand is selected, to avoid duplicating the line.
+    # when at least one brand is filtered, to give context vs the unfiltered total.
     weekly_all_brands = []
-    if brand:
+    if active_brands:
         all_b = full_sales.copy()
         if view == "mapped" and "sku_status" in all_b.columns:
             all_b = all_b[all_b["sku_status"] == "MAPPED"]
@@ -491,14 +505,19 @@ def dashboard(
         "nlc":   _delta(kpi_sparks["nlc"]),
     }
 
-    # Brand mix — share of GMV by brand for the SELECTED weeks
-    # (uses `sales` which is week-filtered but not brand-filtered when
-    # brand=None; if a brand is selected we skip showing the donut)
+    # Brand mix — share of GMV by brand for the SELECTED weeks.
+    # Hidden when exactly one brand is filtered (would be a 100% donut
+    # of itself). Shown when no brand is filtered OR when multiple
+    # brands are filtered (to compare share among the selection).
     brand_mix = []
-    if "brand" in full_sales.columns and not brand:
+    if "brand" in full_sales.columns and len(active_brands) != 1:
         bm_base = full_sales.copy()
         if active_weeks:
             bm_base = bm_base[bm_base["week"].isin(active_weeks)]
+        # If multiple brands are selected, restrict the donut to those
+        if active_brands:
+            lowered = [b.lower() for b in active_brands]
+            bm_base = bm_base[bm_base["brand"].str.lower().isin(lowered)]
         if view == "mapped" and "sku_status" in bm_base.columns:
             bm_base = bm_base[bm_base["sku_status"] == "MAPPED"]
         for c in ["gross_sales"]:
@@ -596,6 +615,7 @@ def dashboard_sku_rows_api(
     week: str = None,
     weeks: List[str] = Query(default=[]),
     brand: str = None,
+    brands: List[str] = Query(default=[]),
     view: str = "mapped",
     page: int = 1,
     page_size: int = 100,
@@ -651,11 +671,17 @@ def dashboard_sku_rows_api(
             if all_wks:
                 active_weeks = [all_wks[-1]]
 
+        # Resolve multi-brand from either ?brands= (plural) or legacy ?brand=
+        active_brands = [b.strip() for b in (brands or []) if b and b.strip()]
+        if not active_brands and brand and brand not in ("None", "All", ""):
+            active_brands = [brand.strip()]
+
         sales = full_sales.copy()
         if active_weeks:
             sales = sales[sales["week"].isin(active_weeks)]
-        if brand and brand not in ("None", "All", ""):
-            sales = sales[sales["brand"].str.strip().str.lower() == brand.strip().lower()]
+        if active_brands:
+            lowered = [b.lower() for b in active_brands]
+            sales = sales[sales["brand"].str.strip().str.lower().isin(lowered)]
         if view == "mapped" and "sku_status" in sales.columns:
             sales = sales[sales["sku_status"] == "MAPPED"]
 

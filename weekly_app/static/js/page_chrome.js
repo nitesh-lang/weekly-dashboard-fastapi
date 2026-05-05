@@ -29,8 +29,20 @@
         carry.append('sel_weeks', w);
     });
 
+    // Multi-value brands — forward both `brands` (plural) and the legacy
+    // `brand` (singular). Pages that only accept single brand will pick
+    // up `brand`; pages that accept multi will use `brands`.
+    const allBrands = new Set([
+        ...params.getAll('brands'),
+        ...(params.get('brand') ? [params.get('brand')] : []),
+    ]);
+    allBrands.forEach(b => { if (b) carry.append('brands', b); });
+    if (allBrands.size === 1) {
+        carry.set('brand', [...allBrands][0]);
+    }
+
     // Single-value params
-    ['brand', 'view'].forEach(k => {
+    ['view'].forEach(k => {
         const v = params.get(k);
         if (v) carry.set(k, v);
     });

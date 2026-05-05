@@ -750,13 +750,35 @@
             </div>
         </div>
         <div class="filter-group">
-            <label>Brand</label>
-            <select name="brand" onchange="autoRefresh()">
-                <option value="">All</option>
-                {% for b in brands %}
-                    <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
-                {% endfor %}
-            </select>
+            <label>Brands</label>
+            <div class="week-picker-wrap">
+                <button type="button" class="week-picker-btn" onclick="toggleBrandPicker()">
+                    <span id="brand-picker-label">
+                        {% if selected.brands and selected.brands | length == 1 %}{{ selected.brands[0] }}
+                        {% elif selected.brands and selected.brands | length <= 3 %}{{ selected.brands | join(', ') }}
+                        {% elif selected.brands %}{{ selected.brands | length }} brands selected
+                        {% else %}All Brands
+                        {% endif %}
+                    </span>
+                    ▾
+                </button>
+                <div class="week-picker-dropdown" id="brandPickerDropdown">
+                    <label class="week-option">
+                        <input type="checkbox" id="br-all" onchange="toggleAllBrands(this)"> <b>All</b>
+                    </label>
+                    {% for b in brands %}
+                    <label class="week-option">
+                        <input type="checkbox" name="brands" value="{{ b }}"
+                            {% if selected.brands and b in selected.brands %}checked{% endif %}
+                            onchange="updateBrandLabel()">
+                        {{ b }}
+                    </label>
+                    {% endfor %}
+                    <div class="week-picker-footer">
+                        <button type="button" class="week-apply-btn" onclick="applyBrands()">Apply</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="filter-group">
             <label>View</label>
@@ -1054,12 +1076,41 @@ function toggleWeekPicker() {
     document.getElementById('weekPickerDropdown').classList.toggle('open');
 }
 
-// Close picker when clicking outside
+// Close pickers when clicking outside
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.week-picker-wrap')) {
         document.getElementById('weekPickerDropdown')?.classList.remove('open');
+        document.getElementById('brandPickerDropdown')?.classList.remove('open');
     }
 });
+
+/* ── Multi-brand picker ── */
+function toggleBrandPicker() {
+    document.getElementById('brandPickerDropdown').classList.toggle('open');
+}
+function toggleAllBrands(cb) {
+    document.querySelectorAll('input[name="brands"]').forEach(c => c.checked = cb.checked);
+    updateBrandLabel();
+}
+function updateBrandLabel() {
+    const checked = Array.from(document.querySelectorAll('input[name="brands"]:checked')).map(c => c.value);
+    const allCb = document.getElementById('br-all');
+    const allBoxes = document.querySelectorAll('input[name="brands"]');
+    if (allCb) allCb.checked = checked.length === allBoxes.length;
+    const label = document.getElementById('brand-picker-label');
+    if (!label) return;
+    if (checked.length === 0 || checked.length === allBoxes.length) {
+        label.textContent = 'All Brands';
+    } else if (checked.length <= 3) {
+        label.textContent = checked.join(', ');
+    } else {
+        label.textContent = checked.length + ' brands selected';
+    }
+}
+function applyBrands() {
+    document.getElementById('brandPickerDropdown').classList.remove('open');
+    document.getElementById('filterForm').submit();
+}
 
 function toggleAllWeeks(cb) {
     document.querySelectorAll('input[name="weeks"]').forEach(c => c.checked = cb.checked);

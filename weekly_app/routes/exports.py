@@ -770,27 +770,71 @@ def export_amazon_trend(
 
 
 # ==================================================
-# INVENTORY DASHBOARD — FULL EXPORT (via raw files)
+# INVENTORY DASHBOARD — FULL EXPORT (UI parity)
+# Mirrors what /inventory-dashboard renders: same columns, same
+# groupby aggregation, same default-to-latest-week behavior.
+# Accepts both `week` (legacy single) and `weeks` / `sel_weeks`
+# (forwarded by page_chrome.js across modules).
 # ==================================================
 @router.get("/inventory-full")
 def export_inventory_full(
     week: str = Query(None),
+    weeks: list[str] = Query(default=[]),
+    sel_weeks: list[str] = Query(default=[]),
     brand: str = Query(None),
+    brands: list[str] = Query(default=[]),
 ):
-    import sys as _sys
-    _sys.path.insert(0, ".")
     try:
-        from weekly_app.routes.inventory_dashboard import load_all_inventory
+        from weekly_app.routes.inventory_dashboard import (
+            load_all_inventory, extract_week_num,
+        )
         df = load_all_inventory()
-        if week:
-            df = df[df["week"] == week]
-        if brand:
-            df = df[df["brand"] == brand]
-        cols = [c for c in ["week","brand","model","sku","category_l0","category_l1",
-                             "category_l2","channel","type","inventory_units","nlc","inventory_value"]
-                if c in df.columns]
+
+        if df is None or df.empty:
+            return csv_response(pd.DataFrame(), "inventory_full.csv")
+
+        # Resolve active week(s) — same precedence as the dashboard route
+        active_weeks = [w for w in list(weeks) + list(sel_weeks) if str(w).strip()]
+        if not active_weeks and week:
+            active_weeks = [week]
+        if not active_weeks:
+            mw = df["week_num"].max()
+            df = df[df["week_num"] == mw]
+        else:
+            df = df[df["week"].isin(active_weeks)]
+
+        # Resolve brand(s)
+        active_brands = [b.strip() for b in (brands or []) if b and b.strip()]
+        if not active_brands and brand:
+            active_brands = [brand.strip()]
+        if active_brands and "brand" in df.columns:
+            df = df[df["brand"].isin(active_brands)]
+
+        # Mirror the UI's aggregation EXACTLY — same groupby keys, same aggs.
+        if not df.empty:
+            df[["category_l0", "category_l1", "category_l2"]] = (
+                df[["category_l0", "category_l1", "category_l2"]].fillna("")
+            )
+            df = df.groupby(
+                ["week", "brand", "model", "sku",
+                 "category_l0", "category_l1", "category_l2",
+                 "channel", "type"],
+                as_index=False,
+            ).agg({
+                "inventory_units": "sum",
+                "inventory_value": "sum",
+                "nlc": "mean",
+            })
+
+        cols = [c for c in [
+            "week", "brand", "model", "sku",
+            "category_l0", "category_l1", "category_l2",
+            "channel", "type",
+            "inventory_units", "nlc", "inventory_value",
+        ] if c in df.columns]
         df = df[cols].fillna("")
-    except Exception:
+    except Exception as _e:
+        print(f"⚠ /export/inventory-full fell back to model-level CSV: {_e}")
         df = normalize(pd.read_csv(INV_FILE))
         if week:
             df = df[df["week"] == week]

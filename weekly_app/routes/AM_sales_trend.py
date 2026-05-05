@@ -63,6 +63,9 @@ def load_sales():
     df = pd.read_csv(f)
 
     df.columns = [c.strip().lower() for c in df.columns]
+    # Some ETLs emit duplicate columns (e.g. both 'model' and 'Model'
+    # which collide after lowercase). Drop dupes; keep the first.
+    df = df.loc[:, ~df.columns.duplicated()]
 
     df = df.rename(columns={
         "units_sold": "units",
@@ -97,10 +100,20 @@ def load_sales():
 
 def load_business():
 
-    f = find_file(AMS_DATA_DIR, ["business_ads_joined"])
+    try:
+        f = find_file(AMS_DATA_DIR, ["business_ads_joined"])
+    except FileNotFoundError:
+        # On Render the file may not be present (no AMS data uploaded yet).
+        # Return an empty frame with the schema downstream code expects so
+        # the route can still render rather than 500ing.
+        return pd.DataFrame(columns=[
+            "model", "week", "sessions", "conversion_pct", "week_num",
+        ])
+
     df = pd.read_csv(f)
 
     df.columns = [c.strip().lower() for c in df.columns]
+    df = df.loc[:, ~df.columns.duplicated()]
 
     for c in ["model", "week", "sessions", "conversion_pct"]:
         if c not in df.columns:
@@ -128,12 +141,21 @@ def load_inventory(latest_week):
     except FileNotFoundError:
         return {}
 
-    df = pd.read_csv(f)
+    try:
+        df = pd.read_csv(f)
+    except Exception:
+        return {}
 
     df.columns = [c.strip().lower() for c in df.columns]
+    # The ETL sometimes writes BOTH 'model' (lower) and 'Model' (mixed)
+    # columns; after lowercasing they collide. Drop dupes — keep first.
+    df = df.loc[:, ~df.columns.duplicated()]
+
+    # Bail gracefully if the file is empty / missing required columns.
+    if df.empty or "model" not in df.columns or "inv_units_model" not in df.columns:
+        return {}
 
     df["model"] = df["model"].apply(norm_model)
-
     df["inv_units_model"] = pd.to_numeric(
         df["inv_units_model"], errors="coerce"
     ).fillna(0)

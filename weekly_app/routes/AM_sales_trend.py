@@ -135,32 +135,34 @@ def load_business():
 # ============================================================
 
 def load_inventory(latest_week):
+    """Returns model → total inventory units for the given week_num.
 
+    Sourced from load_all_inventory() (raw weekly inventory xlsx files).
+    The legacy data/processed/inventory_ams_snapshot.csv was being
+    produced empty by a broken ETL, leaving every SKU's inventory
+    column at 0 on this page. Bypassing it.
+    """
     try:
-        f = find_file(DATA_DIR, ["inventory_ams_snapshot"])
-    except FileNotFoundError:
-        return {}
-
-    try:
-        df = pd.read_csv(f)
+        from weekly_app.routes.inventory_dashboard import load_all_inventory
+        df = load_all_inventory()
     except Exception:
         return {}
 
-    df.columns = [c.strip().lower() for c in df.columns]
-    # The ETL sometimes writes BOTH 'model' (lower) and 'Model' (mixed)
-    # columns; after lowercasing they collide. Drop dupes — keep first.
-    df = df.loc[:, ~df.columns.duplicated()]
-
-    # Bail gracefully if the file is empty / missing required columns.
-    if df.empty or "model" not in df.columns or "inv_units_model" not in df.columns:
+    if df is None or df.empty or latest_week is None:
         return {}
 
-    df["model"] = df["model"].apply(norm_model)
-    df["inv_units_model"] = pd.to_numeric(
-        df["inv_units_model"], errors="coerce"
-    ).fillna(0)
+    df = df[df["week_num"] == latest_week]
+    if df.empty:
+        return {}
 
-    return df.set_index("model")["inv_units_model"].to_dict()
+    df = df.copy()
+    df["model"] = df["model"].astype(str).str.upper().str.strip()
+    return (
+        df.groupby("model")["inventory_units"]
+        .sum()
+        .astype(int)
+        .to_dict()
+    )
 
 
 # ============================================================

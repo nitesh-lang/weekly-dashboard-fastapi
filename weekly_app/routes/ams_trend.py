@@ -145,18 +145,55 @@ def load_ams_data() -> pd.DataFrame:
     return df
 
 # ==================================================
-# LOAD INVENTORY SNAPSHOT (SAFE)
+# LOAD INVENTORY SNAPSHOT
+# Builds the model × week inventory pivot from raw inventory data.
+# Replaces the legacy precomputed inventory_ams_snapshot.csv which
+# was being emitted empty by a broken ETL — leaving every inventory
+# column at 0 for every SKU on the AMS Trend page.
+#
+# Schema produced (matches what get_ams_trend's merge expects):
+#   Model, week, inventory_ampm, inventory_1p, inventory_amazon,
+#   inventory_total_amazon, pipeline_orders, inv_units_model
 # ==================================================
 def load_inventory_snapshot() -> pd.DataFrame:
-    if not INVENTORY_FILE.exists():
+    try:
+        from weekly_app.routes.inventory_dashboard import load_all_inventory
+        df = load_all_inventory()
+    except Exception:
         return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
 
-    inv = pd.read_csv(INVENTORY_FILE)
-    inv.columns = inv.columns.str.strip()
-    inv["Model"] = inv.get("Model", inv.get("model")).astype(str).str.upper().str.strip()
-    inv["week"] = pd.to_numeric(inv.get("week"), errors="coerce")
+    if df is None or df.empty:
+        return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
 
-    return inv
+    df = df.copy()
+    df["Model"] = df["model"].astype(str).str.upper().str.strip()
+
+    # Normalize for vectorised classification
+    type_lower = df["type"].astype(str).str.strip().str.lower()
+    chan_lower = df["channel"].astype(str).str.strip().str.lower()
+
+    df["__ampm"]      = df["inventory_units"].where(type_lower == "warehouse",            0)
+    df["__1p"]        = df["inventory_units"].where(type_lower == "1p",                   0)
+    df["__amazon"]    = df["inventory_units"].where(chan_lower == "amazon",               0)
+    df["__pipeline"]  = df["inventory_units"].where(type_lower == "in-transit inventory", 0)
+
+    pivot = df.groupby(["Model", "week_num"], as_index=False).agg(
+        inventory_ampm   =("__ampm", "sum"),
+        inventory_1p     =("__1p", "sum"),
+        inventory_amazon =("__amazon", "sum"),
+        pipeline_orders  =("__pipeline", "sum"),
+        inv_units_model  =("inventory_units", "sum"),
+    )
+    pivot["inventory_total_amazon"] = pivot["inventory_amazon"] + pivot["inventory_1p"]
+    pivot = pivot.rename(columns={"week_num": "week"})
+    pivot["week"] = pd.to_numeric(pivot["week"], errors="coerce")
+
+    # Cast to int so JSON output isn't full of trailing decimals
+    for c in ["inventory_ampm", "inventory_1p", "inventory_amazon",
+              "inventory_total_amazon", "pipeline_orders", "inv_units_model"]:
+        pivot[c] = pd.to_numeric(pivot[c], errors="coerce").fillna(0).astype(int)
+
+    return pivot
 
 # ==================================================
 # API: AMS TREND

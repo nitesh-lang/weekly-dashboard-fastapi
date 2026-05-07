@@ -189,7 +189,9 @@ total_amazon_sales = (
 # DERIVED METRICS (VECTOR SAFE)
 # --------------------------------------------------
 final["conversion_pct"] = final["units"] / final["sessions"].replace(0, pd.NA)
-final["roas"] = final["gmv"] / final["Spend"].replace(0, pd.NA)
+# ROAS = Attributed Sales / Ad Spend (industry standard).
+# Was previously gmv/Spend which is just 1/TACOS — meaningless as ROAS.
+final["roas"] = final["attributed_sales"] / final["Spend"].replace(0, pd.NA)
 final["contribution_to_sales_pct"] = (final["gmv"] / total_amazon_sales)
 final["acos"] = final["Spend"] / final["attributed_sales"].replace(0, pd.NA)
 final["tacos"] = final["Spend"] / final["gmv"].replace(0, pd.NA)

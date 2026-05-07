@@ -631,6 +631,8 @@ let sortState = { col: null, dir: null };
 function safe(v){ return (v===null||v===undefined||v==="") ? "—" : v; }
 function fmt(v){ return (v===null||isNaN(v)) ? "—" : Number(v).toFixed(2); }
 function pct(v){ return (v===null||isNaN(v)) ? "—" : (v*100).toFixed(1)+"%"; }
+// ROAS is a multiplier ratio, NOT a percentage. Formatted as e.g. "3.50x".
+function roas(v){ return (v===null||v===undefined||isNaN(v)) ? "—" : Number(v).toFixed(2)+"x"; }
 function normalizeWeek(w){ if(!w) return ""; return w.replace("Week","").trim(); }
 
 /* ── CATEGORY CASCADE ── */
@@ -783,7 +785,7 @@ function renderTable(){
             <td>${pct(r.attributed_sales_pct)}</td>
             <td>${pct(r.organic_sales_pct)}</td>
             <td>${pct(r.conversion_pct)}</td>
-            <td>${pct(r.roas)}</td>
+            <td>${roas(r.roas)}</td>
             <td>${pct(r.acos)}</td>
             <td>${pct(r.tacos ?? r.TACOS)}</td>
             <td>${fmt(r.cac)}</td>
@@ -912,7 +914,7 @@ function renderSBTable(rows){
             <td>${safe(r.clicks)}</td>
             <td>${safe(r.impressions)}</td>
             <td>${fmt(r.clicks>0 ? r.ad_spend/r.clicks : null)}</td>
-            <td>${pct(r.ad_spend>0 ? r.attributed_sales/r.ad_spend : null)}</td>
+            <td>${roas(r.ad_spend>0 ? r.attributed_sales/r.ad_spend : null)}</td>
             <td>${pct(r.acos)}</td>
         `;
         tb.appendChild(tr);

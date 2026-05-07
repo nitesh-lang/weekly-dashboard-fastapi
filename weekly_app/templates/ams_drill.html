@@ -42,7 +42,7 @@
     <td>{{ r.orders }}</td>
     <td>{{ r.clicks }}</td>
     <td>{{ r.impressions }}</td>
-    <td>{{ r.roas }}</td>
+    <td>{% if r.roas %}{{ "%.2f"|format(r.roas) }}x{% else %}—{% endif %}</td>
     <td>{{ r.acos }}</td>
 </tr>
 {% endfor %}

@@ -249,6 +249,10 @@ def get_ams_trend(
     # ===============================
     df["acos"] = df["ad_spend"] / df["attributed_sales"].replace(0, np.nan)
     df["tacos"] = df["ad_spend"] / df["gmv"].replace(0, np.nan)
+    # ROAS = Attributed Sales / Ad Spend. Recomputed here so the wrong
+    # value baked into older copies of business_ads_joined.csv (when
+    # step4 used gmv/Spend) doesn't pass through to the UI.
+    df["roas"] = df["attributed_sales"] / df["ad_spend"].replace(0, np.nan)
     df["cac"] = df["ad_spend"] / df["ams_orders"].replace(0, np.nan)
     df["cpc"] = df["ad_spend"] / df["clicks"].replace(0, np.nan)
     df["conversion_pct"] = df["units"] / df["sessions"].replace(0, np.nan)

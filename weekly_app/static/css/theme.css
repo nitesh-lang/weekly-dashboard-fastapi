@@ -364,3 +364,57 @@
 /* ── MOVER ROW (clickable) ────────────────────────────────── */
 .mover-row { transition: background .12s; }
 .mover-row:hover { background: #eef2ff !important; }
+
+/* ── GROWTH LEADERBOARD ───────────────────────────────────── */
+/* Compact horizontal bars for week-over-week % growth. Replaces a
+   Chart.js horizontal bar chart that left tons of empty space when
+   only 4-5 rows were shown. Each row: label · directional bar · % */
+.growth-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0 8px;
+}
+.growth-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 78px;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0;
+  border-radius: 6px;
+  transition: background .12s;
+}
+.growth-row:hover { background: #f6f7fb; }
+.growth-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #0f1623;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.growth-bar-wrap {
+  height: 22px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.growth-bar {
+  height: 100%;
+  border-radius: 6px;
+  width: 0;
+  transition: width .6s ease-out;
+}
+.growth-row.up   .growth-bar { background: linear-gradient(90deg, #34d399, #059669); }
+.growth-row.down .growth-bar { background: linear-gradient(90deg, #fb7185, #e11d48); }
+.growth-pct {
+  font-family: var(--mono, monospace);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: right;
+}
+.growth-row.up   .growth-pct { color: #059669; }
+.growth-row.down .growth-pct { color: #e11d48; }
+.growth-row { cursor: pointer; }
+

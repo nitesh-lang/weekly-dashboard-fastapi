@@ -163,8 +163,21 @@
   {% if brand_growth %}
   <div class="col-lg-6">
     <div class="chart-card h-100">
-      <div class="chart-head"><div><span class="chart-title">📊 Brand Growth</span><span class="chart-sub ms-2">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %}</span></div></div>
-      <div style="position:relative;height:240px;"><canvas id="brandGrowthChart"></canvas></div>
+      <div class="chart-head"><div><span class="chart-title">📊 Brand Growth</span><span class="chart-sub ms-2">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %} · click row to filter</span></div></div>
+      <div class="growth-list" data-target="brand">
+        {% for r in brand_growth %}
+        <div class="growth-row {{ 'up' if r.pct >= 0 else 'down' }}"
+             data-pct="{{ r.pct }}"
+             data-key="brand"
+             data-value="{{ r.brand }}"
+             data-prior="{{ r.gmv_prior }}"
+             data-cur="{{ r.gmv_cur }}">
+          <div class="growth-label">{{ r.brand }}</div>
+          <div class="growth-bar-wrap"><div class="growth-bar"></div></div>
+          <div class="growth-pct">{% if r.pct > 0 %}+{% endif %}{{ '%.1f' | format(r.pct) }}%</div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
   {% endif %}
@@ -186,8 +199,21 @@
   {% if category_growth %}
   <div class="col-lg-6">
     <div class="chart-card h-100">
-      <div class="chart-head"><div><span class="chart-title">📊 Category Growth</span><span class="chart-sub ms-2">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %}</span></div></div>
-      <div style="position:relative;height:240px;"><canvas id="categoryGrowthChart"></canvas></div>
+      <div class="chart-head"><div><span class="chart-title">📊 Category Growth</span><span class="chart-sub ms-2">— vs prior period{% if prior_period_label %} ({{ prior_period_label }}){% endif %} · click row to drill in</span></div></div>
+      <div class="growth-list" data-target="category">
+        {% for r in category_growth %}
+        <div class="growth-row {{ 'up' if r.pct >= 0 else 'down' }}"
+             data-pct="{{ r.pct }}"
+             data-key="category"
+             data-value="{{ r.category }}"
+             data-prior="{{ r.gmv_prior }}"
+             data-cur="{{ r.gmv_cur }}">
+          <div class="growth-label">{{ r.category }}</div>
+          <div class="growth-bar-wrap"><div class="growth-bar"></div></div>
+          <div class="growth-pct">{% if r.pct > 0 %}+{% endif %}{{ '%.1f' | format(r.pct) }}%</div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
   {% endif %}
@@ -410,36 +436,7 @@ function carryParams(extra){
     ).join('');
 })();
 
-/* ── Brand Growth bars ──────────────────────────────────── */
-(function(){
-    const GROWTH = {{ brand_growth | tojson }};
-    const c = document.getElementById('brandGrowthChart');
-    if (!c || !GROWTH.length) return;
-    const labels = GROWTH.map(d => d.brand);
-    const data = GROWTH.map(d => d.pct);
-    const colors = data.map(p => p >= 0 ? 'rgba(10,110,78,0.85)' : 'rgba(225,29,72,0.85)');
-    new Chart(c.getContext('2d'), {
-        type: 'bar',
-        data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
-        options: {
-            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-            onClick: (_, items) => { if (items.length) window.location.href = '/analytics' + carryParams({brand: GROWTH[items[0].index].brand}); },
-            onHover: (e, items) => { e.native.target.style.cursor = items.length ? 'pointer' : 'default'; },
-            plugins: {
-                legend: { display: false },
-                tooltip: { callbacks: { label: c => {
-                    const r = GROWTH[c.dataIndex];
-                    return c.label + ': ' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '% (' +
-                           fmtINR(r.gmv_prior) + ' → ' + fmtINR(r.gmv_cur) + ') — click to filter';
-                }}}
-            },
-            scales: {
-                x: { ticks: { callback: v => v + '%' }, grid: { color: '#eef0f6' }, title: { display: true, text: 'GMV change vs prior period' } },
-                y: { grid: { display: false } }
-            }
-        }
-    });
-})();
+/* (Brand Growth bar chart removed — now an HTML leaderboard, init below) */
 
 /* ── Category Share donut ───────────────────────────────── */
 (function(){
@@ -468,34 +465,33 @@ function carryParams(extra){
     ).join('');
 })();
 
-/* ── Category Growth bars ───────────────────────────────── */
+/* ── Growth leaderboards (brand + category) ─────────────── */
 (function(){
-    const GROWTH = {{ category_growth | tojson }};
-    const c = document.getElementById('categoryGrowthChart');
-    if (!c || !GROWTH.length) return;
-    const labels = GROWTH.map(d => d.category);
-    const data = GROWTH.map(d => d.pct);
-    const colors = data.map(p => p >= 0 ? 'rgba(13,148,136,0.85)' : 'rgba(225,29,72,0.85)');
-    new Chart(c.getContext('2d'), {
-        type: 'bar',
-        data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 4, borderSkipped: false }] },
-        options: {
-            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-            onClick: (_, items) => { if (items.length) window.location.href = '/category-sales' + carryParams({level: 'l1', value: GROWTH[items[0].index].category}); },
-            onHover: (e, items) => { e.native.target.style.cursor = items.length ? 'pointer' : 'default'; },
-            plugins: {
-                legend: { display: false },
-                tooltip: { callbacks: { label: c => {
-                    const r = GROWTH[c.dataIndex];
-                    return c.label + ': ' + (r.pct >= 0 ? '+' : '') + r.pct.toFixed(1) + '% (' +
-                           fmtINR(r.gmv_prior) + ' → ' + fmtINR(r.gmv_cur) + ') — click to drill in';
-                }}}
-            },
-            scales: {
-                x: { ticks: { callback: v => v + '%' }, grid: { color: '#eef0f6' }, title: { display: true, text: 'GMV change vs prior period' } },
-                y: { grid: { display: false } }
-            }
-        }
+    document.querySelectorAll('.growth-list').forEach(list => {
+        const rows = Array.from(list.querySelectorAll('.growth-row'));
+        if (!rows.length) return;
+        // Bar widths scaled to the largest |pct| in this list
+        const maxAbs = Math.max(...rows.map(r => Math.abs(parseFloat(r.dataset.pct) || 0))) || 1;
+        rows.forEach(r => {
+            const pct   = parseFloat(r.dataset.pct)   || 0;
+            const prior = parseFloat(r.dataset.prior) || 0;
+            const cur   = parseFloat(r.dataset.cur)   || 0;
+            const w = Math.abs(pct) / maxAbs * 100;
+            const bar = r.querySelector('.growth-bar');
+            // Small delay so the transition animates from 0
+            setTimeout(() => { bar.style.width = w.toFixed(1) + '%'; }, 50);
+            // Tooltip with INR-formatted prior → cur
+            const sign = pct >= 0 ? '+' : '';
+            r.title = `${r.dataset.value}: ${sign}${pct.toFixed(1)}% (${fmtINR(prior)} → ${fmtINR(cur)}) — click to ${r.dataset.key === 'brand' ? 'filter' : 'drill in'}`;
+            // Click handler
+            r.addEventListener('click', () => {
+                if (r.dataset.key === 'brand') {
+                    window.location.href = '/analytics' + carryParams({brand: r.dataset.value});
+                } else {
+                    window.location.href = '/category-sales' + carryParams({level: 'l1', value: r.dataset.value});
+                }
+            });
+        });
     });
 })();
 

@@ -325,18 +325,6 @@
         /* Loading state */
         .loading { opacity: 0.6; pointer-events: none; }
 
-        /* Ad type pill */
-        .ad-type-filter select {
-            padding: 4px 10px;
-            font-size: 12px;
-            font-family: var(--sans);
-            border: 1px solid var(--border2);
-            border-radius: 6px;
-            background: var(--bg3);
-            color: var(--text);
-            outline: none;
-        }
-
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d1d5e8; border-radius: 3px; }
@@ -493,9 +481,25 @@
 
         <div class="filter-group">
             <label>Brand</label>
-            <select id="brandSelect" onchange="onBrandChange()">
-                <option value="">All</option>
-            </select>
+            <div class="week-picker-wrap">
+                <button type="button" class="week-picker-btn" onclick="toggleBrandPicker()">
+                    <span id="brand-picker-label">All</span> ▾
+                </button>
+                <div class="week-picker-dropdown" id="brandPickerDropdown">
+                    <label class="week-option">
+                        <input type="checkbox" id="br-all" onchange="toggleAllBrands(this)"> <b>All</b>
+                    </label>
+                    {% for b in all_brands %}
+                    <label class="week-option">
+                        <input type="checkbox" name="ams_sel_brands" value="{{ b }}" onchange="updateBrandLabel()">
+                        {{ b }}
+                    </label>
+                    {% endfor %}
+                    <div class="week-picker-footer">
+                        <button type="button" class="week-apply-btn" onclick="loadAMS()">Apply</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="filter-group">
@@ -506,16 +510,6 @@
         <div class="filter-group">
             <label>ASIN</label>
             <input type="text" id="asinInput" placeholder="Optional" onblur="loadAMS()">
-        </div>
-
-        <div class="filter-group ad-type-filter">
-            <label>Ad Type</label>
-            <select id="adTypeSelect" onchange="onAdTypeChange()">
-                <option value="">All</option>
-                <option value="SP">SP</option>
-                <option value="SD">SD</option>
-                <option value="SB">SB</option>
-            </select>
         </div>
 
         <button class="btn btn-primary" type="button" onclick="loadAMS()">Apply</button>
@@ -622,7 +616,6 @@
 <!-- ── ALL ORIGINAL JS PRESERVED EXACTLY ── -->
 <script>
 /* ── GLOBAL STATE ── */
-window.selectedAdType = window.selectedAdType || "";
 let lastRowsCache = [];
 let defaultVisibleCols = [];
 let sortState = { col: null, dir: null };
@@ -664,15 +657,13 @@ function onL1Change(){
 }
 
 function bootstrapCategories(rows){
+    // Rows are already brand-filtered by the backend, so just enumerate
+    // every category_l0 seen in the returned set.
     catL0.innerHTML = '<option value="">All</option>';
     catL1.innerHTML = '<option value="">All</option>';
     catL2.innerHTML = '<option value="">All</option>';
-    const selectedBrand = brandSelect.value || "";
     const l0Set = new Set();
-    rows.forEach(r => {
-        const rowBrand = r.brand || r.Brand;
-        if(r.category_l0 && (!selectedBrand || rowBrand === selectedBrand)) l0Set.add(r.category_l0);
-    });
+    rows.forEach(r => { if(r.category_l0) l0Set.add(r.category_l0); });
     [...l0Set].sort().forEach(v => {
         const o = document.createElement("option"); o.value = v; o.textContent = v;
         catL0.appendChild(o);
@@ -682,17 +673,13 @@ function bootstrapCategories(rows){
 function resetFilters(){
     document.querySelectorAll('input[name="ams_sel_weeks"]').forEach(c => c.checked = false);
     document.getElementById('week-picker-label').textContent = 'Latest';
-    brandSelect.value=""; catL0.value="";
-    catL1.innerHTML='<option value="">All</option>';
-    catL2.innerHTML='<option value="">All</option>';
-    modelInput.value=""; asinInput.value="";
-    loadAMS();
-}
-
-function onBrandChange(){
+    document.querySelectorAll('input[name="ams_sel_brands"]').forEach(c => c.checked = false);
+    const brAll = document.getElementById('br-all'); if (brAll) brAll.checked = false;
+    document.getElementById('brand-picker-label').textContent = 'All';
     catL0.value="";
     catL1.innerHTML='<option value="">All</option>';
     catL2.innerHTML='<option value="">All</option>';
+    modelInput.value=""; asinInput.value="";
     loadAMS();
 }
 
@@ -810,10 +797,17 @@ function renderTable(){
 /* ── MAIN LOAD ── */
 function toggleWeekPicker() {
     document.getElementById('weekPickerDropdown').classList.toggle('open');
+    document.getElementById('brandPickerDropdown')?.classList.remove('open');
+}
+function toggleBrandPicker() {
+    document.getElementById('brandPickerDropdown').classList.toggle('open');
+    document.getElementById('weekPickerDropdown')?.classList.remove('open');
 }
 document.addEventListener('click', function(e) {
-    if (!e.target.closest('.week-picker-wrap'))
+    if (!e.target.closest('.week-picker-wrap')) {
         document.getElementById('weekPickerDropdown')?.classList.remove('open');
+        document.getElementById('brandPickerDropdown')?.classList.remove('open');
+    }
 });
 function toggleAllWeeks(cb) {
     document.querySelectorAll('input[name="ams_sel_weeks"]').forEach(c => c.checked = cb.checked);
@@ -830,11 +824,29 @@ function updateWeekLabel() {
     else if (checked.length <= 3) label.textContent = 'Wk ' + checked.join(', ');
     else label.textContent = checked.length + ' weeks';
 }
+function toggleAllBrands(cb) {
+    document.querySelectorAll('input[name="ams_sel_brands"]').forEach(c => c.checked = cb.checked);
+    updateBrandLabel();
+}
+function updateBrandLabel() {
+    const boxes = document.querySelectorAll('input[name="ams_sel_brands"]');
+    const checked = Array.from(boxes).filter(c => c.checked).map(c => c.value);
+    const allCb = document.getElementById('br-all');
+    if (allCb) allCb.checked = (boxes.length > 0 && checked.length === boxes.length);
+    const label = document.getElementById('brand-picker-label');
+    if (!label) return;
+    if (!checked.length || checked.length === boxes.length) label.textContent = 'All';
+    else if (checked.length === 1) label.textContent = checked[0];
+    else if (checked.length <= 2) label.textContent = checked.join(', ');
+    else label.textContent = checked.length + ' brands';
+}
 
 function loadAMS(){
     document.getElementById('weekPickerDropdown')?.classList.remove('open');
+    document.getElementById('brandPickerDropdown')?.classList.remove('open');
     document.body.classList.add("loading");
-    const selWeeks = Array.from(document.querySelectorAll('input[name="ams_sel_weeks"]:checked')).map(c => c.value);
+    const selWeeks  = Array.from(document.querySelectorAll('input[name="ams_sel_weeks"]:checked')).map(c => c.value);
+    const selBrands = Array.from(document.querySelectorAll('input[name="ams_sel_brands"]:checked')).map(c => c.value);
     let url = "/api/ams/trend?";
     if(selWeeks.length) { selWeeks.forEach(w => url += "sel_weeks="+w+"&"); }
     else { url += "weeks=1&"; }
@@ -842,9 +854,8 @@ function loadAMS(){
     if(catL1.value) url += "category_l1="+encodeURIComponent(catL1.value)+"&";
     if(catL2.value) url += "category_l2="+encodeURIComponent(catL2.value)+"&";
     if(modelInput.value) url += "model="+encodeURIComponent(modelInput.value)+"&";
-    if(brandSelect && brandSelect.value) url += "brand="+encodeURIComponent(brandSelect.value)+"&";
+    selBrands.forEach(b => url += "brand="+encodeURIComponent(b)+"&");
     if(asinInput.value) url += "asin="+encodeURIComponent(asinInput.value)+"&";
-    if(window.selectedAdType) url += "ad_type="+encodeURIComponent(window.selectedAdType)+"&";
 
     fetch(url)
         .then(r => r.json())
@@ -860,22 +871,6 @@ function loadAMS(){
             document.getElementById('kpiAcos').innerText     = pct(kpis.acos);
             document.getElementById('kpiTacos').innerText    = pct(kpis.tacos);
 
-            const brandSet = new Set();
-            lastRowsCache.forEach(r => {
-                const b = r.brand || r.Brand;
-                if(b && b !== "null") brandSet.add(b);
-            });
-            if(brandSelect && brandSelect.options.length <= 1){
-                const current = brandSelect.value;
-                brandSelect.innerHTML = '<option value="">All</option>';
-                [...brandSet].sort().forEach(b => {
-                    const o = document.createElement("option");
-                    o.value = b; o.textContent = b;
-                    if(b === current) o.selected = true;
-                    brandSelect.appendChild(o);
-                });
-            }
-
             bootstrapCategories(lastRowsCache);
             renderTable();
             if(data.sb_rows) renderSBTable(data.sb_rows);
@@ -887,14 +882,15 @@ function loadAMS(){
 /* ── EXPORT ── */
 function exportAMS(){
     let url = "/api/ams/export?";
-    const selWeeksExp = Array.from(document.querySelectorAll('input[name="ams_sel_weeks"]:checked')).map(c => c.value);
+    const selWeeksExp  = Array.from(document.querySelectorAll('input[name="ams_sel_weeks"]:checked')).map(c => c.value);
+    const selBrandsExp = Array.from(document.querySelectorAll('input[name="ams_sel_brands"]:checked')).map(c => c.value);
     if(selWeeksExp.length) { selWeeksExp.forEach(w => url += "sel_weeks="+w+"&"); }
     else { url += "weeks=1&"; }
     if(catL0.value) url += "category_l0="+encodeURIComponent(catL0.value)+"&";
     if(catL1.value) url += "category_l1="+encodeURIComponent(catL1.value)+"&";
     if(catL2.value) url += "category_l2="+encodeURIComponent(catL2.value)+"&";
     if(modelInput.value) url += "model="+encodeURIComponent(modelInput.value)+"&";
-    if(brandSelect.value) url += "brand="+encodeURIComponent(brandSelect.value)+"&";
+    selBrandsExp.forEach(b => url += "brand="+encodeURIComponent(b)+"&");
     if(asinInput.value) url += "asin="+encodeURIComponent(asinInput.value)+"&";
     window.open(url, "_blank");
 }
@@ -927,13 +923,6 @@ function renderSBTable(rows){
 document.querySelectorAll("#amsHeaderRow th").forEach((th,i) => {
     th.addEventListener("click", () => sortTableByColumn(i));
 });
-
-/* ── AD TYPE FILTER ── */
-window.selectedAdType = window.selectedAdType || "";
-function onAdTypeChange(){
-    window.selectedAdType = document.getElementById("adTypeSelect").value;
-    loadAMS();
-}
 
 loadAMS();
 initColumnSelector();

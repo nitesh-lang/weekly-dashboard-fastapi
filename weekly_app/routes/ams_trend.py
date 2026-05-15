@@ -208,19 +208,22 @@ def get_ams_trend(
     category_l2: Optional[str] = Query(None),
     model: Optional[str] = Query(None),
     asin: Optional[str] = Query(None),
-    brand: Optional[str] = Query(None),
+    brand: Optional[list[str]] = Query(default=None),
 ):
-    
+
     # ===============================
     # LOAD DATA
     # ===============================
     df = load_ams_data()
-    if brand:
-       brand = brand.strip().lower()
 
     # ✅ APPLY BRAND FILTER FIRST (CRITICAL)
-    if  brand and brand != "All":
-       df = df[df["brand"] == brand]
+    # `brand` is a multi-value query param now — filter via isin(). Empty list
+    # or only-"All" entries mean no brand restriction.
+    brands_norm = []
+    if brand:
+        brands_norm = [b.strip().lower() for b in brand if b and b.strip().lower() != "all"]
+    if brands_norm:
+        df = df[df["brand"].isin(brands_norm)]
 
     # Full AMS base (used for contribution calc)
     base_df = df.copy()
@@ -363,9 +366,16 @@ def get_ams_trend(
 def ams_trend_view(request: Request):
     df = load_ams_data()
     all_weeks = sorted(df["week"].dropna().unique().astype(int).tolist())
+    # Brand values used by the multi-select picker. We pass the display-cased
+    # version (Title Case) so the UI is readable; route compares case-insensitive.
+    raw_brands = (
+        df["brand"].dropna().astype(str).str.strip().str.lower().unique().tolist()
+    )
+    all_brands = sorted(b.title() for b in raw_brands if b and b != "unknown")
     return HTMLResponse(_env.get_template("ams_trend.html").render(
         request=request,
         all_weeks=all_weeks,
+        all_brands=all_brands,
     ))
 
 # ==================================================
@@ -380,7 +390,7 @@ def export_ams_trend(
     category_l2: Optional[str] = Query(None),
     model: Optional[str] = Query(None),
     asin: Optional[str] = Query(None),
-    brand: Optional[str] = Query(None),
+    brand: Optional[list[str]] = Query(default=None),
 ):
     # Reuse existing logic
     response = get_ams_trend(

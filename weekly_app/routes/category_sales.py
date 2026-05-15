@@ -58,7 +58,8 @@ def category_sales(
     week: str | None = None,
     weeks: List[str] = Query(default=[]),
     sel_weeks: List[str] = Query(default=[]),
-    brand: str | None = None,
+    brand: str | None = None,                       # legacy single-brand
+    brands: List[str] = Query(default=[]),          # multi-brand checkboxes
 ):
     active = weeks or sel_weeks
     # ---------------- LOAD FILE ----------------
@@ -111,9 +112,12 @@ def category_sales(
         week = f"Week {latest_week_num}"
 
     # ---------------- BRAND FILTER ----------------
-    if brand not in (None, "", "None"):
-        brand = norm(brand)
-        df = df[df["brand"] == brand]
+    # Multi-brand wins over legacy single brand.
+    eff_brands = [norm(b) for b in (brands or []) if b and b.strip()]
+    if not eff_brands and brand not in (None, "", "None"):
+        eff_brands = [norm(brand)]
+    if eff_brands:
+        df = df[df["brand"].isin(eff_brands)]
 
     # ---------------- PARENT FILTER ----------------
     # Categories are stored title-cased (see normalization above); value comes
@@ -170,6 +174,6 @@ def category_sales(
         level=level,
         value=value,
         week=week,
-        selected_brand=brand,
+        selected_brands=eff_brands,
         sel_weeks=active,
     ))

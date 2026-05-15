@@ -597,7 +597,8 @@ def export_dashboard_sku(
 # ==================================================
 @router.get("/sales-trend-sku")
 def export_sales_trend_sku(
-    brand: str = Query("All"),
+    brand: str = Query("All"),                       # legacy single-brand
+    brands: list[str] = Query(default=[]),           # multi-brand checkboxes
     sel_weeks: list[str] = Query(default=[]),
 ):
     from weekly_app.routes.sales_trend import (
@@ -608,9 +609,13 @@ def export_sales_trend_sku(
 
     sales = _st_load_sales()
 
+    eff_brands_lower = [b.strip().lower() for b in (brands or []) if b and b.strip().lower() != "all"]
+    if not eff_brands_lower and brand and brand != "All":
+        eff_brands_lower = [brand.strip().lower()]
+
     base = sales
-    if brand and brand != "All":
-        base = sales[sales["brand"] == brand.strip().lower()]
+    if eff_brands_lower:
+        base = sales[sales["brand"].isin(eff_brands_lower)]
 
     weeks_df = (
         base[["week", "week_num"]]
@@ -723,7 +728,8 @@ def export_sales_trend_sku(
 # ==================================================
 @router.get("/amazon-trend")
 def export_amazon_trend(
-    brand: str = Query("All"),
+    brand: str = Query("All"),                       # legacy single-brand back-compat
+    brands: list[str] = Query(default=[]),           # multi-brand checkboxes
     sel_weeks: list[str] = Query(default=[]),
 ):
     from weekly_app.routes.AM_sales_trend import (
@@ -737,10 +743,14 @@ def export_amazon_trend(
         sales["channel"].astype(str).str.strip().str.lower()
         .isin(["amazon", "1p sales"])
     ]
-    if brand and brand != "All":
+
+    # Resolve effective brand list: multi takes precedence over legacy single.
+    eff_brands_lower = [b.strip().lower() for b in brands if b and b.strip().lower() != "all"]
+    if not eff_brands_lower and brand and brand != "All":
+        eff_brands_lower = [brand.strip().lower()]
+    if eff_brands_lower:
         sales = sales[
-            sales["brand"].astype(str).str.strip().str.lower()
-            == str(brand).strip().lower()
+            sales["brand"].astype(str).str.strip().str.lower().isin(eff_brands_lower)
         ]
 
     business = _ams_load_business()
@@ -851,7 +861,8 @@ def export_inventory_full(
 # ==================================================
 @router.get("/category-full")
 def export_category_full(
-    brand: str = Query(None),
+    brand: str = Query(None),                       # legacy single-brand
+    brands: list[str] = Query(default=[]),          # multi-brand checkboxes
     sel_weeks: list[str] = Query(default=[]),
     weeks: list[str] = Query(default=[]),
     level: str = Query("l0"),
@@ -859,9 +870,12 @@ def export_category_full(
 ):
     df = pd.read_csv(SALES_FILE)
     df.columns = [c.strip().lower() for c in df.columns]
-    if brand:
-        from weekly_app.routes.category_sales import norm as _norm
-        df = df[df["brand"].astype(str).apply(_norm) == _norm(brand)]
+    from weekly_app.routes.category_sales import norm as _norm
+    eff_brands = [_norm(b) for b in (brands or []) if b and b.strip()]
+    if not eff_brands and brand:
+        eff_brands = [_norm(brand)]
+    if eff_brands:
+        df = df[df["brand"].astype(str).apply(_norm).isin(eff_brands)]
 
     active_weeks = list(weeks) + [w for w in sel_weeks if w not in weeks]
     if active_weeks:

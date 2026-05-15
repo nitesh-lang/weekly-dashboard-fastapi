@@ -40,12 +40,34 @@
 
       <div class="filter-group">
         <div class="filter-label">Brand</div>
-        <select class="form-select form-select-sm" name="brand" onchange="autoRefresh()" style="min-width:170px;">
-          <option value="">All Brands</option>
-          {% for b in brands %}
-            <option value="{{ b }}" {% if selected.brand == b %}selected{% endif %}>{{ b }}</option>
-          {% endfor %}
-        </select>
+        <div class="picker-wrap">
+          <button type="button" class="picker-btn" onclick="toggleBrandPicker()" style="min-width:170px;">
+            <span id="brand-picker-label">
+              {% if selected.brands and selected.brands | length == 1 %}{{ selected.brands[0] }}
+              {% elif selected.brands and selected.brands | length <= 3 %}{{ selected.brands | join(', ') }}
+              {% elif selected.brands %}{{ selected.brands | length }} brands
+              {% else %}All Brands
+              {% endif %}
+            </span>
+            <i class="ti ti-chevron-down"></i>
+          </button>
+          <div class="picker-dropdown" id="brandPickerDropdown">
+            <label class="picker-option">
+              <input type="checkbox" id="br-all" onchange="toggleAllBrands(this)"> <b>All</b>
+            </label>
+            {% for b in brands %}
+            <label class="picker-option">
+              <input type="checkbox" name="brands" value="{{ b }}"
+                {% if selected.brands and b in selected.brands %}checked{% endif %}
+                onchange="updateBrandLabel()">
+              {{ b }}
+            </label>
+            {% endfor %}
+            <div class="picker-footer">
+              <button type="button" class="picker-apply" onclick="applyBrands()">Apply</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="filter-group">
@@ -300,9 +322,19 @@ document.querySelectorAll('.fmt-pct').forEach(el => { const v = parseFloat(el.da
 
 /* ── Filter bar ──────────────────────────────────────────── */
 function autoRefresh(){ document.getElementById('filterForm').submit(); }
-function toggleWeekPicker(){ document.getElementById('weekPickerDropdown').classList.toggle('open'); }
+function toggleWeekPicker(){
+    document.getElementById('weekPickerDropdown').classList.toggle('open');
+    document.getElementById('brandPickerDropdown')?.classList.remove('open');
+}
+function toggleBrandPicker(){
+    document.getElementById('brandPickerDropdown').classList.toggle('open');
+    document.getElementById('weekPickerDropdown')?.classList.remove('open');
+}
 document.addEventListener('click', e => {
-    if (!e.target.closest('.picker-wrap')) document.getElementById('weekPickerDropdown')?.classList.remove('open');
+    if (!e.target.closest('.picker-wrap')) {
+        document.getElementById('weekPickerDropdown')?.classList.remove('open');
+        document.getElementById('brandPickerDropdown')?.classList.remove('open');
+    }
 });
 function toggleAllWeeks(cb){
     document.querySelectorAll('input[name="weeks"]').forEach(c => c.checked = cb.checked);
@@ -322,6 +354,26 @@ function updateWeekLabel(){
 }
 function applyWeeks(){
     document.getElementById('weekPickerDropdown').classList.remove('open');
+    document.getElementById('filterForm').submit();
+}
+function toggleAllBrands(cb){
+    document.querySelectorAll('input[name="brands"]').forEach(c => c.checked = cb.checked);
+    updateBrandLabel();
+}
+function updateBrandLabel(){
+    const boxes = document.querySelectorAll('input[name="brands"]');
+    const checked = Array.from(boxes).filter(c => c.checked).map(c => c.value);
+    const allCb = document.getElementById('br-all');
+    if (allCb) allCb.checked = (boxes.length > 0 && checked.length === boxes.length);
+    const lbl = document.getElementById('brand-picker-label');
+    if (!lbl) return;
+    if (!checked.length || checked.length === boxes.length) lbl.textContent = 'All Brands';
+    else if (checked.length === 1) lbl.textContent = checked[0];
+    else if (checked.length <= 3) lbl.textContent = checked.join(', ');
+    else lbl.textContent = checked.length + ' brands';
+}
+function applyBrands(){
+    document.getElementById('brandPickerDropdown').classList.remove('open');
     document.getElementById('filterForm').submit();
 }
 
@@ -531,9 +583,8 @@ document.querySelectorAll('.mover-row').forEach(tr => {
 function buildInsightsURL(refresh){
     const u = new URL('/api/analytics/insights', window.location.origin);
     document.querySelectorAll('input[name="weeks"]:checked').forEach(c => u.searchParams.append('weeks', c.value));
-    const brand = document.querySelector('select[name="brand"]')?.value;
+    document.querySelectorAll('input[name="brands"]:checked').forEach(c => u.searchParams.append('brands', c.value));
     const view = document.querySelector('select[name="view"]')?.value;
-    if (brand) u.searchParams.set('brand', brand);
     if (view)  u.searchParams.set('view', view);
     if (refresh) u.searchParams.set('refresh', '1');
     return u.toString();

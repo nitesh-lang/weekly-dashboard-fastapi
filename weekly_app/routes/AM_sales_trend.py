@@ -443,7 +443,8 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
 @router.get("/amazon-sales-trend", response_class=HTMLResponse)
 def amazon_sales_trend(
     request: Request,
-    brand: str = "All",
+    brand: str = "All",                          # legacy single-brand kept for back-compat
+    brands: List[str] = Query(default=[]),       # multi-brand checkboxes
     sel_weeks: Optional[List[str]] = Query(default=None)
 ):
     sales = load_sales()
@@ -457,10 +458,14 @@ def amazon_sales_trend(
     # -------- ALL BRANDS (for dropdown) — before brand filter ----------
     all_brands = sorted(sales["brand"].dropna().astype(str).unique())
 
-    if brand and brand != "All":
+    # Resolve the effective brand list: multi takes precedence over legacy single.
+    eff_brands_lower = [b.strip().lower() for b in brands if b and b.strip().lower() != "all"]
+    if not eff_brands_lower and brand and brand != "All":
+        eff_brands_lower = [brand.strip().lower()]
+
+    if eff_brands_lower:
         sales = sales[
-            sales["brand"].astype(str).str.strip().str.lower()
-            == str(brand).strip().lower()
+            sales["brand"].astype(str).str.strip().str.lower().isin(eff_brands_lower)
         ]
 
     business = load_business()
@@ -478,13 +483,18 @@ def amazon_sales_trend(
         key=lambda x: extract_week(x) or 0
     )
 
+    # Pass selected brands back in their original (display) casing so the
+    # checkboxes can match. We look up display name from all_brands.
+    display_by_lower = {b.lower().strip(): b for b in all_brands}
+    selected_brands_display = [display_by_lower[k] for k in eff_brands_lower if k in display_by_lower]
+
     return HTMLResponse(_env.get_template("sales_trend_amazon.html").render(
         request=request,
         rows=rows,
         weeks=weeks,
         all_weeks=all_weeks,
         brands=all_brands,
-        selected_brand=brand,
+        selected_brands=selected_brands_display,
         selected_weeks=sel_weeks or [],
         page_title="Amazon + 1P Sales Trend",
     ))

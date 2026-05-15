@@ -142,7 +142,8 @@ def trend(units):
 @router.get("/sales-trend", response_class=HTMLResponse)
 def sales_trend(
     request: Request,
-    brand: str = "All",
+    brand: str = "All",                              # legacy single-brand
+    brands: List[str] = Query(default=[]),           # multi-brand checkboxes
     sel_weeks: Optional[List[str]] = Query(default=None)
 ):
     sales = load_sales()
@@ -152,9 +153,14 @@ def sales_trend(
         key=lambda x: int(re.search(r"\d+", str(x)).group()) if re.search(r"\d+", str(x)) else 0
     )
 
+    # Resolve effective brand list: multi wins over legacy single.
+    eff_brands_lower = [b.strip().lower() for b in (brands or []) if b and b.strip().lower() != "all"]
+    if not eff_brands_lower and brand and brand != "All":
+        eff_brands_lower = [brand.strip().lower()]
+
     base = sales
-    if brand and brand != "All":
-        base = sales[sales["brand"] == brand.strip().lower()]
+    if eff_brands_lower:
+        base = sales[sales["brand"].isin(eff_brands_lower)]
 
     weeks_df = (
         base[["week", "week_num"]]
@@ -244,7 +250,10 @@ def sales_trend(
         
     rows.append(grand)   # ✅ HERE (after loop ends)
 
-    brands = sorted(sales["brand"].dropna().astype(str).unique())
+    all_brands = sorted(sales["brand"].dropna().astype(str).unique())
+    # Map lowercase keys back to display casing so the picker can match.
+    display_by_lower = {b.lower().strip(): b for b in all_brands}
+    selected_brands_display = [display_by_lower[k] for k in eff_brands_lower if k in display_by_lower]
 
     # Send ALL rows in the initial HTML
     all_rows = rows
@@ -256,8 +265,8 @@ def sales_trend(
         trend_total=trend_total,
         weeks=weeks,
         all_weeks=all_weeks,
-        brands=brands,
-        selected_brand=brand,
+        brands=all_brands,
+        selected_brands=selected_brands_display,
         selected_weeks=sel_weeks or [],
     ))
 
@@ -267,7 +276,8 @@ def sales_trend(
 @router.get("/api/sales-trend/rows")
 def sales_trend_rows_api(
     request: Request,
-    brand: str = "All",
+    brand: str = "All",                              # legacy single-brand
+    brands: List[str] = Query(default=[]),           # multi-brand checkboxes
     sel_weeks: Optional[List[str]] = Query(default=None),
     page: int = 1,
     page_size: int = 100,
@@ -278,9 +288,13 @@ def sales_trend_rows_api(
         all_wks = sorted(sales["week"].dropna().unique().tolist(),
             key=lambda x: int(re.search(r"\d+", str(x)).group()) if re.search(r"\d+", str(x)) else 0)
 
+        eff_brands_lower = [b.strip().lower() for b in (brands or []) if b and b.strip().lower() != "all"]
+        if not eff_brands_lower and brand and brand != "All":
+            eff_brands_lower = [brand.strip().lower()]
+
         base = sales
-        if brand and brand != "All":
-            base = sales[sales["brand"] == brand.strip().lower()]
+        if eff_brands_lower:
+            base = sales[sales["brand"].isin(eff_brands_lower)]
 
         weeks_df = base[["week","week_num"]].dropna().drop_duplicates().sort_values("week_num")
         if sel_weeks:

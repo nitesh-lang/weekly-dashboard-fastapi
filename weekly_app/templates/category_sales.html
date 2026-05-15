@@ -423,15 +423,34 @@
 
             <div class="filter-group">
                 <label>Brand</label>
-                <select name="brand">
-                    <option value="">All Brands</option>
-                    {% for b in brands %}
-                        <option value="{{ b }}"
-                            {% if selected_brand and selected_brand == b %}selected{% endif %}>
+                <div class="week-picker-wrap">
+                    <button type="button" class="week-picker-btn" onclick="toggleBrandPicker()">
+                        <span id="brand-picker-label">
+                            {% if selected_brands and selected_brands | length == 1 %}{{ selected_brands[0] | title }}
+                            {% elif selected_brands and selected_brands | length <= 3 %}{{ selected_brands | map('title') | join(', ') }}
+                            {% elif selected_brands %}{{ selected_brands | length }} brands
+                            {% else %}All Brands
+                            {% endif %}
+                        </span>
+                        ▾
+                    </button>
+                    <div class="week-picker-dropdown" id="brandPickerDropdown">
+                        <label class="week-option">
+                            <input type="checkbox" id="br-all" onchange="toggleAllBrands(this)"> <b>All</b>
+                        </label>
+                        {% for b in brands %}
+                        <label class="week-option">
+                            <input type="checkbox" name="brands" value="{{ b }}"
+                                {% if selected_brands and b in selected_brands %}checked{% endif %}
+                                onchange="updateBrandLabel()">
                             {{ b | title }}
-                        </option>
-                    {% endfor %}
-                </select>
+                        </label>
+                        {% endfor %}
+                        <div class="week-picker-footer">
+                            <button type="button" class="week-apply-btn" onclick="submitForm()">Apply</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <button type="submit" class="btn-apply">Apply</button>
@@ -520,13 +539,20 @@
 
 
 <script>
-/* ── Week picker ── */
+/* ── Week + Brand pickers ── */
 function toggleWeekPicker() {
     document.getElementById('weekPickerDropdown').classList.toggle('open');
+    document.getElementById('brandPickerDropdown')?.classList.remove('open');
+}
+function toggleBrandPicker() {
+    document.getElementById('brandPickerDropdown').classList.toggle('open');
+    document.getElementById('weekPickerDropdown')?.classList.remove('open');
 }
 document.addEventListener('click', function(e) {
-    if (!e.target.closest('.week-picker-wrap'))
+    if (!e.target.closest('.week-picker-wrap')) {
         document.getElementById('weekPickerDropdown')?.classList.remove('open');
+        document.getElementById('brandPickerDropdown')?.classList.remove('open');
+    }
 });
 function toggleAllWeeks(cb) {
     document.querySelectorAll('input[name="sel_weeks"]').forEach(c => c.checked = cb.checked);
@@ -543,8 +569,26 @@ function updateWeekLabel() {
     else if (checked.length <= 3) label.textContent = checked.join(', ');
     else label.textContent = checked.length + ' weeks selected';
 }
+function toggleAllBrands(cb) {
+    document.querySelectorAll('input[name="brands"]').forEach(c => c.checked = cb.checked);
+    updateBrandLabel();
+}
+function updateBrandLabel() {
+    const boxes = document.querySelectorAll('input[name="brands"]');
+    const checked = Array.from(boxes).filter(c => c.checked).map(c => c.value);
+    const allCb = document.getElementById('br-all');
+    if (allCb) allCb.checked = (boxes.length > 0 && checked.length === boxes.length);
+    const label = document.getElementById('brand-picker-label');
+    if (!label) return;
+    const toTitle = s => s.replace(/\b\w/g, c => c.toUpperCase());
+    if (!checked.length || checked.length === boxes.length) label.textContent = 'All Brands';
+    else if (checked.length === 1) label.textContent = toTitle(checked[0]);
+    else if (checked.length <= 3) label.textContent = checked.map(toTitle).join(', ');
+    else label.textContent = checked.length + ' brands';
+}
 function submitForm() {
     document.getElementById('weekPickerDropdown').classList.remove('open');
+    document.getElementById('brandPickerDropdown')?.classList.remove('open');
     document.getElementById('filterForm').submit();
 }
 
@@ -650,13 +694,11 @@ function exportCategoryCSV() {
     function updateCatExport(){
         var btn = document.getElementById('cat-export-btn');
         if(!btn) return;
-        var brand = '';
-        var brandEl = document.querySelector('select[name="brand"]');
-        if(brandEl && brandEl.value) brand = brandEl.value;
+        var brands = Array.from(document.querySelectorAll('input[name="brands"]:checked')).map(function(c){ return 'brands='+encodeURIComponent(c.value); });
         var weeks = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(function(c){ return 'sel_weeks='+encodeURIComponent(c.value); });
         var url = '/export/category-full';
         var params = [];
-        if(brand) params.push('brand='+encodeURIComponent(brand));
+        if(brands.length) params.push(brands.join('&'));
         if(weeks.length) params.push(weeks.join('&'));
         if(params.length) url += '?' + params.join('&');
         btn.href = url;

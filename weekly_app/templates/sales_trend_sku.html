@@ -499,16 +499,35 @@
             </div>
         </div>
 
-        <!-- Brand filter -->
-        <select id="brandFilter" name="brand">
-            <option value="">All Brands</option>
-            {% for b in brands %}
-                <option value="{{ b|lower|trim }}"
-                {% if selected_brand and (b|lower|trim) == (selected_brand|lower|trim) %}selected{% endif %}>
-                {{ b }}
-                </option>
-            {% endfor %}
-        </select>
+        <!-- Multi-brand picker -->
+        <div class="week-picker-wrap">
+            <button type="button" class="week-picker-btn" onclick="toggleBrandPicker()">
+                <span id="brand-picker-label">
+                    {% if selected_brands and selected_brands | length == 1 %}{{ selected_brands[0] }}
+                    {% elif selected_brands and selected_brands | length <= 3 %}{{ selected_brands | join(', ') }}
+                    {% elif selected_brands %}{{ selected_brands | length }} brands
+                    {% else %}All Brands
+                    {% endif %}
+                </span>
+                ▾
+            </button>
+            <div class="week-picker-dropdown" id="brandPickerDropdown">
+                <label class="week-option">
+                    <input type="checkbox" id="br-all" onchange="toggleAllBrands(this)"> <b>All</b>
+                </label>
+                {% for b in brands %}
+                <label class="week-option">
+                    <input type="checkbox" name="brands" value="{{ b }}"
+                        {% if selected_brands and b in selected_brands %}checked{% endif %}
+                        onchange="updateBrandLabel()">
+                    {{ b }}
+                </label>
+                {% endfor %}
+                <div class="week-picker-footer">
+                    <button type="button" class="week-apply-btn" onclick="applyBrands()">Apply</button>
+                </div>
+            </div>
+        </div>
 
         <div class="toolbar-spacer"></div>
 
@@ -618,14 +637,31 @@
 </div>
 
 <script>
+/* ── Helpers shared between week + brand pickers ── */
+function _selectedBrands() {
+    return Array.from(document.querySelectorAll('input[name="brands"]:checked')).map(c => c.value);
+}
+function _selectedWeeks() {
+    return Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
+}
+function _buildAllFiltersURL(base) {
+    const params = new URLSearchParams();
+    _selectedWeeks().forEach(w => params.append('sel_weeks', w));
+    _selectedBrands().forEach(b => params.append('brands', b));
+    const qs = params.toString();
+    return qs ? base + '?' + qs : base;
+}
+
 /* ── Multi-week picker ── */
 function toggleWeekPicker() {
     document.getElementById('weekPickerDropdown').classList.toggle('open');
+    document.getElementById('brandPickerDropdown')?.classList.remove('open');
 }
 
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.week-picker-wrap')) {
         document.getElementById('weekPickerDropdown')?.classList.remove('open');
+        document.getElementById('brandPickerDropdown')?.classList.remove('open');
     }
 });
 
@@ -635,7 +671,7 @@ function toggleAllWeeks(cb) {
 }
 
 function updateWeekLabel() {
-    const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
+    const checked = _selectedWeeks();
     const allCb = document.getElementById('wk-all');
     const allBoxes = document.querySelectorAll('input[name="sel_weeks"]');
     if (allCb) allCb.checked = (checked.length === allBoxes.length);
@@ -648,12 +684,33 @@ function updateWeekLabel() {
 
 function applyWeekFilter() {
     document.getElementById('weekPickerDropdown').classList.remove('open');
-    const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
-    const brand = document.getElementById('brandFilter').value;
-    const params = new URLSearchParams();
-    checked.forEach(w => params.append('sel_weeks', w));
-    if (brand) params.append('brand', brand);
-    window.location.href = '/sales-trend?' + params.toString();
+    window.location.href = _buildAllFiltersURL('/sales-trend');
+}
+
+/* ── Multi-brand picker ── */
+function toggleBrandPicker() {
+    document.getElementById('brandPickerDropdown').classList.toggle('open');
+    document.getElementById('weekPickerDropdown')?.classList.remove('open');
+}
+function toggleAllBrands(cb) {
+    document.querySelectorAll('input[name="brands"]').forEach(c => c.checked = cb.checked);
+    updateBrandLabel();
+}
+function updateBrandLabel() {
+    const boxes = document.querySelectorAll('input[name="brands"]');
+    const checked = Array.from(boxes).filter(c => c.checked).map(c => c.value);
+    const allCb = document.getElementById('br-all');
+    if (allCb) allCb.checked = (boxes.length > 0 && checked.length === boxes.length);
+    const label = document.getElementById('brand-picker-label');
+    if (!label) return;
+    if (!checked.length || checked.length === boxes.length) label.textContent = 'All Brands';
+    else if (checked.length === 1) label.textContent = checked[0];
+    else if (checked.length <= 3) label.textContent = checked.join(', ');
+    else label.textContent = checked.length + ' brands';
+}
+function applyBrands() {
+    document.getElementById('brandPickerDropdown').classList.remove('open');
+    window.location.href = _buildAllFiltersURL('/sales-trend');
 }
 
 /* ── Filter ── */
@@ -733,23 +790,8 @@ document.querySelectorAll("th").forEach((header, colIndex) => {
 function exportTable() {
     var btn = document.getElementById('sku-export-btn');
     if(btn){ window.location.href = btn.href; return; }
-    // Fallback: build URL from current filters
-    var brand = (document.getElementById('brandFilter') || {}).value || 'All';
-    var weeks = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(function(c){ return 'sel_weeks='+encodeURIComponent(c.value); });
-    var url = '/export/sales-trend-sku?brand='+encodeURIComponent(brand);
-    if(weeks.length) url += '&' + weeks.join('&');
-    window.location.href = url;
+    window.location.href = _buildAllFiltersURL('/export/sales-trend-sku');
 }
-
-/* ── Brand filter (backend) ── */
-document.getElementById("brandFilter").addEventListener("change", function () {
-    const brand = this.value;
-    const checked = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(c => c.value);
-    const params = new URLSearchParams();
-    checked.forEach(w => params.append('sel_weeks', w));
-    if (brand) params.append('brand', brand);
-    window.location.href = '/sales-trend?' + params.toString();
-});
 
 function resetFilters() {
     window.location.href = '/sales-trend';
@@ -763,11 +805,7 @@ function resetFilters() {
     function updateSkuExportHref(){
         var btn = document.getElementById('sku-export-btn');
         if(!btn) return;
-        var brand = (document.getElementById('brandFilter')||{}).value||'All';
-        var weeks = Array.from(document.querySelectorAll('input[name="sel_weeks"]:checked')).map(function(c){ return 'sel_weeks='+encodeURIComponent(c.value); });
-        var url = '/export/sales-trend-sku?brand='+encodeURIComponent(brand);
-        if(weeks.length) url += '&' + weeks.join('&');
-        btn.href = url;
+        btn.href = _buildAllFiltersURL('/export/sales-trend-sku');
     }
     document.addEventListener('DOMContentLoaded', updateSkuExportHref);
     document.addEventListener('change', updateSkuExportHref);

@@ -112,10 +112,13 @@ def _load_ams() -> pd.DataFrame:
 # =====================================================
 def compute_analytics(
     active_weeks: List[str],
-    brand: Optional[str],
+    brands: List[str],
     view: str,
 ) -> Dict[str, Any]:
-    """Aggregate everything the analytics page (and AI insights) need."""
+    """Aggregate everything the analytics page (and AI insights) need.
+
+    `brands` is a list. Empty list = no brand restriction.
+    """
     sales = _load_sales()
     all_weeks = sorted(sales["week"].dropna().unique().tolist(), key=_wk_n)
 
@@ -123,12 +126,13 @@ def compute_analytics(
         active_weeks = [all_weeks[-1]]
 
     brands_list = sorted(sales["brand"].dropna().unique().tolist())
+    brands_lower = [b.strip().lower() for b in (brands or []) if b and b.strip()]
 
     # Current window
     cur = sales.copy()
     cur = cur[cur["week"].isin(active_weeks)]
-    if brand:
-        cur = cur[cur["brand"].str.lower() == brand.lower()]
+    if brands_lower:
+        cur = cur[cur["brand"].str.lower().isin(brands_lower)]
     if view == "mapped" and "sku_status" in cur.columns:
         cur = cur[cur["sku_status"] == "MAPPED"]
 
@@ -147,8 +151,8 @@ def compute_analytics(
         prior = prior[prior["week"].isin(prior_weeks)]
     else:
         prior = prior.iloc[0:0]
-    if brand and not prior.empty:
-        prior = prior[prior["brand"].str.lower() == brand.lower()]
+    if brands_lower and not prior.empty:
+        prior = prior[prior["brand"].str.lower().isin(brands_lower)]
     if view == "mapped" and "sku_status" in prior.columns:
         prior = prior[prior["sku_status"] == "MAPPED"]
 
@@ -168,9 +172,9 @@ def compute_analytics(
     if not ams_window.empty:
         active_week_nums = [str(_wk_n(w)) for w in active_weeks]
         ams_window = ams_window[ams_window["week"].astype(str).isin(active_week_nums)]
-        if brand and "brand" in ams_window.columns:
+        if brands_lower and "brand" in ams_window.columns:
             ams_window = ams_window[
-                ams_window["brand"].astype(str).str.lower() == brand.lower()
+                ams_window["brand"].astype(str).str.lower().isin(brands_lower)
             ]
 
     def _sum(col):
@@ -204,8 +208,8 @@ def compute_analytics(
 
     # ─── SALES PULSE (12 weeks) ───────────────────────────
     pulse_base = sales.copy()
-    if brand:
-        pulse_base = pulse_base[pulse_base["brand"].str.lower() == brand.lower()]
+    if brands_lower:
+        pulse_base = pulse_base[pulse_base["brand"].str.lower().isin(brands_lower)]
     if view == "mapped" and "sku_status" in pulse_base.columns:
         pulse_base = pulse_base[pulse_base["sku_status"] == "MAPPED"]
     pulse = (
@@ -284,9 +288,10 @@ def compute_analytics(
             ]
 
     # ─── BRAND PERFORMANCE ───────────────────────────────
+    # Show brand breakdown only when no specific brand filter is active.
     brand_share: List[Dict[str, Any]] = []
     brand_growth: List[Dict[str, Any]] = []
-    if not brand:
+    if not brands_lower:
         # Share for current window
         if not cur.empty:
             bs = cur.groupby("brand", as_index=False).agg(gmv=("gross_sales", "sum"))
@@ -390,7 +395,8 @@ def analytics_page(
     request: Request,
     week: Optional[str] = None,
     weeks: List[str] = Query(default=[]),
-    brand: Optional[str] = None,
+    brand: Optional[str] = None,                  # legacy single-brand
+    brands: List[str] = Query(default=[]),        # multi-brand checkboxes
     view: str = "mapped",
 ):
     if weeks:
@@ -400,12 +406,17 @@ def analytics_page(
     else:
         active_weeks = []
 
-    data = compute_analytics(active_weeks, brand, view)
+    # Resolve effective brand list: multi wins over legacy single.
+    eff_brands = [b for b in (brands or []) if b and b.strip()]
+    if not eff_brands and brand:
+        eff_brands = [brand]
+
+    data = compute_analytics(active_weeks, eff_brands, view)
 
     selected = {
         "weeks": data["active_weeks"],
         "weeks_display": ", ".join(data["active_weeks"]) if data["active_weeks"] else "All Weeks",
-        "brand": brand or "",
+        "brands": eff_brands,
         "view": view,
     }
 
@@ -478,7 +489,8 @@ def analytics_insights(
     request: Request,
     week: Optional[str] = None,
     weeks: List[str] = Query(default=[]),
-    brand: Optional[str] = None,
+    brand: Optional[str] = None,                  # legacy single-brand
+    brands: List[str] = Query(default=[]),        # multi-brand checkboxes
     view: str = "mapped",
     refresh: bool = False,
 ):
@@ -489,7 +501,16 @@ def analytics_insights(
     else:
         active_weeks = []
 
-    cache_key = (tuple(sorted(active_weeks)), brand or "", view)
+    # Resolve effective brand list: multi wins over legacy single.
+    eff_brands = [b for b in (brands or []) if b and b.strip()]
+    if not eff_brands and brand:
+        eff_brands = [brand]
+
+    cache_key = (
+        tuple(sorted(active_weeks)),
+        tuple(sorted(b.strip().lower() for b in eff_brands)),
+        view,
+    )
 
     if not refresh and cache_key in _insight_cache:
         ts, content = _insight_cache[cache_key]
@@ -500,7 +521,7 @@ def analytics_insights(
                 "age_sec": int(time.time() - ts),
             })
 
-    data = compute_analytics(active_weeks, brand, view)
+    data = compute_analytics(active_weeks, eff_brands, view)
 
     # Pre-compute a combined Amazon GMV across "Amazon" + "1P Sales" so the
     # AI doesn't have to add the channels itself (and can't accidentally

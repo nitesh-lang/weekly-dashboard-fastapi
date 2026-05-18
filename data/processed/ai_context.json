@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-18T17:38:04.274614",
+  "generated_at": "2026-05-18T17:45:11.738002",
   "alerts": [
     {
       "type": "low_roas",
@@ -328,10 +328,10 @@
     },
     {
       "channel": "1p Sales",
-      "units": 4665.0,
-      "gmv": 11832485.64,
-      "nlc": 7280546.214,
-      "gmv_share_pct": 24.5
+      "units": 4917.0,
+      "gmv": 12382195.88,
+      "nlc": 7584859.214,
+      "gmv_share_pct": 25.64
     },
     {
       "channel": "B2B",
@@ -367,20 +367,6 @@
       "gmv": 419906.358,
       "nlc": 276176.3771,
       "gmv_share_pct": 0.87
-    },
-    {
-      "channel": "1P",
-      "units": 165.0,
-      "gmv": 380204.32,
-      "nlc": 190513.0,
-      "gmv_share_pct": 0.79
-    },
-    {
-      "channel": "1p",
-      "units": 87.0,
-      "gmv": 169505.92,
-      "nlc": 113800.0,
-      "gmv_share_pct": 0.35
     },
     {
       "channel": "Myntra",
@@ -3116,7 +3102,7 @@
       "week": "Week 13",
       "units": 10.0,
       "gmv": 7194.94,
-      "nlc": 3260.101,
+      "nlc": 3260.1011,
       "gmv_wow_pct": 233.33,
       "units_wow_pct": 233.33
     },

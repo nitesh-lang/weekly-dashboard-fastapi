@@ -105,6 +105,12 @@ def normalize_week(val):
 
 df["week"] = df["week"].apply(normalize_week)
 
+# Fallback: Week 18+ raw exports leave the `week` column blank.
+# Derive it from the folder name (e.g. "Week 20" → 20).
+folder_week_match = re.search(r"(\d+)", RAW_INVENTORY_DIR.name)
+if folder_week_match:
+    df["week"] = df["week"].fillna(int(folder_week_match.group(1)))
+
 # normalize model
 df["model"] = df["model"].astype(str).str.strip().str.upper()
 

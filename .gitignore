@@ -5,3 +5,7 @@ __pycache__/
 data/users.json
 .env
 .env.local
+
+# Phase 1 ingestion — local-only output, never commit
+data/raw_phase1/
+scripts/ingest_phase1/.env

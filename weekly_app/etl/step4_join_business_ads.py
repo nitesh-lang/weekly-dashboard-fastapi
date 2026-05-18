@@ -169,6 +169,7 @@ final = final.merge(map_df, on="asin", how="left")
 # --------------------------------------------------
 sku = sku.rename(columns={"ASIN": "child_asin", "Brand": "brand"})
 sku["child_asin"] = sku["child_asin"].astype(str).str.strip()
+sku["brand"] = sku["brand"].astype(str).str.strip()
 sku = sku.drop_duplicates(subset=["child_asin"])
 
 final = final.merge(

@@ -40,9 +40,17 @@ def df_to_records(df):
     """Convert dataframe to JSON-safe list of dicts."""
     return [{k: safe(v) for k, v in row.items()} for row in df.to_dict(orient="records")]
 
+def _week_to_int(w):
+    """'Week 9' → 9, 19 → 19, anything else → 0 (sort first)."""
+    try:
+        digits = "".join(filter(str.isdigit, str(w)))
+        return int(digits) if digits else 0
+    except Exception:
+        return 0
+
 def sort_weeks(weeks):
     try:
-        return sorted(weeks, key=lambda w: int("".join(filter(str.isdigit, str(w)))))
+        return sorted(weeks, key=_week_to_int)
     except Exception:
         return sorted(weeks)
 
@@ -102,7 +110,8 @@ def build_sales_context(brand_filter=None):
     if "week" in df.columns:
         agg = {k: (v, "sum") for k, v in [("units","units_sold"),("gmv","gmv"),("nlc","sales_nlc")] if v in df.columns}
         if agg:
-            trend = df.groupby("week").agg(**agg).reset_index().sort_values("week")
+            trend = df.groupby("week").agg(**agg).reset_index()
+            trend = trend.sort_values("week", key=lambda s: s.map(_week_to_int)).reset_index(drop=True)
             # Add WoW delta columns
             for col in ["gmv", "units", "nlc"]:
                 if col in trend.columns:
@@ -153,7 +162,9 @@ def build_sales_context(brand_filter=None):
 
         # Model × week trend (for "how is X trending?")
         if model_col:
-            mwt = df.groupby([model_col, "week"]).agg(**agg).reset_index().sort_values([model_col, "week"])
+            mwt = df.groupby([model_col, "week"]).agg(**agg).reset_index()
+            mwt["_wnum"] = mwt["week"].map(_week_to_int)
+            mwt = mwt.sort_values([model_col, "_wnum"]).drop(columns=["_wnum"]).reset_index(drop=True)
             for col in ["gmv", "units"]:
                 if col in mwt.columns:
                     mwt[f"{col}_wow_pct"] = mwt.groupby(model_col)[col].pct_change().mul(100).round(2)

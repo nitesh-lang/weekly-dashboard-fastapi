@@ -14,8 +14,25 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 
 RAW_INV_DIR = BASE_DIR / "data" / "raw" / "inventory"
 PROCESSED_DIR = BASE_DIR / "data" / "processed"
+MASTER_FILE = BASE_DIR / "data" / "master" / "sku_master.xlsx"
 
 OUT_FILE = PROCESSED_DIR / "inventory_model_snapshot.csv"
+
+
+def _load_sku_nlc_map() -> dict:
+    """{sku → nlc} from sku_master.xlsx — used as fallback when raw inventory rows
+    have a blank nlc (Week 18+ exports stopped including it)."""
+    try:
+        m = pd.read_excel(MASTER_FILE)
+    except Exception:
+        return {}
+    m.columns = [c.strip().lower() for c in m.columns]
+    sku_col = "fba sku" if "fba sku" in m.columns else ("sku" if "sku" in m.columns else None)
+    if not sku_col or "nlc" not in m.columns:
+        return {}
+    m[sku_col] = m[sku_col].astype(str).str.strip()
+    m["nlc"] = pd.to_numeric(m["nlc"], errors="coerce").fillna(0)
+    return dict(zip(m[sku_col], m["nlc"]))
 
 # ============================================================
 # ✅ SNAPSHOT SKIP CACHE
@@ -102,6 +119,7 @@ def run_inventory_etl():
     _last_run_mtimes.clear()
     _last_run_mtimes.update(current_mtimes)
 
+    sku_nlc = _load_sku_nlc_map()
     all_rows = []
 
     # --------------------------------------------------------
@@ -136,12 +154,33 @@ def run_inventory_etl():
             .fillna(0)
         )
 
+        # NLC: prefer in-file value; fall back to sku_master by SKU (Week 18+
+        # raw exports stopped populating the nlc column).
+        in_file_nlc = (
+            pd.to_numeric(df["nlc"], errors="coerce").fillna(0)
+            if "nlc" in df.columns
+            else pd.Series(0.0, index=df.index)
+        )
+        mapped_nlc = (
+            df["sku"].astype(str).str.strip().map(sku_nlc).fillna(0)
+            if "sku" in df.columns and sku_nlc
+            else pd.Series(0.0, index=df.index)
+        )
+        df["nlc_resolved"] = in_file_nlc.where(in_file_nlc > 0, mapped_nlc)
+        df["row_value"] = df["qty"] * df["nlc_resolved"]
+
         df["brand"] = extract_brand(file)
+
+        # Folder layout: data/raw/inventory/<Week N>/<Brand>/<file>.xlsx
+        # → file.parent is the brand folder, file.parent.parent is the week folder.
+        folder_week = extract_week(file.parent.parent.name) or extract_week(file.parent.name)
 
         if "week" in df.columns:
             df["week"] = df["week"].apply(extract_week)
+            if folder_week:
+                df["week"] = df["week"].fillna(folder_week)
         else:
-            df["week"] = extract_week(file.parent.name)
+            df["week"] = folder_week
 
         df = df.dropna(subset=["week", "model"])
 
@@ -157,7 +196,8 @@ def run_inventory_etl():
                 as_index=False
             )
             .agg(
-                inventory_units=("qty", "sum")
+                inventory_units=("qty", "sum"),
+                inventory_value=("row_value", "sum"),
             )
         )
 
@@ -179,10 +219,12 @@ def run_inventory_etl():
     final_df = (
         final_df
         .groupby(["week", "brand", "model"], as_index=False)
-        .agg(inventory_units=("inventory_units", "sum"))
+        .agg(
+            inventory_units=("inventory_units", "sum"),
+            inventory_value=("inventory_value", "sum"),
+        )
     )
-
-    final_df["inventory_value"] = 0
+    final_df["inventory_value"] = final_df["inventory_value"].round(2)
 
     # Optional: sort clean output
     final_df = final_df.sort_values(

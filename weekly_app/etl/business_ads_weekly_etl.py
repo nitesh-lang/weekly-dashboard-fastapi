@@ -106,6 +106,24 @@ for brand_dir in BRAND_FOLDERS:
                 ).fillna(0)
 
         # ====================================================
+        # DEDUPE BIZ ROWS PER (ASIN, WEEK, BRAND)
+        # Amazon's business_report exports multiple rows per SKU
+        # (segmented views). Without this, the downstream merge
+        # multiplies ad spend N× for each duplicate ASIN row.
+        # Totals: sum; rates (*_pct, *_percentage): mean.
+        # ====================================================
+        _key_cols = ["asin", "week", "brand"]
+        _agg = {}
+        for _c in biz_df.columns:
+            if _c in _key_cols:
+                continue
+            if pd.api.types.is_numeric_dtype(biz_df[_c]):
+                _agg[_c] = "mean" if ("pct" in _c.lower() or "percentage" in _c.lower()) else "sum"
+            else:
+                _agg[_c] = "first"
+        biz_df = biz_df.groupby(_key_cols, as_index=False).agg(_agg)
+
+        # ====================================================
         # READ ADS (SP + SD)
         # ====================================================
         sp_df = pd.read_excel(ads_file, sheet_name="SP")

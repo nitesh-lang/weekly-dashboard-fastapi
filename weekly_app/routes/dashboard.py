@@ -556,7 +556,7 @@ def dashboard(
             ams_pivot_df = (
                 ams.groupby("week", as_index=False)
                 .agg(
-                    ad_spend=("Spend", "sum"),
+                    ad_spend=("spend", "sum"),
                     attributed_sales=("attributed_sales", "sum"),
                     sessions=("sessions", "sum"),
                 )

@@ -1083,6 +1083,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 <script>
+/* Wipe any stale SKU-table sort state so the server-side total_sales
+   order isn't overridden by old sessionStorage entries. */
+try {
+    sessionStorage.removeItem('dc-sort-dashboard-sku');
+    sessionStorage.removeItem('dc-sort-dashboard-sku-v2');
+    sessionStorage.removeItem('xl-sort-dashboard-sku');
+    sessionStorage.removeItem('xl-sort-dashboard-sku-v2');
+} catch(e) {}
+
 /* Chart.js global defaults — match the page typography */
 Chart.defaults.font.family = "'IBM Plex Sans', system-ui, -apple-system, sans-serif";
 Chart.defaults.font.size   = 11;

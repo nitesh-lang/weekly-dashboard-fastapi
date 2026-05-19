@@ -355,6 +355,10 @@ def dashboard(
 
     sku = round_df(sku)
 
+    # Sort SKU table highest → lowest by total sales (matches the lazy-load API).
+    if "total_sales" in sku.columns:
+        sku = sku.sort_values("total_sales", ascending=False, kind="stable").reset_index(drop=True)
+
     kpis = {
         "units": int(sales["units_sold"].sum()),
         "gmv": int(total_gmv),

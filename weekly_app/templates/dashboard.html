@@ -38,9 +38,20 @@
             /* ── Header — indigo like reference ── */
             --header-bg: #3d3587;
 
-            --radius:    8px;
+            --radius:    10px;
+            --radius-lg: 14px;
             --mono:      'IBM Plex Mono', monospace;
             --sans:      'IBM Plex Sans', sans-serif;
+
+            /* ── Elevation (shadcn-style 2-layer) ── */
+            --shadow-xs: 0 1px 2px 0 rgba(17,24,39,0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(17,24,39,0.06), 0 1px 2px -1px rgba(17,24,39,0.04);
+            --shadow-md: 0 4px 8px -2px rgba(17,24,39,0.06), 0 2px 4px -2px rgba(17,24,39,0.04);
+
+            /* ── Muted neutrals (replaces ad-hoc #6b7280 / #374151) ── */
+            --muted:     #6b7280;
+            --muted-2:   #9ca3af;
+            --muted-bg:  #f3f4f6;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -260,38 +271,24 @@
         .kpi-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            background: var(--bg2);
+            gap: 1px;
+            background: var(--border);
             border-bottom: 1px solid var(--border);
         }
 
         .kpi {
-            padding: 14px 24px;
-            border-right: 1px solid var(--border);
+            padding: 18px 24px 16px;
             position: relative;
             background: var(--bg2);
         }
-        .kpi:last-child { border-right: none; }
-
-        /* coloured left accent instead of bottom bar */
-        .kpi::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 20%; bottom: 20%;
-            width: 3px;
-            border-radius: 0 2px 2px 0;
-        }
-        .kpi:nth-child(1)::before { background: var(--blue); }
-        .kpi:nth-child(2)::before { background: var(--green); }
-        .kpi:nth-child(3)::before { background: var(--purple); }
-        .kpi:nth-child(4)::before { background: var(--amber); }
 
         .kpi-label {
-            font-size: 10px;
+            font-size: 10.5px;
             font-weight: 600;
-            color: #374151;
+            color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 0.9px;
-            margin-bottom: 5px;
+            letter-spacing: 0.7px;
+            margin-bottom: 6px;
         }
         .kpi-value {
             font-family: var(--mono);
@@ -299,31 +296,27 @@
             font-weight: 600;
             letter-spacing: -0.5px;
             color: var(--text);
+            font-variant-numeric: tabular-nums;
         }
-        .kpi:nth-child(1) .kpi-value { color: #3d3587; }
-        .kpi:nth-child(2) .kpi-value { color: #0f7a57; }
-        .kpi:nth-child(3) .kpi-value { color: #6040a8; }
-        .kpi:nth-child(4) .kpi-value { color: #92400e; }
 
         /* ── MAIN ── */
-        .main-content { padding: 20px 24px 60px; }
+        .main-content { padding: 24px 28px 80px; }
 
-        /* ── SECTION HEADER ── */
+        /* ── SECTION HEADER — clean label-over-content style ── */
         .section-header {
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: space-between;
-            margin: 22px 0 10px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border);
+            margin: 28px 0 12px;
         }
         .section-title {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             color: var(--text);
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
+            letter-spacing: -0.1px;
         }
         .section-actions { display: flex; gap: 8px; align-items: center; }
 
@@ -331,19 +324,20 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 5px 12px;
-            border: 1px solid var(--border2);
-            border-radius: 6px;
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             color: var(--text2);
-            font-size: 11px;
+            font-size: 11.5px;
             font-weight: 500;
             transition: all 0.15s;
             background: var(--bg2);
+            box-shadow: var(--shadow-xs);
         }
         .btn-ghost:hover {
-            border-color: var(--blue);
-            color: var(--blue);
-            background: var(--blue-dim);
+            border-color: var(--text3);
+            color: var(--text);
+            background: var(--surface2);
             text-decoration: none;
         }
 
@@ -351,38 +345,46 @@
         .spark-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 4px;
+            gap: 14px;
+            margin-bottom: 8px;
         }
 
         .spark-card {
             background: var(--bg2);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 14px 16px 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            padding: 18px 18px 14px;
+            box-shadow: var(--shadow-xs);
+            transition: box-shadow 0.15s, border-color 0.15s;
+        }
+        .spark-card:hover {
+            box-shadow: var(--shadow-sm);
+            border-color: var(--border2);
         }
 
         .spark-card-label {
-            font-size: 10px;
-            font-weight: 700;
+            font-size: 10.5px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.7px;
-            color: #374151;
-            margin-bottom: 3px;
+            letter-spacing: 0.6px;
+            color: var(--muted);
+            margin-bottom: 6px;
         }
         .spark-card-value {
-            font-family: var(--mono);
-            font-size: 18px;
+            font-family: var(--sans);
+            font-size: 19px;
             font-weight: 600;
-            margin-bottom: 1px;
+            color: var(--text);
+            letter-spacing: -0.4px;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 2px;
         }
         .spark-card-sub {
-            font-size: 10px;
-            color: #374151;
-            margin-bottom: 8px;
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 10px;
         }
-        canvas.spark { width: 100% !important; height: 42px !important; display: block; }
+        canvas.spark { width: 100% !important; height: 44px !important; display: block; }
 
         /* ── TABLE WRAPPERS ── */
         .table-wrapper {
@@ -390,13 +392,15 @@
             max-height: 65vh;
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            box-shadow: var(--shadow-sm);
+            background: var(--bg2);
         }
         .table-wrapper-sm {
             overflow: auto;
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            box-shadow: var(--shadow-sm);
+            background: var(--bg2);
         }
 
         /* ── TABLE BASE ── */
@@ -419,10 +423,10 @@
         }
 
         th {
-            background: #f4f5fb;
-            color: #1f2937;
-            font-size: 10px;
-            font-weight: 700;
+            background: var(--surface2);
+            color: var(--muted);
+            font-size: 10.5px;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -531,46 +535,47 @@
         /* ── AMS ── */
         .ams-table th { color: #92400e; background: #fef5e7; }
 
-        /* ── KPI TILE UPGRADE ── bigger, with internal sparkline + delta */
-        /* Sparkline sits BELOW the number (stacked) so a long INR value
-           like "₹ 4.21 Cr" can't overlap a side-by-side chart in a
-           narrow tile. */
-        .kpi { padding: 16px 22px 14px; min-width: 0; }
-        .kpi-row {
-            display: block;
-        }
+        /* ── KPI TILE — shadcn-style ── */
+        .kpi { padding: 20px 24px 18px; min-width: 0; }
+        .kpi-row { display: block; }
         .kpi-num {
-            font-family: var(--mono);
+            font-family: var(--sans);
             font-size: 32px !important;
-            font-weight: 700;
-            letter-spacing: -0.6px;
+            font-weight: 600;
+            letter-spacing: -0.8px;
             line-height: 1.1;
+            color: var(--text);
+            font-variant-numeric: tabular-nums;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .kpi:nth-child(1) .kpi-num { color: #3d3587; }
-        .kpi:nth-child(2) .kpi-num { color: #0f7a57; }
-        .kpi:nth-child(3) .kpi-num { color: #6040a8; }
-        .kpi:nth-child(4) .kpi-num { color: #92400e; }
         .kpi-spark-wrap {
             width: 100%;
-            height: 32px;
-            margin-top: 8px;
-            opacity: 0.7;
+            height: 36px;
+            margin-top: 10px;
+            opacity: 0.85;
             position: relative;
         }
         .kpi-spark-wrap canvas { width: 100% !important; height: 100% !important; }
+
+        /* Delta as pill chip — matches Linear / Vercel */
         .kpi-delta {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
             font-size: 11px;
-            font-weight: 700;
-            margin-top: 6px;
-            font-family: var(--mono);
-            letter-spacing: 0.2px;
+            font-weight: 600;
+            margin-top: 8px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.1px;
+            line-height: 1.4;
         }
-        .kpi-delta.up   { color: #0a6e4e; }
-        .kpi-delta.down { color: #b91c1c; }
-        .kpi-delta.flat { color: #6b7280; }
+        .kpi-delta.up   { color: #047857; background: #ecfdf5; }
+        .kpi-delta.down { color: #b91c1c; background: #fef2f2; }
+        .kpi-delta.flat { color: var(--muted); background: var(--muted-bg); }
 
         /* ── HEADER SUBTITLE / FRESHNESS ── */
         .freshness {
@@ -584,60 +589,68 @@
         .trend-card {
             background: var(--bg2);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px 22px 22px;
-            margin-bottom: 16px;
+            border-radius: var(--radius-lg);
+            padding: 22px 26px 24px;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-sm);
         }
         .trend-card .trend-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
             gap: 10px;
         }
         .trend-card .trend-title {
             font-size: 14px;
-            font-weight: 700;
-            color: #111827;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.1px;
         }
         .trend-card .trend-sub {
-            font-size: 11px;
-            color: #6b7280;
+            font-size: 11.5px;
+            color: var(--muted);
             font-family: var(--mono);
             margin-left: 8px;
+            font-variant-numeric: tabular-nums;
         }
         .trend-toggle {
             display: inline-flex;
-            background: #f1f3f8;
-            border-radius: 7px;
-            padding: 2px;
+            background: var(--muted-bg);
+            border-radius: 8px;
+            padding: 3px;
+            gap: 2px;
         }
         .trend-toggle button {
             border: none;
             background: transparent;
             padding: 5px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b7280;
-            border-radius: 5px;
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--muted);
+            border-radius: 6px;
             cursor: pointer;
             font-family: inherit;
+            transition: all 0.12s;
         }
+        .trend-toggle button:hover:not(.active) { color: var(--text); }
         .trend-toggle button.active {
-            background: var(--header-bg);
-            color: #fff;
+            background: var(--bg2);
+            color: var(--text);
+            font-weight: 600;
+            box-shadow: var(--shadow-xs);
         }
         .trend-canvas-wrap {
             position: relative;
-            height: 280px;
+            height: 300px;
         }
         .trend-legend {
-            margin-top: 10px;
+            margin-top: 14px;
             display: flex;
-            gap: 16px;
-            font-size: 11px;
-            color: #4b5563;
+            gap: 18px;
+            font-size: 11.5px;
+            color: var(--text3);
         }
         .trend-legend .dot {
             display: inline-block;
@@ -651,9 +664,10 @@
         .brand-mix-card {
             background: var(--bg2);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px 22px;
-            margin-bottom: 16px;
+            border-radius: var(--radius-lg);
+            padding: 22px 26px;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-sm);
         }
         .brand-mix-grid {
             display: grid;
@@ -1069,6 +1083,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 <script>
+/* Chart.js global defaults — match the page typography */
+Chart.defaults.font.family = "'IBM Plex Sans', system-ui, -apple-system, sans-serif";
+Chart.defaults.font.size   = 11;
+Chart.defaults.color       = "#374151";
+Chart.defaults.plugins.tooltip.titleFont = { family: "'IBM Plex Sans', sans-serif", weight: "600", size: 12 };
+Chart.defaults.plugins.tooltip.bodyFont  = { family: "'IBM Plex Mono', monospace", size: 12 };
+
 function autoRefresh() { document.getElementById("filterForm").submit(); }
 
 /* ── Multi-week picker ── */
@@ -1342,13 +1363,18 @@ function buildSpark(id, labels, data, color) {
                     }
                 },
                 scales: {
-                    x: { grid: { display: false }, ticks: { color: '#6b7280' } },
+                    x: { grid: { display: false },
+                         ticks: { color: '#374151', font: { family: "'IBM Plex Sans', sans-serif", size: 11 } } },
                     y:  { position: 'left',  grid: { color: '#eef0f6' },
-                          ticks: { color: '#6b7280', callback: v => fmtINR(v) },
-                          title: { display: true, text: 'GMV (₹)', color: '#6b7280', font: { size: 11 } } },
+                          ticks: { color: '#374151', font: { family: "'IBM Plex Mono', monospace", size: 11 },
+                                   callback: v => fmtINR(v) },
+                          title: { display: true, text: 'GMV (₹)', color: '#374151',
+                                   font: { family: "'IBM Plex Sans', sans-serif", size: 11, weight: '500' } } },
                     y1: { position: 'right', grid: { display: false },
-                          ticks: { color: '#6b7280', callback: v => v.toLocaleString('en-IN') },
-                          title: { display: true, text: 'Units', color: '#6b7280', font: { size: 11 } } },
+                          ticks: { color: '#374151', font: { family: "'IBM Plex Mono', monospace", size: 11 },
+                                   callback: v => v.toLocaleString('en-IN') },
+                          title: { display: true, text: 'Units', color: '#374151',
+                                   font: { family: "'IBM Plex Sans', sans-serif", size: 11, weight: '500' } } },
                 }
             }
         });

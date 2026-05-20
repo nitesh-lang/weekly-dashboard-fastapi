@@ -748,47 +748,80 @@ function parseSortVal(s) {
     return isNaN(n) ? NaN : n * mult;
 }
 
+/* Resolve {leafTh, dataColIdx} pairs across multi-row headers with
+   rowspan/colspan (e.g. SKU table's "Amazon AM" colspan=3 group header
+   sits above three Units/Sales/NLC leaf headers). */
+function resolveLeafHeaders(thead) {
+    const leafs = [];
+    const rows = Array.from(thead.rows);
+    if (rows.length === 0) return leafs;
+
+    if (rows.length === 1) {
+        Array.from(rows[0].cells).forEach((th, i) => leafs.push({ th, colIdx: i }));
+        return leafs;
+    }
+
+    // Two-row header: row 1 mixes rowspan=2 leaves (e.g. SKU) with
+    // colspan group headers; row 2 holds the sub-leaves for those groups.
+    const row1 = rows[0], row2 = rows[1];
+    let dataCol = 0, row2Cursor = 0;
+    Array.from(row1.cells).forEach(th => {
+        const cs = parseInt(th.colSpan) || 1;
+        const rs = parseInt(th.rowSpan) || 1;
+        if (rs >= 2) {
+            // Direct leaf — spans both header rows
+            leafs.push({ th, colIdx: dataCol });
+            dataCol += cs;
+        } else {
+            // Group header — its leaves live in row2
+            for (let i = 0; i < cs; i++) {
+                const sub = row2.cells[row2Cursor++];
+                if (sub) leafs.push({ th: sub, colIdx: dataCol + i });
+            }
+            dataCol += cs;
+        }
+    });
+    return leafs;
+}
+
 function makeSortable(tableId, defaultSortIdx, defaultDesc) {
     const table = document.getElementById(tableId);
-    if (!table) return;
+    if (!table || !table.tHead) return;
     const tbody = table.querySelector('tbody');
     if (!tbody) return;
-    const headers = table.querySelectorAll('thead th');
+    const leafs = resolveLeafHeaders(table.tHead);
+    if (!leafs.length) return;
+
     let curIdx = null, curDesc = true;
 
-    function applySort(idx, desc) {
+    function applySort(colIdx, desc) {
         const rows = Array.from(tbody.querySelectorAll('tr'));
         rows.sort((a, b) => {
-            const A = a.children[idx]?.innerText ?? '';
-            const B = b.children[idx]?.innerText ?? '';
+            const A = a.children[colIdx]?.innerText ?? '';
+            const B = b.children[colIdx]?.innerText ?? '';
             const nA = parseSortVal(A), nB = parseSortVal(B);
-            const bothNum = !isNaN(nA) && !isNaN(nB);
-            if (bothNum) return desc ? nB - nA : nA - nB;
+            if (!isNaN(nA) && !isNaN(nB)) return desc ? nB - nA : nA - nB;
             return desc ? B.localeCompare(A) : A.localeCompare(B);
         });
         const frag = document.createDocumentFragment();
         rows.forEach(r => frag.appendChild(r));
         tbody.appendChild(frag);
 
-        // Visual cues
-        headers.forEach((h, i) => {
-            h.classList.remove('sort-asc', 'sort-desc');
-            if (i === idx) h.classList.add(desc ? 'sort-desc' : 'sort-asc');
-        });
-        curIdx = idx;
+        leafs.forEach(({ th }) => th.classList.remove('sort-asc', 'sort-desc'));
+        const active = leafs.find(l => l.colIdx === colIdx);
+        if (active) active.th.classList.add(desc ? 'sort-desc' : 'sort-asc');
+        curIdx = colIdx;
         curDesc = desc;
     }
 
-    headers.forEach((th, idx) => {
+    leafs.forEach(({ th, colIdx }) => {
         th.style.cursor = 'pointer';
         th.addEventListener('click', () => {
-            // Same column → flip direction; new column → start descending (numeric default)
-            const desc = (curIdx === idx) ? !curDesc : true;
-            applySort(idx, desc);
+            const desc = (curIdx === colIdx) ? !curDesc : true;
+            applySort(colIdx, desc);
         });
     });
 
-    // Apply default sort on init (so the visual cue lines up with the server pre-sort)
     if (typeof defaultSortIdx === 'number') {
         applySort(defaultSortIdx, defaultDesc !== false);
     }

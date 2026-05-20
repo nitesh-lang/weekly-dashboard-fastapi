@@ -22,6 +22,27 @@ _env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = BASE_DIR / "data" / "processed"
 AMS_DATA_DIR = BASE_DIR / "data" / "ams_weekly_data" / "processed_ads"
+MASTER_FILE = BASE_DIR / "data" / "master" / "sku_master.xlsx"
+
+
+def load_asin_by_model() -> dict:
+    """{MODEL: 'ASIN1, ASIN2'} from sku_master, comma-joined distinct ASINs."""
+    if not MASTER_FILE.exists():
+        return {}
+    try:
+        m = pd.read_excel(MASTER_FILE)
+    except Exception:
+        return {}
+    m.columns = m.columns.str.strip()
+    asin_col = next((c for c in ["ASIN", "Asin", "asin"] if c in m.columns), None)
+    model_col = next((c for c in ["Model", "Model No.", "model"] if c in m.columns), None)
+    if not asin_col or not model_col:
+        return {}
+    m[model_col] = m[model_col].astype(str).str.strip().str.upper()
+    m[asin_col] = m[asin_col].astype(str).str.strip()
+    m = m[m[asin_col].ne("") & m[asin_col].ne("nan") & m[asin_col].ne("-")]
+    return {model: ", ".join(sorted(set(grp[asin_col])))
+            for model, grp in m.groupby(model_col)}
 
 # ============================================================
 # NORMALIZATION
@@ -334,6 +355,7 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
     # ============================================================
     # BUILD FINAL ROWS
     # ============================================================
+    asin_by_model = load_asin_by_model()
 
     for model, v in data.items():
 
@@ -364,6 +386,7 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
         row = {
             "model": model,
             "brand": v.get("brand"),
+            "asin": asin_by_model.get(model, ""),
             "category_l0": v.get("category_l0"),
             "category_l1": v.get("category_l1"),
             "category_l2": v.get("category_l2"),
@@ -412,6 +435,7 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
         grand_total_row = {
             "model": "GRAND TOTAL",
             "brand": "",
+            "asin": "",
             "category_l0": "",
             "category_l1": "",
             "category_l2": "",

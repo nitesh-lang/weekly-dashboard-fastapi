@@ -309,21 +309,23 @@
         td:nth-child(2), th:nth-child(2),
         td:nth-child(3), th:nth-child(3),
         td:nth-child(4), th:nth-child(4),
-        td:nth-child(5), th:nth-child(5) { text-align: left; }
+        td:nth-child(5), th:nth-child(5),
+        td:nth-child(6), th:nth-child(6) { text-align: left; }
 
         /* Freeze first 5 cols */
-        th:nth-child(1), td:nth-child(1) { position: sticky; left: 0; z-index: 2; min-width: 36px; border-right: 1px solid var(--border2); }
-        th:nth-child(2), td:nth-child(2) { position: sticky; left: 36px; z-index: 2; min-width: 140px; }
-        th:nth-child(3), td:nth-child(3) { position: sticky; left: 176px; z-index: 2; min-width: 140px; }
-        th:nth-child(4), td:nth-child(4) { position: sticky; left: 316px; z-index: 2; min-width: 120px; }
-        th:nth-child(5), td:nth-child(5) { position: sticky; left: 436px; z-index: 2; min-width: 110px; border-right: 2px solid var(--border2); }
+        th:nth-child(1), td:nth-child(1) { position: sticky; left: 0;    z-index: 2; min-width: 36px;  border-right: 1px solid var(--border2); }
+        th:nth-child(2), td:nth-child(2) { position: sticky; left: 36px;  z-index: 2; min-width: 140px; }
+        th:nth-child(3), td:nth-child(3) { position: sticky; left: 176px; z-index: 2; min-width: 120px; }
+        th:nth-child(4), td:nth-child(4) { position: sticky; left: 296px; z-index: 2; min-width: 140px; }
+        th:nth-child(5), td:nth-child(5) { position: sticky; left: 436px; z-index: 2; min-width: 120px; }
+        th:nth-child(6), td:nth-child(6) { position: sticky; left: 556px; z-index: 2; min-width: 110px; border-right: 2px solid var(--border2); }
 
         thead th:nth-child(1), thead th:nth-child(2),
         thead th:nth-child(3), thead th:nth-child(4),
-        thead th:nth-child(5) { z-index: 5; }
+        thead th:nth-child(5), thead th:nth-child(6) { z-index: 5; }
 
-        /* Number cols */
-        td:nth-child(n+6) { font-family: var(--mono); font-size: 11px; color: var(--text); }
+        /* Number cols (shifted +1 since ASIN now lives at col 3) */
+        td:nth-child(n+7) { font-family: var(--mono); font-size: 11px; color: var(--text); }
 
         tbody tr:nth-child(even) td { background: #fafbfd; }
         tbody tr:hover td { background: #eef0fe !important; }
@@ -473,6 +475,7 @@
         <tr>
             <th><input type="checkbox" id="selectAll"></th>
             <th>Model</th>
+            <th>ASIN</th>
             <th>Category L0</th>
             <th>Category L1</th>
             <th>Category L2</th>
@@ -498,6 +501,7 @@
         <tr data-brand="{{ r.brand|lower|trim }}">
             <td><input type="checkbox" class="rowCheckbox"></td>
             <td style="font-weight:600;color:#111827">{{ r.model }}</td>
+            <td style="font-family:var(--mono);font-size:11px;color:#1f2937">{{ r.asin }}</td>
             <td style="color:#1f2937">{{ r.category_l0 }}</td>
             <td style="color:#1f2937">{{ r.category_l1 }}</td>
             <td style="color:#1f2937">{{ r.category_l2 }}</td>

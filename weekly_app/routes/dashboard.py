@@ -208,12 +208,13 @@ def dashboard(
     # =================================================
     master = _load_excel_cached(SKU_MASTER)
     master.columns = master.columns.str.strip()
-    print(master.columns)
     master = master.rename(
         columns={
             "FBA SKU": "sku",
             "Model No.": "model_no",
             "Model": "model",
+            "ASIN": "asin",
+            "Asin": "asin",
         }
     )
 
@@ -221,7 +222,10 @@ def dashboard(
         master["model_no"] = master["model"]
 
     master["sku"] = master["sku"].astype(str)
-    master = master[["sku", "model_no", "category_l0"]]
+    if "asin" not in master.columns:
+        master["asin"] = ""
+    master["asin"] = master["asin"].astype(str).str.strip().replace("nan", "")
+    master = master[["sku", "model_no", "asin", "category_l0"]]
 
     # =================================================
     # SAFE SALES LOAD (LOCKED)
@@ -345,11 +349,11 @@ def dashboard(
     sku = (
         sku_totals
         .merge(amazon_split, on="sku", how="left")
-        .merge(master[["sku", "model_no", "category_l0"]], on="sku", how="left")
+        .merge(master[["sku", "model_no", "asin", "category_l0"]], on="sku", how="left")
     )
 
     # ✅ Ensure no dict/unhashable values leak into template
-    for col in ["model_no", "category_l0"]:
+    for col in ["model_no", "asin", "category_l0"]:
         if col in sku.columns:
             sku[col] = sku[col].astype(str).replace("nan", "")
 
@@ -649,11 +653,16 @@ def dashboard_sku_rows_api(
             "FBA SKU": "sku",
             "Model No.": "model_no",
             "Model": "model",
+            "ASIN": "asin",
+            "Asin": "asin",
         })
         if "model_no" not in master.columns and "model" in master.columns:
             master["model_no"] = master["model"]
         master["sku"] = master["sku"].astype(str)
-        master = master[["sku", "model_no", "category_l0"]]
+        if "asin" not in master.columns:
+            master["asin"] = ""
+        master["asin"] = master["asin"].astype(str).str.strip().replace("nan", "")
+        master = master[["sku", "model_no", "asin", "category_l0"]]
 
         # ── SALES ──
         full_sales = _load_csv_cached(SALES_FILE)
@@ -753,7 +762,7 @@ def dashboard_sku_rows_api(
             .merge(master, on="sku", how="left")
         )
 
-        for col in ["model_no", "category_l0"]:
+        for col in ["model_no", "asin", "category_l0"]:
             if col in sku.columns:
                 sku[col] = sku[col].astype(str).replace("nan", "")
 

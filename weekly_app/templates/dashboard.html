@@ -466,6 +466,7 @@
             background: #f4f5fb !important;
         }
 
+        /* Frozen left columns: SKU, Model, ASIN, Category */
         .sku-table th:nth-child(1), .sku-table td:nth-child(1) {
             position: sticky; left: 0; z-index: 2;
             min-width: 108px;
@@ -477,47 +478,54 @@
         }
         .sku-table th:nth-child(3), .sku-table td:nth-child(3) {
             position: sticky; left: 203px; z-index: 2;
-            min-width: 158px;
+            min-width: 110px;
+        }
+        .sku-table th:nth-child(4), .sku-table td:nth-child(4) {
+            position: sticky; left: 313px; z-index: 2;
+            min-width: 150px;
             border-right: 2px solid var(--border2);
         }
 
         .sku-table thead th:nth-child(1),
         .sku-table thead th:nth-child(2),
-        .sku-table thead th:nth-child(3) { z-index: 5; }
+        .sku-table thead th:nth-child(3),
+        .sku-table thead th:nth-child(4) { z-index: 5; }
 
-        tfoot td:nth-child(1) { position: sticky; left: 0; z-index: 4; }
+        tfoot td:nth-child(1) { position: sticky; left: 0;    z-index: 4; }
         tfoot td:nth-child(2) { position: sticky; left: 108px; z-index: 4; }
         tfoot td:nth-child(3) { position: sticky; left: 203px; z-index: 4; }
+        tfoot td:nth-child(4) { position: sticky; left: 313px; z-index: 4; }
 
-        /* ── COL GROUP BANDS — pastel, not saturated ── */
-        .sku-table th:nth-child(4),.sku-table th:nth-child(5),
-        .sku-table th:nth-child(6),.sku-table th:nth-child(7) {
+        /* ── COL GROUP BANDS — pastel, not saturated ──
+           (col indices shifted +1 since ASIN now lives at col 3) */
+        .sku-table th:nth-child(5),.sku-table th:nth-child(6),
+        .sku-table th:nth-child(7),.sku-table th:nth-child(8) {
             color: #3451c7; background: #eef1fd; border-left: 2px solid #c7d0f8;
         }
-        .sku-table td:nth-child(4),.sku-table td:nth-child(5),
-        .sku-table td:nth-child(6),.sku-table td:nth-child(7) {
+        .sku-table td:nth-child(5),.sku-table td:nth-child(6),
+        .sku-table td:nth-child(7),.sku-table td:nth-child(8) {
             border-left: 1px solid #e4e8fb;
         }
-        .sku-table th:nth-child(8),.sku-table th:nth-child(9),
-        .sku-table th:nth-child(10) {
+        .sku-table th:nth-child(9),.sku-table th:nth-child(10),
+        .sku-table th:nth-child(11) {
             color: #6040a8; background: #f3eeff; border-left: 2px solid #d8c9f5;
         }
-        .sku-table td:nth-child(8),.sku-table td:nth-child(9),
-        .sku-table td:nth-child(10) { border-left: 1px solid #ece5fa; }
+        .sku-table td:nth-child(9),.sku-table td:nth-child(10),
+        .sku-table td:nth-child(11) { border-left: 1px solid #ece5fa; }
 
-        .sku-table th:nth-child(11),.sku-table th:nth-child(12),
-        .sku-table th:nth-child(13) {
+        .sku-table th:nth-child(12),.sku-table th:nth-child(13),
+        .sku-table th:nth-child(14) {
             color: #0a6e4e; background: #edfaf5; border-left: 2px solid #b6e8d6;
         }
-        .sku-table td:nth-child(11),.sku-table td:nth-child(12),
-        .sku-table td:nth-child(13) { border-left: 1px solid #d4f2e7; }
+        .sku-table td:nth-child(12),.sku-table td:nth-child(13),
+        .sku-table td:nth-child(14) { border-left: 1px solid #d4f2e7; }
 
-        .sku-table th:nth-child(14),.sku-table th:nth-child(15),
-        .sku-table th:nth-child(16) {
+        .sku-table th:nth-child(15),.sku-table th:nth-child(16),
+        .sku-table th:nth-child(17) {
             color: #92400e; background: #fef5e7; border-left: 2px solid #f8d9a0;
         }
-        .sku-table td:nth-child(14),.sku-table td:nth-child(15),
-        .sku-table td:nth-child(16) { border-left: 1px solid #fdecc8; }
+        .sku-table td:nth-child(15),.sku-table td:nth-child(16),
+        .sku-table td:nth-child(17) { border-left: 1px solid #fdecc8; }
 
         /* ── SIMPLE TABLES ── */
         .simple-table { min-width: unset; width: 100%; }
@@ -969,17 +977,17 @@
     <div class="table-wrapper">
         <table class="sku-table"
           data-xl
-          data-xl-frozen="3"
-          data-xl-totals="3,4,5,6,7,8,9,10,11,12,13,14,15,16"
-          data-xl-heat="6"
-          data-xl-key="dashboard-sku-v2"
+          data-xl-frozen="4"
+          data-xl-totals="4,5,6,7,8,9,10,11,12,13,14,15,16,17"
+          data-xl-heat="7"
+          data-xl-key="dashboard-sku-v3"
           data-api-url="/api/dashboard/sku-rows"
           data-api-params="week={{ selected.week }}&brand={{ selected.brand }}&view={{ selected.view }}"
           data-total-rows="{{ sku_total }}"
           data-loaded-rows="{{ sku_rows | length }}"
-          data-col-keys='["sku","model_no","category_l0","total_units","total_sales","total_nlc","sales_contribution_pct","amazon_am_units","amazon_am_sales","amazon_am_nlc","amazon_1p_units","amazon_1p_sales","amazon_1p_nlc","amazon_total_units","amazon_total_sales","amazon_total_nlc"]'>
+          data-col-keys='["sku","model_no","asin","category_l0","total_units","total_sales","total_nlc","sales_contribution_pct","amazon_am_units","amazon_am_sales","amazon_am_nlc","amazon_1p_units","amazon_1p_sales","amazon_1p_nlc","amazon_total_units","amazon_total_sales","amazon_total_nlc"]'>
         <thead><tr>
-            <th>SKU</th><th>Model</th><th>Category</th>
+            <th>SKU</th><th>Model</th><th>ASIN</th><th>Category</th>
             <th>All Ch. Units</th><th>All Ch. Sales</th><th>All Ch. NLC</th><th>% Contrib</th>
             <th>AM Units</th><th>AM Sales</th><th>AM NLC</th>
             <th>1P Units</th><th>1P Sales</th><th>1P NLC</th>
@@ -990,6 +998,7 @@
         <tr>
             <td style="font-family:var(--mono);font-size:11px;color:var(--text)">{{ r.sku }}</td>
             <td style="color:var(--text)">{{ r.model_no }}</td>
+            <td style="font-family:var(--mono);font-size:11px;color:var(--text2)">{{ r.asin }}</td>
             <td style="color:#111827">{{ r.category_l0 }}</td>
             <td>{{ r.total_units | int }}</td>
             <td class="fmt-inr-cell" data-val="{{ r.total_sales }}">₹ {{ r.total_sales }}</td>
@@ -1008,7 +1017,7 @@
         {% endfor %}
         </tbody>
         <tfoot><tr>
-            <td colspan="3" style="text-align:left;color:#111827;font-weight:700;letter-spacing:1px">TOTAL</td>
+            <td colspan="4" style="text-align:left;color:#111827;font-weight:700;letter-spacing:1px">TOTAL</td>
             <td>{{ sku_rows | sum(attribute='total_units') | int }}</td>
             <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_sales') }}">₹ {{ sku_rows | sum(attribute='total_sales') }}</td>
             <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_nlc') }}">₹ {{ sku_rows | sum(attribute='total_nlc') }}</td>

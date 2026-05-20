@@ -303,6 +303,26 @@
             border-bottom: 1px solid var(--border2);
         }
 
+        /* ── Multi-row sticky header for skuTable ──
+           Row 1 (channel-group labels) sticks at top:0.
+           Row 2 (Units/Sales/NLC sub-labels) sticks just below row 1.
+           Without this, both rows collapse to top:0 and row 1 disappears
+           on vertical scroll, leaving "Units/Sales/NLC" with no
+           context. The 34px matches the actual row-1 rendered height
+           (10px font + 7px*2 padding + 1px border + buffer). */
+        #skuTable thead tr:first-child th {
+            position: sticky;
+            top: 0;
+            z-index: 4;
+            background: #f4f5fb;
+        }
+        #skuTable thead tr:nth-child(2) th {
+            position: sticky;
+            top: 34px;
+            z-index: 3;
+            background: #f4f5fb;
+        }
+
         /* Colour-banded channel groups in ALL channels table */
         /* Amazon AM cols */
         #skuTable th:nth-child(n+4):nth-child(-n+6) { background: #eef1fd; color: #3451c7; border-left: 2px solid #c7d0f8; }

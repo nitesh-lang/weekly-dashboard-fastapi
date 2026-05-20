@@ -14,9 +14,17 @@ window.XLTable = (function () {
 
   function parseNum(text) {
     if (!text) return NaN;
-    const c = String(text).trim().replace(/[₹,%\s]/g,"").replace(/,/g,"");
+    let c = String(text).trim().replace(/[₹,%\s↑↓→]/g,"").replace(/,/g,"");
+    if (!c) return NaN;
+    // Indian-format suffixes: Cr = 1e7, L = 1e5, K = 1e3
+    let mult = 1;
+    const tail2 = c.slice(-2).toLowerCase();
+    const tail1 = c.slice(-1).toLowerCase();
+    if (tail2 === "cr") { mult = 1e7; c = c.slice(0, -2); }
+    else if (tail1 === "l") { mult = 1e5; c = c.slice(0, -1); }
+    else if (tail1 === "k") { mult = 1e3; c = c.slice(0, -1); }
     const n = parseFloat(c);
-    return isNaN(n) ? NaN : n;
+    return isNaN(n) ? NaN : n * mult;
   }
   function fmtNum(n) {
     if (isNaN(n) || n === null) return "—";

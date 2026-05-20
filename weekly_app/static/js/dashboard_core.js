@@ -13,8 +13,17 @@ function qs(s,c){ return (c||document).querySelector(s); }
 function qsa(s,c){ return Array.from((c||document).querySelectorAll(s)); }
 function parseNum(t){
   if(!t) return NaN;
-  var c=String(t).trim().replace(/[₹,%\s]/g,"").replace(/,/g,"");
-  var n=parseFloat(c); return isNaN(n)?NaN:n;
+  // Strip currency, %, whitespace, commas, arrows
+  var c=String(t).trim().replace(/[₹,%\s↑↓→]/g,"").replace(/,/g,"");
+  if(!c) return NaN;
+  // Handle Indian-format suffixes: Cr = 1e7, L/Lac/Lakh = 1e5, K = 1e3
+  var mult=1;
+  var tail2=c.slice(-2).toLowerCase();
+  var tail1=c.slice(-1).toLowerCase();
+  if(tail2==="cr"){ mult=1e7; c=c.slice(0,-2); }
+  else if(tail1==="l"){ mult=1e5; c=c.slice(0,-1); }
+  else if(tail1==="k"){ mult=1e3; c=c.slice(0,-1); }
+  var n=parseFloat(c); return isNaN(n)?NaN:n*mult;
 }
 function fmtNum(n){
   if(isNaN(n)||n===null) return "—";

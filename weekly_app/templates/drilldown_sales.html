@@ -306,10 +306,8 @@
         /* ── Multi-row sticky header for skuTable ──
            Row 1 (channel-group labels) sticks at top:0.
            Row 2 (Units/Sales/NLC sub-labels) sticks just below row 1.
-           Without this, both rows collapse to top:0 and row 1 disappears
-           on vertical scroll, leaving "Units/Sales/NLC" with no
-           context. The 34px matches the actual row-1 rendered height
-           (10px font + 7px*2 padding + 1px border + buffer). */
+           First 3 cols of row 1 (rowspan=2 leaves: SKU/Model/Category)
+           ALSO stick left so they remain visible on horizontal scroll. */
         #skuTable thead tr:first-child th {
             position: sticky;
             top: 0;
@@ -322,6 +320,15 @@
             z-index: 3;
             background: #f4f5fb;
         }
+        /* Corner cells (top-left frozen) — pin to both axes with highest z */
+        #skuTable thead tr:first-child th:nth-child(1) { left: 0;     z-index: 6; }
+        #skuTable thead tr:first-child th:nth-child(2) { left: 108px; z-index: 6; }
+        #skuTable thead tr:first-child th:nth-child(3) { left: 198px; z-index: 6; }
+
+        /* Min widths so the per-channel Units/Sales/NLC sub-columns
+           don't collapse to unreadable widths on the wide all-channels view. */
+        #skuTable thead tr:nth-child(2) th { min-width: 64px; }
+        #skuTable tbody td:nth-child(n+4)  { min-width: 64px; }
 
         /* Colour-banded channel groups in ALL channels table */
         /* Amazon AM cols */

@@ -252,6 +252,20 @@
         #channelSummaryTable th:first-child,
         #channelSummaryTable td:first-child { text-align: left; }
 
+        /* Freeze Channel column in channel summary table */
+        #channelSummaryTable th:first-child,
+        #channelSummaryTable td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 2;
+            min-width: 180px;
+            border-right: 2px solid var(--border2);
+            background: var(--bg2);
+        }
+        #channelSummaryTable thead th:first-child { z-index: 5; background: #f4f5fb; }
+        #channelSummaryTable tbody tr:nth-child(even) td:first-child { background: #fafbfd; }
+        #channelSummaryTable tbody tr:hover td:first-child { background: #eef0fe !important; }
+
         /* Freeze first 3 cols in SKU table */
         #skuTable th:nth-child(1), #skuTable td:nth-child(1) {
             position: sticky; left: 0; z-index: 2; min-width: 108px;
@@ -323,6 +337,15 @@
 
     <!-- FILTER BAR -->
     <div class="filter-bar">
+        <div class="filter-group">
+            <label>Week</label>
+            <select id="weekFilter" onchange="applyWeekFilter()">
+                <option value="">All Weeks</option>
+                {% for w in available_weeks %}
+                    <option value="{{ w }}" {% if active_weeks and w in active_weeks %}selected{% endif %}>{{ w }}</option>
+                {% endfor %}
+            </select>
+        </div>
         {% if sku_channel_rows %}
         <div class="filter-group">
             <label>🔍 Model</label>
@@ -510,6 +533,17 @@
 </div><!-- /.main-content -->
 
 <script>
+/* ── Week filter ── */
+function applyWeekFilter() {
+    const w = document.getElementById("weekFilter")?.value;
+    const params = new URLSearchParams(window.location.search);
+    // Reset both legacy `week` and multi `weeks` params before applying
+    params.delete("week");
+    params.delete("weeks");
+    if (w) params.set("weeks", w);
+    window.location.search = params.toString();
+}
+
 /* ── Brand filter ── */
 function applyBrandFilter() {
     const brand = document.getElementById("brandFilter")?.value;

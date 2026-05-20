@@ -184,6 +184,20 @@ def drilldown(
 
     sales = load_base_sales(active_weeks)
     master = load_master()
+
+    # Full week list for filter dropdown (independent of current selection)
+    _all_sales = load_base_sales(None)
+    def _wk_num(w):
+        try:
+            import re as _re
+            m = _re.search(r"\d+", str(w))
+            return int(m.group()) if m else -1
+        except Exception:
+            return -1
+    available_weeks = sorted(
+        _all_sales["week"].dropna().astype(str).str.strip().unique().tolist(),
+        key=_wk_num,
+    ) if not _all_sales.empty else []
     # 🔥 SINGLE SOURCE OF TRUTH
     base = sales.merge(master, on="sku", how="left")
     base["Brand"] = base["Brand"].astype(str).str.strip()
@@ -212,7 +226,9 @@ def drilldown(
     if base.empty:
         return HTMLResponse(_env.get_template("drilldown_sales.html").render(
             request=request, week=week, channel=channel, brand=brand,
-            available_brands=available_brands, channel_summary=[], sku_channel_rows=[],
+            available_brands=available_brands,
+                available_weeks=available_weeks,
+                active_weeks=active_weeks, channel_summary=[], sku_channel_rows=[],
         ))
 
     # =====================================================
@@ -342,6 +358,8 @@ def drilldown(
             return HTMLResponse(_env.get_template("drilldown_sales.html").render(
                 request=request, week=week, channel="ALL", brand=brand,
                 available_brands=available_brands,
+                available_weeks=available_weeks,
+                active_weeks=active_weeks,
                 channel_summary=_sanitize(channel_summary),
                 sku_channel_rows=_sanitize(sku.to_dict("records")),
             ))
@@ -380,6 +398,8 @@ def drilldown(
             return HTMLResponse(_env.get_template("drilldown_sales.html").render(
                 request=request, week=week, channel="Amazon", brand=brand,
                 available_brands=available_brands,
+                available_weeks=available_weeks,
+                active_weeks=active_weeks,
                 channel_summary=_sanitize(channel_summary),
                 sku_channel_rows=_sanitize(sku.to_dict("records")),
             ))
@@ -415,6 +435,8 @@ def drilldown(
         return HTMLResponse(_env.get_template("drilldown_sales.html").render(
             request=request, week=week, channel=channel, brand=brand,
             available_brands=available_brands,
+                available_weeks=available_weeks,
+                active_weeks=active_weeks,
             channel_summary=_sanitize(channel_summary),
             sku_channel_rows=_sanitize(sku.to_dict("records")),
         ))
@@ -443,6 +465,8 @@ def drilldown(
         return HTMLResponse(_env.get_template("drilldown_sales.html").render(
             request=request, week=week, channel=f"Category: {value}", brand=brand,
             available_brands=available_brands,
+                available_weeks=available_weeks,
+                active_weeks=active_weeks,
             channel_summary=_sanitize(channel_summary),
             sku_channel_rows=_sanitize(sku.to_dict("records")),
         ))

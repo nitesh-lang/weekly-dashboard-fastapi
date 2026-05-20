@@ -806,8 +806,11 @@ makeSortable('skuTable');  // no default — keep server sort (sorted by total_s
 </script>
 
 <style>
-/* Sort arrows on table headers */
-table th { position: relative; padding-right: 18px !important; }
+/* Sort arrows — only pad the currently-active sort header so colspan
+   group headers ("Amazon AM" etc.) keep their original layout. */
+table th { position: relative; }
+table th.sort-asc,
+table th.sort-desc { padding-right: 18px !important; }
 table th.sort-asc::after,
 table th.sort-desc::after {
     position: absolute;

@@ -34,6 +34,17 @@ td[class*="mono"],
   font-variant-numeric: tabular-nums !important;
 }
 
+/* Mono cells (SKU codes, ASIN codes, hex IDs) — at default 400 weight + 11px
+   they look thinner/greyer next to the surrounding sans cells, even though
+   the actual color is the same. Bump to match the sans cells' visual
+   weight. */
+td[style*="var(--mono)"],
+td[style*="monospace"] {
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: #111827 !important;
+}
+
 /* ── BASE BODY ────────────────────────────────────────────── */
 html, body {
   font-size: 14px !important;
@@ -54,10 +65,11 @@ p, span, li, dt, dd, label, a, td, th,
 }
 
 /* ── TABLE CELLS — uniform size everywhere ── */
-table td, table th {
-  font-size: 12px !important;
+table td {
+  font-size: 13px !important;
 }
 table th {
+  font-size: 12px !important;
   font-weight: 600 !important;
 }
 

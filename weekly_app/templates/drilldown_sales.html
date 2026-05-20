@@ -731,30 +731,95 @@ document.getElementById("modelFilter")?.addEventListener("keyup", function () {
 });
 
 /* ── Sortable tables ── */
-function makeSortable(tableId) {
-    const table = document.getElementById(tableId);
-    if (!table) return;
-    const headers = table.querySelectorAll("th");
-    headers.forEach((th, idx) => {
-        let asc = true;
-        th.addEventListener("click", () => {
-            const rows = Array.from(table.querySelectorAll("tbody tr"));
-            rows.sort((a, b) => {
-                const A = a.children[idx]?.innerText.replace(/[₹,%↑↓→]/g, "").trim();
-                const B = b.children[idx]?.innerText.replace(/[₹,%↑↓→]/g, "").trim();
-                const nA = parseFloat(A), nB = parseFloat(B);
-                if (!isNaN(nA) && !isNaN(nB)) return asc ? nA - nB : nB - nA;
-                return asc ? A.localeCompare(B) : B.localeCompare(A);
-            });
-            asc = !asc;
-            rows.forEach(r => table.querySelector("tbody").appendChild(r));
-        });
-    });
+/* Parses "₹ 7.52 L" / "4.21 Cr" / "1,234" / "242" into a comparable number.
+   K = 1e3, L = 1e5, Cr = 1e7. Returns NaN for non-numeric so we can
+   fall back to alphabetical compare. */
+function parseSortVal(s) {
+    if (s == null) return NaN;
+    let t = String(s).replace(/[₹,%\s↑↓→]/g, '').trim();
+    if (!t) return NaN;
+    let mult = 1;
+    const tail = t.slice(-2).toLowerCase();
+    const tail1 = t.slice(-1).toLowerCase();
+    if (tail === 'cr') { mult = 1e7; t = t.slice(0, -2); }
+    else if (tail1 === 'l') { mult = 1e5; t = t.slice(0, -1); }
+    else if (tail1 === 'k') { mult = 1e3; t = t.slice(0, -1); }
+    const n = parseFloat(t);
+    return isNaN(n) ? NaN : n * mult;
 }
 
-makeSortable("channelSummaryTable");
-makeSortable("singleChannelTable");
-makeSortable("skuTable");
+function makeSortable(tableId, defaultSortIdx, defaultDesc) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    const headers = table.querySelectorAll('thead th');
+    let curIdx = null, curDesc = true;
+
+    function applySort(idx, desc) {
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort((a, b) => {
+            const A = a.children[idx]?.innerText ?? '';
+            const B = b.children[idx]?.innerText ?? '';
+            const nA = parseSortVal(A), nB = parseSortVal(B);
+            const bothNum = !isNaN(nA) && !isNaN(nB);
+            if (bothNum) return desc ? nB - nA : nA - nB;
+            return desc ? B.localeCompare(A) : A.localeCompare(B);
+        });
+        const frag = document.createDocumentFragment();
+        rows.forEach(r => frag.appendChild(r));
+        tbody.appendChild(frag);
+
+        // Visual cues
+        headers.forEach((h, i) => {
+            h.classList.remove('sort-asc', 'sort-desc');
+            if (i === idx) h.classList.add(desc ? 'sort-desc' : 'sort-asc');
+        });
+        curIdx = idx;
+        curDesc = desc;
+    }
+
+    headers.forEach((th, idx) => {
+        th.style.cursor = 'pointer';
+        th.addEventListener('click', () => {
+            // Same column → flip direction; new column → start descending (numeric default)
+            const desc = (curIdx === idx) ? !curDesc : true;
+            applySort(idx, desc);
+        });
+    });
+
+    // Apply default sort on init (so the visual cue lines up with the server pre-sort)
+    if (typeof defaultSortIdx === 'number') {
+        applySort(defaultSortIdx, defaultDesc !== false);
+    }
+}
+
+/* Defaults: skuTable & singleChannelTable sort by Sales col, channelSummary by Units.
+   - skuTable: col 4 = "All Ch. Sales" (after SKU, Model, Category, Units)
+     Actually for skuTable all-channels view there's no "All Ch. Sales" header — the
+     leftmost numeric is col 3 (Units of first channel group). We pass null to skip
+     re-applying default (server already sorted).
+   - channelSummaryTable: col 2 = GMV (₹). */
+makeSortable('channelSummaryTable', 2, true);
+makeSortable('singleChannelTable', 4, true);
+makeSortable('skuTable');  // no default — keep server sort (sorted by total_sales desc)
 </script>
+
+<style>
+/* Sort arrows on table headers */
+table th { position: relative; padding-right: 18px !important; }
+table th.sort-asc::after,
+table th.sort-desc::after {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    color: var(--blue, #4f6ef7);
+    opacity: 0.85;
+}
+table th.sort-asc::after  { content: '▲'; }
+table th.sort-desc::after { content: '▼'; }
+</style>
 </body>
 </html>

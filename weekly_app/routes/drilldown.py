@@ -157,10 +157,11 @@ def drilldown(
     week: str | None = None,
     weeks: List[str] = Query(default=[]),
     brand: str | None = None,
+    brands: List[str] = Query(default=[]),
     channel: str | None = None,
     level: str | None = None,
     value: str | None = None,
-    export: str | None = None,   # ✅ ADD THIS LINE
+    export: str | None = None,
 ):
     """
     Universal drilldown:
@@ -201,9 +202,15 @@ def drilldown(
     # 🔥 SINGLE SOURCE OF TRUTH
     base = sales.merge(master, on="sku", how="left")
     base["Brand"] = base["Brand"].astype(str).str.strip()
-    if brand and brand != "None" and "Brand" in base.columns:
-        base = base[base["Brand"].astype(str).str.strip().str.lower() == brand.strip().lower()
-                    ]
+
+    # Resolve active_brands from either ?brands= (multi) or legacy ?brand= (single)
+    active_brands = [b.strip() for b in (brands or []) if b and b.strip() and b.strip().lower() != "none"]
+    if not active_brands and brand and brand.strip().lower() not in ("none", "", "all"):
+        active_brands = [brand.strip()]
+
+    if active_brands and "Brand" in base.columns:
+        lowered = [b.lower() for b in active_brands]
+        base = base[base["Brand"].astype(str).str.strip().str.lower().isin(lowered)]
     available_brands = sorted(
     master["Brand"]
     .dropna()
@@ -228,7 +235,8 @@ def drilldown(
             request=request, week=week, channel=channel, brand=brand,
             available_brands=available_brands,
                 available_weeks=available_weeks,
-                active_weeks=active_weeks, channel_summary=[], sku_channel_rows=[],
+                active_weeks=active_weeks,
+                active_brands=active_brands, channel_summary=[], sku_channel_rows=[],
         ))
 
     # =====================================================
@@ -360,6 +368,7 @@ def drilldown(
                 available_brands=available_brands,
                 available_weeks=available_weeks,
                 active_weeks=active_weeks,
+                active_brands=active_brands,
                 channel_summary=_sanitize(channel_summary),
                 sku_channel_rows=_sanitize(sku.to_dict("records")),
             ))
@@ -400,6 +409,7 @@ def drilldown(
                 available_brands=available_brands,
                 available_weeks=available_weeks,
                 active_weeks=active_weeks,
+                active_brands=active_brands,
                 channel_summary=_sanitize(channel_summary),
                 sku_channel_rows=_sanitize(sku.to_dict("records")),
             ))
@@ -437,6 +447,7 @@ def drilldown(
             available_brands=available_brands,
                 available_weeks=available_weeks,
                 active_weeks=active_weeks,
+                active_brands=active_brands,
             channel_summary=_sanitize(channel_summary),
             sku_channel_rows=_sanitize(sku.to_dict("records")),
         ))
@@ -467,6 +478,7 @@ def drilldown(
             available_brands=available_brands,
                 available_weeks=available_weeks,
                 active_weeks=active_weeks,
+                active_brands=active_brands,
             channel_summary=_sanitize(channel_summary),
             sku_channel_rows=_sanitize(sku.to_dict("records")),
         ))

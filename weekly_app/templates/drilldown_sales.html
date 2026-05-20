@@ -180,6 +180,76 @@
             color: var(--text);
         }
 
+        /* ── MULTI PICKER (Week / Brand) ── */
+        .picker-wrap { position: relative; }
+        .picker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--bg3, #f8f9fc);
+            border: 1px solid var(--border2, #d5d9e6);
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: var(--sans);
+            color: #111827;
+            cursor: pointer;
+            min-width: 150px;
+            justify-content: space-between;
+            transition: border-color 0.15s;
+        }
+        .picker-btn:hover { border-color: var(--blue, #4f6ef7); }
+        .picker-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            z-index: 500;
+            background: var(--bg2, #fff);
+            border: 1px solid var(--border2, #d5d9e6);
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 8px 0 0;
+            min-width: 180px;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+        .picker-dropdown.open { display: block; }
+        .picker-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            font-size: 12px;
+            color: #111827;
+            cursor: pointer;
+        }
+        .picker-option:hover { background: var(--blue-dim, #eef0fe); }
+        .picker-option input[type="checkbox"] {
+            accent-color: var(--header-bg, #3d3587);
+            cursor: pointer;
+        }
+        .picker-footer {
+            position: sticky;
+            bottom: 0;
+            background: var(--bg2, #fff);
+            padding: 8px 14px;
+            border-top: 1px solid var(--border, #e8eaf0);
+            margin-top: 4px;
+        }
+        .picker-apply {
+            width: 100%;
+            padding: 5px 0;
+            background: var(--header-bg, #3d3587);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .picker-apply:hover { background: #4a3f9e; }
+
         /* ── TABLE WRAPPER ── */
         .table-wrapper {
             overflow: auto;
@@ -338,27 +408,69 @@
     <!-- FILTER BAR -->
     <div class="filter-bar">
         <div class="filter-group">
-            <label>Week</label>
-            <select id="weekFilter" onchange="applyWeekFilter()">
-                <option value="">All Weeks</option>
-                {% for w in available_weeks %}
-                    <option value="{{ w }}" {% if active_weeks and w in active_weeks %}selected{% endif %}>{{ w }}</option>
-                {% endfor %}
-            </select>
+            <label>Weeks</label>
+            <div class="picker-wrap">
+                <button type="button" class="picker-btn" onclick="togglePicker('weekDropdown', event)">
+                    <span id="week-label">
+                        {% if active_weeks and active_weeks|length == 1 %}{{ active_weeks[0] }}
+                        {% elif active_weeks and active_weeks|length <= 3 %}{{ active_weeks|join(', ') }}
+                        {% elif active_weeks %}{{ active_weeks|length }} weeks
+                        {% else %}All Weeks{% endif %}
+                    </span>
+                    <span>▾</span>
+                </button>
+                <div class="picker-dropdown" id="weekDropdown">
+                    <label class="picker-option">
+                        <input type="checkbox" id="wk-all" onchange="toggleAllPicker(this, 'wk-')"> <b>All</b>
+                    </label>
+                    {% for w in available_weeks %}
+                    <label class="picker-option">
+                        <input type="checkbox" class="wk-" value="{{ w }}"
+                            {% if active_weeks and w in active_weeks %}checked{% endif %}
+                            onchange="updatePickerLabel('week-label', 'wk-', 'weeks')">
+                        {{ w }}
+                    </label>
+                    {% endfor %}
+                    <div class="picker-footer">
+                        <button type="button" class="picker-apply" onclick="applyPicker('wk-', 'weeks', ['week'])">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-group">
+            <label>Brands</label>
+            <div class="picker-wrap">
+                <button type="button" class="picker-btn" onclick="togglePicker('brandDropdown', event)">
+                    <span id="brand-label">
+                        {% if active_brands and active_brands|length == 1 %}{{ active_brands[0] }}
+                        {% elif active_brands and active_brands|length <= 3 %}{{ active_brands|join(', ') }}
+                        {% elif active_brands %}{{ active_brands|length }} brands
+                        {% else %}All Brands{% endif %}
+                    </span>
+                    <span>▾</span>
+                </button>
+                <div class="picker-dropdown" id="brandDropdown">
+                    <label class="picker-option">
+                        <input type="checkbox" id="br-all" onchange="toggleAllPicker(this, 'br-')"> <b>All</b>
+                    </label>
+                    {% for b in available_brands %}
+                    <label class="picker-option">
+                        <input type="checkbox" class="br-" value="{{ b }}"
+                            {% if (active_brands and b in active_brands) or (not active_brands and brand == b) %}checked{% endif %}
+                            onchange="updatePickerLabel('brand-label', 'br-', 'brands')">
+                        {{ b }}
+                    </label>
+                    {% endfor %}
+                    <div class="picker-footer">
+                        <button type="button" class="picker-apply" onclick="applyPicker('br-', 'brands', ['brand'])">Apply</button>
+                    </div>
+                </div>
+            </div>
         </div>
         {% if sku_channel_rows %}
         <div class="filter-group">
             <label>🔍 Model</label>
             <input type="text" id="modelFilter" placeholder="e.g. GS-02, AM-C1…">
-        </div>
-        <div class="filter-group">
-            <label>Brand</label>
-            <select id="brandFilter" onchange="applyBrandFilter()">
-                <option value="">All</option>
-                {% for b in available_brands %}
-                    <option value="{{ b }}" {% if brand == b %}selected{% endif %}>{{ b }}</option>
-                {% endfor %}
-            </select>
         </div>
         {% endif %}
     </div>
@@ -533,25 +645,80 @@
 </div><!-- /.main-content -->
 
 <script>
-/* ── Week filter ── */
-function applyWeekFilter() {
-    const w = document.getElementById("weekFilter")?.value;
+/* ── Indian-format number (matches dashboard fmtINR) ── */
+function fmtINR(n) {
+    n = parseFloat(String(n).replace(/[₹,\s]/g, ''));
+    if (isNaN(n)) return '0';
+    if (Math.abs(n) >= 1e7) return (n/1e7).toFixed(2) + ' Cr';
+    if (Math.abs(n) >= 1e5) return (n/1e5).toFixed(2) + ' L';
+    if (Math.abs(n) >= 1e3) return (n/1e3).toFixed(1) + ' K';
+    return n.toLocaleString('en-IN');
+}
+function fmtIndianInt(n) {
+    n = parseFloat(String(n).replace(/[,\s]/g, ''));
+    if (isNaN(n)) return '0';
+    return Math.round(n).toLocaleString('en-IN');
+}
+
+/* ── Multi-pickers ── */
+function togglePicker(id, ev) {
+    if (ev) ev.stopPropagation();
+    // Close any other open pickers
+    document.querySelectorAll('.picker-dropdown.open').forEach(d => {
+        if (d.id !== id) d.classList.remove('open');
+    });
+    document.getElementById(id)?.classList.toggle('open');
+}
+
+function toggleAllPicker(masterCb, klass) {
+    document.querySelectorAll('input.' + klass).forEach(cb => cb.checked = masterCb.checked);
+    // Update label using the picker the master belongs to
+    if (klass === 'wk-') updatePickerLabel('week-label', 'wk-', 'weeks');
+    else if (klass === 'br-') updatePickerLabel('brand-label', 'br-', 'brands');
+}
+
+function updatePickerLabel(labelId, klass, kind) {
+    const picked = Array.from(document.querySelectorAll('input.' + klass + ':checked')).map(cb => cb.value);
+    const el = document.getElementById(labelId);
+    if (!el) return;
+    if (picked.length === 0) el.textContent = (kind === 'weeks') ? 'All Weeks' : 'All Brands';
+    else if (picked.length === 1) el.textContent = picked[0];
+    else if (picked.length <= 3) el.textContent = picked.join(', ');
+    else el.textContent = picked.length + ' ' + kind;
+}
+
+function applyPicker(klass, paramName, dropParams) {
+    const picked = Array.from(document.querySelectorAll('input.' + klass + ':checked')).map(cb => cb.value);
     const params = new URLSearchParams(window.location.search);
-    // Reset both legacy `week` and multi `weeks` params before applying
-    params.delete("week");
-    params.delete("weeks");
-    if (w) params.set("weeks", w);
+    // Strip both the multi and any legacy single-value siblings
+    params.delete(paramName);
+    (dropParams || []).forEach(p => params.delete(p));
+    picked.forEach(v => params.append(paramName, v));
     window.location.search = params.toString();
 }
 
-/* ── Brand filter ── */
-function applyBrandFilter() {
-    const brand = document.getElementById("brandFilter")?.value;
-    const params = new URLSearchParams(window.location.search);
-    if (brand) params.set("brand", brand);
-    else params.delete("brand");
-    window.location.search = params.toString();
-}
+// Close pickers when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.picker-wrap')) {
+        document.querySelectorAll('.picker-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+});
+
+/* ── Format all "₹ <number>" cells across drilldown tables ── */
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('table tbody td').forEach(td => {
+        const txt = td.textContent.trim();
+        // Cells starting with ₹ → format as INR (Cr/L/K)
+        if (txt.startsWith('₹')) {
+            const num = parseFloat(txt.replace(/[₹,\s]/g, ''));
+            if (!isNaN(num)) td.textContent = '₹ ' + fmtINR(num);
+        } else if (/^-?\d{4,}(\.\d+)?$/.test(txt)) {
+            // Plain int cells with 4+ digits → Indian-format thousands (e.g. units)
+            const num = parseFloat(txt);
+            if (!isNaN(num)) td.textContent = fmtIndianInt(num);
+        }
+    });
+});
 
 /* ── Model text filter ── */
 document.getElementById("modelFilter")?.addEventListener("keyup", function () {

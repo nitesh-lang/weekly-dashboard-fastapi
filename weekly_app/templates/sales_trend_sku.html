@@ -637,6 +637,21 @@
 </div>
 
 <script>
+/* ── Indian-format-aware numeric parser (K / L / Cr suffixes) ── */
+function parseSortVal(s) {
+    if (s == null) return NaN;
+    let t = String(s).replace(/[₹,%\s↑↓→]/g, '').trim();
+    if (!t) return NaN;
+    let mult = 1;
+    const t2 = t.slice(-2).toLowerCase();
+    const t1 = t.slice(-1).toLowerCase();
+    if (t2 === 'cr') { mult = 1e7; t = t.slice(0, -2); }
+    else if (t1 === 'l') { mult = 1e5; t = t.slice(0, -1); }
+    else if (t1 === 'k') { mult = 1e3; t = t.slice(0, -1); }
+    const n = parseFloat(t);
+    return isNaN(n) ? NaN : n * mult;
+}
+
 /* ── Helpers shared between week + brand pickers ── */
 function _selectedBrands() {
     return Array.from(document.querySelectorAll('input[name="brands"]:checked')).map(c => c.value);
@@ -775,9 +790,9 @@ document.querySelectorAll("th").forEach((header, colIndex) => {
         rows.sort((a, b) => {
             if (a.children[1]?.innerText.trim() === "Grand Total") return 1;
             if (b.children[1]?.innerText.trim() === "Grand Total") return -1;
-            const A = a.children[colIndex]?.dataset.sort || a.children[colIndex]?.innerText.replace(/[₹,%↑↓→]/g, "").trim();
-            const B = b.children[colIndex]?.dataset.sort || b.children[colIndex]?.innerText.replace(/[₹,%↑↓→]/g, "").trim();
-            const nA = parseFloat(A), nB = parseFloat(B);
+            const A = a.children[colIndex]?.dataset.sort || a.children[colIndex]?.innerText || '';
+            const B = b.children[colIndex]?.dataset.sort || b.children[colIndex]?.innerText || '';
+            const nA = parseSortVal(A), nB = parseSortVal(B);
             if (!isNaN(nA) && !isNaN(nB)) return asc ? nA - nB : nB - nA;
             return asc ? A.localeCompare(B) : B.localeCompare(A);
         });

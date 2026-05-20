@@ -359,6 +359,9 @@ def drilldown(
             sku["total_nlc"] = sku["amazon_total_nlc"] + sku[non_amazon_nlc].sum(axis=1)
 
             sku = round_df(sku)
+            # Sort by total sales (highest → lowest) so top revenue SKUs appear first
+            if "total_sales" in sku.columns:
+                sku = sku.sort_values("total_sales", ascending=False, kind="stable").reset_index(drop=True)
 
             if export == "csv":
              return csv_response(sku, f"sales_drilldown_{week}.csv")
@@ -401,6 +404,8 @@ def drilldown(
                 sku["channel_contribution_pct"] = 0.0
 
             sku = round_df(sku)
+            if "gmv" in sku.columns:
+                sku = sku.sort_values("gmv", ascending=False, kind="stable").reset_index(drop=True)
             if export == "csv":
              return csv_response(sku, f"sales_drilldown_{week}.csv")
 
@@ -438,6 +443,8 @@ def drilldown(
             sku["channel_contribution_pct"] = 0.0
 
         sku = round_df(sku)
+        if "gmv" in sku.columns:
+            sku = sku.sort_values("gmv", ascending=False, kind="stable").reset_index(drop=True)
 
         if export == "csv":
          return csv_response(sku, f"sales_drilldown_{week}.csv")

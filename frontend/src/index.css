@@ -125,12 +125,15 @@ p { color: #1a1a1a; }
 
 /* ─────────────────────────────────────────────────────────
    CARDS — premium feel: shadow-sm rest, shadow-lg + lift on hover.
-   Each Card already has a 3px primary top stripe via card.tsx ::before.
+   IMPORTANT: scope to <div> Card roots only.  An earlier broader
+   selector ([class*="border"]) matched every table cell with
+   `border-b`, applying transitions + animations to ~8000 elements
+   on a 600-row table.  Sort/filter clicks paused for ~2 s while
+   the browser composed all those layers.  Now only Card containers
+   (the actual rounded shadow boxes) get this treatment.
    ───────────────────────────────────────────────────────── */
-.rounded-lg.border,
-.rounded-md.border,
-.rounded-lg[class*="border"],
-[class*="rounded"][class*="border"] {
+div.rounded-lg.border,
+div.rounded-md.border {
   border-color: #e4e4e7 !important;
   background-color: #ffffff;
   box-shadow: var(--shadow-sm);
@@ -138,8 +141,8 @@ p { color: #1a1a1a; }
               transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.22s ease;
 }
-.rounded-lg.border:hover,
-[class*="rounded"][class*="border"]:hover {
+div.rounded-lg.border:hover,
+div.rounded-md.border:hover {
   box-shadow: var(--shadow-lg);
   border-color: #d4d4d8 !important;
   transform: translateY(-1px);
@@ -399,7 +402,10 @@ a[class*="text-primary"]:hover {
   0%, 100% { opacity: 1; }
   50%      { opacity: 0.5; }
 }
-[class*="rounded"][class*="border"] {
+/* Fade-in only on top-level Card containers, NOT on every table cell.
+   See the "CARDS" block above for the perf rationale. */
+div.rounded-lg.border,
+div.rounded-md.border {
   animation: fadeInUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 

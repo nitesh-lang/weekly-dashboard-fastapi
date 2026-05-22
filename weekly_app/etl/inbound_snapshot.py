@@ -1,37 +1,25 @@
 """
-Amazon SOH + Intransit snapshot ETL — combines three sources to give one
-truthful per-ASIN view of "how many units does Amazon have / will have".
+Amazon SOH + Intransit snapshot — combines FBA (3P) and 1P sources into
+one truthful per-ASIN view.  Brands don't gate the source: a 1P-dominant
+brand can still have some FBA stock, and vice versa.  We sum everything
+that's on Amazon's side (or en route to it).
 
-Two metrics surfaced to AMS Planning:
-    am_soh        Current Amazon-side sellable stock
-    am_intransit  Units en route to Amazon (not yet on the shelf)
-
-Brands aren't one-size-fits-all.  Source selection by brand:
-
-  ┌──────────────────────────────────────┬───────────────────────────┐
-  │ Brand                                │ Source                    │
-  ├──────────────────────────────────────┼───────────────────────────┤
-  │ Audio Array, White Mulberry  (1P)    │ am_soh:       weekly                                       │
-  │                                      │   inventory_model_snapshot                                 │
-  │                                      │   (latest week, brand+model)                               │
-  │                                      │ am_intransit: PO files                                     │
-  │                                      │   (Open PO + In-Transit, by ASIN)                          │
-  ├──────────────────────────────────────┼───────────────────────────┤
-  │ Nexlev, Tonor, others        (3P)    │ am_soh:       FBA inventory                                │
-  │                                      │   (afn-total − afn-unsellable)                             │
-  │                                      │ am_intransit: FBA inventory                                │
-  │                                      │   (afn-inbound-working + afn-inbound-shipped)              │
-  └──────────────────────────────────────┴───────────────────────────┘
+Output metrics (one row per ASIN):
+    am_soh        = (FBA: afn-total − afn-unsellable)
+                  + (1P channel inventory, latest week, brand+model)
+    am_intransit  = (FBA: afn-inbound-working + afn-inbound-shipped)
+                  + (PO file Accepted quantity, all rows for the ASIN —
+                     both "Open PO" and "In-Transit" statuses)
 
 Sources:
-    data/raw/inbound/inventory_amazon_*.csv     FBA inventory exports (3P)
+    data/raw/inbound/inventory_amazon_*.csv     FBA inventory exports
     data/raw/inbound/In_Transit_PO data*.xlsx   Vendor Central PO + intransit (1P)
-    data/processed/inventory_model_snapshot.csv weekly inventory aggregate (1P SOH)
-    data/master/sku_master.xlsx                 ASIN → brand mapping
+    inventory_dashboard.load_all_inventory()    raw weekly inventory w/ channels
+                                                (filtered to channel = "1P")
+    data/master/sku_master.xlsx                 ASIN → brand + model mapping
 
 Output:
-    data/processed/inbound_snapshot.csv
-    Columns: asin, sku, am_soh, am_intransit
+    data/processed/inbound_snapshot.csv  (asin, sku, am_soh, am_intransit)
 """
 from __future__ import annotations
 
@@ -42,105 +30,94 @@ import pandas as pd
 
 ROOT       = Path(__file__).resolve().parent.parent.parent
 RAW_DIR    = ROOT / "data" / "raw" / "inbound"
-INV_MODEL  = ROOT / "data" / "processed" / "inventory_model_snapshot.csv"
 MASTER     = ROOT / "data" / "master" / "sku_master.xlsx"
 OUT_FILE   = ROOT / "data" / "processed" / "inbound_snapshot.csv"
 
-# Brands whose Amazon presence is dominantly 1P — pull SOH + intransit from
-# the 1P sources instead of FBA.  Case-insensitive match against sku_master.
-ONE_P_BRANDS = {"audio array", "white mulberry", "tonor"}
+# FBA file columns (Seller-Central "Manage Inventory" export)
+FBA_ASIN       = "asin"
+FBA_SKU        = "sku"
+FBA_TOTAL      = "afn-total-quantity"           # N
+FBA_UNSELLABLE = "afn-unsellable-quantity"      # L
+FBA_INB_WORK   = "afn-inbound-working-quantity" # P
+FBA_INB_SHIP   = "afn-inbound-shipped-quantity" # Q
 
-# FBA file columns (standard Seller-Central "Manage Inventory" export)
-COL_ASIN       = "asin"
-COL_SKU        = "sku"
-COL_TOTAL      = "afn-total-quantity"            # N
-COL_UNSELLABLE = "afn-unsellable-quantity"       # L
-COL_INB_WORK   = "afn-inbound-working-quantity"  # P
-COL_INB_SHIP   = "afn-inbound-shipped-quantity"  # Q
+# PO file columns (Vendor Central export — "In_Transit_PO data*.xlsx")
+PO_ASIN   = "ASIN"
+PO_SKU    = "SKU"
+PO_QTY    = "Accepted quantity"        # falls back to "Quantity Requested"
+PO_STATUS = "Delivery Status"          # Open PO + In-Transit are BOTH counted
 
-# PO file columns (Vendor Central export — operator's "In_Transit_PO data*.xlsx")
-PO_COL_ASIN     = "ASIN"
-PO_COL_SKU      = "SKU"
-PO_COL_QTY      = "Accepted quantity"   # falls back to "Quantity Requested"
-PO_COL_STATUS   = "Delivery Status"     # "Open PO" or "In-Transit"
+# The 1P channel name as it appears in the raw weekly inventory snapshot.
+ONE_P_CHANNEL = "1p"
 
 
 # ─────────────────────────────────────────────────────────────────────────
 # Source loaders
 # ─────────────────────────────────────────────────────────────────────────
 
-def _load_fba_files() -> pd.DataFrame:
-    """Combine all FBA inventory CSVs into one frame keyed by ASIN.
-    Returns columns: asin, sku, am_soh, am_intransit.
-    Dedupes by ASIN keeping the row with the highest combined inventory."""
+def _load_fba() -> dict[str, dict]:
+    """{asin → {sku, fba_soh, fba_intransit}} from FBA inventory CSVs.
+    Dedupes by ASIN keeping the freshest non-zero snapshot if the ASIN
+    appears in multiple files (e.g. WM.csv / viomi.csv dup rows)."""
     files = sorted([p for p in RAW_DIR.glob("inventory_amazon_*.csv") if not p.name.startswith("~")])
-    if not files:
-        return pd.DataFrame(columns=["asin", "sku", "am_soh", "am_intransit"])
-
-    frames = []
-    for f in files:
-        print(f"📥 Reading FBA inventory: {f.name}…")
-        df = pd.read_csv(f, dtype=str)
-        needed = {COL_ASIN, COL_SKU, COL_TOTAL, COL_UNSELLABLE, COL_INB_WORK, COL_INB_SHIP}
-        if not needed.issubset(set(df.columns)):
-            print(f"  ⚠ missing required columns — skipping")
-            continue
-        out = df[[COL_ASIN, COL_SKU, COL_TOTAL, COL_UNSELLABLE, COL_INB_WORK, COL_INB_SHIP]].copy()
-        out.columns = ["asin", "sku", "_total", "_unsellable", "_p", "_q"]
-        out["asin"] = out["asin"].astype(str).str.strip()
-        out["sku"]  = out["sku"].astype(str).str.strip()
-        out = out[(out["asin"] != "") & (out["asin"].str.lower() != "nan")]
-        for c in ("_total", "_unsellable", "_p", "_q"):
-            out[c] = pd.to_numeric(out[c], errors="coerce").fillna(0)
-        out["am_soh"]       = (out["_total"] - out["_unsellable"]).clip(lower=0).astype(int)
-        out["am_intransit"] = (out["_p"] + out["_q"]).astype(int)
-        frames.append(out[["asin", "sku", "am_soh", "am_intransit"]])
-
-    if not frames:
-        return pd.DataFrame(columns=["asin", "sku", "am_soh", "am_intransit"])
-    combo = pd.concat(frames, ignore_index=True)
-    combo["_freshness"] = combo["am_soh"] + combo["am_intransit"]
-    combo = combo.sort_values("_freshness", ascending=False)
-    return combo.drop_duplicates(subset=["asin"], keep="first").reset_index(drop=True)[
-        ["asin", "sku", "am_soh", "am_intransit"]
-    ]
-
-
-def _load_po_files() -> dict[str, int]:
-    """{asin → total intransit qty} from Vendor Central PO files.
-    Sums Open PO + In-Transit accepted quantities — both are units committed
-    to Amazon that the operator wants to see in the AM Intransit column."""
-    files = sorted([p for p in RAW_DIR.glob("In_Transit_PO*.xlsx") if not p.name.startswith("~")])
-    if not files:
-        return {}
-
     rows = []
     for f in files:
-        print(f"📥 Reading 1P PO file: {f.name}…")
+        print(f"📥 FBA inventory: {f.name}")
+        try:
+            df = pd.read_csv(f, dtype=str)
+        except Exception as e:
+            print(f"  ⚠ read failed: {e}")
+            continue
+        needed = {FBA_ASIN, FBA_SKU, FBA_TOTAL, FBA_UNSELLABLE, FBA_INB_WORK, FBA_INB_SHIP}
+        if not needed.issubset(set(df.columns)):
+            print(f"  ⚠ missing columns, skipping")
+            continue
+        sub = df[[FBA_ASIN, FBA_SKU, FBA_TOTAL, FBA_UNSELLABLE, FBA_INB_WORK, FBA_INB_SHIP]].copy()
+        sub.columns = ["asin", "sku", "_total", "_unsellable", "_p", "_q"]
+        sub["asin"] = sub["asin"].astype(str).str.strip()
+        sub["sku"]  = sub["sku"].astype(str).str.strip()
+        sub = sub[(sub["asin"] != "") & (sub["asin"].str.lower() != "nan")]
+        for c in ("_total", "_unsellable", "_p", "_q"):
+            sub[c] = pd.to_numeric(sub[c], errors="coerce").fillna(0)
+        sub["fba_soh"]       = (sub["_total"] - sub["_unsellable"]).clip(lower=0).astype(int)
+        sub["fba_intransit"] = (sub["_p"] + sub["_q"]).astype(int)
+        rows.append(sub[["asin", "sku", "fba_soh", "fba_intransit"]])
+    if not rows:
+        return {}
+    combo = pd.concat(rows, ignore_index=True)
+    combo["_freshness"] = combo["fba_soh"] + combo["fba_intransit"]
+    combo = combo.sort_values("_freshness", ascending=False).drop_duplicates(subset=["asin"], keep="first")
+    return {
+        r["asin"]: {"sku": r["sku"], "fba_soh": int(r["fba_soh"]), "fba_intransit": int(r["fba_intransit"])}
+        for _, r in combo.iterrows()
+    }
+
+
+def _load_po_intransit() -> dict[str, int]:
+    """{asin → 1P PO intransit qty} — sum of Accepted quantity across
+    every PO line for the ASIN (Open PO + In-Transit both treated as
+    en-route units, per operator spec)."""
+    files = sorted([p for p in RAW_DIR.glob("In_Transit_PO*.xlsx") if not p.name.startswith("~")])
+    rows = []
+    for f in files:
+        print(f"📥 1P PO file: {f.name}")
         try:
             df = pd.read_excel(f)
         except Exception as e:
-            print(f"  ⚠ failed to read: {e}")
+            print(f"  ⚠ read failed: {e}")
             continue
         df.columns = [str(c).strip() for c in df.columns]
-        if PO_COL_ASIN not in df.columns:
-            print(f"  ⚠ no ASIN column — skipping")
+        if PO_ASIN not in df.columns:
+            print(f"  ⚠ no ASIN column, skipping")
             continue
         if df.empty:
-            print(f"  (empty file — 0 rows)")
+            print(f"  (empty — 0 rows)")
             continue
-        # Pick the qty column — prefer Accepted, fall back to Requested.
-        qty_col = PO_COL_QTY if PO_COL_QTY in df.columns else "Quantity Requested"
-        if qty_col not in df.columns:
-            print(f"  ⚠ no qty column — skipping")
-            continue
-        df["_asin"] = df[PO_COL_ASIN].astype(str).str.strip()
+        qty_col = PO_QTY if PO_QTY in df.columns else "Quantity Requested"
+        df["_asin"] = df[PO_ASIN].astype(str).str.strip()
         df["_qty"]  = pd.to_numeric(df[qty_col], errors="coerce").fillna(0)
-        # No filter on Delivery Status — Open PO + In-Transit are BOTH treated
-        # as "en route", per the operator's spec.
         df = df[(df["_asin"] != "") & (df["_asin"].str.lower() != "nan")]
         rows.append(df[["_asin", "_qty"]])
-
     if not rows:
         return {}
     combo = pd.concat(rows, ignore_index=True)
@@ -149,35 +126,44 @@ def _load_po_files() -> dict[str, int]:
 
 
 def _load_1p_soh() -> dict[tuple[str, str], int]:
-    """{(brand_lower, model_lower) → inventory_units at latest week}
-    from the weekly inventory_model_snapshot."""
-    if not INV_MODEL.exists():
+    """{(brand_lower, model_lower) → 1P channel inventory units at the
+    latest available week}.
+
+    Uses inventory_dashboard.load_all_inventory() so we share the same
+    channel-aware loader the Inventory page already trusts, then filters
+    to channel = '1P'."""
+    try:
+        from weekly_app.routes.inventory_dashboard import load_all_inventory
+    except Exception as e:
+        print(f"⚠ Couldn't import inventory loader: {e}")
         return {}
-    df = pd.read_csv(INV_MODEL)
-    if df.empty or not {"week", "brand", "model", "inventory_units"}.issubset(df.columns):
+    df = load_all_inventory()
+    if df is None or df.empty or "channel" not in df.columns:
         return {}
-    # Pick latest week numerically (Week 1 < Week 20)
-    def _wk_num(w):
-        try: return int(str(w).replace("Week", "").strip())
+
+    def _wk(w):
+        try:    return int(str(w).replace("Week", "").strip())
         except Exception: return -1
-    df["_wk"] = df["week"].apply(_wk_num)
+    df = df.copy()
+    df["_wk"] = df["week"].apply(_wk)
     df = df[df["_wk"] >= 0]
     if df.empty:
         return {}
     latest = int(df["_wk"].max())
-    print(f"📥 1P SOH source: inventory_model_snapshot latest week = Week {latest}")
-    df = df[df["_wk"] == latest].copy()
+    print(f"📥 1P SOH source: load_all_inventory channel = '1P' @ Week {latest}")
+
+    # Filter to 1P channel, latest week
+    df = df[df["_wk"] == latest]
+    df = df[df["channel"].astype(str).str.strip().str.lower() == ONE_P_CHANNEL]
     df["_b"] = df["brand"].astype(str).str.strip().str.lower()
     df["_m"] = df["model"].astype(str).str.strip().str.lower()
     df["_u"] = pd.to_numeric(df["inventory_units"], errors="coerce").fillna(0).astype(int)
-    return {(row["_b"], row["_m"]): row["_u"] for _, row in df.iterrows() if row["_b"] and row["_m"]}
+    g = df.groupby(["_b", "_m"], as_index=False)["_u"].sum()
+    return {(r["_b"], r["_m"]): int(r["_u"]) for _, r in g.iterrows() if r["_b"] and r["_m"]}
 
 
 def _load_master_map() -> dict[str, tuple[str, str, str]]:
-    """{asin → (sku, brand_lower, model_lower)}.  Used to:
-       1. tag each ASIN with its brand so we can pick the right source
-       2. join 1P SOH which is keyed on (brand, model)
-    """
+    """{asin → (sku, brand_lower, model_lower)}."""
     if not MASTER.exists():
         return {}
     m = pd.read_excel(MASTER)
@@ -191,10 +177,11 @@ def _load_master_map() -> dict[str, tuple[str, str, str]]:
         a = str(r.get("asin", "")).strip()
         if not a or a.lower() == "nan":
             continue
-        sku   = str(r.get("sku",   "")).strip()
-        brand = str(r.get("brand", "")).strip()
-        model = str(r.get("model", "")).strip()
-        out[a] = (sku, brand.lower(), model.lower())
+        out[a] = (
+            str(r.get("sku", "")).strip(),
+            str(r.get("brand", "")).strip().lower(),
+            str(r.get("model", "")).strip().lower(),
+        )
     return out
 
 
@@ -207,44 +194,39 @@ def run_inbound_etl() -> int:
         print(f"⚠ Inbound raw folder not found at {RAW_DIR}")
         return 0
 
-    fba          = _load_fba_files()
-    po_lookup    = _load_po_files()
-    one_p_soh    = _load_1p_soh()
+    fba_lookup   = _load_fba()
+    po_lookup    = _load_po_intransit()
+    onep_soh     = _load_1p_soh()
     master_map   = _load_master_map()
 
     print()
-    print(f"   FBA-side ASINs:       {len(fba):,}")
+    print(f"   FBA ASINs:            {len(fba_lookup):,}")
     print(f"   PO file ASINs:        {len(po_lookup):,}")
-    print(f"   1P SOH model entries: {len(one_p_soh):,}")
+    print(f"   1P SOH model entries: {len(onep_soh):,}")
     print(f"   Master ASIN map:      {len(master_map):,}")
     print()
 
-    # Build the per-ASIN final row.  Walk every ASIN we know about from any
-    # source so a 1P-only ASIN (no FBA entry) still gets a row.
-    all_asins: set[str] = set(fba["asin"].tolist()) | set(po_lookup.keys()) | set(master_map.keys())
+    # Union of every ASIN we know about so a 1P-only ASIN that's not in
+    # the FBA file still gets a row.
+    all_asins = set(fba_lookup.keys()) | set(po_lookup.keys()) | set(master_map.keys())
 
     rows = []
     for asin in all_asins:
-        sku, brand_lower, model_lower = master_map.get(asin, ("", "", ""))
-        is_1p = brand_lower in ONE_P_BRANDS
+        sku, brand_l, model_l = master_map.get(asin, ("", "", ""))
+        fba = fba_lookup.get(asin, {})
+        fba_soh       = int(fba.get("fba_soh",       0))
+        fba_intransit = int(fba.get("fba_intransit", 0))
+        one_p_soh     = int(onep_soh.get((brand_l, model_l), 0)) if (brand_l and model_l) else 0
+        po_intransit  = int(po_lookup.get(asin, 0))
 
-        fba_row = fba[fba["asin"] == asin]
-        fba_soh       = int(fba_row["am_soh"].iloc[0])       if not fba_row.empty else 0
-        fba_intransit = int(fba_row["am_intransit"].iloc[0]) if not fba_row.empty else 0
-        fba_sku       = str(fba_row["sku"].iloc[0])          if not fba_row.empty else ""
-
-        if is_1p:
-            am_soh       = one_p_soh.get((brand_lower, model_lower), 0)
-            am_intransit = int(po_lookup.get(asin, 0))
-        else:
-            am_soh       = fba_soh
-            am_intransit = fba_intransit
+        am_soh       = fba_soh + one_p_soh
+        am_intransit = fba_intransit + po_intransit
 
         rows.append({
             "asin":         asin,
-            "sku":          sku or fba_sku,
-            "am_soh":       int(am_soh),
-            "am_intransit": int(am_intransit),
+            "sku":          sku or fba.get("sku", ""),
+            "am_soh":       am_soh,
+            "am_intransit": am_intransit,
         })
 
     if not rows:
@@ -261,7 +243,7 @@ def run_inbound_etl() -> int:
     print(f"   ASINs with SOH > 0:        {int((out['am_soh'] > 0).sum()):,}")
     print(f"   ASINs with Intransit > 0:  {int((out['am_intransit'] > 0).sum()):,}")
 
-    # Per-brand sanity check so the operator can verify routing
+    # Per-brand sanity check
     if master_map:
         out["_brand"] = out["asin"].map(lambda a: master_map.get(a, ("", "", ""))[1])
         by_brand = out.groupby("_brand").agg(
@@ -272,8 +254,7 @@ def run_inbound_etl() -> int:
         print()
         print("   By brand:")
         for b, r in by_brand.iterrows():
-            tag = " (1P)" if b in ONE_P_BRANDS else ""
-            print(f"     {(b or '(unmapped)'):<18}{tag:<6}  {int(r['asins']):>4} ASINs   SOH {int(r['soh']):>6,}   Intransit {int(r['intransit']):>6,}")
+            print(f"     {(b or '(unmapped)'):<18}  {int(r['asins']):>4} ASINs   SOH {int(r['soh']):>7,}   Intransit {int(r['intransit']):>6,}")
     return len(out)
 
 

@@ -42,6 +42,7 @@ PIPELINE = [
     ("margin",     "margin_snapshot.py"),         # reads data/raw/margin/*.xlsx
     ("returns",    "returns_snapshot.py"),        # reads data/raw/returns/*.csv
     ("reviews",    "reviews_snapshot.py"),        # reads data/raw/reviews/*.csv (Helium-10)
+    ("inbound",    "inbound_snapshot.py"),        # reads data/raw/inbound/*.csv (FBA inventory)
 ]
 
 ALIAS = {name: script for name, script in PIPELINE}

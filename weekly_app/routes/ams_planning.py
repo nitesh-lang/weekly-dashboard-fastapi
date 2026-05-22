@@ -36,6 +36,7 @@ INVENTORY   = Path("data/processed/inventory_model_snapshot.csv")
 RAW_INV_DIR = Path("data/raw/inventory")
 NOTES_FILE  = Path("data/processed/ams_planning_notes.json")
 REVIEWS     = Path("data/processed/reviews_snapshot.csv")
+INBOUND     = Path("data/processed/inbound_snapshot.csv")
 
 # SOH thresholds for Inventory Status — tune per operator preference.
 SOH_LOW          = 50
@@ -122,6 +123,29 @@ def _inventory_status(soh: int) -> str:
     return "Overstocked"
 
 
+def _build_inbound_lookup() -> dict[str, dict]:
+    """{asin → {am_soh, am_intransit}} from the FBA inventory snapshot.
+    Empty dict if the snapshot is missing — columns just show 0 / "—" then.
+    """
+    if not INBOUND.exists():
+        return {}
+    try:
+        df = pd.read_csv(INBOUND)
+    except Exception:
+        return {}
+    df["asin"] = df["asin"].astype(str).str.strip()
+    out: dict[str, dict] = {}
+    for _, row in df.iterrows():
+        a = row["asin"]
+        if not a:
+            continue
+        out[a] = {
+            "am_soh":       int(row.get("am_soh", 0) or 0),
+            "am_intransit": int(row.get("am_intransit", 0) or 0),
+        }
+    return out
+
+
 def _build_reviews_lookup() -> dict[str, dict]:
     """{asin → {avg_rating, rating_count}} from the Helium-10-derived snapshot.
     Returns an empty dict if the snapshot is missing — review columns just
@@ -184,6 +208,7 @@ def _build_payload() -> dict:
 
     soh_lookup     = _build_soh_lookup()
     reviews_lookup = _build_reviews_lookup()
+    inbound_lookup = _build_inbound_lookup()
     notes          = _load_notes()
 
     # Fossil isn't part of AMS — exclude it from the planning grid entirely.
@@ -197,6 +222,7 @@ def _build_payload() -> dict:
         soh  = int(soh_lookup.get(sku, 0))
         note = notes.get(sku, {})
         rev  = reviews_lookup.get(asin, {})
+        inb  = inbound_lookup.get(asin, {})
         rows.append({
             "sku":               sku,
             "brand":             r.get("brand", "") or "",
@@ -209,6 +235,8 @@ def _build_payload() -> dict:
             "variation":         r.get("variation", "") or "",
             "variation_asins":   r.get("variation_asins", "") or "",
             "soh":               soh,
+            "am_soh":            int(inb.get("am_soh", 0)),        # sellable Amazon stock (total - unsellable)
+            "am_intransit":      int(inb.get("am_intransit", 0)),  # inbound P + Q (en route to Amazon)
             "inventory_status":  _inventory_status(soh),
             "avg_rating":        rev.get("avg_rating"),     # float | None
             "rating_count":      rev.get("rating_count"),   # int   | None
@@ -232,7 +260,8 @@ def get_ams_planning():
     master_mtime  = SKU_MASTER.stat().st_mtime if SKU_MASTER.exists() else 0
     notes_mtime   = NOTES_FILE.stat().st_mtime if NOTES_FILE.exists() else 0
     reviews_mtime = REVIEWS.stat().st_mtime if REVIEWS.exists() else 0
-    cur = (master_mtime, notes_mtime, reviews_mtime)
+    inbound_mtime = INBOUND.stat().st_mtime if INBOUND.exists() else 0
+    cur = (master_mtime, notes_mtime, reviews_mtime, inbound_mtime)
     if _payload_cache["mtime"] == cur and _payload_cache["body"] is not None:
         return Response(content=_payload_cache["body"], media_type="application/json")
 

@@ -13,6 +13,8 @@ export interface PlanningRow {
     variation: string;
     variation_asins: string;
     soh: number;
+    am_soh:        number;   // sellable Amazon stock = afn-total − afn-unsellable
+    am_intransit:  number;   // inbound to Amazon = afn-inbound-working + afn-inbound-shipped (P + Q)
     inventory_status: "Out of Stock" | "Low" | "Healthy" | "Overstocked" | string;
     avg_rating:   number | null;   // 0–5 from Helium-10 (null = no review data)
     rating_count: number | null;   // total review count (null = no review data)

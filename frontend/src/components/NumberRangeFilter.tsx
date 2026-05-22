@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Filter, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
@@ -28,7 +28,7 @@ interface Props {
  * - When a filter is active, a small × badge appears beside the funnel —
  *   one click clears it without opening the popover.
  */
-export function NumberRangeFilter({ value, onChange, suffix, presets = [1, 5, 10] }: Props) {
+function NumberRangeFilterImpl({ value, onChange, suffix, presets = [1, 5, 10] }: Props) {
     const [open, setOpen]         = useState(false);
     const [draftMin, setDraftMin] = useState<string>(value.min != null ? String(value.min) : "");
     const [draftMax, setDraftMax] = useState<string>(value.max != null ? String(value.max) : "");
@@ -168,3 +168,15 @@ export function NumberRangeFilter({ value, onChange, suffix, presets = [1, 5, 10
         </span>
     );
 }
+
+/**
+ * Memoized export — see ColumnFilter for the same rationale.  Skips re-render
+ * unless the numeric range actually changed; ignores the always-fresh onChange.
+ */
+export const NumberRangeFilter = memo(NumberRangeFilterImpl, (prev, next) => {
+    if (prev.value.min !== next.value.min) return false;
+    if (prev.value.max !== next.value.max) return false;
+    if (prev.suffix !== next.suffix) return false;
+    if (prev.presets !== next.presets) return false;
+    return true;
+});

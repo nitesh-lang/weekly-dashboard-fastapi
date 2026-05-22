@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { Filter, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -28,7 +28,7 @@ interface Props {
  *   one click clears it without ever opening the popover.
  * - Click outside or press Esc to close.
  */
-export function ColumnFilter({ values, selected, onChange }: Props) {
+function ColumnFilterImpl({ values, selected, onChange }: Props) {
     const [open, setOpen]     = useState(false);
     const [search, setSearch] = useState("");
 
@@ -136,3 +136,17 @@ export function ColumnFilter({ values, selected, onChange }: Props) {
         </span>
     );
 }
+
+/**
+ * Memoized export — skips re-render unless `values` or `selected` actually
+ * change.  Parents typically pass a fresh `onChange` arrow function on every
+ * render (because of inline closures over column id), so we ignore that prop
+ * in the equality check.  Without this memo, sorting the SKU table re-rendered
+ * all 14 column-header filter components (each with its own popover tree),
+ * adding ~1-2 s of perceived lag per sort click.
+ */
+export const ColumnFilter = memo(ColumnFilterImpl, (prev, next) => {
+    if (prev.values !== next.values) return false;
+    if (prev.selected !== next.selected) return false;
+    return true;
+});

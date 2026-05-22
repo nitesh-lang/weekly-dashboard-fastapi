@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
+import math
 import re
 import traceback
 import pandas as pd
@@ -630,10 +631,26 @@ def dashboard(
     #    weeks and brands are now derived from the first load above
     # =================================================
     def _safe(v):
+        # NaN / Infinity aren't valid JSON — pandas returns these for empty
+        # columns and Starlette's JSONResponse blows up on them.  Coerce to
+        # null here so the React side just sees a clean missing value.
+        if isinstance(v, float) and (math.isnan(v) or math.isinf(v)):
+            return None
         return str(v) if isinstance(v, (dict, list)) else v
 
     def _sanitize(rows):
         return [{k: _safe(v) for k, v in row.items()} for row in rows]
+
+    def _clean_nan(obj):
+        """Recursively replace NaN / Inf in any nested dict/list with None.
+        Applied to the whole JSON payload before serialization."""
+        if isinstance(obj, dict):
+            return {k: _clean_nan(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [_clean_nan(v) for v in obj]
+        if isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
+            return None
+        return obj
 
     # Send ALL rows in the initial HTML
     all_sku_rows = _sanitize(sku.to_dict("records"))
@@ -646,7 +663,7 @@ def dashboard(
     )
     if wants_json:
         from fastapi.responses import JSONResponse
-        return JSONResponse({
+        return JSONResponse(_clean_nan({
             "kpis":              kpis,
             "kpi_sparks":        kpi_sparks,
             "kpi_deltas":        kpi_deltas,
@@ -663,7 +680,7 @@ def dashboard(
             "selected":          selected,
             "latest_week_label": latest_week_label,
             "generated_at":      generated_at,
-        })
+        }))
 
     template = _jinja_env.get_template("dashboard.html")
     html = template.render(

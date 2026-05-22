@@ -67,9 +67,15 @@ const money = (k: keyof SkuRow): ColumnDef<SkuRow> => ({
     cell: (info) => <span className="tabular text-right block">{fmtINR(info.getValue() as number)}</span>,
 });
 
+// Cap rendered rows to keep React reconciliation + DOM paint fast on sort/filter
+// clicks.  TanStack still sorts + filters the full dataset; we just slice the
+// visible window to the top N.  Operator can "Show all" when they need it.
+const DEFAULT_ROW_LIMIT = 200;
+
 export function SkuTable({ rows }: { rows: SkuRow[] }) {
     const [sorting, setSorting]   = useState<SortingState>([{ id: "total_sales", desc: true }]);
     const [filter, setFilter]     = useState("");
+    const [showAll, setShowAll]   = useState(false);
     // Component-local filter state — URL persistence on this 600+ row table
     // caused noticeable Dashboard lag because useSearchParams updates re-render
     // the entire Dashboard tree (4 charts + spark cards + AMS pivot). Keeping
@@ -215,13 +221,21 @@ export function SkuTable({ rows }: { rows: SkuRow[] }) {
         getSortedRowModel: getSortedRowModel(),
     });
 
+    const sortedRows  = table.getRowModel().rows;
+    const visibleRows = showAll ? sortedRows : sortedRows.slice(0, DEFAULT_ROW_LIMIT);
+    const isCapped    = !showAll && sortedRows.length > DEFAULT_ROW_LIMIT;
+
     return (
         <Card className="overflow-hidden">
             <SectionHeader
                 icon={Package}
                 iconColor="#1e40af"
                 title="Sales by SKU"
-                subtitle={`All channels · ${filtered.length.toLocaleString()} rows`}
+                subtitle={
+                    isCapped
+                        ? `All channels · showing top ${DEFAULT_ROW_LIMIT} of ${filtered.length.toLocaleString()} rows`
+                        : `All channels · ${filtered.length.toLocaleString()} rows`
+                }
                 action={
                     <>
                         <Input
@@ -302,7 +316,7 @@ export function SkuTable({ rows }: { rows: SkuRow[] }) {
                         ))}
                     </thead>
                     <tbody>
-                        {table.getRowModel().rows.map((row) => (
+                        {visibleRows.map((row) => (
                             <tr key={row.id} className="group">
                                 {row.getVisibleCells().map((cell, idx) => {
                                     const isFrozen = idx < FROZEN_COUNT;
@@ -328,6 +342,23 @@ export function SkuTable({ rows }: { rows: SkuRow[] }) {
                     </tbody>
                 </table>
             </div>
+            {isCapped && (
+                <div className="flex items-center justify-center gap-3 px-4 py-3 border-t bg-secondary/30 text-xs"
+                     style={{ color: "#4b5563" }}>
+                    <span>
+                        Showing top <strong className="text-foreground">{DEFAULT_ROW_LIMIT}</strong> of{" "}
+                        <strong className="text-foreground">{filtered.length.toLocaleString()}</strong> rows for fast sort/filter
+                    </span>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowAll(true)}
+                        className="h-7 text-xs"
+                    >
+                        Show all {filtered.length.toLocaleString()}
+                    </Button>
+                </div>
+            )}
         </Card>
     );
 }

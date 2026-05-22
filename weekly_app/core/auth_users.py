@@ -11,13 +11,22 @@ Schema:
     }
   ]
 }
+
+Notes:
+- _load() is wrapped in a short-lived in-memory cache (~30s) because the
+  Google-Drive virtual filesystem on Windows occasionally throws
+  `OSError: [WinError 433] A device which does not exist was specified`
+  when stat'd from a child process.  Without the cache, every login
+  request rolled the dice on that flake.  Auto-invalidated on _save().
 """
 import json
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, Dict, Any
 
 USERS_FILE = Path("data/users.json")
+_CACHE_TTL_SECONDS = 30.0
 
 # Single source of truth for the bootstrap account. seed_user.py and the
 # startup auto-seed in main.py both use these.
@@ -29,18 +38,52 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
+# Cache: (loaded_at_monotonic, data).  None means "never loaded".
+_cache: Optional[tuple] = None
+
+
+def _load_uncached() -> Dict[str, Any]:
+    """Single attempt to load + parse the users file.  Retries the FS call
+    a couple of times to ride out the Google-Drive WinError 433 hiccup.
+    Returns {"users": []} only on hard parse error, never on FS flake."""
+    last_exc: Optional[Exception] = None
+    for attempt in range(3):
+        try:
+            if not USERS_FILE.exists():
+                return {"users": []}
+            return json.loads(USERS_FILE.read_text(encoding="utf-8"))
+        except OSError as e:
+            last_exc = e
+            time.sleep(0.05 * (attempt + 1))   # 50ms, 100ms backoff
+        except Exception:
+            return {"users": []}
+    # All retries failed — surface the FS error so the caller can decide.
+    raise last_exc if last_exc else RuntimeError("users.json unreadable")
+
+
 def _load() -> Dict[str, Any]:
-    if not USERS_FILE.exists():
-        return {"users": []}
+    global _cache
+    now = time.monotonic()
+    if _cache is not None and (now - _cache[0]) < _CACHE_TTL_SECONDS:
+        return _cache[1]
     try:
-        return json.loads(USERS_FILE.read_text(encoding="utf-8"))
+        data = _load_uncached()
     except Exception:
+        # If the file is genuinely unreadable but we have a cached copy,
+        # return the stale one rather than 500ing.  Better than nothing.
+        if _cache is not None:
+            return _cache[1]
         return {"users": []}
+    _cache = (now, data)
+    return data
 
 
 def _save(data: Dict[str, Any]) -> None:
+    global _cache
     USERS_FILE.parent.mkdir(parents=True, exist_ok=True)
     USERS_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    # Invalidate cache so the next _load() picks up the freshly written file.
+    _cache = (time.monotonic(), data)
 
 
 def find_user(email: str) -> Optional[Dict[str, Any]]:

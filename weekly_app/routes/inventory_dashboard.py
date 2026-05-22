@@ -232,7 +232,7 @@ def load_all_inventory():
 # DASHBOARD ROUTE
 # ============================================================
 
-@router.get("/inventory-dashboard", response_class=HTMLResponse)
+# React SPA owns `/inventory-dashboard`; JSON via add_api_route alias below.
 def inventory_dashboard(
     request: Request,
     week: str | None = Query(None),
@@ -334,6 +334,19 @@ def inventory_dashboard(
         for _,r in cs.iterrows()
     ]
 
+    if request.url.path.startswith("/api/"):
+        from fastapi.responses import JSONResponse
+        return JSONResponse({
+            "rows":              rows,
+            "inv_total":         inv_total,
+            "latest_week":       active_week,
+            "kpis":              kpis,
+            "aging":             aging,
+            "channel_summary":   channel_summary,
+            "available_weeks":   available_weeks,
+            "available_brands":  available_brands,
+        })
+
     return HTMLResponse(_env.get_template("inventory_dashboard.html").render(
         request=request,
         rows=rows,
@@ -398,3 +411,8 @@ def inventory_rows_api(
     except Exception:
         import traceback; traceback.print_exc()
         return JSONResponse({"rows": [], "total": 0, "has_more": False})
+
+
+# JSON alias for the React frontend.
+from fastapi.responses import JSONResponse as _JR_INV
+router.add_api_route("/api/inventory-dashboard", inventory_dashboard, methods=["GET"], response_class=_JR_INV)

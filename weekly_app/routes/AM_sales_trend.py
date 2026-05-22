@@ -464,7 +464,7 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
 # ROUTE – AMAZON + 1P ONLY
 # ============================================================
 
-@router.get("/amazon-sales-trend", response_class=HTMLResponse)
+# React SPA owns `/amazon-sales-trend`; JSON via add_api_route alias below.
 def amazon_sales_trend(
     request: Request,
     brand: str = "All",                          # legacy single-brand kept for back-compat
@@ -512,6 +512,17 @@ def amazon_sales_trend(
     display_by_lower = {b.lower().strip(): b for b in all_brands}
     selected_brands_display = [display_by_lower[k] for k in eff_brands_lower if k in display_by_lower]
 
+    if request.url.path.startswith("/api/"):
+        from fastapi.responses import JSONResponse
+        return JSONResponse({
+            "rows":            rows,
+            "weeks":           weeks,
+            "all_weeks":       all_weeks,
+            "brands":          all_brands,
+            "selected_brands": selected_brands_display,
+            "selected_weeks":  sel_weeks or [],
+        })
+
     return HTMLResponse(_env.get_template("sales_trend_amazon.html").render(
         request=request,
         rows=rows,
@@ -522,3 +533,8 @@ def amazon_sales_trend(
         selected_weeks=sel_weeks or [],
         page_title="Amazon + 1P Sales Trend",
     ))
+
+
+# JSON alias for React frontend.
+from fastapi.responses import JSONResponse as _JR_AM
+router.add_api_route("/api/amazon-sales-trend", amazon_sales_trend, methods=["GET"], response_class=_JR_AM)

@@ -1,0 +1,38 @@
+# Render blueprint — single web service, no server-side ETL.
+#
+# ETL workflow: the operator runs scripts/run_weekly_etl.py LOCALLY
+# (which runs all six pipeline scripts in order), commits the produced
+# data/processed/*.csv files, and pushes.  Render just serves them.
+# This keeps the production server stateless and deterministic — what
+# you see on the dashboard is exactly what's in git.
+#
+# Web service builds:
+#   1. The Vite/React SPA bundle → weekly_app/static/spa/
+#   2. Python deps via pip install -r requirements.txt
+#   3. Boots uvicorn (serves /api/* JSON + the SPA shell)
+services:
+  - type: web
+    name: weekly-dashboard
+    runtime: python
+    plan: starter
+    region: singapore        # closest to operator's user base
+    buildCommand: |
+      npm --prefix frontend ci
+      npm --prefix frontend run build
+      pip install -r requirements.txt
+    startCommand: uvicorn weekly_app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: SESSION_SECRET
+        sync: false            # set manually in Render dashboard
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"
+      - key: PYTHONIOENCODING
+        value: "utf-8"
+      - key: NODE_VERSION
+        value: "20"
+      - key: PYTHON_VERSION
+        value: "3.11"

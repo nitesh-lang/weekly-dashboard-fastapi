@@ -1,0 +1,34 @@
+{
+  "marketplace_id": "A21TJRUUN4KGV",
+  "currency": "INR",
+  "brand_display_names": {
+    "nexlev":         "Nexlev",
+    "audio_array":    "Audio Array",
+    "tonor":          "Tonor",
+    "white_mulberry": "White Mulberry"
+  },
+  "ads_profiles": [
+    {
+      "profile_id_env": "ADS_PROFILE_NEXLEV",
+      "source_brand":   "nexlev",
+      "merge_into":     null
+    },
+    {
+      "profile_id_env": "ADS_PROFILE_AUDIOARRAY",
+      "source_brand":   "audio_array",
+      "merge_into":     null,
+      "notes":          "Audio Array profile — Tonor ASINs in here will be split out via sku_master.xlsx"
+    },
+    {
+      "profile_id_env": "ADS_PROFILE_WHITEMULBERRY",
+      "source_brand":   "white_mulberry",
+      "merge_into":     null
+    },
+    {
+      "profile_id_env": "ADS_PROFILE_CAMBIUM",
+      "source_brand":   "cambium_retail",
+      "merge_into":     "white_mulberry",
+      "notes":          "Per operator: Cambium Retail ad spend rolls up into White Mulberry brand bucket"
+    }
+  ]
+}

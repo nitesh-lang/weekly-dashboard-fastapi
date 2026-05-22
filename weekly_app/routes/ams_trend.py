@@ -362,7 +362,7 @@ def get_ams_trend(
 # ==================================================
 # HTML VIEW
 # ==================================================
-@router.get("/view", response_class=HTMLResponse)
+# React SPA owns `/ams-trend`; old Jinja /api/ams/view route disabled.
 def ams_trend_view(request: Request):
     df = load_ams_data()
     all_weeks = sorted(df["week"].dropna().unique().astype(int).tolist())

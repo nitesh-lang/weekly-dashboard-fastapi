@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Request, Query
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 import re
+import traceback
 import pandas as pd
 from pathlib import Path
 import urllib.parse
@@ -34,6 +35,7 @@ templates = Jinja2Templates(env=_jinja_env)
 # =====================================================
 SALES_FILE = Path("data/processed/weekly_sales_snapshot.csv")
 SKU_MASTER = Path("data/master/sku_master.xlsx")
+INVENTORY_FILE = Path("data/processed/inventory_model_snapshot.csv")
 
 # 🔥 ADDITIVE — AMS WEEKLY FACT (READ ONLY)
 AMS_FILE = Path(
@@ -113,7 +115,9 @@ def is_amazon_am(ch: str) -> bool:
 # =====================================================
 # DASHBOARD ROUTE
 # =====================================================
-@router.get("/dashboard", response_class=HTMLResponse)
+# React SPA owns `/dashboard` now; the function below still serves the JSON
+# payload via `router.add_api_route("/api/dashboard", ...)` at the bottom.
+# Old Jinja decorator intentionally removed for the SPA-only routing strategy.
 def dashboard(
     request: Request,
     week: str = None,
@@ -363,11 +367,51 @@ def dashboard(
     if "total_sales" in sku.columns:
         sku = sku.sort_values("total_sales", ascending=False, kind="stable").reset_index(drop=True)
 
+    # =================================================
+    # INVENTORY KPIs (inventory_value + sell_through)
+    # Inventory is a stock snapshot, not a weekly flow, so we use the
+    # LATEST week present in the snapshot regardless of the active_weeks
+    # sales filter.  Brand filter still applies so the KPI matches the
+    # rest of the dashboard's scope.
+    # =================================================
+    inventory_value_total = 0
+    sell_through_pct = 0.0
+    if INVENTORY_FILE.exists():
+        try:
+            inv = _load_csv_cached(INVENTORY_FILE)
+            if not inv.empty:
+                # Use latest available inventory week (data may lag sales).
+                def _wk_num(w):
+                    try:    return int(str(w).replace("Week", "").strip())
+                    except: return -1
+                inv_weeks = sorted(inv["week"].dropna().astype(str).str.strip().unique(),
+                                   key=_wk_num)
+                if inv_weeks:
+                    latest_inv_week = inv_weeks[-1]
+                    inv_latest = inv[inv["week"].astype(str).str.strip() == latest_inv_week].copy()
+
+                    # Apply brand filter so KPI matches the rest of the page.
+                    if active_brands:
+                        inv_latest = inv_latest[
+                            inv_latest["brand"].astype(str).str.strip().isin(active_brands)
+                        ]
+
+                    inventory_value_total = int(inv_latest["inventory_value"].fillna(0).sum())
+                    inv_units_total       = float(inv_latest["inventory_units"].fillna(0).sum())
+                    sold_units_total      = float(sales["units_sold"].fillna(0).sum())
+                    denom = sold_units_total + inv_units_total
+                    if denom > 0:
+                        sell_through_pct = round(sold_units_total / denom * 100, 1)
+        except Exception:
+            # Inventory KPI is non-blocking — fall back to zeros silently
+            # so a corrupt snapshot can't break the whole dashboard.
+            traceback.print_exc()
+
     kpis = {
         "units": int(sales["units_sold"].sum()),
         "gmv": int(total_gmv),
-        "inventory_value": 0,
-        "sell_through": 0,
+        "inventory_value": inventory_value_total,
+        "sell_through": sell_through_pct,
     }
 
     # =================================================
@@ -594,6 +638,33 @@ def dashboard(
     # Send ALL rows in the initial HTML
     all_sku_rows = _sanitize(sku.to_dict("records"))
 
+    # ── React frontend asks for JSON; legacy Jinja flow gets HTML ──
+    wants_json = (
+        request.url.path.startswith("/api/")
+        or "application/json" in (request.headers.get("accept") or "")
+        or request.query_params.get("format") == "json"
+    )
+    if wants_json:
+        from fastapi.responses import JSONResponse
+        return JSONResponse({
+            "kpis":              kpis,
+            "kpi_sparks":        kpi_sparks,
+            "kpi_deltas":        kpi_deltas,
+            "weekly_trend":      weekly_trend,
+            "weekly_all_brands": weekly_all_brands,
+            "brand_mix":         brand_mix,
+            "channel_summary":   _sanitize(channel_summary),
+            "category_summary":  _sanitize(category_summary),
+            "ams_pivot":         _sanitize(ams_pivot),
+            "sku_rows":          all_sku_rows,
+            "sku_total":         len(all_sku_rows),
+            "weeks":             all_week_labels,
+            "brands":            brands_list,
+            "selected":          selected,
+            "latest_week_label": latest_week_label,
+            "generated_at":      generated_at,
+        })
+
     template = _jinja_env.get_template("dashboard.html")
     html = template.render(
         request=request,
@@ -786,3 +857,14 @@ def dashboard_sku_rows_api(
     except Exception:
         import traceback; traceback.print_exc()
         return JSONResponse({"rows": [], "total": 0, "page": page, "has_more": False})
+
+
+# Expose the same dashboard handler at /api/dashboard so the React app can
+# fetch JSON via the Vite proxy without colliding with the browser-facing
+# /dashboard route (which React Router owns client-side).
+router.add_api_route(
+    "/api/dashboard",
+    dashboard,
+    methods=["GET"],
+    response_class=JSONResponse,
+)

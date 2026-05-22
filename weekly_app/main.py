@@ -18,7 +18,13 @@ from weekly_app.routes.dashboard import router as dashboard_router
 from weekly_app.routes.exports import router as export_router
 from weekly_app.routes.drilldown import router as drilldown_router
 from weekly_app.routes.auth import router as auth_router
+from weekly_app.routes.api import router as api_router
 from weekly_app.routes.analytics import router as analytics_router
+from weekly_app.routes.margin import router as margin_router
+from weekly_app.routes.sync_status import router as sync_status_router
+from weekly_app.routes.ams_planning import router as ams_planning_router
+from weekly_app.routes.returns import router as returns_router
+from weekly_app.routes.returns_overview import router as returns_overview_router
 from fastapi.responses import HTMLResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.sessions import SessionMiddleware
@@ -78,6 +84,29 @@ import os
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
 
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.gzip import GZipMiddleware
+
+
+# Cache-Control middleware — long-cache Vite's content-hashed assets so the
+# browser / Render's CDN never re-fetches them.  Hashes change on every
+# rebuild so cache invalidation is automatic.  SPA shell stays no-cache so
+# the operator always gets the latest references.
+class CacheHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        resp = await call_next(request)
+        path = request.url.path
+        if path.startswith("/static/spa/assets/"):
+            resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        elif path == "/static/spa/index.html":
+            resp.headers["Cache-Control"] = "no-cache, must-revalidate"
+        return resp
+
+
+# Compress JSON / HTML responses ≥ 1KB.  No-op for pre-compressed bytes
+# (PNG/JPEG) and a big win for /api/* JSON.
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+app.add_middleware(CacheHeadersMiddleware)
+
 app.mount("/static", StaticFiles(directory="weekly_app/static"), name="static")
 
 templates = Jinja2Templates(directory="weekly_app/templates")
@@ -143,6 +172,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ROUTERS (PRIMARY)
 # --------------------
 app.include_router(auth_router)
+app.include_router(api_router)
 app.include_router(upload_router)
 app.include_router(dashboard_router)
 app.include_router(export_router)
@@ -164,6 +194,20 @@ app.include_router(ai_chat_router)
 
 # ✅ ANALYTICS ROUTER (NEW — Claude-powered cross-module page)
 app.include_router(analytics_router)
+
+# ✅ MARGIN ROUTER — /api/margins JSON for the React frontend
+app.include_router(margin_router)
+
+# ✅ SYNC STATUS — /api/sync-status returns mtimes of processed snapshots
+app.include_router(sync_status_router)
+
+# ✅ AMS PLANNING — /api/ams-planning planning grid + editable notes
+app.include_router(ams_planning_router)
+
+# ✅ RETURNS — /api/returns FBA customer returns per ASIN
+app.include_router(returns_router)
+# ✅ RETURNS OVERVIEW — /api/returns-overview per-ASIN grid from master + returns + sales
+app.include_router(returns_overview_router)
 
 print("✅ upload_router mounted")
 print("✅ dashboard_router mounted")
@@ -188,18 +232,6 @@ app.include_router(sales_viewer_router)
 @app.get("/")
 def root():
     return RedirectResponse("/dashboard")
-
-# =====================================================
-# ✅ AMS ROOT ALIAS (🔥 FIX — ADDITIVE ONLY)
-# =====================================================
-@app.get("/ams-trend", include_in_schema=False)
-def ams_trend_root_alias():
-    """
-    Root-level alias for AMS Trend UI.
-    Keeps router prefix intact.
-    """
-    return RedirectResponse("/api/ams/view")
-
 
 # --------------------
 # HEALTH CHECKS
@@ -305,54 +337,80 @@ from weekly_app.etl.ams_model_snapshot import run_ams_model_etl
 from weekly_app.etl.inventory_model_snapshot import run_inventory_etl
 
 @app.on_event("startup")
-async def auto_run_supporting_etl():
+async def bootstrap_etl_if_needed():
     """
-    AUTO-RUN SUPPORTING ETL ON APP STARTUP
+    Render-side ETL is intentionally disabled.
 
-    ✔ AMS model snapshot
-    ✔ Inventory model snapshot
-    ✔ No UI dependency
-    ✔ Safe to re-run
-    ✅ FIXED: now runs in background thread so server is ready immediately
-       Old version blocked startup — users got timeouts while ETL ran
+    The operator runs the full ETL pipeline locally
+    (scripts/run_weekly_etl.py — six imperative scripts in order) and
+    commits the produced data/processed/*.csv files to git.  Render
+    receives them via normal deploy and serves them directly — no ETL
+    work happens on the server.
+
+    To force a server-side run anyway (e.g., emergency recovery), set
+    FORCE_STARTUP_ETL=1 in the Render env.  This is OFF by default
+    because the operator's local pipeline includes steps beyond what
+    the importable etl.* modules cover (business_ads, step3-5), so
+    running only a subset on the server can produce inconsistent data.
     """
+    if os.environ.get("FORCE_STARTUP_ETL") != "1":
+        print("✅ Render-side ETL disabled — server serves committed snapshots only")
+        return
+
+    print("⚠ FORCE_STARTUP_ETL=1 detected — running fallback ETL subset in background")
+    print("⚠ Note: this only runs the importable subset (ams/inv/sales/ai),")
+    print("⚠ not the full local pipeline.  Use only for emergency recovery.")
 
     async def run_in_background():
         loop = asyncio.get_event_loop()
         executor = ThreadPoolExecutor()
-
-        try:
-            print("🚀 AUTO ETL: Generating AMS model snapshot...")
-            await loop.run_in_executor(executor, run_ams_model_etl)
-            print("✅ AMS model snapshot ready")
-        except Exception:
-            print("❌ AMS MODEL ETL FAILED")
-            traceback.print_exc()
-
-        try:
-            print("🚀 AUTO ETL: Generating Inventory model snapshot...")
-            await loop.run_in_executor(executor, run_inventory_etl)
-            print("✅ Inventory model snapshot ready")
-        except Exception:
-            print("❌ INVENTORY MODEL ETL FAILED")
-            traceback.print_exc()
-
-        try:
-            print("🚀 AUTO ETL: Generating Sales snapshot...")
-            await loop.run_in_executor(executor, run_sales_auto_etl)
-            print("✅ Sales snapshot ready")
-        except Exception:
-            print("❌ SALES AUTO ETL FAILED")
-            traceback.print_exc()
-
+        for label, fn in [
+            ("AMS model",       run_ams_model_etl),
+            ("Inventory model", run_inventory_etl),
+            ("Sales auto",      run_sales_auto_etl),
+        ]:
+            try:
+                print(f"🚀 Fallback ETL: {label}…")
+                await loop.run_in_executor(executor, fn)
+                print(f"✅ {label} ready")
+            except Exception:
+                print(f"❌ {label} ETL FAILED")
+                traceback.print_exc()
         try:
             from weekly_app.etl.build_ai_context import build_ai_context
-            print("🤖 Building AI context JSON...")
+            print("🤖 Building AI context JSON…")
             await loop.run_in_executor(executor, build_ai_context)
             print("✅ AI context ready")
         except Exception:
             print("❌ AI CONTEXT BUILD FAILED")
             traceback.print_exc()
-            
-    # ✅ Fire and forget — server starts accepting requests immediately
+
     asyncio.create_task(run_in_background())
+
+
+# =====================================================
+# REACT SPA CATCH-ALL  (MUST BE LAST)
+# Any GET that didn't match an /api/* route, a /static/* file, a health
+# endpoint, or one of the legacy Jinja viewers falls through here and
+# gets the SPA shell.  React Router takes over from there.
+# =====================================================
+from fastapi.responses import FileResponse, PlainTextResponse
+
+SPA_INDEX = Path("weekly_app/static/spa/index.html")
+
+@app.get("/{full_path:path}", include_in_schema=False)
+async def spa_catchall(full_path: str, request: Request):
+    # Never let the catch-all swallow API or static requests — those
+    # should already match earlier routes, but this is defense-in-depth
+    # in case the SPA bundle isn't built yet.
+    if full_path.startswith("api/") or full_path.startswith("static/"):
+        return PlainTextResponse("Not Found", status_code=404)
+
+    if not SPA_INDEX.exists():
+        return PlainTextResponse(
+            "SPA bundle missing.  Run `npm --prefix frontend run build` first.",
+            status_code=503,
+        )
+    # No-cache the shell so the operator always sees the latest <script src>
+    # references — the bundled JS/CSS itself is hash-named and long-cached.
+    return FileResponse(SPA_INDEX, headers={"Cache-Control": "no-cache, must-revalidate"})

@@ -1,0 +1,527 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────
+   SUPER-SAAS DESIGN SYSTEM
+   Geist single-font, vibrant accent palette, animated gradient mesh,
+   glassmorphic top-bar, lift-on-hover cards, glow focus rings,
+   colored column-group tints, premium typography hierarchy.
+   ───────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --background:             0 0% 100%;
+    --foreground:             224 38% 8%;
+    --card:                   0 0% 100%;
+    --card-foreground:        224 38% 8%;
+    --popover:                0 0% 100%;
+    --popover-foreground:     224 38% 8%;
+    /* Dark navy primary — Tailwind blue-800ish, vibrant but authoritative */
+    --primary:                226 71% 40%;
+    --primary-foreground:     0 0% 100%;
+    --secondary:              220 16% 96%;
+    --secondary-foreground:   224 38% 8%;
+    --muted:                  220 16% 96%;
+    --muted-foreground:       224 14% 36%;
+    --accent:                 226 100% 96%;
+    --accent-foreground:      226 71% 30%;
+    --destructive:            0 72% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --success:                155 64% 32%;
+    --success-foreground:     0 0% 100%;
+    --border:                 220 14% 90%;
+    --input:                  220 14% 88%;
+    --ring:                   226 71% 40%;
+    --radius: 0.55rem;
+
+    /* Accent palette — navy lead + vibrant siblings for charts */
+    --c-navy:    #1e40af;
+    --c-navy-2:  #1e3a8a;
+    --c-blue:    #2563eb;
+    --c-green:   #059669;
+    --c-purple:  #7c3aed;
+    --c-amber:   #d97706;
+    --c-rose:    #be185d;
+    --c-teal:    #0891b2;
+    --c-indigo:  #4f46e5;
+    --c-cyan:    #06b6d4;
+
+    /* Premium shadow stack — slightly cooler tone */
+    --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 2px 4px -1px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 10px 24px -6px rgba(15, 23, 42, 0.10), 0 4px 8px -2px rgba(15, 23, 42, 0.05);
+    --shadow-xl: 0 20px 48px -8px rgba(15, 23, 42, 0.12), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
+    --shadow-glow-primary: 0 0 0 3px rgba(30, 64, 175, 0.14);
+  }
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  * { border-color: hsl(var(--border)); }
+
+  html, body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #0f172a;
+    font-feature-settings: 'cv11', 'ss03';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Page background: a soft navy-led radial mesh — vibrant but quiet. */
+  body {
+    background:
+      radial-gradient(at 12% 6%,  rgba(30, 64, 175, 0.07) 0px, transparent 52%),
+      radial-gradient(at 88% 0%,  rgba(6, 182, 212, 0.05) 0px, transparent 50%),
+      radial-gradient(at 50% 94%, rgba(5, 150, 105, 0.04) 0px, transparent 55%),
+      #f7f9fc;
+    background-attachment: fixed;
+  }
+
+  .tabular { font-variant-numeric: tabular-nums; }
+}
+
+/* ─────────────────────────────────────────────────────────
+   FONT + TEXT-COLOR ENFORCEMENT
+   ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important;
+}
+
+.text-foreground,
+.text-card-foreground,
+.text-popover-foreground,
+.text-secondary-foreground,
+.text-accent-foreground,
+.text-muted-foreground {
+  color: #1a1a1a !important;
+}
+
+/* Headings: graduated hierarchy with letter-spacing tuned for Geist. */
+h1, h2, h3, h4, h5, h6 {
+  color: #0f172a !important;
+  letter-spacing: -0.012em !important;
+  line-height: 1.25 !important;
+}
+h1 {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.024em !important;
+}
+h2, h3 {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+h1.text-2xl, h2.text-2xl, h3.text-2xl { font-size: 20px !important; font-weight: 700 !important; letter-spacing: -0.024em !important; }
+h1.text-xl,  h2.text-xl,  h3.text-xl  { font-size: 17px !important; font-weight: 600 !important; }
+h1.text-lg,  h2.text-lg,  h3.text-lg  { font-size: 15px !important; font-weight: 600 !important; }
+
+p { color: #1a1a1a; }
+
+/* ─────────────────────────────────────────────────────────
+   CARDS — premium feel: shadow-sm rest, shadow-lg + lift on hover.
+   Each Card already has a 3px primary top stripe via card.tsx ::before.
+   ───────────────────────────────────────────────────────── */
+.rounded-lg.border,
+.rounded-md.border,
+.rounded-lg[class*="border"],
+[class*="rounded"][class*="border"] {
+  border-color: #e4e4e7 !important;
+  background-color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s ease;
+}
+.rounded-lg.border:hover,
+[class*="rounded"][class*="border"]:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: #d4d4d8 !important;
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────────────────────
+   TABLES — uniform 14px / 10-12px padding / clean hairlines
+   ───────────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+}
+
+table th {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%) !important;
+  padding: 8px 12px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  border-bottom: 2px solid #1e293b !important;
+  border-top: none !important;
+  white-space: nowrap;
+  position: relative;
+}
+table th:hover { background: linear-gradient(180deg, #eef2f8 0%, #e1e7f0 100%) !important; }
+
+table td {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: #1f2937 !important;
+  padding: 7px 12px !important;
+  border-bottom: 1px solid #ececef !important;
+  border-top: none !important;
+  transition: background-color 0.12s ease;
+}
+
+/* Freeze-boundary divider */
+table th.border-r-2,
+table td.border-r-2 {
+  border-right: 2px solid #c4c4c8 !important;
+}
+
+/* Sticky frozen cells: solid white so rows pass behind cleanly */
+table th[style*="sticky"],
+table td[style*="sticky"],
+table th[style*="position: sticky"],
+table td[style*="position: sticky"],
+table th[style*="position:sticky"],
+table td[style*="position:sticky"] {
+  background-color: #ffffff !important;
+}
+table thead th[style*="sticky"],
+table thead th[style*="position: sticky"],
+table thead th[style*="position:sticky"] {
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%) !important;
+}
+
+/* Row hover — cool blue wash, sticky cells follow */
+table tbody tr.group:hover td,
+table tbody tr:hover td {
+  background-color: #f0f5ff !important;
+}
+table tbody tr.group:hover td[style*="sticky"],
+table tbody tr:hover td[style*="sticky"] {
+  background-color: #f0f5ff !important;
+}
+
+/* TFOOT — TOTAL row, premium gradient */
+table tfoot td {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  background: linear-gradient(180deg, #eef2f8 0%, #dde4ee 100%) !important;
+  border-top: 2px solid #1e40af !important;
+  border-bottom: none !important;
+  padding: 8px 12px !important;
+  position: sticky;
+  bottom: 0;
+}
+
+/* ─────────────────────────────────────────────────────────
+   SKU TABLE — column-group tints
+   Column layout (NLC stripped, Net Margin % added):
+     1-4   Identifier (frozen)             → white
+     5-7   All Channels (Units/Sales/%)    → blue
+     8     Net Margin %                    → rose (profitability — distinct)
+     9-10  Amazon AM    (Units/Sales)      → purple
+     11-12 Amazon 1P    (Units/Sales)      → green
+     13-14 Amazon Total (Units/Sales)      → amber
+   ───────────────────────────────────────────────────────── */
+table.sku-grouped th:nth-child(5),
+table.sku-grouped th:nth-child(6),
+table.sku-grouped th:nth-child(7) {
+  background: linear-gradient(180deg, #eef5ff 0%, #e1ecff 100%) !important;
+  color: #1e3a8a !important;
+  border-left: 1px solid #c7d8ff !important;
+}
+table.sku-grouped td:nth-child(5),
+table.sku-grouped td:nth-child(6),
+table.sku-grouped td:nth-child(7) {
+  background-color: rgba(238, 245, 255, 0.5) !important;
+  border-left: 1px solid #e2eaff !important;
+}
+
+/* Net Margin % — rose band, 2px divider on the left so it visually
+   separates from the All-Channels group. */
+table.sku-grouped th:nth-child(8) {
+  background: linear-gradient(180deg, #fdf2f8 0%, #fbe3ee 100%) !important;
+  color: #9d174d !important;
+  border-left: 2px solid #f5b8db !important;
+}
+table.sku-grouped td:nth-child(8) {
+  background-color: rgba(253, 242, 248, 0.55) !important;
+  border-left: 2px solid #f8d9ed !important;
+}
+
+table.sku-grouped th:nth-child(9),
+table.sku-grouped th:nth-child(10) {
+  background: linear-gradient(180deg, #f5efff 0%, #ebe0ff 100%) !important;
+  color: #5b21b6 !important;
+  border-left: 2px solid #d8c5ff !important;
+}
+table.sku-grouped td:nth-child(9),
+table.sku-grouped td:nth-child(10) {
+  background-color: rgba(245, 239, 255, 0.5) !important;
+  border-left: 1px solid #ece2ff !important;
+}
+table.sku-grouped th:nth-child(9),
+table.sku-grouped td:nth-child(9) {
+  border-left: 2px solid #d8c5ff !important;
+}
+
+table.sku-grouped th:nth-child(11),
+table.sku-grouped th:nth-child(12) {
+  background: linear-gradient(180deg, #ecfdf5 0%, #d8f5e6 100%) !important;
+  color: #064e3b !important;
+  border-left: 1px solid #b6e8d6 !important;
+}
+table.sku-grouped td:nth-child(11),
+table.sku-grouped td:nth-child(12) {
+  background-color: rgba(236, 253, 245, 0.5) !important;
+  border-left: 1px solid #d4f2e7 !important;
+}
+table.sku-grouped th:nth-child(11),
+table.sku-grouped td:nth-child(11) {
+  border-left: 2px solid #b6e8d6 !important;
+}
+
+table.sku-grouped th:nth-child(13),
+table.sku-grouped th:nth-child(14) {
+  background: linear-gradient(180deg, #fff7ed 0%, #ffe9cf 100%) !important;
+  color: #9a3412 !important;
+  border-left: 1px solid #f8d9a0 !important;
+}
+table.sku-grouped td:nth-child(13),
+table.sku-grouped td:nth-child(14) {
+  background-color: rgba(255, 247, 237, 0.5) !important;
+  border-left: 1px solid #fdecc8 !important;
+}
+table.sku-grouped th:nth-child(13),
+table.sku-grouped td:nth-child(13) {
+  border-left: 2px solid #f8d9a0 !important;
+}
+
+/* ─────────────────────────────────────────────────────────
+   GENERIC COLUMN-TINT UTILITIES (used by other tables)
+   ───────────────────────────────────────────────────────── */
+table th.col-sales   { background: linear-gradient(180deg, #ecfdf5 0%, #d8f5e6 100%) !important; color: #064e3b !important; }
+table td.col-sales   { background-color: rgba(236,253,245,0.42) !important; }
+table th.col-units   { background: linear-gradient(180deg, #eef5ff 0%, #e1ecff 100%) !important; color: #1e3a8a !important; }
+table td.col-units   { background-color: rgba(238,245,255,0.42) !important; }
+table th.col-pct     { background: linear-gradient(180deg, #f5efff 0%, #ebe0ff 100%) !important; color: #5b21b6 !important; }
+table td.col-pct     { background-color: rgba(245,239,255,0.42) !important; }
+table th.col-sessions{ background: linear-gradient(180deg, #ecfeff 0%, #cffafe 100%) !important; color: #155e75 !important; }
+table td.col-sessions{ background-color: rgba(236,254,255,0.42) !important; }
+table th.col-conv    { background: linear-gradient(180deg, #fdf2f8 0%, #fbe3ee 100%) !important; color: #9d174d !important; }
+table td.col-conv    { background-color: rgba(253,242,248,0.42) !important; }
+table th.col-summary { background: linear-gradient(180deg, #fff7ed 0%, #ffe9cf 100%) !important; color: #9a3412 !important; }
+table td.col-summary { background-color: rgba(255,247,237,0.5) !important; }
+table th.col-inv     { background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%) !important; color: #334155 !important; }
+table td.col-inv     { background-color: rgba(241,245,249,0.5) !important; }
+table th.col-trend   { background: linear-gradient(180deg, #fefce8 0%, #fef3c7 100%) !important; color: #713f12 !important; }
+table td.col-trend   { background-color: rgba(254,252,232,0.45) !important; }
+
+table th.col-divide-l,
+table td.col-divide-l { border-left: 2px solid #d4d4d8 !important; }
+
+/* ─────────────────────────────────────────────────────────
+   INPUTS — flat with focus glow
+   ───────────────────────────────────────────────────────── */
+input, select, textarea {
+  font-family: 'Geist', sans-serif !important;
+  font-size: 14px !important;
+  color: #1a1a1a !important;
+  border: 1px solid #d4d4d8 !important;
+  background: #ffffff !important;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none !important;
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: var(--shadow-glow-primary) !important;
+}
+input::placeholder { color: #9ca3af !important; }
+
+/* ─────────────────────────────────────────────────────────
+   BUTTONS — Tailwind variant overrides with subtle gradient hover
+   ───────────────────────────────────────────────────────── */
+button {
+  transition: all 0.16s ease;
+}
+button[class*="bg-primary"]:not([class*="bg-primary/"]):not(:disabled):hover {
+  background-color: #1e3a8a !important;
+  box-shadow: 0 4px 12px -2px rgba(30, 64, 175, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────────────────────
+   LINKS — primary color with smooth underline
+   ───────────────────────────────────────────────────────── */
+a[class*="text-primary"] {
+  position: relative;
+  transition: color 0.14s ease;
+}
+a[class*="text-primary"]:hover {
+  color: hsl(var(--primary)) !important;
+}
+
+/* ─────────────────────────────────────────────────────────
+   SCROLLBARS — premium thin style
+   ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+  background-clip: padding-box;
+}
+
+/* ─────────────────────────────────────────────────────────
+   ANIMATIONS — fade-in and skeleton pulse
+   ───────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+[class*="rounded"][class*="border"] {
+  animation: fadeInUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─────────────────────────────────────────────────────────
+   SECTION HEADER UNDERSCORE — gradient rule
+   ───────────────────────────────────────────────────────── */
+.section-divider {
+  height: 2px;
+  background: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.15) 40%, transparent 100%);
+  margin: 4px 0 14px;
+  border: none;
+}
+
+/* ─────────────────────────────────────────────────────────
+   PREMIUM TYPOGRAPHY UTILITIES
+   ───────────────────────────────────────────────────────── */
+.eyebrow {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
+}
+
+/* ─────────────────────────────────────────────────────────
+   KPI CARD — accent top stripe + slim padding
+   ───────────────────────────────────────────────────────── */
+.kpi-card {
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: linear-gradient(90deg, hsl(var(--primary)) 0%, var(--c-cyan) 100%);
+}
+
+/* ─────────────────────────────────────────────────────────
+   NAVIGATION RAIL ACCENT — sidebar item active state
+   ───────────────────────────────────────────────────────── */
+.nav-active-rail {
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.10) 0%, rgba(6, 182, 212, 0.06) 100%);
+  border-left: 2px solid hsl(var(--primary));
+}
+
+/* Massive display numerals — for KPI heroes and stat cards */
+.hero-stat {
+  font-family: 'Geist', sans-serif !important;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.034em;
+  line-height: 1.0;
+  font-variant-numeric: tabular-nums;
+  color: #0f172a;
+}
+.hero-stat-sm {
+  font-family: 'Geist', sans-serif !important;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  color: #0f172a;
+}
+
+/* ─────────────────────────────────────────────────────────
+   SKELETON LOADERS — shimmer animation, no JS
+   ───────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f1f5f9 0%,
+    #e2e8f0 50%,
+    #f1f5f9 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 4px;
+  display: inline-block;
+}
+.skeleton-line   { height: 12px; width: 100%; }
+.skeleton-title  { height: 28px; width: 60%; }
+.skeleton-stat   { height: 48px; width: 70%; }
+.skeleton-row    { height: 36px; width: 100%; margin: 4px 0; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─────────────────────────────────────────────────────────
+   LIVE-DOT PULSE — used in sidebar status pill
+   ───────────────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.65; transform: scale(1.08); }
+}
+
+/* ─────────────────────────────────────────────────────────
+   PAGE-HERO BLOCK — eyebrow / title / subtitle pattern
+   ───────────────────────────────────────────────────────── */
+.page-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e4e7ed;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.page-hero .lead { min-width: 0; }
+.page-hero .title {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.024em !important;
+  color: #0f172a;
+  margin-top: 2px;
+}
+.page-hero .subtitle {
+  font-size: 12.5px;
+  color: #475569;
+  margin-top: 4px;
+  max-width: 540px;
+}

@@ -50,7 +50,7 @@ def format_inr(x):   # 👈 SAME INDENT LEVEL AS extract_week
 # -------------------------------------------------
 # CATEGORY SALES VIEW (L0 → L1 → L2)
 # -------------------------------------------------
-@router.get("/category-sales", response_class=HTMLResponse)
+# React SPA owns `/category-sales`; JSON via add_api_route alias below.
 def category_sales(
     request: Request,
     level: str = "l0",
@@ -166,6 +166,19 @@ def category_sales(
         pd.read_csv(SALES_FILE)["brand"].dropna().apply(norm).unique().tolist()
     )
 
+    if request.url.path.startswith("/api/"):
+        from fastapi.responses import JSONResponse
+        return JSONResponse({
+            "rows":            summary.to_dict("records"),
+            "weeks":           list(available_weeks),
+            "brands":          all_brands,
+            "level":           level,
+            "value":           value,
+            "week":            week,
+            "selected_brands": eff_brands,
+            "sel_weeks":       list(active) if active else [],
+        })
+
     return HTMLResponse(_env.get_template("category_sales.html").render(
         request=request,
         rows=summary.to_dict("records"),
@@ -177,3 +190,8 @@ def category_sales(
         selected_brands=eff_brands,
         sel_weeks=active,
     ))
+
+
+# JSON alias for React frontend.
+from fastapi.responses import JSONResponse as _JR_CAT
+router.add_api_route("/api/category-sales", category_sales, methods=["GET"], response_class=_JR_CAT)

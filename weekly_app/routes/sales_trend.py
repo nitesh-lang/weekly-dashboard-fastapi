@@ -165,7 +165,7 @@ def trend(units):
 # ROUTE
 # ============================================================
 
-@router.get("/sales-trend", response_class=HTMLResponse)
+# React SPA owns `/sales-trend`; JSON via add_api_route alias below.
 def sales_trend(
     request: Request,
     brand: str = "All",                              # legacy single-brand
@@ -288,6 +288,18 @@ def sales_trend(
     all_rows = rows
     trend_total = len(all_rows)
 
+    if request.url.path.startswith("/api/"):
+        from fastapi.responses import JSONResponse
+        return JSONResponse({
+            "rows": all_rows,
+            "trend_total": trend_total,
+            "weeks": weeks,
+            "all_weeks": all_weeks,
+            "brands": all_brands,
+            "selected_brands": selected_brands_display,
+            "selected_weeks": sel_weeks or [],
+        })
+
     return HTMLResponse(_env.get_template("sales_trend_sku.html").render(
         request=request,
         rows=all_rows,
@@ -369,3 +381,8 @@ def sales_trend_rows_api(
     except Exception:
         import traceback; traceback.print_exc()
         return JSONResponse({"rows":[],"total":0,"page":page,"has_more":False})
+
+
+# JSON alias for the React frontend.
+from fastapi.responses import JSONResponse as _JR
+router.add_api_route("/api/sales-trend", sales_trend, methods=["GET"], response_class=_JR)

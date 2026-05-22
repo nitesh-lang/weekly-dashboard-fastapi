@@ -150,7 +150,7 @@ def load_master():
 # =====================================================
 # ---------------- DRILLDOWN ROUTE -------------------
 # =====================================================
-@router.get("/drilldown", response_class=HTMLResponse)
+# React SPA owns `/drilldown`; JSON via add_api_route alias below.
 def drilldown(
     request: Request,
     type: str,
@@ -226,18 +226,30 @@ def drilldown(
     def _sanitize(rows):
         return [{k: _safe(v) for k, v in row.items()} for row in rows]
 
+    def _respond(**ctx):
+        """Returns JSON for /api/drilldown, otherwise the legacy Jinja template."""
+        if request.url.path.startswith("/api/"):
+            from fastapi.responses import JSONResponse
+            return JSONResponse({
+                "week": week, "channel": channel, "brand": brand,
+                "type": type, "level": level, "value": value,
+                **ctx,
+            })
+        return HTMLResponse(_env.get_template("drilldown_sales.html").render(
+            request=request, week=week, channel=channel, brand=brand,
+            available_brands=available_brands,
+            available_weeks=available_weeks,
+            active_weeks=active_weeks,
+            active_brands=active_brands,
+            **ctx,
+        ))
+
     
     # =====================================================
     # EMPTY SAFE RENDER
     # =====================================================
     if base.empty:
-        return HTMLResponse(_env.get_template("drilldown_sales.html").render(
-            request=request, week=week, channel=channel, brand=brand,
-            available_brands=available_brands,
-                available_weeks=available_weeks,
-                active_weeks=active_weeks,
-                active_brands=active_brands, channel_summary=[], sku_channel_rows=[],
-        ))
+        return _respond(channel_summary=[], sku_channel_rows=[])
 
     # =====================================================
     # CHANNEL SUMMARY (UNCHANGED CORE LOGIC)
@@ -366,15 +378,11 @@ def drilldown(
             if export == "csv":
              return csv_response(sku, f"sales_drilldown_{week}.csv")
 
-            return HTMLResponse(_env.get_template("drilldown_sales.html").render(
-                request=request, week=week, channel="ALL", brand=brand,
-                available_brands=available_brands,
-                available_weeks=available_weeks,
-                active_weeks=active_weeks,
-                active_brands=active_brands,
+            channel = "ALL"
+            return _respond(
                 channel_summary=_sanitize(channel_summary),
                 sku_channel_rows=_sanitize(sku.to_dict("records")),
-            ))
+            )
 
         # =================================================
         # AMAZON ONLY (WITH CONTRIBUTION %)
@@ -409,15 +417,11 @@ def drilldown(
             if export == "csv":
              return csv_response(sku, f"sales_drilldown_{week}.csv")
 
-            return HTMLResponse(_env.get_template("drilldown_sales.html").render(
-                request=request, week=week, channel="Amazon", brand=brand,
-                available_brands=available_brands,
-                available_weeks=available_weeks,
-                active_weeks=active_weeks,
-                active_brands=active_brands,
+            channel = "Amazon"
+            return _respond(
                 channel_summary=_sanitize(channel_summary),
                 sku_channel_rows=_sanitize(sku.to_dict("records")),
-            ))
+            )
 
         # =================================================
         # SINGLE NON-AMAZON CHANNEL
@@ -449,15 +453,10 @@ def drilldown(
         if export == "csv":
          return csv_response(sku, f"sales_drilldown_{week}.csv")
 
-        return HTMLResponse(_env.get_template("drilldown_sales.html").render(
-            request=request, week=week, channel=channel, brand=brand,
-            available_brands=available_brands,
-                available_weeks=available_weeks,
-                active_weeks=active_weeks,
-                active_brands=active_brands,
+        return _respond(
             channel_summary=_sanitize(channel_summary),
             sku_channel_rows=_sanitize(sku.to_dict("records")),
-        ))
+        )
 
     # =====================================================
     # CATEGORY DRILLDOWN (MODEL SAFE)
@@ -480,17 +479,18 @@ def drilldown(
 
         sku = round_df(sku)
 
-        return HTMLResponse(_env.get_template("drilldown_sales.html").render(
-            request=request, week=week, channel=f"Category: {value}", brand=brand,
-            available_brands=available_brands,
-                available_weeks=available_weeks,
-                active_weeks=active_weeks,
-                active_brands=active_brands,
+        channel = f"Category: {value}"
+        return _respond(
             channel_summary=_sanitize(channel_summary),
             sku_channel_rows=_sanitize(sku.to_dict("records")),
-        ))
+        )
 
     # =====================================================
     # FALLBACK
     # =====================================================
     return HTMLResponse("Invalid drilldown type", status_code=400)
+
+
+# JSON alias for React frontend.
+from fastapi.responses import JSONResponse as _JR_DRILL
+router.add_api_route("/api/drilldown", drilldown, methods=["GET"], response_class=_JR_DRILL)

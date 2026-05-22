@@ -25,7 +25,8 @@ def _safe_next(value: str | None) -> str | None:
 # =====================================================
 # LOGIN
 # =====================================================
-@router.get("/login", response_class=HTMLResponse)
+# React SPA owns `GET /login`; the JSON POST handler stays for /api/login.
+# Old Jinja form kept in templates/ as fallback (not registered).
 def login_page(
     request: Request,
     error: str | None = None,

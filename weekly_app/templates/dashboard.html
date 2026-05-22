@@ -1,1099 +1,1316 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Weekly Unified Dashboard</title>
+    <title>Weekly · Operator Console</title>
     <base target="_blank" rel="noopener noreferrer">
-    
+
     {% include "_global_head.html" %}
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
+        /* ─────────────────────────────────────────────────────────
+           OPERATOR CONSOLE — sidebar + warm canvas + editorial blocks.
+           Mono labels, oxblood accent, dense info per inch.
+           ───────────────────────────────────────────────────────── */
         :root {
-            /* ── Backgrounds ── */
-            --bg:        #f5f6fa;
-            --bg2:       #ffffff;
-            --bg3:       #f8f9fc;
-            --surface:   #ffffff;
-            --surface2:  #f1f3f8;
+            --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-            /* ── Borders ── */
-            --border:    #e8eaf0;
-            --border2:   #d5d9e6;
+            /* Surfaces */
+            --canvas:        #f7f5f0;   /* main content bg — warm off-white */
+            --canvas-strong: #efece4;
+            --surface:       #ffffff;
+            --surface-2:     #fbf9f4;   /* table heads / footer rows */
+            --surface-tint:  #faf6ed;   /* hero wash */
 
-            /* ── Text — proper black, no grey ── */
-            --text:      #111827;
-            --text2:     #1f2937;
-            --text3:     #374151;
+            /* Ink */
+            --ink:           #0a0a0a;
+            --ink-2:         #2b2a28;
+            --ink-3:         #6e6c66;
+            --ink-mute:      #a59f93;
 
-            /* ── Brand colours — softer, not neon ── */
-            --blue:      #4f6ef7;
-            --blue-dim:  #eef0fe;
-            --purple:    #7c5cbf;
-            --purple-dim:#f3eeff;
-            --green:     #0f9b6e;
-            --green-dim: #ecfdf6;
-            --amber:     #b45309;
-            --amber-dim: #fef3e2;
+            /* Rules */
+            --rule:          #e6e2d6;
+            --rule-strong:   #1a1a1a;
+            --rule-soft:     #efece4;
 
-            /* ── Header — indigo like reference ── */
-            --header-bg: #3d3587;
+            /* Sidebar */
+            --side-bg:       #161210;
+            --side-ink:      #c0b9ac;
+            --side-ink-soft: #6a635a;
+            --side-active:   #f5ecdb;
+            --side-rule:     #2a2320;
 
-            --radius:    10px;
-            --radius-lg: 14px;
-            --mono:      'IBM Plex Mono', monospace;
-            --sans:      'IBM Plex Sans', sans-serif;
+            /* Accent — oxblood */
+            --accent:        #7a1f1f;
+            --accent-2:      #9a2a2a;
+            --accent-soft:   #fbf1ee;
 
-            /* ── Elevation (shadcn-style 2-layer) ── */
-            --shadow-xs: 0 1px 2px 0 rgba(17,24,39,0.05);
-            --shadow-sm: 0 1px 3px 0 rgba(17,24,39,0.06), 0 1px 2px -1px rgba(17,24,39,0.04);
-            --shadow-md: 0 4px 8px -2px rgba(17,24,39,0.06), 0 2px 4px -2px rgba(17,24,39,0.04);
+            /* Semantic */
+            --up:       #0e6b3f;
+            --up-bg:    #e8f3eb;
+            --down:     #8a1818;
+            --down-bg:  #faecec;
+            --flat:     #6e6c66;
+            --flat-bg:  #efece4;
 
-            /* ── Muted neutrals (replaces ad-hoc #6b7280 / #374151) ── */
-            --muted:     #6b7280;
-            --muted-2:   #9ca3af;
-            --muted-bg:  #f3f4f6;
+            /* Legacy aliases — preserve so any external JS or partial CSS
+               that references the old var names doesn't break. */
+            --bg: var(--canvas); --bg2: var(--surface); --bg3: var(--surface);
+            --text: var(--ink-2); --text2: var(--ink-2); --text3: var(--ink-3);
+            --text-strong: var(--ink);
+            --border: var(--rule); --border-2: var(--rule);
+            --blue:#2563eb; --green:#0e6b3f; --purple:#7c3aed; --amber:#a16207;
+            --header-bg: var(--side-bg);
+            --muted: var(--ink-3); --muted-bg: var(--surface-2);
+            --radius: 0; --radius-lg: 0;
+            --shadow-xs: none; --shadow-sm: none; --shadow-md: none;
+            --mono: var(--font-mono); --sans: var(--font-sans);
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); }
 
         body {
-            font-family: var(--sans);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 13px;
-            line-height: 1.5;
+            font-family: var(--font-sans);
+            background: var(--canvas);
+            color: var(--ink-2);
+            font-size: 13.5px;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
-        a { text-decoration: none; color: var(--blue); }
-        a:hover { color: #3451d1; text-decoration: underline; }
+        a { color: var(--ink); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        /* ── STICKY HEADER ── */
-        #sticky-header {
+        /* ── APP SHELL ── persistent sidebar + canvas ── */
+        .app-shell {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: 100vh;
+        }
+
+        /* ── SIDEBAR ── deep oxblood-charcoal, mono labels, single oxblood stripe ── */
+        .sidebar {
+            background: var(--side-bg);
+            color: var(--side-ink);
+            border-right: 1px solid var(--side-rule);
             position: sticky;
             top: 0;
-            z-index: 200;
-            background: var(--bg2);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 1px 6px rgba(0,0,0,0.07);
-        }
-
-        /* Title band — indigo like reference */
-        .header-title {
-            padding: 12px 24px;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 20px 14px 16px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--header-bg);
+            flex-direction: column;
+            font-feature-settings: "ss01";
         }
-
-        .header-title h1 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            gap: 9px;
+        .side-brand {
+            display: flex; align-items: center; gap: 11px;
+            padding: 2px 6px 18px;
+            border-bottom: 1px solid var(--side-rule);
+            margin-bottom: 16px;
         }
-
-        .header-subtitle {
-            font-size: 11px;
-            color: rgba(255,255,255,0.6);
-            font-family: var(--mono);
-            letter-spacing: 0.5px;
-        }
-
-        .live-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: #6ee7b7;
-            box-shadow: 0 0 6px #6ee7b7;
-            display: inline-block;
-            flex-shrink: 0;
-            animation: pulse 2.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%,100% { opacity: 1; transform: scale(1); }
-            50%      { opacity: 0.5; transform: scale(1.3); }
-        }
-
-        /* Nav — slightly lighter indigo strip */
-        .nav-links {
-            padding: 0 24px;
-            background: #4a3f9e;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            height: 34px;
-        }
-
-        .nav-links a {
-            color: rgba(255,255,255,0.72);
-            font-size: 12px;
-            font-weight: 500;
-            padding: 3px 11px;
-            border-radius: 5px;
-            transition: all 0.15s;
-        }
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.14);
+        .side-brand-glyph {
+            width: 30px; height: 30px;
+            background: var(--accent);
             color: #fff;
+            display: grid; place-items: center;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: -0.02em;
+            position: relative;
+        }
+        .side-brand-glyph::after {
+            content: ""; position: absolute; inset: 0;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+        }
+        .side-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .side-brand-name {
+            font-size: 14.5px; font-weight: 500; color: var(--side-active);
+            letter-spacing: -0.005em;
+        }
+        .side-brand-sub {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--side-ink-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 2px;
+        }
+
+        .side-section-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--side-ink-soft);
+            padding: 14px 10px 6px;
+        }
+        .side-nav { display: flex; flex-direction: column; gap: 1px; }
+        .side-nav a {
+            display: flex; align-items: center; gap: 10px;
+            padding: 7px 10px 7px 12px;
+            font-size: 13.5px;
+            color: var(--side-ink);
+            text-decoration: none;
+            transition: background .12s, color .12s, border-color .12s;
+            border-left: 2px solid transparent;
+            margin-left: -2px;
+        }
+        .side-nav a:hover {
+            background: rgba(255,255,255,0.03);
+            color: var(--side-active);
             text-decoration: none;
         }
-        .nav-links .sep {
-            color: rgba(255,255,255,0.25);
-            margin: 0 2px;
-            font-size: 13px;
+        .side-nav a.active {
+            background: rgba(122, 31, 31, 0.18);
+            color: var(--side-active);
+            border-left-color: var(--accent-2);
+            font-weight: 500;
+        }
+        .side-nav .key {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--side-ink-soft);
+            margin-left: auto;
+            letter-spacing: 0.04em;
         }
 
-        /* Filters row — clean white */
-        .filters-row {
-            padding: 8px 24px;
-            background: var(--bg2);
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            flex-wrap: wrap;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .week-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: #eef0fe;
-            border: 1px solid #c7cefc;
-            color: var(--blue);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 20px;
-        }
-
-        .filter-group { display: flex; align-items: center; gap: 7px; }
-        .filter-group label {
-            font-size: 11px;
-            font-weight: 600;
-            color: #111827;
+        .side-foot {
+            margin-top: auto;
+            padding: 14px 10px 4px;
+            border-top: 1px solid var(--side-rule);
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--side-ink-soft);
+            line-height: 1.6;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
+        }
+        .side-foot .pulse {
+            display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+            background: #2ea96b; vertical-align: middle; margin-right: 7px;
+            box-shadow: 0 0 0 0 rgba(46, 169, 107, 0.7);
+            animation: pulse 2.2s infinite;
+        }
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(46, 169, 107, 0.55); }
+            70%  { box-shadow: 0 0 0 6px rgba(46, 169, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 169, 107, 0); }
+        }
+        .side-foot .latest {
+            color: var(--side-active);
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── CANVAS AREA ── */
+        .canvas-area {
+            background: var(--canvas);
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
+
+        /* ── STICKY HEADER ── crumbs row + filter row ── */
+        #sticky-header {
+            background: var(--canvas);
+            border-bottom: 1px solid var(--rule);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .canvas-head-row {
+            display: flex; align-items: center;
+            gap: 18px;
+            padding: 13px 32px;
+            border-bottom: 1px solid var(--rule-soft);
+            min-height: 52px;
+        }
+        .crumbs {
+            display: flex; align-items: center; gap: 9px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.11em;
+            color: var(--ink-3);
+        }
+        .crumbs .sep { color: var(--ink-mute); font-weight: 400; }
+        .crumbs .now { color: var(--ink); font-weight: 500; }
+
+        .head-meta {
+            margin-left: auto;
+            display: flex; align-items: center; gap: 14px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--ink-3);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .head-meta .week-badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 5px 11px;
+            background: var(--ink);
+            color: #fff;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+        }
+        .head-meta .week-badge::before {
+            content: ""; width: 6px; height: 6px;
+            background: var(--accent-2);
+            border-radius: 50%;
+        }
+
+        /* ── FILTER BAR ── */
+        .filterbar {
+            display: flex; align-items: center; gap: 18px;
+            padding: 12px 32px;
+            flex-wrap: wrap;
+        }
+        .filter-group { display: flex; align-items: center; gap: 9px; }
+        .filter-group > label {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            font-weight: 500;
+            color: var(--ink-3);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
         }
         .filter-group select {
-            background: var(--bg3);
-            border: 1px solid var(--border2);
-            color: var(--text);
-            font-size: 12px;
-            padding: 5px 10px;
-            border-radius: 6px;
+            background: var(--surface);
+            border: 1px solid var(--rule);
+            color: var(--ink);
+            font-size: 13px;
+            padding: 6px 28px 6px 12px;
             cursor: pointer;
-            font-family: var(--sans);
             outline: none;
-            transition: border-color 0.15s;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='none' stroke='%231a1a1a' stroke-width='1.4' d='M1 1l4 4 4-4'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 9px center;
+            transition: border-color .12s;
         }
-        .filter-group select:focus { border-color: var(--blue); }
+        .filter-group select:hover, .filter-group select:focus { border-color: var(--ink); }
 
-        /* ── MULTI-WEEK PICKER ── */
-        .week-picker-wrap { position: relative; }
-
-        .week-picker-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            background: var(--bg3);
-            border: 1px solid var(--border2);
-            border-radius: 6px;
-            font-size: 12px;
-            font-family: var(--sans);
-            color: #111827;
+        .picker-wrap { position: relative; }
+        .picker-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 6px 12px;
+            background: var(--surface);
+            border: 1px solid var(--rule);
+            font-size: 13px;
+            color: var(--ink);
             cursor: pointer;
-            min-width: 140px;
-            justify-content: space-between;
-            transition: border-color 0.15s;
-        }
-        .week-picker-btn:hover { border-color: var(--blue); }
-
-        .week-picker-dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            z-index: 500;
-            background: var(--bg2);
-            border: 1px solid var(--border2);
-            border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-            padding: 8px 0 0 0;
             min-width: 160px;
+            justify-content: space-between;
+            transition: border-color .12s;
         }
-        .week-picker-dropdown.open { display: block; }
-
-        .week-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 14px;
-            font-size: 12px;
-            color: #111827;
+        .picker-btn:hover { border-color: var(--ink); }
+        .picker-btn:focus { outline: none; border-color: var(--ink); }
+        .picker-dropdown {
+            display: none;
+            position: absolute; top: calc(100% + 4px); left: 0;
+            z-index: 500;
+            background: var(--surface);
+            border: 1px solid var(--rule-strong);
+            padding: 4px 0 0;
+            min-width: 220px;
+            max-height: 320px;
+            overflow: auto;
+            box-shadow: 0 10px 28px rgba(20, 16, 10, 0.08);
+        }
+        .picker-dropdown.open { display: block; }
+        .picker-option {
+            display: flex; align-items: center; gap: 10px;
+            padding: 7px 14px;
+            font-size: 13px;
+            color: var(--ink-2);
             cursor: pointer;
-            transition: background 0.1s;
         }
-        .week-option:hover { background: var(--blue-dim); }
-        .week-option input[type="checkbox"] {
-            accent-color: var(--header-bg);
-            cursor: pointer;
-        }
-
-        .week-picker-footer {
-            padding: 8px 14px;
-            border-top: 1px solid var(--border);
+        .picker-option:hover { background: var(--canvas); }
+        .picker-option input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+        .picker-footer {
+            padding: 8px 12px;
+            border-top: 1px solid var(--rule);
             margin-top: 4px;
+            position: sticky; bottom: 0; background: var(--surface);
         }
-
-        .week-apply-btn {
+        .picker-apply {
             width: 100%;
-            padding: 5px 0;
-            background: var(--header-bg);
+            padding: 7px 0;
+            background: var(--ink);
             color: #fff;
             border: none;
-            border-radius: 5px;
-            font-size: 12px;
-            font-family: var(--sans);
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .week-apply-btn:hover { background: #4a3f9e; }
-
-        /* ── KPI BAR ── white card strip */
-        .kpi-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .kpi {
-            padding: 18px 24px 16px;
-            position: relative;
-            background: var(--bg2);
-        }
-
-        .kpi-label {
-            font-size: 10.5px;
-            font-weight: 600;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            margin-bottom: 6px;
-        }
-        .kpi-value {
-            font-family: var(--mono);
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            color: var(--text);
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* ── MAIN ── */
-        .main-content { padding: 24px 28px 80px; }
-
-        /* ── SECTION HEADER — clean label-over-content style ── */
-        .section-header {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            margin: 28px 0 12px;
-        }
-        .section-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: -0.1px;
-        }
-        .section-actions { display: flex; gap: 8px; align-items: center; }
-
-        .btn-ghost {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text2);
+            font-family: var(--font-mono);
             font-size: 11.5px;
             font-weight: 500;
-            transition: all 0.15s;
-            background: var(--bg2);
-            box-shadow: var(--shadow-xs);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .picker-apply:hover { background: var(--accent); }
+        .filter-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            border: 1px solid var(--rule-strong);
+            color: var(--ink);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            padding: 4px 10px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ── MAIN ── auto-numbered editorial blocks ── */
+        .main {
+            padding: 28px 32px 64px;
+            max-width: 1680px;
+            counter-reset: block;
+        }
+
+        /* ── HERO KPI ZONE ── asymmetric 1.4:1 split, single framed rectangle ── */
+        .hero-kpis {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            background: var(--surface);
+            border: 1px solid var(--rule-strong);
+            margin-bottom: 38px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-kpis::before {
+            /* warm wash + soft oxblood glow in upper-left */
+            content: ""; position: absolute; inset: 0;
+            background:
+                radial-gradient(85% 70% at 0% 0%, rgba(122, 31, 31, 0.05), transparent 55%),
+                linear-gradient(135deg, var(--surface-tint) 0%, var(--surface) 60%);
+            pointer-events: none;
+        }
+        .hero-primary {
+            position: relative;
+            padding: 28px 32px 26px;
+            border-right: 1px solid var(--rule-strong);
+            display: flex; flex-direction: column;
+        }
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+        .hero-eyebrow .sep { color: var(--ink-mute); margin: 0 6px; }
+        .hero-number {
+            font-family: var(--font-sans);
+            font-size: 52px;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.04;
+            letter-spacing: -0.028em;
+            margin: 12px 0 14px;
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum", "ss01";
+        }
+        .hero-meta {
+            display: flex; align-items: center; gap: 14px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            letter-spacing: 0.02em;
+        }
+        .hero-delta {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 3px 10px;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .hero-delta.up    { color: var(--up);   background: var(--up-bg); }
+        .hero-delta.down  { color: var(--down); background: var(--down-bg); }
+        .hero-delta.flat  { color: var(--flat); background: var(--flat-bg); }
+        .hero-delta.up::before   { content: "▲"; font-size: 9px; }
+        .hero-delta.down::before { content: "▼"; font-size: 9px; }
+        .hero-delta.flat::before { content: "→"; font-size: 9px; }
+        .hero-context {
+            color: var(--ink-3);
+            font-size: 11.5px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .hero-spark {
+            margin-top: auto;
+            padding-top: 22px;
+            height: 88px;
+            position: relative;
+        }
+        .hero-spark canvas { width: 100% !important; height: 66px !important; }
+
+        .hero-secondary {
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            position: relative;
+        }
+        .kpi-tile {
+            padding: 18px 26px;
+            border-bottom: 1px solid var(--rule);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 14px;
+            align-items: center;
+        }
+        .kpi-tile:last-child { border-bottom: none; }
+        .kpi-tile-label {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--ink-3);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 6px;
+        }
+        .kpi-tile-num {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.1;
+            letter-spacing: -0.018em;
+            font-variant-numeric: tabular-nums;
+        }
+        .kpi-tile-delta {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 5px;
+            padding: 2px 8px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .kpi-tile-delta.up   { color: var(--up); background: var(--up-bg); }
+        .kpi-tile-delta.down { color: var(--down); background: var(--down-bg); }
+        .kpi-tile-delta.flat { color: var(--flat); background: var(--flat-bg); }
+        .kpi-tile-delta.up::before   { content: "▲"; font-size: 8px; }
+        .kpi-tile-delta.down::before { content: "▼"; font-size: 8px; }
+        .kpi-tile-delta.flat::before { content: "→"; font-size: 8px; }
+        .kpi-tile-spark { width: 84px; height: 32px; }
+        .kpi-tile-spark canvas { width: 100% !important; height: 100% !important; }
+
+        /* legacy compat — keep id-targeted classes around but invisible */
+        .kpi-bar { display: contents; }
+
+        /* ── EDITORIAL BLOCKS ── numbered section pattern ── */
+        .content-block { margin-bottom: 36px; }
+        .block-head {
+            display: flex; align-items: baseline; gap: 16px;
+            border-bottom: 1px solid var(--ink);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+        .block-num {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.14em;
+        }
+        .block-num::before {
+            counter-increment: block;
+            content: counter(block, decimal-leading-zero) " —";
+        }
+        .block-title {
+            font-family: var(--font-sans);
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--ink);
+            letter-spacing: -0.018em;
+            margin: 0;
+        }
+        .block-sub {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            color: var(--ink-3);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .block-actions {
+            margin-left: auto;
+            display: flex; gap: 8px; align-items: center;
+        }
+        /* old section-head styling shim, in case any partial uses it */
+        .section-head { display: flex; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--ink); padding-bottom: 10px; margin: 28px 0 16px; }
+        .section-title { font-size: 17px; font-weight: 500; color: var(--ink); }
+        .section-sub { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-3); margin-left: 8px; letter-spacing: 0.05em; text-transform: uppercase; }
+        .section-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+        /* ── BUTTONS ── */
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid var(--rule);
+            background: var(--surface);
+            color: var(--ink);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            transition: border-color .12s, color .12s, background .12s;
         }
         .btn-ghost:hover {
-            border-color: var(--text3);
-            color: var(--text);
-            background: var(--surface2);
+            border-color: var(--ink);
+            background: var(--surface-tint);
             text-decoration: none;
         }
 
-        /* ── SPARK CARDS ── */
+        /* ── PANELS / CARDS ── */
+        .card-flat, .panel {
+            background: var(--surface);
+            border: 1px solid var(--rule);
+            padding: 22px 24px;
+        }
+
+        /* ── TREND CHART ── */
+        .trend-canvas-wrap { position: relative; height: 280px; }
+        .trend-toggle {
+            display: inline-flex;
+            border: 1px solid var(--rule);
+            background: var(--surface);
+        }
+        .trend-toggle button {
+            border: none;
+            background: transparent;
+            padding: 6px 13px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--ink-3);
+            cursor: pointer;
+            border-right: 1px solid var(--rule);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: background .12s, color .12s;
+        }
+        .trend-toggle button:hover { color: var(--ink); background: var(--surface-tint); }
+        .trend-toggle button:last-child { border-right: none; }
+        .trend-toggle button.active {
+            background: var(--ink);
+            color: #fff;
+        }
+        .trend-legend {
+            margin-top: 14px;
+            display: flex; gap: 22px;
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            color: var(--ink-2);
+            flex-wrap: wrap;
+            letter-spacing: 0.02em;
+        }
+        .trend-legend .dot {
+            display: inline-block;
+            width: 10px; height: 10px;
+            margin-right: 7px;
+            vertical-align: -1px;
+            background: var(--ink);
+        }
+
+        /* ── BRAND MIX ── */
+        .brand-mix-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+        .brand-mix-canvas-wrap { height: 230px; position: relative; }
+        .brand-mix-list { font-size: 13px; }
+        .brand-mix-list .row {
+            display: grid;
+            grid-template-columns: 28px 14px 1fr auto auto;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        .brand-mix-list .row:last-child { border-bottom: none; }
+        .brand-mix-list .rank {
+            font-family: var(--font-mono);
+            color: var(--ink-mute);
+            font-size: 11px;
+            letter-spacing: 0.06em;
+        }
+        .brand-mix-list .swatch {
+            width: 12px; height: 12px;
+            background: var(--ink);
+        }
+        .brand-mix-list .name {
+            color: var(--ink);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 13.5px;
+            letter-spacing: -0.005em;
+        }
+        .brand-mix-list .pct {
+            font-family: var(--font-mono);
+            color: var(--ink);
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+            font-size: 12.5px;
+        }
+        .brand-mix-list .gmv {
+            font-family: var(--font-mono);
+            color: var(--ink-3);
+            font-variant-numeric: tabular-nums;
+            font-size: 12px;
+        }
+
+        /* ── CHANNEL SPARK CARDS ── */
         .spark-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
+            background: var(--surface);
+            border: 1px solid var(--rule);
+        }
+        .spark-card {
+            background: var(--surface);
+            border-right: 1px solid var(--rule);
+            padding: 18px 22px;
+        }
+        .spark-card:last-child { border-right: none; }
+        .spark-card .label {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--ink-3);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
             margin-bottom: 8px;
         }
-
-        .spark-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px 18px 14px;
-            box-shadow: var(--shadow-xs);
-            transition: box-shadow 0.15s, border-color 0.15s;
-        }
-        .spark-card:hover {
-            box-shadow: var(--shadow-sm);
-            border-color: var(--border2);
-        }
-
-        .spark-card-label {
-            font-size: 10.5px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: var(--muted);
-            margin-bottom: 6px;
-        }
-        .spark-card-value {
-            font-family: var(--sans);
-            font-size: 19px;
-            font-weight: 600;
-            color: var(--text);
-            letter-spacing: -0.4px;
+        .spark-card .value {
+            font-size: 22px; font-weight: 600;
+            color: var(--ink);
             font-variant-numeric: tabular-nums;
-            margin-bottom: 2px;
+            letter-spacing: -0.018em;
         }
-        .spark-card-sub {
+        .spark-card .sub {
+            font-family: var(--font-mono);
             font-size: 11px;
-            color: var(--muted);
-            margin-bottom: 10px;
+            color: var(--ink-3);
+            margin: 4px 0 12px;
+            letter-spacing: 0.04em;
         }
-        canvas.spark { width: 100% !important; height: 44px !important; display: block; }
+        canvas.spark { width: 100% !important; height: 40px !important; display: block; }
 
-        /* ── TABLE WRAPPERS ── */
-        .table-wrapper {
+        /* ── TABLES ── mono header / sans body / oxblood total rule ── */
+        .table-wrapper, .table-wrapper-sm {
             overflow: auto;
-            max-height: 65vh;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            background: var(--bg2);
+            background: var(--surface);
+            border: 1px solid var(--rule);
         }
-        .table-wrapper-sm {
-            overflow: auto;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            background: var(--bg2);
-        }
+        .table-wrapper { max-height: 68vh; }
 
-        /* ── TABLE BASE ── */
         table {
             border-collapse: separate;
             border-spacing: 0;
             width: max-content;
             min-width: 100%;
+            background: var(--surface);
         }
-
         th, td {
-            padding: 8px 14px;
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--ink-2);
+            background: var(--surface);
+            padding: 10px 14px;
             text-align: right;
             white-space: nowrap;
-            border-bottom: 1px solid var(--border);
-            border-right: 1px solid var(--border);
-            background: var(--bg2);
-            color: var(--text2);
+            border-bottom: 1px solid var(--rule);
         }
-
         th {
-            background: var(--surface2);
-            color: var(--muted);
+            font-family: var(--font-mono);
             font-size: 10.5px;
-            font-weight: 600;
+            font-weight: 500;
+            color: var(--ink-3);
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--ink);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.1em;
+            padding: 11px 14px;
         }
-
         td:first-child, th:first-child,
         td:nth-child(2), th:nth-child(2),
-        td:nth-child(3), th:nth-child(3) { text-align: left; }
+        td:nth-child(3), th:nth-child(3),
+        td:nth-child(4), th:nth-child(4) { text-align: left; }
 
-        td:nth-child(n+4) {
-            font-family: var(--mono);
-            font-size: 11px;
-            color: var(--text);
-        }
-
-        tbody tr:nth-child(even) td { background: #fafbfd; }
-        tbody tr:hover td { background: #eef0fe !important; color: #3d3587 !important; }
+        tbody tr:hover td { background: var(--surface-tint); }
 
         tfoot td {
-            font-family: var(--mono);
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text) !important;
-            background: #f0f1fb !important;
+            font-family: var(--font-mono);
+            font-weight: 500;
+            color: var(--ink);
+            background: var(--surface-2);
+            border-top: 1px solid var(--accent);
+            border-bottom: none;
             position: sticky;
             bottom: 0;
             z-index: 2;
-            border-top: 2px solid var(--border2);
+            font-size: 12px;
+            letter-spacing: 0.02em;
         }
 
-        /* ── SKU TABLE FREEZE ── */
-        .sku-table thead th {
-            position: sticky;
-            top: 0;
-            z-index: 3;
-            border-bottom: 2px solid var(--border2);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-            background: #f4f5fb !important;
-        }
+        /* SKU TABLE — frozen left cols */
+        .sku-table thead th { position: sticky; top: 0; z-index: 3; background: var(--surface-2); }
 
-        /* Frozen left columns: SKU, Model, ASIN, Category */
         .sku-table th:nth-child(1), .sku-table td:nth-child(1) {
-            position: sticky; left: 0; z-index: 2;
-            min-width: 108px;
-            border-right: 1px solid var(--border2);
+            position: sticky; left: 0; z-index: 2; min-width: 110px; background: var(--surface);
         }
         .sku-table th:nth-child(2), .sku-table td:nth-child(2) {
-            position: sticky; left: 108px; z-index: 2;
-            min-width: 95px;
+            position: sticky; left: 110px; z-index: 2; min-width: 100px; background: var(--surface);
         }
         .sku-table th:nth-child(3), .sku-table td:nth-child(3) {
-            position: sticky; left: 203px; z-index: 2;
-            min-width: 110px;
+            position: sticky; left: 210px; z-index: 2; min-width: 110px; background: var(--surface);
         }
         .sku-table th:nth-child(4), .sku-table td:nth-child(4) {
-            position: sticky; left: 313px; z-index: 2;
-            min-width: 150px;
-            border-right: 2px solid var(--border2);
+            position: sticky; left: 320px; z-index: 2; min-width: 160px; background: var(--surface);
+            border-right: 1px solid var(--rule-strong);
         }
-
         .sku-table thead th:nth-child(1),
         .sku-table thead th:nth-child(2),
         .sku-table thead th:nth-child(3),
-        .sku-table thead th:nth-child(4) { z-index: 5; }
+        .sku-table thead th:nth-child(4) { z-index: 5; background: var(--surface-2); }
 
-        tfoot td:nth-child(1) { position: sticky; left: 0;    z-index: 4; }
-        tfoot td:nth-child(2) { position: sticky; left: 108px; z-index: 4; }
-        tfoot td:nth-child(3) { position: sticky; left: 203px; z-index: 4; }
-        tfoot td:nth-child(4) { position: sticky; left: 313px; z-index: 4; }
+        .sku-table tbody tr:hover td,
+        .sku-table tbody tr:hover td:nth-child(1),
+        .sku-table tbody tr:hover td:nth-child(2),
+        .sku-table tbody tr:hover td:nth-child(3),
+        .sku-table tbody tr:hover td:nth-child(4) { background: var(--surface-tint); }
 
-        /* ── COL GROUP BANDS — pastel, not saturated ──
-           (col indices shifted +1 since ASIN now lives at col 3) */
-        .sku-table th:nth-child(5),.sku-table th:nth-child(6),
-        .sku-table th:nth-child(7),.sku-table th:nth-child(8) {
-            color: #3451c7; background: #eef1fd; border-left: 2px solid #c7d0f8;
-        }
-        .sku-table td:nth-child(5),.sku-table td:nth-child(6),
-        .sku-table td:nth-child(7),.sku-table td:nth-child(8) {
-            border-left: 1px solid #e4e8fb;
-        }
-        .sku-table th:nth-child(9),.sku-table th:nth-child(10),
-        .sku-table th:nth-child(11) {
-            color: #6040a8; background: #f3eeff; border-left: 2px solid #d8c9f5;
-        }
-        .sku-table td:nth-child(9),.sku-table td:nth-child(10),
-        .sku-table td:nth-child(11) { border-left: 1px solid #ece5fa; }
+        tfoot td:nth-child(1) { position: sticky; left: 0;    z-index: 4; background: var(--surface-2); }
+        tfoot td:nth-child(2) { position: sticky; left: 110px; z-index: 4; background: var(--surface-2); }
+        tfoot td:nth-child(3) { position: sticky; left: 210px; z-index: 4; background: var(--surface-2); }
+        tfoot td:nth-child(4) { position: sticky; left: 320px; z-index: 4; background: var(--surface-2); border-right: 1px solid var(--rule-strong); }
 
-        .sku-table th:nth-child(12),.sku-table th:nth-child(13),
-        .sku-table th:nth-child(14) {
-            color: #0a6e4e; background: #edfaf5; border-left: 2px solid #b6e8d6;
-        }
-        .sku-table td:nth-child(12),.sku-table td:nth-child(13),
-        .sku-table td:nth-child(14) { border-left: 1px solid #d4f2e7; }
+        td:nth-child(n+5) { font-variant-numeric: tabular-nums; }
 
-        .sku-table th:nth-child(15),.sku-table th:nth-child(16),
-        .sku-table th:nth-child(17) {
-            color: #92400e; background: #fef5e7; border-left: 2px solid #f8d9a0;
-        }
-        .sku-table td:nth-child(15),.sku-table td:nth-child(16),
-        .sku-table td:nth-child(17) { border-left: 1px solid #fdecc8; }
-
-        /* ── SIMPLE TABLES ── */
         .simple-table { min-width: unset; width: 100%; }
-        .simple-table th { background: #f4f5fb; }
-        .simple-table td { color: var(--text); }
-        .simple-table td:first-child { color: var(--blue); font-weight: 500; }
 
-        /* ── TWO-COL ── */
+        /* Two-column layout */
         .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 20px;
         }
 
-        /* ── AMS ── */
-        .ams-table th { color: #92400e; background: #fef5e7; }
-
-        /* ── KPI TILE — shadcn-style ── */
-        .kpi { padding: 20px 24px 18px; min-width: 0; }
-        .kpi-row { display: block; }
-        .kpi-num {
-            font-family: var(--sans);
-            font-size: 32px !important;
-            font-weight: 600;
-            letter-spacing: -0.8px;
-            line-height: 1.1;
-            color: var(--text);
-            font-variant-numeric: tabular-nums;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .kpi-spark-wrap {
-            width: 100%;
-            height: 36px;
-            margin-top: 10px;
-            opacity: 0.85;
-            position: relative;
-        }
-        .kpi-spark-wrap canvas { width: 100% !important; height: 100% !important; }
-
-        /* Delta as pill chip — matches Linear / Vercel */
-        .kpi-delta {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
+        /* Collapsible summaries */
+        details.summaries { margin-top: 28px; }
+        details.summaries summary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 14px;
+            font-family: var(--font-mono);
             font-size: 11px;
-            font-weight: 600;
-            margin-top: 8px;
-            padding: 2px 8px;
-            border-radius: 999px;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: -0.1px;
-            line-height: 1.4;
-        }
-        .kpi-delta.up   { color: #047857; background: #ecfdf5; }
-        .kpi-delta.down { color: #b91c1c; background: #fef2f2; }
-        .kpi-delta.flat { color: var(--muted); background: var(--muted-bg); }
-
-        /* ── HEADER SUBTITLE / FRESHNESS ── */
-        .freshness {
-            font-family: var(--mono);
-            font-size: 11px;
-            color: rgba(255,255,255,0.65);
-            margin-left: 8px;
-        }
-
-        /* ── WEEKLY TREND CHART ── */
-        .trend-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 22px 26px 24px;
-            margin-bottom: 18px;
-            box-shadow: var(--shadow-sm);
-        }
-        .trend-card .trend-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .trend-card .trend-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-            letter-spacing: -0.1px;
-        }
-        .trend-card .trend-sub {
-            font-size: 11.5px;
-            color: var(--muted);
-            font-family: var(--mono);
-            margin-left: 8px;
-            font-variant-numeric: tabular-nums;
-        }
-        .trend-toggle {
-            display: inline-flex;
-            background: var(--muted-bg);
-            border-radius: 8px;
-            padding: 3px;
-            gap: 2px;
-        }
-        .trend-toggle button {
-            border: none;
-            background: transparent;
-            padding: 5px 12px;
-            font-size: 11.5px;
             font-weight: 500;
-            color: var(--muted);
-            border-radius: 6px;
+            color: var(--ink);
+            background: var(--surface);
+            border: 1px solid var(--rule);
             cursor: pointer;
-            font-family: inherit;
-            transition: all 0.12s;
+            list-style: none;
+            user-select: none;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
-        .trend-toggle button:hover:not(.active) { color: var(--text); }
-        .trend-toggle button.active {
-            background: var(--bg2);
-            color: var(--text);
-            font-weight: 600;
-            box-shadow: var(--shadow-xs);
-        }
-        .trend-canvas-wrap {
-            position: relative;
-            height: 300px;
-        }
-        .trend-legend {
-            margin-top: 14px;
-            display: flex;
-            gap: 18px;
-            font-size: 11.5px;
-            color: var(--text3);
-        }
-        .trend-legend .dot {
+        details.summaries summary::-webkit-details-marker { display: none; }
+        details.summaries summary::before {
+            content: "▸";
             display: inline-block;
-            width: 10px; height: 10px;
-            border-radius: 2px;
-            margin-right: 5px;
-            vertical-align: middle;
+            font-size: 10px;
+            color: var(--accent);
+            transition: transform 0.12s;
         }
+        details.summaries[open] summary::before { transform: rotate(90deg); }
+        details.summaries[open] summary { margin-bottom: 16px; border-color: var(--ink); }
 
-        /* ── BRAND MIX DONUT ── */
-        .brand-mix-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 22px 26px;
-            margin-bottom: 18px;
-            box-shadow: var(--shadow-sm);
-        }
-        .brand-mix-grid {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 24px;
-            align-items: center;
-        }
-        .brand-mix-canvas-wrap { height: 200px; position: relative; }
-        .brand-mix-list { font-size: 12px; }
-        .brand-mix-list .row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px dashed #e8eaf0;
-        }
-        .brand-mix-list .row:last-child { border-bottom: none; }
-        .brand-mix-list .label { display: flex; align-items: center; gap: 8px; }
-        .brand-mix-list .swatch {
-            width: 10px; height: 10px;
-            border-radius: 2px;
-            display: inline-block;
-        }
-        .brand-mix-list .pct {
-            font-family: var(--mono);
-            font-weight: 700;
-            color: #111827;
-        }
-
-        /* ── SCROLLBAR ── */
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #d1d5e8; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a0a8c8; }
+        ::-webkit-scrollbar-thumb { background: var(--rule); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--ink-mute); }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--side-rule); }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: var(--side-ink-soft); }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .app-shell { grid-template-columns: 1fr; }
+            .sidebar { position: relative; height: auto; flex-direction: row; flex-wrap: wrap; padding: 12px 18px; }
+            .side-brand { border-bottom: none; padding: 0; margin: 0; }
+            .side-section-label { display: none; }
+            .side-nav { flex-direction: row; flex-wrap: wrap; flex: 1; justify-content: flex-end; gap: 2px; }
+            .side-nav a { border-left: none; border-bottom: 2px solid transparent; padding: 6px 10px; }
+            .side-nav a.active { border-left: none; border-bottom-color: var(--accent-2); }
+            .side-foot { display: none; }
+            .hero-kpis { grid-template-columns: 1fr; }
+            .hero-primary { border-right: none; border-bottom: 1px solid var(--rule-strong); }
+            .hero-secondary { grid-template-rows: auto; grid-template-columns: 1fr 1fr 1fr; }
+            .hero-secondary .kpi-tile { border-bottom: none; border-right: 1px solid var(--rule); }
+            .hero-secondary .kpi-tile:last-child { border-right: none; }
+        }
+        @media (max-width: 900px) {
+            .spark-grid { grid-template-columns: 1fr 1fr; }
+            .spark-card:nth-child(2) { border-right: none; }
+            .two-col { grid-template-columns: 1fr; }
+            .brand-mix-grid { grid-template-columns: 1fr; }
+            .main { padding: 22px 18px 48px; }
+            .canvas-head-row, .filterbar { padding: 12px 18px; }
+            .hero-secondary { grid-template-columns: 1fr; }
+            .hero-secondary .kpi-tile { border-right: none; border-bottom: 1px solid var(--rule); }
+            .hero-number { font-size: 40px; }
+        }
     </style>
 </head>
 <body>
 
-<!-- STICKY HEADER -->
-<div id="sticky-header">
-    <div class="header-title">
-        <h1><span class="live-dot"></span> Weekly Unified Dashboard
-            <span class="freshness">· latest: {{ latest_week_label }} · generated {{ generated_at }}</span>
-        </h1>
-        <span class="header-subtitle">AUTO · WEEKLY</span>
-    </div>
+<div class="app-shell">
 
-    <nav class="nav-links">
-        <a href="/sales-trend">📈 Sales Trend</a>
-        <span class="sep">|</span>
-        <a href="/amazon-sales-trend">🛒 Amazon + 1P</a>
-        <span class="sep">|</span>
-        <a href="/category-sales">🧩 Category</a>
-        <span class="sep">|</span>
-        <a href="/inventory-dashboard">📦 Inventory</a>
-        <span class="sep">|</span>
-        <a href="/analytics">📊 Analytics</a>
-        <span class="sep">|</span>
-        <a href="/ams-trend">📣 AMS</a>
-    </nav>
-
-    <form method="get" id="filterForm" target="_self" class="filters-row">
-        {% if selected.weeks_display %}
-        <div class="week-badge">✅ {{ selected.weeks_display }}</div>
-        {% elif selected.week %}
-        <div class="week-badge">✅ {{ selected.week }}</div>
-        {% endif %}
-
-        <div class="filter-group">
-            <label>Weeks</label>
-            <div class="week-picker-wrap">
-                <button type="button" class="week-picker-btn" onclick="toggleWeekPicker()">
-                    <span id="week-picker-label">
-                        {% if selected.weeks %}{{ selected.weeks | join(', ') }}{% elif selected.week %}{{ selected.week }}{% else %}All Weeks{% endif %}
-                    </span>
-                    ▾
-                </button>
-                <div class="week-picker-dropdown" id="weekPickerDropdown">
-                    <label class="week-option">
-                        <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> <b>All</b>
-                    </label>
-                    {% for w in weeks %}
-                    <label class="week-option">
-                        <input type="checkbox" name="weeks" value="{{ w }}"
-                            {% if selected.weeks and w in selected.weeks %}checked{% elif selected.week == w %}checked{% endif %}
-                            onchange="updateWeekLabel()">
-                        {{ w }}
-                    </label>
-                    {% endfor %}
-                    <div class="week-picker-footer">
-                        <button type="button" class="week-apply-btn" onclick="applyWeeks()">Apply</button>
-                    </div>
-                </div>
+    <!-- ────────── SIDEBAR ────────── -->
+    <aside class="sidebar">
+        <div class="side-brand">
+            <div class="side-brand-glyph">W</div>
+            <div class="side-brand-text">
+                <div class="side-brand-name">Weekly</div>
+                <div class="side-brand-sub">Operator Console</div>
             </div>
         </div>
-        <div class="filter-group">
-            <label>Brands</label>
-            <div class="week-picker-wrap">
-                <button type="button" class="week-picker-btn" onclick="toggleBrandPicker()">
-                    <span id="brand-picker-label">
-                        {% if selected.brands and selected.brands | length == 1 %}{{ selected.brands[0] }}
-                        {% elif selected.brands and selected.brands | length <= 3 %}{{ selected.brands | join(', ') }}
-                        {% elif selected.brands %}{{ selected.brands | length }} brands selected
-                        {% else %}All Brands
+
+        <div class="side-section-label">Reports</div>
+        <nav class="side-nav">
+            <a href="/dashboard" class="active">Overview</a>
+            <a href="/sales-trend">Sales Trend</a>
+            <a href="/amazon-sales-trend">Amazon + 1P</a>
+            <a href="/category-sales">Category</a>
+        </nav>
+
+        <div class="side-section-label">Operations</div>
+        <nav class="side-nav">
+            <a href="/inventory-dashboard">Inventory</a>
+            <a href="/ams-trend">AMS</a>
+            <a href="/analytics">Analytics</a>
+        </nav>
+
+        <div class="side-foot">
+            <span class="pulse"></span>Pipeline live<br>
+            <span class="latest">{{ latest_week_label }}</span>
+        </div>
+    </aside>
+
+    <!-- ────────── CANVAS ────────── -->
+    <main class="canvas-area">
+
+        <!-- HEADER -->
+        <div id="sticky-header">
+
+            <div class="canvas-head-row">
+                <nav class="crumbs">
+                    <span>Nexlev</span>
+                    <span class="sep">/</span>
+                    <span>Weekly</span>
+                    <span class="sep">/</span>
+                    <span class="now">Overview</span>
+                </nav>
+                <div class="head-meta">
+                    <span class="week-badge">{{ latest_week_label }}</span>
+                </div>
+            </div>
+
+            <form method="get" id="filterForm" target="_self" class="filterbar">
+                {% if selected.weeks_display %}
+                <div class="filter-badge">{{ selected.weeks_display }}</div>
+                {% elif selected.week %}
+                <div class="filter-badge">{{ selected.week }}</div>
+                {% endif %}
+
+                <div class="filter-group">
+                    <label>Weeks</label>
+                    <div class="picker-wrap">
+                        <button type="button" class="picker-btn" onclick="toggleWeekPicker()">
+                            <span id="week-picker-label">
+                                {% if selected.weeks %}{{ selected.weeks | join(', ') }}{% elif selected.week %}{{ selected.week }}{% else %}All Weeks{% endif %}
+                            </span>
+                            <span>▾</span>
+                        </button>
+                        <div class="picker-dropdown" id="weekPickerDropdown">
+                            <label class="picker-option">
+                                <input type="checkbox" id="wk-all" onchange="toggleAllWeeks(this)"> All weeks
+                            </label>
+                            {% for w in weeks %}
+                            <label class="picker-option">
+                                <input type="checkbox" name="weeks" value="{{ w }}"
+                                    {% if selected.weeks and w in selected.weeks %}checked{% elif selected.week == w %}checked{% endif %}
+                                    onchange="updateWeekLabel()">
+                                {{ w }}
+                            </label>
+                            {% endfor %}
+                            <div class="picker-footer">
+                                <button type="button" class="picker-apply" onclick="applyWeeks()">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Brands</label>
+                    <div class="picker-wrap">
+                        <button type="button" class="picker-btn" onclick="toggleBrandPicker()">
+                            <span id="brand-picker-label">
+                                {% if selected.brands and selected.brands | length == 1 %}{{ selected.brands[0] }}
+                                {% elif selected.brands and selected.brands | length <= 3 %}{{ selected.brands | join(', ') }}
+                                {% elif selected.brands %}{{ selected.brands | length }} brands
+                                {% else %}All Brands
+                                {% endif %}
+                            </span>
+                            <span>▾</span>
+                        </button>
+                        <div class="picker-dropdown" id="brandPickerDropdown">
+                            <label class="picker-option">
+                                <input type="checkbox" id="br-all" onchange="toggleAllBrands(this)"> All brands
+                            </label>
+                            {% for b in brands %}
+                            <label class="picker-option">
+                                <input type="checkbox" name="brands" value="{{ b }}"
+                                    {% if selected.brands and b in selected.brands %}checked{% endif %}
+                                    onchange="updateBrandLabel()">
+                                {{ b }}
+                            </label>
+                            {% endfor %}
+                            <div class="picker-footer">
+                                <button type="button" class="picker-apply" onclick="applyBrands()">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>View</label>
+                    <select name="view" onchange="autoRefresh()">
+                        <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
+                        <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main">
+
+            <!-- ── HERO KPI ── one dominant GMV figure + 3 supporting tiles -->
+            <section class="hero-kpis">
+                <div class="hero-primary">
+                    <div class="hero-eyebrow">
+                        Gross Merchandise Value<span class="sep">·</span>{{ latest_week_label }}
+                    </div>
+                    <div class="hero-number fmt-kpi-inr" id="kpi-gmv" data-val="{{ kpis.gmv }}">
+                        ₹ {{ kpis.gmv }}
+                    </div>
+                    <div class="hero-meta">
+                        {% if kpi_deltas.gmv is not none %}
+                        <span class="hero-delta {% if kpi_deltas.gmv > 0 %}up{% elif kpi_deltas.gmv < 0 %}down{% else %}flat{% endif %}">
+                            {{ '%+.1f' | format(kpi_deltas.gmv) }}% WoW
+                        </span>
                         {% endif %}
-                    </span>
-                    ▾
-                </button>
-                <div class="week-picker-dropdown" id="brandPickerDropdown">
-                    <label class="week-option">
-                        <input type="checkbox" id="br-all" onchange="toggleAllBrands(this)"> <b>All</b>
-                    </label>
-                    {% for b in brands %}
-                    <label class="week-option">
-                        <input type="checkbox" name="brands" value="{{ b }}"
-                            {% if selected.brands and b in selected.brands %}checked{% endif %}
-                            onchange="updateBrandLabel()">
-                        {{ b }}
-                    </label>
+                        <span class="hero-context">8-week trend</span>
+                    </div>
+                    <div class="hero-spark"><canvas id="kspark-gmv"></canvas></div>
+                </div>
+
+                <div class="hero-secondary">
+                    <div class="kpi-tile">
+                        <div>
+                            <div class="kpi-tile-label">Units Sold</div>
+                            <div class="kpi-tile-num" id="kpi-units">{{ kpis.units | int }}</div>
+                            {% if kpi_deltas.units is not none %}
+                            <div class="kpi-tile-delta {% if kpi_deltas.units > 0 %}up{% elif kpi_deltas.units < 0 %}down{% else %}flat{% endif %}">
+                                {{ '%+.1f' | format(kpi_deltas.units) }}%
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="kpi-tile-spark"><canvas id="kspark-units"></canvas></div>
+                    </div>
+
+                    <div class="kpi-tile">
+                        <div>
+                            <div class="kpi-tile-label">NLC Sold</div>
+                            <div class="kpi-tile-num fmt-kpi-inr" id="kpi-nlc" data-val="{{ kpi_sparks.nlc[-1] if kpi_sparks.nlc else 0 }}">
+                                ₹ {{ kpi_sparks.nlc[-1] if kpi_sparks.nlc else 0 }}
+                            </div>
+                            {% if kpi_deltas.nlc is not none %}
+                            <div class="kpi-tile-delta {% if kpi_deltas.nlc > 0 %}up{% elif kpi_deltas.nlc < 0 %}down{% else %}flat{% endif %}">
+                                {{ '%+.1f' | format(kpi_deltas.nlc) }}%
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="kpi-tile-spark"><canvas id="kspark-nlc"></canvas></div>
+                    </div>
+
+                    <div class="kpi-tile">
+                        <div>
+                            <div class="kpi-tile-label">Inventory Value</div>
+                            <div class="kpi-tile-num fmt-kpi-inr" id="kpi-inv" data-val="{{ kpis.inventory_value }}">
+                                ₹ {{ kpis.inventory_value }}
+                            </div>
+                            <div class="kpi-tile-delta flat">Sell-through {{ kpis.sell_through }}%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── BLOCK: WEEKLY SALES TREND ── -->
+            <section class="content-block">
+                <header class="block-head">
+                    <span class="block-num"></span>
+                    <h2 class="block-title">Weekly Sales Trend</h2>
+                    <span class="block-sub" id="trendSub">last 12 weeks</span>
+                    <div class="block-actions">
+                        <div class="trend-toggle" id="trendToggle">
+                            <button data-n="4">4w</button>
+                            <button data-n="8">8w</button>
+                            <button data-n="12" class="active">12w</button>
+                            <button data-n="0">All</button>
+                        </div>
+                    </div>
+                </header>
+                <div class="panel">
+                    <div class="trend-canvas-wrap"><canvas id="weeklyTrendChart"></canvas></div>
+                    <div class="trend-legend" id="trendLegend"></div>
+                </div>
+            </section>
+
+            {% if brand_mix and brand_mix | length > 1 %}
+            <!-- ── BLOCK: BRAND MIX ── -->
+            <section class="content-block">
+                <header class="block-head">
+                    <span class="block-num"></span>
+                    <h2 class="block-title">Sales by Brand</h2>
+                    {% if selected.weeks_display %}
+                    <span class="block-sub">{{ selected.weeks_display }}</span>
+                    {% endif %}
+                </header>
+                <div class="panel">
+                    <div class="brand-mix-grid">
+                        <div class="brand-mix-canvas-wrap"><canvas id="brandMixChart"></canvas></div>
+                        <div class="brand-mix-list" id="brandMixList"></div>
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- ── BLOCK: CHANNEL DISTRIBUTION ── -->
+            <section class="content-block">
+                <header class="block-head">
+                    <span class="block-num"></span>
+                    <h2 class="block-title">Channel Distribution</h2>
+                    <span class="block-sub">{{ selected.week or 'all weeks' }}</span>
+                </header>
+                <div class="spark-grid">
+                    <div class="spark-card">
+                        <div class="label">Units by Channel</div>
+                        <div class="value" id="sv-units">—</div>
+                        <div class="sub" id="ss-units">top channel</div>
+                        <canvas class="spark" id="spark-units"></canvas>
+                    </div>
+                    <div class="spark-card">
+                        <div class="label">GMV by Channel</div>
+                        <div class="value" id="sv-gmv">—</div>
+                        <div class="sub" id="ss-gmv">top channel</div>
+                        <canvas class="spark" id="spark-gmv"></canvas>
+                    </div>
+                    <div class="spark-card">
+                        <div class="label">NLC by Channel</div>
+                        <div class="value" id="sv-nlc">—</div>
+                        <div class="sub" id="ss-nlc">across channels</div>
+                        <canvas class="spark" id="spark-nlc"></canvas>
+                    </div>
+                    <div class="spark-card">
+                        <div class="label">Category Mix</div>
+                        <div class="value" id="sv-cat">—</div>
+                        <div class="sub" id="ss-cat">by GMV share</div>
+                        <canvas class="spark" id="spark-cat"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            {% if ams_pivot %}
+            <!-- ── BLOCK: AMS TREND ── -->
+            <section class="content-block">
+                <header class="block-head">
+                    <span class="block-num"></span>
+                    <h2 class="block-title">AMS Trend</h2>
+                    <div class="block-actions">
+                        <a class="btn-ghost" href="/ams-trend">Full AMS view →</a>
+                    </div>
+                </header>
+                <div class="table-wrapper-sm">
+                    <table>
+                        <thead><tr>
+                            <th>Week</th><th>Ad Spend</th><th>Attributed Sales</th><th>Sessions</th><th>ACOS</th>
+                        </tr></thead>
+                        <tbody>
+                        {% for r in ams_pivot %}
+                        <tr>
+                            <td>{{ r.week }}</td>
+                            <td class="fmt-inr-cell" data-val="{{ r.ad_spend }}">₹ {{ r.ad_spend }}</td>
+                            <td class="fmt-inr-cell" data-val="{{ r.attributed_sales }}">₹ {{ r.attributed_sales }}</td>
+                            <td>{{ r.sessions | int }}</td>
+                            <td>{{ "%.2f"|format(r.acos * 100) }}%</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- ── BLOCK: SKU PERFORMANCE ── -->
+            <section class="content-block">
+                <header class="block-head">
+                    <span class="block-num"></span>
+                    <h2 class="block-title">Sales by SKU — All Channels</h2>
+                    <span class="block-sub">{{ sku_rows | length }} rows{% if sku_total and sku_total > (sku_rows | length) %} of {{ sku_total }}{% endif %}</span>
+                    <div class="block-actions">
+                        <a class="btn-ghost" href="/export/dashboard-sku?{% for w in selected.weeks %}weeks={{ w | urlencode }}&amp;{% endfor %}brand={{ selected.brand | urlencode }}&amp;view={{ selected.view }}">↓ CSV</a>
+                        <a class="btn-ghost" target="_self" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">Channel Drilldown →</a>
+                    </div>
+                </header>
+
+                <div class="table-wrapper">
+                    <table class="sku-table"
+                      data-xl
+                      data-xl-frozen="4"
+                      data-xl-totals="4,5,6,7,8,9,10,11,12,13,14,15,16,17"
+                      data-xl-heat="7"
+                      data-xl-key="dashboard-sku-v3"
+                      data-api-url="/api/dashboard/sku-rows"
+                      data-api-params="week={{ selected.week }}&brand={{ selected.brand }}&view={{ selected.view }}"
+                      data-total-rows="{{ sku_total }}"
+                      data-loaded-rows="{{ sku_rows | length }}"
+                      data-col-keys='["sku","model_no","asin","category_l0","total_units","total_sales","total_nlc","sales_contribution_pct","amazon_am_units","amazon_am_sales","amazon_am_nlc","amazon_1p_units","amazon_1p_sales","amazon_1p_nlc","amazon_total_units","amazon_total_sales","amazon_total_nlc"]'>
+                    <thead>
+                        <tr>
+                            <th>SKU</th><th>Model</th><th>ASIN</th><th>Category</th>
+                            <th>All Ch. Units</th><th>All Ch. Sales</th><th>All Ch. NLC</th><th>% Contrib</th>
+                            <th>AM Units</th><th>AM Sales</th><th>AM NLC</th>
+                            <th>1P Units</th><th>1P Sales</th><th>1P NLC</th>
+                            <th>Amz Units</th><th>Amz Sales</th><th>Amz NLC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for r in sku_rows %}
+                    <tr>
+                        <td>{{ r.sku }}</td>
+                        <td>{{ r.model_no }}</td>
+                        <td>{{ r.asin }}</td>
+                        <td>{{ r.category_l0 }}</td>
+                        <td>{{ r.total_units | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.total_sales }}">₹ {{ r.total_sales }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.total_nlc }}">₹ {{ r.total_nlc }}</td>
+                        <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+                        <td>{{ r.amazon_am_units | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.amazon_am_sales }}">₹ {{ r.amazon_am_sales }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.amazon_am_nlc }}">₹ {{ r.amazon_am_nlc }}</td>
+                        <td>{{ r.amazon_1p_units | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.amazon_1p_sales }}">₹ {{ r.amazon_1p_sales }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.amazon_1p_nlc }}">₹ {{ r.amazon_1p_nlc }}</td>
+                        <td>{{ r.amazon_total_units | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.amazon_total_sales }}">₹ {{ r.amazon_total_sales }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ r.amazon_total_nlc }}">₹ {{ r.amazon_total_nlc }}</td>
+                    </tr>
                     {% endfor %}
-                    <div class="week-picker-footer">
-                        <button type="button" class="week-apply-btn" onclick="applyBrands()">Apply</button>
-                    </div>
+                    </tbody>
+                    <tfoot><tr>
+                        <td colspan="4" style="text-align:left">Total</td>
+                        <td>{{ sku_rows | sum(attribute='total_units') | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_sales') }}">₹ {{ sku_rows | sum(attribute='total_sales') }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_nlc') }}">₹ {{ sku_rows | sum(attribute='total_nlc') }}</td>
+                        <td>100%</td>
+                        <td>{{ sku_rows | sum(attribute='amazon_am_units') | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_am_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_am_sales') }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_am_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_am_nlc') }}</td>
+                        <td>{{ sku_rows | sum(attribute='amazon_1p_units') | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_1p_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_1p_sales') }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_1p_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_1p_nlc') }}</td>
+                        <td>{{ sku_rows | sum(attribute='amazon_total_units') | int }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_total_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_total_sales') }}</td>
+                        <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_total_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_total_nlc') }}</td>
+                    </tr></tfoot>
+                    </table>
                 </div>
-            </div>
-        </div>
-        <div class="filter-group">
-            <label>View</label>
-            <select name="view" onchange="autoRefresh()">
-                <option value="mapped" {% if selected.view == "mapped" %}selected{% endif %}>Mapped Only</option>
-                <option value="all" {% if selected.view == "all" %}selected{% endif %}>Include Unmapped</option>
-            </select>
-        </div>
-    </form>
+            </section>
 
-    <div class="kpi-bar">
-        <div class="kpi">
-            <div class="kpi-label">Units Sold</div>
-            <div class="kpi-row">
+            <!-- CHANNEL + CATEGORY SUMMARY — collapsed; SKU table gets focus -->
+            <details class="summaries">
+            <summary>Show channel + category summaries</summary>
+            <div class="two-col">
                 <div>
-                    <div class="kpi-num" id="kpi-units">{{ kpis.units | int }}</div>
-                    {% if kpi_deltas.units is not none %}
-                    <div class="kpi-delta {% if kpi_deltas.units > 0 %}up{% elif kpi_deltas.units < 0 %}down{% else %}flat{% endif %}">
-                        {% if kpi_deltas.units > 0 %}▲{% elif kpi_deltas.units < 0 %}▼{% else %}→{% endif %}
-                        {{ '%+.1f' | format(kpi_deltas.units) }}% vs prior week
+                    <header class="block-head">
+                        <h2 class="block-title">Channel Summary</h2>
+                        <div class="block-actions">
+                            <a class="btn-ghost" href="/export/channel-summary?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">↓ CSV</a>
+                        </div>
+                    </header>
+                    <div class="table-wrapper-sm">
+                        <table class="simple-table">
+                        <thead><tr>
+                            <th style="text-align:left">Channel</th><th>Units</th><th>GMV</th><th>NLC</th><th>% Contrib</th>
+                        </tr></thead>
+                        <tbody>
+                        {% for r in channel_summary %}
+                        <tr>
+                            <td><a target="_self" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}&amp;channel={{ r.channel | urlencode }}">{{ r.channel }}</a></td>
+                            <td>{{ r.units_sold | int }}</td>
+                            <td class="fmt-inr-cell" data-val="{{ r.gmv }}">₹ {{ r.gmv }}</td>
+                            <td class="fmt-inr-cell" data-val="{{ r.sales_nlc }}">₹ {{ r.sales_nlc }}</td>
+                            <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                        </table>
                     </div>
-                    {% endif %}
                 </div>
-                <div class="kpi-spark-wrap"><canvas id="kspark-units"></canvas></div>
-            </div>
-        </div>
-        <div class="kpi">
-            <div class="kpi-label">GMV</div>
-            <div class="kpi-row">
+
                 <div>
-                    <div class="kpi-num fmt-kpi-inr" id="kpi-gmv" data-val="{{ kpis.gmv }}">₹ {{ kpis.gmv }}</div>
-                    {% if kpi_deltas.gmv is not none %}
-                    <div class="kpi-delta {% if kpi_deltas.gmv > 0 %}up{% elif kpi_deltas.gmv < 0 %}down{% else %}flat{% endif %}">
-                        {% if kpi_deltas.gmv > 0 %}▲{% elif kpi_deltas.gmv < 0 %}▼{% else %}→{% endif %}
-                        {{ '%+.1f' | format(kpi_deltas.gmv) }}% vs prior week
+                    <header class="block-head">
+                        <h2 class="block-title">Category Summary</h2>
+                        <div class="block-actions">
+                            <a class="btn-ghost" href="/export/category-summary?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">↓ CSV</a>
+                        </div>
+                    </header>
+                    <div class="table-wrapper-sm">
+                        <table class="simple-table">
+                        <thead><tr>
+                            <th style="text-align:left">Category (L0)</th><th>Units</th><th>GMV</th><th>% Contrib</th>
+                        </tr></thead>
+                        <tbody>
+                        {% for r in category_summary %}
+                        <tr>
+                            <td><a target="_self" href="/category-sales?category={{ r.category_l0 | urlencode }}{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">{{ r.category_l0 }}</a></td>
+                            <td>{{ r.units_sold | int }}</td>
+                            <td class="fmt-inr-cell" data-val="{{ r.gross_sales }}">₹ {{ r.gross_sales }}</td>
+                            <td>{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                        </table>
                     </div>
-                    {% endif %}
-                </div>
-                <div class="kpi-spark-wrap"><canvas id="kspark-gmv"></canvas></div>
-            </div>
-        </div>
-        <div class="kpi">
-            <div class="kpi-label">NLC Sold</div>
-            <div class="kpi-row">
-                <div>
-                    <div class="kpi-num fmt-kpi-inr" id="kpi-nlc" data-val="{{ kpi_sparks.nlc[-1] if kpi_sparks.nlc else 0 }}">
-                        ₹ {{ kpi_sparks.nlc[-1] if kpi_sparks.nlc else 0 }}
-                    </div>
-                    {% if kpi_deltas.nlc is not none %}
-                    <div class="kpi-delta {% if kpi_deltas.nlc > 0 %}up{% elif kpi_deltas.nlc < 0 %}down{% else %}flat{% endif %}">
-                        {% if kpi_deltas.nlc > 0 %}▲{% elif kpi_deltas.nlc < 0 %}▼{% else %}→{% endif %}
-                        {{ '%+.1f' | format(kpi_deltas.nlc) }}% vs prior week
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="kpi-spark-wrap"><canvas id="kspark-nlc"></canvas></div>
-            </div>
-        </div>
-        <div class="kpi">
-            <div class="kpi-label">Inventory Value</div>
-            <div class="kpi-row">
-                <div>
-                    <div class="kpi-num fmt-kpi-inr" id="kpi-inv" data-val="{{ kpis.inventory_value }}">
-                        ₹ {{ kpis.inventory_value }}
-                    </div>
-                    <div class="kpi-delta flat">Sell-through {{ kpis.sell_through }}%</div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            </details>
 
-<!-- MAIN -->
-<div class="main-content">
-
-    <!-- WEEKLY SALES TREND CHART -->
-    <div class="trend-card">
-        <div class="trend-head">
-            <div>
-                <span class="trend-title">📈 Weekly Sales Trend</span>
-                <span class="trend-sub" id="trendSub">— last 12 weeks</span>
-            </div>
-            <div class="trend-toggle" id="trendToggle">
-                <button data-n="4">4w</button>
-                <button data-n="8">8w</button>
-                <button data-n="12" class="active">12w</button>
-                <button data-n="0">All</button>
-            </div>
         </div>
-        <div class="trend-canvas-wrap">
-            <canvas id="weeklyTrendChart"></canvas>
-        </div>
-        <div class="trend-legend" id="trendLegend"></div>
-    </div>
-
-    {% if brand_mix and brand_mix | length > 1 %}
-    <!-- BRAND MIX DONUT -->
-    <div class="brand-mix-card">
-        <div class="section-header" style="padding:0 0 10px 0; margin:0; border:0;">
-            <div class="section-title">🏷️ Sales by Brand — {{ selected.weeks_display }}</div>
-        </div>
-        <div class="brand-mix-grid">
-            <div class="brand-mix-canvas-wrap"><canvas id="brandMixChart"></canvas></div>
-            <div class="brand-mix-list" id="brandMixList"></div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- SPARK CARDS -->
-    <div class="section-header" style="margin-top:4px;">
-        <div class="section-title">📊 Channel Distribution — {{ selected.week or 'All Weeks' }}</div>
-    </div>
-    <div class="spark-grid">
-        <div class="spark-card">
-            <div class="spark-card-label">Units by Channel</div>
-            <div class="spark-card-value" style="color:var(--blue)" id="sv-units">—</div>
-            <div class="spark-card-sub" id="ss-units">top channel</div>
-            <canvas class="spark" id="spark-units"></canvas>
-        </div>
-        <div class="spark-card">
-            <div class="spark-card-label">GMV by Channel</div>
-            <div class="spark-card-value" style="color:var(--green)" id="sv-gmv">—</div>
-            <div class="spark-card-sub" id="ss-gmv">top channel</div>
-            <canvas class="spark" id="spark-gmv"></canvas>
-        </div>
-        <div class="spark-card">
-            <div class="spark-card-label">NLC by Channel</div>
-            <div class="spark-card-value" style="color:var(--purple)" id="sv-nlc">—</div>
-            <div class="spark-card-sub" id="ss-nlc">across channels</div>
-            <canvas class="spark" id="spark-nlc"></canvas>
-        </div>
-        <div class="spark-card">
-            <div class="spark-card-label">Category Mix</div>
-            <div class="spark-card-value" style="color:var(--amber);font-size:13px;" id="sv-cat">—</div>
-            <div class="spark-card-sub" id="ss-cat">by GMV share</div>
-            <canvas class="spark" id="spark-cat"></canvas>
-        </div>
-    </div>
-
-    <!-- AMS -->
-    {% if ams_pivot %}
-    <div class="section-header">
-        <div class="section-title">📣 AMS Trend</div>
-    </div>
-    <div class="table-wrapper-sm">
-        <table class="ams-table">
-            <thead><tr>
-                <th>Week</th><th>Ad Spend (₹)</th><th>Attributed Sales (₹)</th><th>Sessions</th><th>ACOS %</th>
-            </tr></thead>
-            <tbody>
-            {% for r in ams_pivot %}
-            <tr>
-                <td style="font-family:var(--mono)">{{ r.week }}</td>
-                <td class="fmt-inr-cell" data-val="{{ r.ad_spend }}">₹ {{ r.ad_spend }}</td>
-                <td class="fmt-inr-cell" data-val="{{ r.attributed_sales }}">₹ {{ r.attributed_sales }}</td>
-                <td style="font-family:var(--mono)">{{ r.sessions | int }}</td>
-                <td>{{ "%.2f"|format(r.acos * 100) }}%</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% endif %}
-
-    <!-- SKU TABLE -->
-    <div class="section-header">
-        <div class="section-title">📦 Sales by SKU — All Channels</div>
-        <div class="section-actions">
-            <a class="btn-ghost" href="/export/dashboard-sku?{% for w in selected.weeks %}weeks={{ w | urlencode }}&amp;{% endfor %}brand={{ selected.brand | urlencode }}&amp;view={{ selected.view }}">⬇ Export CSV</a>
-            <a class="btn-ghost" target="_self" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">Channel Drilldown →</a>
-        </div>
-    </div>
-
-    <div class="table-wrapper">
-        <table class="sku-table"
-          data-xl
-          data-xl-frozen="4"
-          data-xl-totals="4,5,6,7,8,9,10,11,12,13,14,15,16,17"
-          data-xl-heat="7"
-          data-xl-key="dashboard-sku-v3"
-          data-api-url="/api/dashboard/sku-rows"
-          data-api-params="week={{ selected.week }}&brand={{ selected.brand }}&view={{ selected.view }}"
-          data-total-rows="{{ sku_total }}"
-          data-loaded-rows="{{ sku_rows | length }}"
-          data-col-keys='["sku","model_no","asin","category_l0","total_units","total_sales","total_nlc","sales_contribution_pct","amazon_am_units","amazon_am_sales","amazon_am_nlc","amazon_1p_units","amazon_1p_sales","amazon_1p_nlc","amazon_total_units","amazon_total_sales","amazon_total_nlc"]'>
-        <thead><tr>
-            <th>SKU</th><th>Model</th><th>ASIN</th><th>Category</th>
-            <th>All Ch. Units</th><th>All Ch. Sales</th><th>All Ch. NLC</th><th>% Contrib</th>
-            <th>AM Units</th><th>AM Sales</th><th>AM NLC</th>
-            <th>1P Units</th><th>1P Sales</th><th>1P NLC</th>
-            <th>Amz Units</th><th>Amz Sales</th><th>Amz NLC</th>
-        </tr></thead>
-        <tbody>
-        {% for r in sku_rows %}
-        <tr>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--text)">{{ r.sku }}</td>
-            <td style="color:var(--text)">{{ r.model_no }}</td>
-            <td style="font-family:var(--mono);font-size:11px;color:var(--text2)">{{ r.asin }}</td>
-            <td style="color:#111827">{{ r.category_l0 }}</td>
-            <td>{{ r.total_units | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.total_sales }}">₹ {{ r.total_sales }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.total_nlc }}">₹ {{ r.total_nlc }}</td>
-            <td style="color:#111827">{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
-            <td>{{ r.amazon_am_units | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.amazon_am_sales }}">₹ {{ r.amazon_am_sales }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.amazon_am_nlc }}">₹ {{ r.amazon_am_nlc }}</td>
-            <td>{{ r.amazon_1p_units | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.amazon_1p_sales }}">₹ {{ r.amazon_1p_sales }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.amazon_1p_nlc }}">₹ {{ r.amazon_1p_nlc }}</td>
-            <td>{{ r.amazon_total_units | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.amazon_total_sales }}">₹ {{ r.amazon_total_sales }}</td>
-            <td class="fmt-inr-cell" data-val="{{ r.amazon_total_nlc }}">₹ {{ r.amazon_total_nlc }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot><tr>
-            <td colspan="4" style="text-align:left;color:#111827;font-weight:700;letter-spacing:1px">TOTAL</td>
-            <td>{{ sku_rows | sum(attribute='total_units') | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_sales') }}">₹ {{ sku_rows | sum(attribute='total_sales') }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='total_nlc') }}">₹ {{ sku_rows | sum(attribute='total_nlc') }}</td>
-            <td>100%</td>
-            <td>{{ sku_rows | sum(attribute='amazon_am_units') | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_am_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_am_sales') }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_am_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_am_nlc') }}</td>
-            <td>{{ sku_rows | sum(attribute='amazon_1p_units') | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_1p_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_1p_sales') }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_1p_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_1p_nlc') }}</td>
-            <td>{{ sku_rows | sum(attribute='amazon_total_units') | int }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_total_sales') }}">₹ {{ sku_rows | sum(attribute='amazon_total_sales') }}</td>
-            <td class="fmt-inr-cell" data-val="{{ sku_rows | sum(attribute='amazon_total_nlc') }}">₹ {{ sku_rows | sum(attribute='amazon_total_nlc') }}</td>
-        </tr></tfoot>
-        </table>
-    </div>
-
-    <!-- CHANNEL + CATEGORY SIDE BY SIDE -->
-    <div class="two-col">
-        <div>
-            <div class="section-header">
-                <div class="section-title">📡 Channel Summary</div>
-                <a class="btn-ghost" href="/export/channel-summary?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">⬇ CSV</a>
-            </div>
-            <div class="table-wrapper-sm">
-                <table class="simple-table">
-                <thead><tr>
-                    <th>Channel</th><th>Units</th><th>GMV</th><th>NLC</th><th>% Contrib</th>
-                </tr></thead>
-                <tbody>
-                {% for r in channel_summary %}
-                <tr>
-                    <td><a target="_self" href="/drilldown?type=sales{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}&amp;channel={{ r.channel | urlencode }}">{{ r.channel }}</a></td>
-                    <td style="font-family:var(--mono)">{{ r.units_sold | int }}</td>
-                    <td class="fmt-inr-cell" data-val="{{ r.gmv }}" style="font-family:var(--mono)">₹ {{ r.gmv }}</td>
-                    <td class="fmt-inr-cell" data-val="{{ r.sales_nlc }}" style="font-family:var(--mono)">₹ {{ r.sales_nlc }}</td>
-                    <td style="font-family:var(--mono)">{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div>
-            <div class="section-header">
-                <div class="section-title">🧩 Category Summary</div>
-                <a class="btn-ghost" href="/export/category-summary?week={{ selected.week }}&amp;brand={{ selected.brand | urlencode }}">⬇ CSV</a>
-            </div>
-            <div class="table-wrapper-sm">
-                <table class="simple-table">
-                <thead><tr>
-                    <th>Category (L0)</th><th>Units</th><th>GMV</th><th>% Contrib</th>
-                </tr></thead>
-                <tbody>
-                {% for r in category_summary %}
-                <tr>
-                    <td><a target="_self" href="/category-sales?category={{ r.category_l0 | urlencode }}{% for w in selected.weeks %}&amp;weeks={{ w | urlencode }}{% endfor %}&amp;brand={{ selected.brand | urlencode }}">{{ r.category_l0 }}</a></td>
-                    <td style="font-family:var(--mono)">{{ r.units_sold | int }}</td>
-                    <td class="fmt-inr-cell" data-val="{{ r.gross_sales }}" style="font-family:var(--mono)">₹ {{ r.gross_sales }}</td>
-                    <td style="font-family:var(--mono)">{{ "%.2f"|format(r.sales_contribution_pct) }}%</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    </main>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 <script>
-/* Wipe any stale SKU-table sort state so the server-side total_sales
-   order isn't overridden by old sessionStorage entries. */
 try {
     sessionStorage.removeItem('dc-sort-dashboard-sku');
     sessionStorage.removeItem('dc-sort-dashboard-sku-v2');
@@ -1101,29 +1318,29 @@ try {
     sessionStorage.removeItem('xl-sort-dashboard-sku-v2');
 } catch(e) {}
 
-/* Chart.js global defaults — match the page typography */
-Chart.defaults.font.family = "'IBM Plex Sans', system-ui, -apple-system, sans-serif";
-Chart.defaults.font.size   = 11;
-Chart.defaults.color       = "#374151";
-Chart.defaults.plugins.tooltip.titleFont = { family: "'IBM Plex Sans', sans-serif", weight: "600", size: 12 };
-Chart.defaults.plugins.tooltip.bodyFont  = { family: "'IBM Plex Mono', monospace", size: 12 };
+Chart.defaults.font.family = "'Geist', -apple-system, system-ui, sans-serif";
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#2b2a28";
+Chart.defaults.plugins.tooltip.titleFont = { family: "'IBM Plex Mono', monospace", weight: "600", size: 11 };
+Chart.defaults.plugins.tooltip.bodyFont  = { family: "'Geist', sans-serif", size: 12 };
+Chart.defaults.plugins.tooltip.padding = 10;
+Chart.defaults.plugins.tooltip.cornerRadius = 0;
+Chart.defaults.plugins.tooltip.backgroundColor = '#0a0a0a';
+Chart.defaults.plugins.tooltip.titleColor = '#fbf1ee';
+Chart.defaults.plugins.tooltip.bodyColor  = '#ffffff';
 
 function autoRefresh() { document.getElementById("filterForm").submit(); }
 
-/* ── Multi-week picker ── */
 function toggleWeekPicker() {
     document.getElementById('weekPickerDropdown').classList.toggle('open');
 }
-
-// Close pickers when clicking outside
 document.addEventListener('click', function(e) {
-    if (!e.target.closest('.week-picker-wrap')) {
+    if (!e.target.closest('.picker-wrap')) {
         document.getElementById('weekPickerDropdown')?.classList.remove('open');
         document.getElementById('brandPickerDropdown')?.classList.remove('open');
     }
 });
 
-/* ── Multi-brand picker ── */
 function toggleBrandPicker() {
     document.getElementById('brandPickerDropdown').classList.toggle('open');
 }
@@ -1143,7 +1360,7 @@ function updateBrandLabel() {
     } else if (checked.length <= 3) {
         label.textContent = checked.join(', ');
     } else {
-        label.textContent = checked.length + ' brands selected';
+        label.textContent = checked.length + ' brands';
     }
 }
 function applyBrands() {
@@ -1155,7 +1372,6 @@ function toggleAllWeeks(cb) {
     document.querySelectorAll('input[name="weeks"]').forEach(c => c.checked = cb.checked);
     updateWeekLabel();
 }
-
 function updateWeekLabel() {
     const checked = Array.from(document.querySelectorAll('input[name="weeks"]:checked')).map(c => c.value);
     const allCb = document.getElementById('wk-all');
@@ -1168,16 +1384,15 @@ function updateWeekLabel() {
     } else if (checked.length <= 3) {
         label.textContent = checked.join(', ');
     } else {
-        label.textContent = checked.length + ' weeks selected';
+        label.textContent = checked.length + ' weeks';
     }
 }
-
 function applyWeeks() {
     document.getElementById('weekPickerDropdown').classList.remove('open');
     document.getElementById('filterForm').submit();
 }
 
-/* ── INR formatter: finance-grade ── */
+/* INR formatter — unchanged */
 function fmtINR(n) {
     n = parseFloat(n);
     if (isNaN(n)) return '₹0';
@@ -1186,32 +1401,24 @@ function fmtINR(n) {
     if (Math.abs(n) >= 1e3) return '₹' + (n/1e3).toFixed(1) + ' K';
     return '₹' + n.toLocaleString('en-IN');
 }
-
-/* Apply to all table cells */
 document.querySelectorAll('.fmt-inr-cell').forEach(el => {
     const v = parseFloat(el.dataset.val);
     if (!isNaN(v)) el.textContent = fmtINR(v);
 });
-
-/* Apply to KPI bar */
 document.querySelectorAll('.fmt-kpi-inr').forEach(el => {
     const v = parseFloat(el.dataset.val);
     if (!isNaN(v)) el.textContent = fmtINR(v);
 });
 
-/* ── Sparkline builder ── */
 function buildSpark(id, labels, data, color) {
     const canvas = document.getElementById(id);
     if (!canvas || !data.length) return;
     const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0, 0, 0, 42);
-    grad.addColorStop(0, color + '55');
-    grad.addColorStop(1, color + '00');
     new Chart(ctx, {
         type: 'bar',
         data: {
             labels,
-            datasets: [{ data, backgroundColor: color + 'bb', borderRadius: 3, borderSkipped: false }]
+            datasets: [{ data, backgroundColor: color, borderRadius: 0, borderSkipped: false }]
         },
         options: {
             responsive: false,
@@ -1224,14 +1431,12 @@ function buildSpark(id, labels, data, color) {
     });
 }
 
-/* Build from channel + category data */
 (function() {
     const ch = [
         {% for r in channel_summary %}
         { label: "{{ r.channel | replace('"','') | truncate(10, true, '') }}", gmv: {{ r.gmv }}, units: {{ r.units_sold }}, nlc: {{ r.sales_nlc }} },
         {% endfor %}
     ];
-
     const cat = [
         {% for r in category_summary %}
         { label: "{{ r.category_l0 | replace('"','') | truncate(12, true, '') }}", gmv: {{ r.gross_sales }}, pct: {{ "%.2f"|format(r.sales_contribution_pct) }} },
@@ -1245,23 +1450,21 @@ function buildSpark(id, labels, data, color) {
     document.getElementById('sv-units').textContent = top.reduce((s,d)=>s+d.units,0).toLocaleString('en-IN');
     document.getElementById('ss-units').textContent = (top[0]?.label||'') + ' leads';
 
-    buildSpark('spark-gmv', labels, top.map(d=>d.gmv), '#059669');
+    buildSpark('spark-gmv', labels, top.map(d=>d.gmv), '#0e6b3f');
     document.getElementById('sv-gmv').textContent = fmtINR(top.reduce((s,d)=>s+d.gmv,0));
-    document.getElementById('ss-gmv').textContent = (top[0]?.label||'') + ': ' + fmtINR(top[0]?.gmv||0);
+    document.getElementById('ss-gmv').textContent = (top[0]?.label||'') + ' · ' + fmtINR(top[0]?.gmv||0);
 
     buildSpark('spark-nlc', labels, top.map(d=>d.nlc), '#7c3aed');
     document.getElementById('sv-nlc').textContent = fmtINR(top.reduce((s,d)=>s+d.nlc,0));
     document.getElementById('ss-nlc').textContent = top.length + ' channels';
 
     const topCat = cat.slice(0,7);
-    buildSpark('spark-cat', topCat.map(d=>d.label), topCat.map(d=>d.gmv), '#d97706');
+    buildSpark('spark-cat', topCat.map(d=>d.label), topCat.map(d=>d.gmv), '#a16207');
     document.getElementById('sv-cat').textContent = topCat[0]?.label || '—';
     document.getElementById('ss-cat').textContent = (topCat[0]?.pct||0) + '% of GMV · ' + topCat.length + ' categories';
 })();
 
-/* ─────────────────────────────────────────────────────────
-   KPI SPARKLINES inside KPI tiles (last 8 weeks)
-   ───────────────────────────────────────────────────────── */
+/* KPI tile sparks */
 (function() {
     const sparks = {
         weeks: {{ kpi_sparks.weeks | tojson }},
@@ -1270,7 +1473,7 @@ function buildSpark(id, labels, data, color) {
         nlc:   {{ kpi_sparks.nlc | tojson }},
     };
 
-    function tileSpark(canvasId, data, color) {
+    function tileSpark(canvasId, data, color, heroMode) {
         const c = document.getElementById(canvasId);
         if (!c || !data.length) return;
         new Chart(c.getContext('2d'), {
@@ -1278,15 +1481,20 @@ function buildSpark(id, labels, data, color) {
             data: {
                 labels: sparks.weeks,
                 datasets: [{
-                    data, borderColor: color, borderWidth: 2,
-                    backgroundColor: color + '22', fill: true,
-                    tension: 0.35, pointRadius: 0, pointHoverRadius: 3,
+                    data,
+                    borderColor: color,
+                    borderWidth: heroMode ? 2.2 : 1.6,
+                    backgroundColor: heroMode ? color + '14' : color + '20',
+                    fill: true,
+                    tension: 0.35,
+                    pointRadius: 0,
+                    pointHoverRadius: heroMode ? 4 : 3,
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: { duration: 600 },
+                animation: { duration: 500 },
                 plugins: { legend: { display: false }, tooltip: {
                     callbacks: { title: c => c[0].label,
                                  label: c => canvasId.endsWith('units')
@@ -1297,14 +1505,12 @@ function buildSpark(id, labels, data, color) {
             }
         });
     }
-    tileSpark('kspark-units', sparks.units, '#3d3587');
-    tileSpark('kspark-gmv',   sparks.gmv,   '#0f7a57');
-    tileSpark('kspark-nlc',   sparks.nlc,   '#6040a8');
+    tileSpark('kspark-gmv',   sparks.gmv,   '#7a1f1f', true);
+    tileSpark('kspark-units', sparks.units, '#0a0a0a', false);
+    tileSpark('kspark-nlc',   sparks.nlc,   '#0a0a0a', false);
 })();
 
-/* ─────────────────────────────────────────────────────────
-   WEEKLY SALES TREND — line chart with brand-vs-all overlay
-   ───────────────────────────────────────────────────────── */
+/* Weekly trend chart */
 (function() {
     const TREND      = {{ weekly_trend | tojson }};
     const TREND_ALL  = {{ weekly_all_brands | tojson }};
@@ -1316,32 +1522,38 @@ function buildSpark(id, labels, data, color) {
     const canvas = document.getElementById('weeklyTrendChart');
     if (!canvas) return;
     let chart = null;
-    let activeN = 12;
 
     function slice(arr, n) { return n <= 0 ? arr : arr.slice(-n); }
 
     function render(n) {
-        activeN = n;
         const data    = slice(TREND, n);
         const dataAll = slice(TREND_ALL, n);
         const labels  = data.map(r => r.week);
 
+        const ctx2 = canvas.getContext('2d');
+        const grad = ctx2.createLinearGradient(0, 0, 0, 280);
+        grad.addColorStop(0, 'rgba(122, 31, 31, 0.18)');
+        grad.addColorStop(1, 'rgba(122, 31, 31, 0.02)');
+
         const datasets = [{
             label: BRAND_NAME + ' GMV',
             data: data.map(r => r.gmv),
-            borderColor: '#3d3587',
-            backgroundColor: '#3d358722',
-            borderWidth: 2.5,
+            borderColor: '#7a1f1f',
+            backgroundColor: grad,
+            borderWidth: 2.2,
             tension: 0.35,
-            pointRadius: 3, pointHoverRadius: 6,
+            pointRadius: 2.5, pointHoverRadius: 6,
+            pointBackgroundColor: '#7a1f1f',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 1.5,
             fill: true,
             yAxisID: 'y',
         }, {
             label: BRAND_NAME + ' Units',
             data: data.map(r => r.units),
-            borderColor: '#0f7a57',
+            borderColor: '#0a0a0a',
             backgroundColor: 'transparent',
-            borderWidth: 2,
+            borderWidth: 1.6,
             borderDash: [4, 4],
             tension: 0.35,
             pointRadius: 0, pointHoverRadius: 4,
@@ -1349,11 +1561,11 @@ function buildSpark(id, labels, data, color) {
         }];
         if (HAS_BRAND && dataAll.length) {
             datasets.push({
-                label: 'All Brands GMV (overlay)',
+                label: 'All Brands GMV',
                 data: dataAll.map(r => r.gmv),
-                borderColor: '#6b7280',
+                borderColor: '#a59f93',
                 backgroundColor: 'transparent',
-                borderWidth: 1.5,
+                borderWidth: 1.2,
                 borderDash: [2, 4],
                 tension: 0.35,
                 pointRadius: 0, pointHoverRadius: 3,
@@ -1382,32 +1594,26 @@ function buildSpark(id, labels, data, color) {
                 },
                 scales: {
                     x: { grid: { display: false },
-                         ticks: { color: '#374151', font: { family: "'IBM Plex Sans', sans-serif", size: 11 } } },
-                    y:  { position: 'left',  grid: { color: '#eef0f6' },
-                          ticks: { color: '#374151', font: { family: "'IBM Plex Mono', monospace", size: 11 },
-                                   callback: v => fmtINR(v) },
-                          title: { display: true, text: 'GMV (₹)', color: '#374151',
-                                   font: { family: "'IBM Plex Sans', sans-serif", size: 11, weight: '500' } } },
+                         ticks: { color: '#6e6c66', font: { family: "'IBM Plex Mono', monospace", size: 11 } } },
+                    y:  { position: 'left',  grid: { color: '#e6e2d6', drawBorder: false },
+                          ticks: { color: '#6e6c66', font: { family: "'IBM Plex Mono', monospace", size: 11 },
+                                   callback: v => fmtINR(v) } },
                     y1: { position: 'right', grid: { display: false },
-                          ticks: { color: '#374151', font: { family: "'IBM Plex Mono', monospace", size: 11 },
-                                   callback: v => v.toLocaleString('en-IN') },
-                          title: { display: true, text: 'Units', color: '#374151',
-                                   font: { family: "'IBM Plex Sans', sans-serif", size: 11, weight: '500' } } },
+                          ticks: { color: '#6e6c66', font: { family: "'IBM Plex Mono', monospace", size: 11 },
+                                   callback: v => v.toLocaleString('en-IN') } },
                 }
             }
         });
 
-        // Sub-label
         const sub = document.getElementById('trendSub');
-        if (sub) sub.textContent = '— ' + (n <= 0 ? 'all weeks' : 'last ' + n + ' weeks') + ' · ' + BRAND_NAME;
+        if (sub) sub.textContent = (n <= 0 ? 'all weeks' : 'last ' + n + ' weeks') + ' · ' + BRAND_NAME;
 
-        // Legend
         const legend = document.getElementById('trendLegend');
         if (legend) {
             legend.innerHTML =
-              '<span><span class="dot" style="background:#3d3587"></span>'+BRAND_NAME+' GMV</span>' +
-              '<span><span class="dot" style="background:#0f7a57;border:1px dashed #0f7a57"></span>'+BRAND_NAME+' Units</span>' +
-              (HAS_BRAND ? '<span><span class="dot" style="background:#6b7280;border:1px dashed #6b7280"></span>All Brands GMV</span>' : '');
+              '<span><span class="dot" style="background:#7a1f1f"></span>'+BRAND_NAME+' GMV</span>' +
+              '<span><span class="dot" style="background:#0a0a0a"></span>'+BRAND_NAME+' Units</span>' +
+              (HAS_BRAND ? '<span><span class="dot" style="background:#a59f93"></span>All Brands GMV</span>' : '');
         }
     }
 
@@ -1422,9 +1628,7 @@ function buildSpark(id, labels, data, color) {
     });
 })();
 
-/* ─────────────────────────────────────────────────────────
-   BRAND MIX DONUT
-   ───────────────────────────────────────────────────────── */
+/* Brand mix donut */
 (function() {
     const MIX = [
         {% for r in brand_mix %}
@@ -1435,20 +1639,25 @@ function buildSpark(id, labels, data, color) {
     const canvas = document.getElementById('brandMixChart');
     if (!canvas) return;
 
-    const palette = ['#3d3587', '#0f7a57', '#92400e', '#6040a8', '#1d4ed8',
-                     '#be185d', '#0e7490', '#a16207', '#52525b', '#9f1239'];
+    /* oxblood-led palette: hero color first, then warm/neutral siblings */
+    const palette = ['#7a1f1f', '#0a0a0a', '#a16207', '#0e6b3f', '#475569',
+                     '#7c3aed', '#b45309', '#0891b2', '#be185d', '#6e6c66'];
     const colors = MIX.map((_, i) => palette[i % palette.length]);
 
     new Chart(canvas.getContext('2d'), {
         type: 'doughnut',
         data: {
             labels: MIX.map(d => d.brand),
-            datasets: [{ data: MIX.map(d => d.gmv), backgroundColor: colors,
-                         borderColor: '#fff', borderWidth: 2 }]
+            datasets: [{
+                data: MIX.map(d => d.gmv),
+                backgroundColor: colors,
+                borderColor: '#ffffff',
+                borderWidth: 2,
+            }]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            cutout: '62%',
+            cutout: '68%',
             plugins: {
                 legend: { display: false },
                 tooltip: {
@@ -1460,18 +1669,22 @@ function buildSpark(id, labels, data, color) {
         }
     });
 
-    // Side list
     const list = document.getElementById('brandMixList');
     if (list) {
         list.innerHTML = MIX.map((d, i) => `
             <div class="row">
-                <span class="label"><span class="swatch" style="background:${colors[i]}"></span>${d.brand}</span>
-                <span class="pct">${d.pct.toFixed(1)}% · ${fmtINR(d.gmv)}</span>
+                <span class="rank">${(i+1).toString().padStart(2,'0')}</span>
+                <span class="swatch" style="background:${colors[i]}"></span>
+                <span class="name">${d.brand}</span>
+                <span class="pct">${d.pct.toFixed(1)}%</span>
+                <span class="gmv">${fmtINR(d.gmv)}</span>
             </div>`).join('');
     }
 })();
 </script>
+
 <link rel="stylesheet" href="/static/css/ai_widget.css">
 <script src="/static/js/ai_widget.js" defer></script>
+
 </body>
 </html>

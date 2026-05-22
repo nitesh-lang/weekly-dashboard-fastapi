@@ -22,6 +22,8 @@ import pandas as pd
 from fastapi import APIRouter
 from fastapi.responses import Response
 
+from weekly_app.core.json_utils import clean_nan
+
 router = APIRouter()
 
 MASTER     = Path("data/master/sku_master.xlsx")
@@ -164,13 +166,16 @@ def _build_payload_json() -> str:
         })
 
     brands = sorted({r["brand"] for r in rows if r["brand"]})
-    return json.dumps({
+    # The `default=` lambda below never fires for NaN floats because json.dumps
+    # recognises floats natively (and would emit literal `NaN`).  Use clean_nan
+    # to pre-walk the payload and replace NaN/Inf with None before serialising.
+    return json.dumps(clean_nan({
         "rows":          rows,
         "brands":        brands,
         "row_count":     len(rows),
         "available":     True,
         "window_weeks":  SALES_WEEKS,
-    }, ensure_ascii=False, default=lambda x: None if (isinstance(x, float) and (np.isnan(x) or np.isinf(x))) else x)
+    }), ensure_ascii=False)
 
 
 @router.get("/api/returns-overview")

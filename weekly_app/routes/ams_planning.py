@@ -24,6 +24,8 @@ from typing import Optional
 
 import pandas as pd
 from fastapi import APIRouter, HTTPException
+
+from weekly_app.core.json_utils import clean_nan
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel
 
@@ -203,8 +205,10 @@ def get_ams_planning():
         return Response(content=_payload_cache["body"], media_type="application/json")
 
     payload = _build_payload()
-    # Use pandas-compatible JSON encoder via plain json.dumps; non-NaN already cleaned.
-    body = json.dumps(payload, ensure_ascii=False)
+    # clean_nan walks the payload and replaces any NaN/Inf with None — without
+    # it pandas-derived NaN values would emit literal `NaN` tokens in JSON,
+    # which the browser rejects with "is not valid JSON".
+    body = json.dumps(clean_nan(payload), ensure_ascii=False)
     _payload_cache["mtime"] = cur
     _payload_cache["body"]  = body
     return Response(content=body, media_type="application/json")

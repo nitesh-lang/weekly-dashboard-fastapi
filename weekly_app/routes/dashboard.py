@@ -220,6 +220,7 @@ def dashboard(
             "Model": "model",
             "ASIN": "asin",
             "Asin": "asin",
+            "Brand": "brand",
         }
     )
 
@@ -230,7 +231,11 @@ def dashboard(
     if "asin" not in master.columns:
         master["asin"] = ""
     master["asin"] = master["asin"].astype(str).str.strip().replace("nan", "")
-    master = master[["sku", "model_no", "asin", "category_l0"]]
+    if "brand" not in master.columns:
+        master["brand"] = ""
+    master["brand"] = master["brand"].astype(str).str.strip()
+    # Keep brand alongside the other identifiers so the SKU table can exclude Fossil.
+    master = master[["sku", "model_no", "asin", "category_l0", "brand"]]
 
     # =================================================
     # SAFE SALES LOAD (LOCKED)
@@ -354,8 +359,17 @@ def dashboard(
     sku = (
         sku_totals
         .merge(amazon_split, on="sku", how="left")
-        .merge(master[["sku", "model_no", "asin", "category_l0"]], on="sku", how="left")
+        .merge(master[["sku", "model_no", "asin", "category_l0", "brand"]], on="sku", how="left")
     )
+
+    # Exclude Fossil rows from the SKU table — Fossil isn't part of the AMS /
+    # operator workflow and shows up as noise.  Same exclusion as AMS Planning
+    # and Returns.
+    if "brand" in sku.columns:
+        sku = sku[sku["brand"].astype(str).str.strip().str.lower() != "fossil"]
+        # Drop the brand column after the filter — SKU table doesn't display it,
+        # so don't ship the bytes.
+        sku = sku.drop(columns=["brand"])
 
     # ✅ Ensure no dict/unhashable values leak into template
     for col in ["model_no", "asin", "category_l0"]:

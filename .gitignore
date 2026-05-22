@@ -22,3 +22,6 @@ weekly_app/static/spa/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Excel lock files (created when a workbook is open in Excel)
+~$*

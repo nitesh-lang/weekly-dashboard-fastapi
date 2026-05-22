@@ -11,6 +11,8 @@ from pathlib import Path
 import pandas as pd
 import re
 
+from weekly_app.core.json_utils import clean_nan
+
 # ============================================================
 # ROUTER INIT
 # ============================================================
@@ -41,8 +43,15 @@ def load_asin_by_model() -> dict:
     m[model_col] = m[model_col].astype(str).str.strip().str.upper()
     m[asin_col] = m[asin_col].astype(str).str.strip()
     m = m[m[asin_col].ne("") & m[asin_col].ne("nan") & m[asin_col].ne("-")]
-    return {model: ", ".join(sorted(set(grp[asin_col])))
-            for model, grp in m.groupby(model_col)}
+    # Defensive: coerce every value to str inside the comprehension so a
+    # stray float NaN that slipped past the filter can't crash str.join().
+    return {
+        model: ", ".join(sorted({
+            s for s in (str(v).strip() for v in grp[asin_col])
+            if s and s.lower() not in ("nan", "none", "-")
+        }))
+        for model, grp in m.groupby(model_col)
+    }
 
 # ============================================================
 # NORMALIZATION
@@ -514,14 +523,14 @@ def amazon_sales_trend(
 
     if request.url.path.startswith("/api/"):
         from fastapi.responses import JSONResponse
-        return JSONResponse({
+        return JSONResponse(clean_nan({
             "rows":            rows,
             "weeks":           weeks,
             "all_weeks":       all_weeks,
             "brands":          all_brands,
             "selected_brands": selected_brands_display,
             "selected_weeks":  sel_weeks or [],
-        })
+        }))
 
     return HTMLResponse(_env.get_template("sales_trend_amazon.html").render(
         request=request,

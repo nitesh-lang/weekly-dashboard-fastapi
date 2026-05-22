@@ -9,6 +9,8 @@ from pathlib import Path
 import pandas as pd
 import re
 
+from weekly_app.core.json_utils import clean_nan
+
 router = APIRouter()
 from jinja2 import Environment, FileSystemLoader
 from typing import Dict, Any
@@ -336,7 +338,7 @@ def inventory_dashboard(
 
     if request.url.path.startswith("/api/"):
         from fastapi.responses import JSONResponse
-        return JSONResponse({
+        return JSONResponse(clean_nan({
             "rows":              rows,
             "inv_total":         inv_total,
             "latest_week":       active_week,
@@ -345,7 +347,7 @@ def inventory_dashboard(
             "channel_summary":   channel_summary,
             "available_weeks":   available_weeks,
             "available_brands":  available_brands,
-        })
+        }))
 
     return HTMLResponse(_env.get_template("inventory_dashboard.html").render(
         request=request,

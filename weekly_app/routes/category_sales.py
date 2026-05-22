@@ -7,6 +7,8 @@ from pathlib import Path
 import urllib.parse
 import re
 
+from weekly_app.core.json_utils import clean_nan
+
 router = APIRouter()
 from jinja2 import Environment, FileSystemLoader
 _env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
@@ -168,7 +170,7 @@ def category_sales(
 
     if request.url.path.startswith("/api/"):
         from fastapi.responses import JSONResponse
-        return JSONResponse({
+        return JSONResponse(clean_nan({
             "rows":            summary.to_dict("records"),
             "weeks":           list(available_weeks),
             "brands":          all_brands,
@@ -177,7 +179,7 @@ def category_sales(
             "week":            week,
             "selected_brands": eff_brands,
             "sel_weeks":       list(active) if active else [],
-        })
+        }))
 
     return HTMLResponse(_env.get_template("category_sales.html").render(
         request=request,

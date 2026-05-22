@@ -9,6 +9,8 @@ import pandas as pd
 from pathlib import Path
 import urllib.parse
 
+from weekly_app.core.json_utils import clean_nan
+
 # =====================================================
 # ROUTER INIT
 # =====================================================
@@ -230,11 +232,11 @@ def drilldown(
         """Returns JSON for /api/drilldown, otherwise the legacy Jinja template."""
         if request.url.path.startswith("/api/"):
             from fastapi.responses import JSONResponse
-            return JSONResponse({
+            return JSONResponse(clean_nan({
                 "week": week, "channel": channel, "brand": brand,
                 "type": type, "level": level, "value": value,
                 **ctx,
-            })
+            }))
         return HTMLResponse(_env.get_template("drilldown_sales.html").render(
             request=request, week=week, channel=channel, brand=brand,
             available_brands=available_brands,

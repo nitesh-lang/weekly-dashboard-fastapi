@@ -11,6 +11,8 @@ from pathlib import Path
 import pandas as pd
 import re
 
+from weekly_app.core.json_utils import clean_nan
+
 router = APIRouter()
 from jinja2 import Environment, FileSystemLoader
 _env = Environment(loader=FileSystemLoader("weekly_app/templates"), cache_size=0)
@@ -290,7 +292,7 @@ def sales_trend(
 
     if request.url.path.startswith("/api/"):
         from fastapi.responses import JSONResponse
-        return JSONResponse({
+        return JSONResponse(clean_nan({
             "rows": all_rows,
             "trend_total": trend_total,
             "weeks": weeks,
@@ -298,7 +300,7 @@ def sales_trend(
             "brands": all_brands,
             "selected_brands": selected_brands_display,
             "selected_weeks": sel_weeks or [],
-        })
+        }))
 
     return HTMLResponse(_env.get_template("sales_trend_sku.html").render(
         request=request,

@@ -123,6 +123,7 @@ export default function AmsPlanning() {
     const rSoh         = useMemo(() => getRange("soh"),          [qsKey]);
     const rAmSoh       = useMemo(() => getRange("am_soh"),       [qsKey]);
     const rAmIntransit = useMemo(() => getRange("am_intransit"), [qsKey]);
+    const rTotalStock  = useMemo(() => getRange("total_stock"),  [qsKey]);
     const rRet         = useMemo(() => getRange("ret"),          [qsKey]);
     const rAvgRating   = useMemo(() => getRange("avg_rating"),   [qsKey]);
     const rRatingCount = useMemo(() => getRange("rating_count"), [qsKey]);
@@ -150,6 +151,8 @@ export default function AmsPlanning() {
     const variations   = useMemo(() => Array.from(new Set(rows.map((r) => r.variation).filter(Boolean))).sort(), [rows]);
 
     // Inject returns data per row (looked up by ASIN, SKU fallback) so sort + filter work natively.
+    // Also pre-compute total_stock = SOH + AM Intransit + AM SOH so the column
+    // can be sorted / filtered without re-deriving on every render.
     const rowsWithReturns = useMemo(
         () => rows.map((r) => {
             const ret = returnsByAsin(r.asin) || returnsBySku(r.sku);
@@ -159,6 +162,7 @@ export default function AmsPlanning() {
                 return_pct:         ret && ret.return_pct != null ? ret.return_pct : null,
                 units_sold_30d:     ret ? ret.units_sold_30d : 0,
                 top_return_reason:  ret ? ret.top_reason : "",
+                total_stock:        (r.soh || 0) + (r.am_intransit || 0) + (r.am_soh || 0),
             };
         }),
         [rows, returnsByAsin, returnsBySku],
@@ -197,6 +201,7 @@ export default function AmsPlanning() {
             if (!inRange(r.soh, rSoh))                   return false;
             if (!inRange(r.am_intransit, rAmIntransit)) return false;
             if (!inRange(r.am_soh, rAmSoh))              return false;
+            if (!inRange((r as any).total_stock, rTotalStock)) return false;
             if (!inRange((r as any).return_units, rRet)) return false;
             if (!inRange((r as any).return_pct, rPct))   return false;
             if (!inRange(r.avg_rating,    rAvgRating))   return false;
@@ -207,7 +212,7 @@ export default function AmsPlanning() {
         });
     }, [rowsWithReturns, filter, selBrands, selAsinTypes, selStatuses,
         selModels, selAsins, selCategories, selCategoriesL1, selAmsReq, selVariations,
-        rBau, rSoh, rAmSoh, rAmIntransit, rRet, rPct, rAvgRating, rRatingCount]);
+        rBau, rSoh, rAmSoh, rAmIntransit, rTotalStock, rRet, rPct, rAvgRating, rRatingCount]);
 
     // Default sort: Out of Stock + Low at the top so the operator sees the
     // urgent decisions first.  Tie-break by SOH descending.
@@ -324,7 +329,7 @@ export default function AmsPlanning() {
                                             sorted as any,
                                             ["brand", "model", "bau", "asin",
                                              "category_l0", "category_l1",
-                                             "asin_type", "soh", "am_intransit", "am_soh", "inventory_status",
+                                             "asin_type", "soh", "am_intransit", "am_soh", "total_stock", "inventory_status",
                                              "return_units", "units_sold_30d", "return_pct", "top_return_reason",
                                              "avg_rating", "rating_count",
                                              "ams_required", "remarks",
@@ -369,6 +374,8 @@ export default function AmsPlanning() {
                                                 numericRange={rAmIntransit} onNumericFilter={(r) => setRange("am_intransit", r)} numericPresets={[1, 50, 500]} />
                                             <SortableTh sortKey="am_soh"       label="AM SOH"       sort={sort} onSort={onSort} className="col-units"            minWidth={110}
                                                 numericRange={rAmSoh}        onNumericFilter={(r) => setRange("am_soh", r)}      numericPresets={[1, 50, 500]} />
+                                            <SortableTh sortKey="total_stock"  label="Total Stock"  sort={sort} onSort={onSort} className="col-summary col-divide-l" minWidth={120}
+                                                numericRange={rTotalStock}   onNumericFilter={(r) => setRange("total_stock", r)} numericPresets={[1, 100, 1000]} />
                                             <SortableTh sortKey="inventory_status" label="Status" sort={sort} onSort={onSort} align="left" minWidth={130}
                                                 filterValues={statuses}     filterSelected={selStatuses}     onFilterChange={(v) => setMulti("status", v)} />
                                             <SortableTh sortKey="return_units" label="Returns"      sort={sort} onSort={onSort} className="col-conv col-divide-l" minWidth={100}
@@ -409,6 +416,10 @@ export default function AmsPlanning() {
                                                     <td className="px-3 py-2 text-right tabular border-b col-units"
                                                         style={r.am_soh > 0 ? { color: "#047857", fontWeight: 500 } : undefined}>
                                                         {r.am_soh > 0 ? fmtInt(r.am_soh) : "—"}
+                                                    </td>
+                                                    <td className="px-3 py-2 text-right tabular border-b col-summary col-divide-l font-semibold"
+                                                        title="SOH (AMPM) + AM Intransit + AM SOH">
+                                                        {fmtInt((r as any).total_stock || 0)}
                                                     </td>
                                                     <td className="px-3 py-2 border-b">
                                                         <span

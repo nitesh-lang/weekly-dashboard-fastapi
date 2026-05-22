@@ -6,6 +6,7 @@ import { useMargins, type MarginRow } from "@/lib/useMargins";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock, EmptyBlock } from "@/components/StateBlocks";
@@ -371,7 +372,7 @@ export default function MarginSnapshot() {
                                                         </span>
                                                     </td>
                                                     <td style={{ position: "sticky", left: 260 }} className="border-b z-10 min-w-[120px]">{r.sku || "—"}</td>
-                                                    <td style={{ position: "sticky", left: 380 }} className="border-b z-10 min-w-[120px] border-r-2 border-r-border">{r.asin || "—"}</td>
+                                                    <td style={{ position: "sticky", left: 380 }} className="border-b z-10 min-w-[120px] border-r-2 border-r-border"><AsinLink asin={r.asin} /></td>
                                                     <td className="border-b">{r.category_l1 || "—"}</td>
                                                     <td className="border-b">{r.category_l2 || "—"}</td>
                                                     <td className="text-right tabular border-b col-summary col-divide-l">{r.dp  != null ? fmtINR(r.dp as number)  : "—"}</td>

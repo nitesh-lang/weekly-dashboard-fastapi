@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock, EmptyBlock } from "@/components/StateBlocks";
@@ -357,7 +358,7 @@ export default function Returns() {
                                             <tr key={`${r.asin}::${r.sku}`} className="border-b hover:bg-muted/20 group">
                                                 <td style={{ position: "sticky", left: 0 }}   className="px-3 py-2 border-b z-10 bg-white">{r.brand || "—"}</td>
                                                 <td style={{ position: "sticky", left: 120 }} className="px-3 py-2 font-medium border-b z-10 bg-white">{r.model || "—"}</td>
-                                                <td style={{ position: "sticky", left: 260 }} className="px-3 py-2 border-b z-10 bg-white border-r-2 border-r-border" title={r.sku || undefined}>{r.asin}</td>
+                                                <td style={{ position: "sticky", left: 260 }} className="px-3 py-2 border-b z-10 bg-white border-r-2 border-r-border" title={r.sku || undefined}><AsinLink asin={r.asin} /></td>
                                                 <td className="px-3 py-2 border-b">{r.category_l0 || "—"}</td>
                                                 <td className="px-3 py-2 border-b">{r.category_l1 || "—"}</td>
                                                 <td className="px-3 py-2 text-right tabular border-b col-units col-divide-l">

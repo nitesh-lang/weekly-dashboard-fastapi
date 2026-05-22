@@ -8,6 +8,7 @@ import { useReturns } from "@/lib/useReturns";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
 import { SortableTh } from "@/components/SortableTh";
+import { AsinLink } from "@/components/AsinLink";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock, EmptyBlock } from "@/components/StateBlocks";
 import { Card } from "@/components/ui/card";
@@ -401,7 +402,7 @@ export default function AmsPlanning() {
                                                 <tr key={r.sku} className="group">
                                                     <td style={{ position: "sticky", left: 0 }}   className="px-3 py-2 border-b z-10">{r.brand}</td>
                                                     <td style={{ position: "sticky", left: 110 }} className="px-3 py-2 font-medium border-b z-10">{r.model}</td>
-                                                    <td style={{ position: "sticky", left: 250 }} className="px-3 py-2 border-b z-10 border-r-2 border-r-border" title={r.sku}>{r.asin || "—"}</td>
+                                                    <td style={{ position: "sticky", left: 250 }} className="px-3 py-2 border-b z-10 border-r-2 border-r-border" title={r.sku}><AsinLink asin={r.asin} /></td>
                                                     <td className="px-3 py-2 text-right tabular border-b col-sales col-divide-l">
                                                         {r.bau != null && r.bau !== "" ? fmtINR(Number(r.bau)) : "—"}
                                                     </td>

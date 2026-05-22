@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
@@ -389,7 +390,7 @@ export default function DeadStock() {
                                                 <tr key={i} className="group">
                                                     <td style={{ position: "sticky", left: 0 }}   className="font-medium border-b z-10 min-w-[140px]">{r.model}</td>
                                                     <td style={{ position: "sticky", left: 140 }} className="border-b z-10 min-w-[120px]">{r.brand}</td>
-                                                    <td style={{ position: "sticky", left: 260 }} className="border-b z-10 min-w-[110px] border-r-2 border-r-border">{r.asin || ""}</td>
+                                                    <td style={{ position: "sticky", left: 260 }} className="border-b z-10 min-w-[110px] border-r-2 border-r-border"><AsinLink asin={r.asin} /></td>
                                                     <td className="border-b">{r.category_l0 || ""}</td>
                                                     <td
                                                         className="text-right tabular border-b col-summary col-divide-l font-medium"

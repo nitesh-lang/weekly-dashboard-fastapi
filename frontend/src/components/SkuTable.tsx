@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ColumnFilter } from "@/components/ColumnFilter";
 import { NumberRangeFilter } from "@/components/NumberRangeFilter";
+import { AsinLink } from "@/components/AsinLink";
 import { fmtINR, fmtInt, exportToCsv } from "@/lib/utils";
 import { useMargins } from "@/lib/useMargins";
 import { cn } from "@/lib/utils";
@@ -143,7 +144,7 @@ export function SkuTable({ rows }: { rows: SkuRow[] }) {
         {
             accessorKey: "asin",
             header: "ASIN",
-            cell: (info) => <span>{(info.getValue() as string) || ""}</span>,
+            cell: (info) => <AsinLink asin={info.getValue() as string} />,
         },
         {
             accessorKey: "category_l0",

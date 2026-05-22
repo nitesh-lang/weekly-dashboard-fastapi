@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
@@ -225,7 +226,7 @@ export default function SalesTrend() {
                                 {sorted.map((r, i) => (
                                     <tr key={i} className="group">
                                         <td style={{ position: "sticky", left: 0 }}   className="px-3 py-2 font-medium border-b bg-background group-hover:bg-accent/40 z-10 min-w-[130px]">{r.model}</td>
-                                        <td style={{ position: "sticky", left: 130 }} className="px-3 py-2  border-b bg-background group-hover:bg-accent/40 z-10 min-w-[120px]">{r.asin || ""}</td>
+                                        <td style={{ position: "sticky", left: 130 }} className="px-3 py-2  border-b bg-background group-hover:bg-accent/40 z-10 min-w-[120px]"><AsinLink asin={r.asin} /></td>
                                         <td style={{ position: "sticky", left: 250 }} className="px-3 py-2 text-foreground border-b bg-background group-hover:bg-accent/40 z-10 min-w-[150px] border-r-2 border-r-border">{r.category_l0 || ""}</td>
                                         <td className="px-3 py-2 text-foreground border-b">{r.category_l1 || ""}</td>
                                         <td className="px-3 py-2 text-foreground border-b">{r.category_l2 || ""}</td>

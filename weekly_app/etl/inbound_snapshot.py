@@ -48,7 +48,7 @@ OUT_FILE   = ROOT / "data" / "processed" / "inbound_snapshot.csv"
 
 # Brands whose Amazon presence is dominantly 1P — pull SOH + intransit from
 # the 1P sources instead of FBA.  Case-insensitive match against sku_master.
-ONE_P_BRANDS = {"audio array", "white mulberry"}
+ONE_P_BRANDS = {"audio array", "white mulberry", "tonor"}
 
 # FBA file columns (standard Seller-Central "Manage Inventory" export)
 COL_ASIN       = "asin"

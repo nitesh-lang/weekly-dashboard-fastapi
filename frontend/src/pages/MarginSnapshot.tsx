@@ -338,8 +338,6 @@ export default function MarginSnapshot() {
                                                 filterValues={allL2}     filterSelected={selL2}     onFilterChange={(v) => setMulti("cat_l2", v)} />
                                             <SortableTh sortKey="dp"           label="DP"          sort={sort} onSort={onSort} className="col-summary col-divide-l" minWidth={100}
                                                 numericRange={rDp}     onNumericFilter={(r) => setRange("dp", r)}     numericPresets={[100, 500, 1000]} />
-                                            <SortableTh sortKey="mrp"          label="MRP"         sort={sort} onSort={onSort} className="col-summary" minWidth={100}
-                                                numericRange={rMrp}    onNumericFilter={(r) => setRange("mrp", r)}    numericPresets={[100, 1000, 10000]} />
                                             <SortableTh sortKey="bau_deal_sp"  label="BAU SP"      sort={sort} onSort={onSort} className="col-summary" minWidth={110}
                                                 numericRange={rBauSp}  onNumericFilter={(r) => setRange("bau_sp", r)} numericPresets={[100, 1000, 10000]} />
                                             <SortableTh sortKey="gross_margin" label="Gross ₹"     sort={sort} onSort={onSort} className="col-sales col-divide-l" minWidth={110}
@@ -377,7 +375,6 @@ export default function MarginSnapshot() {
                                                     <td className="border-b">{r.category_l1 || "—"}</td>
                                                     <td className="border-b">{r.category_l2 || "—"}</td>
                                                     <td className="text-right tabular border-b col-summary col-divide-l">{r.dp  != null ? fmtINR(r.dp as number)  : "—"}</td>
-                                                    <td className="text-right tabular border-b col-summary">{r.mrp != null ? fmtINR(r.mrp as number) : "—"}</td>
                                                     <td className="text-right tabular border-b col-summary">{r.bau_deal_sp != null ? fmtINR(r.bau_deal_sp as number) : "—"}</td>
                                                     <td className="text-right tabular border-b col-sales col-divide-l">{r.gross_margin != null ? fmtINR(r.gross_margin as number) : "—"}</td>
                                                     <td className="text-right tabular border-b col-sales">{pct(r.gross_margin_pct)}</td>

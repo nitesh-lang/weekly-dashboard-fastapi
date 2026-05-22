@@ -8,7 +8,7 @@
  * Brands without margin files (e.g., Fossil) return `null` from lookup
  * — callers should treat that as "no data" not "zero margin".
  */
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
@@ -72,18 +72,26 @@ export function useMargins() {
         return m;
     }, [q.data]);
 
-    /** Look up margin record by brand + model.  Returns null if unmapped. */
-    function lookup(brand: string | undefined | null, model: string | undefined | null): MarginRow | null {
-        if (!brand || !model) return null;
-        return byModel.get(key(brand, model)) || null;
-    }
+    // useCallback so consumers can use these as useMemo / useEffect deps
+    // without re-running on every parent render.  Without this, the SKU
+    // table's enrichedRows useMemo was re-computing 600 rows × hash lookup
+    // on every Dashboard render — which cascades into uniqueValues, filtered,
+    // and TanStack's table state.  Made click→sort feel 15-20s.
+    const lookup = useCallback(
+        (brand: string | undefined | null, model: string | undefined | null): MarginRow | null => {
+            if (!brand || !model) return null;
+            return byModel.get(key(brand, model)) || null;
+        },
+        [byModel],
+    );
 
-    /** Look up margin record by model alone.  Used by tables that don't
-     *  carry a brand column. */
-    function lookupByModel(model: string | undefined | null): MarginRow | null {
-        if (!model) return null;
-        return byModelOnly.get(model.trim().toLowerCase()) || null;
-    }
+    const lookupByModel = useCallback(
+        (model: string | undefined | null): MarginRow | null => {
+            if (!model) return null;
+            return byModelOnly.get(model.trim().toLowerCase()) || null;
+        },
+        [byModelOnly],
+    );
 
     return {
         rows: q.data?.rows || [],

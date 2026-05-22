@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
@@ -47,14 +47,22 @@ export function useReturns() {
         return { byAsin: ba, bySku: bs };
     }, [q.data]);
 
-    function lookupByAsin(asin: string | undefined | null): ReturnsRow | null {
-        if (!asin) return null;
-        return byAsin.get(asin.trim().toLowerCase()) || null;
-    }
-    function lookupBySku(sku: string | undefined | null): ReturnsRow | null {
-        if (!sku) return null;
-        return bySku.get(sku.trim().toLowerCase()) || null;
-    }
+    // Stable function refs — see useMargins for the perf rationale.  Without
+    // useCallback, consumers' useMemo deps bust on every parent render.
+    const lookupByAsin = useCallback(
+        (asin: string | undefined | null): ReturnsRow | null => {
+            if (!asin) return null;
+            return byAsin.get(asin.trim().toLowerCase()) || null;
+        },
+        [byAsin],
+    );
+    const lookupBySku = useCallback(
+        (sku: string | undefined | null): ReturnsRow | null => {
+            if (!sku) return null;
+            return bySku.get(sku.trim().toLowerCase()) || null;
+        },
+        [bySku],
+    );
 
     return {
         rows:      q.data?.rows || [],

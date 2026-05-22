@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useDeferredValue, useMemo, useRef, useState } from "react";
 import {
     flexRender, getCoreRowModel, getSortedRowModel, useReactTable,
     type ColumnDef, type SortingState,
@@ -76,6 +76,10 @@ const ROW_HEIGHT_PX = 36;
 export function SkuTable({ rows }: { rows: SkuRow[] }) {
     const [sorting, setSorting]   = useState<SortingState>([{ id: "total_sales", desc: true }]);
     const [filter, setFilter]     = useState("");
+    // Deferred value — the search input stays instantly responsive while
+    // React schedules the expensive 600-row filter recomputation as a
+    // low-priority render that can be interrupted by more typing.
+    const deferredFilter          = useDeferredValue(filter);
     // Scroll container for the virtualizer — must be the actual scrollable element.
     const scrollRef = useRef<HTMLDivElement>(null);
     // Component-local filter state — URL persistence on this 600+ row table
@@ -96,10 +100,16 @@ export function SkuTable({ rows }: { rows: SkuRow[] }) {
     // Join margin data by model — Fossil rows return null and render "—".
     const { lookupByModel } = useMargins();
     const enrichedRows = useMemo<SkuRow[]>(
-        () => rows.map((r) => ({
-            ...r,
-            net_margin_pct: lookupByModel(r.model_no)?.net_margin_pct ?? null,
-        })),
+        () => {
+            const t0 = performance.now();
+            const out = rows.map((r) => ({
+                ...r,
+                net_margin_pct: lookupByModel(r.model_no)?.net_margin_pct ?? null,
+            }));
+            // eslint-disable-next-line no-console
+            console.log(`[SkuTable] enrichedRows: ${rows.length} rows in ${(performance.now()-t0).toFixed(1)}ms`);
+            return out;
+        },
         [rows, lookupByModel],
     );
 
@@ -185,7 +195,7 @@ export function SkuTable({ rows }: { rows: SkuRow[] }) {
     ], []);
 
     const filtered = useMemo(() => {
-        const q = filter.trim().toLowerCase();
+        const q = deferredFilter.trim().toLowerCase();
         function inRange(v: any, rng: NumRange | undefined): boolean {
             if (!rng || (rng.min == null && rng.max == null)) return true;
             if (v == null || v === "" || isNaN(Number(v))) return false;
@@ -212,7 +222,7 @@ export function SkuTable({ rows }: { rows: SkuRow[] }) {
             }
             return true;
         });
-    }, [enrichedRows, filter, catFilters, numFilters]);
+    }, [enrichedRows, deferredFilter, catFilters, numFilters]);
 
     const table = useReactTable({
         data: filtered,

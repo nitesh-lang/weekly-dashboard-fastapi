@@ -119,9 +119,11 @@ export default function AmsPlanning() {
     const selCategoriesL1 = useMemo(() => params.getAll("cat_l1").filter(Boolean),      [qsKey]);
     const selAmsReq       = useMemo(() => params.getAll("ams_required").filter(Boolean),[qsKey]);
     const selVariations   = useMemo(() => params.getAll("variation").filter(Boolean),   [qsKey]);
-    const rBau   = useMemo(() => getRange("bau"),     [qsKey]);
-    const rSoh   = useMemo(() => getRange("soh"),     [qsKey]);
-    const rRet   = useMemo(() => getRange("ret"),     [qsKey]);
+    const rBau         = useMemo(() => getRange("bau"),          [qsKey]);
+    const rSoh         = useMemo(() => getRange("soh"),          [qsKey]);
+    const rRet         = useMemo(() => getRange("ret"),          [qsKey]);
+    const rAvgRating   = useMemo(() => getRange("avg_rating"),   [qsKey]);
+    const rRatingCount = useMemo(() => getRange("rating_count"), [qsKey]);
     const rPct   = useMemo(() => getRange("pct"),     [qsKey]);
 
     // Distinct values for pickers — derived from loaded rows, post-brand filter for context.
@@ -193,13 +195,15 @@ export default function AmsPlanning() {
             if (!inRange(r.soh, rSoh))                   return false;
             if (!inRange((r as any).return_units, rRet)) return false;
             if (!inRange((r as any).return_pct, rPct))   return false;
+            if (!inRange(r.avg_rating,    rAvgRating))   return false;
+            if (!inRange(r.rating_count,  rRatingCount)) return false;
             if (!q) return true;
             const blob = `${r.brand} ${r.model} ${r.sku} ${r.asin} ${r.category_l0} ${r.category_l1} ${r.asin_type} ${r.ams_required} ${r.remarks}`;
             return blob.toLowerCase().includes(q);
         });
     }, [rowsWithReturns, filter, selBrands, selAsinTypes, selStatuses,
         selModels, selAsins, selCategories, selCategoriesL1, selAmsReq, selVariations,
-        rBau, rSoh, rRet, rPct]);
+        rBau, rSoh, rRet, rPct, rAvgRating, rRatingCount]);
 
     // Default sort: Out of Stock + Low at the top so the operator sees the
     // urgent decisions first.  Tie-break by SOH descending.
@@ -318,6 +322,7 @@ export default function AmsPlanning() {
                                              "category_l0", "category_l1",
                                              "asin_type", "soh", "inventory_status",
                                              "return_units", "units_sold_30d", "return_pct", "top_return_reason",
+                                             "avg_rating", "rating_count",
                                              "ams_required", "remarks",
                                              "variation", "variation_asins"],
                                             "ams-planning.csv",
@@ -362,6 +367,10 @@ export default function AmsPlanning() {
                                                 numericRange={rRet}  onNumericFilter={(r) => setRange("ret", r)} numericPresets={[1, 5, 10]} />
                                             <SortableTh sortKey="return_pct"   label="Return %"     sort={sort} onSort={onSort} className="col-conv" minWidth={110}
                                                 numericRange={rPct}  onNumericFilter={(r) => setRange("pct", r)} numericSuffix="%" numericPresets={[2, 5, 10]} />
+                                            <SortableTh sortKey="avg_rating"   label="Avg Rating"   sort={sort} onSort={onSort} className="col-summary col-divide-l" minWidth={110}
+                                                numericRange={rAvgRating}   onNumericFilter={(r) => setRange("avg_rating", r)}   numericPresets={[3, 4, 4.5]} />
+                                            <SortableTh sortKey="rating_count" label="# Reviews"    sort={sort} onSort={onSort} className="col-summary" minWidth={110}
+                                                numericRange={rRatingCount} onNumericFilter={(r) => setRange("rating_count", r)} numericPresets={[10, 100, 1000]} />
                                             <SortableTh sortKey="ams_required" label="AMS Required" sort={sort} onSort={onSort} align="left" className="col-pct col-divide-l" minWidth={150}
                                                 filterValues={amsReqValues} filterSelected={selAmsReq}       onFilterChange={(v) => setMulti("ams_required", v)} />
                                             <SortableTh sortKey="remarks"      label="Remarks"      sort={sort} onSort={onSort} align="left" minWidth={200} />
@@ -425,6 +434,23 @@ export default function AmsPlanning() {
                                                             </td>
                                                         );
                                                     })()}
+                                                    {/* Avg Rating — colour-codes by health band (≥4.0 healthy, 3.5-4.0 amber, <3.5 red) */}
+                                                    <td
+                                                        className="px-3 py-2 text-right tabular border-b col-summary col-divide-l"
+                                                        style={(() => {
+                                                            const v = r.avg_rating;
+                                                            if (v == null) return undefined;
+                                                            if (v < 3.5) return { color: "#b91c1c", fontWeight: 600 };
+                                                            if (v < 4.0) return { color: "#d97706", fontWeight: 600 };
+                                                            return { color: "#047857", fontWeight: 500 };
+                                                        })()}
+                                                    >
+                                                        {r.avg_rating != null ? r.avg_rating.toFixed(1) : "—"}
+                                                    </td>
+                                                    {/* Review count — locale-formatted, mute when missing */}
+                                                    <td className="px-3 py-2 text-right tabular border-b col-summary">
+                                                        {r.rating_count != null ? fmtInt(r.rating_count) : "—"}
+                                                    </td>
                                                     <td className="px-1 py-1 border-b col-pct col-divide-l">
                                                         <EditableCell
                                                             value={r.ams_required}

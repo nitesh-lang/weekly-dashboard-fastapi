@@ -1,0 +1,116 @@
+"""
+Reviews snapshot ETL — reads Helium-10/Keepa exports from
+`data/raw/reviews/*.csv` (one CSV per brand) and produces a tidy
+per-ASIN aggregate at `data/processed/reviews_snapshot.csv`.
+
+Input schema (Helium-10 product database export):
+    Image, Title, Sales Rank: Current, Sales Rank: 30/90/365 days avg.,
+    Sales Rank: Drops last 30 days, Reviews: Rating, Reviews: Rating Count,
+    ASIN, Brand, Monthly Sales Trends: Monthly Sold (Last Known)
+
+We keep just ASIN + Brand + the two review fields — everything else is
+informational and not needed for the AMS Planning grid.
+
+Output schema (one row per ASIN):
+    asin, brand, avg_rating, rating_count
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+import pandas as pd
+
+ROOT     = Path(__file__).resolve().parent.parent.parent
+RAW_DIR  = ROOT / "data" / "raw" / "reviews"
+OUT_FILE = ROOT / "data" / "processed" / "reviews_snapshot.csv"
+
+# Source column names (Helium-10 default headers — quoted with colons).
+COL_ASIN         = "ASIN"
+COL_BRAND        = "Brand"
+COL_RATING       = "Reviews: Rating"
+COL_RATING_COUNT = "Reviews: Rating Count"
+
+
+def _read_one(path: Path) -> pd.DataFrame:
+    """Read one brand's Helium-10 export.  Handles the UTF-8 BOM the
+    Helium-10 downloader prepends.  Coerces blanks / dashes to NaN."""
+    df = pd.read_csv(path, encoding="utf-8-sig", dtype=str)
+    needed = {COL_ASIN, COL_BRAND, COL_RATING, COL_RATING_COUNT}
+    have   = set(df.columns)
+    if not needed.issubset(have):
+        print(f"  ⚠ {path.name}: missing required columns ({needed - have}) — skipping")
+        return pd.DataFrame()
+
+    out = df[[COL_ASIN, COL_BRAND, COL_RATING, COL_RATING_COUNT]].copy()
+    out.columns = ["asin", "brand", "avg_rating", "rating_count"]
+
+    # Normalise
+    out["asin"]  = out["asin"].astype(str).str.strip()
+    out["brand"] = out["brand"].astype(str).str.strip()
+    out = out[(out["asin"] != "") & (out["asin"].str.lower() != "nan")]
+
+    # Numeric coercion — Helium-10 exports use "-" for missing values
+    out["avg_rating"]   = pd.to_numeric(out["avg_rating"].replace({"-": pd.NA}),   errors="coerce")
+    out["rating_count"] = pd.to_numeric(out["rating_count"].replace({"-": pd.NA}), errors="coerce")
+    return out
+
+
+def run_reviews_etl() -> int:
+    if not RAW_DIR.exists():
+        print(f"⚠ Reviews raw folder not found at {RAW_DIR}")
+        return 0
+
+    files = sorted([p for p in RAW_DIR.glob("*.csv") if not p.name.startswith("~")])
+    if not files:
+        print(f"⚠ {RAW_DIR} has no CSVs — skipping")
+        return 0
+
+    frames = []
+    for f in files:
+        print(f"📥 Reading {f.name}…")
+        d = _read_one(f)
+        if not d.empty:
+            frames.append(d)
+
+    if not frames:
+        print("⚠ No usable reviews rows")
+        return 0
+
+    raw = pd.concat(frames, ignore_index=True)
+    print(f"   Combined {len(raw):,} product rows across {len(frames)} files")
+
+    # Multiple sources sometimes have the same ASIN (different scraping runs).
+    # Keep the row with the highest rating_count — that's the freshest snapshot.
+    raw = raw.sort_values("rating_count", ascending=False, na_position="last")
+    agg = raw.drop_duplicates(subset=["asin"], keep="first").reset_index(drop=True)
+
+    # Order columns + final round-trip
+    agg = agg[["asin", "brand", "avg_rating", "rating_count"]]
+
+    # Cast rating_count to int where possible (drops fractional from the few
+    # rows that came back as floats).  Keep NaN for missing values.
+    agg["rating_count"] = agg["rating_count"].astype("Int64")
+
+    OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    agg.to_csv(OUT_FILE, index=False)
+    print(f"✅ Wrote {len(agg):,} ASINs → {OUT_FILE.relative_to(ROOT)}")
+    print()
+    print("   Per-brand summary:")
+    for b, grp in agg.groupby("brand"):
+        n          = len(grp)
+        with_rate  = grp["avg_rating"].notna().sum()
+        sum_counts = int(grp["rating_count"].fillna(0).sum())
+        avg_rate   = grp["avg_rating"].mean() if with_rate else None
+        rate_str   = f"{avg_rate:.2f}" if avg_rate is not None else "—"
+        print(f"     {b:<18} {n:>4} ASINs | {with_rate:>3} rated | {sum_counts:>7,} total reviews | avg {rate_str}")
+    return len(agg)
+
+
+if __name__ == "__main__":
+    try:
+        run_reviews_etl()
+    except Exception:
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)

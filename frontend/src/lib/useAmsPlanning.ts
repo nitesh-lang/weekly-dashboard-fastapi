@@ -14,6 +14,8 @@ export interface PlanningRow {
     variation_asins: string;
     soh: number;
     inventory_status: "Out of Stock" | "Low" | "Healthy" | "Overstocked" | string;
+    avg_rating:   number | null;   // 0–5 from Helium-10 (null = no review data)
+    rating_count: number | null;   // total review count (null = no review data)
     ams_required: string;
     remarks: string;
 }

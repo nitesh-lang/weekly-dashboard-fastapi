@@ -35,6 +35,7 @@ SKU_MASTER  = Path("data/master/sku_master.xlsx")
 INVENTORY   = Path("data/processed/inventory_model_snapshot.csv")
 RAW_INV_DIR = Path("data/raw/inventory")
 NOTES_FILE  = Path("data/processed/ams_planning_notes.json")
+REVIEWS     = Path("data/processed/reviews_snapshot.csv")
 
 # SOH thresholds for Inventory Status — tune per operator preference.
 SOH_LOW          = 50
@@ -121,6 +122,31 @@ def _inventory_status(soh: int) -> str:
     return "Overstocked"
 
 
+def _build_reviews_lookup() -> dict[str, dict]:
+    """{asin → {avg_rating, rating_count}} from the Helium-10-derived snapshot.
+    Returns an empty dict if the snapshot is missing — review columns just
+    render as "—" when there's no data."""
+    if not REVIEWS.exists():
+        return {}
+    try:
+        df = pd.read_csv(REVIEWS)
+    except Exception:
+        return {}
+    df["asin"] = df["asin"].astype(str).str.strip()
+    out: dict[str, dict] = {}
+    for _, r in df.iterrows():
+        a = r["asin"]
+        if not a:
+            continue
+        rc = r.get("rating_count")
+        ar = r.get("avg_rating")
+        out[a] = {
+            "avg_rating":   None if pd.isna(ar) else float(ar),
+            "rating_count": None if pd.isna(rc) else int(rc),
+        }
+    return out
+
+
 def _build_payload() -> dict:
     if not SKU_MASTER.exists():
         return {"rows": [], "brands": [], "row_count": 0, "available": False}
@@ -156,8 +182,9 @@ def _build_payload() -> dict:
     # Drop rows without a SKU — they're useless for planning.
     master = master[master.get("sku", "").astype(str).str.len() > 0]
 
-    soh_lookup = _build_soh_lookup()
-    notes = _load_notes()
+    soh_lookup     = _build_soh_lookup()
+    reviews_lookup = _build_reviews_lookup()
+    notes          = _load_notes()
 
     # Fossil isn't part of AMS — exclude it from the planning grid entirely.
     if "brand" in master.columns:
@@ -165,15 +192,17 @@ def _build_payload() -> dict:
 
     rows = []
     for _, r in master.iterrows():
-        sku = r.get("sku") or ""
-        soh = int(soh_lookup.get(sku, 0))
+        sku  = r.get("sku") or ""
+        asin = r.get("asin", "") or ""
+        soh  = int(soh_lookup.get(sku, 0))
         note = notes.get(sku, {})
+        rev  = reviews_lookup.get(asin, {})
         rows.append({
             "sku":               sku,
             "brand":             r.get("brand", "") or "",
             "model":             r.get("model", "") or "",
             "bau":               (r.get("bau") if pd.notna(r.get("bau")) else None),
-            "asin":              r.get("asin", "") or "",
+            "asin":              asin,
             "category_l0":       r.get("category_l0", "") or "",
             "category_l1":       r.get("category_l1", "") or "",
             "asin_type":         r.get("asin_type", "") or "",
@@ -181,6 +210,8 @@ def _build_payload() -> dict:
             "variation_asins":   r.get("variation_asins", "") or "",
             "soh":               soh,
             "inventory_status":  _inventory_status(soh),
+            "avg_rating":        rev.get("avg_rating"),     # float | None
+            "rating_count":      rev.get("rating_count"),   # int   | None
             "ams_required":      note.get("ams_required", ""),
             "remarks":           note.get("remarks", ""),
         })
@@ -198,9 +229,10 @@ def _build_payload() -> dict:
 def get_ams_planning():
     """Re-build the payload if either sku_master or notes file changed."""
     # mtime-aware cache so we don't re-read 907-row Excel on every request.
-    master_mtime = SKU_MASTER.stat().st_mtime if SKU_MASTER.exists() else 0
-    notes_mtime  = NOTES_FILE.stat().st_mtime if NOTES_FILE.exists() else 0
-    cur = (master_mtime, notes_mtime)
+    master_mtime  = SKU_MASTER.stat().st_mtime if SKU_MASTER.exists() else 0
+    notes_mtime   = NOTES_FILE.stat().st_mtime if NOTES_FILE.exists() else 0
+    reviews_mtime = REVIEWS.stat().st_mtime if REVIEWS.exists() else 0
+    cur = (master_mtime, notes_mtime, reviews_mtime)
     if _payload_cache["mtime"] == cur and _payload_cache["body"] is not None:
         return Response(content=_payload_cache["body"], media_type="application/json")
 

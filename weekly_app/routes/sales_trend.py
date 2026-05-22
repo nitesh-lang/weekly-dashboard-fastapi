@@ -42,7 +42,13 @@ def load_asin_by_model() -> dict:
     m = m[m[asin_col].ne("") & m[asin_col].ne("nan") & m[asin_col].ne("-")]
     out = {}
     for model, grp in m.groupby(model_col):
-        uniq = sorted(set(grp[asin_col]))
+        # Defensive: coerce every value to str so a stray float NaN that
+        # slipped past the filter can't crash str.join().  Same fix as
+        # AM_sales_trend.load_asin_by_model.
+        uniq = sorted({
+            s for s in (str(v).strip() for v in grp[asin_col])
+            if s and s.lower() not in ("nan", "none", "-")
+        })
         out[model] = ", ".join(uniq)
     return out
 

@@ -5,6 +5,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import { useAmsPlanning, type PlanningRow } from "@/lib/useAmsPlanning";
 import { useReturns } from "@/lib/useReturns";
+import { useMargins } from "@/lib/useMargins";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
 import { SortableTh } from "@/components/SortableTh";
@@ -112,6 +113,7 @@ export default function AmsPlanning() {
 
     const { rows, brands, available, isLoading, error, refetch, saveNote } = useAmsPlanning();
     const { lookupByAsin: returnsByAsin, lookupBySku: returnsBySku } = useReturns();
+    const { lookupByModel: marginByModel } = useMargins();
 
     // Extra URL state for the in-header column filters
     const selModels       = useMemo(() => params.getAll("model").filter(Boolean),       [qsKey]);
@@ -128,6 +130,8 @@ export default function AmsPlanning() {
     const rRet         = useMemo(() => getRange("ret"),          [qsKey]);
     const rAvgRating   = useMemo(() => getRange("avg_rating"),   [qsKey]);
     const rRatingCount = useMemo(() => getRange("rating_count"), [qsKey]);
+    const rNetMargin   = useMemo(() => getRange("net_margin"),   [qsKey]);
+    const rNetMarginP  = useMemo(() => getRange("net_pct"),      [qsKey]);
     const rPct   = useMemo(() => getRange("pct"),     [qsKey]);
 
     // Distinct values for pickers — derived from loaded rows, post-brand filter for context.
@@ -157,6 +161,7 @@ export default function AmsPlanning() {
     const rowsWithReturns = useMemo(
         () => rows.map((r) => {
             const ret = returnsByAsin(r.asin) || returnsBySku(r.sku);
+            const mgn = marginByModel(r.model);
             return {
                 ...r,
                 return_units:       ret ? ret.return_units : 0,
@@ -164,9 +169,11 @@ export default function AmsPlanning() {
                 units_sold_30d:     ret ? ret.units_sold_30d : 0,
                 top_return_reason:  ret ? ret.top_reason : "",
                 total_stock:        (r.soh || 0) + (r.am_intransit || 0) + (r.am_soh || 0),
+                net_margin:         mgn?.net_margin     ?? null,
+                net_margin_pct:     mgn?.net_margin_pct ?? null,
             };
         }),
-        [rows, returnsByAsin, returnsBySku],
+        [rows, returnsByAsin, returnsBySku, marginByModel],
     );
 
     const filtered = useMemo(() => {
@@ -207,13 +214,16 @@ export default function AmsPlanning() {
             if (!inRange((r as any).return_pct, rPct))   return false;
             if (!inRange(r.avg_rating,    rAvgRating))   return false;
             if (!inRange(r.rating_count,  rRatingCount)) return false;
+            if (!inRange((r as any).net_margin,     rNetMargin))  return false;
+            if (!inRange((r as any).net_margin_pct, rNetMarginP)) return false;
             if (!q) return true;
             const blob = `${r.brand} ${r.model} ${r.sku} ${r.asin} ${r.category_l0} ${r.category_l1} ${r.asin_type} ${r.ams_required} ${r.remarks}`;
             return blob.toLowerCase().includes(q);
         });
     }, [rowsWithReturns, filter, selBrands, selAsinTypes, selStatuses,
         selModels, selAsins, selCategories, selCategoriesL1, selAmsReq, selVariations,
-        rBau, rSoh, rAmSoh, rAmIntransit, rTotalStock, rRet, rPct, rAvgRating, rRatingCount]);
+        rBau, rSoh, rAmSoh, rAmIntransit, rTotalStock, rRet, rPct, rAvgRating, rRatingCount,
+        rNetMargin, rNetMarginP]);
 
     // Default sort: Out of Stock + Low at the top so the operator sees the
     // urgent decisions first.  Tie-break by SOH descending.
@@ -333,6 +343,7 @@ export default function AmsPlanning() {
                                              "asin_type", "soh", "am_intransit", "am_soh", "total_stock", "inventory_status",
                                              "return_units", "units_sold_30d", "return_pct", "top_return_reason",
                                              "avg_rating", "rating_count",
+                                             "net_margin", "net_margin_pct",
                                              "ams_required", "remarks",
                                              "variation", "variation_asins"],
                                             "ams-planning.csv",
@@ -387,6 +398,10 @@ export default function AmsPlanning() {
                                                 numericRange={rAvgRating}   onNumericFilter={(r) => setRange("avg_rating", r)}   numericPresets={[3, 4, 4.5]} />
                                             <SortableTh sortKey="rating_count" label="# Reviews"    sort={sort} onSort={onSort} className="col-summary" minWidth={110}
                                                 numericRange={rRatingCount} onNumericFilter={(r) => setRange("rating_count", r)} numericPresets={[10, 100, 1000]} />
+                                            <SortableTh sortKey="net_margin"     label="Net ₹"  sort={sort} onSort={onSort} className="col-sales col-divide-l" minWidth={110}
+                                                numericRange={rNetMargin}  onNumericFilter={(r) => setRange("net_margin", r)} numericPresets={[0, 100, 500]} />
+                                            <SortableTh sortKey="net_margin_pct" label="Net %"  sort={sort} onSort={onSort} className="col-sales" minWidth={100}
+                                                numericRange={rNetMarginP} onNumericFilter={(r) => setRange("net_pct", r)}    numericSuffix="%" numericPresets={[0, 10, 25]} />
                                             <SortableTh sortKey="ams_required" label="AMS Required" sort={sort} onSort={onSort} align="left" className="col-pct col-divide-l" minWidth={150}
                                                 filterValues={amsReqValues} filterSelected={selAmsReq}       onFilterChange={(v) => setMulti("ams_required", v)} />
                                             <SortableTh sortKey="remarks"      label="Remarks"      sort={sort} onSort={onSort} align="left" minWidth={200} />
@@ -479,6 +494,27 @@ export default function AmsPlanning() {
                                                     <td className="px-3 py-2 text-right tabular border-b col-summary">
                                                         {r.rating_count != null ? fmtInt(r.rating_count) : "—"}
                                                     </td>
+                                                    {/* Net margin (₹) — joined by model via /api/margins.  Coloured by the
+                                                        % band: loss red, low-margin amber, healthy green.  Missing = "—". */}
+                                                    {(() => {
+                                                        const nm   = (r as any).net_margin     as number | null;
+                                                        const npct = (r as any).net_margin_pct as number | null;
+                                                        const style = npct == null
+                                                            ? undefined
+                                                            : npct < 0  ? { color: "#b91c1c", fontWeight: 600 }
+                                                            : npct < 10 ? { color: "#9a3412", fontWeight: 600 }
+                                                            :             { color: "#047857", fontWeight: 600 };
+                                                        return (
+                                                            <>
+                                                                <td className="px-3 py-2 text-right tabular border-b col-sales col-divide-l" style={style}>
+                                                                    {nm != null ? fmtINR(nm) : "—"}
+                                                                </td>
+                                                                <td className="px-3 py-2 text-right tabular border-b col-sales" style={style}>
+                                                                    {npct != null ? `${npct.toFixed(1)}%` : "—"}
+                                                                </td>
+                                                            </>
+                                                        );
+                                                    })()}
                                                     <td className="px-1 py-1 border-b col-pct col-divide-l">
                                                         <EditableCell
                                                             value={r.ams_required}

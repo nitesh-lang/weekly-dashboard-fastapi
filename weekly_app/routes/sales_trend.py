@@ -12,6 +12,7 @@ import pandas as pd
 import re
 
 from weekly_app.core.json_utils import clean_nan
+from weekly_app.core.df_cache import load_csv_cached, load_excel_cached
 
 router = APIRouter()
 from jinja2 import Environment, FileSystemLoader
@@ -29,7 +30,7 @@ def load_asin_by_model() -> dict:
     if not MASTER_FILE.exists():
         return {}
     try:
-        m = pd.read_excel(MASTER_FILE)
+        m = load_excel_cached(MASTER_FILE)
     except Exception:
         return {}
     m.columns = m.columns.str.strip()
@@ -82,7 +83,7 @@ def find_file(base, stems):
 
 def load_sales():
     f = find_file(DATA_DIR, ["weekly_sales_snapshot", "weekly_sales"])
-    df = pd.read_csv(f)
+    df = load_csv_cached(f)
     df.columns = [c.strip().lower() for c in df.columns]
 
     df = df.rename(columns={
@@ -115,7 +116,7 @@ def load_inventory(latest_week):
     except FileNotFoundError:
         return {}
 
-    df = pd.read_csv(f)
+    df = load_csv_cached(f)
     df.columns = [c.strip().lower() for c in df.columns]
 
     df["model"] = df["model"].apply(norm_model)

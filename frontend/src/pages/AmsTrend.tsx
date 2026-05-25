@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, exportToCsv, sortWeeks } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -207,7 +207,7 @@ export default function AmsTrend() {
             allModels: Array.from(models).sort(),
             allAsins:  Array.from(asins).sort(),
             allBrands: Array.from(brands).sort(),
-            allWeeks:  Array.from(weeks).sort(),
+            allWeeks:  sortWeeks(Array.from(weeks)),
             allL0:     Array.from(l0).sort(),
             allL1:     Array.from(l1).sort(),
             allL2:     Array.from(l2).sort(),
@@ -329,6 +329,7 @@ export default function AmsTrend() {
                     </p>
                 </div>
                 <div className="flex-1" />
+                <MultiPicker label="Weeks"  options={allWeeks}  selected={selWeeks}  onApply={(v) => setMulti("weeks", v)} />
                 <MultiPicker label="Brands" options={allBrands} selected={selBrands} onApply={setSelBrands} />
                 <MultiPicker label="Models" options={allModels} selected={selModels} onApply={setSelModels} />
                 <MultiPicker label="SKUs"   options={allSkus}   selected={selSkus}   onApply={setSelSkus} />

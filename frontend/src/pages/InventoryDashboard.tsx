@@ -399,8 +399,14 @@ export default function InventoryDashboard() {
                                             filterValues={allBrandsM} filterSelected={selBrandsM} onFilterChange={(v) => setMulti("brands", v)} />
                                         <SortableTh sortKey="model"       label="Model" sort={sort} onSort={onSort} align="left" stickyLeft={190} minWidth={140}
                                             filterValues={allModelsM} filterSelected={selModels}  onFilterChange={(v) => setMulti("models", v)} />
-                                        <SortableTh sortKey="sku"         label="SKU"   sort={sort} onSort={onSort} align="left" stickyLeft={330} minWidth={110} lastFrozen
+                                        <SortableTh sortKey="sku"         label="SKU"   sort={sort} onSort={onSort} align="left" stickyLeft={330} minWidth={110}
                                             filterValues={allSkusM}   filterSelected={selSkus}    onFilterChange={(v) => setMulti("skus", v)} />
+                                        {/* Channel sits next to SKU so the operator can see at a glance
+                                            where a model is parked (AMPM / YNT / Amazon …) without
+                                            scrolling.  Reuses the existing top-bar Channel picker via
+                                            the shared selChannel state. */}
+                                        <SortableTh sortKey="channel"     label="Channel" sort={sort} onSort={onSort} align="left" stickyLeft={440} minWidth={100} lastFrozen
+                                            filterValues={allChannel} filterSelected={selChannel} onFilterChange={(v) => setMulti("channel", v)} />
                                         <SortableTh sortKey="inventory_units" label="Units"     sort={sort} onSort={onSort} className="col-units col-divide-l" minWidth={110}
                                             numericRange={rUnits} onNumericFilter={(r) => setRange("units", r)} numericPresets={[1, 50, 500]} />
                                         <SortableTh sortKey="nlc"             label="NLC (₹)"   sort={sort} onSort={onSort} className="col-pct" minWidth={130}
@@ -415,7 +421,8 @@ export default function InventoryDashboard() {
                                             <td style={{ position: "sticky", left: 0 }}   className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[80px]">{r.week}</td>
                                             <td style={{ position: "sticky", left: 80 }}  className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[110px]">{r.brand}</td>
                                             <td style={{ position: "sticky", left: 190 }} className="px-3 py-2 font-medium border-b bg-background group-hover:bg-accent/40 z-10 min-w-[140px]">{r.model}</td>
-                                            <td style={{ position: "sticky", left: 330 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[110px] border-r-2 border-r-border">{r.sku || "—"}</td>
+                                            <td style={{ position: "sticky", left: 330 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[110px]">{r.sku || "—"}</td>
+                                            <td style={{ position: "sticky", left: 440 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[100px] border-r-2 border-r-border text-[12.5px] uppercase tracking-wide text-foreground/80">{r.channel || "—"}</td>
                                             <td className="px-3 py-2 text-right tabular border-b col-units col-divide-l">{fmtInt(r.inventory_units)}</td>
                                             <td className="px-3 py-2 text-right tabular border-b col-pct">{fmtINR(r.nlc)}</td>
                                             <td className="px-3 py-2 text-right tabular border-b col-sales">{fmtINR(r.inventory_value)}</td>

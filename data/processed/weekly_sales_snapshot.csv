@@ -10544,209 +10544,214 @@ Week 21,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Wat
 Week 21,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
 Week 21,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 21,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
-Week 21,Nexlev,,Amazon,3.0,505.9322033898305,505.9322033898305,0.0,0.0,,MAPPED,,,
-Week 21,Nexlev,,Blinkit Sales,4.0,7115.0,7115.0,0.0,0.0,FBA79350,MAPPED,,,
+Week 21,Nexlev,,Amazon,2.0,337.2881355932204,337.2881355932204,0.0,0.0,,MAPPED,,,
+Week 21,Nexlev,,Blinkit Sales,0.0,0.0,0.0,0.0,0.0,FBA79350,MAPPED,,,
 Week 21,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 21,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
-Week 21,Nexlev,AP-03,Amazon,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 21,Nexlev,AP-03,Amazon,3.0,10056.77966101695,10056.77966101695,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
 Week 21,Nexlev,AP-03,B2B,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
-Week 21,Nexlev,AP-03,Blinkit Sales,5.0,18004.0,18004.0,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
+Week 21,Nexlev,AP-03,Blinkit Sales,1.0,4199.0,4199.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
 Week 21,Nexlev,AP-03 HEPA,Amazon,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares
 Week 21,Nexlev,AP-04,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,
 Week 21,Nexlev,BM-02,Amazon,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
-Week 21,Nexlev,BR-01,Amazon,24.0,36589.83050847458,36589.83050847458,536.0,12864.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
-Week 21,Nexlev,BR-01,Blinkit Sales,2.0,2708.0,2708.0,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
-Week 21,Nexlev,CAP-05,Amazon,2.0,3896.6101694915255,3896.6101694915255,0.0,0.0,FBA79989,MAPPED,,,
-Week 21,Nexlev,CFM-01,Amazon,51.0,107002.5508474576,107002.5508474576,1014.0,51714.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
-Week 21,Nexlev,CFM-01,Blinkit Sales,61.0,149864.0,149864.0,1014.0,61854.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 21,Nexlev,BR-01,Amazon,15.0,19311.016949152545,19311.016949152545,536.0,8040.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
+Week 21,Nexlev,BR-01,Blinkit Sales,9.0,14382.0,14382.0,536.0,4824.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
+Week 21,Nexlev,CAP-05,Amazon,3.0,3896.6101694915255,3896.6101694915255,0.0,0.0,FBA79989,MAPPED,,,
+Week 21,Nexlev,CF-01,Amazon,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker
+Week 21,Nexlev,CFM-01,Amazon,39.0,90439.84745762713,90439.84745762713,1014.0,39546.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 21,Nexlev,CFM-01,Blinkit Sales,22.0,63778.0,63778.0,1014.0,22308.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager
 Week 21,Nexlev,CFM-02,Amazon,0.0,0.0,0.0,3229.0,0.0,FBA79689,MAPPED,HPC,Electric Massagers,Complete Leg Massager
-Week 21,Nexlev,CFM-03,Amazon,10.0,40245.76271186441,40245.76271186441,2004.0,20040.0,FBA79849,MAPPED,HPC,Electric Massagers,Calf Massager
-Week 21,Nexlev,CM-01-BL,Amazon,1.0,1194.7118644067798,1194.7118644067798,560.0,560.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
-Week 21,Nexlev,CM-01-BL,Blinkit Sales,3.0,3811.0,3811.0,560.0,1680.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
-Week 21,Nexlev,CM-02-PR,Amazon,4.0,5081.35593220339,5081.35593220339,560.0,2240.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 21,Nexlev,CFM-03,Amazon,5.0,21182.20338983051,21182.20338983051,2004.0,10020.0,FBA79849,MAPPED,HPC,Electric Massagers,Calf Massager
+Week 21,Nexlev,CM-01-BL,Amazon,0.0,0.0,0.0,560.0,0.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 21,Nexlev,CM-01-BL,Blinkit Sales,2.0,2998.0,2998.0,560.0,1120.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
+Week 21,Nexlev,CM-02-PR,Amazon,0.0,0.0,0.0,560.0,0.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
 Week 21,Nexlev,CM-02-PR,B2B,1.0,1071.0,1071.0,560.0,560.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
-Week 21,Nexlev,CM-02-PR,BI Worldwide,1.0,1092.381,1092.381,560.0,560.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
-Week 21,Nexlev,CR-01,Amazon,41.0,20258.474576271183,20258.474576271183,533.0,21853.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
+Week 21,Nexlev,CR-01,Amazon,20.0,11461.86440677966,11461.86440677966,533.0,10660.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
 Week 21,Nexlev,CR-01,Blinkit Sales,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
 Week 21,Nexlev,DF-01-BK,Amazon,0.0,0.0,0.0,1073.0,0.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
-Week 21,Nexlev,DH-01,Amazon,9.0,45724.06779661017,45724.06779661017,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
-Week 21,Nexlev,EA-01,Amazon,26.0,21404.23728813559,21404.23728813559,710.0,18460.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
-Week 21,Nexlev,EA-02,Amazon,26.0,43874.576271186445,43874.576271186445,1345.0,34970.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
-Week 21,Nexlev,EA-02,Blinkit Sales,10.0,18636.0,18636.0,1345.0,13450.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
-Week 21,Nexlev,EA-02,D2C - Nexlev,1.0,2320.952,2320.952,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 21,Nexlev,DH-01,Amazon,12.0,54143.220338983054,54143.220338983054,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
+Week 21,Nexlev,EA-01,Amazon,21.0,16533.898305084746,16533.898305084746,710.0,14910.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 21,Nexlev,EA-02,Amazon,18.0,31570.347457627122,31570.347457627122,1345.0,24210.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 21,Nexlev,EA-02,Blinkit Sales,7.0,15193.0,15193.0,1345.0,9415.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 21,Nexlev,EM-02,Pharmaeasy,2.0,3392.0,3392.0,1422.0,2844.0,FBA79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro
-Week 21,Nexlev,ET-01-BK,Amazon,11.0,2542.6016949152545,2542.6016949152545,282.0,3102.0,FBA79233,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 21,Nexlev,ET-02-GN,Amazon,7.0,1608.949152542373,1608.949152542373,282.0,1974.0,FBA79234,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 21,Nexlev,ET-01-BK,Amazon,3.0,758.4745762711865,758.4745762711865,282.0,846.0,FBA79233,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 21,Nexlev,ET-02-GN,Amazon,10.0,2503.389830508475,2503.389830508475,282.0,2820.0,FBA79234,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 21,Nexlev,ETC-04-WH,Amazon,1.0,596.6101694915254,596.6101694915254,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 21,Nexlev,ETC-04-WH,B2B,2.0,1153.0,1153.0,412.0,824.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 21,Nexlev,ETC-04-WH,Blinkit Sales,0.0,0.0,0.0,412.0,0.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 21,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 21,Nexlev,ETC-07-WH,Amazon,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 21,Nexlev,ETC-04-WH,Blinkit Sales,5.0,4495.0,4495.0,412.0,2060.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 21,Nexlev,ETC-05-PI,Amazon,1.0,677.1186440677966,677.1186440677966,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 21,Nexlev,ETC-07-WH,Amazon,2.0,1472.8813559322034,1472.8813559322034,371.0,742.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 21,Nexlev,ETC-07-WH,BI Worldwide,1.0,589.0,589.0,371.0,371.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 21,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 21,Nexlev,ETC-08-BL,Amazon,0.0,0.0,0.0,373.0,0.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 21,Nexlev,ETC-08-BL,BI Worldwide,1.0,661.9048,661.9048,373.0,373.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 21,Nexlev,ETC-08-BL,Blinkit Sales,0.0,0.0,0.0,373.0,0.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 21,Nexlev,ETR-06,Amazon,1.0,1003.3898305084746,1003.3898305084746,672.0,672.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 21,Nexlev,ETR-06,Amazon,4.0,4123.728813559323,4123.728813559323,672.0,2688.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 21,Nexlev,ETR-06,BI Worldwide,1.0,900.0,900.0,672.0,672.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
 Week 21,Nexlev,ETR-06,Blinkit Sales,0.0,0.0,0.0,672.0,0.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
-Week 21,Nexlev,FS-01,Amazon,15.0,19659.322033898305,19659.322033898305,896.0,13440.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
-Week 21,Nexlev,FS-01,BI Worldwide,2.0,2832.381,2832.381,896.0,1792.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
-Week 21,Nexlev,FS-01,Blinkit Sales,13.0,19269.0,19269.0,896.0,11648.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
-Week 21,Nexlev,GS-02,Amazon,27.0,37260.16949152543,37260.16949152543,1260.0,34020.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 21,Nexlev,FS-01,Amazon,8.0,10108.474576271186,10108.474576271186,896.0,7168.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
+Week 21,Nexlev,FS-01,Blinkit Sales,7.0,12443.0,12443.0,896.0,6272.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
+Week 21,Nexlev,GS-02,Amazon,13.0,20922.881355932204,20922.881355932204,1260.0,16380.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
 Week 21,Nexlev,GS-02,B2B,4.0,6061.0,6061.0,1260.0,5040.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
-Week 21,Nexlev,GS-02,Blinkit Sales,9.0,17153.0,17153.0,1260.0,11340.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
-Week 21,Nexlev,GS-02,D2C - Nexlev,10.0,19899.15,19899.15,1260.0,12600.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
-Week 21,Nexlev,GS-04,Amazon,1.0,1770.3389830508474,1770.3389830508474,1512.0,1512.0,FBA79229,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
-Week 21,Nexlev,GS-05,Amazon,8.0,10637.49152542373,10637.49152542373,987.0,7896.0,FBA79268,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
-Week 21,Nexlev,GS-05,Blinkit Sales,22.0,35778.0,35778.0,987.0,21714.0,FBA79268,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 21,Nexlev,GS-02,Blinkit Sales,6.0,13494.0,13494.0,1260.0,7560.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 21,Nexlev,GS-02,D2C - Nexlev,8.0,15916.0,15916.0,1260.0,10080.0,FBA78980,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 21,Nexlev,GS-04,Amazon,0.0,0.0,0.0,1512.0,0.0,FBA79229,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 21,Nexlev,GS-05,Amazon,9.0,14083.898305084746,14083.898305084746,987.0,8883.0,FBA79268,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
+Week 21,Nexlev,GS-05,Blinkit Sales,23.0,44347.0,44347.0,987.0,22701.0,FBA79268,MAPPED,Home & Kitchen,Fabric Care,Garment steamer
 Week 21,Nexlev,HB-01,Amazon,0.0,0.0,0.0,1175.0,0.0,FBA79676,MAPPED,HPC,Electric Massagers,Heated Wrap Belt
 Week 21,Nexlev,HD-01,Amazon,0.0,0.0,0.0,769.0,0.0,FBA79278,MAPPED,HPC,Hair Care,Hair Dryer
-Week 21,Nexlev,HD-02,Amazon,0.0,0.0,0.0,448.0,0.0,FBA79348,MAPPED,HPC,Hair Care,Hair Dryer
+Week 21,Nexlev,HD-01,BI Worldwide,1.0,936.0,936.0,769.0,769.0,FBA79278,MAPPED,HPC,Hair Care,Hair Dryer
+Week 21,Nexlev,HD-02,Amazon,5.0,3542.3728813559323,3542.3728813559323,448.0,2240.0,FBA79348,MAPPED,HPC,Hair Care,Hair Dryer
 Week 21,Nexlev,HD-02,Blinkit Sales,0.0,0.0,0.0,448.0,0.0,FBA79348,MAPPED,HPC,Hair Care,Hair Dryer
-Week 21,Nexlev,HD-02,D2C - Nexlev,1.0,973.7288,973.7288,448.0,448.0,FBA79348,MAPPED,HPC,Hair Care,Hair Dryer
-Week 21,Nexlev,HM-01,Amazon,0.0,0.0,0.0,490.0,0.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 21,Nexlev,HD-02,D2C - Nexlev,1.0,974.0,974.0,448.0,448.0,FBA79348,MAPPED,HPC,Hair Care,Hair Dryer
+Week 21,Nexlev,HM-01,Amazon,3.0,2493.220338983051,2493.220338983051,490.0,1470.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
 Week 21,Nexlev,HM-01,B2B,1.0,641.0,641.0,490.0,490.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
-Week 21,Nexlev,HM-01,Blinkit Sales,2.0,2202.0,2202.0,490.0,980.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
-Week 21,Nexlev,HM-01,D2C - Nexlev,2.0,2067.619,2067.619,490.0,980.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 21,Nexlev,HM-01,BI Worldwide,1.0,809.0,809.0,490.0,490.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 21,Nexlev,HM-01,Blinkit Sales,2.0,2598.0,2598.0,490.0,980.0,FBA79332,MAPPED,HPC,Hair Care,Head Massager
+Week 21,Nexlev,HM-02,Amazon,0.0,0.0,0.0,714.0,0.0,FBA79333,MAPPED,HPC,Hair Care,Head Massager
+Week 21,Nexlev,HM-02,BI Worldwide,1.0,2265.0,2265.0,714.0,714.0,FBA79333,MAPPED,HPC,Hair Care,Head Massager
 Week 21,Nexlev,HM-02,Blinkit Sales,0.0,0.0,0.0,714.0,0.0,FBA79333,MAPPED,HPC,Hair Care,Head Massager
-Week 21,Nexlev,HS-01,Amazon,5.0,2995.762711864407,2995.762711864407,378.0,1890.0,FBA79272,MAPPED,HPC,Hair Care,Hair Straightener
-Week 21,Nexlev,HS-01,D2C - Nexlev,2.0,1435.593,1435.593,378.0,756.0,FBA79272,MAPPED,HPC,Hair Care,Hair Straightener
-Week 21,Nexlev,HS-02,Amazon,0.0,0.0,0.0,389.0,0.0,FBA79273,MAPPED,HPC,Hair Care,Hair Straightener
-Week 21,Nexlev,HS-02,D2C - Nexlev,2.0,1415.254,1415.254,389.0,778.0,FBA79273,MAPPED,HPC,Hair Care,Hair Straightener
-Week 21,Nexlev,HSB-03,Amazon,0.0,0.0,0.0,868.0,0.0,FBA79405,MAPPED,HPC,Hair Care,Hair Straightener Brush - Corded
+Week 21,Nexlev,HS-01,Amazon,3.0,1354.2372881355932,1354.2372881355932,378.0,1134.0,FBA79272,MAPPED,HPC,Hair Care,Hair Straightener
+Week 21,Nexlev,HS-02,Amazon,1.0,668.6440677966102,668.6440677966102,389.0,389.0,FBA79273,MAPPED,HPC,Hair Care,Hair Straightener
+Week 21,Nexlev,HS-02,BI Worldwide,1.0,575.0,575.0,389.0,389.0,FBA79273,MAPPED,HPC,Hair Care,Hair Straightener
+Week 21,Nexlev,HS-02,D2C - Nexlev,3.0,2123.0,2123.0,389.0,1167.0,FBA79273,MAPPED,HPC,Hair Care,Hair Straightener
+Week 21,Nexlev,HSB-03,Amazon,2.0,3303.389830508475,3303.389830508475,868.0,1736.0,FBA79405,MAPPED,HPC,Hair Care,Hair Straightener Brush - Corded
 Week 21,Nexlev,HSB-03,Blinkit Sales,0.0,0.0,0.0,868.0,0.0,FBA79405,MAPPED,HPC,Hair Care,Hair Straightener Brush - Corded
-Week 21,Nexlev,HSB-04,Amazon,18.0,36571.69491525424,36571.69491525424,961.0,17298.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
-Week 21,Nexlev,HSB-04,Blinkit Sales,2.0,4575.0,4575.0,961.0,1922.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
-Week 21,Nexlev,HU-02,Amazon,6.0,7411.016949152543,7411.016949152543,818.0,4908.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
+Week 21,Nexlev,HSB-04,Amazon,11.0,22319.49152542373,22319.49152542373,961.0,10571.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 21,Nexlev,HSB-04,BI Worldwide,1.0,2028.0,2028.0,961.0,961.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 21,Nexlev,HSB-04,Blinkit Sales,4.0,10796.0,10796.0,961.0,3844.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 21,Nexlev,HSB-04,D2C - Nexlev,1.0,2425.0,2425.0,961.0,961.0,FBA79406,MAPPED,HPC,Hair Care,Hair Straightener Brush - Cordless
+Week 21,Nexlev,HU-01,Amazon,0.0,0.0,0.0,829.0,0.0,FBA79681,MAPPED,Home & Kitchen,Air Purifier,Humidifier Black
+Week 21,Nexlev,HU-02,Amazon,11.0,14199.15254237288,14199.15254237288,818.0,8998.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
 Week 21,Nexlev,HU-02,B2B,1.0,1441.0,1441.0,818.0,818.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
 Week 21,Nexlev,HU-02,Blinkit Sales,0.0,0.0,0.0,818.0,0.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
-Week 21,Nexlev,HU-02,D2C - Nexlev,1.0,1616.102,1616.102,818.0,818.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
+Week 21,Nexlev,HU-02,D2C - Nexlev,1.0,1616.0,1616.0,818.0,818.0,FBA79682,MAPPED,Home & Kitchen,Air Purifier,Humidifier White
 Week 21,Nexlev,IPL-01,Blinkit Sales,0.0,0.0,0.0,1307.0,0.0,FBA79571,MAPPED,HPC,Skin Care,Laser Hair Remover Device
-Week 21,Nexlev,KE-01,Amazon,1.0,2133.533898305085,2133.533898305085,984.0,984.0,FBA79488,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 21,Nexlev,KE-01,Amazon,8.0,14645.762711864409,14645.762711864409,984.0,7872.0,FBA79488,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 21,Nexlev,KE-01,BI Worldwide,1.0,1260.0,1260.0,984.0,984.0,FBA79488,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
 Week 21,Nexlev,KE-01,Blinkit Sales,0.0,0.0,0.0,984.0,0.0,FBA79488,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
-Week 21,Nexlev,KE-02,Amazon,6.0,9417.381355932204,9417.381355932204,980.0,5880.0,FBA79489,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
-Week 21,Nexlev,KE-02,Blinkit Sales,5.0,8470.0,8470.0,980.0,4900.0,FBA79489,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
-Week 21,Nexlev,KE-03,Amazon,0.0,0.0,0.0,324.0,0.0,FBA79809,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Kettle
+Week 21,Nexlev,KE-02,Amazon,7.0,9856.77966101695,9856.77966101695,980.0,6860.0,FBA79489,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 21,Nexlev,KE-02,Blinkit Sales,1.0,1999.0,1999.0,980.0,980.0,FBA79489,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Multi Kettles
+Week 21,Nexlev,KE-03,Amazon,1.0,502.5508474576271,502.5508474576271,324.0,324.0,FBA79809,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Kettle
 Week 21,Nexlev,KE-03,Blinkit Sales,0.0,0.0,0.0,324.0,0.0,FBA79809,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Kettle
-Week 21,Nexlev,KM-01,Amazon,1.0,1288.6779661016951,1288.6779661016951,1039.0,1039.0,FBA79591,MAPPED,HPC,Electric Massagers,Knee Massager
+Week 21,Nexlev,KM-01,Amazon,2.0,2529.661016949153,2529.661016949153,1039.0,2078.0,FBA79591,MAPPED,HPC,Electric Massagers,Knee Massager
 Week 21,Nexlev,KM-01,Blinkit Sales,0.0,0.0,0.0,1039.0,0.0,FBA79591,MAPPED,HPC,Electric Massagers,Knee Massager
-Week 21,Nexlev,LE-02,Amazon,7.0,11205.932203389832,11205.932203389832,810.0,5670.0,FBA79440,MAPPED,HPC,Hair Care,Hair Therapy Comb
+Week 21,Nexlev,LE-02,Amazon,6.0,8174.669491525425,8174.669491525425,810.0,4860.0,FBA79440,MAPPED,HPC,Hair Care,Hair Therapy Comb
+Week 21,Nexlev,LE-02,BI Worldwide,1.0,1368.0,1368.0,810.0,810.0,FBA79440,MAPPED,HPC,Hair Care,Hair Therapy Comb
 Week 21,Nexlev,LE-02,Blinkit Sales,0.0,0.0,0.0,810.0,0.0,FBA79440,MAPPED,HPC,Hair Care,Hair Therapy Comb
-Week 21,Nexlev,LE-03,Amazon,2.0,2721.9152542372885,2721.9152542372885,1089.0,2178.0,FBA79443,MAPPED,HPC,Skin Care,LED Face & Skin Care Massager
-Week 21,Nexlev,LE-04,Amazon,2.0,2460.5169491525426,2460.5169491525426,594.0,1188.0,FBA79469,MAPPED,HPC,Skin Care,Skin Lift Device
+Week 21,Nexlev,LE-03,Amazon,3.0,4247.457627118644,4247.457627118644,1089.0,3267.0,FBA79443,MAPPED,HPC,Skin Care,LED Face & Skin Care Massager
+Week 21,Nexlev,LE-04,Amazon,4.0,5576.271186440679,5576.271186440679,594.0,2376.0,FBA79469,MAPPED,HPC,Skin Care,Skin Lift Device
 Week 21,Nexlev,LE-04,Blinkit Sales,0.0,0.0,0.0,594.0,0.0,FBA79469,MAPPED,HPC,Skin Care,Skin Lift Device
-Week 21,Nexlev,LE-04,D2C - Nexlev,1.0,2018.095,2018.095,594.0,594.0,FBA79469,MAPPED,HPC,Skin Care,Skin Lift Device
-Week 21,Nexlev,LR-01,Amazon,15.0,10283.898305084746,10283.898305084746,444.0,6660.0,FBA79279,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
-Week 21,Nexlev,LR-01,Blinkit Sales,8.0,6231.0,6231.0,444.0,3552.0,FBA79279,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
-Week 21,Nexlev,LR-01 Set of 2 blades,Amazon,0.0,0.0,0.0,108.0,0.0,FBA79606,MAPPED,Home & Kitchen,Set of 2 blades,Spares
-Week 21,Nexlev,LR-02,Amazon,16.0,19265.254237288136,19265.254237288136,899.0,14384.0,FBA79280,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 21,Nexlev,LR-01,Amazon,6.0,4266.949152542373,4266.949152542373,444.0,2664.0,FBA79279,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 21,Nexlev,LR-01,Blinkit Sales,12.0,11028.0,11028.0,444.0,5328.0,FBA79279,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 21,Nexlev,LR-01 Set of 2 blades,Amazon,1.0,317.79661016949154,317.79661016949154,108.0,108.0,FBA79606,MAPPED,Home & Kitchen,Set of 2 blades,Spares
+Week 21,Nexlev,LR-02,Amazon,22.0,27571.186440677968,27571.186440677968,899.0,19778.0,FBA79280,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
 Week 21,Nexlev,LR-02,Blinkit Sales,0.0,0.0,0.0,899.0,0.0,FBA79280,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
-Week 21,Nexlev,LR-02,D2C - Nexlev,1.0,1346.61,1346.61,899.0,899.0,FBA79280,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
 Week 21,Nexlev,LR-02 Set of 2 blades,Amazon,0.0,0.0,0.0,145.0,0.0,FBA79607,MAPPED,Home & Kitchen,Set of 2 blades,Spares
-Week 21,Nexlev,LR-03,Amazon,3.0,1164.406779661017,1164.406779661017,145.0,435.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 21,Nexlev,LR-03,Amazon,4.0,1253.389830508475,1253.389830508475,145.0,580.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
 Week 21,Nexlev,LR-03,B2B,7.0,1904.0,1904.0,145.0,1015.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
-Week 21,Nexlev,LR-03,Blinkit Sales,5.0,2114.0,2114.0,145.0,725.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
-Week 21,Nexlev,MC-01,Amazon,6.0,2710.169491525424,2710.169491525424,297.0,1782.0,FBA79811,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper
-Week 21,Nexlev,MF-01,Amazon,1.0,473.7288135593221,473.7288135593221,261.0,261.0,FBA79810,MAPPED,Home & Kitchen,Kitchen Appliances,Milk Frother
-Week 21,Nexlev,MG-01,Amazon,1.0,1442.3728813559323,1442.3728813559323,926.0,926.0,FBA79596,MAPPED,HPC,Electric Massagers,Massage Gun
+Week 21,Nexlev,LR-03,BI Worldwide,2.0,266.0,266.0,145.0,290.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 21,Nexlev,LR-03,Blinkit Sales,7.0,3493.0,3493.0,145.0,1015.0,FBA79819,MAPPED,Home & Kitchen,Fabric Care,Lint Remover
+Week 21,Nexlev,MC-01,Amazon,4.0,1872.8813559322036,1872.8813559322036,297.0,1188.0,FBA79811,MAPPED,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper
+Week 21,Nexlev,MF-01,Amazon,2.0,1015.2542372881356,1015.2542372881356,261.0,522.0,FBA79810,MAPPED,Home & Kitchen,Kitchen Appliances,Milk Frother
+Week 21,Nexlev,MG-01,Amazon,0.0,0.0,0.0,926.0,0.0,FBA79596,MAPPED,HPC,Electric Massagers,Massage Gun
 Week 21,Nexlev,MG-01,Blinkit Sales,0.0,0.0,0.0,926.0,0.0,FBA79596,MAPPED,HPC,Electric Massagers,Massage Gun
 Week 21,Nexlev,MG-01,Pharmaeasy,1.0,1615.0,1615.0,926.0,926.0,FBA79596,MAPPED,HPC,Electric Massagers,Massage Gun
 Week 21,Nexlev,MGC-03,Amazon,0.0,0.0,0.0,980.0,0.0,FBA79687,MAPPED,HPC,Electric Massagers,Hot & Cold Massage Gun
-Week 21,Nexlev,MGS-02,Amazon,2.0,1438.9830508474577,1438.9830508474577,436.0,872.0,FBA79686,MAPPED,HPC,Electric Massagers,Massage Gun - Mini
-Week 21,Nexlev,MR-01,Amazon,82.0,177872.93220338985,177872.93220338985,1162.0,95284.0,FBA79263,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
-Week 21,Nexlev,MR-01,Blinkit Sales,1.0,2542.0,2542.0,1162.0,1162.0,FBA79263,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
-Week 21,Nexlev,MR-01 HEPA Filter,Amazon,0.0,0.0,0.0,35.0,0.0,FBA79436,MAPPED,Home & Kitchen,HEPA Filter,Spares
-Week 21,Nexlev,MR-02,Amazon,26.0,72140.6779661017,72140.6779661017,1381.0,35906.0,FBA79439,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 21,Nexlev,MGS-02,Amazon,2.0,1481.35593220339,1481.35593220339,436.0,872.0,FBA79686,MAPPED,HPC,Electric Massagers,Massage Gun - Mini
+Week 21,Nexlev,MR-01,Amazon,44.0,96200.0,96200.0,1162.0,51128.0,FBA79263,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 21,Nexlev,MR-01,Blinkit Sales,3.0,8997.0,8997.0,1162.0,3486.0,FBA79263,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
+Week 21,Nexlev,MR-01 HEPA Filter,Amazon,1.0,172.8813559322034,172.8813559322034,35.0,35.0,FBA79436,MAPPED,Home & Kitchen,HEPA Filter,Spares
+Week 21,Nexlev,MR-02,Amazon,16.0,42409.32203389831,42409.32203389831,1381.0,22096.0,FBA79439,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
 Week 21,Nexlev,MR-02,Blinkit Sales,0.0,0.0,0.0,1381.0,0.0,FBA79439,MAPPED,Home & Kitchen,Cleaning & Vacumming,Mite Remover
 Week 21,Nexlev,MR-02 HEPA Filter,Amazon,0.0,0.0,0.0,45.0,0.0,FBA79721,MAPPED,Home & Kitchen,HEPA Filter,Spares
 Week 21,Nexlev,NP-02,Amazon,0.0,0.0,0.0,418.0,0.0,FBA78995,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
 Week 21,Nexlev,NP-03,Blinkit Sales,0.0,0.0,0.0,413.0,0.0,FBA78996,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
-Week 21,Nexlev,NP-05,Amazon,0.0,0.0,0.0,558.0,0.0,FBA78998,MAPPED,Home & Kitchen,Travel Accessories,Travel Pillow
 Week 21,Nexlev,NP-06,Amazon,0.0,0.0,0.0,501.0,0.0,FBA79677,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow
-Week 21,Nexlev,NP-06,Blinkit Sales,4.0,4234.0,4234.0,501.0,2004.0,FBA79677,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow
+Week 21,Nexlev,NP-06,Blinkit Sales,1.0,1249.0,1249.0,501.0,501.0,FBA79677,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow
 Week 21,Nexlev,NP-07,Amazon,0.0,0.0,0.0,501.0,0.0,FBA79678,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow
-Week 21,Nexlev,PB-01,Amazon,31.0,59826.457627118645,59826.457627118645,1307.0,40517.0,FBA79812,MAPPED,Home & Kitchen,Kitchen Appliances,Portable Blender
+Week 21,Nexlev,PB-01,Amazon,29.0,56302.542372881355,56302.542372881355,1307.0,37903.0,FBA79812,MAPPED,Home & Kitchen,Kitchen Appliances,Portable Blender
+Week 21,Nexlev,PM-01,Amazon,0.0,0.0,0.0,969.0,0.0,FBA79675,MAPPED,HPC,Electric Massagers,Handheld Percussion Massager
 Week 21,Nexlev,PM-01,Blinkit Sales,0.0,0.0,0.0,969.0,0.0,FBA79675,MAPPED,HPC,Electric Massagers,Handheld Percussion Massager
 Week 21,Nexlev,PM-02,Amazon,0.0,0.0,0.0,963.0,0.0,FBA79690,MAPPED,HPC,Electric Massagers,Handheld Percussion Massager
-Week 21,Nexlev,SC-01,Amazon,51.0,171750.1186440678,171750.1186440678,1786.0,91086.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-01,Amazon,75.0,242972.88135593224,242972.88135593224,1786.0,133950.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-01,B2B,19.0,53029.56,53029.56,1786.0,33934.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
-Week 21,Nexlev,SC-01,Blinkit Sales,1.0,3092.0,3092.0,1786.0,1786.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
-Week 21,Nexlev,SC-01,D2C - Nexlev,14.0,50293.22,50293.22,1786.0,25004.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-01,Blinkit Sales,3.0,10947.0,10947.0,1786.0,5358.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-01,D2C - Nexlev,13.0,46701.0,46701.0,1786.0,23218.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-01 Set of Spares,Amazon,2.0,676.271186440678,676.271186440678,350.0,700.0,FBA79771,MAPPED,Home & Kitchen,Set of Spares,Spares
 Week 21,Nexlev,SC-02,Blinkit Sales,0.0,0.0,0.0,1377.0,0.0,FBA79262,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-02 Set of Spares,Amazon,0.0,0.0,0.0,350.0,0.0,FBA79772,MAPPED,Home & Kitchen,Set of Spares,Spares
-Week 21,Nexlev,SC-03,Amazon,28.0,158350.84745762713,158350.84745762713,4052.0,113456.0,FBA79277,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
-Week 21,Nexlev,SC-04,Amazon,48.0,212467.7966101695,212467.7966101695,2695.0,129360.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-03,Amazon,11.0,63972.881355932215,63972.881355932215,4052.0,44572.0,FBA79277,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-04,Amazon,46.0,225724.59322033898,225724.59322033898,2695.0,123970.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-04,B2B,1.0,4322.0,4322.0,2695.0,2695.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-04,Blinkit Sales,0.0,0.0,0.0,2695.0,0.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
-Week 21,Nexlev,SC-04 Set of 2 Mops,Amazon,2.0,805.0847457627119,805.0847457627119,82.0,164.0,FBA79714,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
-Week 21,Nexlev,SC-04 Spare Set,Amazon,2.0,466.1016949152543,466.1016949152543,40.0,80.0,FBA79843,MAPPED,Home & Kitchen,Spare Set,Spares
-Week 21,Nexlev,SC-05,Amazon,135.0,320501.70338983054,320501.70338983054,1443.0,194805.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
-Week 21,Nexlev,SC-05,Blinkit Sales,8.0,19654.0,19654.0,1443.0,11544.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
-Week 21,Nexlev,SC-05,D2C - Nexlev,1.0,2694.068,2694.068,1443.0,1443.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-04 Set of 2 Mops,Amazon,3.0,1207.627118644068,1207.627118644068,82.0,246.0,FBA79714,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
+Week 21,Nexlev,SC-04 Spare Set,Amazon,1.0,233.05084745762716,233.05084745762716,40.0,40.0,FBA79843,MAPPED,Home & Kitchen,Spare Set,Spares
+Week 21,Nexlev,SC-05,Amazon,111.0,281790.7372881356,281790.7372881356,1443.0,160173.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-05,Blinkit Sales,15.0,43485.0,43485.0,1443.0,21645.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 21,Nexlev,SC-05,D2C - Nexlev,2.0,5388.0,5388.0,1443.0,2886.0,FBA79652,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,0.0,0.0,0.0,350.0,0.0,FBA79912,MAPPED,Home & Kitchen,SC-05 - Set of Spares,Spares
-Week 21,Nexlev,SM-01,Amazon,8.0,24738.98305084746,24738.98305084746,2357.0,18856.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop
+Week 21,Nexlev,SM-01,Amazon,4.0,12890.677966101695,12890.677966101695,2357.0,9428.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop
 Week 21,Nexlev,SM-01,Blinkit Sales,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop
-Week 21,Nexlev,SM-01 Set of 2 Mops,Amazon,0.0,0.0,0.0,300.0,0.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
-Week 21,Nexlev,SPM-01,Amazon,7.0,18675.60169491525,18675.60169491525,2775.0,19425.0,FBA79468,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe
-Week 21,Nexlev,SPM-01 Set of 2 Mops,Amazon,0.0,0.0,0.0,250.0,0.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
+Week 21,Nexlev,SM-01 Set of 2 Mops,Amazon,3.0,1014.406779661017,1014.406779661017,300.0,900.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
+Week 21,Nexlev,SP-01,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79971,MAPPED,,,
+Week 21,Nexlev,SPM-01,Amazon,7.0,19844.91525423729,19844.91525423729,2775.0,19425.0,FBA79468,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe
+Week 21,Nexlev,SPM-01,D2C - Nexlev,1.0,3592.0,3592.0,2827.0,2827.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe
+Week 21,Nexlev,SPM-01 Set of 2 Mops,Amazon,1.0,253.3898305084746,253.3898305084746,250.0,250.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
 Week 21,Nexlev,SS-01,Amazon,0.0,0.0,0.0,1532.0,0.0,FBA79451,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
-Week 21,Nexlev,SS-02,Amazon,1.0,1439.8305084745764,1439.8305084745764,1306.0,1306.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 21,Nexlev,SS-02,Amazon,8.0,10793.220338983052,10793.220338983052,1306.0,10448.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
 Week 21,Nexlev,SS-02,B2B,1.0,1441.0,1441.0,1306.0,1306.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
-Week 21,Nexlev,SS-02,Blinkit Sales,3.0,4319.0,4319.0,1306.0,3918.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
+Week 21,Nexlev,SS-02,Blinkit Sales,1.0,1699.0,1699.0,1306.0,1306.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
 Week 21,Nexlev,SS-02 Set of Spares,Amazon,0.0,0.0,0.0,350.0,0.0,FBA79657,MAPPED,Home & Kitchen,Set of Spares,Spares
-Week 21,Nexlev,ST-01,Amazon,14.0,68900.0,68900.0,3423.0,47922.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
+Week 21,Nexlev,ST-01,Amazon,18.0,90862.71186440678,90862.71186440678,3423.0,61614.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
 Week 21,Nexlev,ST-02,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79992,MAPPED,,,
-Week 21,Nexlev,ST-03,Amazon,2.0,21184.745762711864,21184.745762711864,0.0,0.0,FBA79993,MAPPED,,,
-Week 21,Nexlev,SW-01,Amazon,32.0,25761.881355932208,25761.881355932208,409.0,13088.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine
+Week 21,Nexlev,ST-03,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79993,MAPPED,,,
+Week 21,Nexlev,SW-01,Amazon,37.0,30402.889830508477,30402.889830508477,409.0,15133.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine
 Week 21,Nexlev,SW-01,Blinkit Sales,0.0,0.0,0.0,409.0,0.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine
-Week 21,Nexlev,T-01,Blinkit Sales,2.0,1693.0,1693.0,516.0,1032.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
-Week 21,Nexlev,T-02,Amazon,4.0,3779.661016949153,3779.661016949153,606.0,2424.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
-Week 21,Nexlev,T-02,BI Worldwide,1.0,1028.571,1028.571,606.0,606.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 21,Nexlev,T-01,Blinkit Sales,1.0,999.0,999.0,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 21,Nexlev,T-02,Amazon,1.0,1100.8474576271187,1100.8474576271187,606.0,606.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
 Week 21,Nexlev,T-02,Blinkit Sales,0.0,0.0,0.0,606.0,0.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
-Week 21,Nexlev,T-02,D2C - Nexlev,7.0,5926.271,5926.271,606.0,4242.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
+Week 21,Nexlev,T-02,D2C - Nexlev,9.0,7619.0,7619.0,606.0,5454.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer
 Week 21,Nexlev,TI-01,Amazon,0.0,0.0,0.0,1250.0,0.0,FBA79466,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
 Week 21,Nexlev,TI-01,B2B,1.0,1729.0,1729.0,1250.0,1250.0,FBA79466,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
-Week 21,Nexlev,TI-02,Amazon,7.0,8020.508474576272,8020.508474576272,865.0,6055.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
-Week 21,Nexlev,TI-02,BI Worldwide,1.0,1294.286,1294.286,865.0,865.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
-Week 21,Nexlev,TI-02,Blinkit Sales,2.0,3897.0,3897.0,865.0,1730.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
-Week 21,Nexlev,TIC-03,Amazon,2.0,1569.491525423729,1569.491525423729,814.0,1628.0,FBA79474,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
+Week 21,Nexlev,TI-02,Amazon,4.0,5557.627118644068,5557.627118644068,865.0,3460.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 21,Nexlev,TI-02,Blinkit Sales,2.0,4598.0,4598.0,865.0,1730.0,FBA79473,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Corded
+Week 21,Nexlev,TIC-03,Amazon,1.0,1651.6949152542377,1651.6949152542377,814.0,814.0,FBA79474,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
 Week 21,Nexlev,TIC-03,Blinkit Sales,0.0,0.0,0.0,814.0,0.0,FBA79474,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
-Week 21,Nexlev,TIC-04,Amazon,1.0,2372.0338983050847,2372.0338983050847,1392.0,1392.0,FBA79475,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
+Week 21,Nexlev,TIC-04,Amazon,0.0,0.0,0.0,1392.0,0.0,FBA79475,MAPPED,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless
 Week 21,Nexlev,TM-01,Amazon,0.0,0.0,0.0,483.0,0.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
-Week 21,Nexlev,TM-01,Blinkit Sales,1.0,762.0,762.0,483.0,483.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
-Week 21,Nexlev,TM-01,D2C - Nexlev,2.0,1066.102,1066.102,483.0,966.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 21,Nexlev,TM-01,BI Worldwide,1.0,575.0,575.0,483.0,483.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 21,Nexlev,TM-01,Blinkit Sales,2.0,1798.0,1798.0,483.0,966.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
+Week 21,Nexlev,TM-01,D2C - Nexlev,9.0,4797.0,4797.0,483.0,4347.0,FBA79467,MAPPED,HPC,Trimmers & Body Groomers,Men's Beard Trimmer
 Week 21,Nexlev,TM-02,Amazon,0.0,0.0,0.0,1302.0,0.0,FBA79481,MAPPED,HPC,Trimmers & Body Groomers,Intimate Trimmer
 Week 21,Nexlev,TM-03,Amazon,0.0,0.0,0.0,594.0,0.0,FBA79483,MAPPED,HPC,Trimmers & Body Groomers,Men's Body Trimmer
-Week 21,Nexlev,TM-03,Blinkit Sales,1.0,889.0,889.0,594.0,594.0,FBA79483,MAPPED,HPC,Trimmers & Body Groomers,Men's Body Trimmer
-Week 21,Nexlev,TM-05,Amazon,0.0,0.0,0.0,1177.0,0.0,FBA79693,MAPPED,HPC,Trimmers & Body Groomers,Vacuum Trimmer
-Week 21,Nexlev,V-01,Amazon,4.0,4517.796610169492,4517.796610169492,728.0,2912.0,FBA79271,MAPPED,HPC,Hair Care,Volumizer
-Week 21,Nexlev,V-01 RG,Amazon,1.0,1727.966101694915,1727.966101694915,663.0,663.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
+Week 21,Nexlev,TM-03,Blinkit Sales,2.0,2098.0,2098.0,594.0,1188.0,FBA79483,MAPPED,HPC,Trimmers & Body Groomers,Men's Body Trimmer
+Week 21,Nexlev,TM-04,Amazon,0.0,0.0,0.0,460.0,0.0,FBA79485,MAPPED,HPC,Trimmers & Body Groomers,Body & Nose Trimmer
+Week 21,Nexlev,TM-05,Amazon,1.0,2117.7966101694915,2117.7966101694915,1177.0,1177.0,FBA79693,MAPPED,HPC,Trimmers & Body Groomers,Vacuum Trimmer
+Week 21,Nexlev,V-01,Amazon,3.0,3494.9152542372885,3494.9152542372885,728.0,2184.0,FBA79271,MAPPED,HPC,Hair Care,Volumizer
+Week 21,Nexlev,V-01 RG,Amazon,3.0,3023.728813559322,3023.728813559322,663.0,1989.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
 Week 21,Nexlev,V-01 RG,B2B,1.0,1153.0,1153.0,663.0,663.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
-Week 21,Nexlev,V-01 RG,Blinkit Sales,9.0,12323.0,12323.0,663.0,5967.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
+Week 21,Nexlev,V-01 RG,Blinkit Sales,7.0,11543.0,11543.0,663.0,4641.0,FBK79271,MAPPED,HPC,Hair Care,Volumizer
 Week 21,Nexlev,V-02,Amazon,0.0,0.0,0.0,1095.0,0.0,FBA79492,MAPPED,HPC,Hair Care,Volumizer
 Week 21,Nexlev,V-02,Blinkit Sales,0.0,0.0,0.0,1095.0,0.0,FBA79492,MAPPED,HPC,Hair Care,Volumizer
-Week 21,Nexlev,V-03,Amazon,31.0,53084.745762711864,53084.745762711864,852.0,26412.0,FBA79493,MAPPED,HPC,Hair Care,Volumizer
+Week 21,Nexlev,V-03,Amazon,21.0,36363.5593220339,36363.5593220339,852.0,17892.0,FBA79493,MAPPED,HPC,Hair Care,Volumizer
 Week 21,Nexlev,V-03,B2B,6.0,9060.0,9060.0,852.0,5112.0,FBA79493,MAPPED,HPC,Hair Care,Volumizer
 Week 21,Nexlev,V-03,Blinkit Sales,0.0,0.0,0.0,852.0,0.0,FBA79493,MAPPED,HPC,Hair Care,Volumizer
-Week 21,Nexlev,VC-01,Amazon,8.0,13467.889830508477,13467.889830508477,1088.0,8704.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 21,Nexlev,VC-01,Amazon,6.0,10462.71186440678,10462.71186440678,1088.0,6528.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,VC-01,B2B,2.0,3169.0,3169.0,1088.0,2176.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-01,Blinkit Sales,5.0,8894.0,8894.0,1088.0,5440.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-01,D2C - Nexlev,30.0,56461.86,56461.86,1088.0,32640.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-02,Amazon,2.0,4082.203389830509,4082.203389830509,1291.0,2582.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 21,Nexlev,VC-01,Blinkit Sales,5.0,10495.0,10495.0,1088.0,5440.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 21,Nexlev,VC-01,D2C - Nexlev,31.0,58347.0,58347.0,1088.0,33728.0,FBA79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 21,Nexlev,VC-02,Amazon,1.0,2064.406779661017,2064.406779661017,1291.0,1291.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,VC-02,B2B,1.0,1873.0,1873.0,1291.0,1291.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,VC-02,Blinkit Sales,0.0,0.0,0.0,1291.0,0.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-02,D2C - Nexlev,1.0,2244.915,2244.915,1291.0,1291.0,FBA79463,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-02 HEPA,Amazon,5.0,1055.084745762712,1055.084745762712,45.0,225.0,FBA79774,MAPPED,Home & Kitchen,HEPA,Spares
+Week 21,Nexlev,VC-02 HEPA,Amazon,4.0,841.9576271186442,841.9576271186442,45.0,180.0,FBA79774,MAPPED,Home & Kitchen,HEPA,Spares
 Week 21,Nexlev,VC-03,Amazon,0.0,0.0,0.0,803.0,0.0,FBA79480,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,VC-03,Blinkit Sales,0.0,0.0,0.0,803.0,0.0,FBA79480,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-03 HEPA,Amazon,8.0,1688.1355932203392,1688.1355932203392,45.0,360.0,FBA79775,MAPPED,Home & Kitchen,HEPA,Spares
-Week 21,Nexlev,VC-04,Amazon,1.0,2005.084745762712,2005.084745762712,1112.0,1112.0,FBA79565,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 21,Nexlev,VC-03 HEPA,Amazon,0.0,0.0,0.0,45.0,0.0,FBA79775,MAPPED,Home & Kitchen,HEPA,Spares
+Week 21,Nexlev,VC-04,Amazon,0.0,0.0,0.0,1112.0,0.0,FBA79565,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,VC-04,Blinkit Sales,0.0,0.0,0.0,1112.0,0.0,FBA79565,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-04,D2C - Nexlev,1.0,2244.915,2244.915,1112.0,1112.0,FBA79565,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,VC-04 HEPA,Amazon,0.0,0.0,0.0,45.0,0.0,FBA79776,MAPPED,Home & Kitchen,HEPA,Spares
-Week 21,Nexlev,VC-05,Amazon,4.0,7793.220338983051,7793.220338983051,1063.0,4252.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
+Week 21,Nexlev,VC-05,Amazon,1.0,1948.3050847457628,1948.3050847457628,1063.0,1063.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,VC-05,Blinkit Sales,0.0,0.0,0.0,1063.0,0.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
-Week 21,Nexlev,VC-05,D2C - Nexlev,1.0,2155.085,2155.085,1063.0,1063.0,FBA79566,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Nexlev,"VC-05 VC-05 -Set of Spares(Crevice, Brush & Hose)",Amazon,0.0,0.0,0.0,350.0,0.0,FBA79913,MAPPED,Home & Kitchen,"VC-05 -Set of Spares(Crevice, Brush & Hose)",Spares
 Week 21,Nexlev,VC-06,Blinkit Sales,0.0,0.0,0.0,954.0,0.0,FBA79599,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner
 Week 21,Tonor,,1p,9.0,20246.62,20246.62,0.0,0.0,FBA79260,MAPPED,,,

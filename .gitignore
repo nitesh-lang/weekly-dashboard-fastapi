@@ -25,3 +25,7 @@ desktop.ini
 
 # Excel lock files (created when a workbook is open in Excel)
 ~$*
+
+# Local backups (fix_inventory_model_casing.py drops a .bak next to
+# each modified workbook before writing).
+*.bak

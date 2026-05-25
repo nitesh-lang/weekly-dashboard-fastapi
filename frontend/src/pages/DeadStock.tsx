@@ -229,13 +229,13 @@ export default function DeadStock() {
 
     const totals = useMemo(() => {
         let units = 0, value = 0;
-        for (const r of deadRows) {
+        for (const r of searchFiltered) {
             units += r.total_inventory || 0;
             value += r.stuck_value || 0;
         }
-        const brands = new Set<string>(deadRows.map((r) => r.brand || "").filter(Boolean));
-        return { models: deadRows.length, units, value, brands: brands.size };
-    }, [deadRows]);
+        const brands = new Set<string>(searchFiltered.map((r) => r.brand || "").filter(Boolean));
+        return { models: searchFiltered.length, units, value, brands: brands.size };
+    }, [searchFiltered]);
 
     return (
         <AppLayout>

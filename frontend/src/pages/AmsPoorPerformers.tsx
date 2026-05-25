@@ -186,15 +186,17 @@ export default function AmsPoorPerformers() {
     const { sorted, sort, onSort } = useSortedRows<AmsRow>(searchFiltered, { key: "ad_spend", dir: "desc" });
 
     // Totals across the flagged rows — what is this leak costing?
+    // Use searchFiltered (post-text-filter) so the headline numbers move
+    // with the search box too, not just the pickers.
     const totals = useMemo(() => {
         let spend = 0, attrib = 0;
-        for (const r of poorRows) {
+        for (const r of searchFiltered) {
             spend  += Number(r.ad_spend ?? 0);
             attrib += Number(r.attributed_sales ?? 0);
         }
         const blendedAcos = attrib > 0 ? spend / attrib : null;
-        return { spend, attrib, blendedAcos, count: poorRows.length };
-    }, [poorRows]);
+        return { spend, attrib, blendedAcos, count: searchFiltered.length };
+    }, [searchFiltered]);
 
     const safe = (v: any) => (v == null || v === "" ? "—" : v);
     const int  = (v: any) => (v == null || v === "" || isNaN(v) ? "—" : Math.round(Number(v)).toLocaleString("en-IN"));

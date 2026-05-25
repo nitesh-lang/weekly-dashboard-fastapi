@@ -217,6 +217,35 @@ export default function InventoryDashboard() {
         selModels, selSkus, selBrandsM, selWeeksM, rUnits, rNlc, rValue]);
 
     const { sorted, sort, onSort } = useSortedRows(filtered, { key: "inventory_value", dir: "desc" });
+
+    // KPIs derived from the *client-filtered* rows so picking Cat L0/L1/L2,
+    // Channel, Type, or the column-header filters collapses the headline
+    // numbers in step with the table.  data.kpis was server-computed over
+    // the loaded dataset (week + brand from the URL) and ignored the rest.
+    // Mirror the backend math:
+    //   total_units  = sum(inventory_units)
+    //   total_value  = sum(inventory_value)
+    //   in_transit   = sum(units) where type contains "transit"
+    //   unsellable   = sum(units) where type contains "unsellable"
+    const filteredKpis = useMemo(() => {
+        let totalUnits = 0, totalValue = 0, inTransit = 0, unsellable = 0;
+        for (const r of filtered) {
+            const u = Number(r.inventory_units ?? 0) || 0;
+            const v = Number(r.inventory_value ?? 0) || 0;
+            totalUnits += u;
+            totalValue += v;
+            const t = String(r.type ?? "").toLowerCase();
+            if (t.includes("transit"))    inTransit  += u;
+            if (t.includes("unsellable")) unsellable += u;
+        }
+        return {
+            total_units:    totalUnits,
+            total_value:    totalValue,
+            in_transit_pct: totalUnits ? +(inTransit  / totalUnits * 100).toFixed(2) : null,
+            unsellable_pct: totalUnits ? +(unsellable / totalUnits * 100).toFixed(2) : null,
+        };
+    }, [filtered]);
+
     const agingRows = data?.aging || [];
     const { sorted: sortedAging,  sort: sortAging,   onSort: onSortAging  } = useSortedRows(agingRows);
     const channelRows = data?.channel_summary || [];
@@ -249,10 +278,10 @@ export default function InventoryDashboard() {
             {data && (
                 <>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <MiniKpi label="Total Units"  value={fmtInt(data.kpis.total_units)}                                                          accent="#2563eb" />
-                        <MiniKpi label="Total Value"  value={fmtINR(data.kpis.total_value)}                                                          accent="#059669" />
-                        <MiniKpi label="In-Transit %" value={data.kpis.in_transit_pct != null ? data.kpis.in_transit_pct.toFixed(1) + "%" : "—"}     accent="#d97706" />
-                        <MiniKpi label="Unsellable %" value={data.kpis.unsellable_pct != null ? data.kpis.unsellable_pct.toFixed(1) + "%" : "—"}     accent="#b91c1c" />
+                        <MiniKpi label="Total Units"  value={fmtInt(filteredKpis.total_units)}                                                          accent="#2563eb" />
+                        <MiniKpi label="Total Value"  value={fmtINR(filteredKpis.total_value)}                                                          accent="#059669" />
+                        <MiniKpi label="In-Transit %" value={filteredKpis.in_transit_pct != null ? filteredKpis.in_transit_pct.toFixed(1) + "%" : "—"}   accent="#d97706" />
+                        <MiniKpi label="Unsellable %" value={filteredKpis.unsellable_pct != null ? filteredKpis.unsellable_pct.toFixed(1) + "%" : "—"}   accent="#b91c1c" />
                     </div>
 
                     {(data.aging?.length > 0 || data.channel_summary?.length > 0) && (

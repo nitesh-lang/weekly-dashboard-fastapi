@@ -26,6 +26,7 @@ import pandas as pd
 from fastapi import APIRouter, HTTPException
 
 from weekly_app.core.json_utils import clean_nan
+from weekly_app.core.data_norm import normalize_keys
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel
 
@@ -177,6 +178,9 @@ def _build_payload() -> dict:
 
     master = pd.read_excel(SKU_MASTER)
     master.columns = master.columns.str.strip()
+    # Defensive trim on join-key columns so operator whitespace doesn't
+    # silently drop rows from filters / merges downstream.
+    normalize_keys(master)
 
     # Defensive column rename so the shape is stable for the JSON output.
     rename_map = {

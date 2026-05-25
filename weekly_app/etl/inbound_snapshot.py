@@ -27,6 +27,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+from weekly_app.core.data_norm import normalize_keys
 
 ROOT       = Path(__file__).resolve().parent.parent.parent
 RAW_DIR    = ROOT / "data" / "raw" / "inbound"
@@ -168,6 +169,7 @@ def _load_master_map() -> dict[str, tuple[str, str, str]]:
         return {}
     m = pd.read_excel(MASTER)
     m.columns = m.columns.str.strip()
+    normalize_keys(m)
     rn = {"FBA SKU": "sku", "ASIN": "asin", "Brand": "brand", "Model": "model"}
     m = m.rename(columns={k: v for k, v in rn.items() if k in m.columns})
     if "asin" not in m.columns or "brand" not in m.columns:

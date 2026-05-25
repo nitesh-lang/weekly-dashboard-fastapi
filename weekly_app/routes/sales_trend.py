@@ -12,6 +12,7 @@ import pandas as pd
 import re
 
 from weekly_app.core.json_utils import clean_nan
+from weekly_app.core.data_norm import normalize_keys
 from weekly_app.core.df_cache import load_csv_cached, load_excel_cached
 
 router = APIRouter()
@@ -34,6 +35,7 @@ def load_asin_by_model() -> dict:
     except Exception:
         return {}
     m.columns = m.columns.str.strip()
+    normalize_keys(m)
     asin_col = next((c for c in ["ASIN", "Asin", "asin"] if c in m.columns), None)
     model_col = next((c for c in ["Model", "Model No.", "model"] if c in m.columns), None)
     if not asin_col or not model_col:

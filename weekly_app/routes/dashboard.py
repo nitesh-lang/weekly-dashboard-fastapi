@@ -6,6 +6,7 @@ import math
 import re
 import traceback
 import pandas as pd
+from weekly_app.core.data_norm import normalize_keys
 from pathlib import Path
 import urllib.parse
 from typing import Dict, Any, List
@@ -213,6 +214,7 @@ def dashboard(
     # =================================================
     master = _load_excel_cached(SKU_MASTER)
     master.columns = master.columns.str.strip()
+    normalize_keys(master)
     master = master.rename(
         columns={
             "FBA SKU": "sku",

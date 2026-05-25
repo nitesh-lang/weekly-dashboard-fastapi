@@ -23,6 +23,7 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from weekly_app.core.json_utils import clean_nan
+from weekly_app.core.data_norm import normalize_keys
 
 router = APIRouter()
 
@@ -78,6 +79,7 @@ def _build_payload_json() -> str:
 
     master = pd.read_excel(MASTER)
     master.columns = master.columns.str.strip()
+    normalize_keys(master)
     rename = {
         "FBA SKU":      "sku",
         "ASIN":         "asin",

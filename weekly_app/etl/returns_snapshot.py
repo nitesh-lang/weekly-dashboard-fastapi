@@ -44,6 +44,7 @@ from collections import Counter
 from pathlib import Path
 
 import pandas as pd
+from weekly_app.core.data_norm import normalize_keys
 
 ROOT       = Path(__file__).resolve().parent.parent.parent
 RAW_DIR    = ROOT / "data" / "raw" / "returns"
@@ -70,6 +71,7 @@ def _load_master() -> pd.DataFrame:
                                      "category_l0", "category_l1", "sku", "nlc"])
     m = pd.read_excel(MASTER)
     m.columns = m.columns.str.strip()
+    normalize_keys(m)
     rename = {
         "FBA SKU":     "sku",
         "ASIN":        "asin",

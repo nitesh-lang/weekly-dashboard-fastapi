@@ -1586,7 +1586,7 @@ Week 12,Nexlev,EM-02,21.0,29862.0
 Week 12,Nexlev,ET-01-BK,1271.0,358422.0
 Week 12,Nexlev,ET-02-GN,286.0,80652.0
 Week 12,Nexlev,ET-03-BL,41.0,7913.0
-Week 12,Nexlev,ET-05-PI,30.0,0.0
+Week 12,Nexlev,ET-05-PI,30.0,12390.0
 Week 12,Nexlev,ETC-04,100.0,41200.0
 Week 12,Nexlev,ETC-04-WH,1301.0,536012.0
 Week 12,Nexlev,ETC-05-PI,141.0,58233.0
@@ -2410,7 +2410,7 @@ Week 13,Nexlev,EM-02,21.0,29862.0
 Week 13,Nexlev,ET-01-BK,1216.0,342912.0
 Week 13,Nexlev,ET-02-GN,263.0,74166.0
 Week 13,Nexlev,ET-03-BL,41.0,7913.0
-Week 13,Nexlev,ET-05-PI,30.0,12390.0
+Week 13,Nexlev,ET-05-PI,30.0,0.0
 Week 13,Nexlev,ETC-04,100.0,41200.0
 Week 13,Nexlev,ETC-04-WH,1281.0,527772.0
 Week 13,Nexlev,ETC-05-PI,144.0,59472.0
@@ -3212,7 +3212,7 @@ Week 14,Nexlev,CM-02-PR,1472.0,824320.0
 Week 14,Nexlev,CR-01,588.0,313404.0
 Week 14,Nexlev,DF-01-BK,4.0,4292.0
 Week 14,Nexlev,DH-01,533.0,0.0
-Week 14,Nexlev,EA-01,1031.0,675920.0
+Week 14,Nexlev,EA-01,1031.0,732010.0
 Week 14,Nexlev,EA-02,435.0,585075.0
 Week 14,Nexlev,EM-01,1.0,714.0
 Week 14,Nexlev,EM-02,17.0,24174.0
@@ -3221,7 +3221,7 @@ Week 14,Nexlev,ET-02-GN,251.0,74045.0
 Week 14,Nexlev,ET-03-BL,41.0,7913.0
 Week 14,Nexlev,ETC-04,100.0,41200.0
 Week 14,Nexlev,ETC-04-WH,1232.0,507584.0
-Week 14,Nexlev,ETC-05-PI,169.0,63602.0
+Week 14,Nexlev,ETC-05-PI,169.0,69797.0
 Week 14,Nexlev,ETC-07,2672.0,991312.0
 Week 14,Nexlev,ETC-07-WH,101.0,37471.0
 Week 14,Nexlev,ETC-08,73.0,27229.0
@@ -4917,7 +4917,7 @@ Week 16,Nexlev,ET-01-BK,1113.0,328335.0
 Week 16,Nexlev,ET-02-GN,257.0,75815.0
 Week 16,Nexlev,ET-03-BL,7.0,1351.0
 Week 16,Nexlev,ETC-04-WH,1356.0,558672.0
-Week 16,Nexlev,ETC-05-PI,173.0,65254.0
+Week 16,Nexlev,ETC-05-PI,173.0,71449.0
 Week 16,Nexlev,ETC-07-WH,2733.0,1013943.0
 Week 16,Nexlev,ETC-08-BL,1234.0,460282.0
 Week 16,Nexlev,ETR-06,134.0,90048.0
@@ -4944,7 +4944,7 @@ Week 16,Nexlev,KE-01,493.0,485112.0
 Week 16,Nexlev,KE-02,138.0,135240.0
 Week 16,Nexlev,KE-03,1443.0,467532.0
 Week 16,Nexlev,KM-01,127.0,131953.0
-Week 16,Nexlev,LE-01,217.0,73336.0
+Week 16,Nexlev,LE-01,217.0,77252.0
 Week 16,Nexlev,LE-02,1190.0,963900.0
 Week 16,Nexlev,LE-03,200.0,217800.0
 Week 16,Nexlev,LE-04,662.0,393228.0
@@ -6484,7 +6484,7 @@ Week 18,Nexlev,AP-02,2.0,12832.0
 Week 18,Nexlev,AP-03,851.0,1706255.0
 Week 18,Nexlev,AP-04,500.0,0.0
 Week 18,Nexlev,BM-01,0.0,0.0
-Week 18,Nexlev,BM-02,261.0,253170.0
+Week 18,Nexlev,BM-02,261.0,0.0
 Week 18,Nexlev,BM-03,1.0,975.0
 Week 18,Nexlev,BR-01,1264.0,677504.0
 Week 18,Nexlev,CAP-05,500.0,0.0
@@ -6497,7 +6497,7 @@ Week 18,Nexlev,CM-02-PR,1556.0,871360.0
 Week 18,Nexlev,CR-01,537.0,286221.0
 Week 18,Nexlev,DF-01-BK,1.0,1073.0
 Week 18,Nexlev,DH-01,467.0,0.0
-Week 18,Nexlev,EA-01,964.0,84490.0
+Week 18,Nexlev,EA-01,964.0,599950.0
 Week 18,Nexlev,EA-02,293.0,394085.0
 Week 18,Nexlev,EM-01,1.0,714.0
 Week 18,Nexlev,EM-02,16.0,22752.0
@@ -6505,7 +6505,7 @@ Week 18,Nexlev,ET-01-BK,1168.0,344560.0
 Week 18,Nexlev,ET-02-GN,248.0,73160.0
 Week 18,Nexlev,ET-03-BL,0.0,0.0
 Week 18,Nexlev,ETC-04-WH,1354.0,557848.0
-Week 18,Nexlev,ETC-05-PI,164.0,413.0
+Week 18,Nexlev,ETC-05-PI,164.0,67319.0
 Week 18,Nexlev,ETC-07-WH,2719.0,1008749.0
 Week 18,Nexlev,ETC-08-BL,1209.0,450957.0
 Week 18,Nexlev,ETR-06,133.0,89376.0
@@ -6532,7 +6532,7 @@ Week 18,Nexlev,KE-01,480.0,472320.0
 Week 18,Nexlev,KE-02,109.0,106820.0
 Week 18,Nexlev,KE-03,1431.0,463644.0
 Week 18,Nexlev,KM-01,127.0,131953.0
-Week 18,Nexlev,LE-01,208.0,2136.0
+Week 18,Nexlev,LE-01,208.0,74048.0
 Week 18,Nexlev,LE-02,1134.0,918540.0
 Week 18,Nexlev,LE-03,220.0,239580.0
 Week 18,Nexlev,LE-04,593.0,352242.0
@@ -6924,7 +6924,7 @@ Week 19,Nexlev,AP-02,2.0,12832.0
 Week 19,Nexlev,AP-03,862.0,1728310.0
 Week 19,Nexlev,AP-04,23.0,0.0
 Week 19,Nexlev,BM-01,0.0,0.0
-Week 19,Nexlev,BM-02,267.0,258990.0
+Week 19,Nexlev,BM-02,267.0,0.0
 Week 19,Nexlev,BM-03,1.0,975.0
 Week 19,Nexlev,BR-01,1111.0,595496.0
 Week 19,Nexlev,CAP-05,498.0,0.0
@@ -6937,7 +6937,7 @@ Week 19,Nexlev,CM-02-PR,1564.0,875840.0
 Week 19,Nexlev,CR-01,505.0,269165.0
 Week 19,Nexlev,DF-01-BK,1.0,1073.0
 Week 19,Nexlev,DH-01,482.0,0.0
-Week 19,Nexlev,EA-01,934.0,159040.0
+Week 19,Nexlev,EA-01,934.0,504100.0
 Week 19,Nexlev,EA-02,265.0,356425.0
 Week 19,Nexlev,EM-01,1.0,714.0
 Week 19,Nexlev,EM-02,13.0,18486.0
@@ -6945,7 +6945,7 @@ Week 19,Nexlev,ET-01-BK,1041.0,307095.0
 Week 19,Nexlev,ET-02-GN,220.0,64900.0
 Week 19,Nexlev,ET-03-BL,0.0,0.0
 Week 19,Nexlev,ETC-04-WH,1309.0,539308.0
-Week 19,Nexlev,ETC-05-PI,169.0,413.0
+Week 19,Nexlev,ETC-05-PI,169.0,69384.0
 Week 19,Nexlev,ETC-07-WH,2710.0,1005410.0
 Week 19,Nexlev,ETC-08-BL,1214.0,452822.0
 Week 19,Nexlev,ETR-06,128.0,86016.0
@@ -6972,7 +6972,7 @@ Week 19,Nexlev,KE-01,441.0,433944.0
 Week 19,Nexlev,KE-02,112.0,109760.0
 Week 19,Nexlev,KE-03,1445.0,468180.0
 Week 19,Nexlev,KM-01,125.0,129875.0
-Week 19,Nexlev,LE-01,211.0,2136.0
+Week 19,Nexlev,LE-01,211.0,75116.0
 Week 19,Nexlev,LE-02,1162.0,941220.0
 Week 19,Nexlev,LE-03,200.0,217800.0
 Week 19,Nexlev,LE-04,597.0,354618.0
@@ -7280,7 +7280,7 @@ Week 20,Audio Array,AM-PRO12,0.0,0.0
 Week 20,Audio Array,AM-PRO16,8.0,165168.46
 Week 20,Audio Array,AM-PRO24,8.0,222728.78
 Week 20,Audio Array,AM-S1,1831.0,8213886.1
-Week 20,Audio Array,AM-S2,1982.0,7249762.46
+Week 20,Audio Array,AM-S2,1982.0,7429694.51
 Week 20,Audio Array,AM-W10,495.0,2442476.73
 Week 20,Audio Array,AM-W11,504.0,1440310.39
 Week 20,Audio Array,AM-W12,547.0,1070458.8
@@ -7358,7 +7358,7 @@ Week 20,Nexlev,AP-02,2.0,12832.0
 Week 20,Nexlev,AP-03,822.0,1648110.0
 Week 20,Nexlev,AP-04,17.0,0.0
 Week 20,Nexlev,BM-01,0.0,0.0
-Week 20,Nexlev,BM-02,229.0,222130.0
+Week 20,Nexlev,BM-02,229.0,0.0
 Week 20,Nexlev,BM-03,1.0,975.0
 Week 20,Nexlev,BR-01,1140.0,611040.0
 Week 20,Nexlev,CAP-05,494.0,0.0
@@ -7371,7 +7371,7 @@ Week 20,Nexlev,CM-02-PR,1451.0,812560.0
 Week 20,Nexlev,CR-01,306.0,163098.0
 Week 20,Nexlev,DF-01-BK,1.0,1073.0
 Week 20,Nexlev,DH-01,458.0,0.0
-Week 20,Nexlev,EA-01,799.0,80230.0
+Week 20,Nexlev,EA-01,799.0,487060.0
 Week 20,Nexlev,EA-02,229.0,308005.0
 Week 20,Nexlev,EM-01,1.0,714.0
 Week 20,Nexlev,EM-02,11.0,15642.0
@@ -7379,7 +7379,7 @@ Week 20,Nexlev,ET-01-BK,888.0,261960.0
 Week 20,Nexlev,ET-02-GN,134.0,39530.0
 Week 20,Nexlev,ET-03-BL,0.0,0.0
 Week 20,Nexlev,ETC-04-WH,1211.0,498932.0
-Week 20,Nexlev,ETC-05-PI,170.0,413.0
+Week 20,Nexlev,ETC-05-PI,170.0,69797.0
 Week 20,Nexlev,ETC-07-WH,2611.0,968681.0
 Week 20,Nexlev,ETC-08-BL,1133.0,422609.0
 Week 20,Nexlev,ETR-06,48.0,32256.0
@@ -7406,7 +7406,7 @@ Week 20,Nexlev,KE-01,359.0,353256.0
 Week 20,Nexlev,KE-02,91.0,89180.0
 Week 20,Nexlev,KE-03,1308.0,423792.0
 Week 20,Nexlev,KM-01,73.0,75847.0
-Week 20,Nexlev,LE-01,156.0,2136.0
+Week 20,Nexlev,LE-01,156.0,55536.0
 Week 20,Nexlev,LE-02,1131.0,916110.0
 Week 20,Nexlev,LE-03,198.0,215622.0
 Week 20,Nexlev,LE-04,492.0,292248.0
@@ -7580,6 +7580,388 @@ Week 20,White Mulberry,WM-USE06-WB,0.0,0.0
 Week 20,White Mulberry,WM-USE06-WH,1.0,11345.0
 Week 20,White Mulberry,WM-USE06-WW,0.0,0.0
 Week 20,White Mulberry,WM1ML,1258.0,1351092.0
+Week 21,Audio Array,A3-XLR,988.0,193258.79
+Week 21,Audio Array,AA-01,433.0,530208.08
+Week 21,Audio Array,AA-02,1041.0,1384822.56
+Week 21,Audio Array,AA-03,376.0,67666.31
+Week 21,Audio Array,AA-04,426.0,371449.55
+Week 21,Audio Array,AA-05,2200.0,616182.41
+Week 21,Audio Array,AA-06,175.0,104703.48
+Week 21,Audio Array,AA-07,3.0,3406.17
+Week 21,Audio Array,AA-08,1.0,1672.35
+Week 21,Audio Array,AA-09,3.0,5760.53
+Week 21,Audio Array,AA-10,3.0,6711.97
+Week 21,Audio Array,AA-12,7.0,10913.27
+Week 21,Audio Array,AA-14,1.0,1292.89
+Week 21,Audio Array,AA-19,719.0,1409410.81
+Week 21,Audio Array,AA-19BL,139.0,413276.49
+Week 21,Audio Array,AA-19WL,228.0,677892.37
+Week 21,Audio Array,AA-20,455.0,504039.94
+Week 21,Audio Array,AA-21,647.0,1114674.61
+Week 21,Audio Array,AA-22,453.0,780444.51
+Week 21,Audio Array,AA-25,797.0,259830.05
+Week 21,Audio Array,AA-25M,14.0,4199.01
+Week 21,Audio Array,AA-26,2395.0,624635.36
+Week 21,Audio Array,AA-26 PRO,1000.0,443373.74
+Week 21,Audio Array,AA-28,100.0,99759.09
+Week 21,Audio Array,AA-29,100.0,138228.28
+Week 21,Audio Array,AB-01,7.0,29666.92
+Week 21,Audio Array,AC-3XL,859.0,112017.07
+Week 21,Audio Array,AC-6XL,2579.0,437205.63
+Week 21,Audio Array,AE831,5.0,10432.32
+Week 21,Audio Array,AH-40 PRO,100.0,177528.59
+Week 21,Audio Array,AH-40 SL,1863.0,890442.45
+Week 21,Audio Array,AH-45 BK,1917.0,1178038.77
+Week 21,Audio Array,AH-50,2614.0,3141327.48
+Week 21,Audio Array,AH-50-DH,100.0,120173.2
+Week 21,Audio Array,AH-53,100.0,136560.46
+Week 21,Audio Array,AH-53 PRO,50.0,136560.46
+Week 21,Audio Array,AH-60-BL,741.0,809530.38
+Week 21,Audio Array,AH-60-RD,549.0,599773.52
+Week 21,Audio Array,AI-02 2X2| METALLIC RED,6.0,24255.15
+Week 21,Audio Array,AI-03,267.0,582040.5
+Week 21,Audio Array,AI-04 BLACK,1.0,2426.92
+Week 21,Audio Array,AI-04 RED,4696.0,10169537.77
+Week 21,Audio Array,AI-06,125.0,366761.37
+Week 21,Audio Array,AI-08,1.0,1473.57
+Week 21,Audio Array,AI-09,3.0,11266.91
+Week 21,Audio Array,AI-10,1515.0,2271964.42
+Week 21,Audio Array,AI-11,1146.0,971379.71
+Week 21,Audio Array,AI-12,1243.0,842879.57
+Week 21,Audio Array,AI-13,1846.0,2851904.08
+Week 21,Audio Array,AI-14,569.0,1744042.85
+Week 21,Audio Array,AK-37-B,268.0,606030.23
+Week 21,Audio Array,AK-37-W,93.0,217234.55
+Week 21,Audio Array,AK-61 NEO,55.0,157856.61
+Week 21,Audio Array,AK-61 PRO,37.0,122744.23
+Week 21,Audio Array,AM-A1,4.0,7432.19
+Week 21,Audio Array,AM-C1,5033.0,7428530.27
+Week 21,Audio Array,AM-C10,661.0,1527916.17
+Week 21,Audio Array,AM-C11,65.0,193412.68
+Week 21,Audio Array,AM-C11 PRO,751.0,2358808.76
+Week 21,Audio Array,AM-C11X,156.0,339050.51
+Week 21,Audio Array,AM-C11X PRO,30.0,67891.18
+Week 21,Audio Array,AM-C12,3.0,1648.54
+Week 21,Audio Array,AM-C13,32.0,0.0
+Week 21,Audio Array,AM-C15,4.0,5692.81
+Week 21,Audio Array,AM-C17,6.0,2250.12
+Week 21,Audio Array,AM-C18,3.0,7992.58
+Week 21,Audio Array,AM-C2,650.0,1377918.18
+Week 21,Audio Array,AM-C20,8.0,9883.79
+Week 21,Audio Array,AM-C22,3.0,2548.13
+Week 21,Audio Array,AM-C23,6.0,10167.82
+Week 21,Audio Array,AM-C24,3.0,5029.93
+Week 21,Audio Array,AM-C26,1.0,1945.2
+Week 21,Audio Array,AM-C27,16.0,13241.13
+Week 21,Audio Array,AM-C28,584.0,510558.3
+Week 21,Audio Array,AM-C29,11.0,38727.46
+Week 21,Audio Array,AM-C3,240.0,158330.36
+Week 21,Audio Array,AM-C30,23.0,73512.08
+Week 21,Audio Array,AM-C31,3.0,11506.24
+Week 21,Audio Array,AM-C32,11.0,28829.52
+Week 21,Audio Array,AM-C33,77.0,35521.43
+Week 21,Audio Array,AM-C34,2.0,525.03
+Week 21,Audio Array,AM-C35,5.0,1823.96
+Week 21,Audio Array,AM-C36,54.0,24531.44
+Week 21,Audio Array,AM-C37,8.0,24827.41
+Week 21,Audio Array,AM-C38,8.0,10658.34
+Week 21,Audio Array,AM-C39,471.0,345771.62
+Week 21,Audio Array,AM-C3A,588.0,306710.31
+Week 21,Audio Array,AM-C4,78.0,132657.33
+Week 21,Audio Array,AM-C40,2.0,0.0
+Week 21,Audio Array,AM-C41,239.0,249332.53
+Week 21,Audio Array,AM-C42,156.0,233944.85
+Week 21,Audio Array,AM-C43,909.0,1185372.74
+Week 21,Audio Array,AM-C44,203.0,555912.43
+Week 21,Audio Array,AM-C44 PRO,32.0,104878.43
+Week 21,Audio Array,AM-C45,815.0,1647329.06
+Week 21,Audio Array,AM-C45 PRO,23.0,56536.03
+Week 21,Audio Array,AM-C46,2287.0,4622627.68
+Week 21,Audio Array,AM-C47,696.0,1178568.93
+Week 21,Audio Array,AM-C48,342.0,668972.74
+Week 21,Audio Array,AM-C49,490.0,261981.72
+Week 21,Audio Array,AM-C5,2237.0,2890113.84
+Week 21,Audio Array,AM-C5 WHITE,358.0,0.0
+Week 21,Audio Array,AM-C50,495.0,264655.0
+Week 21,Audio Array,AM-C51,245.0,223642.93
+Week 21,Audio Array,AM-C52,245.0,223642.93
+Week 21,Audio Array,AM-C53,510.0,557623.35
+Week 21,Audio Array,AM-C54,510.0,570296.61
+Week 21,Audio Array,AM-C55,500.0,714423.86
+Week 21,Audio Array,AM-C56,504.0,770235.9
+Week 21,Audio Array,AM-C6,22.0,39943.09
+Week 21,Audio Array,AM-C7,31.0,63589.58
+Week 21,Audio Array,AM-C8,1.0,3433.69
+Week 21,Audio Array,AM-C9,1.0,3354.87
+Week 21,Audio Array,AM-K1,25.0,179337.52
+Week 21,Audio Array,AM-K2,3.0,25773.98
+Week 21,Audio Array,AM-MIX10,184.0,1068830.62
+Week 21,Audio Array,AM-MIX6,185.0,868857.45
+Week 21,Audio Array,AM-PRO12,4.0,52650.54
+Week 21,Audio Array,AM-PRO16,5.0,103230.29
+Week 21,Audio Array,AM-PRO24,6.0,167046.59
+Week 21,Audio Array,AM-PRO8,8.0,96896.76
+Week 21,Audio Array,AM-S1,1869.0,8384354.52
+Week 21,Audio Array,AM-S1 BOOKSHELF SPEAKER,6.0,26916.07
+Week 21,Audio Array,AM-S2,1720.0,6447565.37
+Week 21,Audio Array,AM-W10,496.0,2447411.03
+Week 21,Audio Array,AM-W11,504.0,1440310.39
+Week 21,Audio Array,AM-W12,529.0,1035233.47
+Week 21,Audio Array,AM-W13,350.0,456910.96
+Week 21,Audio Array,AM-W14,417.0,1343468.47
+Week 21,Audio Array,AM-W15,9.0,105857.4
+Week 21,Audio Array,AM-W16,205.0,155050.41
+Week 21,Audio Array,AM-W17,1367.0,1426098.6
+Week 21,Audio Array,AM-W18,1975.0,1210475.52
+Week 21,Audio Array,AM-W19,476.0,551822.96
+Week 21,Audio Array,AM-W20,202.0,437270.83
+Week 21,Audio Array,AM-W21,63.0,176632.27
+Week 21,Audio Array,AM-W22,1267.0,2128058.24
+Week 21,Audio Array,AM-W23,417.0,653085.61
+Week 21,Audio Array,AM-W24,392.0,354761.59
+Week 21,Audio Array,AM-W25,60.0,114059.32
+Week 21,Audio Array,AM-W32,1346.0,2917206.23
+Week 21,Audio Array,AM-W32 PRO,95.0,297321.22
+Week 21,Audio Array,AM-W33,730.0,871985.75
+Week 21,Audio Array,AM-W33 PRO,195.0,356003.03
+Week 21,Audio Array,AM-W34,225.0,531070.46
+Week 21,Audio Array,AM-W35,335.0,664891.09
+Week 21,Audio Array,AM-W36,101.0,408295.06
+Week 21,Audio Array,AM-W36 PRO,95.0,445981.82
+Week 21,Audio Array,AM-W45,1471.0,4028311.26
+Week 21,Audio Array,AM-W46,33.0,141149.34
+Week 21,Audio Array,AM-W47 WIRED,706.0,355371.88
+Week 21,Audio Array,AM-W47 WIRELESS,432.0,397721.9
+Week 21,Audio Array,AM-W48 / AM-S6,80.0,1088583.04
+Week 21,Audio Array,BE-4,589.0,1147610.13
+Week 21,Audio Array,BE-4T,600.0,1824084.46
+Week 21,Audio Array,DP-718H,15.0,58681.82
+Week 21,Audio Array,GB-01 (AM-C43 +AI-10),16.0,41375.9
+Week 21,Audio Array,GB-02 (AM-C43 + AI-11),21.0,41655.18
+Week 21,Audio Array,GB-03 (AI-12 + AM-C43),14.0,25595.92
+Week 21,Audio Array,GB-04 (AM-C45 + AI-06),21.0,97247.13
+Week 21,Audio Array,GB-05 (AM-C43 + AI-06),28.0,109454.91
+Week 21,Audio Array,JT-1,1.0,11084.34
+Week 21,Audio Array,JTG800,31.0,88935.56
+Week 21,Audio Array,KB-01 (AM-W32 + AI-12),13.0,34196.85
+Week 21,Audio Array,M5,20.0,233518.38
+Week 21,Audio Array,M6,369.0,1475480.04
+Week 21,Audio Array,M8,257.0,1058778.4
+Week 21,Audio Array,MT-12,59.0,243065.86
+Week 21,Audio Array,PB-01 (AM-C11 + AI-04),18.0,87479.06
+Week 21,Audio Array,PB-02 (AI-04 RED + AM-C11 + AA-05),32.0,163785.13
+Week 21,Audio Array,PB-03 (AI-04 RED + AM-C11 X 2),37.0,285730.25
+Week 21,Audio Array,PB-04 (AI-04 RED + AM-C44 X 2),30.0,215085.44
+Week 21,Audio Array,PB-05 (AA-05 + AM-C11 + AI-04),9.0,46064.57
+Week 21,Audio Array,PB-06 (AA-05 + AM-C44 + AI-04),25.0,121045.58
+Week 21,Audio Array,PB-07 (AA-05 + AM-C45 + AI-04),18.0,75245.04
+Week 21,Audio Array,PB-08 (AM-C1 + AI-04),2.0,6717.65
+Week 21,Audio Array,PB-09 (AM-C45 + AI-06 + AA-05),18.0,88004.75
+Week 21,Audio Array,PB-10 (AM-C2+AI-04+AH-60-BL),72.0,359025.67
+Week 21,Audio Array,PB-11 (AM-C44+AA-05+AH-45-BK),13.0,44536.01
+Week 21,Audio Array,PB-12 (AM-C11+AA-05+AI-04+AH-60-RD),6.0,36912.22
+Week 21,Audio Array,PB-14 (AM-C43+AH-40-SL+AI-12),11.0,25085.54
+Week 21,Audio Array,PB-15 (AH-50+AM-C2+AI-04),5.0,25419.09
+Week 21,Audio Array,PB-16 (AH-50+AI-13+AM-C2),5.0,23088.94
+Week 21,Audio Array,PB-17 (AH-40-SL+AM-C43+AI-13),5.0,15930.24
+Week 21,Audio Array,PB-18 (AH-45-BK+AI-03+AM-C39),5.0,17007.81
+Week 21,Audio Array,SB-01,2487.0,1760796.0
+Week 21,Audio Array,T-835,35.0,219078.79
+Week 21,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",11.0,104802.6
+Week 21,Audio Array,UB-02 (AM-S1 + AA-21),5.0,29184.23
+Week 21,Audio Array,UB-03 (AM-S1 + AA-22),11.0,61815.95
+Week 21,Audio Array,UB-06 (AM-S2+AA-22),5.0,27356.94
+Week 21,Audio Array,USB718,15.0,33253.03
+Week 21,Audio Array,W3,3.0,8411.06
+Week 21,Audio Array,W5,3.0,5085.76
+Week 21,Audio Array,X5,20.0,233518.38
+Week 21,Audio Array,XM-16,5.0,93645.79
+Week 21,Audio Array,XM-24,6.0,143214.99
+Week 21,Nexlev,AP-01,63.0,639954.0
+Week 21,Nexlev,AP-02,2.0,12832.0
+Week 21,Nexlev,AP-03,824.0,1652120.0
+Week 21,Nexlev,AP-04,19.0,0.0
+Week 21,Nexlev,BM-02,255.0,0.0
+Week 21,Nexlev,BM-03,1.0,975.0
+Week 21,Nexlev,BR-01,1234.0,661424.0
+Week 21,Nexlev,CAP-05,493.0,0.0
+Week 21,Nexlev,CF-01,31.0,22196.0
+Week 21,Nexlev,CFM-01,2313.0,2345382.0
+Week 21,Nexlev,CFM-02,7.0,22603.0
+Week 21,Nexlev,CFM-03,106.0,212424.0
+Week 21,Nexlev,CM-01-BL,95.0,53200.0
+Week 21,Nexlev,CM-02-PR,1612.0,902720.0
+Week 21,Nexlev,CR-01,244.0,130052.0
+Week 21,Nexlev,DF-01-BK,1.0,1073.0
+Week 21,Nexlev,DH-01,446.0,0.0
+Week 21,Nexlev,EA-01,902.0,562320.0
+Week 21,Nexlev,EA-02,218.0,293210.0
+Week 21,Nexlev,EM-01,1.0,714.0
+Week 21,Nexlev,EM-02,10.0,14220.0
+Week 21,Nexlev,ET-01-BK,920.0,271400.0
+Week 21,Nexlev,ET-02-GN,204.0,60180.0
+Week 21,Nexlev,ETC-04-WH,1328.0,547136.0
+Week 21,Nexlev,ETC-05-PI,168.0,68971.0
+Week 21,Nexlev,ETC-07-WH,2696.0,1000216.0
+Week 21,Nexlev,ETC-08-BL,1199.0,447227.0
+Week 21,Nexlev,ETR-06,107.0,71904.0
+Week 21,Nexlev,FM-01,1.0,1837.0
+Week 21,Nexlev,FM-02,1.0,890.0
+Week 21,Nexlev,FS-01,1827.0,1636992.0
+Week 21,Nexlev,GS-02,2297.0,2894220.0
+Week 21,Nexlev,GS-04,13.0,19656.0
+Week 21,Nexlev,GS-05,723.0,713601.0
+Week 21,Nexlev,HB-01,46.0,54050.0
+Week 21,Nexlev,HD-01,1279.0,983551.0
+Week 21,Nexlev,HD-02,815.0,365120.0
+Week 21,Nexlev,HM-01,466.0,228340.0
+Week 21,Nexlev,HM-02,39.0,27846.0
+Week 21,Nexlev,HS-01,456.0,172368.0
+Week 21,Nexlev,HS-02,117.0,45513.0
+Week 21,Nexlev,HSB-03,1800.0,1562400.0
+Week 21,Nexlev,HSB-04,1223.0,1175303.0
+Week 21,Nexlev,HU-01,27.0,22383.0
+Week 21,Nexlev,HU-02,739.0,604502.0
+Week 21,Nexlev,IPL-01,54.0,70578.0
+Week 21,Nexlev,KE-01,409.0,402456.0
+Week 21,Nexlev,KE-02,83.0,81340.0
+Week 21,Nexlev,KE-03,1430.0,463320.0
+Week 21,Nexlev,KM-01,69.0,71691.0
+Week 21,Nexlev,LE-01,210.0,74760.0
+Week 21,Nexlev,LE-02,1336.0,1082160.0
+Week 21,Nexlev,LE-03,195.0,212355.0
+Week 21,Nexlev,LE-04,595.0,353430.0
+Week 21,Nexlev,LE-06,10.0,7210.0
+Week 21,Nexlev,LE-07,2.0,1418.0
+Week 21,Nexlev,LE-08,33.0,0.0
+Week 21,Nexlev,LR-01,553.0,245532.0
+Week 21,Nexlev,LR-01 SET OF 2 BLADES,4.0,432.0
+Week 21,Nexlev,LR-02,942.0,846858.0
+Week 21,Nexlev,LR-02 SET OF 2 BLADES,5.0,725.0
+Week 21,Nexlev,LR-03,3620.0,524900.0
+Week 21,Nexlev,MC-01,1082.0,321354.0
+Week 21,Nexlev,MF-01,1883.0,491463.0
+Week 21,Nexlev,MG-01,185.0,171310.0
+Week 21,Nexlev,MGC-03,70.0,68600.0
+Week 21,Nexlev,MGS-02,36.0,15696.0
+Week 21,Nexlev,MM-01,2.0,12292.0
+Week 21,Nexlev,MR-01,403.0,468286.0
+Week 21,Nexlev,MR-02,617.0,852077.0
+Week 21,Nexlev,MR-03,504.0,0.0
+Week 21,Nexlev,NP-01,357.0,147441.0
+Week 21,Nexlev,NP-02,619.0,258742.0
+Week 21,Nexlev,NP-03,575.0,237475.0
+Week 21,Nexlev,NP-05,43.0,23994.0
+Week 21,Nexlev,NP-06,161.0,80661.0
+Week 21,Nexlev,NP-07,231.0,115731.0
+Week 21,Nexlev,PB-01,583.0,761981.0
+Week 21,Nexlev,PM-01,4.0,3876.0
+Week 21,Nexlev,PM-02,53.0,51039.0
+Week 21,Nexlev,SC-01,3667.0,6549262.0
+Week 21,Nexlev,SC-02,38.0,52326.0
+Week 21,Nexlev,SC-03,40.0,162080.0
+Week 21,Nexlev,SC-04,834.0,2247630.0
+Week 21,Nexlev,SC-05,1376.0,1985568.0
+Week 21,Nexlev,SC-05 SC-05 - SET OF SPARES,3.0,1050.0
+Week 21,Nexlev,SM-01,399.0,940443.0
+Week 21,Nexlev,SP-01,500.0,0.0
+Week 21,Nexlev,SPM-01,456.0,1265972.0
+Week 21,Nexlev,SPM-01 SET OF 2 MOPS,14.0,3500.0
+Week 21,Nexlev,SS-01,152.0,195654.0
+Week 21,Nexlev,SS-02,608.0,794048.0
+Week 21,Nexlev,SS-02 SET OF SPARES,7.0,2450.0
+Week 21,Nexlev,ST-01,371.0,1269933.0
+Week 21,Nexlev,ST-02,198.0,0.0
+Week 21,Nexlev,ST-03,96.0,0.0
+Week 21,Nexlev,SW-01,409.0,167281.0
+Week 21,Nexlev,T-01,41.0,21156.0
+Week 21,Nexlev,T-02,1161.0,703566.0
+Week 21,Nexlev,TI-01,110.0,137500.0
+Week 21,Nexlev,TI-02,887.0,767255.0
+Week 21,Nexlev,TIC-03,65.0,52910.0
+Week 21,Nexlev,TIC-04,30.0,41760.0
+Week 21,Nexlev,TM-01,361.0,174363.0
+Week 21,Nexlev,TM-02,288.0,374976.0
+Week 21,Nexlev,TM-03,999.0,593406.0
+Week 21,Nexlev,TM-04,12.0,5520.0
+Week 21,Nexlev,TM-05,53.0,62381.0
+Week 21,Nexlev,TR-05,66.0,41778.0
+Week 21,Nexlev,V-01,642.0,467376.0
+Week 21,Nexlev,V-01 RG,249.0,165087.0
+Week 21,Nexlev,V-02,732.0,801540.0
+Week 21,Nexlev,V-03,2673.0,2277396.0
+Week 21,Nexlev,VC-01,2227.0,2422976.0
+Week 21,Nexlev,VC-02,801.0,1034091.0
+Week 21,Nexlev,VC-03,896.0,719488.0
+Week 21,Nexlev,VC-04,478.0,531536.0
+Week 21,Nexlev,VC-05,789.0,838707.0
+Week 21,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,1750.0
+Week 21,Nexlev,VC-06,50.0,47700.0
+Week 21,Nexlev,WF-02-BL,11.0,6182.0
+Week 21,Tonor,G11,211.0,66480.0
+Week 21,Tonor,K1,1012.0,858176.0
+Week 21,Tonor,ORCA001,16.0,38592.0
+Week 21,Tonor,S20,235.0,275890.0
+Week 21,Tonor,T10,2.0,1206.0
+Week 21,Tonor,T20,21.0,24444.0
+Week 21,Tonor,T20LP,43.0,36335.0
+Week 21,Tonor,T30,30.0,44310.0
+Week 21,Tonor,TC-2030,80.0,353840.0
+Week 21,Tonor,TC-777,403.0,486018.0
+Week 21,Tonor,TC-777 PRO,293.0,318198.0
+Week 21,Tonor,TC20,5.0,15075.0
+Week 21,Tonor,TC30,257.0,341039.0
+Week 21,Tonor,TC30+,9.0,14112.0
+Week 21,Tonor,TC30S,42.0,60816.0
+Week 21,Tonor,TC30S+,18.0,31482.0
+Week 21,Tonor,TC310,35.0,42210.0
+Week 21,Tonor,TC310+,170.0,287130.0
+Week 21,Tonor,TC40,21.0,40530.0
+Week 21,Tonor,TC40S,69.0,133170.0
+Week 21,Tonor,TD310,483.0,381570.0
+Week 21,Tonor,TD310+,356.0,330012.0
+Week 21,Tonor,TD510,19.0,45828.0
+Week 21,Tonor,TD510+,1.0,3491.0
+Week 21,Tonor,TM20,141.0,238995.0
+Week 21,Tonor,TM310,52.0,50180.0
+Week 21,Tonor,TRL-20,11.0,15367.0
+Week 21,White Mulberry,6780-4679-WHT-SIOC,1.0,0.0
+Week 21,White Mulberry,HD1ML,6.0,9396.0
+Week 21,White Mulberry,HDGS1ML,10.0,32000.0
+Week 21,White Mulberry,HDMSP1ML,15.0,30645.0
+Week 21,White Mulberry,HDWF1ML,365.0,457710.0
+Week 21,White Mulberry,MS1ML,507.0,365040.0
+Week 21,White Mulberry,MS2ML,6.0,6090.0
+Week 21,White Mulberry,POS2M,28.0,56448.0
+Week 21,White Mulberry,POS2MK,18.0,48996.0
+Week 21,White Mulberry,POSS-01,172.0,101308.0
+Week 21,White Mulberry,TVCF1ML,717.0,125475.0
+Week 21,White Mulberry,TVCT1ML,1124.0,127012.0
+Week 21,White Mulberry,TVFM1ML,751.0,543724.0
+Week 21,White Mulberry,TVLF1ML,745.0,171350.0
+Week 21,White Mulberry,TVMF1ML,624.0,111696.0
+Week 21,White Mulberry,VLMS1ML,348.0,393240.0
+Week 21,White Mulberry,WM-GD07-CB,117.0,382473.0
+Week 21,White Mulberry,WM-GS1M-BK,769.0,1031229.0
+Week 21,White Mulberry,WM-GS2M-BK,435.0,972660.0
+Week 21,White Mulberry,WM-HA1M-BK,685.0,593210.0
+Week 21,White Mulberry,WM-HA2M-BK,263.0,362940.0
+Week 21,White Mulberry,WM-LOD-BK,20.0,78860.0
+Week 21,White Mulberry,WM-LOD-CF,68.0,268124.0
+Week 21,White Mulberry,WM-LOD-IN,42.0,165606.0
+Week 21,White Mulberry,WM-LOD-WH,130.0,512590.0
+Week 21,White Mulberry,WM-LODN-WH,3.0,9816.0
+Week 21,White Mulberry,WM-MDL-BK,4.0,25728.0
+Week 21,White Mulberry,WM-MH05P-BK,2.0,15704.0
+Week 21,White Mulberry,WM-MODL-BK,3.0,22923.0
+Week 21,White Mulberry,WM-MODL-WH,64.0,489024.0
+Week 21,White Mulberry,WM-SE08-CF,42.0,294756.0
+Week 21,White Mulberry,WM-SE08-WH,8.0,56144.0
+Week 21,White Mulberry,WM-SEH04P-CF,2.0,0.0
+Week 21,White Mulberry,WM-SMD09-WH,16.0,111648.0
+Week 21,White Mulberry,WM-USE06-BK,3.0,34035.0
+Week 21,White Mulberry,WM-USE06-WH,1.0,11345.0
+Week 21,White Mulberry,WM1ML,1184.0,1271616.0
 Week 4,Audio Array,AA-01,488.0,551164.66
 Week 4,Audio Array,AA-02,1195.0,1607188.03
 Week 4,Audio Array,AA-03,645.0,107064.99
@@ -9094,7 +9476,7 @@ Week 7,Nexlev,AP-03,920.0,1844600.0
 Week 7,Nexlev,AP-04,500.0,0.0
 Week 7,Nexlev,AP-06,1008.0,0.0
 Week 7,Nexlev,BM-01,0.0,0.0
-Week 7,Nexlev,BM-02,281.0,272570.0
+Week 7,Nexlev,BM-02,281.0,0.0
 Week 7,Nexlev,BM-03,1.0,975.0
 Week 7,Nexlev,BR-01,650.0,348400.0
 Week 7,Nexlev,CAP-05,500.0,0.0
@@ -9107,7 +9489,7 @@ Week 7,Nexlev,CM-02-PR,1299.0,727440.0
 Week 7,Nexlev,CR-01,742.0,395486.0
 Week 7,Nexlev,DF-01-BK,10.0,10730.0
 Week 7,Nexlev,DH-01,198.0,0.0
-Week 7,Nexlev,EA-01,1250.0,752600.0
+Week 7,Nexlev,EA-01,1250.0,134900.0
 Week 7,Nexlev,EA-02,662.0,890390.0
 Week 7,Nexlev,EM-01,1.0,714.0
 Week 7,Nexlev,EM-02,24.0,34128.0
@@ -9119,7 +9501,7 @@ Week 7,Nexlev,ET-03-BL,41.0,7913.0
 Week 7,Nexlev,ET-03-BL_N,0.0,0.0
 Week 7,Nexlev,ETC-04,100.0,0.0
 Week 7,Nexlev,ETC-04-WH,1302.0,536424.0
-Week 7,Nexlev,ETC-05-PI,191.0,63189.0
+Week 7,Nexlev,ETC-05-PI,191.0,15694.0
 Week 7,Nexlev,ETC-07,2686.0,0.0
 Week 7,Nexlev,ETC-07-WH,98.0,36358.0
 Week 7,Nexlev,ETC-08-BL,1334.0,497582.0
@@ -9136,7 +9518,7 @@ Week 7,Nexlev,HD-01,1376.0,1058144.0
 Week 7,Nexlev,HD-02,1205.0,539840.0
 Week 7,Nexlev,HM-01,815.0,399350.0
 Week 7,Nexlev,HM-02,218.0,155652.0
-Week 7,Nexlev,HPC,253.0,210926.0
+Week 7,Nexlev,HPC,253.0,229356.0
 Week 7,Nexlev,HS-01,528.0,199584.0
 Week 7,Nexlev,HS-02,123.0,47847.0
 Week 7,Nexlev,HSB-03,1914.0,1661352.0
@@ -9581,7 +9963,7 @@ Week 8,Nexlev,AP-02,2.0,12832.0
 Week 8,Nexlev,AP-03,907.0,1818535.0
 Week 8,Nexlev,AP-04,500.0,0.0
 Week 8,Nexlev,BM-01,0.0,0.0
-Week 8,Nexlev,BM-02,301.0,273540.0
+Week 8,Nexlev,BM-02,301.0,18430.0
 Week 8,Nexlev,BM-03,1.0,975.0
 Week 8,Nexlev,BR-01,649.0,347864.0
 Week 8,Nexlev,CAP-05,500.0,0.0
@@ -9595,7 +9977,7 @@ Week 8,Nexlev,CM-02-PR,1225.0,686000.0
 Week 8,Nexlev,CR-01,832.0,443456.0
 Week 8,Nexlev,DF-01-BK,10.0,10730.0
 Week 8,Nexlev,DH-01,198.0,0.0
-Week 8,Nexlev,EA-01,1272.0,741240.0
+Week 8,Nexlev,EA-01,1272.0,161880.0
 Week 8,Nexlev,EA-02,659.0,886355.0
 Week 8,Nexlev,EM-01,1.0,714.0
 Week 8,Nexlev,EM-02,21.0,29862.0
@@ -9605,10 +9987,10 @@ Week 8,Nexlev,ET-02-GN,200.0,59000.0
 Week 8,Nexlev,ET-02-GN_N,262.0,77290.0
 Week 8,Nexlev,ET-03-BL,41.0,7913.0
 Week 8,Nexlev,ET-03-BL_N,0.0,0.0
-Week 8,Nexlev,ET-05-PI,30.0,12390.0
+Week 8,Nexlev,ET-05-PI,30.0,0.0
 Week 8,Nexlev,ETC-04,100.0,41200.0
 Week 8,Nexlev,ETC-04-WH,1282.0,528184.0
-Week 8,Nexlev,ETC-05-PI,158.0,826.0
+Week 8,Nexlev,ETC-05-PI,158.0,64428.0
 Week 8,Nexlev,ETC-07,2686.0,996506.0
 Week 8,Nexlev,ETC-07-WH,137.0,50827.0
 Week 8,Nexlev,ETC-08,98.0,36554.0
@@ -9618,7 +10000,7 @@ Week 8,Nexlev,ETR-06,148.0,99456.0
 Week 8,Nexlev,FM-01,1.0,1837.0
 Week 8,Nexlev,FM-02,1.0,890.0
 Week 8,Nexlev,FS-01,3258.0,2919168.0
-Week 8,Nexlev,GS-01,4.0,5040.0
+Week 8,Nexlev,GS-01,4.0,0.0
 Week 8,Nexlev,GS-02,1322.0,1665720.0
 Week 8,Nexlev,GS-04,49.0,74088.0
 Week 8,Nexlev,GS-05,1270.0,1253490.0
@@ -9638,7 +10020,7 @@ Week 8,Nexlev,KE-01,673.0,662232.0
 Week 8,Nexlev,KE-02,419.0,410620.0
 Week 8,Nexlev,KE-03,1484.0,480816.0
 Week 8,Nexlev,KM-01,126.0,130914.0
-Week 8,Nexlev,LE-01,208.0,2136.0
+Week 8,Nexlev,LE-01,208.0,74048.0
 Week 8,Nexlev,LE-02,1304.0,1056240.0
 Week 8,Nexlev,LE-03,236.0,257004.0
 Week 8,Nexlev,LE-04,634.0,376596.0
@@ -10059,7 +10441,7 @@ Week 9,Nexlev,AP-02,2.0,12832.0
 Week 9,Nexlev,AP-03,872.0,1748360.0
 Week 9,Nexlev,AP-04,500.0,0.0
 Week 9,Nexlev,BM-01,0.0,0.0
-Week 9,Nexlev,BM-02,280.0,271600.0
+Week 9,Nexlev,BM-02,280.0,0.0
 Week 9,Nexlev,BM-03,1.0,975.0
 Week 9,Nexlev,BR-01,540.0,289440.0
 Week 9,Nexlev,CAP-05,500.0,0.0
@@ -10072,7 +10454,7 @@ Week 9,Nexlev,CM-02-PR,1643.0,920080.0
 Week 9,Nexlev,CR-01,613.0,326729.0
 Week 9,Nexlev,DF-01-BK,9.0,9657.0
 Week 9,Nexlev,DH-01,198.0,0.0
-Week 9,Nexlev,EA-01,1193.0,847030.0
+Week 9,Nexlev,EA-01,1193.0,0.0
 Week 9,Nexlev,EA-02,562.0,755890.0
 Week 9,Nexlev,EM-01,1.0,714.0
 Week 9,Nexlev,EM-02,20.0,28440.0
@@ -10085,7 +10467,7 @@ Week 9,Nexlev,ET-03-BL_N,0.0,0.0
 Week 9,Nexlev,ET-05-PI,30.0,0.0
 Week 9,Nexlev,ETC-04,100.0,0.0
 Week 9,Nexlev,ETC-04-WH,1315.0,541780.0
-Week 9,Nexlev,ETC-05-PI,156.0,64428.0
+Week 9,Nexlev,ETC-05-PI,156.0,0.0
 Week 9,Nexlev,ETC-07,2701.0,0.0
 Week 9,Nexlev,ETC-07-WH,128.0,47488.0
 Week 9,Nexlev,ETC-08,98.0,0.0
@@ -10095,7 +10477,7 @@ Week 9,Nexlev,ETR-06,141.0,94752.0
 Week 9,Nexlev,FM-01,1.0,1837.0
 Week 9,Nexlev,FM-02,1.0,890.0
 Week 9,Nexlev,FS-01,2128.0,1906688.0
-Week 9,Nexlev,GS-01,4.0,5040.0
+Week 9,Nexlev,GS-01,4.0,0.0
 Week 9,Nexlev,GS-02,1336.0,1683360.0
 Week 9,Nexlev,GS-04,56.0,84672.0
 Week 9,Nexlev,GS-05,1253.0,1236711.0

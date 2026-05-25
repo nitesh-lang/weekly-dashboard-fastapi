@@ -229,11 +229,17 @@ def get_ams_trend(
     base_df = df.copy()
 
     # ===============================
-    # RESOLVE LATEST WEEK
+    # RESOLVE LATEST WEEK + AVAILABLE WEEK LIST
     # ===============================
     latest_week = None
+    all_weeks_list: list[int] = []
     if "week" in df.columns:
-        latest_week = df["week"].dropna().max()
+        all_weeks_list = sorted(int(w) for w in df["week"].dropna().unique())
+        latest_week = all_weeks_list[-1] if all_weeks_list else None
+
+    # Default window = last 4 weeks. When the operator hasn't picked
+    # anything we want a useful trend snapshot, not a single column.
+    default_window = all_weeks_list[-4:] if len(all_weeks_list) >= 4 else all_weeks_list
 
     # ===============================
     # INVENTORY MERGE (MODEL + WEEK)
@@ -272,8 +278,8 @@ def get_ams_trend(
         df = df[df["week"].isin(sel_weeks)]
     elif week:
         df = df[df["week"] == week]
-    elif latest_week is not None:
-        df = df[df["week"] == latest_week]
+    elif default_window:
+        df = df[df["week"].isin(default_window)]
 
     if asin:
         df = df[df["asin"] == asin]
@@ -357,7 +363,12 @@ def get_ams_trend(
 
        rows.append(total_row)
 
-    return strict_json_response({"kpis": kpis, "rows": rows})
+    return strict_json_response({
+        "kpis": kpis,
+        "rows": rows,
+        "all_weeks": all_weeks_list,
+        "default_weeks": default_window,
+    })
 
 # ==================================================
 # HTML VIEW

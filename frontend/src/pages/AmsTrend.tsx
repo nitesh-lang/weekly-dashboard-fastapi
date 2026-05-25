@@ -40,7 +40,12 @@ interface AmsRow {
     campaign_name?: string;
     [k: string]: any;
 }
-interface AmsData { kpis: AmsKpis; rows: AmsRow[]; }
+interface AmsData {
+    kpis: AmsKpis;
+    rows: AmsRow[];
+    all_weeks?: number[];
+    default_weeks?: number[];
+}
 
 /* Match Jinja formatters exactly. */
 const safe = (v: any) => (v == null || v === "" ? "—" : v);
@@ -183,21 +188,29 @@ export default function AmsTrend() {
     const rInvTotAmz   = useMemo(() => getRange("inv_tot_amz"), [qsKey]);
     const rPipeOrders  = useMemo(() => getRange("pipe_orders"), [qsKey]);
 
+    // Pass week selection to the API so the operator can pull weeks outside
+    // the default last-4 window.  Backend returns last 4 weeks when no
+    // sel_weeks is provided, full list of weeks is in data.all_weeks for
+    // the picker.
     const { data, isLoading, error } = useQuery<AmsData>({
-        queryKey: ["ams-trend"],
-        queryFn: () => api.get("/api/ams/trend"),
+        queryKey: ["ams-trend", selWeeks.join(",")],
+        queryFn: () => {
+            const qs = selWeeks.map((w) => `sel_weeks=${encodeURIComponent(w)}`).join("&");
+            return api.get(`/api/ams/trend${qs ? `?${qs}` : ""}`);
+        },
     });
 
     // Build unique lists for each picker from the loaded rows.
+    // Weeks come from data.all_weeks (full set) so the picker can offer
+    // weeks outside the default last-4 window the API returns.
     const { allSkus, allModels, allAsins, allBrands, allWeeks, allL0, allL1, allL2 } = useMemo(() => {
         const skus = new Set<string>(), models = new Set<string>(), asins = new Set<string>(), brands = new Set<string>();
-        const weeks = new Set<string>(), l0 = new Set<string>(), l1 = new Set<string>(), l2 = new Set<string>();
+        const l0 = new Set<string>(), l1 = new Set<string>(), l2 = new Set<string>();
         for (const r of data?.rows || []) {
             if (r.SKU)   skus.add(r.SKU);
             if (r.Model) models.add(r.Model);
             if (r.asin)  asins.add(r.asin);
             if (r.brand) brands.add(r.brand);
-            if (r.week)  weeks.add(String(r.week));
             if (r.category_l0) l0.add(r.category_l0);
             if (r.category_l1) l1.add(r.category_l1);
             if (r.category_l2) l2.add(r.category_l2);
@@ -207,7 +220,7 @@ export default function AmsTrend() {
             allModels: Array.from(models).sort(),
             allAsins:  Array.from(asins).sort(),
             allBrands: Array.from(brands).sort(),
-            allWeeks:  sortWeeks(Array.from(weeks)),
+            allWeeks:  sortWeeks((data?.all_weeks || []).map(String)),
             allL0:     Array.from(l0).sort(),
             allL1:     Array.from(l1).sort(),
             allL2:     Array.from(l2).sort(),

@@ -289,6 +289,29 @@ export default function AmsTrend() {
 
     const { sorted, sort, onSort } = useSortedRows<AmsRow>(filtered, { key: "ad_spend", dir: "desc" });
 
+    // KPIs derived from the *client-filtered* rows so picking Brands /
+    // Models / SKUs / Categories collapses the headline numbers in step
+    // with the table.  data.kpis was server-computed for the loaded
+    // dataset only (week-filtered), so it ignored every other picker.
+    // Exclude the "Grand Total" row the backend appends to data.rows.
+    const filteredKpis = useMemo(() => {
+        const real = filtered.filter(
+            (r) => String(r.Model ?? "").toLowerCase() !== "grand total"
+        );
+        const sum = (k: keyof AmsRow) =>
+            real.reduce((acc, r) => acc + (Number(r[k] as any) || 0), 0);
+        const gmv      = sum("gmv");
+        const units    = sum("units");
+        const sessions = sum("sessions");
+        const adSpend  = sum("ad_spend");
+        const attrSales= sum("attributed_sales");
+        return {
+            gmv, units, sessions, ad_spend: adSpend, attributed_sales: attrSales,
+            acos:  attrSales > 0 ? adSpend / attrSales : null,
+            tacos: gmv > 0       ? adSpend / gmv      : null,
+        };
+    }, [filtered]);
+
     function cellsFor(r: AmsRow): string[] {
         const gmv  = r.GMV ?? r.gmv;
         const tacosVal = r.tacos ?? r.TACOS;
@@ -355,12 +378,12 @@ export default function AmsTrend() {
             {data && (
                 <>
                     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
-                        <MiniKpi label="GMV"              value={fmtINR(data.kpis.gmv)}                                                              accent="#059669" />
-                        <MiniKpi label="Units"            value={fmtInt(data.kpis.units)}                                                            accent="#2563eb" />
-                        <MiniKpi label="Sessions"         value={fmtInt(data.kpis.sessions)}                                                         accent="#0891b2" />
-                        <MiniKpi label="Ad Spend"         value={fmtINR(data.kpis.ad_spend)}                                                         accent="#d97706" />
-                        <MiniKpi label="Attributed Sales" value={fmtINR(data.kpis.attributed_sales)}                                                 accent="#7c3aed" />
-                        <MiniKpi label="ACOS"             value={data.kpis.acos != null ? (data.kpis.acos * 100).toFixed(1) + "%" : "—"}             accent="#be185d" />
+                        <MiniKpi label="GMV"              value={fmtINR(filteredKpis.gmv)}                                                              accent="#059669" />
+                        <MiniKpi label="Units"            value={fmtInt(filteredKpis.units)}                                                            accent="#2563eb" />
+                        <MiniKpi label="Sessions"         value={fmtInt(filteredKpis.sessions)}                                                         accent="#0891b2" />
+                        <MiniKpi label="Ad Spend"         value={fmtINR(filteredKpis.ad_spend)}                                                         accent="#d97706" />
+                        <MiniKpi label="Attributed Sales" value={fmtINR(filteredKpis.attributed_sales)}                                                 accent="#7c3aed" />
+                        <MiniKpi label="ACOS"             value={filteredKpis.acos != null ? (filteredKpis.acos * 100).toFixed(1) + "%" : "—"}           accent="#be185d" />
                     </div>
 
                     <Card className="overflow-hidden">

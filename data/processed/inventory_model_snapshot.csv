@@ -7054,7 +7054,7 @@ Week 19,Nexlev,WF-02-BL,12.0,6744.0
 Week 19,Tonor,D2,0.0,0.0
 Week 19,Tonor,D5,2.0,3376.0
 Week 19,Tonor,G11,127.0,0.0
-Week 19,Tonor,G11-OLD,60.0,66480.0
+Week 19,Tonor,G11-OLD,60.0,0.0
 Week 19,Tonor,K1,836.0,708928.0
 Week 19,Tonor,K20,0.0,0.0
 Week 19,Tonor,K9,0.0,0.0
@@ -7487,7 +7487,7 @@ Week 20,Nexlev,WF-02-BL,11.0,6182.0
 Week 20,Tonor,D2,0.0,0.0
 Week 20,Tonor,D5,0.0,0.0
 Week 20,Tonor,G11,143.0,0.0
-Week 20,Tonor,G11-OLD,60.0,66480.0
+Week 20,Tonor,G11-OLD,60.0,0.0
 Week 20,Tonor,K1,1014.0,859872.0
 Week 20,Tonor,K20,0.0,0.0
 Week 20,Tonor,K9,0.0,0.0
@@ -7898,7 +7898,7 @@ Week 21,Nexlev,VC-05,789.0,838707.0
 Week 21,Nexlev,"VC-05 VC-05 -SET OF SPARES(CREVICE, BRUSH & HOSE)",5.0,1750.0
 Week 21,Nexlev,VC-06,50.0,47700.0
 Week 21,Nexlev,WF-02-BL,11.0,6182.0
-Week 21,Tonor,G11,211.0,66480.0
+Week 21,Tonor,G11,211.0,0.0
 Week 21,Tonor,K1,1012.0,858176.0
 Week 21,Tonor,ORCA001,16.0,38592.0
 Week 21,Tonor,S20,235.0,275890.0

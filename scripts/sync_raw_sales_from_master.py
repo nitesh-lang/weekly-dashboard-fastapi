@@ -12,9 +12,10 @@ those weeks' sales.
 For every row in:
   data/raw/sales/Week N/<brand>/amazon_sales.xlsx
   data/raw/sales/Week N/<brand>/other_channels.xlsx
+  data/ams_weekly_data/<brand>/business_report_weekN.xlsx
 
-…look up the (Parent) ASIN (amazon_sales) or ASIN (other_channels) in
-master.  If the ASIN resolves (either as a primary ASIN or as a known
+…look up the (Parent) ASIN (amazon_sales / business_report) or ASIN
+(other_channels) in master.  If the ASIN resolves (either as a primary ASIN or as a known
 Variation ASIN), overwrite the SKU and Model cells with master's
 canonical values.  Rows whose ASIN doesn't resolve are left untouched
 and reported as orphans for the operator to add to master.
@@ -36,10 +37,11 @@ import sys
 import pandas as pd
 from openpyxl import load_workbook
 
-ROOT       = Path(__file__).resolve().parent.parent
-MASTER     = ROOT / "data" / "master" / "sku_master.xlsx"
-SALES_ROOT = ROOT / "data" / "raw" / "sales"
-BRAND_DIRS = ["Audio_Array", "Nexlev", "Tonor", "White_Mulberry"]   # no Fossil
+ROOT        = Path(__file__).resolve().parent.parent
+MASTER      = ROOT / "data" / "master" / "sku_master.xlsx"
+SALES_ROOT  = ROOT / "data" / "raw" / "sales"
+AMS_ROOT    = ROOT / "data" / "ams_weekly_data"   # business_report_week<N>.xlsx lives here
+BRAND_DIRS  = ["Audio_Array", "Nexlev", "Tonor", "White_Mulberry"]   # no Fossil
 DEFAULT_WINDOW = 12
 
 
@@ -220,6 +222,23 @@ for wk in weeks_in_scope:
                 orphan_report.append({"Week": wk, "File": f"{bdir}/other_channels.xlsx", "Detail": ln})
             for ln in res["missing_log"]:
                 missing_report.append({"Week": wk, "File": f"{bdir}/other_channels.xlsx", "Detail": ln})
+
+    # ── Business reports (data/ams_weekly_data/<brand>/business_report_weekN.xlsx) ──
+    # Same Seller-Central schema as amazon_sales: SKU / Model / (Parent) ASIN / (Child) ASIN.
+    # Identical sync logic — master ASIN lookup overwrites SKU + Model.
+    for bdir in BRAND_DIRS:
+        p = AMS_ROOT / bdir / f"business_report_week{wk}.xlsx"
+        if not p.exists():
+            continue
+        res = _sync_workbook(p, asin_cols=("(Parent) ASIN", "(Child) ASIN"))
+        if res["cells"] or res["orphans"] or res["missing_asin"]:
+            print(f"   [{bdir.replace('_',' '):<14}] business_report_week{wk}.xlsx "
+                  f"· {res['cells']} cell(s) · {res['orphans']} orphan(s) · {res['missing_asin']} no-ASIN")
+        wk_cells += res["cells"]; wk_orph += res["orphans"]; wk_miss += res["missing_asin"]
+        for ln in res["orphan_log"]:
+            orphan_report.append({"Week": wk, "File": f"{bdir}/business_report_week{wk}.xlsx", "Detail": ln})
+        for ln in res["missing_log"]:
+            missing_report.append({"Week": wk, "File": f"{bdir}/business_report_week{wk}.xlsx", "Detail": ln})
 
     if wk_cells == 0 and wk_orph == 0 and wk_miss == 0:
         print(f"   (nothing to fix)")

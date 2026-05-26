@@ -92,88 +92,103 @@ def _sync_workbook(path: Path, asin_cols: tuple[str, ...]) -> dict:
     except PermissionError:
         print(f"   ⚠ {path.name} is open in Excel — close it and re-run.")
         return blank
-    ws = wb.active
 
-    # locate columns
-    header = {str(c.value).strip(): c.column for c in ws[1] if c.value}
-    sku_col   = header.get("SKU")
-    model_col = header.get("Model")
-    asin_col_candidates = [header[c] for c in asin_cols if c in header]
-    if not asin_col_candidates or sku_col is None or model_col is None:
-        print(f"   ⚠ {path.name}: missing SKU / Model / ASIN headers, skipping")
-        return blank
-
+    # `other_channels.xlsx` files carry one sheet per channel (CRED_B2C,
+    # Pharmaeasy, Myntra, …).  We iterate every sheet that has the
+    # expected schema so all channels get the master-as-truth treatment,
+    # not just whichever one happens to be `wb.active`.
     cell_updates     = 0
     via_sku_updates  = 0
     orphan_log       = []
     missing_log      = []
     sku_fallback_log = []
 
-    for row in range(2, ws.max_row + 1):
-        # Use the first ASIN column that has a value (parent first, then child)
-        asin = ""
-        for col_idx in asin_col_candidates:
-            v = _norm(ws.cell(row=row, column=col_idx).value)
-            if v:
-                asin = v
-                break
-
-        if not asin:
-            # ASIN-less row — try SKU fallback before giving up.
-            raw_sku   = _norm(ws.cell(row=row, column=sku_col).value)
-            raw_model = _norm(ws.cell(row=row, column=model_col).value)
-            if raw_sku and raw_sku in master_by_sku:
-                mrec = master_by_sku[raw_sku]
-                # SKU is already canonical here, but Model might drift
-                if mrec["model"]:
-                    cell = ws.cell(row=row, column=model_col)
-                    cur  = _norm(cell.value)
-                    if cur != mrec["model"]:
-                        cell.value = mrec["model"]
-                        via_sku_updates += 1
-                sku_fallback_log.append(f"row {row} · no ASIN · resolved via SKU={raw_sku} → {mrec['model']}")
-                continue
-            # Truly orphan: no ASIN and no SKU match
-            if raw_sku or raw_model:
-                missing_log.append(f"row {row} · SKU={raw_sku or '—'} · Model={raw_model or '—'}")
+    sheets_processed = 0
+    for ws in wb.worksheets:
+        header = {str(c.value).strip(): c.column for c in ws[1] if c.value}
+        sku_col   = header.get("SKU")
+        model_col = header.get("Model")
+        asin_col_candidates = [header[c] for c in asin_cols if c in header]
+        if not asin_col_candidates or sku_col is None or model_col is None:
+            # Sheet doesn't carry our schema — skip silently (only warn
+            # when no sheet at all is usable, handled below)
             continue
-
-        mrec = master_by_asin.get(asin)
-        if mrec is None:
-            # ASIN not in master — try SKU fallback before flagging orphan.
-            # This catches duplicate Amazon listings (different ASIN, same SKU)
-            # and new variants that haven't been added to master's ASIN/
-            # Variation ASINs column yet.
-            raw_sku = _norm(ws.cell(row=row, column=sku_col).value)
-            if raw_sku and raw_sku in master_by_sku:
-                mrec_s = master_by_sku[raw_sku]
-                if mrec_s["model"]:
-                    cell = ws.cell(row=row, column=model_col)
-                    cur  = _norm(cell.value)
-                    if cur != mrec_s["model"]:
-                        cell.value = mrec_s["model"]
-                        via_sku_updates += 1
-                sku_fallback_log.append(
-                    f"row {row} · ASIN {asin} not in master · resolved via SKU={raw_sku} → {mrec_s['model']}"
-                )
-                continue
-            orphan_log.append(f"row {row} · ASIN {asin}")
+        sheets_processed += 1
+        if ws.max_row < 2:
             continue
+        # Channel label used in the per-row log so multi-sheet files don't
+        # become ambiguous.
+        sheet_label = ws.title
 
-        # Overwrite SKU if differs (only when master has a SKU on file)
-        if mrec["sku"]:
-            cell = ws.cell(row=row, column=sku_col)
-            cur  = _norm(cell.value)
-            if cur != mrec["sku"]:
-                cell.value = mrec["sku"]
-                cell_updates += 1
-        # Overwrite Model if differs (only when master has a Model on file)
-        if mrec["model"]:
-            cell = ws.cell(row=row, column=model_col)
-            cur  = _norm(cell.value)
-            if cur != mrec["model"]:
-                cell.value = mrec["model"]
-                cell_updates += 1
+        for row in range(2, ws.max_row + 1):
+            # Use the first ASIN column that has a value (parent first, then child)
+            asin = ""
+            for col_idx in asin_col_candidates:
+                v = _norm(ws.cell(row=row, column=col_idx).value)
+                if v:
+                    asin = v
+                    break
+
+            if not asin:
+                # ASIN-less row — try SKU fallback before giving up.
+                raw_sku   = _norm(ws.cell(row=row, column=sku_col).value)
+                raw_model = _norm(ws.cell(row=row, column=model_col).value)
+                if raw_sku and raw_sku in master_by_sku:
+                    mrec = master_by_sku[raw_sku]
+                    # SKU is already canonical here, but Model might drift
+                    if mrec["model"]:
+                        cell = ws.cell(row=row, column=model_col)
+                        cur  = _norm(cell.value)
+                        if cur != mrec["model"]:
+                            cell.value = mrec["model"]
+                            via_sku_updates += 1
+                    sku_fallback_log.append(f"[{sheet_label}] row {row} · no ASIN · resolved via SKU={raw_sku} → {mrec['model']}")
+                    continue
+                # Truly orphan: no ASIN and no SKU match
+                if raw_sku or raw_model:
+                    missing_log.append(f"[{sheet_label}] row {row} · SKU={raw_sku or '—'} · Model={raw_model or '—'}")
+                continue
+
+            mrec = master_by_asin.get(asin)
+            if mrec is None:
+                # ASIN not in master — try SKU fallback before flagging orphan.
+                # This catches duplicate Amazon listings (different ASIN, same SKU)
+                # and new variants that haven't been added to master's ASIN/
+                # Variation ASINs column yet.
+                raw_sku = _norm(ws.cell(row=row, column=sku_col).value)
+                if raw_sku and raw_sku in master_by_sku:
+                    mrec_s = master_by_sku[raw_sku]
+                    if mrec_s["model"]:
+                        cell = ws.cell(row=row, column=model_col)
+                        cur  = _norm(cell.value)
+                        if cur != mrec_s["model"]:
+                            cell.value = mrec_s["model"]
+                            via_sku_updates += 1
+                    sku_fallback_log.append(
+                        f"[{sheet_label}] row {row} · ASIN {asin} not in master · resolved via SKU={raw_sku} → {mrec_s['model']}"
+                    )
+                    continue
+                orphan_log.append(f"[{sheet_label}] row {row} · ASIN {asin}")
+                continue
+
+            # Overwrite SKU if differs (only when master has a SKU on file)
+            if mrec["sku"]:
+                cell = ws.cell(row=row, column=sku_col)
+                cur  = _norm(cell.value)
+                if cur != mrec["sku"]:
+                    cell.value = mrec["sku"]
+                    cell_updates += 1
+            # Overwrite Model if differs (only when master has a Model on file)
+            if mrec["model"]:
+                cell = ws.cell(row=row, column=model_col)
+                cur  = _norm(cell.value)
+                if cur != mrec["model"]:
+                    cell.value = mrec["model"]
+                    cell_updates += 1
+
+    if sheets_processed == 0:
+        print(f"   ⚠ {path.name}: no usable sheet (missing SKU/Model/ASIN headers)")
+        return blank
 
     if cell_updates or via_sku_updates:
         bak = path.with_suffix(path.suffix + ".bak")

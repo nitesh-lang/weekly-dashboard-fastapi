@@ -604,10 +604,6 @@ Week 10,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 10,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 10,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 10,Fossil,SKW3121,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 10,Nexlev,,BI Worldwide,5.0,4448.0,4448.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 10,Nexlev,,Blinkit Sales,8.0,7209.44,7209.44,0.0,0.0,FBA79350,MAPPED,,,
-Week 10,Nexlev,,Myntra,1.0,3299.0,3299.0,0.0,0.0,FBA79598,MAPPED,,,
-Week 10,Nexlev,,Pharmaeasy,2.0,1151.97,1151.97,0.0,0.0,FBA79347,MAPPED,,,
 Week 10,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 10,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 10,Nexlev,AP-03,Amazon,7.0,21756.77966101695,21756.77966101695,2005.0,14035.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -615,6 +611,7 @@ Week 10,Nexlev,AP-03,B2B,1.0,2737.0,2737.0,2005.0,2005.0,FBA79692,MAPPED,Home & 
 Week 10,Nexlev,AP-03,Blinkit Sales,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
 Week 10,Nexlev,AP-03 HEPA,Amazon,2.0,1862.71186440678,1862.71186440678,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares
 Week 10,Nexlev,BM-02,Amazon,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
+Week 10,Nexlev,BM-02,Myntra,1.0,3299.0,3299.0,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
 Week 10,Nexlev,BR-01,Amazon,41.0,50111.87288135594,50111.87288135594,536.0,21976.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
 Week 10,Nexlev,BR-01,B2B,5.0,5758.0,5758.0,536.0,2680.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
 Week 10,Nexlev,BR-01,Blinkit Sales,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
@@ -640,6 +637,8 @@ Week 10,Nexlev,CR-01,Myntra,1.0,1828.0,1828.0,533.0,533.0,FBA79265,MAPPED,HPC,Sk
 Week 10,Nexlev,DF-01-BK,Amazon,2.0,2772.881355932203,2772.881355932203,1073.0,2146.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
 Week 10,Nexlev,DH-01,Amazon,5.0,16944.91525423729,16944.91525423729,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
 Week 10,Nexlev,EA-01,Amazon,17.0,12159.322033898306,12159.322033898306,710.0,12070.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 10,Nexlev,EA-01,BI Worldwide,5.0,4448.0,4448.0,710.0,3550.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 10,Nexlev,EA-01,Blinkit Sales,8.0,7209.44,7209.44,710.0,5680.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 10,Nexlev,EA-02,Amazon,8.0,17615.25423728814,17615.25423728814,1345.0,10760.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 10,Nexlev,EA-02,Blinkit Sales,0.0,0.0,0.0,1345.0,0.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 10,Nexlev,ET-01-BK,Amazon,31.0,7844.915254237289,7844.915254237289,282.0,8742.0,FBA79233,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -652,6 +651,7 @@ Week 10,Nexlev,ETC-04-WH,Amazon,2.0,1294.915254237288,1294.915254237288,412.0,82
 Week 10,Nexlev,ETC-04-WH,Blinkit Sales,2.0,1310.36,1310.36,412.0,824.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 10,Nexlev,ETC-05-PI,Amazon,1.0,634.7457627118645,634.7457627118645,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 10,Nexlev,ETC-05-PI,CRED_B2C,2.0,914.0,914.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 10,Nexlev,ETC-05-PI,Pharmaeasy,2.0,1151.97,1151.97,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 10,Nexlev,ETC-07-WH,Amazon,9.0,5706.364406779661,5706.364406779661,371.0,3339.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 10,Nexlev,ETC-07-WH,BI Worldwide,10.0,5890.0,5890.0,371.0,3710.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 10,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -938,6 +938,7 @@ Week 10,White Mulberry,WM1ML,1p Sales,29.0,71246.62,71246.62,1074.0,31146.0,FBA7
 Week 10,White Mulberry,WM1ML,Amazon,1.0,2456.779661016949,2456.779661016949,1074.0,1074.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
 Week 10,White Mulberry,WM1ML,BI Worldwide,1.0,2088.0,2088.0,1074.0,1074.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
 Week 11,Audio Array,,D2C - Audio Array,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
+Week 11,Audio Array,A2-XLR,B2B,1.0,10805.0,10805.0,156.48485039999997,156.48485039999997,FBA80006,MAPPED,Microphone Accessories,2m XLR Cable,
 Week 11,Audio Array,AA-01,1p Sales,6.0,10927.13,10927.13,1224.4990306619115,7346.994183971469,FBA75678,MAPPED,Microphone Accessories,Accessories,
 Week 11,Audio Array,AA-01,Amazon,2.0,3642.372881355932,3642.372881355932,1224.4990306619115,2448.998061323823,FBA75678,MAPPED,Microphone Accessories,Accessories,
 Week 11,Audio Array,AA-02,1p Sales,10.0,21178.0,21178.0,1330.2810372750002,13302.810372750002,FBA75679,MAPPED,Microphone Accessories,Accessories,
@@ -1139,7 +1140,6 @@ Week 11,Audio Array,AM-W47 Wired,Amazon,2.0,2033.898305084746,2033.898305084746,
 Week 11,Audio Array,AM-W47 Wireless,1p Sales,3.0,4827.96,4827.96,920.65253652,2761.95760956,FBA79960,MAPPED,Voice Amplifier,Wireless Voice Amplifier,
 Week 11,Audio Array,AM-W47 Wireless,Amazon,0.0,0.0,0.0,920.65253652,0.0,FBA79960,MAPPED,Voice Amplifier,Wireless Voice Amplifier,
 Week 11,Audio Array,BE-4T,1p Sales,0.0,0.0,0.0,3040.14077289,0.0,FBA79962,MAPPED,Audio Mixer,4 channels mixer with OTG,
-Week 11,Audio Array,BM-320PRO,B2B,1.0,10805.0,10805.0,9128.282940000001,9128.282940000001,FBA79977,MAPPED,Microphone Wireless Handheld,Dual UHF Wireless Microphone With Receiver Box,
 Week 11,Audio Array,GB-01 (AM-C43 +AI-10),1p Sales,1.0,4744.92,4744.92,2585.9936,2585.9936,FBA79824,MAPPED,Bundles,GB-01,
 Week 11,Audio Array,GB-01 (AM-C43 +AI-10),Amazon,1.0,4744.915254237289,4744.915254237289,2585.9936,2585.9936,FBA79824,MAPPED,Bundles,GB-01,
 Week 11,Audio Array,GB-02 (AM-C43 + AI-11),Amazon,2.0,6608.474576271186,6608.474576271186,1983.58,3967.16,FBA79825,MAPPED,Bundles,GB-02,
@@ -1517,9 +1517,6 @@ Week 11,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 11,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 11,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 11,Fossil,SKW3121,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 11,Nexlev,,B2B,8.0,7893.0,7893.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 11,Nexlev,,BI Worldwide,3.0,2669.0,2669.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 11,Nexlev,,Blinkit Sales,4.0,3604.72,3604.72,0.0,0.0,FBA79350,MAPPED,,,
 Week 11,Nexlev,,Pharmaeasy,1.0,547.0,547.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 11,Nexlev,AP-01,Amazon,1.0,12110.16949152542,12110.16949152542,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 11,Nexlev,AP-01,B2B,1.0,10000.0,10000.0,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
@@ -1553,6 +1550,9 @@ Week 11,Nexlev,CR-01,Myntra,1.0,1728.0,1728.0,533.0,533.0,FBA79265,MAPPED,HPC,Sk
 Week 11,Nexlev,DF-01-BK,Amazon,1.0,1386.440677966102,1386.440677966102,1073.0,1073.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
 Week 11,Nexlev,DH-01,Amazon,22.0,73507.63559322034,73507.63559322034,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
 Week 11,Nexlev,EA-01,Amazon,19.0,16827.1186440678,16827.1186440678,710.0,13490.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 11,Nexlev,EA-01,B2B,8.0,7893.0,7893.0,710.0,5680.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 11,Nexlev,EA-01,BI Worldwide,3.0,2669.0,2669.0,710.0,2130.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 11,Nexlev,EA-01,Blinkit Sales,4.0,3604.72,3604.72,710.0,2840.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 11,Nexlev,EA-01,D2C - Nexlev,1.0,1110.0,1110.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 11,Nexlev,EA-02,Amazon,8.0,15411.86440677966,15411.86440677966,1345.0,10760.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 11,Nexlev,EA-02,BI Worldwide,1.0,2104.0,2104.0,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
@@ -2452,9 +2452,6 @@ Week 12,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 12,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 12,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 12,Fossil,SKW3121,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 12,Nexlev,,Blinkit Sales,3.0,2703.54,2703.54,0.0,0.0,FBA79350,MAPPED,,,
-Week 12,Nexlev,,CRED_B2C,3.0,1484.745763,1484.745763,0.0,0.0,FBA79347,MAPPED,,,
-Week 12,Nexlev,,D2C - Nexlev,1.0,1110.0,1110.0,0.0,0.0,FBA79350,MAPPED,,,
 Week 12,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 12,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 12,Nexlev,AP-03,Amazon,4.0,12369.49152542373,12369.49152542373,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -2484,6 +2481,8 @@ Week 12,Nexlev,DF-01-BK,Amazon,1.0,1386.440677966102,1386.440677966102,1073.0,10
 Week 12,Nexlev,DH-01,Amazon,24.0,81251.69491525424,81251.69491525424,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
 Week 12,Nexlev,EA-01,Amazon,23.0,21431.37288135593,21431.37288135593,710.0,16330.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 12,Nexlev,EA-01,B2B,3.0,2671.0,2671.0,710.0,2130.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 12,Nexlev,EA-01,Blinkit Sales,3.0,2703.54,2703.54,710.0,2130.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 12,Nexlev,EA-01,D2C - Nexlev,1.0,1110.0,1110.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 12,Nexlev,EA-02,Amazon,11.0,22017.830508474577,22017.830508474577,1345.0,14795.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 12,Nexlev,EA-02,Blinkit Sales,2.0,4262.36,4262.36,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 12,Nexlev,EA-02,D2C - Nexlev,1.0,2826.0,2826.0,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
@@ -2496,6 +2495,7 @@ Week 12,Nexlev,ETC-04-WH,Amazon,2.0,1282.2033898305085,1282.2033898305085,412.0,
 Week 12,Nexlev,ETC-04-WH,Blinkit Sales,6.0,3767.08,3767.08,412.0,2472.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 12,Nexlev,ETC-04-WH,D2C - Nexlev,1.0,718.0,718.0,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 12,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 12,Nexlev,ETC-05-PI,CRED_B2C,3.0,1484.745763,1484.745763,413.0,1239.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 12,Nexlev,ETC-07-WH,Amazon,13.0,7903.830508474577,7903.830508474577,371.0,4823.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 12,Nexlev,ETC-07-WH,BI Worldwide,4.0,2356.0,2356.0,371.0,1484.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 12,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -3353,10 +3353,6 @@ Week 13,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 13,Fossil,MKO1224,Amazon,1.0,20758.474576271183,20758.474576271183,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 13,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 13,Fossil,SKW3121,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 13,Nexlev,,B2B,5.0,5222.0,5222.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 13,Nexlev,,BI Worldwide,2.0,1779.048,1779.048,0.0,0.0,FBA79350,MAPPED,,,
-Week 13,Nexlev,,Blinkit Sales,4.0,3725.42,3725.42,0.0,0.0,FBA79350,MAPPED,,,
-Week 13,Nexlev,,Pharmaeasy,2.0,3316.0,3316.0,0.0,0.0,FBA79598,MAPPED,,,
 Week 13,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 13,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 13,Nexlev,AP-03,Amazon,4.0,12877.96610169492,12877.96610169492,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -3365,6 +3361,7 @@ Week 13,Nexlev,AP-03,BI Worldwide,2.0,5184.746,5184.746,2005.0,4010.0,FBA79692,M
 Week 13,Nexlev,AP-03,Blinkit Sales,5.0,16097.46,16097.46,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
 Week 13,Nexlev,AP-03 HEPA,Amazon,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares
 Week 13,Nexlev,BM-02,Amazon,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
+Week 13,Nexlev,BM-02,Pharmaeasy,2.0,3316.0,3316.0,970.0,1940.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
 Week 13,Nexlev,BR-01,Amazon,31.0,35196.62711864406,35196.62711864406,536.0,16616.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
 Week 13,Nexlev,BR-01,BI Worldwide,1.0,1151.695,1151.695,536.0,536.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
 Week 13,Nexlev,BR-01,Blinkit Sales,1.0,1312.71,1312.71,536.0,536.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
@@ -3381,7 +3378,6 @@ Week 13,Nexlev,CM-01-BL,BI Worldwide,1.0,945.7627,945.7627,560.0,560.0,FBA79464,
 Week 13,Nexlev,CM-01-BL,Blinkit Sales,1.0,1143.22,1143.22,560.0,560.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
 Week 13,Nexlev,CM-01-BL,D2C - Nexlev,2.0,2334.0,2334.0,560.0,1120.0,FBA79464,MAPPED,HPC,Electric Massagers,Electric Heating Pads
 Week 13,Nexlev,CM-02-PR,Amazon,2.0,2286.440677966102,2286.440677966102,560.0,1120.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
-Week 13,Nexlev,CM-02-PR,B2B,1.0,1153.0,1153.0,560.0,560.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
 Week 13,Nexlev,CM-02-PR,BI Worldwide,1.0,1092.381,1092.381,560.0,560.0,FBA79472,MAPPED,HPC,Electric Massagers,Electric Heating Pads
 Week 13,Nexlev,CR-01,Amazon,12.0,6084.745762711864,6084.745762711864,533.0,6396.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
 Week 13,Nexlev,CR-01,BI Worldwide,10.0,5033.898,5033.898,533.0,5330.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover
@@ -3389,13 +3385,15 @@ Week 13,Nexlev,CR-01,Blinkit Sales,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Ski
 Week 13,Nexlev,DF-01-BK,Amazon,0.0,0.0,0.0,1073.0,0.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
 Week 13,Nexlev,DH-01,Amazon,11.0,43041.52542372882,43041.52542372882,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
 Week 13,Nexlev,EA-01,Amazon,13.0,12135.59322033898,12135.59322033898,710.0,9230.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 13,Nexlev,EA-01,B2B,5.0,5222.0,5222.0,710.0,3550.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 13,Nexlev,EA-01,BI Worldwide,2.0,1779.048,1779.048,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 13,Nexlev,EA-01,Blinkit Sales,4.0,3725.42,3725.42,710.0,2840.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 13,Nexlev,EA-01,D2C - Nexlev,1.0,1110.0,1110.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 13,Nexlev,EA-02,Amazon,11.0,20157.62711864407,20157.62711864407,1345.0,14795.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 13,Nexlev,EA-02,Blinkit Sales,10.0,22025.42,22025.42,1345.0,13450.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 13,Nexlev,EM-02,Pharmaeasy,1.0,1668.0,1668.0,1422.0,1422.0,FBA79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro
 Week 13,Nexlev,ET-01-BK,Amazon,19.0,4605.084745762712,4605.084745762712,282.0,5358.0,FBA79233,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ET-02-GN,Amazon,14.0,3381.35593220339,3381.35593220339,282.0,3948.0,FBA79234,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 13,Nexlev,ET-02-GN,B2B,1.0,360.0,360.0,295.0,295.0,FBA79374,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ET-02-GN,CRED_B2C,1.0,229.0,229.0,282.0,282.0,FBA79234,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ETC-04-WH,Amazon,0.0,0.0,0.0,412.0,0.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ETC-04-WH,Blinkit Sales,6.0,3808.47,3808.47,412.0,2472.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -3406,7 +3404,6 @@ Week 13,Nexlev,ETC-07-WH,Amazon,10.0,5133.491525423729,5133.491525423729,371.0,3
 Week 13,Nexlev,ETC-07-WH,BI Worldwide,5.0,2944.915,2944.915,371.0,1855.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ETC-08-BL,Amazon,3.0,1878.813559322034,1878.813559322034,373.0,1119.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
-Week 13,Nexlev,ETC-08-BL,B2B,1.0,616.0,616.0,373.0,373.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ETC-08-BL,BI Worldwide,4.0,2355.932,2355.932,373.0,1492.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ETC-08-BL,Blinkit Sales,0.0,0.0,0.0,373.0,0.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 13,Nexlev,ETC-08-BL,Pharmaeasy,1.0,555.0,555.0,373.0,373.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -3529,7 +3526,7 @@ Week 13,Nexlev,SC-01 Set of Spares,Amazon,4.0,1014.406779661017,1014.40677966101
 Week 13,Nexlev,SC-02,Blinkit Sales,0.0,0.0,0.0,1377.0,0.0,FBA79262,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 13,Nexlev,SC-03,Amazon,3.0,17791.52542372881,17791.52542372881,4052.0,12156.0,FBA79277,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 13,Nexlev,SC-04,Amazon,25.0,121993.2203389831,121993.2203389831,2695.0,67375.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
-Week 13,Nexlev,SC-04,B2B,1.0,4106.0,4106.0,2695.0,2695.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
+Week 13,Nexlev,SC-04,B2B,4.0,6235.0,6235.0,2695.0,10780.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 13,Nexlev,SC-04,Blinkit Sales,0.0,0.0,0.0,2695.0,0.0,FBA79567,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 13,Nexlev,SC-04 Set of 2 Mops,Amazon,5.0,2012.71186440678,2012.71186440678,82.0,410.0,FBA79714,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
 Week 13,Nexlev,SC-04 Spare Set,Amazon,1.0,233.0508474576271,233.0508474576271,40.0,40.0,FBA79843,MAPPED,Home & Kitchen,Spare Set,Spares
@@ -3690,7 +3687,6 @@ Week 13,White Mulberry,WM-SMD09-WH,Amazon,0.0,0.0,0.0,6978.0,0.0,FBA79175,MAPPED
 Week 13,White Mulberry,WM-USE06-WH,Amazon,0.0,0.0,0.0,11345.0,0.0,FBA79165,MAPPED,Desk-Adjustable,USB-Motorized,
 Week 13,White Mulberry,WM1ML,1p Sales,49.0,120382.22,120382.22,1074.0,52626.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
 Week 13,White Mulberry,WM1ML,Amazon,5.0,12707.62711864407,12707.62711864407,1074.0,5370.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
-Week 14,Audio Array,,1p Sales,8.0,33044.06,33044.06,0.0,0.0,,MAPPED,,,
 Week 14,Audio Array,,D2C - Audio Array,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,
 Week 14,Audio Array,A3-XLR,Amazon,2.0,1184.745762711864,1184.745762711864,195.60606299999998,391.21212599999996,FBA79956,MAPPED,Microphone Accessories,Accessories,
 Week 14,Audio Array,AA-01,1p Sales,5.0,9105.94,9105.94,1224.4990306619115,6122.495153309557,FBA75678,MAPPED,Microphone Accessories,Accessories,
@@ -3765,9 +3761,13 @@ Week 14,Audio Array,AI-13,Amazon,1.0,2287.28813559322,2287.28813559322,1544.9101
 Week 14,Audio Array,AI-13,B2B,2.0,4048.5,4048.5,1544.91011775,3089.8202355,FBA79961,MAPPED,Audio Mixer,4 channels Mixer,
 Week 14,Audio Array,AI-14,1p Sales,0.0,0.0,0.0,3065.1016736159995,0.0,FBA79968,MAPPED,Audio Mixer,8 channels Mixer,
 Week 14,Audio Array,AI-14,Amazon,0.0,0.0,0.0,3065.1016736159995,0.0,FBA79968,MAPPED,Audio Mixer,8 channels Mixer,
+Week 14,Audio Array,AK-37-B,1p Sales,1.0,3388.98,3388.98,2261.3068296,2261.3068296,FBA79979,MAPPED,Electric Keyboard,37 Key Electronic Keyboard Black,
 Week 14,Audio Array,AK-37-B,B2B,2.0,5102.0,5102.0,2261.3068296,4522.6136592,FBA79979,MAPPED,Electric Keyboard,37 Key Electronic Keyboard Black,
+Week 14,Audio Array,AK-37-W,1p Sales,2.0,6777.96,6777.96,2335.8554064000004,4671.710812800001,FBA79980,MAPPED,Electric Keyboard,37 Key Electronic Keyboard White,
 Week 14,Audio Array,AK-37-W,B2B,2.0,5102.0,5102.0,2335.8554064000004,4671.710812800001,FBA79980,MAPPED,Electric Keyboard,37 Key Electronic Keyboard White,
+Week 14,Audio Array,AK-61 Neo,1p Sales,1.0,4236.44,4236.44,2870.1202068,2870.1202068,FBA79981,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LED DIsplay,
 Week 14,Audio Array,AK-61 Neo,B2B,2.0,7119.0,7119.0,2870.1202068,5740.2404136,FBA79981,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LED DIsplay,
+Week 14,Audio Array,AK-61 Pro,1p Sales,4.0,18640.68,18640.68,3317.4116676,13269.6466704,FBA79982,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LCD DIsplay,
 Week 14,Audio Array,AK-61 Pro,Amazon,4.0,18640.6779661017,18640.6779661017,3317.4116676,13269.6466704,FBA79982,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LCD DIsplay,
 Week 14,Audio Array,AK-61 Pro,B2B,2.0,7119.0,7119.0,3317.4116676,6634.8233352,FBA79982,MAPPED,Electric Keyboard,61 Key Electronic Keyboard With LCD DIsplay,
 Week 14,Audio Array,AM-C1,1p Sales,176.0,396763.27,396763.27,1475.9646878294116,259769.78505797643,FBA75673,MAPPED,Microphone Condenser,USB Microphone Kit - Boomarm,
@@ -4275,10 +4275,6 @@ Week 14,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 14,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 14,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 14,Fossil,SKW3121,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 14,Nexlev,,B2B,2.0,2089.0,2089.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 14,Nexlev,,BI Worldwide,2.0,1779.0,1779.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 14,Nexlev,,Blinkit Sales,2.0,2172.0636,2172.0636,0.0,0.0,FBA79350,MAPPED,,,
-Week 14,Nexlev,,CRED_B2C,3.0,1485.0,1485.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 14,Nexlev,AM-C3,B2B,2.0,1441.0,1441.0,659.7098370441175,1319.419674088235,FBA75675,MAPPED,Microphone Dynamic,Vocal Microphone,
 Week 14,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 14,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
@@ -4309,6 +4305,9 @@ Week 14,Nexlev,CR-01,Myntra,1.0,1360.17,1360.17,533.0,533.0,FBA79265,MAPPED,HPC,
 Week 14,Nexlev,DF-01-BK,Amazon,1.0,1386.440677966102,1386.440677966102,1073.0,1073.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
 Week 14,Nexlev,DH-01,Amazon,10.0,42533.90677966102,42533.90677966102,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
 Week 14,Nexlev,EA-01,Amazon,14.0,13106.77966101695,13106.77966101695,710.0,9940.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 14,Nexlev,EA-01,B2B,2.0,2089.0,2089.0,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 14,Nexlev,EA-01,BI Worldwide,2.0,1779.0,1779.0,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 14,Nexlev,EA-01,Blinkit Sales,2.0,2172.0636,2172.0636,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 14,Nexlev,EA-02,Amazon,14.0,22649.152542372885,22649.152542372885,1345.0,18830.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 14,Nexlev,EA-02,BI Worldwide,1.0,2104.0,2104.0,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 14,Nexlev,EA-02,Blinkit Sales,7.0,17978.3226,17978.3226,1345.0,9415.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
@@ -4322,6 +4321,7 @@ Week 14,Nexlev,ET-02-GN,Pharmaeasy,1.0,348.0,348.0,282.0,282.0,FBA79234,MAPPED,H
 Week 14,Nexlev,ETC-04-WH,Amazon,0.0,0.0,0.0,412.0,0.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 14,Nexlev,ETC-04-WH,Blinkit Sales,8.0,5891.6484,5891.6484,412.0,3296.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 14,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 14,Nexlev,ETC-05-PI,CRED_B2C,3.0,1485.0,1485.0,413.0,1239.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 14,Nexlev,ETC-05-PI,Pharmaeasy,1.0,1094.0,1094.0,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 14,Nexlev,ETC-07-WH,Amazon,7.0,3954.237288135594,3954.237288135594,371.0,2597.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 14,Nexlev,ETC-07-WH,BI Worldwide,9.0,4123.0,4123.0,371.0,3339.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -4456,14 +4456,13 @@ Week 14,Nexlev,SM-01,Amazon,12.0,35178.8220338983,35178.8220338983,2357.0,28284.
 Week 14,Nexlev,SM-01,Blinkit Sales,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop
 Week 14,Nexlev,SPM-01 Set of 2 Mops,Amazon,0.0,0.0,0.0,250.0,0.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares
 Week 14,Nexlev,SS-01,Amazon,0.0,0.0,0.0,1532.0,0.0,FBA79451,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
-Week 14,Nexlev,SS-01,BI Worldwide,2.0,3746.0,3746.0,1532.0,3064.0,FBA79451,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
 Week 14,Nexlev,SS-02,Amazon,9.0,11066.822033898306,11066.822033898306,1306.0,11754.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
 Week 14,Nexlev,SS-02,B2B,17.0,24454.0,24454.0,1306.0,22202.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
 Week 14,Nexlev,SS-02,BI Worldwide,2.0,3456.0,3456.0,1306.0,2612.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
 Week 14,Nexlev,SS-02,Blinkit Sales,10.0,14220.198,14220.198,1306.0,13060.0,FBA79589,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber
 Week 14,Nexlev,SS-02 Set of Spares,Amazon,1.0,741.5254237288136,741.5254237288136,350.0,350.0,FBA79657,MAPPED,Home & Kitchen,Set of Spares,Spares
 Week 14,Nexlev,ST-01,Amazon,14.0,63998.31355932204,63998.31355932204,3423.0,47922.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
-Week 14,Nexlev,ST-01,BI Worldwide,2.0,8614.0,8614.0,3423.0,6846.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
+Week 14,Nexlev,ST-01,BI Worldwide,4.0,12360.0,12360.0,3423.0,13692.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
 Week 14,Nexlev,ST-01,D2C - Nexlev,2.0,10167.79661,10167.79661,3423.0,6846.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer
 Week 14,Nexlev,SW-01,Amazon,30.0,25381.372881355936,25381.372881355936,409.0,12270.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine
 Week 14,Nexlev,SW-01,Blinkit Sales,0.0,0.0,0.0,409.0,0.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine
@@ -5201,8 +5200,6 @@ Week 15,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 15,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 15,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 15,Fossil,SKW3121,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 15,Nexlev,,CRED_B2C,1.0,419.0,419.0,0.0,0.0,FBA79347,MAPPED,,,
-Week 15,Nexlev,,Myntra,2.0,5126.0,5126.0,0.0,0.0,FBA79598,MAPPED,,,
 Week 15,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 15,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 15,Nexlev,AP-03,Amazon,3.0,9488.98305084746,9488.98305084746,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -5212,6 +5209,7 @@ Week 15,Nexlev,AP-03,D2C - Nexlev,2.0,7185.0,7185.0,2005.0,4010.0,FBA79692,MAPPE
 Week 15,Nexlev,AP-03,Myntra,1.0,5143.0,5143.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
 Week 15,Nexlev,AP-03 HEPA,Amazon,2.0,1862.71186440678,1862.71186440678,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares
 Week 15,Nexlev,BM-02,Amazon,1.0,1685.593220338983,1685.593220338983,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
+Week 15,Nexlev,BM-02,Myntra,2.0,5126.0,5126.0,970.0,1940.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager
 Week 15,Nexlev,BR-01,Amazon,17.0,21451.70338983051,21451.70338983051,536.0,9112.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
 Week 15,Nexlev,BR-01,Blinkit Sales,4.0,5417.0,5417.0,536.0,2144.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover
 Week 15,Nexlev,CF-01,Amazon,1.0,1185.593220338983,1185.593220338983,716.0,716.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker
@@ -5247,6 +5245,7 @@ Week 15,Nexlev,ETC-04-WH,Amazon,1.0,627.1186440677966,627.1186440677966,412.0,41
 Week 15,Nexlev,ETC-04-WH,B2B,1.0,680.0,680.0,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 15,Nexlev,ETC-04-WH,Blinkit Sales,3.0,2150.0,2150.0,412.0,1236.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 15,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 15,Nexlev,ETC-05-PI,CRED_B2C,1.0,419.0,419.0,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 15,Nexlev,ETC-05-PI,Myntra,1.0,780.0,780.0,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 15,Nexlev,ETC-07-WH,Amazon,5.0,2740.271186440678,2740.271186440678,371.0,1855.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 15,Nexlev,ETC-07-WH,BI Worldwide,8.0,4123.0,4123.0,371.0,2968.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -5525,7 +5524,6 @@ Week 15,White Mulberry,WM-SMD09-WH,Amazon,0.0,0.0,0.0,6978.0,0.0,FBA79175,MAPPED
 Week 15,White Mulberry,WM-USE06-WH,Amazon,0.0,0.0,0.0,11345.0,0.0,FBA79165,MAPPED,Desk-Adjustable,USB-Motorized,
 Week 15,White Mulberry,WM1ML,1p Sales,51.0,125189.78,125189.78,1074.0,54774.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
 Week 15,White Mulberry,WM1ML,Amazon,1.0,2579.661016949153,2579.661016949153,1074.0,1074.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
-Week 16,Audio Array,,B2B,4.0,4745.76,4745.76,0.0,0.0,FBM79708,MAPPED,,,
 Week 16,Audio Array,A3-XLR,Amazon,0.0,0.0,0.0,195.60606299999998,0.0,FBA79956,MAPPED,Microphone Accessories,Accessories,
 Week 16,Audio Array,AA-01,1p Sales,3.0,5463.57,5463.57,1224.4990306619115,3673.4970919857346,FBA75678,MAPPED,Microphone Accessories,Accessories,
 Week 16,Audio Array,AA-01,Amazon,0.0,0.0,0.0,1224.4990306619115,0.0,FBA75678,MAPPED,Microphone Accessories,Accessories,
@@ -5787,7 +5785,7 @@ Week 16,Audio Array,PB-12 (AM-C11+AA-05+AI-04+AH-60-RD),Amazon,0.0,0.0,0.0,6152.
 Week 16,Audio Array,PB-14 (AM-C43+AH-40-SL+AI-12),Amazon,1.0,3897.457627118644,3897.457627118644,2280.5034,2280.5034,FBA79908,MAPPED,Bundles,PB-14,
 Week 16,Audio Array,SB-01,1p Sales,2.0,2125.25,2125.25,708.0,1416.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
 Week 16,Audio Array,SB-01,Amazon,6.0,4233.050847457627,4233.050847457627,708.0,4248.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
-Week 16,Audio Array,SB-01,B2B,2.0,2032.0,2032.0,708.0,1416.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
+Week 16,Audio Array,SB-01,B2B,6.0,6777.76,6777.76,1416.0,4248.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
 Week 16,Audio Array,SB-01,Blinkit Sales,0.0,0.0,0.0,708.0,0.0,FBA79708,MAPPED,Sound Bar,Sound Bar,
 Week 16,Audio Array,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",Amazon,0.0,0.0,0.0,9527.5088,0.0,FBA79821,MAPPED,Bundles,UB-01,
 Week 16,Audio Array,UB-02 (AM-S1 + AA-21),1p Sales,1.0,9829.66,9829.66,5836.846399999999,5836.846399999999,FBA79845,MAPPED,Bundles,UB-02,
@@ -6128,7 +6126,6 @@ Week 16,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 16,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 16,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 16,Fossil,SKW3121,Amazon,1.0,8046.610169491526,8046.610169491526,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 16,Nexlev,,Pharmaeasy,3.0,1674.0,1674.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 16,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 16,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 16,Nexlev,AP-03,Amazon,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -6166,6 +6163,7 @@ Week 16,Nexlev,ET-02-GN,B2B,6.0,2161.0,2161.0,577.0,1757.0,FBA79234,MAPPED,HPC,O
 Week 16,Nexlev,ETC-04-WH,Amazon,1.0,638.9830508474577,638.9830508474577,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 16,Nexlev,ETC-04-WH,Blinkit Sales,1.0,762.0,762.0,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 16,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 16,Nexlev,ETC-05-PI,Pharmaeasy,3.0,1674.0,1674.0,413.0,1239.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 16,Nexlev,ETC-07-WH,Amazon,3.0,1659.3220338983056,1659.3220338983056,371.0,1113.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 16,Nexlev,ETC-07-WH,BI Worldwide,2.0,1177.966102,1177.966102,371.0,742.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 16,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -7016,7 +7014,6 @@ Week 17,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Wat
 Week 17,Fossil,MK9245SET,Amazon,1.0,22877.1186440678,22877.1186440678,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
 Week 17,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 17,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
-Week 17,Nexlev,,Pharmaeasy,2.0,1131.0,1131.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 17,Nexlev,AP-01,Amazon,1.0,14398.30508474576,14398.30508474576,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 17,Nexlev,AP-01,D2C - Nexlev,1.0,12567.29,12567.29,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 17,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
@@ -7059,6 +7056,7 @@ Week 17,Nexlev,ETC-04-WH,Blinkit Sales,6.0,4571.0,4571.0,412.0,2472.0,FBA79346,M
 Week 17,Nexlev,ETC-04-WH,D2C - Nexlev,1.0,717.7966,717.7966,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 17,Nexlev,ETC-04-WH,POP,1.0,677.0,677.0,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 17,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 17,Nexlev,ETC-05-PI,Pharmaeasy,2.0,1131.0,1131.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 17,Nexlev,ETC-07-WH,Amazon,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 17,Nexlev,ETC-07-WH,BI Worldwide,5.0,2355.932,2355.932,371.0,1855.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 17,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -7892,8 +7890,6 @@ Week 18,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Wat
 Week 18,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
 Week 18,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 18,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
-Week 18,Nexlev,,BI Worldwide,1.0,890.0,890.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 18,Nexlev,,Myntra,1.0,1172.881,1172.881,0.0,0.0,FBА79381,MAPPED,,,
 Week 18,Nexlev,,Pharmaeasy,2.0,1153.0,1153.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 18,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 18,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
@@ -7927,6 +7923,7 @@ Week 18,Nexlev,CR-01,Myntra,1.0,1360.169,1360.169,533.0,533.0,FBA79265,MAPPED,HP
 Week 18,Nexlev,DF-01-BK,Amazon,1.0,1386.440677966102,1386.440677966102,1073.0,1073.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
 Week 18,Nexlev,DH-01,Amazon,25.0,105741.5593220339,105741.5593220339,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
 Week 18,Nexlev,EA-01,Amazon,14.0,13094.91525423729,13094.91525423729,710.0,9940.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 18,Nexlev,EA-01,BI Worldwide,1.0,890.0,890.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 18,Nexlev,EA-01,Blinkit Sales,1.0,1779.0,1779.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 18,Nexlev,EA-02,Amazon,39.0,62257.62711864408,62257.62711864408,1345.0,52455.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 18,Nexlev,EA-02,Blinkit Sales,6.0,11181.0,11181.0,1345.0,8070.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
@@ -7952,6 +7949,7 @@ Week 18,Nexlev,ETR-06,Amazon,1.0,1055.932203389831,1055.932203389831,672.0,672.0
 Week 18,Nexlev,ETR-06,BI Worldwide,3.0,2700.0,2700.0,672.0,2016.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
 Week 18,Nexlev,ETR-06,Blinkit Sales,0.0,0.0,0.0,672.0,0.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
 Week 18,Nexlev,ETR-06,D2C - Nexlev,1.0,1122.0,1122.0,672.0,672.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
+Week 18,Nexlev,ETR-06,Myntra,1.0,1172.881,1172.881,672.0,672.0,FBA79381,MAPPED,HPC,Oral Care,Electric Toothbrush - Oscillating
 Week 18,Nexlev,FS-01,Amazon,12.0,17681.11016949153,17681.11016949153,896.0,10752.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
 Week 18,Nexlev,FS-01,BI Worldwide,9.0,11342.0,11342.0,896.0,8064.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
 Week 18,Nexlev,FS-01,Blinkit Sales,5.0,7411.0,7411.0,896.0,4480.0,FBA79404,MAPPED,HPC,Skin Care,Face Steamer
@@ -8203,6 +8201,7 @@ Week 18,White Mulberry,WM-SMD09-WH,Amazon,2.0,14308.474576271186,14308.474576271
 Week 18,White Mulberry,WM-USE06-WH,Amazon,0.0,0.0,0.0,11345.0,0.0,FBA79165,MAPPED,Desk-Adjustable,USB-Motorized,
 Week 18,White Mulberry,WM1ML,1p Sales,68.0,167061.04,167061.04,1074.0,73032.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
 Week 18,White Mulberry,WM1ML,Amazon,8.0,19654.24,19654.24,1074.0,8592.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,
+Week 19,Audio Array,A2-XLR,B2B,3.0,44100.0,44100.0,156.48485039999997,469.4545511999999,FBA80006,MAPPED,Microphone Accessories,2m XLR Cable,
 Week 19,Audio Array,A3-XLR,Amazon,2.0,1015.254237288136,1015.254237288136,195.60606299999998,391.21212599999996,FBA79956,MAPPED,Microphone Accessories,Accessories,
 Week 19,Audio Array,AA-01,1p Sales,0.0,0.0,0.0,1224.4990306619115,0.0,FBA75678,MAPPED,Microphone Accessories,Accessories,
 Week 19,Audio Array,AA-01,Amazon,0.0,0.0,0.0,1224.4990306619115,0.0,FBA75678,MAPPED,Microphone Accessories,Accessories,
@@ -8401,7 +8400,6 @@ Week 19,Audio Array,GB-03 (AI-12 + AM-C43),Amazon,1.0,2583.898305084746,2583.898
 Week 19,Audio Array,GB-04 (AM-C45 + AI-06),Amazon,0.0,0.0,0.0,4630.8156,0.0,FBA79831,MAPPED,Bundles,GB-04,
 Week 19,Audio Array,GB-05 (AM-C43 + AI-06),1p Sales,0.0,0.0,0.0,3909.104,0.0,FBA79832,MAPPED,Bundles,GB-05,
 Week 19,Audio Array,GB-05 (AM-C43 + AI-06),Amazon,0.0,0.0,0.0,3909.104,0.0,FBA79832,MAPPED,Bundles,GB-05,
-Week 19,Audio Array,JT-1,B2B,3.0,44100.0,44100.0,11084.34357,33253.03071000001,FBA79976,MAPPED,Wireless Accessories,IEM With Receiver & Transmitter,
 Week 19,Audio Array,KB-01 (AM-W32 + AI-12),Amazon,0.0,0.0,0.0,2630.5268,0.0,FBA79822,MAPPED,Bundles,KB-01,
 Week 19,Audio Array,M8,1p Sales,8.0,54230.48,54230.48,4119.760313999999,32958.08251199999,FBA79972,MAPPED,Audio Mixer,8 channels Mixer,
 Week 19,Audio Array,MT-12,1p Sales,2.0,15676.27,15676.27,4119.760313999999,8239.520627999998,FBA80007,MAPPED,Audio Mixer,12 channels Mixer,
@@ -8769,8 +8767,6 @@ Week 19,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Wat
 Week 19,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
 Week 19,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 19,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
-Week 19,Nexlev,,BI Worldwide,1.0,934.0,934.0,0.0,0.0,FBA79350,MAPPED,,,
-Week 19,Nexlev,,Pharmaeasy,2.0,1153.0,1153.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 19,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 19,Nexlev,AP-01,Myntra,1.0,25058.47,25058.47,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 19,Nexlev,AP-03,Amazon,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -8798,6 +8794,7 @@ Week 19,Nexlev,CR-01,Blinkit Sales,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Ski
 Week 19,Nexlev,DF-01-BK,Amazon,0.0,0.0,0.0,1073.0,0.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser
 Week 19,Nexlev,DH-01,Amazon,23.0,103356.779661017,103356.779661017,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers
 Week 19,Nexlev,EA-01,Amazon,27.0,23855.932203389828,23855.932203389828,710.0,19170.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
+Week 19,Nexlev,EA-01,BI Worldwide,1.0,934.0,934.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 19,Nexlev,EA-01,Blinkit Sales,2.0,3558.0,3558.0,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 19,Nexlev,EA-02,Amazon,22.0,40061.016949152545,40061.016949152545,1345.0,29590.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
 Week 19,Nexlev,EA-02,Blinkit Sales,7.0,13045.0,13045.0,1345.0,9415.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator
@@ -8809,6 +8806,7 @@ Week 19,Nexlev,ET-02-GN,B2B,6.0,2161.0,2161.0,577.0,1757.0,FBA79234,MAPPED,HPC,O
 Week 19,Nexlev,ETC-04-WH,Amazon,1.0,596.6101694915254,596.6101694915254,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 19,Nexlev,ETC-04-WH,Blinkit Sales,5.0,3809.0,3809.0,412.0,2060.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 19,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 19,Nexlev,ETC-05-PI,Pharmaeasy,2.0,1153.0,1153.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 19,Nexlev,ETC-07-WH,B2B,1.0,610.0,610.0,371.0,371.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 19,Nexlev,ETC-07-WH,BI Worldwide,6.0,4170.0,4170.0,371.0,2226.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 19,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush

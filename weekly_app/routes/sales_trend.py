@@ -242,15 +242,23 @@ def sales_trend(
     }
 
     asin_by_model = load_asin_by_model()
+    from weekly_app.core.master_override import model_to_skus
+    sku_by_model_map = model_to_skus()
     rows = []
 
     for model, v in data.items():
         units_seq = [v["weeks"].get(w, {}).get("units", 0) for w in weeks]
 
+        # Source ASIN + SKU from master via the model's uppercase key.
+        # Same model can carry multiple SKUs / ASINs — join with commas
+        # so the cell stays scannable while keeping all the identifiers.
+        model_u = str(model).upper().strip()
+        skus_for_model = sku_by_model_map.get(model_u, [])
         row = {
             "model": model,
             "brand": v.get("brand"),
             "asin": asin_by_model.get(model, ""),
+            "sku":  ", ".join(skus_for_model),
             "category_l0": v["category_l0"],
             "category_l1": v["category_l1"],
             "category_l2": v["category_l2"],
@@ -273,6 +281,7 @@ def sales_trend(
         "model": "Grand Total",
         "brand": "",
         "asin": "",
+        "sku":  "",
         "category_l0": "",
         "category_l1": "",
         "category_l2": "",

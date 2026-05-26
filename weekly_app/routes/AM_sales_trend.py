@@ -368,6 +368,8 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
     # BUILD FINAL ROWS
     # ============================================================
     asin_by_model = load_asin_by_model()
+    from weekly_app.core.master_override import model_to_skus
+    sku_by_model_map = model_to_skus()
 
     for model, v in data.items():
 
@@ -395,10 +397,15 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
             for i in range(len(units_seq))
         ]
 
+        # ASIN + SKU sourced from master (comma-joined for models that
+        # back multiple SKUs) so identifiers stay identical to master.
+        model_u = str(model).upper().strip()
+        skus_for_model = sku_by_model_map.get(model_u, [])
         row = {
             "model": model,
             "brand": v.get("brand"),
             "asin": asin_by_model.get(model, ""),
+            "sku":  ", ".join(skus_for_model),
             "category_l0": v.get("category_l0"),
             "category_l1": v.get("category_l1"),
             "category_l2": v.get("category_l2"),
@@ -448,6 +455,7 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
             "model": "GRAND TOTAL",
             "brand": "",
             "asin": "",
+            "sku":  "",
             "category_l0": "",
             "category_l1": "",
             "category_l2": "",

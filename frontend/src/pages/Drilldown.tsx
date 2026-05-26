@@ -100,7 +100,11 @@ export default function Drilldown() {
         if (!filteredSkus.length) return { textKeys: [], numKeys: [] };
         const first = filteredSkus[0];
         const keys = Object.keys(first).filter((k) => !/nlc/i.test(k));
-        const textKeys = keys.filter((k) => ["sku", "model_no", "category_l0"].includes(k));
+        // Identifier columns shown first as sticky text columns.  Order is
+        // important — SKU / Model / ASIN / Category L0 matches the layout
+        // operator uses on Sales Trend + AM+1P Trend pages.
+        const textKeyOrder = ["sku", "model_no", "asin", "category_l0"];
+        const textKeys = textKeyOrder.filter((k) => keys.includes(k));
         const numKeys  = keys.filter((k) => !textKeys.includes(k));
         return { textKeys, numKeys };
     }, [filteredSkus]);
@@ -175,7 +179,7 @@ export default function Drilldown() {
                                     <thead className="sticky top-0 z-30">
                                         <tr>
                                             {skuCols.textKeys.map((k, ti) => {
-                                                const left = [0, 110, 220][ti] ?? 0;
+                                                const left = [0, 110, 220, 340][ti] ?? 0;
                                                 const lastFrozen = ti === skuCols.textKeys.length - 1;
                                                 return (
                                                     <SortableTh
@@ -206,7 +210,7 @@ export default function Drilldown() {
                                         {sortedSkus.map((r, i) => (
                                             <tr key={i} className="group">
                                                 {skuCols.textKeys.map((k, ti) => {
-                                                    const left = [0, 110, 220][ti] ?? 0;
+                                                    const left = [0, 110, 220, 340][ti] ?? 0;
                                                     const lastFrozen = ti === skuCols.textKeys.length - 1;
                                                     return (
                                                         <td

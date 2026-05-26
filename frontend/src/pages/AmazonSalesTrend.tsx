@@ -20,6 +20,7 @@ interface AmazonRow {
     model: string;
     brand?: string;
     asin?: string;
+    sku?: string;
     category_l0?: string;
     category_l1?: string;
     category_l2?: string;
@@ -205,7 +206,8 @@ export default function AmazonSalesTrend() {
                                         filterValues={allModels} filterSelected={selModels} onFilterChange={(v) => setMulti("models", v)} />
                                     <SortableTh sortKey="asin"        label="ASIN"        sort={sort} onSort={onSort} align="left" stickyLeft={130} minWidth={120}
                                         filterValues={allAsins}  filterSelected={selAsins}  onFilterChange={(v) => setMulti("asins", v)} />
-                                    <SortableTh sortKey="category_l0" label="Category L0" sort={sort} onSort={onSort} align="left" stickyLeft={250} minWidth={150} lastFrozen
+                                    <SortableTh sortKey="sku"         label="SKU"         sort={sort} onSort={onSort} align="left" stickyLeft={250} minWidth={120} />
+                                    <SortableTh sortKey="category_l0" label="Category L0" sort={sort} onSort={onSort} align="left" stickyLeft={370} minWidth={150} lastFrozen
                                         filterValues={allL0}     filterSelected={selL0}     onFilterChange={(v) => setMulti("cat_l0", v)} />
                                     <SortableTh sortKey="category_l1" label="Category L1" sort={sort} onSort={onSort} align="left" minWidth={140}
                                         filterValues={allL1}     filterSelected={selL1}     onFilterChange={(v) => setMulti("cat_l1", v)} />
@@ -245,8 +247,9 @@ export default function AmazonSalesTrend() {
                                 {sorted.map((r, i) => (
                                     <tr key={i} className="group">
                                         <td style={{ position: "sticky", left: 0 }}   className="px-3 py-2 font-medium border-b bg-background group-hover:bg-accent/40 z-10 min-w-[130px]">{r.model}</td>
-                                        <td style={{ position: "sticky", left: 130 }} className="px-3 py-2  border-b bg-background group-hover:bg-accent/40 z-10 min-w-[120px]"><AsinLink asin={r.asin} /></td>
-                                        <td style={{ position: "sticky", left: 250 }} className="px-3 py-2 text-foreground border-b bg-background group-hover:bg-accent/40 z-10 min-w-[150px] border-r-2 border-r-border">{r.category_l0 || ""}</td>
+                                        <td style={{ position: "sticky", left: 130 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[120px]"><AsinLink asin={r.asin} /></td>
+                                        <td style={{ position: "sticky", left: 250 }} className="px-3 py-2 text-foreground border-b bg-background group-hover:bg-accent/40 z-10 min-w-[120px]">{r.sku || ""}</td>
+                                        <td style={{ position: "sticky", left: 370 }} className="px-3 py-2 text-foreground border-b bg-background group-hover:bg-accent/40 z-10 min-w-[150px] border-r-2 border-r-border">{r.category_l0 || ""}</td>
                                         <td className="px-3 py-2 text-foreground border-b">{r.category_l1 || ""}</td>
                                         <td className="px-3 py-2 text-foreground border-b">{r.category_l2 || ""}</td>
                                         {weeks.map((w, i) => (

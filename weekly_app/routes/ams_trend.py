@@ -326,6 +326,16 @@ def get_ams_trend(
     # ===============================
     df = freeze_schema(df.replace({np.nan: None}))
 
+    # Restore master-canonical Model casing AND canonical SKU for every
+    # row whose ASIN is in master.  Earlier in this route Model gets
+    # uppercased so the join with the inventory pivot is case-insensitive;
+    # that join is done by now, so it's safe to put master's casing back.
+    # overwrite_sku=True also pulls the canonical SKU from master so the
+    # row's SKU + Model + ASIN are all guaranteed identical to master.
+    from weekly_app.core.master_override import apply_master_model
+    apply_master_model(df, asin_col="asin", sku_col="SKU",
+                       model_col="Model", overwrite_sku=True)
+
     # ===============================
     # KPIs
     # ===============================

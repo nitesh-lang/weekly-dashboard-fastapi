@@ -10,6 +10,26 @@ from pathlib import Path
 import urllib.parse
 
 from weekly_app.core.json_utils import clean_nan
+from weekly_app.core.master_override import master_lookups
+
+
+def _enrich_sku_with_master(df: pd.DataFrame) -> pd.DataFrame:
+    """Add 'asin' column from master via SKU lookup and override
+    'model_no' with master's canonical Model.  Ensures the drilldown
+    table shows the same identifiers as Sales Trend / AM+1P / AMS Trend.
+    Rows whose SKU isn't in master are left untouched."""
+    if "sku" not in df.columns:
+        return df
+    _, sku_rec = master_lookups()
+    if not sku_rec:
+        return df
+    s = df["sku"].astype(str).str.strip()
+    df["asin"] = s.map(lambda k: sku_rec.get(k, {}).get("asin", "") or "")
+    if "model_no" in df.columns:
+        mask = s.isin(sku_rec)
+        if mask.any():
+            df.loc[mask, "model_no"] = s[mask].map(lambda k: sku_rec[k]["model"])
+    return df
 
 # =====================================================
 # ROUTER INIT
@@ -372,7 +392,7 @@ def drilldown(
             sku["total_sales"] = sku["amazon_total_sales"] + sku[non_amazon_sales].sum(axis=1)
             sku["total_nlc"] = sku["amazon_total_nlc"] + sku[non_amazon_nlc].sum(axis=1)
 
-            sku = round_df(sku)
+            sku = round_df(_enrich_sku_with_master(sku))
             # Sort by total sales (highest → lowest) so top revenue SKUs appear first
             if "total_sales" in sku.columns:
                 sku = sku.sort_values("total_sales", ascending=False, kind="stable").reset_index(drop=True)
@@ -413,7 +433,7 @@ def drilldown(
             else:
                 sku["channel_contribution_pct"] = 0.0
 
-            sku = round_df(sku)
+            sku = round_df(_enrich_sku_with_master(sku))
             if "gmv" in sku.columns:
                 sku = sku.sort_values("gmv", ascending=False, kind="stable").reset_index(drop=True)
             if export == "csv":
@@ -448,7 +468,7 @@ def drilldown(
         else:
             sku["channel_contribution_pct"] = 0.0
 
-        sku = round_df(sku)
+        sku = round_df(_enrich_sku_with_master(sku))
         if "gmv" in sku.columns:
             sku = sku.sort_values("gmv", ascending=False, kind="stable").reset_index(drop=True)
 

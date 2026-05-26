@@ -1517,7 +1517,6 @@ Week 11,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional 
 Week 11,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 11,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
 Week 11,Fossil,SKW3121,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,
-Week 11,Nexlev,,Pharmaeasy,1.0,547.0,547.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 11,Nexlev,AP-01,Amazon,1.0,12110.16949152542,12110.16949152542,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 11,Nexlev,AP-01,B2B,1.0,10000.0,10000.0,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 11,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
@@ -1569,6 +1568,7 @@ Week 11,Nexlev,ETC-04-WH,Pharmaeasy,1.0,584.0,584.0,412.0,412.0,FBA79346,MAPPED,
 Week 11,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 11,Nexlev,ETC-05-PI,CRED_B2C,4.0,2603.0,2603.0,413.0,1652.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 11,Nexlev,ETC-05-PI,Myntra,1.0,1005.0,1005.0,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 11,Nexlev,ETC-05-PI,Pharmaeasy,1.0,547.0,547.0,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 11,Nexlev,ETC-07-WH,Amazon,16.0,10155.93220338983,10155.93220338983,371.0,5936.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 11,Nexlev,ETC-07-WH,BI Worldwide,5.0,2945.0,2945.0,371.0,1855.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 11,Nexlev,ETC-07-WH,Blinkit Sales,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
@@ -7890,7 +7890,6 @@ Week 18,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Wat
 Week 18,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
 Week 18,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 18,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
-Week 18,Nexlev,,Pharmaeasy,2.0,1153.0,1153.0,0.0,0.0,FBA79347,MAPPED,,,
 Week 18,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 18,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 18,Nexlev,AP-03,Amazon,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -7937,6 +7936,7 @@ Week 18,Nexlev,ETC-04-WH,Amazon,2.0,1254.237288135593,1254.237288135593,412.0,82
 Week 18,Nexlev,ETC-04-WH,Blinkit Sales,3.0,2286.0,2286.0,412.0,1236.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 18,Nexlev,ETC-04-WH,D2C - Nexlev,1.0,718.0,718.0,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 18,Nexlev,ETC-05-PI,Amazon,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
+Week 18,Nexlev,ETC-05-PI,Pharmaeasy,2.0,1153.0,1153.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 18,Nexlev,ETC-07-WH,Amazon,2.0,1862.71186440678,1862.71186440678,371.0,742.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 18,Nexlev,ETC-07-WH,B2B,1.0,610.0,610.0,371.0,371.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush
 Week 18,Nexlev,ETC-07-WH,BI Worldwide,6.0,2945.0,2945.0,371.0,2226.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush

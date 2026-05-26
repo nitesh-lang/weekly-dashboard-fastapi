@@ -15,10 +15,14 @@ For every row in:
   data/ams_weekly_data/<brand>/business_report_weekN.xlsx
 
 …look up the (Parent) ASIN (amazon_sales / business_report) or ASIN
-(other_channels) in master.  If the ASIN resolves (either as a primary ASIN or as a known
-Variation ASIN), overwrite the SKU and Model cells with master's
-canonical values.  Rows whose ASIN doesn't resolve are left untouched
-and reported as orphans for the operator to add to master.
+(other_channels) in master.  If the ASIN resolves (either as a primary
+ASIN or as a known Variation ASIN), overwrite the SKU and Model cells
+with master's canonical values.
+
+STRICT ASIN-ONLY RULE (per operator decision):
+  • ASIN missing in raw           → row left untouched, flagged "no-ASIN"
+  • ASIN present but NOT in master → row left untouched, flagged "orphan"
+  • No SKU-based fallback.  To resolve, add the ASIN to master.
 
 Saves a one-shot `.bak` next to each modified workbook before writing.
 
@@ -57,18 +61,11 @@ for c in ("FBA SKU", "ASIN", "Model", "Variation ASINs"):
         m[c] = m[c].map(_norm)
 
 master_by_asin: dict[str, dict] = {}
-master_by_sku:  dict[str, dict] = {}      # SKU fallback when ASIN isn't in master
 for _, r in m.iterrows():
     primary = r.get("ASIN", "")
-    sku     = r.get("FBA SKU", "")
-    osku    = _norm(r.get("Original SKU"))
-    rec = {"sku": sku, "model": r.get("Model", "")}
+    rec = {"sku": r.get("FBA SKU", ""), "model": r.get("Model", "")}
     if primary:
         master_by_asin[primary] = rec
-    if sku:
-        master_by_sku.setdefault(sku, rec)
-    if osku and osku != sku:
-        master_by_sku.setdefault(osku, rec)
     vstr = r.get("Variation ASINs", "")
     if vstr:
         for v in re.split(r"[,\s/|;]+", vstr):
@@ -76,15 +73,21 @@ for _, r in m.iterrows():
             if v and v not in master_by_asin:
                 master_by_asin[v] = rec
 
-print(f"Master ASINs (incl. variations): {len(master_by_asin):,}")
-print(f"Master SKUs (FBA + Original):    {len(master_by_sku):,}\n")
+print(f"Master ASINs (incl. variations): {len(master_by_asin):,}\n")
 
 
 # ── In-place sync via openpyxl (preserves formatting) ────────────────────
+#
+# Strict ASIN-only rule (per operator):
+#   • ASIN in raw + in master → overwrite SKU + Model from master
+#   • ASIN in raw + NOT in master → orphan; row left as-is
+#   • ASIN missing in raw       → no-ASIN; row left as-is
+# No SKU-based fallback. If the operator wants those rows resolved,
+# they must add the ASIN to master.
 def _sync_workbook(path: Path, asin_cols: tuple[str, ...]) -> dict:
-    """Returns {cells, via_sku, orphans, missing_asin, orphan_log, missing_log, sku_fallback_log}."""
-    blank = {"cells": 0, "via_sku": 0, "orphans": 0, "missing_asin": 0,
-             "orphan_log": [], "missing_log": [], "sku_fallback_log": []}
+    """Returns {cells, orphans, missing_asin, orphan_log, missing_log}."""
+    blank = {"cells": 0, "orphans": 0, "missing_asin": 0,
+             "orphan_log": [], "missing_log": []}
     if not path.exists():
         return blank
     try:
@@ -97,11 +100,9 @@ def _sync_workbook(path: Path, asin_cols: tuple[str, ...]) -> dict:
     # Pharmaeasy, Myntra, …).  We iterate every sheet that has the
     # expected schema so all channels get the master-as-truth treatment,
     # not just whichever one happens to be `wb.active`.
-    cell_updates     = 0
-    via_sku_updates  = 0
-    orphan_log       = []
-    missing_log      = []
-    sku_fallback_log = []
+    cell_updates = 0
+    orphan_log   = []
+    missing_log  = []
 
     sheets_processed = 0
     for ws in wb.worksheets:
@@ -130,44 +131,16 @@ def _sync_workbook(path: Path, asin_cols: tuple[str, ...]) -> dict:
                     break
 
             if not asin:
-                # ASIN-less row — try SKU fallback before giving up.
+                # No ASIN in raw — strict rule: leave row untouched.
                 raw_sku   = _norm(ws.cell(row=row, column=sku_col).value)
                 raw_model = _norm(ws.cell(row=row, column=model_col).value)
-                if raw_sku and raw_sku in master_by_sku:
-                    mrec = master_by_sku[raw_sku]
-                    # SKU is already canonical here, but Model might drift
-                    if mrec["model"]:
-                        cell = ws.cell(row=row, column=model_col)
-                        cur  = _norm(cell.value)
-                        if cur != mrec["model"]:
-                            cell.value = mrec["model"]
-                            via_sku_updates += 1
-                    sku_fallback_log.append(f"[{sheet_label}] row {row} · no ASIN · resolved via SKU={raw_sku} → {mrec['model']}")
-                    continue
-                # Truly orphan: no ASIN and no SKU match
                 if raw_sku or raw_model:
                     missing_log.append(f"[{sheet_label}] row {row} · SKU={raw_sku or '—'} · Model={raw_model or '—'}")
                 continue
 
             mrec = master_by_asin.get(asin)
             if mrec is None:
-                # ASIN not in master — try SKU fallback before flagging orphan.
-                # This catches duplicate Amazon listings (different ASIN, same SKU)
-                # and new variants that haven't been added to master's ASIN/
-                # Variation ASINs column yet.
-                raw_sku = _norm(ws.cell(row=row, column=sku_col).value)
-                if raw_sku and raw_sku in master_by_sku:
-                    mrec_s = master_by_sku[raw_sku]
-                    if mrec_s["model"]:
-                        cell = ws.cell(row=row, column=model_col)
-                        cur  = _norm(cell.value)
-                        if cur != mrec_s["model"]:
-                            cell.value = mrec_s["model"]
-                            via_sku_updates += 1
-                    sku_fallback_log.append(
-                        f"[{sheet_label}] row {row} · ASIN {asin} not in master · resolved via SKU={raw_sku} → {mrec_s['model']}"
-                    )
-                    continue
+                # ASIN not in master — strict rule: leave row untouched.
                 orphan_log.append(f"[{sheet_label}] row {row} · ASIN {asin}")
                 continue
 
@@ -190,7 +163,7 @@ def _sync_workbook(path: Path, asin_cols: tuple[str, ...]) -> dict:
         print(f"   ⚠ {path.name}: no usable sheet (missing SKU/Model/ASIN headers)")
         return blank
 
-    if cell_updates or via_sku_updates:
+    if cell_updates:
         bak = path.with_suffix(path.suffix + ".bak")
         if not bak.exists():
             shutil.copy2(path, bak)
@@ -199,15 +172,13 @@ def _sync_workbook(path: Path, asin_cols: tuple[str, ...]) -> dict:
             wb.save(path)
         except PermissionError:
             print(f"   ⚠ couldn't save {path.name} — close it in Excel and re-run.")
-            return {"cells": 0, "via_sku": 0,
+            return {"cells": 0,
                     "orphans": len(orphan_log), "missing_asin": len(missing_log),
-                    "orphan_log": orphan_log, "missing_log": missing_log,
-                    "sku_fallback_log": sku_fallback_log}
+                    "orphan_log": orphan_log, "missing_log": missing_log}
 
-    return {"cells": cell_updates, "via_sku": via_sku_updates,
+    return {"cells": cell_updates,
             "orphans": len(orphan_log), "missing_asin": len(missing_log),
-            "orphan_log": orphan_log, "missing_log": missing_log,
-            "sku_fallback_log": sku_fallback_log}
+            "orphan_log": orphan_log, "missing_log": missing_log}
 
 
 # ── Resolve week range from CLI ──────────────────────────────────────────
@@ -234,13 +205,11 @@ print(f"Scope: weeks {weeks_in_scope[0]}–{weeks_in_scope[-1]}  ({len(weeks_in_
 
 
 # ── Walk every week × brand ──────────────────────────────────────────────
-total_cells       = 0
-total_via_sku     = 0
-total_orphan      = 0
-total_missing     = 0
-orphan_report:    list[dict] = []
-missing_report:   list[dict] = []
-sku_fallback_report: list[dict] = []
+total_cells     = 0
+total_orphan    = 0
+total_missing   = 0
+orphan_report:  list[dict] = []
+missing_report: list[dict] = []
 per_week_summary: list[dict] = []
 
 for wk in weeks_in_scope:
@@ -248,10 +217,9 @@ for wk in weeks_in_scope:
     if not wk_dir.exists():
         continue
     print(f"━━━ Week {wk} ━━━")
-    wk_cells   = 0
-    wk_via_sku = 0
-    wk_orph    = 0
-    wk_miss    = 0
+    wk_cells = 0
+    wk_orph  = 0
+    wk_miss  = 0
 
     for bdir in BRAND_DIRS:
         brand_dir = wk_dir / bdir
@@ -259,8 +227,6 @@ for wk in weeks_in_scope:
             continue
 
         def _record(file_label: str, res: dict):
-            for ln in res["sku_fallback_log"]:
-                sku_fallback_report.append({"Week": wk, "File": f"{bdir}/{file_label}", "Detail": ln})
             for ln in res["orphan_log"]:
                 orphan_report.append({"Week": wk, "File": f"{bdir}/{file_label}", "Detail": ln})
             for ln in res["missing_log"]:
@@ -269,80 +235,56 @@ for wk in weeks_in_scope:
         p = brand_dir / "amazon_sales.xlsx"
         if p.exists():
             res = _sync_workbook(p, asin_cols=("(Parent) ASIN", "(Child) ASIN"))
-            if res["cells"] or res["via_sku"] or res["orphans"] or res["missing_asin"]:
+            if res["cells"] or res["orphans"] or res["missing_asin"]:
                 print(f"   [{bdir.replace('_',' '):<14}] amazon_sales.xlsx     "
-                      f"· {res['cells']} via ASIN · {res['via_sku']} via SKU · {res['orphans']} orphan(s) · {res['missing_asin']} no-ASIN")
-            wk_cells += res["cells"]; wk_via_sku += res["via_sku"]
-            wk_orph += res["orphans"]; wk_miss += res["missing_asin"]
+                      f"· {res['cells']} cell(s) · {res['orphans']} orphan(s) · {res['missing_asin']} no-ASIN")
+            wk_cells += res["cells"]; wk_orph += res["orphans"]; wk_miss += res["missing_asin"]
             _record("amazon_sales.xlsx", res)
 
         p = brand_dir / "other_channels.xlsx"
         if p.exists():
             res = _sync_workbook(p, asin_cols=("ASIN",))
-            if res["cells"] or res["via_sku"] or res["orphans"] or res["missing_asin"]:
+            if res["cells"] or res["orphans"] or res["missing_asin"]:
                 print(f"   [{bdir.replace('_',' '):<14}] other_channels.xlsx   "
-                      f"· {res['cells']} via ASIN · {res['via_sku']} via SKU · {res['orphans']} orphan(s) · {res['missing_asin']} no-ASIN")
-            wk_cells += res["cells"]; wk_via_sku += res["via_sku"]
-            wk_orph += res["orphans"]; wk_miss += res["missing_asin"]
+                      f"· {res['cells']} cell(s) · {res['orphans']} orphan(s) · {res['missing_asin']} no-ASIN")
+            wk_cells += res["cells"]; wk_orph += res["orphans"]; wk_miss += res["missing_asin"]
             _record("other_channels.xlsx", res)
 
     # ── Business reports (data/ams_weekly_data/<brand>/business_report_weekN.xlsx) ──
     # Same Seller-Central schema as amazon_sales: SKU / Model / (Parent) ASIN / (Child) ASIN.
-    # Identical sync logic — master ASIN lookup, with SKU fallback.
     for bdir in BRAND_DIRS:
         p = AMS_ROOT / bdir / f"business_report_week{wk}.xlsx"
         if not p.exists():
             continue
         res = _sync_workbook(p, asin_cols=("(Parent) ASIN", "(Child) ASIN"))
-        if res["cells"] or res["via_sku"] or res["orphans"] or res["missing_asin"]:
+        if res["cells"] or res["orphans"] or res["missing_asin"]:
             print(f"   [{bdir.replace('_',' '):<14}] business_report_week{wk}.xlsx "
-                  f"· {res['cells']} via ASIN · {res['via_sku']} via SKU · {res['orphans']} orphan(s) · {res['missing_asin']} no-ASIN")
-        wk_cells += res["cells"]; wk_via_sku += res["via_sku"]
-        wk_orph += res["orphans"]; wk_miss += res["missing_asin"]
-        for ln in res["sku_fallback_log"]:
-            sku_fallback_report.append({"Week": wk, "File": f"{bdir}/business_report_week{wk}.xlsx", "Detail": ln})
+                  f"· {res['cells']} cell(s) · {res['orphans']} orphan(s) · {res['missing_asin']} no-ASIN")
+        wk_cells += res["cells"]; wk_orph += res["orphans"]; wk_miss += res["missing_asin"]
         for ln in res["orphan_log"]:
             orphan_report.append({"Week": wk, "File": f"{bdir}/business_report_week{wk}.xlsx", "Detail": ln})
         for ln in res["missing_log"]:
             missing_report.append({"Week": wk, "File": f"{bdir}/business_report_week{wk}.xlsx", "Detail": ln})
 
-    if wk_cells == 0 and wk_via_sku == 0 and wk_orph == 0 and wk_miss == 0:
+    if wk_cells == 0 and wk_orph == 0 and wk_miss == 0:
         print(f"   (nothing to fix)")
     print()
-    total_cells   += wk_cells
-    total_via_sku += wk_via_sku
-    total_orphan  += wk_orph
-    total_missing += wk_miss
-    per_week_summary.append({"Week": wk, "Via ASIN": wk_cells, "Via SKU": wk_via_sku,
+    total_cells  += wk_cells
+    total_orphan += wk_orph
+    total_missing+= wk_miss
+    per_week_summary.append({"Week": wk, "Cells updated": wk_cells,
                               "Orphan rows": wk_orph, "No-ASIN rows": wk_miss})
 
 print("=" * 70)
-print(f"✅ {total_cells} cell(s) updated via ASIN · {total_via_sku} via SKU fallback")
+print(f"✅ {total_cells} cell(s) updated via ASIN lookup")
 print(f"   across {len(weeks_in_scope)} weeks · 4 brands · 3 file types")
+print(f"   Strict ASIN-only rule: rows without a valid master ASIN are left untouched.")
 print()
 print("Per-week summary:")
 for s in per_week_summary:
-    print(f"   Week {s['Week']:<3}  via_ASIN={s['Via ASIN']:<4}  via_SKU={s['Via SKU']:<4}"
+    print(f"   Week {s['Week']:<3}  cells={s['Cells updated']:<4}"
           f"  orphans={s['Orphan rows']}  no-ASIN={s['No-ASIN rows']}")
 print()
-
-if total_via_sku or sku_fallback_report:
-    print(f"ℹ  SKU-fallback resolutions ({len(sku_fallback_report)} rows) — ASIN missing")
-    print(f"   from master but SKU matched.  These joined cleanly downstream:")
-    # Group by ASIN for clarity
-    by_asin: dict[str, list[str]] = {}
-    for r in sku_fallback_report:
-        asin_part = r["Detail"].split("ASIN ")[-1].split(" ")[0] if "ASIN " in r["Detail"] else "(no-ASIN)"
-        by_asin.setdefault(asin_part, []).append(f"Week {r['Week']} · {r['File']}")
-    for asin in sorted(by_asin):
-        instances = by_asin[asin]
-        print(f"     {asin:<14}  {len(instances)} occurrence(s)")
-        for inst in instances[:3]:
-            print(f"         {inst}")
-        if len(instances) > 3:
-            print(f"         …and {len(instances)-3} more")
-    print(f"   → Consider adding these ASINs to master so future runs join via ASIN directly.")
-    print()
 
 if total_orphan:
     seen = set()

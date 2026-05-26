@@ -9652,7 +9652,6 @@ Week 20,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Wat
 Week 20,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
 Week 20,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 20,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
-Week 20,Nexlev,,Amazon,3.0,505.9322033898305,505.9322033898305,0.0,0.0,,MAPPED,,,
 Week 20,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 20,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 20,Nexlev,AP-03,Amazon,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -9780,6 +9779,7 @@ Week 20,Nexlev,SC-01,B2B,19.0,53029.56,53029.56,1786.0,33934.0,FBA78981,MAPPED,H
 Week 20,Nexlev,SC-01,Blinkit Sales,1.0,3092.0,3092.0,1786.0,1786.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 20,Nexlev,SC-01,D2C - Nexlev,14.0,50293.22,50293.22,1786.0,25004.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 20,Nexlev,SC-01 Set of Spares,Amazon,2.0,676.271186440678,676.271186440678,350.0,700.0,FBA79771,MAPPED,Home & Kitchen,Set of Spares,Spares
+Week 20,Nexlev,SC-01_Mop_Cloth,Amazon,3.0,505.9322033898305,505.9322033898305,0.0,0.0,FBA80113,MAPPED,,,
 Week 20,Nexlev,SC-02,Blinkit Sales,0.0,0.0,0.0,1377.0,0.0,FBA79262,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 20,Nexlev,SC-02 Set of Spares,Amazon,0.0,0.0,0.0,350.0,0.0,FBA79772,MAPPED,Home & Kitchen,Set of Spares,Spares
 Week 20,Nexlev,SC-03,Amazon,28.0,158350.84745762713,158350.84745762713,4052.0,113456.0,FBA79277,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
@@ -10527,7 +10527,6 @@ Week 21,Fossil,MK9242,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Traditional Wat
 Week 21,Fossil,MK9245SET,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,
 Week 21,Fossil,MKO1224,Amazon,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,
 Week 21,Fossil,SKW2694,Amazon,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,
-Week 21,Nexlev,,Amazon,2.0,337.2881355932204,337.2881355932204,0.0,0.0,,MAPPED,,,
 Week 21,Nexlev,AP-01,Amazon,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier
 Week 21,Nexlev,AP-01 HEPA,Amazon,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares
 Week 21,Nexlev,AP-03,Amazon,3.0,10056.77966101695,10056.77966101695,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini
@@ -10661,6 +10660,7 @@ Week 21,Nexlev,SC-01,B2B,19.0,53029.56,53029.56,1786.0,33934.0,FBA78981,MAPPED,H
 Week 21,Nexlev,SC-01,Blinkit Sales,3.0,9277.0,9277.0,1786.0,5358.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-01,D2C - Nexlev,13.0,46701.0,46701.0,1786.0,23218.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-01 Set of Spares,Amazon,2.0,676.271186440678,676.271186440678,350.0,700.0,FBA79771,MAPPED,Home & Kitchen,Set of Spares,Spares
+Week 21,Nexlev,SC-01_Mop_Cloth,Amazon,2.0,337.2881355932204,337.2881355932204,0.0,0.0,FBA80113,MAPPED,,,
 Week 21,Nexlev,SC-02,Blinkit Sales,0.0,0.0,0.0,1377.0,0.0,FBA79262,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner
 Week 21,Nexlev,SC-02 Set of Spares,Amazon,0.0,0.0,0.0,350.0,0.0,FBA79772,MAPPED,Home & Kitchen,Set of Spares,Spares
 Week 21,Nexlev,SC-03,Amazon,11.0,63972.88135593221,63972.88135593221,4052.0,44572.0,FBA79277,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner

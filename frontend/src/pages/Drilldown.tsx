@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, sortWeeks } from "@/lib/utils";
+import { fmtINR, fmtInt, sortWeeks, exportToCsv } from "@/lib/utils";
+import { Download } from "lucide-react";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -161,12 +162,30 @@ export default function Drilldown() {
                             title="SKU-Level Sales"
                             subtitle={`${channel || "All channels"} · ${(data.sku_channel_rows?.length || 0).toLocaleString()} rows`}
                             action={
-                                <Input
-                                    placeholder="Filter SKU / Model / Category…"
-                                    value={filter}
-                                    onChange={(e) => setFilter(e.target.value)}
-                                    className="max-w-xs h-8 text-sm"
-                                />
+                                <>
+                                    <Input
+                                        placeholder="Filter SKU / Model / Category…"
+                                        value={filter}
+                                        onChange={(e) => setFilter(e.target.value)}
+                                        className="max-w-xs h-8 text-sm"
+                                    />
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={sortedSkus.length === 0}
+                                        onClick={() => {
+                                            // CSV columns mirror the table — sticky identifier columns
+                                            // first, then every numeric metric.  Dynamic per drilldown
+                                            // type (All vs single channel vs category).
+                                            const cols = [...skuCols.textKeys, ...skuCols.numKeys];
+                                            const fname = `drilldown-${(channel || "all").toLowerCase().replace(/\s+/g, "-")}.csv`;
+                                            exportToCsv(sortedSkus as any, cols, fname);
+                                        }}
+                                    >
+                                        <Download className="h-3.5 w-3.5" />
+                                        Export CSV
+                                    </Button>
+                                </>
                             }
                         />
                         {filteredSkus.length === 0 ? (

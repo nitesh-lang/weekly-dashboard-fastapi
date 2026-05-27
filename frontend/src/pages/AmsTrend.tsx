@@ -393,12 +393,27 @@ export default function AmsTrend() {
                             title="AMS Trend"
                             subtitle={`Full table · ${data.rows.length.toLocaleString()} rows`}
                             action={
-                                <Input
-                                    placeholder="Filter SKU / Model / ASIN / Brand…"
-                                    value={filter}
-                                    onChange={(e) => setFilter(e.target.value)}
-                                    className="max-w-xs h-8 text-sm"
-                                />
+                                <>
+                                    <Input
+                                        placeholder="Filter SKU / Model / ASIN / Brand…"
+                                        value={filter}
+                                        onChange={(e) => setFilter(e.target.value)}
+                                        className="max-w-xs h-8 text-sm"
+                                    />
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                            // Export keys mirror the sort keys above.  CPC has no raw key
+                                            // (it's computed at render-time) so we omit it from the CSV.
+                                            const cols = SORT_KEYS.filter((k): k is string => k != null);
+                                            exportToCsv(sorted as any, cols, "ams-trend.csv");
+                                        }}
+                                    >
+                                        <Download className="h-3.5 w-3.5" />
+                                        Export CSV
+                                    </Button>
+                                </>
                             }
                         />
                         <div className="overflow-auto max-h-[72vh]">

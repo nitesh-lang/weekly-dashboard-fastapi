@@ -142,24 +142,70 @@ export async function exportToXlsx(
     URL.revokeObjectURL(url);
 }
 
-/** Copy the table as tab-separated values to the clipboard.  Pasting
- *  into Excel turns this into proper cells without needing a file
- *  download.  Numbers are rounded (no garbage decimals). */
+/** Copy the table to the clipboard with formatting that matches the
+ *  Excel export — Calibri 11, centre + middle align, wrap text, thin
+ *  all-borders, header row bold with light grey fill.
+ *
+ *  Writes two MIME types simultaneously:
+ *    • text/html      — an inline-styled <table>; Excel paste respects
+ *                       font / align / border / fill / wrap settings.
+ *    • text/plain     — tab-separated fallback for editors / Slack /
+ *                       anything that can't read HTML clipboard.
+ *
+ *  Numbers are rounded with the same exportCell() helper the xlsx
+ *  export uses so the values match across both paths. */
 export async function copyTableToClipboard(
     rows: Record<string, unknown>[],
     columns: string[],
 ): Promise<{ ok: boolean; count: number }> {
-    const cell = (v: unknown): string => {
+    const escapeHtml = (s: string) => s
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+
+    const cellText = (v: unknown): string => {
         const r = exportCell(v);
         if (r === "") return "";
-        const s = String(r);
-        // Tabs and newlines would break the TSV grid — collapse to spaces
-        return s.replace(/[\t\r\n]+/g, " ");
+        return String(r);
     };
-    const header = columns.map((c) => c.replace(/_/g, " ")).join("\t");
-    const lines  = rows.map((r) => columns.map((c) => cell(r[c])).join("\t"));
-    const tsv    = [header, ...lines].join("\n");
+
+    // ── text/plain (TSV) ────────────────────────────────────────────────
+    const headerTsv = columns.map((c) => c.replace(/_/g, " ")).join("\t");
+    const lineTsv = rows.map((r) =>
+        columns.map((c) => cellText(r[c]).replace(/[\t\r\n]+/g, " ")).join("\t"),
+    );
+    const tsv = [headerTsv, ...lineTsv].join("\n");
+
+    // ── text/html (styled <table>) ──────────────────────────────────────
+    const TABLE_STYLE = "border-collapse:collapse; font-family:Calibri; font-size:11pt;";
+    const CELL_STYLE  = "border:1px solid #000; padding:4px 8px; "
+                      + "text-align:center; vertical-align:middle; "
+                      + "white-space:normal;";
+    const HEAD_STYLE  = CELL_STYLE + " font-weight:bold; background:#F1F1F0;";
+
+    const headerHtml = "<tr>" + columns
+        .map((c) => `<th style="${HEAD_STYLE}">${escapeHtml(c.replace(/_/g, " "))}</th>`)
+        .join("") + "</tr>";
+
+    const bodyHtml = rows.map((r) => "<tr>" + columns
+        .map((c) => `<td style="${CELL_STYLE}">${escapeHtml(cellText(r[c]))}</td>`)
+        .join("") + "</tr>").join("");
+
+    const html = `<table style="${TABLE_STYLE}">`
+               + `<thead>${headerHtml}</thead>`
+               + `<tbody>${bodyHtml}</tbody>`
+               + `</table>`;
+
+    // ── Write both MIME types via ClipboardItem if supported ────────────
     try {
+        if (typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) {
+            const item = new ClipboardItem({
+                "text/html":  new Blob([html], { type: "text/html" }),
+                "text/plain": new Blob([tsv],  { type: "text/plain" }),
+            });
+            await navigator.clipboard.write([item]);
+            return { ok: true, count: rows.length };
+        }
+        // Fallback for browsers that don't support ClipboardItem: TSV only
         await navigator.clipboard.writeText(tsv);
         return { ok: true, count: rows.length };
     } catch {

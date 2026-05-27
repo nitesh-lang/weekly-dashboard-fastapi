@@ -43,6 +43,11 @@ SB_FILENAME = "Sponsored_Brands_Campaign_report.xlsx"
 ASIN_RE     = re.compile(r"\bB0[A-Z0-9]{8}\b")
 ACTIVE_WINDOW_WEEKS = 4   # current week + 3 prior
 
+# Layer 0 — campaign → ASIN map sourced from Amazon Ads API
+# (built by weekly_app/etl/sb_ads_api_pull.py).  Most authoritative
+# layer: bypasses all heuristic layers below when a hit is found.
+CAMPAIGN_ASINS_FILE = ROOT / "data" / "processed" / "sb_campaign_asins.json"
+
 # Output column shape mirrors the SP/SD sheets so step3 can aggregate
 # SB through the same code path.
 OUT_COLS = [
@@ -149,6 +154,24 @@ def build_active_set(week_num: int) -> set[str]:
     return active
 
 
+def load_campaign_asin_map() -> dict[str, dict]:
+    """Reads data/processed/sb_campaign_asins.json (produced by
+    sb_ads_api_pull.py).  Returns {campaign_name_lower: {brand, asins}}.
+    Missing file → empty dict (Layer 0 simply doesn't fire)."""
+    if not CAMPAIGN_ASINS_FILE.exists():
+        return {}
+    try:
+        with open(CAMPAIGN_ASINS_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+    out = {}
+    for name, rec in data.items():
+        if isinstance(rec, dict) and rec.get("asins"):
+            out[name.strip().lower()] = rec
+    return out
+
+
 def load_synonyms() -> dict:
     """Loads sb_synonyms.json.  Each entry is only ACTIVE if it carries
     `_enabled: true` — operator must explicitly opt in per keyword."""
@@ -230,12 +253,23 @@ def attribute_campaign(
     campaign: str, file_brand: str,
     asin_to_meta, rows_by_brand, model_to_asins, models_sorted,
     cat_to_brand_asins, cats_sorted_vals, synonyms, active,
+    campaign_asin_map: dict | None = None,
 ) -> tuple[str, list[str], str]:
     """Returns (layer, [asin, …], brand-or-empty).  Caller distributes
     metrics evenly across the returned ASINs."""
     if not campaign:
         return ("unmapped", [], file_brand)
     cam_upper = campaign.upper()
+
+    # L0 — Amazon Ads API authoritative lookup
+    if campaign_asin_map:
+        hit = campaign_asin_map.get(campaign.strip().lower())
+        if hit and hit.get("asins"):
+            asins = hit["asins"]
+            active_hits = [a for a in asins if a in active] or asins
+            brand = hit.get("brand") or (asin_to_meta[active_hits[0]]["brand"]
+                                          if active_hits[0] in asin_to_meta else file_brand)
+            return ("L0_ads_api", active_hits, brand)
 
     # L1 — ASIN in name
     matches = ASIN_RE.findall(cam_upper)
@@ -352,16 +386,17 @@ def run_for_week(week_num: int) -> dict:
 
     (asin_to_meta, rows_by_brand, model_to_asins, models_sorted,
      cat_to_brand_asins, cats_sorted_vals) = build_master_lookups()
-    synonyms = load_synonyms()
-    active = build_active_set(week_num)
+    synonyms          = load_synonyms()
+    campaign_asin_map = load_campaign_asin_map()
+    active            = build_active_set(week_num)
 
     print(f"   Master ASINs={len(asin_to_meta):,}  Active in W{week_num} (±{ACTIVE_WINDOW_WEEKS-1}w)={len(active):,}  "
-          f"Synonyms enabled={len(synonyms)}")
+          f"L0 API map entries={len(campaign_asin_map)}  Synonyms enabled={len(synonyms)}")
 
     # Per-brand row buckets
     per_brand_rows: dict[str, list[dict]] = {}
     unmapped_rows: list[dict] = []
-    layer_counts = {"L1_asin": 0, "L2_model": 0, "L3_category": 0,
+    layer_counts = {"L0_ads_api": 0, "L1_asin": 0, "L2_model": 0, "L3_category": 0,
                     "L4_synonym": 0, "unmapped": 0}
     layer_spend  = {k: 0.0 for k in layer_counts}
 
@@ -383,9 +418,11 @@ def run_for_week(week_num: int) -> dict:
                 campaign, file_brand,
                 asin_to_meta, rows_by_brand, model_to_asins, models_sorted,
                 cat_to_brand_asins, cats_sorted_vals, synonyms, active,
+                campaign_asin_map=campaign_asin_map,
             )
-            base = ("L3_category" if layer.startswith("L3_") else
-                    "L4_synonym" if layer.startswith("L4_") else layer)
+            base = ("L0_ads_api"  if layer.startswith("L0_") else
+                    "L3_category" if layer.startswith("L3_") else
+                    "L4_synonym"  if layer.startswith("L4_") else layer)
             layer_counts[base] += 1
             layer_spend[base]  += spend
 
@@ -452,7 +489,7 @@ def run_for_week(week_num: int) -> dict:
     total_spend = sum(layer_spend.values())
     print()
     print(f"   {'Layer':<14} {'Camps':>5}  {'Spend':>11}  {'% of SB':>7}")
-    for k in ("L1_asin", "L2_model", "L3_category", "L4_synonym", "unmapped"):
+    for k in ("L0_ads_api", "L1_asin", "L2_model", "L3_category", "L4_synonym", "unmapped"):
         pct = (layer_spend[k] / total_spend * 100) if total_spend else 0
         print(f"   {k:<14} {layer_counts[k]:>5}  ₹{layer_spend[k]:>10,.0f}  {pct:>6.1f}%")
 

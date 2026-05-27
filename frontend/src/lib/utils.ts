@@ -34,19 +34,37 @@ export function sortWeeks(weeks: string[]): string[] {
     return [...weeks].sort((a, b) => weekNum(a) - weekNum(b));
 }
 
-/** Round numbers and stringify for CSV. Integers stay int, floats round to 0dp. */
-function csvCell(v: unknown): string {
-    if (v == null) return "";
-    if (typeof v === "number") return String(Math.round(v));
-    const s = String(v);
-    // Escape RFC4180: wrap in quotes if contains , " or newline; double internal quotes.
-    if (/[",\r\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
-    return s;
+/** Round numeric values for export — integers stay int, floats clamp to 2dp.
+ *  Strings pass through.  null/undefined become "". */
+function exportCell(v: unknown): string | number | "" {
+    if (v == null || v === "") return "";
+    if (typeof v === "number") {
+        if (!Number.isFinite(v)) return "";
+        if (Number.isInteger(v)) return v;
+        return Math.round(v * 100) / 100;     // 2 decimal places, no garbage
+    }
+    // Try to detect numeric strings that came from JSON as text
+    if (typeof v === "string") {
+        const trimmed = v.trim();
+        if (trimmed && !isNaN(Number(trimmed)) && /^-?\d+(\.\d+)?$/.test(trimmed)) {
+            const n = Number(trimmed);
+            return Number.isInteger(n) ? n : Math.round(n * 100) / 100;
+        }
+        return trimmed;
+    }
+    return String(v);
 }
 
-/** Download an array of row objects as a CSV file.
- *  - columns: explicit ordered keys. Cells are rounded (numbers → integers)
- *  - filename: download name (e.g. "dashboard-sku.csv") */
+/** Round numbers and stringify for CSV.  Kept for any legacy caller.
+ *  New code should prefer exportToXlsx + copyTableToClipboard. */
+function csvCell(v: unknown): string {
+    const r = exportCell(v);
+    if (r === "") return "";
+    if (typeof r === "number") return String(r);
+    if (/[",\r\n]/.test(r)) return `"${r.replace(/"/g, '""')}"`;
+    return r;
+}
+
 export function exportToCsv(rows: Record<string, unknown>[], columns: string[], filename: string) {
     const header = columns.map(csvCell).join(",");
     const lines  = rows.map((r) => columns.map((c) => csvCell(r[c])).join(","));
@@ -60,4 +78,91 @@ export function exportToCsv(rows: Record<string, unknown>[], columns: string[], 
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+/** Export rows to a formatted .xlsx — Calibri 11, center + middle align,
+ *  wrap text, thin all-borders, header row bolded with light grey fill.
+ *  Numbers rounded to 2dp; integers stay int.  Loaded lazily so the
+ *  exceljs bundle only ships when the user actually clicks Export. */
+export async function exportToXlsx(
+    rows: Record<string, unknown>[],
+    columns: string[],
+    filename: string,
+    sheetName: string = "Sheet1",
+) {
+    const ExcelJS = (await import("exceljs")).default;
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet(sheetName);
+
+    const CALIBRI: any = { name: "Calibri", size: 11 };
+    const ALIGN: any   = { vertical: "middle", horizontal: "center", wrapText: true };
+    const THIN: any    = { style: "thin", color: { argb: "FF000000" } };
+    const BORDER: any  = { top: THIN, left: THIN, bottom: THIN, right: THIN };
+
+    // Header
+    const headerRow = ws.addRow(columns.map((c) => c.replace(/_/g, " ")));
+    headerRow.height = 28;
+    headerRow.eachCell({ includeEmpty: true }, (cell: any) => {
+        cell.font      = { ...CALIBRI, bold: true };
+        cell.alignment = ALIGN;
+        cell.border    = BORDER;
+        cell.fill      = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF1F1F0" } };
+    });
+
+    // Data
+    for (const r of rows) {
+        const row = ws.addRow(columns.map((k) => exportCell(r[k])));
+        row.eachCell({ includeEmpty: true }, (cell: any) => {
+            cell.font      = CALIBRI;
+            cell.alignment = ALIGN;
+            cell.border    = BORDER;
+        });
+    }
+
+    // Auto-width columns based on max content length (capped 8–40)
+    ws.columns.forEach((col: any, i: number) => {
+        let max = String(columns[i] ?? "").length;
+        for (const r of rows) {
+            const v = exportCell(r[columns[i]]);
+            const len = String(v).length;
+            if (len > max) max = len;
+        }
+        col.width = Math.min(Math.max(max + 2, 10), 40);
+    });
+
+    const buf  = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href = url;
+    a.download = filename.endsWith(".xlsx") ? filename : filename.replace(/\.csv$/i, "") + ".xlsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+/** Copy the table as tab-separated values to the clipboard.  Pasting
+ *  into Excel turns this into proper cells without needing a file
+ *  download.  Numbers are rounded (no garbage decimals). */
+export async function copyTableToClipboard(
+    rows: Record<string, unknown>[],
+    columns: string[],
+): Promise<{ ok: boolean; count: number }> {
+    const cell = (v: unknown): string => {
+        const r = exportCell(v);
+        if (r === "") return "";
+        const s = String(r);
+        // Tabs and newlines would break the TSV grid — collapse to spaces
+        return s.replace(/[\t\r\n]+/g, " ");
+    };
+    const header = columns.map((c) => c.replace(/_/g, " ")).join("\t");
+    const lines  = rows.map((r) => columns.map((c) => cell(r[c])).join("\t"));
+    const tsv    = [header, ...lines].join("\n");
+    try {
+        await navigator.clipboard.writeText(tsv);
+        return { ok: true, count: rows.length };
+    } catch {
+        return { ok: false, count: 0 };
+    }
 }

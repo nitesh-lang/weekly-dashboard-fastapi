@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, sortWeeks, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
 import { KpiCard } from "@/components/KpiCard";
@@ -11,7 +11,7 @@ import { BrandMix } from "@/components/BrandMix";
 import { SkuTable } from "@/components/SkuTable";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronUp, ChevronDown, Radio, Layers, Download } from "lucide-react";
+import { ArrowRight, ChevronUp, ChevronDown, Radio, Layers, Download, Copy, Check } from "lucide-react";
 import { SectionHeader } from "@/components/SectionHeader";
 
 interface DashboardData {
@@ -253,18 +253,31 @@ export default function Dashboard() {
                                     title="Channel Summary"
                                     subtitle="By channel"
                                     action={
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => exportToCsv(
-                                                data.channel_summary as any,
-                                                ["channel", "units_sold", "gmv", "sales_nlc", "sales_contribution_pct"],
-                                                "channel-summary.csv",
-                                            )}
-                                        >
-                                            <Download className="h-3.5 w-3.5" />
-                                            CSV
-                                        </Button>
+                                        <>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => exportToXlsx(
+                                                    data.channel_summary as any,
+                                                    ["channel", "units_sold", "gmv", "sales_nlc", "sales_contribution_pct"],
+                                                    "channel-summary.xlsx",
+                                                )}
+                                            >
+                                                <Download className="h-3.5 w-3.5" />
+                                                Export
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => copyTableToClipboard(
+                                                    data.channel_summary as any,
+                                                    ["channel", "units_sold", "gmv", "sales_nlc", "sales_contribution_pct"],
+                                                )}
+                                            >
+                                                <Copy className="h-3.5 w-3.5" />
+                                                Copy
+                                            </Button>
+                                        </>
                                     }
                                 />
                                 <div className="overflow-auto">
@@ -310,18 +323,31 @@ export default function Dashboard() {
                                     title="Category Summary"
                                     subtitle="By L0"
                                     action={
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => exportToCsv(
-                                                data.category_summary as any,
-                                                ["category_l0", "units_sold", "gross_sales", "sales_contribution_pct"],
-                                                "category-summary.csv",
-                                            )}
-                                        >
-                                            <Download className="h-3.5 w-3.5" />
-                                            CSV
-                                        </Button>
+                                        <>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => exportToXlsx(
+                                                    data.category_summary as any,
+                                                    ["category_l0", "units_sold", "gross_sales", "sales_contribution_pct"],
+                                                    "category-summary.xlsx",
+                                                )}
+                                            >
+                                                <Download className="h-3.5 w-3.5" />
+                                                Export
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => copyTableToClipboard(
+                                                    data.category_summary as any,
+                                                    ["category_l0", "units_sold", "gross_sales", "sales_contribution_pct"],
+                                                )}
+                                            >
+                                                <Copy className="h-3.5 w-3.5" />
+                                                Copy
+                                            </Button>
+                                        </>
                                     }
                                 />
                                 <div className="overflow-auto">

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { api } from "@/lib/api";
-import { fmtInt, exportToCsv } from "@/lib/utils";
+import { fmtInt, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -14,7 +14,7 @@ import { LoadingSkeleton, ErrorBlock, EmptyBlock } from "@/components/StateBlock
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Download, RotateCcw, Inbox } from "lucide-react";
+import { Download, RotateCcw, Inbox, Copy, Check } from "lucide-react";
 
 interface ReturnsOverviewRow {
     brand:             string;
@@ -297,7 +297,7 @@ export default function Returns() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => exportToCsv(
+                                        onClick={() => exportToXlsx(
                                             sorted as any,
                                             ["brand", "model", "sku", "asin",
                                              "category_l0", "category_l1",
@@ -305,11 +305,24 @@ export default function Returns() {
                                              "returns_3p", "returns_1p", "return_pct",
                                              "sellable_units", "unsellable_units",
                                              "top_reason", "last_return_at"],
-                                            "returns-overview.csv",
+                                            "returns-overview.xlsx",
                                         )}
                                     >
                                         <Download className="h-3.5 w-3.5" />
-                                        Export CSV
+                                        Export
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => copyTableToClipboard(sorted as any, ["brand", "model", "sku", "asin",
+                                             "category_l0", "category_l1",
+                                             "units_sold_30d", "return_units",
+                                             "returns_3p", "returns_1p", "return_pct",
+                                             "sellable_units", "unsellable_units",
+                                             "top_reason", "last_return_at"])}
+                                    >
+                                        <Copy className="h-3.5 w-3.5" />
+                                        Copy
                                     </Button>
                                 </>
                             }

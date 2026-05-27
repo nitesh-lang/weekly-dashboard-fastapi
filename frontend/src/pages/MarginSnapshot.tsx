@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { fmtINR, fmtInt, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useMargins, type MarginRow } from "@/lib/useMargins";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
@@ -13,7 +13,7 @@ import { LoadingSkeleton, ErrorBlock, EmptyBlock } from "@/components/StateBlock
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Download, Percent, AlertTriangle, Inbox } from "lucide-react";
+import { Download, Percent, AlertTriangle, Inbox, Copy, Check } from "lucide-react";
 
 const EXCLUDED_BRANDS = new Set(["fossil"]);
 
@@ -299,18 +299,30 @@ export default function MarginSnapshot() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => exportToCsv(
+                                        onClick={() => exportToXlsx(
                                             sorted as any,
                                             ["brand", "model", "sku", "asin",
                                              "category_l1", "category_l2", "product_name",
                                              "latest_fob", "dp", "mrp", "bau_deal_sp",
                                              "gross_margin", "gross_margin_pct",
                                              "net_margin", "net_margin_pct"],
-                                            "margin-snapshot.csv",
+                                            "margin-snapshot.xlsx",
                                         )}
                                     >
                                         <Download className="h-3.5 w-3.5" />
-                                        Export CSV
+                                        Export
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => copyTableToClipboard(sorted as any, ["brand", "model", "sku", "asin",
+                                             "category_l1", "category_l2", "product_name",
+                                             "latest_fob", "dp", "mrp", "bau_deal_sp",
+                                             "gross_margin", "gross_margin_pct",
+                                             "net_margin", "net_margin_pct"])}
+                                    >
+                                        <Copy className="h-3.5 w-3.5" />
+                                        Copy
                                     </Button>
                                 </>
                             }

@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, exportToCsv, sortWeeks } from "@/lib/utils";
+import { fmtINR, fmtInt, sortWeeks } from "@/lib/utils";
+import { ExportButtons } from "@/components/ExportButtons";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -70,7 +71,7 @@ const COLUMNS = [
 const SORT_KEYS: (string | null)[] = [
     "week", "SKU", "Model", "brand", "asin",
     "category_l0", "category_l1", "category_l2",
-    "sessions", "GMV", "units", "ad_spend",
+    "sessions", "gmv", "units", "ad_spend",
     "contribution_to_sales_pct", "attributed_sales_pct", "organic_sales_pct",
     "conversion_pct", "roas", "acos", "tacos",
     "cac", "ams_orders", "attributed_sales",
@@ -400,19 +401,11 @@ export default function AmsTrend() {
                                         onChange={(e) => setFilter(e.target.value)}
                                         className="max-w-xs h-8 text-sm"
                                     />
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => {
-                                            // Export keys mirror the sort keys above.  CPC has no raw key
-                                            // (it's computed at render-time) so we omit it from the CSV.
-                                            const cols = SORT_KEYS.filter((k): k is string => k != null);
-                                            exportToCsv(sorted as any, cols, "ams-trend.csv");
-                                        }}
-                                    >
-                                        <Download className="h-3.5 w-3.5" />
-                                        Export CSV
-                                    </Button>
+                                    <ExportButtons
+                                        rows={sorted as any}
+                                        columns={SORT_KEYS.filter((k): k is string => k != null)}
+                                        filename="ams-trend.xlsx"
+                                    />
                                 </>
                             }
                         />

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, sortWeeks, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -13,7 +13,7 @@ import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronRight, Package, Clock, Radio, Download } from "lucide-react";
+import { ChevronDown, ChevronRight, Package, Clock, Radio, Download, Copy, Check } from "lucide-react";
 
 interface InventoryRow {
     week?: string;
@@ -367,7 +367,7 @@ export default function InventoryDashboard() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => exportToCsv(
+                                        onClick={() => exportToXlsx(
                                             sorted as any,
                                             // Keep all dims in the CSV export even though the table view
                                             // hides them — operators may want them downstream.
@@ -375,11 +375,24 @@ export default function InventoryDashboard() {
                                              "category_l0", "category_l1", "category_l2",
                                              "channel", "type",
                                              "inventory_units", "nlc", "inventory_value"],
-                                            "inventory-detail.csv",
+                                            "inventory-detail.xlsx",
                                         )}
                                     >
                                         <Download className="h-3.5 w-3.5" />
-                                        Export CSV
+                                        Export
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => copyTableToClipboard(sorted as any, // Keep all dims in the CSV export even though the table view
+                                            // hides them — operators may want them downstream.
+                                            ["week", "brand", "model", "sku",
+                                             "category_l0", "category_l1", "category_l2",
+                                             "channel", "type",
+                                             "inventory_units", "nlc", "inventory_value"])}
+                                    >
+                                        <Copy className="h-3.5 w-3.5" />
+                                        Copy
                                     </Button>
                                 </>
                             }

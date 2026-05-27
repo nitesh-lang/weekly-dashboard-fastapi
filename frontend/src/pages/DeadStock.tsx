@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -14,7 +14,8 @@ import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Download, Archive, Sliders } from "lucide-react";
+import { ExportButtons } from "@/components/ExportButtons";
+import { Download, Archive, Sliders, Copy, Check } from "lucide-react";
 
 interface TrendRow {
     model: string;
@@ -331,19 +332,13 @@ export default function DeadStock() {
                                         onChange={(e) => setFilter(e.target.value)}
                                         className="max-w-xs h-8 text-sm"
                                     />
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => {
-                                            const cols = ["model", "brand", "asin", "category_l0", "category_l1",
+                                    <ExportButtons
+                                            rows={sorted as any as any}
+                                            columns={["model", "brand", "asin", "category_l0", "category_l1",
                                                 "last_4w_units", "avg_4w", "weeks_of_cover",
-                                                "ampm_inventory", "total_inventory", "stuck_value", "trend"];
-                                            exportToCsv(sorted as any, cols, "dead-stock.csv");
-                                        }}
-                                    >
-                                        <Download className="h-3.5 w-3.5" />
-                                        Export CSV
-                                    </Button>
+                                                "ampm_inventory", "total_inventory", "stuck_value", "trend"]}
+                                            filename="dead-stock.xlsx"
+                                        />
                                 </>
                             }
                         />

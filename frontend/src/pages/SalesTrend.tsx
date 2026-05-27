@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, sortWeeks, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -14,7 +14,8 @@ import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, TrendingDown, Minus, Download, LineChart } from "lucide-react";
+import { ExportButtons } from "@/components/ExportButtons";
+import { TrendingUp, TrendingDown, Minus, Download, LineChart, Copy, Check } from "lucide-react";
 
 interface TrendRow {
     model: string;
@@ -175,19 +176,13 @@ export default function SalesTrend() {
                                     onChange={(e) => setFilter(e.target.value)}
                                     className="max-w-xs h-8 text-sm"
                                 />
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => {
-                                        const cols = ["model", "asin", "brand", "category_l0", "category_l1", "category_l2",
+                                <ExportButtons
+                                            rows={sorted as any as any}
+                                            columns={["model", "asin", "brand", "category_l0", "category_l1", "category_l2",
                                             ...weeks.flatMap((w) => [`${w}_sales`, `${w}_units`, `${w}_sales_pct`]),
-                                            "last_4w_units", "avg_4w", "inventory_units", "trend"];
-                                        exportToCsv(sorted as any, cols, "sales-trend.csv");
-                                    }}
-                                >
-                                    <Download className="h-3.5 w-3.5" />
-                                    Export CSV
-                                </Button>
+                                            "last_4w_units", "avg_4w", "inventory_units", "trend"]}
+                                            filename="sales-trend.xlsx"
+                                        />
                             </>
                         }
                     />

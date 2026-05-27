@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -13,7 +13,8 @@ import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Download, AlertTriangle, Sliders } from "lucide-react";
+import { ExportButtons } from "@/components/ExportButtons";
+import { Download, AlertTriangle, Sliders, Copy, Check } from "lucide-react";
 
 interface AmsRow {
     week?: number | string;
@@ -302,21 +303,15 @@ export default function AmsPoorPerformers() {
                                         onChange={(e) => setFilter(e.target.value)}
                                         className="max-w-xs h-8 text-sm"
                                     />
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => {
-                                            const cols = ["week", "SKU", "Model", "brand", "asin",
+                                    <ExportButtons
+                                            rows={sorted as any as any}
+                                            columns={["week", "SKU", "Model", "brand", "asin",
                                                 "category_l0", "category_l1", "category_l2",
                                                 "ad_spend", "attributed_sales", "ams_orders",
                                                 "acos", "roas", "tacos", "conversion_pct",
-                                                "clicks", "impressions", "sessions"];
-                                            exportToCsv(sorted as any, cols, "ams-poor-performers.csv");
-                                        }}
-                                    >
-                                        <Download className="h-3.5 w-3.5" />
-                                        Export CSV
-                                    </Button>
+                                                "clicks", "impressions", "sessions"]}
+                                            filename="ams-poor-performers.xlsx"
+                                        />
                                 </>
                             }
                         />

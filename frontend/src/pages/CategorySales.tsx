@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, sortWeeks, exportToCsv } from "@/lib/utils";
+import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import AppLayout from "@/components/AppLayout";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
@@ -10,7 +10,7 @@ import { MultiPicker } from "@/components/MultiPicker";
 import { SortableTh } from "@/components/SortableTh";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CategoryRow {
@@ -171,14 +171,22 @@ export default function CategorySales() {
                         <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => exportToCsv(
+                            onClick={() => exportToXlsx(
                                 sorted as any,
                                 [groupCol, "units_sold", "gross_sales", "gmv_pct"],
                                 `category-sales-${level}.csv`,
                             )}
                         >
                             <Download className="h-3.5 w-3.5" />
-                            Export CSV
+                            Export
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => copyTableToClipboard(sorted as any, [groupCol, "units_sold", "gross_sales", "gmv_pct"])}
+                        >
+                            <Copy className="h-3.5 w-3.5" />
+                            Copy
                         </Button>
                     </div>
                     <div className="overflow-auto max-h-[72vh]">

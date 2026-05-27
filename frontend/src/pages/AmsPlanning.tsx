@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { fmtInt, fmtINR, exportToCsv } from "@/lib/utils";
+import { fmtInt, fmtINR, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import { useAmsPlanning, type PlanningRow } from "@/lib/useAmsPlanning";
@@ -15,7 +15,7 @@ import { LoadingSkeleton, ErrorBlock, EmptyBlock } from "@/components/StateBlock
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Download, ClipboardList, Inbox } from "lucide-react";
+import { Download, ClipboardList, Inbox, Copy, Check } from "lucide-react";
 
 const STATUS_STYLES: Record<string, { color: string; bg: string }> = {
     "Out of Stock":  { color: "#b91c1c", bg: "#fef2f2" },
@@ -336,7 +336,7 @@ export default function AmsPlanning() {
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        onClick={() => exportToCsv(
+                                        onClick={() => exportToXlsx(
                                             sorted as any,
                                             ["brand", "model", "bau", "asin",
                                              "category_l0", "category_l1",
@@ -346,11 +346,26 @@ export default function AmsPlanning() {
                                              "net_margin", "net_margin_pct",
                                              "ams_required", "remarks",
                                              "variation", "variation_asins"],
-                                            "ams-planning.csv",
+                                            "ams-planning.xlsx",
                                         )}
                                     >
                                         <Download className="h-3.5 w-3.5" />
-                                        Export CSV
+                                        Export
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => copyTableToClipboard(sorted as any, ["brand", "model", "bau", "asin",
+                                             "category_l0", "category_l1",
+                                             "asin_type", "soh", "am_intransit", "am_soh", "total_stock", "inventory_status",
+                                             "return_units", "units_sold_30d", "return_pct", "top_return_reason",
+                                             "avg_rating", "rating_count",
+                                             "net_margin", "net_margin_pct",
+                                             "ams_required", "remarks",
+                                             "variation", "variation_asins"])}
+                                    >
+                                        <Copy className="h-3.5 w-3.5" />
+                                        Copy
                                     </Button>
                                 </>
                             }

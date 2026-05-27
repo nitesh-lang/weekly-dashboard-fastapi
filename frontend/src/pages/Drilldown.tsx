@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { fmtINR, fmtInt, sortWeeks, exportToCsv } from "@/lib/utils";
-import { Download } from "lucide-react";
+import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
+import { Download, Copy, Check } from "lucide-react";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -178,12 +178,24 @@ export default function Drilldown() {
                                             // first, then every numeric metric.  Dynamic per drilldown
                                             // type (All vs single channel vs category).
                                             const cols = [...skuCols.textKeys, ...skuCols.numKeys];
-                                            const fname = `drilldown-${(channel || "all").toLowerCase().replace(/\s+/g, "-")}.csv`;
-                                            exportToCsv(sortedSkus as any, cols, fname);
+                                            const fname = `drilldown-${(channel || "all").toLowerCase().replace(/\s+/g, "-")}.xlsx`;
+                                            exportToXlsx(sortedSkus as any, cols, fname);
                                         }}
                                     >
                                         <Download className="h-3.5 w-3.5" />
-                                        Export CSV
+                                        Export
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={sortedSkus.length === 0}
+                                        onClick={() => {
+                                            const cols = [...skuCols.textKeys, ...skuCols.numKeys];
+                                            copyTableToClipboard(sortedSkus as any, cols);
+                                        }}
+                                    >
+                                        <Copy className="h-3.5 w-3.5" />
+                                        Copy
                                     </Button>
                                 </>
                             }

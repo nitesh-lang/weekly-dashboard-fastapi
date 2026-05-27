@@ -1,0 +1,21 @@
+{
+  "_comment": "SB campaign keyword → ASIN resolution rule.  Operator-editable.  Used by the SB ingestion (Layer 3) when a campaign name contains a keyword that doesn't match master's category values directly.",
+  "_help": {
+    "brand": "Restrict resolution to ASINs of this brand (required).  Match is case-insensitive against master.Brand.",
+    "Match modes (use any one)": {
+      "category_l1": "Exact value or list of values from master.category_l1",
+      "category_l2": "Exact value or list of values from master.category_l2",
+      "category_l1_contains": "Substring(s) to match anywhere in master.category_l1.  Case-insensitive.",
+      "model_regex": "Regex matched against master.Model.  Case-insensitive."
+    }
+  },
+
+  "condenser": {
+    "brand": "Audio Array",
+    "category_l1_contains": ["Microphone", "Mic"]
+  },
+  "scalp massager": {
+    "brand": "Nexlev",
+    "category_l2": "Head Massager"
+  }
+}

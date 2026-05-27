@@ -43,10 +43,14 @@ biz.columns = biz.columns.str.strip()
 sku.columns = sku.columns.str.strip()
 
 # --------------------------------------------------
-# REMOVE SB COMPLETELY
+# AD TYPE WHITELIST
+# Legacy code dropped SB entirely ("REMOVE SB COMPLETELY") because
+# SB campaigns weren't attributed to ASINs.  We now ingest SB via
+# weekly_app/etl/sb_ingest.py which writes per-ASIN SB rows (L1+L2+L3
+# attribution), so SB is admitted here alongside SP/SD.
 # --------------------------------------------------
 if "ad_type" in ads.columns:
-    ads = ads[ads["ad_type"].isin(["SP", "SD", "SP_SD"])].copy()
+    ads = ads[ads["ad_type"].isin(["SP", "SD", "SP_SD", "SB"])].copy()
 
 # --------------------------------------------------
 # NORMALIZE ADS

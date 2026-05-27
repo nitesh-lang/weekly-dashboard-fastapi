@@ -69,58 +69,49 @@ for brand_dir in AMS_DATA_DIR.iterdir():
         if not week:
             continue
 
-        asin_frames = []
-
         # ===============================
-        # SP + SD (ASIN LEVEL)
+        # SP / SD / SB — process each sheet separately so we can keep
+        # ad_type on each row (used downstream by step5 to split SB).
+        # SB rows come from sb_ingest.py's per-campaign × per-active-ASIN
+        # split, already in the same SP/SD column schema.
         # ===============================
-        for sheet in ["SP", "SD"]:
+        for sheet, ad_type in [("SP", "SP_SD"), ("SD", "SP_SD"), ("SB", "SB")]:
             try:
                 df = pd.read_excel(ads_file, sheet_name=sheet)
                 df.columns = df.columns.str.strip()
-
-                
-
-                if "Advertised ASIN" not in df.columns:
+                if "Advertised ASIN" not in df.columns or df.empty:
                     continue
-
-                asin_frames.append(df)
             except Exception:
                 continue
 
-        if not asin_frames:
-            continue
-
-        ads_df = pd.concat(asin_frames, ignore_index=True)
-
-        agg = (
-            ads_df
-            .groupby("Advertised ASIN", as_index=False)
-            .agg({
-                "Spend": "sum",
-                "Clicks": "sum",
-                "Impressions": "sum",
-                "14 Day Total Sales (₹)": "sum",
-                "14 Day Total Units (#)": "sum",
+            agg = (
+                df.groupby("Advertised ASIN", as_index=False)
+                .agg({
+                    "Spend": "sum",
+                    "Clicks": "sum",
+                    "Impressions": "sum",
+                    "14 Day Total Sales (₹)": "sum",
+                    "14 Day Total Units (#)": "sum",
+                })
+            )
+            agg = agg.rename(columns={
+                "Advertised ASIN": "asin",
+                "14 Day Total Sales (₹)": "attributed_sales",
+                "14 Day Total Units (#)": "ams_orders",
             })
-        )
+            agg["asin"] = agg["asin"].astype(str).str.strip()
+            agg = agg[agg["asin"] != ""]
 
-        agg = agg.rename(columns={
-            "Advertised ASIN": "asin",
-            "14 Day Total Sales (₹)": "attributed_sales",
-            "14 Day Total Units (#)": "ams_orders",
-        })
+            # MODEL JOIN (SAFE)
+            agg = agg.merge(sku_df, on="asin", how="left")
+            agg["brand"]   = brand
+            agg["week"]    = week
+            agg["ad_type"] = ad_type
+            # ad_channel mirrors what step5 expects — distinguish SB so
+            # step5's SB-specific category tagging fires only for it.
+            agg["ad_channel"] = "SB" if ad_type == "SB" else "ASIN"
 
-        agg["asin"] = agg["asin"].astype(str).str.strip()
-
-        # MODEL JOIN (SAFE)
-        agg = agg.merge(sku_df, on="asin", how="left")
-
-        agg["brand"] = brand
-        agg["week"] = week
-        agg["ad_type"] = "SP_SD"
-
-        rows.append(agg)
+            rows.append(agg)
 
 # --------------------------------------------------
 # FINALIZE
@@ -130,12 +121,15 @@ if not rows:
 
 final_ads = pd.concat(rows, ignore_index=True)
 # --------------------------------------------------
-# SAFETY CHECK — ENSURE NO DUPLICATE ASIN + WEEK + BRAND
+# SAFETY CHECK — ENSURE NO DUPLICATE ASIN + WEEK + BRAND + AD_TYPE
+# SB rows get ad_type="SB" + ad_channel="SB" so they survive the
+# dedupe alongside SP/SD rows that share the same ASIN+week+brand.
 # --------------------------------------------------
 NUM_COLS = ["Spend", "Clicks", "Impressions", "attributed_sales", "ams_orders"]
-final_ads = final_ads.groupby(
-    ["asin", "week", "brand", "Model", "ad_type"], as_index=False
-)[NUM_COLS].sum()
+group_keys = ["asin", "week", "brand", "Model", "ad_type"]
+if "ad_channel" in final_ads.columns:
+    group_keys.append("ad_channel")
+final_ads = final_ads.groupby(group_keys, as_index=False)[NUM_COLS].sum()
 
 # --------------------------------------------------
 # SAFETY NORMALIZATION
@@ -155,7 +149,7 @@ final_ads["Model"] = final_ads["Model"].astype(str).str.upper().str.strip()
 out_file = OUTPUT_DIR / "ads_weekly_aggregated.csv"
 final_ads.to_csv(out_file, index=False)
 
-print("✅ STEP 3 ADS AGGREGATION COMPLETE (SP + SD ONLY)")
+print("✅ STEP 3 ADS AGGREGATION COMPLETE (SP + SD + SB)")
 print("📁 Output:", out_file)
 print("📊 Rows:", len(final_ads))
 print("📦 Spend total:", final_ads["Spend"].sum())

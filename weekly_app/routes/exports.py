@@ -769,11 +769,17 @@ def export_amazon_trend(
     brands: list[str] = Query(default=[]),           # multi-brand checkboxes
     sel_weeks: list[str] = Query(default=[]),
 ):
+    """Per-(sku, model, asin) grain.  Sessions/conversion remain per-model
+    (Amazon doesn't expose them per-SKU on the business report), so SKUs
+    sharing a model carry identical session metrics — a documented limit.
+    Units/sales DO break down per-SKU since the source CSV is SKU-keyed."""
     from weekly_app.routes.AM_sales_trend import (
         load_sales as _ams_load_sales,
         load_business as _ams_load_business,
-        build_amazon_sales_trend,
+        trend as _ams_trend,
+        load_inventory as _ams_load_inv,
     )
+    from weekly_app.core.df_cache import load_excel_cached
 
     sales = _ams_load_sales()
     sales = sales[
@@ -781,7 +787,6 @@ def export_amazon_trend(
         .isin(["amazon", "1p sales"])
     ]
 
-    # Resolve effective brand list: multi takes precedence over legacy single.
     eff_brands_lower = [b.strip().lower() for b in brands if b and b.strip().lower() != "all"]
     if not eff_brands_lower and brand and brand != "All":
         eff_brands_lower = [brand.strip().lower()]
@@ -790,11 +795,138 @@ def export_amazon_trend(
             sales["brand"].astype(str).str.strip().str.lower().isin(eff_brands_lower)
         ]
 
+    # Resolve weeks (same precedence as the page: explicit selection else last 4)
+    weeks_df = (
+        sales[["week", "week_num"]].dropna().drop_duplicates().sort_values("week_num")
+    )
+    if sel_weeks:
+        weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
+    else:
+        weeks_df = weeks_df.tail(4)
+    weeks = weeks_df["week"].tolist()
+    if weeks_df.empty:
+        return csv_response(pd.DataFrame(), "amazon_trend_full.csv")
+
+    latest_week_num = weeks_df["week_num"].iloc[-1]
+    sales = sales[sales["week"].isin(weeks)]
+
+    # SKU → primary ASIN from master
+    sku_to_asin: dict = {}
+    try:
+        m = load_excel_cached(MASTER_FILE)
+        m.columns = m.columns.str.strip()
+        sku_col  = next((c for c in ["FBA SKU", "SKU", "sku"] if c in m.columns), None)
+        asin_col = next((c for c in ["ASIN", "Asin", "asin"] if c in m.columns), None)
+        if sku_col and asin_col:
+            for _, r in m.iterrows():
+                k = str(r[sku_col]).strip()
+                v = str(r[asin_col]).strip()
+                if k and k.lower() not in ("nan", "none") and v and v.lower() not in ("nan", "none"):
+                    sku_to_asin[k] = v
+    except Exception:
+        pass
+
+    # Model-level business (sessions/conversion).  Each SKU in a model
+    # inherits the same model-level sessions — Amazon doesn't split.
     business = _ams_load_business()
+    biz_by_model_week: dict = {}
+    if not business.empty and "model" in business.columns:
+        for _, r in business.iterrows():
+            biz_by_model_week[(r["model"], r.get("week"))] = {
+                "sessions": float(r.get("sessions", 0) or 0),
+            }
+    inventory_map = _ams_load_inv(latest_week_num)
 
-    rows, weeks = build_amazon_sales_trend(sales, business, sel_weeks or None)
+    # Aggregate sales at (sku, model, week)
+    sales["sku"] = sales.get("sku", "").astype(str).str.strip()
+    grp = (sales.groupby(["sku", "model", "week"], as_index=False)
+                .agg(units=("units","sum"), sales=("sales","sum"),
+                     brand=("brand","first"),
+                     category_l0=("category_l0","first"),
+                     category_l1=("category_l1","first"),
+                     category_l2=("category_l2","first")))
+    # Week-level total sales for the % share column
+    total_sales_per_week = {
+        w: float(grp[grp["week"] == w]["sales"].sum()) or 1.0 for w in weeks
+    }
 
-    base_cols = ["model", "brand", "category_l0", "category_l1", "category_l2"]
+    # Build per-(sku, model) rows
+    data: dict = {}
+    for _, r in grp.iterrows():
+        key = (r["sku"], r["model"])
+        d = data.setdefault(key, {
+            "sku":   r["sku"],
+            "model": r["model"],
+            "asin":  sku_to_asin.get(r["sku"], ""),
+            "brand": str(r.get("brand") or ""),
+            "category_l0": str(r.get("category_l0") or "").replace("nan",""),
+            "category_l1": str(r.get("category_l1") or "").replace("nan",""),
+            "category_l2": str(r.get("category_l2") or "").replace("nan",""),
+            "weeks": {},
+        })
+        d["weeks"][r["week"]] = {"units": r["units"], "sales": r["sales"]}
+
+    rows = []
+    for (sku, model), d in data.items():
+        units_seq = [d["weeks"].get(w, {}).get("units", 0) for w in weeks]
+        # Sessions per model-week (same value for every SKU under the model)
+        sessions_seq = [biz_by_model_week.get((model, w), {}).get("sessions", 0)
+                        for w in weeks]
+        total_units    = sum(units_seq)
+        total_sessions = sum(sessions_seq)
+        weekly_conv = [
+            (units_seq[i] / sessions_seq[i] * 100) if sessions_seq[i] > 0 else 0
+            for i in range(len(units_seq))
+        ]
+        row = {
+            "sku":   d["sku"],
+            "model": d["model"],
+            "asin":  d["asin"],
+            "brand": d["brand"],
+            "category_l0": d["category_l0"],
+            "category_l1": d["category_l1"],
+            "category_l2": d["category_l2"],
+            "last_4w_units":      total_units,
+            "avg_4w_units":       round(total_units / max(len(units_seq), 1), 2),
+            "last_4w_sessions":   total_sessions,
+            "avg_4w_sessions":    round(total_sessions / max(len(sessions_seq), 1), 2),
+            "last_4w_conversion": round((total_units / total_sessions * 100), 2) if total_sessions > 0 else 0,
+            "avg_4w_conversion":  round(sum(weekly_conv) / len(weekly_conv), 2) if weekly_conv else 0,
+            "trend":           _ams_trend(units_seq),
+            "inventory_units": inventory_map.get(d["model"], 0),
+        }
+        for w in weeks:
+            wd = d["weeks"].get(w, {})
+            u  = wd.get("units", 0)
+            s  = wd.get("sales", 0)
+            ses = biz_by_model_week.get((model, w), {}).get("sessions", 0)
+            row[f"{w}_units"]      = u
+            row[f"{w}_sales"]      = round(s, 2)
+            row[f"{w}_sales_pct"]  = round((s / total_sales_per_week[w]) * 100, 2)
+            row[f"{w}_sessions"]   = ses
+            row[f"{w}_conversion"] = round((u / ses) * 100, 2) if ses > 0 else 0
+        rows.append(row)
+
+    if rows:
+        grand = {"sku":"Grand Total","model":"","asin":"","brand":"",
+                 "category_l0":"","category_l1":"","category_l2":"",
+                 "trend":"","inventory_units":""}
+        for w in weeks:
+            grand[f"{w}_units"]     = sum(r[f"{w}_units"] for r in rows)
+            grand[f"{w}_sales"]     = round(sum(r[f"{w}_sales"] for r in rows), 2)
+            grand[f"{w}_sales_pct"] = 100
+            grand[f"{w}_sessions"]  = sum(r[f"{w}_sessions"] for r in rows)
+            grand[f"{w}_conversion"] = 0
+        grand["last_4w_units"]    = sum(r["last_4w_units"] for r in rows)
+        grand["avg_4w_units"]     = 0
+        grand["last_4w_sessions"] = sum(r["last_4w_sessions"] for r in rows)
+        grand["avg_4w_sessions"]  = 0
+        grand["last_4w_conversion"] = 0
+        grand["avg_4w_conversion"]  = 0
+        rows.append(grand)
+
+    base_cols = ["sku", "model", "asin", "brand",
+                 "category_l0", "category_l1", "category_l2"]
     week_cols  = [f"{w}_sales"      for w in weeks]
     week_cols += [f"{w}_units"      for w in weeks]
     week_cols += [f"{w}_sales_pct"  for w in weeks]
@@ -873,8 +1005,25 @@ def export_inventory_full(
                 "nlc": "mean",
             })
 
+            # Join primary ASIN from master for each SKU so the export
+            # shows model + sku + asin together (operator-requested).
+            try:
+                from weekly_app.core.df_cache import load_excel_cached
+                m = load_excel_cached(MASTER_FILE)
+                m.columns = m.columns.str.strip()
+                sku_col  = next((c for c in ["FBA SKU", "SKU", "sku"] if c in m.columns), None)
+                asin_col = next((c for c in ["ASIN", "Asin", "asin"] if c in m.columns), None)
+                if sku_col and asin_col:
+                    asin_map = (
+                        m[[sku_col, asin_col]].astype(str).drop_duplicates(sku_col)
+                        .set_index(sku_col)[asin_col].to_dict()
+                    )
+                    df["asin"] = df["sku"].astype(str).map(asin_map).fillna("")
+            except Exception:
+                df["asin"] = ""
+
         cols = [c for c in [
-            "week", "brand", "model", "sku",
+            "week", "brand", "model", "sku", "asin",
             "category_l0", "category_l1", "category_l2",
             "channel", "type",
             "inventory_units", "nlc", "inventory_value",

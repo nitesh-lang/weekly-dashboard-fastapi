@@ -116,6 +116,14 @@ def parse_refresh_token_env(raw: str) -> tuple[str, list[dict]]:
          the embedded refresh token.
     """
     raw = (raw or "").strip()
+    # Tolerate wrapping single/double quotes that survive a paste from .env
+    # (dotenv uses 'value' to escape literal { but GitHub Actions secrets /
+    # shell exports don't strip those wrappers).
+    if len(raw) >= 2 and (
+        (raw.startswith("'") and raw.endswith("'")) or
+        (raw.startswith('"') and raw.endswith('"'))
+    ):
+        raw = raw[1:-1].strip()
     if raw.startswith("{"):
         try:
             data = json.loads(raw)

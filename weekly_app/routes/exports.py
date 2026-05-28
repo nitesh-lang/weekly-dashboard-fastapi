@@ -8,6 +8,7 @@ router = APIRouter(prefix="/export", tags=["Exports"])
 
 SALES_FILE = Path("data/processed/weekly_sales_snapshot.csv")
 INV_FILE = Path("data/processed/inventory_model_snapshot.csv")
+MASTER_FILE = Path("data/master/sku_master.xlsx")
 
 
 # ==================================================
@@ -531,11 +532,17 @@ def export_dashboard_sku(
         "FBA SKU": "sku",
         "Model No.": "model_no",
         "Model": "model",
+        "ASIN":  "asin",
     })
     if "model_no" not in master.columns and "model" in master.columns:
         master["model_no"] = master["model"]
     master["sku"] = master["sku"].astype(str)
-    master = master[["sku", "model_no", "category_l0"]]
+    if "asin" in master.columns:
+        master["asin"] = master["asin"].astype(str)
+        master = master[["sku", "model_no", "asin", "category_l0"]]
+    else:
+        master["asin"] = ""
+        master = master[["sku", "model_no", "asin", "category_l0"]]
 
     sku = (
         sku_totals
@@ -543,7 +550,7 @@ def export_dashboard_sku(
         .merge(master, on="sku", how="left")
     )
 
-    for col in ["model_no", "category_l0"]:
+    for col in ["model_no", "asin", "category_l0"]:
         if col in sku.columns:
             sku[col] = sku[col].astype(str).replace("nan", "")
 
@@ -551,7 +558,7 @@ def export_dashboard_sku(
     sku = sku.sort_values("total_sales", ascending=False)
 
     cols = [
-        "sku", "model_no", "category_l0",
+        "sku", "model_no", "asin", "category_l0",
         "total_units", "total_sales", "total_nlc", "sales_contribution_pct",
         "amazon_am_units", "amazon_am_sales", "amazon_am_nlc",
         "amazon_1p_units", "amazon_1p_sales", "amazon_1p_nlc",
@@ -566,6 +573,7 @@ def export_dashboard_sku(
         total_row = {
             "sku": "TOTAL",
             "model_no": "",
+            "asin": "",
             "category_l0": "",
             "total_units": int(sku["total_units"].sum()),
             "total_sales": float(sku["total_sales"].sum()),
@@ -606,6 +614,7 @@ def export_sales_trend_sku(
         load_inventory as _st_load_inventory,
         trend as _st_trend,
     )
+    from weekly_app.core.df_cache import load_excel_cached
 
     sales = _st_load_sales()
 
@@ -638,21 +647,44 @@ def export_sales_trend_sku(
 
     base_in_weeks = base[base["week"].isin(weeks)] if weeks else base
 
+    # SKU → primary ASIN lookup from master (operator's source of truth)
+    sku_to_asin: dict = {}
+    try:
+        m = load_excel_cached(MASTER_FILE)
+        m.columns = m.columns.str.strip()
+        sku_col  = next((c for c in ["FBA SKU", "SKU", "sku"] if c in m.columns), None)
+        asin_col = next((c for c in ["ASIN", "Asin", "asin"] if c in m.columns), None)
+        if sku_col and asin_col:
+            for _, mr in m.iterrows():
+                k = str(mr[sku_col]).strip()
+                v = str(mr[asin_col]).strip()
+                if k and k.lower() not in ("nan", "none") and v and v.lower() not in ("nan", "none"):
+                    sku_to_asin[k] = v
+    except Exception:
+        pass
+
+    # Grain shifted from (model) to (sku, model) so multi-SKU/multi-ASIN
+    # models break out into individual rows — caller can see per-SKU and
+    # per-ASIN performance side by side instead of a model-only rollup.
     data = {}
     for _, r in base_in_weeks.iterrows():
         model = r["model"]
-        week = r["week"]
-        data.setdefault(model, {
-            "brand": str(r.get("brand", "") or ""),
+        sku   = str(r.get("sku", "") or "").strip()
+        week  = r["week"]
+        key   = (sku, model)
+        data.setdefault(key, {
+            "sku":   sku,
+            "asin":  sku_to_asin.get(sku, ""),
             "model": model,
+            "brand": str(r.get("brand", "") or ""),
             "category_l0": str(r.get("category_l0", "") or "").replace("nan", ""),
             "category_l1": str(r.get("category_l1", "") or "").replace("nan", ""),
             "category_l2": str(r.get("category_l2", "") or "").replace("nan", ""),
             "weeks": {},
         })
-        data[model]["weeks"].setdefault(week, {"units": 0, "sales": 0})
-        data[model]["weeks"][week]["units"] += r["units"]
-        data[model]["weeks"][week]["sales"] += r["sales"]
+        data[key]["weeks"].setdefault(week, {"units": 0, "sales": 0})
+        data[key]["weeks"][week]["units"] += r["units"]
+        data[key]["weeks"][week]["sales"] += r["sales"]
 
     total_sales = {
         w: sum(v["weeks"].get(w, {}).get("sales", 0) for v in data.values()) or 1
@@ -660,10 +692,12 @@ def export_sales_trend_sku(
     }
 
     rows = []
-    for model, v in data.items():
+    for key, v in data.items():
         units_seq = [v["weeks"].get(w, {}).get("units", 0) for w in weeks]
         row = {
-            "model": model,
+            "sku":   v["sku"],
+            "model": v["model"],
+            "asin":  v["asin"],
             "brand": v.get("brand"),
             "category_l0": v["category_l0"],
             "category_l1": v["category_l1"],
@@ -671,7 +705,7 @@ def export_sales_trend_sku(
             "last_4w_units": sum(units_seq),
             "avg_4w": round(sum(units_seq) / max(len(units_seq), 1), 2),
             "trend": _st_trend(units_seq),
-            "inventory_units": inventory.get(model, 0),
+            "inventory_units": inventory.get(v["model"], 0),
         }
         for w in weeks:
             s = v["weeks"].get(w, {}).get("sales", 0)
@@ -683,7 +717,9 @@ def export_sales_trend_sku(
 
     if rows:
         grand = {
-            "model": "Grand Total",
+            "sku":   "Grand Total",
+            "model": "",
+            "asin":  "",
             "brand": "",
             "category_l0": "",
             "category_l1": "",
@@ -699,7 +735,8 @@ def export_sales_trend_sku(
         grand["avg_4w"] = 0.0
         rows.append(grand)
 
-    base_cols = ["model", "brand", "category_l0", "category_l1", "category_l2"]
+    base_cols = ["sku", "model", "asin", "brand",
+                 "category_l0", "category_l1", "category_l2"]
     week_cols  = [f"{w}_sales"     for w in weeks]
     week_cols += [f"{w}_units"     for w in weeks]
     week_cols += [f"{w}_sales_pct" for w in weeks]

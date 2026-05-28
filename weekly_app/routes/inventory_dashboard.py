@@ -142,12 +142,13 @@ def load_all_inventory():
         df["week"] = extract_week(file.parents[1].name)
         df = df.dropna(subset=["week"])
 
-        for col in ["sku","category_l0","category_l1","category_l2","channel","type"]:
+        for col in ["sku","asin","category_l0","category_l1","category_l2","channel","type"]:
             if col not in df.columns:
                 df[col] = ""
 
         df["model"] = df["model"].astype(str).str.strip()
-        df["sku"] = df["sku"].astype(str).str.strip()
+        df["sku"]  = df["sku"].astype(str).str.strip()
+        df["asin"] = df["asin"].astype(str).str.strip().replace({"nan":"", "None":""})
         df["channel"] = df["channel"].astype(str).str.title()
         # Resolve TYPE (location bucket) from CHANNEL using the
         # operator-defined mapping; fall back to a normalized raw type.
@@ -285,7 +286,7 @@ def inventory_dashboard(
     df[["category_l0","category_l1","category_l2"]] = \
     df[["category_l0","category_l1","category_l2"]].fillna("")
     df_agg = df.groupby(
-    ["week","brand","model","sku",
+    ["week","brand","model","sku","asin",
      "category_l0","category_l1","category_l2",
      "channel","type"],
     as_index=False
@@ -393,7 +394,7 @@ def inventory_rows_api(
                 df[c] = df[c].fillna("")
 
         df_agg = df.groupby(
-            [c for c in ["week","brand","model","sku","category_l0","category_l1","category_l2","channel","type"] if c in df.columns],
+            [c for c in ["week","brand","model","sku","asin","category_l0","category_l1","category_l2","channel","type"] if c in df.columns],
             as_index=False
         ).agg({"inventory_units":"sum","inventory_value":"sum","nlc":"mean"})
 

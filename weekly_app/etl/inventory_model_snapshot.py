@@ -187,12 +187,27 @@ def run_inventory_etl():
         if df.empty:
             continue
 
-        # ------------------------
-        # STRICT MODEL AGGREGATION
-        # ------------------------
+        # Preserve sku + asin per row so the snapshot can join cleanly
+        # with the per-ASIN sales snapshot.  Raw inventory files already
+        # carry both columns — we were dropping them in the old groupby.
+        if "sku" in df.columns:
+            df["sku"]  = df["sku"].astype(str).str.strip().replace({"nan":"","None":""})
+        else:
+            df["sku"] = ""
+        if "asin" in df.columns:
+            df["asin"] = df["asin"].astype(str).str.strip().replace({"nan":"","None":""})
+        else:
+            df["asin"] = ""
+        for c in ("channel", "type"):
+            if c not in df.columns:
+                df[c] = ""
+            df[c] = df[c].astype(str).str.strip().replace({"nan":"","None":""})
+
+        # Per-(SKU × ASIN × channel × type) aggregation — matches the
+        # grain raw inventory files come at.
         model_grp = (
             df.groupby(
-                ["week", "brand", "model"],
+                ["week", "brand", "model", "sku", "asin", "channel", "type"],
                 as_index=False
             )
             .agg(
@@ -218,7 +233,7 @@ def run_inventory_etl():
     # --------------------------------------------------------
     final_df = (
         final_df
-        .groupby(["week", "brand", "model"], as_index=False)
+        .groupby(["week", "brand", "model", "sku", "asin", "channel", "type"], as_index=False)
         .agg(
             inventory_units=("inventory_units", "sum"),
             inventory_value=("inventory_value", "sum"),
@@ -226,9 +241,8 @@ def run_inventory_etl():
     )
     final_df["inventory_value"] = final_df["inventory_value"].round(2)
 
-    # Optional: sort clean output
     final_df = final_df.sort_values(
-        ["week", "brand", "model"]
+        ["week", "brand", "model", "sku", "channel"]
     )
 
     # --------------------------------------------------------

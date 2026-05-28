@@ -29,3 +29,13 @@ desktop.ini
 # Local backups (fix_inventory_model_casing.py drops a .bak next to
 # each modified workbook before writing).
 *.bak
+*.bak.*
+
+# Ads Reports API intermediates — re-derivable from .ads_reports_state.json
+# OR by re-running the API pull.  Never commit; canonical merged data lives
+# in ads_report_weekN.xlsx (without the _api suffix).
+data/ams_weekly_data/*/ads_report_week*_api.xlsx
+
+# Ads Reports state file — contains short-lived report IDs / signed S3
+# URLs that expire in ~1 hour, plus credentials hints in failure strings.
+data/processed/.ads_reports_state.json

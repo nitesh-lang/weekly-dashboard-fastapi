@@ -93,17 +93,41 @@ jobs:
 
       - name: Commit + push refreshed data
         run: |
+          set -e
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          # Only add data files — never the gitignored .env or scripts
-          git add data/ams_weekly_data/ data/processed/sb_campaign_asins.json \
+
+          # Stage ONLY canonical data files — never _api.xlsx intermediates,
+          # .bak backups, or the .ads_reports_state.json (all gitignored,
+          # but be explicit here too).
+          git add 'data/ams_weekly_data/*/ads_report_week[0-9]*.xlsx' \
+                  'data/ams_weekly_data/*/ads_report_week[0-9][0-9].xlsx' \
+                  data/ams_weekly_data/processed_ads/ads_weekly_aggregated.csv \
+                  data/ams_weekly_data/processed_ads/business_ads_joined.csv \
+                  data/processed/sb_campaign_asins.json \
                   data/processed/sp_campaign_asins.json \
                   data/processed/sd_campaign_asins.json \
-                  data/processed/sb_unmapped_week*.csv 2>/dev/null || true
+                  'data/processed/sb_unmapped_week*.csv' 2>/dev/null || true
+
           if git diff --cached --quiet; then
             echo "No data changes — skipping commit."
             exit 0
           fi
+
           WEEK_LABEL=$(date -u -d '1 day ago' +%Y-%m-%d)
           git commit -m "chore(weekly-sync): auto-pull through $WEEK_LABEL"
-          git push
+
+          # Race-safe push: another commit may have landed on main while
+          # this job's ~20-min report pull was running.  Pull --rebase
+          # before pushing, retry up to 3 times if remote moves again.
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin main || true
+            if git push origin main; then
+              echo "Push succeeded on attempt $attempt."
+              exit 0
+            fi
+            echo "Push attempt $attempt failed, retrying after fetch..."
+            sleep 5
+          done
+          echo "::error::Push failed after 3 attempts; remote keeps moving."
+          exit 1

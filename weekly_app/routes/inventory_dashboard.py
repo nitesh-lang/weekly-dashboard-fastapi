@@ -149,30 +149,6 @@ def load_all_inventory():
         df["model"] = df["model"].astype(str).str.strip()
         df["sku"]  = df["sku"].astype(str).str.strip()
         df["asin"] = df["asin"].astype(str).str.strip().replace({"nan":"", "None":""})
-
-        # ── ASIN-first master alignment ──
-        # Operator rule: ASIN is truth.  Replace SKU/Model/Brand with master's
-        # canonical values when the row's ASIN is in master (or its variation
-        # list).  Falls back to SKU lookup if ASIN is missing.  Rows that
-        # match neither are left untouched (visible to the audit pass).
-        try:
-            from weekly_app.core.master_override import master_lookups
-            asin_rec, sku_rec = master_lookups()
-            if asin_rec:
-                m = df["asin"].isin(asin_rec)
-                if m.any():
-                    df.loc[m, "sku"]   = df.loc[m, "asin"].map(lambda a: asin_rec[a]["sku"])
-                    df.loc[m, "model"] = df.loc[m, "asin"].map(lambda a: asin_rec[a]["model"])
-                    df.loc[m, "brand"] = df.loc[m, "asin"].map(lambda a: asin_rec[a]["brand"])
-            if sku_rec:
-                unresolved = ~df["asin"].isin(asin_rec) if asin_rec else pd.Series([True]*len(df), index=df.index)
-                m = unresolved & df["sku"].isin(sku_rec)
-                if m.any():
-                    df.loc[m, "model"] = df.loc[m, "sku"].map(lambda s: sku_rec[s]["model"])
-                    df.loc[m, "brand"] = df.loc[m, "sku"].map(lambda s: sku_rec[s]["brand"])
-                    df.loc[m & (df["asin"]==""), "asin"] = df.loc[m & (df["asin"]==""), "sku"].map(lambda s: sku_rec[s]["asin"] or "")
-        except Exception:
-            pass  # master file missing on Render fresh boot — fall through unchanged
         df["channel"] = df["channel"].astype(str).str.title()
         # Resolve TYPE (location bucket) from CHANNEL using the
         # operator-defined mapping; fall back to a normalized raw type.
@@ -191,6 +167,30 @@ def load_all_inventory():
 
     data = pd.concat(frames, ignore_index=True)
     data["week_num"] = data["week"].apply(extract_week_num)
+
+    # ── ASIN-first master alignment (run ONCE on the merged frame, not
+    # inside the per-file loop — far cheaper on slow Render disk).
+    # Operator rule: ASIN is truth → SKU/Model/Brand come from master.
+    try:
+        from weekly_app.core.master_override import master_lookups
+        asin_rec, sku_rec = master_lookups()
+        if asin_rec:
+            m = data["asin"].isin(asin_rec)
+            if m.any():
+                data.loc[m, "sku"]   = data.loc[m, "asin"].map(lambda a: asin_rec[a]["sku"])
+                data.loc[m, "model"] = data.loc[m, "asin"].map(lambda a: asin_rec[a]["model"])
+                data.loc[m, "brand"] = data.loc[m, "asin"].map(lambda a: asin_rec[a]["brand"])
+        if sku_rec:
+            unresolved = ~data["asin"].isin(asin_rec) if asin_rec else pd.Series([True]*len(data), index=data.index)
+            m = unresolved & data["sku"].isin(sku_rec)
+            if m.any():
+                data.loc[m, "model"] = data.loc[m, "sku"].map(lambda s: sku_rec[s]["model"])
+                data.loc[m, "brand"] = data.loc[m, "sku"].map(lambda s: sku_rec[s]["brand"])
+                blank_asin = m & (data["asin"]=="")
+                if blank_asin.any():
+                    data.loc[blank_asin, "asin"] = data.loc[blank_asin, "sku"].map(lambda s: sku_rec[s]["asin"] or "")
+    except Exception:
+        pass  # master file missing on Render fresh boot — leave data unchanged
 
     # =====================================================
     # MASTER OVERRIDE (single source of truth)

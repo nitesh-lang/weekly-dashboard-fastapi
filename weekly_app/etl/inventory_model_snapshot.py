@@ -229,16 +229,24 @@ def run_inventory_etl():
         # Re-normalize after override (master values are already trimmed)
         df["model"] = df["model"].astype(str).str.strip().str.upper()
 
+        # Carry category + nlc so consumers don't need to re-read raw xlsx.
+        for c in ("category_l0", "category_l1", "category_l2"):
+            if c not in df.columns:
+                df[c] = ""
+            df[c] = df[c].astype(str).str.strip().replace({"nan":"","None":""})
+
         # Per-(SKU × ASIN × channel × type) aggregation — matches the
         # grain raw inventory files come at.
         model_grp = (
             df.groupby(
-                ["week", "brand", "model", "sku", "asin", "channel", "type"],
+                ["week", "brand", "model", "sku", "asin", "channel", "type",
+                 "category_l0", "category_l1", "category_l2"],
                 as_index=False
             )
             .agg(
                 inventory_units=("qty", "sum"),
                 inventory_value=("row_value", "sum"),
+                nlc=("nlc_resolved", "mean"),
             )
         )
 
@@ -259,13 +267,16 @@ def run_inventory_etl():
     # --------------------------------------------------------
     final_df = (
         final_df
-        .groupby(["week", "brand", "model", "sku", "asin", "channel", "type"], as_index=False)
+        .groupby(["week", "brand", "model", "sku", "asin", "channel", "type",
+                  "category_l0", "category_l1", "category_l2"], as_index=False)
         .agg(
             inventory_units=("inventory_units", "sum"),
             inventory_value=("inventory_value", "sum"),
+            nlc=("nlc", "mean"),
         )
     )
     final_df["inventory_value"] = final_df["inventory_value"].round(2)
+    final_df["nlc"]             = final_df["nlc"].round(2)
 
     final_df = final_df.sort_values(
         ["week", "brand", "model", "sku", "channel"]

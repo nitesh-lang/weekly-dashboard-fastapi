@@ -107,11 +107,38 @@ def _resolve_type(channel, raw_type):
 # ============================================================
 
 def load_all_inventory():
-    # ✅ Return cached DataFrame if no xlsx files changed
+    # ✅ Return cached DataFrame if nothing on disk changed
     current_mtimes = _get_dir_mtimes()
     if _inv_cache.get("mtimes") == current_mtimes and "df" in _inv_cache:
         return _inv_cache["df"].copy()
 
+    # ── FAST PATH ──
+    # Operator's ETL writes data/processed/inventory_model_snapshot.csv
+    # with the same schema we'd get from re-aggregating 83 raw xlsx files.
+    # On Render that re-aggregation takes 30-60s per cold cache miss;
+    # reading the pre-built CSV takes <1s.  Use CSV when it exists; fall
+    # back to raw-file scan only when it's missing (fresh deploy w/o ETL run).
+    from pathlib import Path
+    snap = Path("data/processed/inventory_model_snapshot.csv")
+    if snap.exists() and snap.stat().st_size > 0:
+        try:
+            data = pd.read_csv(snap)
+            # week_num: extract trailing digits from "Week 21" → 21
+            data["week_num"] = data["week"].astype(str).str.extract(r"(\d+)").astype(float)
+            # Normalise type via _resolve_type to match the legacy raw-file path
+            data["type"] = data.apply(
+                lambda r: _resolve_type(r.get("channel",""), r.get("type","")),
+                axis=1,
+            )
+            # qty column kept around for legacy callers that expect it
+            data["qty"] = pd.to_numeric(data["inventory_units"], errors="coerce").fillna(0)
+            _inv_cache["mtimes"] = current_mtimes
+            _inv_cache["df"] = data
+            return data.copy()
+        except Exception:
+            pass  # Fall through to xlsx scan on any read error
+
+    # ── LEGACY PATH ──  raw xlsx scan + master alignment (run once on full frame)
     frames = []
 
     for file in RAW_INV_DIR.rglob("*.xlsx"):

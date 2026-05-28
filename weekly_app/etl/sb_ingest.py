@@ -464,10 +464,17 @@ def run_for_week(week_num: int) -> dict:
         df_sb = pd.DataFrame(rows)
         # Final per-(Portfolio, Campaign, ASIN, Brand) aggregation in case
         # the same ASIN got hit by multiple synonyms or duplicate files
-        per_brand_dfs[k] = (df_sb.groupby(
-                              ["Portfolio name", "Campaign Name", "Advertised ASIN", "Brand"],
-                              as_index=False)
-                                [NUMERIC_COLS].sum())
+        df_sb = (df_sb.groupby(
+                    ["Portfolio name", "Campaign Name", "Advertised ASIN", "Brand"],
+                    as_index=False)
+                      [NUMERIC_COLS].sum())
+        # Impressions / Clicks / Units are physical event counts — round to
+        # integers so they don't look like "79157.55" in the export.  Spend
+        # and Sales stay float (rupee amounts can carry paise).
+        for c in ("Impressions", "Clicks", "14 Day Total Units (#)"):
+            if c in df_sb.columns:
+                df_sb[c] = df_sb[c].round().astype(int)
+        per_brand_dfs[k] = df_sb
 
     # Write to disk
     print()

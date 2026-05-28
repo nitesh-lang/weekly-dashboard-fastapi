@@ -7,6 +7,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parents[2]  # FastAPI
 
 RAW_BASE = BASE_DIR / "data" / "raw" / "sales"
+AMS_BASE = BASE_DIR / "data" / "ams_weekly_data"   # per-brand business_report files
 MASTER_FILE = BASE_DIR / "data" / "master" / "sku_master.xlsx"
 PROCESSED = BASE_DIR / "data" / "processed"
 
@@ -188,10 +189,61 @@ def load_sku_master():
 # =====================================================
 # ---------------- AMAZON PARSER ----------------------
 # =====================================================
+# =====================================================
+# ---------------- AMAZON via BUSINESS REPORT ---------
+# Per-(Child) ASIN sales for the Amazon channel.  Uses
+# data/ams_weekly_data/<Brand>/business_report_week<N>.xlsx
+# (operator-exported Amazon Brand Analytics).  This is the
+# preferred source — replaces parse_amazon()'s model-grain
+# rollup of amazon_sales.xlsx so secondary-variant ASINs no
+# longer lose their sales attribution.
+# =====================================================
+def parse_amazon_from_business_report(brand_folder: str, week: str) -> pd.DataFrame:
+    """Returns per-(Child) ASIN Amazon channel rows for this brand/week,
+    or empty DataFrame if no business_report file exists."""
+    import re as _re
+    m = _re.search(r"\d+", str(week))
+    if not m:
+        return pd.DataFrame()
+    week_num = int(m.group())
+    f = AMS_BASE / brand_folder / f"business_report_week{week_num}.xlsx"
+    if not f.exists():
+        return pd.DataFrame()
+    df = pd.read_excel(f)
+    df.columns = df.columns.str.strip()
+    if "(Child) ASIN" not in df.columns:
+        return pd.DataFrame()
+
+    rename = {
+        "(Child) ASIN":         "asin",
+        "SKU":                  "sku",
+        "Model":                "model",
+        "units_ordered":        "units_sold",
+        "ordered_product_sales":"gross_sales",
+    }
+    for src, dst in rename.items():
+        if src in df.columns and dst != src:
+            df = df.rename(columns={src: dst})
+
+    df["asin"]  = df["asin"].astype(str).str.strip()
+    df["sku"]   = df.get("sku",   "").astype(str).str.strip()
+    df["model"] = df.get("model", "").astype(str).str.strip()
+    df = df[df["asin"].ne("") & ~df["asin"].str.lower().isin({"nan", "none"})]
+    df["units_sold"]  = pd.to_numeric(df["units_sold"],  errors="coerce").fillna(0)
+    df["gross_sales"] = pd.to_numeric(df["gross_sales"], errors="coerce").fillna(0)
+
+    out = df[["asin", "sku", "model", "units_sold", "gross_sales"]].copy()
+    out["channel"] = "Amazon"
+    out["week"]    = week
+    return out
+
+
 def parse_amazon(file, week):
     """
-    Amazon Business Report
-    MODEL LEVEL aggregation (B2C only)
+    Amazon Business Report (per-account, 3P seller-side).
+    Returns per-(Child) ASIN rows so secondary-variant ASINs no longer
+    get rolled into their model's primary variant.  When child_asin is
+    not present, falls back to the model-grain rollup.
     """
     df = pd.read_excel(file)
     df.columns = [norm(c) for c in df.columns]
@@ -227,17 +279,26 @@ def parse_amazon(file, week):
         df["ordered_product_sales"], errors="coerce"
     ).fillna(0)
 
-    out = (
-        df.groupby("model", as_index=False)
-        .agg(
-            units_sold=("units_ordered", "sum"),
-            gross_sales=("ordered_product_sales", "sum"),
+    # Prefer per-(Child) ASIN grain when the column exists.  Falls back to
+    # model-grain when Amazon's older export schema is in use.
+    if "child_asin" in df.columns:
+        df["child_asin"] = df["child_asin"].astype(str).str.strip()
+        df = df[df["child_asin"].ne("") & ~df["child_asin"].str.lower().isin({"nan","none"})]
+        out = (
+            df.groupby(["model", "child_asin"], as_index=False)
+            .agg(units_sold=("units_ordered", "sum"),
+                 gross_sales=("ordered_product_sales", "sum"))
         )
-    )
+        out = out.rename(columns={"child_asin": "asin"})
+    else:
+        out = (
+            df.groupby("model", as_index=False)
+            .agg(units_sold=("units_ordered", "sum"),
+                 gross_sales=("ordered_product_sales", "sum"))
+        )
 
     out["channel"] = "Amazon"
     out["week"] = week
-
     return out
 
 
@@ -246,8 +307,11 @@ def parse_amazon(file, week):
 # =====================================================
 def parse_other_channels(file, week):
     """
-    Vendor / D2C / Marketplace
-    SKU LEVEL ONLY
+    Vendor / D2C / Marketplace.
+    SKU + ASIN level — each sheet (1p Sales, D2C, B2B, Blinkit, etc.)
+    carries its own ASIN column.  We honor the file's ASIN as ground
+    truth so a SKU's true sale-time ASIN isn't overridden by master's
+    primary-variant pick.
     """
     xls = pd.ExcelFile(file)
     rows = []
@@ -265,6 +329,14 @@ def parse_other_channels(file, week):
         df["sku"] = df["sku"].astype(str).str.strip()
         df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
 
+        # Honor file-side ASIN when present (every sheet has one in the
+        # current operator workflow); fall back to empty so the downstream
+        # master merge can fill it from SKU lookup as a safety net.
+        if "asin" in df.columns:
+            df["asin"] = df["asin"].astype(str).str.strip().replace({"nan": "", "None": ""})
+        else:
+            df["asin"] = ""
+
         # ✅ FIXED: vectorised money cleaning instead of row-by-row apply(clean_money)
         df["sale_amount"] = (
             df["sale_amount"]
@@ -280,7 +352,7 @@ def parse_other_channels(file, week):
         ).fillna(0)
 
         g = (
-            df.groupby("sku", as_index=False)
+            df.groupby(["sku", "asin"], as_index=False)
             .agg(
                 units_sold=("qty", "sum"),
                 gross_sales=("sale_amount", "sum"),
@@ -343,24 +415,40 @@ def process_week(week, sku_master, brand_folder=""):
     week_dir = RAW_BASE / week / brand_folder if brand_folder else RAW_BASE / week
     frames = []
 
-    # ---------------- AMAZON ----------------
+    # ---------------- AMAZON (3P seller-side) ----------------
+    # amazon_sales.xlsx is the 3P-only source (1P lives in
+    # other_channels.xlsx).  parse_amazon now preserves per-(Child) ASIN
+    # grain when the source has child_asin (which Amazon's modern Brand
+    # Analytics export does); falls back to model-grain on older schemas.
+    # Joining master on ASIN — when child-ASIN matches the primary or a
+    # known variation — gives the correct brand/nlc/category.  Variant
+    # ASINs not in master come through as UNMAPPED.
     amazon_file = week_dir / "amazon_sales.xlsx"
     if amazon_file.exists():
-        amazon_model = parse_amazon(amazon_file, week)
+        amz = parse_amazon(amazon_file, week)
+        if "asin" in amz.columns:
+            # Per-ASIN join — preserves both primary and variant rows
+            master_by_asin = sku_master.drop_duplicates(subset=["asin"])
+            expanded = amz.merge(
+                master_by_asin[["asin", "sku", "brand", "nlc",
+                                "category_l0", "category_l1", "category_l2"]],
+                on="asin", how="left", suffixes=("", "_m"),
+            )
+        else:
+            # Legacy model-grain join (no child_asin in source)
+            expanded = amz.merge(sku_master, on="model", how="left")
 
-        expanded = amazon_model.merge(
-            sku_master,
-            on="model",
-            how="left",
-        )
-        # BRAND OVERRIDE FROM FOLDER (if present)
         if brand_folder:
             expanded["brand"] = brand_folder.replace("_", " ")
 
-        # 🔒 DEDUPE AMAZON MODEL FANOUT (CRITICAL)
-        expanded = expanded.drop_duplicates(
-            subset=["week", "channel", "model", "brand"]
-        )
+        if "asin" in expanded.columns:
+            expanded = expanded.drop_duplicates(
+                subset=["week", "channel", "asin", "brand"]
+            )
+        else:
+            expanded = expanded.drop_duplicates(
+                subset=["week", "channel", "model", "brand"]
+            )
 
         frames.append(expanded)
 
@@ -369,17 +457,29 @@ def process_week(week, sku_master, brand_folder=""):
     if other_file.exists():
         other = parse_other_channels(other_file, week)
 
+        # parse_other_channels now emits its own `asin` column from each
+        # sheet's ASIN cell, so we merge with master on sku for
+        # brand/model/nlc and use suffix _m for master's ASIN.  File's
+        # ASIN wins; master's only fills in when file value was blank.
         other = other.merge(
             sku_master,
             on="sku",
             how="left",
+            suffixes=("", "_m"),
         )
+        if "asin_m" in other.columns:
+            other["asin"] = other["asin"].where(
+                other["asin"].astype(str).str.len() > 0,
+                other["asin_m"],
+            )
+            other = other.drop(columns=["asin_m"])
         # BRAND OVERRIDE FROM FOLDER (if present)
         if brand_folder:
             other["brand"] = brand_folder.replace("_", " ")
 
-        # 🔒 DEDUPE OTHER CHANNELS (SKU-LEVEL)
-        other = other.drop_duplicates(subset=["week", "channel", "sku", "brand"])
+        # 🔒 DEDUPE OTHER CHANNELS — now SKU + ASIN since the file may
+        # carry the same SKU under different ASINs (variant relisting).
+        other = other.drop_duplicates(subset=["week", "channel", "sku", "asin", "brand"])
         frames.append(other)
 
     if not frames:
@@ -499,17 +599,27 @@ def run_sales_auto_etl(single_week: str = None):
 
     # ✅ FIX: separate numeric and string cols before groupby
     # Prevents NAType crash when unmapped SKUs have NaN in string columns
-    group_keys = ["week", "brand", "model", "channel"]
+    # Grain: per-(week, brand, model, channel, asin) — promotes asin into
+    # the key so multi-ASIN models (e.g. AI-13: B0G53H49BS + B0H1H3K6B2)
+    # break out into separate rows.  Operator-requested 2026-05-28 to fix
+    # the secondary-variant gap (was reporting 0 sales for B0H1H3K6B2 W21
+    # because Amazon rows were collapsed at model-grain).
+    group_keys = ["week", "brand", "model", "channel", "asin"]
     numeric_cols = ["units_sold", "gross_sales", "gmv", "nlc", "sales_nlc"]
-    str_cols = ["sku", "asin", "sku_status", "category_l0", "category_l1", "category_l2"]
+    str_cols = ["sku", "sku_status", "category_l0", "category_l1", "category_l2"]
+    # Backfill missing asin so groupby doesn't drop rows (older data /
+    # legacy parse_amazon path).
+    if "asin" not in combined.columns:
+        combined["asin"] = ""
+    combined["asin"] = combined["asin"].fillna("").astype(str)
 
     combined_num = combined.groupby(group_keys, as_index=False)[numeric_cols].sum()
     combined_str = combined.groupby(group_keys, as_index=False)[str_cols].first()
     combined = combined_num.merge(combined_str, on=group_keys, how="left")
 
     combined = combined.drop_duplicates(
-    subset=["week", "channel", "sku", "model", "brand"], keep="first"
-)
+        subset=["week", "channel", "sku", "model", "brand", "asin"], keep="first"
+    )
     combined["brand"] = combined["brand"].astype(str).str.strip().str.title()
 
     # ✅ If running single week mode, merge with existing snapshot

@@ -156,22 +156,29 @@ def load_ams_data() -> pd.DataFrame:
 #   inventory_total_amazon, pipeline_orders, inv_units_model
 # ==================================================
 def load_inventory_snapshot() -> pd.DataFrame:
-    """Per-(asin, model, week) inventory pivot.  Used to be model-grain;
-    upgraded 2026-05-28 so AMS Trend can attach per-ASIN inventory to
-    its per-ASIN ad spend rows.  inv_units_model still carries the
-    model-total for any consumer that wants the rollup."""
+    """Per-(asin, model, week) inventory pivot.
+
+    Reads from data/processed/inventory_model_snapshot.csv (pre-built by
+    the inventory ETL).  This is ~100x faster than re-aggregating from
+    the 83 raw inventory xlsx files on every cold cache miss, which was
+    causing ~78s request timeouts on Render.  The CSV is already master-
+    aligned (canonical SKU/Model/Brand per ASIN) so we don't need to
+    re-apply the alignment here.
+    """
+    from pathlib import Path
+    snap = Path("data/processed/inventory_model_snapshot.csv")
+    if not snap.exists():
+        return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
     try:
-        from weekly_app.routes.inventory_dashboard import load_all_inventory
-        df = load_all_inventory()
+        df = pd.read_csv(snap)
     except Exception:
         return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
-
-    if df is None or df.empty:
+    if df.empty:
         return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
 
-    df = df.copy()
-    df["Model"] = df["model"].astype(str).str.upper().str.strip()
-    df["asin"]  = df["asin"].astype(str).str.strip()
+    df["Model"]    = df["model"].astype(str).str.upper().str.strip()
+    df["asin"]     = df["asin"].astype(str).str.strip()
+    df["week_num"] = df["week"].astype(str).str.extract(r"(\d+)").astype(float)
 
     type_lower = df["type"].astype(str).str.strip().str.lower()
     chan_lower = df["channel"].astype(str).str.strip().str.lower()
@@ -181,7 +188,6 @@ def load_inventory_snapshot() -> pd.DataFrame:
     df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",               0)
     df["__pipeline"] = df["inventory_units"].where(type_lower == "in-transit inventory", 0)
 
-    # Per-(ASIN × week) pivot for granular join
     asin_pivot = df.groupby(["asin", "Model", "week_num"], as_index=False).agg(
         inventory_ampm   =("__ampm", "sum"),
         inventory_1p     =("__1p", "sum"),
@@ -192,9 +198,6 @@ def load_inventory_snapshot() -> pd.DataFrame:
         asin_pivot["inventory_amazon"] + asin_pivot["inventory_1p"]
     )
 
-    # Model-total stays alongside the per-ASIN rows so consumers that
-    # care about the rollup (e.g. an "inv_units_model" column on the
-    # trend table) still have it.
     model_total = df.groupby(["Model", "week_num"], as_index=False)["inventory_units"].sum()
     model_total = model_total.rename(columns={"inventory_units": "inv_units_model"})
     pivot = asin_pivot.merge(model_total, on=["Model", "week_num"], how="left")

@@ -1,0 +1,109 @@
+# Weekly auto-sync — every Sunday morning IST.
+#
+# Pulls the just-closed Sun-Sat week from the Amazon Ads API (SP/SD/SB),
+# re-runs the downstream ETL chain, and commits the refreshed data back
+# to git so Render auto-deploys it.
+#
+# Schedule:
+#   cron: '30 1 * * 0'  =  Sunday 01:30 UTC  =  Sunday 07:00 IST
+#
+# Required GitHub repo secrets (Settings -> Secrets and variables -> Actions):
+#   AMS_ADS_CLIENT_ID
+#   AMS_ADS_CLIENT_SECRET
+#   AMS_ADS_REFRESH_TOKEN     (AdPilot-style JSON dict — same value as Render env)
+#
+# The default GITHUB_TOKEN has push access (no PAT needed) provided the
+# repo's "Allow GitHub Actions to create and approve pull requests" /
+# workflow write permission is enabled (Settings -> Actions -> General
+# -> Workflow permissions -> Read and write).
+
+name: Weekly Sun-Sat Auto-Sync
+
+on:
+  schedule:
+    - cron: '30 1 * * 0'      # Sunday 01:30 UTC
+  workflow_dispatch:           # allow manual trigger from the Actions tab
+
+permissions:
+  contents: write              # needed to push the data refresh commit
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    env:
+      AMS_ADS_CLIENT_ID:      ${{ secrets.AMS_ADS_CLIENT_ID }}
+      AMS_ADS_CLIENT_SECRET:  ${{ secrets.AMS_ADS_CLIENT_SECRET }}
+      AMS_ADS_REFRESH_TOKEN:  ${{ secrets.AMS_ADS_REFRESH_TOKEN }}
+      PYTHONIOENCODING:       utf-8
+      PYTHONUNBUFFERED:       "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify credentials present
+        run: |
+          if [ -z "$AMS_ADS_CLIENT_ID" ] || [ -z "$AMS_ADS_CLIENT_SECRET" ] || [ -z "$AMS_ADS_REFRESH_TOKEN" ]; then
+            echo "::error::Missing one or more AMS_ADS_* secrets (CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN)."
+            exit 1
+          fi
+
+      # Refresh the campaign -> ASIN lookup (used by sb_ingest L0 layer)
+      - name: Refresh campaign->ASIN map (SP+SD+SB)
+        run: python -m weekly_app.etl.ads_api_pull sp sd sb
+
+      # Pull the last 14 days of Reports API metrics — covers the
+      # just-closed Sun-Sat week with margin for late attribution updates.
+      - name: Pull Reports API (last 14 days)
+        run: |
+          START=$(date -u -d '14 days ago' +%Y-%m-%d)
+          END=$(date -u -d '1 day ago' +%Y-%m-%d)
+          echo "Date range: $START .. $END"
+          python -m weekly_app.etl.ads_reports_pull run --start "$START" --end "$END"
+
+      - name: Swap API SP+SD into canonical xlsx files
+        run: python scripts/swap_api_into_canonical.py
+
+      # sb_ingest handles operator-exported SB files (W21 today, latest week
+      # tomorrow).  It's harmless when no SB files are present.
+      - name: SB ingest (operator-exported files, if any)
+        run: python -m weekly_app.etl.sb_ingest || true
+
+      - name: SB ingest from API (covers weeks without operator files)
+        run: python scripts/sb_ingest_from_api.py
+
+      - name: Step 3 — ads aggregation
+        run: python -m weekly_app.etl.step3_ads_aggregation
+
+      - name: Step 4 — join business + ads
+        run: python -m weekly_app.etl.step4_join_business_ads
+
+      - name: Commit + push refreshed data
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Only add data files — never the gitignored .env or scripts
+          git add data/ams_weekly_data/ data/processed/sb_campaign_asins.json \
+                  data/processed/sp_campaign_asins.json \
+                  data/processed/sd_campaign_asins.json \
+                  data/processed/sb_unmapped_week*.csv 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No data changes — skipping commit."
+            exit 0
+          fi
+          WEEK_LABEL=$(date -u -d '1 day ago' +%Y-%m-%d)
+          git commit -m "chore(weekly-sync): auto-pull through $WEEK_LABEL"
+          git push

@@ -156,6 +156,10 @@ def load_ams_data() -> pd.DataFrame:
 #   inventory_total_amazon, pipeline_orders, inv_units_model
 # ==================================================
 def load_inventory_snapshot() -> pd.DataFrame:
+    """Per-(asin, model, week) inventory pivot.  Used to be model-grain;
+    upgraded 2026-05-28 so AMS Trend can attach per-ASIN inventory to
+    its per-ASIN ad spend rows.  inv_units_model still carries the
+    model-total for any consumer that wants the rollup."""
     try:
         from weekly_app.routes.inventory_dashboard import load_all_inventory
         df = load_all_inventory()
@@ -167,28 +171,36 @@ def load_inventory_snapshot() -> pd.DataFrame:
 
     df = df.copy()
     df["Model"] = df["model"].astype(str).str.upper().str.strip()
+    df["asin"]  = df["asin"].astype(str).str.strip()
 
-    # Normalize for vectorised classification
     type_lower = df["type"].astype(str).str.strip().str.lower()
     chan_lower = df["channel"].astype(str).str.strip().str.lower()
 
-    df["__ampm"]      = df["inventory_units"].where(type_lower == "warehouse",            0)
-    df["__1p"]        = df["inventory_units"].where(type_lower == "1p",                   0)
-    df["__amazon"]    = df["inventory_units"].where(chan_lower == "amazon",               0)
-    df["__pipeline"]  = df["inventory_units"].where(type_lower == "in-transit inventory", 0)
+    df["__ampm"]     = df["inventory_units"].where(type_lower == "warehouse",            0)
+    df["__1p"]       = df["inventory_units"].where(type_lower == "1p",                   0)
+    df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",               0)
+    df["__pipeline"] = df["inventory_units"].where(type_lower == "in-transit inventory", 0)
 
-    pivot = df.groupby(["Model", "week_num"], as_index=False).agg(
+    # Per-(ASIN × week) pivot for granular join
+    asin_pivot = df.groupby(["asin", "Model", "week_num"], as_index=False).agg(
         inventory_ampm   =("__ampm", "sum"),
         inventory_1p     =("__1p", "sum"),
         inventory_amazon =("__amazon", "sum"),
         pipeline_orders  =("__pipeline", "sum"),
-        inv_units_model  =("inventory_units", "sum"),
     )
-    pivot["inventory_total_amazon"] = pivot["inventory_amazon"] + pivot["inventory_1p"]
+    asin_pivot["inventory_total_amazon"] = (
+        asin_pivot["inventory_amazon"] + asin_pivot["inventory_1p"]
+    )
+
+    # Model-total stays alongside the per-ASIN rows so consumers that
+    # care about the rollup (e.g. an "inv_units_model" column on the
+    # trend table) still have it.
+    model_total = df.groupby(["Model", "week_num"], as_index=False)["inventory_units"].sum()
+    model_total = model_total.rename(columns={"inventory_units": "inv_units_model"})
+    pivot = asin_pivot.merge(model_total, on=["Model", "week_num"], how="left")
     pivot = pivot.rename(columns={"week_num": "week"})
     pivot["week"] = pd.to_numeric(pivot["week"], errors="coerce")
 
-    # Cast to int so JSON output isn't full of trailing decimals
     for c in ["inventory_ampm", "inventory_1p", "inventory_amazon",
               "inventory_total_amazon", "pipeline_orders", "inv_units_model"]:
         pivot[c] = pd.to_numeric(pivot[c], errors="coerce").fillna(0).astype(int)
@@ -246,12 +258,31 @@ def get_ams_trend(
     # ===============================
     inv = load_inventory_snapshot()
     if not inv.empty:
+        # Per-(asin, week) join — gives each AMS row its actual ASIN's
+        # inventory, not the model-level total smeared across variants.
+        # Fall back to Model-only inventory rollup for rows whose ASIN
+        # isn't in the inventory snapshot (e.g. 1P-only ASINs with no
+        # FBA stock are missing from the inventory join key).
         df = pd.merge(
-            df,
-            inv,
-            on=["Model", "week"],
-            how="left"
+            df, inv,
+            left_on=["asin", "week"], right_on=["asin", "week"],
+            how="left", suffixes=("", "_inv"),
         )
+        # If the per-ASIN join missed (no inventory for this ASIN), fall
+        # back to the model-level rollup so the column isn't blank where
+        # we have model-level signal.
+        miss = df["inv_units_model"].isna()
+        if miss.any():
+            inv_by_model = (inv.drop_duplicates(["Model", "week"])
+                                [["Model", "week", "inventory_ampm", "inventory_1p",
+                                  "inventory_amazon", "inventory_total_amazon",
+                                  "pipeline_orders", "inv_units_model"]])
+            df_miss = df.loc[miss, ["Model", "week"]].merge(
+                inv_by_model, on=["Model", "week"], how="left"
+            )
+            for col in ["inventory_ampm","inventory_1p","inventory_amazon",
+                        "inventory_total_amazon","pipeline_orders","inv_units_model"]:
+                df.loc[miss, col] = df_miss[col].values
 
     # ===============================
     # DERIVED METRICS

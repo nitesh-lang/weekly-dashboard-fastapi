@@ -333,7 +333,6 @@ def run_etl_latest():
 # ✅ AUTO ETL – AMS & INVENTORY SNAPSHOTS
 # ✅ FIXED: now async + runs in background so it does NOT block server startup
 # =====================================================
-from weekly_app.etl.ams_model_snapshot import run_ams_model_etl
 from weekly_app.etl.inventory_model_snapshot import run_inventory_etl
 
 @app.on_event("startup")
@@ -365,7 +364,6 @@ async def bootstrap_etl_if_needed():
         loop = asyncio.get_event_loop()
         executor = ThreadPoolExecutor()
         for label, fn in [
-            ("AMS model",       run_ams_model_etl),
             ("Inventory model", run_inventory_etl),
             ("Sales auto",      run_sales_auto_etl),
         ]:

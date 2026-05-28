@@ -154,6 +154,12 @@ def load_sku_master():
     df["brand"] = df["brand"].astype(str).str.strip()
     df["nlc"] = pd.to_numeric(df["nlc"], errors="coerce").fillna(0)
 
+    # ASIN — keep so weekly_sales_snapshot can carry it per row.  Header in
+    # master is "ASIN" → already lowercased to "asin" by the norm() pass.
+    if "asin" not in df.columns:
+        df["asin"] = ""
+    df["asin"] = df["asin"].astype(str).str.strip().replace({"nan": "", "None": ""})
+
     for c in ["category_l0", "category_l1", "category_l2"]:
         if c not in df.columns:
             df[c] = ""
@@ -164,6 +170,7 @@ def load_sku_master():
             "sku",
             "model",
             "brand",
+            "asin",
             "nlc",
             "category_l0",
             "category_l1",
@@ -401,12 +408,21 @@ def process_week(week, sku_master, brand_folder=""):
 
     sales["sales_nlc"] = sales["units_sold"] * sales["nlc"]
 
+    # ASIN — backfill empties so the snapshot has a real value per row.
+    # For Amazon channel rows the master merge is on model (one ASIN per
+    # model variant, may not be the precise advertised one), for Other
+    # channels it's on sku (correct primary ASIN).
+    if "asin" not in sales.columns:
+        sales["asin"] = ""
+    sales["asin"] = sales["asin"].astype(str).str.strip().replace({"nan": "", "None": ""})
+
     # 🔑 MODEL IS PERSISTED (CRITICAL FIX)
     return sales[
         [
             "week",
             "channel",
             "sku",
+            "asin",
             "model",
             "sku_status",
             "brand",
@@ -485,7 +501,7 @@ def run_sales_auto_etl(single_week: str = None):
     # Prevents NAType crash when unmapped SKUs have NaN in string columns
     group_keys = ["week", "brand", "model", "channel"]
     numeric_cols = ["units_sold", "gross_sales", "gmv", "nlc", "sales_nlc"]
-    str_cols = ["sku", "sku_status", "category_l0", "category_l1", "category_l2"]
+    str_cols = ["sku", "asin", "sku_status", "category_l0", "category_l1", "category_l2"]
 
     combined_num = combined.groupby(group_keys, as_index=False)[numeric_cols].sum()
     combined_str = combined.groupby(group_keys, as_index=False)[str_cols].first()

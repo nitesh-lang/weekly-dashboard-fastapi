@@ -22,13 +22,24 @@ export function useSortedRows<T extends Record<string, any>>(
         return [...rows].sort((a, b) => {
             const av = a[key];
             const bv = b[key];
-            const aNil = av == null || av === "";
-            const bNil = bv == null || bv === "";
+            // NaN counts as nil too — pandas-derived rows occasionally
+            // sneak NaN through when a percentage column has no sales
+            // denominator (return_pct, conversion_pct, etc.).
+            const aNil = av == null || av === "" || (typeof av === "number" && Number.isNaN(av));
+            const bNil = bv == null || bv === "" || (typeof bv === "number" && Number.isNaN(bv));
             if (aNil && bNil) return 0;
             if (aNil) return 1;
             if (bNil) return -1;
-            if (typeof av === "number" && typeof bv === "number") {
-                return (av - bv) * m;
+            // Coerce numeric-looking strings ("5.2", "5.2%") to numbers so
+            // they sort with real numbers and not lexicographically.
+            const an = typeof av === "number"
+                ? av
+                : (typeof av === "string" ? parseFloat(av.replace(/[%,\s]/g, "")) : Number.NaN);
+            const bn = typeof bv === "number"
+                ? bv
+                : (typeof bv === "string" ? parseFloat(bv.replace(/[%,\s]/g, "")) : Number.NaN);
+            if (!Number.isNaN(an) && !Number.isNaN(bn)) {
+                return (an - bn) * m;
             }
             return String(av).localeCompare(String(bv), undefined, { numeric: true }) * m;
         });

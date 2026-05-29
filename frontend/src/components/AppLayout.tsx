@@ -9,6 +9,7 @@ import {
     LayoutDashboard, TrendingUp, ShoppingCart, Tag, Package, Megaphone,
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
+    Target, Truck, Calculator, Award, ExternalLink,
 } from "lucide-react";
 
 // ── Hover prefetch ──────────────────────────────────────────────────────
@@ -95,6 +96,17 @@ const NAV_GROUPS = [
             { to: "/returns",             label: "Returns",            icon: RotateCcw },
         ],
     },
+];
+
+// External operator tools — different Render services that complement
+// the weekly brief.  Rendered at the bottom of the sidebar as <a target=_blank>
+// so the current page stays open.
+const EXTERNAL_LINKS = [
+    { href: "https://audio-array-sales-dashboard.onrender.com/", label: "Audio Array — Target vs Actual", icon: Target },
+    { href: "https://nexlev-sales-dashboard-v2.onrender.com/",   label: "Nexlev — Target vs Actual",      icon: Target },
+    { href: "https://am-replenishment-1.onrender.com/",          label: "Replenishment",                  icon: Truck },
+    { href: "https://nexlev-margin-calculator.onrender.com/",    label: "Nexlev Margin Calculator",       icon: Calculator },
+    { href: "https://buybox-report.onrender.com/",               label: "Buy Box Report",                 icon: Award },
 ];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
@@ -202,6 +214,34 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                             </div>
                         </div>
                     ))}
+
+                    {/* ── External tools ── separate Render apps that
+                       complement the weekly brief.  Opens in a new tab. */}
+                    <div className="mb-5">
+                        <div
+                            className="text-[10px] font-semibold uppercase mb-2 px-2"
+                            style={{ letterSpacing: "0.14em", color: "#9ca3af" }}
+                        >
+                            External Tools
+                        </div>
+                        <div className="flex flex-col gap-0.5">
+                            {EXTERNAL_LINKS.map(({ href, label, icon: Icon }) => (
+                                <a
+                                    key={href}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group relative inline-flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium text-foreground hover:bg-accent transition-all"
+                                >
+                                    <Icon className="h-4 w-4 shrink-0" />
+                                    <span className="flex-1 truncate">{label}</span>
+                                    <ExternalLink
+                                        className="h-3.5 w-3.5 opacity-30 group-hover:opacity-70 transition-opacity"
+                                    />
+                                </a>
+                            ))}
+                        </div>
+                    </div>
                 </nav>
 
                 {/* Status pill + user */}

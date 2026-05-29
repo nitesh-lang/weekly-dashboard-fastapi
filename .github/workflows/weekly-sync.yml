@@ -1,27 +1,44 @@
-# Weekly auto-sync — every Sunday morning IST.
+# Weekly auto-sync — Monday morning IST + path-triggered on raw-file pushes.
 #
-# Pulls the just-closed Sun-Sat week from the Amazon Ads API (SP/SD/SB),
-# re-runs the downstream ETL chain, and commits the refreshed data back
-# to git so Render auto-deploys it.
+# - Monday 07:00 IST gives Amazon's attribution windows an extra ~24h to
+#   settle past the just-closed Sun-Sat week before we pull the Reports
+#   API.  SP=7d / SD,SB=14d attribution drift; running Sunday morning
+#   would miss a chunk of late-attributed conversions.
+#
+# - The workflow also runs whenever the operator pushes new raw files
+#   (sales, inventory, returns, margin, inbound, reviews) so mid-week
+#   drops process automatically -- no need to click "Run workflow".
 #
 # Schedule:
-#   cron: '30 1 * * 0'  =  Sunday 01:30 UTC  =  Sunday 07:00 IST
+#   cron: '30 1 * * 1'  =  Monday 01:30 UTC  =  Monday 07:00 IST
 #
 # Required GitHub repo secrets (Settings -> Secrets and variables -> Actions):
 #   AMS_ADS_CLIENT_ID
 #   AMS_ADS_CLIENT_SECRET
-#   AMS_ADS_REFRESH_TOKEN     (AdPilot-style JSON dict — same value as Render env)
+#   AMS_ADS_REFRESH_TOKEN     (AdPilot-style JSON dict -- same value as Render env)
 #
 # The default GITHUB_TOKEN has push access (no PAT needed) provided the
-# repo's "Allow GitHub Actions to create and approve pull requests" /
-# workflow write permission is enabled (Settings -> Actions -> General
-# -> Workflow permissions -> Read and write).
+# repo's workflow write permission is enabled
+# (Settings -> Actions -> General -> Workflow permissions -> Read and write).
 
-name: Weekly Sun-Sat Auto-Sync
+name: Weekly Auto-Sync
 
 on:
   schedule:
-    - cron: '30 1 * * 0'      # Sunday 01:30 UTC
+    - cron: '30 1 * * 1'      # Monday 01:30 UTC = 07:00 IST
+  push:
+    branches: [main]
+    paths:
+      # Mid-week refresh triggers — any of these paths changing on main
+      # kicks off the full pipeline.  Keeps Render in sync with whatever
+      # raw files the operator just committed.
+      - 'data/raw/sales/**'
+      - 'data/raw/inventory/**'
+      - 'data/raw/returns/**'
+      - 'data/raw/margin/**'
+      - 'data/raw/inbound/**'
+      - 'data/raw/reviews/**'
+      - 'data/master/sku_master.xlsx'
   workflow_dispatch:           # allow manual trigger from the Actions tab
 
 permissions:
@@ -91,6 +108,33 @@ jobs:
       - name: Derive business_report from raw sales
         run: python -m weekly_app.etl.business_report_derive || true
 
+      # ── Operator-side ETLs ──
+      # These read the raw files the operator commits and produce the
+      # snapshot CSVs the dashboard reads.  `|| true` keeps the cron
+      # tolerant of missing raw files in any single module so one bad
+      # file doesn't sink the whole run -- the next steps still benefit
+      # from the other refreshes.
+      - name: Sales auto ETL — weekly_sales_snapshot.csv
+        run: python -m weekly_app.etl.sales_auto_etl || true
+
+      - name: Inventory model snapshot — inventory_model_snapshot.csv
+        run: python -m weekly_app.etl.inventory_model_snapshot || true
+
+      - name: Inventory AMS snapshot — inventory_ams_snapshot.csv
+        run: python -m weekly_app.etl.inventory_snapshot_etl || true
+
+      - name: Returns snapshot
+        run: python -m weekly_app.etl.returns_snapshot || true
+
+      - name: Margin snapshot
+        run: python -m weekly_app.etl.margin_snapshot || true
+
+      - name: Inbound snapshot (FBA + In-Transit PO)
+        run: python -m weekly_app.etl.inbound_snapshot || true
+
+      - name: Reviews snapshot (Helium-10)
+        run: python -m weekly_app.etl.reviews_snapshot || true
+
       - name: Step 3 — ads aggregation
         run: python -m weekly_app.etl.step3_ads_aggregation
 
@@ -108,12 +152,20 @@ jobs:
           # but be explicit here too).
           git add 'data/ams_weekly_data/*/ads_report_week[0-9]*.xlsx' \
                   'data/ams_weekly_data/*/ads_report_week[0-9][0-9].xlsx' \
+                  'data/ams_weekly_data/*/business_report_week[0-9]*.xlsx' \
                   data/ams_weekly_data/processed_ads/ads_weekly_aggregated.csv \
                   data/ams_weekly_data/processed_ads/business_ads_joined.csv \
                   data/processed/sb_campaign_asins.json \
                   data/processed/sp_campaign_asins.json \
                   data/processed/sd_campaign_asins.json \
-                  'data/processed/sb_unmapped_week*.csv' 2>/dev/null || true
+                  'data/processed/sb_unmapped_week*.csv' \
+                  data/processed/weekly_sales_snapshot.csv \
+                  data/processed/inventory_model_snapshot.csv \
+                  data/processed/inventory_ams_snapshot.csv \
+                  data/processed/returns_snapshot.csv \
+                  data/processed/margin_snapshot.csv \
+                  data/processed/inbound_snapshot.csv \
+                  data/processed/reviews_snapshot.csv 2>/dev/null || true
 
           if git diff --cached --quiet; then
             echo "No data changes — skipping commit."

@@ -85,6 +85,12 @@ jobs:
       - name: SB ingest from API (covers weeks without operator files)
         run: python scripts/sb_ingest_from_api.py
 
+      # Re-derive business_report_weekN.xlsx from amazon_sales (3P) +
+      # 1p Sales tab so step4's biz join uses the freshest sales data
+      # the operator pushed.  Replaces the manual Amazon-UI export step.
+      - name: Derive business_report from raw sales
+        run: python -m weekly_app.etl.business_report_derive || true
+
       - name: Step 3 — ads aggregation
         run: python -m weekly_app.etl.step3_ads_aggregation
 

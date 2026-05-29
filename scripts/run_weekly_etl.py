@@ -33,6 +33,10 @@ ETL_DIR = REPO_ROOT / "weekly_app" / "etl"
 
 # Canonical pipeline order — same as the operator's documented sequence.
 PIPELINE = [
+    # Build business_report_weekN.xlsx from amazon_sales (3P) + 1p Sales
+    # tab BEFORE anything that reads business_report (biz_ads, step4).
+    # This replaces the prior manual Amazon-UI export step.
+    ("biz_report", "business_report_derive.py"),
     ("biz_ads",    "business_ads_weekly_etl.py"),
     ("step3",      "step3_ads_aggregation.py"),
     ("step4",      "step4_join_business_ads.py"),

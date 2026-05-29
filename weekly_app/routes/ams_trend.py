@@ -194,8 +194,14 @@ def load_inventory_snapshot() -> pd.DataFrame:
         inventory_amazon =("__amazon", "sum"),
         pipeline_orders  =("__pipeline", "sum"),
     )
+    # Operator rule (2026-05-29): total Amazon-side inventory =
+    # AMPM warehouse + Amazon FBA + 1P.  AMPM was previously excluded
+    # and is the "buffer" stock sitting at the operator's warehouse
+    # before being shipped to Amazon FBA / vendor.
     asin_pivot["inventory_total_amazon"] = (
-        asin_pivot["inventory_amazon"] + asin_pivot["inventory_1p"]
+        asin_pivot["inventory_ampm"]
+        + asin_pivot["inventory_amazon"]
+        + asin_pivot["inventory_1p"]
     )
 
     model_total = df.groupby(["Model", "week_num"], as_index=False)["inventory_units"].sum()

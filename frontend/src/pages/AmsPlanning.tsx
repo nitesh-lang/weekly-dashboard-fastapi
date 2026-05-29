@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fmtInt, fmtINR, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
+import { makeTextFilter } from "@/lib/useTextFilter";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import { useAmsPlanning, type PlanningRow } from "@/lib/useAmsPlanning";
 import { useReturns } from "@/lib/useReturns";
@@ -177,7 +178,11 @@ export default function AmsPlanning() {
     );
 
     const filtered = useMemo(() => {
-        const q = filter.trim().toLowerCase();
+        const matchText = makeTextFilter<typeof rowsWithReturns[number]>(filter, [
+            "brand", "model", "sku", "asin",
+            "category_l0", "category_l1",
+            "asin_type", "ams_required", "remarks",
+        ]);
         const b   = new Set(selBrands);
         const t   = new Set(selAsinTypes);
         const st  = new Set(selStatuses);
@@ -216,9 +221,7 @@ export default function AmsPlanning() {
             if (!inRange(r.rating_count,  rRatingCount)) return false;
             if (!inRange((r as any).net_margin,     rNetMargin))  return false;
             if (!inRange((r as any).net_margin_pct, rNetMarginP)) return false;
-            if (!q) return true;
-            const blob = `${r.brand} ${r.model} ${r.sku} ${r.asin} ${r.category_l0} ${r.category_l1} ${r.asin_type} ${r.ams_required} ${r.remarks}`;
-            return blob.toLowerCase().includes(q);
+            return matchText(r);
         });
     }, [rowsWithReturns, filter, selBrands, selAsinTypes, selStatuses,
         selModels, selAsins, selCategories, selCategoriesL1, selAmsReq, selVariations,

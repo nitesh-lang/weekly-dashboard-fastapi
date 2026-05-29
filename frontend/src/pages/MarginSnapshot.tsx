@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fmtINR, fmtInt, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
+import { makeTextFilter } from "@/lib/useTextFilter";
 import { useMargins, type MarginRow } from "@/lib/useMargins";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
@@ -104,7 +105,10 @@ export default function MarginSnapshot() {
     const allL2     = useMemo(() => Array.from(new Set(portfolioRows.map((r) => r.category_l2).filter(Boolean))).sort() as string[], [portfolioRows]);
 
     const filtered = useMemo(() => {
-        const q = filter.trim().toLowerCase();
+        const matchText = makeTextFilter<typeof portfolioRows[number]>(filter, [
+            "brand", "model", "sku", "asin",
+            "product_name", "category_l1", "category_l2",
+        ]);
         const brandSet = new Set(selBrands);
         const ms  = new Set(selModels);
         const ss  = new Set(selSkus);
@@ -134,9 +138,7 @@ export default function MarginSnapshot() {
             if (!inRange(r.net_margin,       rNetR))   return false;
             if (!inRange(r.net_margin_pct,   rNetP))   return false;
             if (onlySuspect && !isSuspect(r)) return false;
-            if (!q) return true;
-            const blob = `${r.brand} ${r.model || ""} ${r.sku || ""} ${r.asin || ""} ${r.product_name || ""} ${r.category_l1 || ""} ${r.category_l2 || ""}`;
-            return blob.toLowerCase().includes(q);
+            return matchText(r);
         });
     }, [portfolioRows, selBrands, filter, onlySuspect, selModels, selSkus, selAsins, selL1, selL2,
         rDp, rMrp, rBauSp, rGrossR, rGrossP, rNetR, rNetP]);

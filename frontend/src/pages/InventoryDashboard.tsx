@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
 import { useSortedRows } from "@/lib/useSortedRows";
+import { makeTextFilter } from "@/lib/useTextFilter";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
@@ -175,7 +176,14 @@ export default function InventoryDashboard() {
 
     const filtered = useMemo(() => {
         if (!data) return [];
-        const q = filter.trim().toLowerCase();
+        // Old code searched Object.values(r) — that matched numeric columns
+        // too, so typing "100" hit every row with inventory_units=100.
+        // Restrict to identifier + category fields.
+        const matchText = makeTextFilter<any>(filter, [
+            "brand", "model", "sku", "asin",
+            "category_l0", "category_l1", "category_l2",
+            "channel", "type", "week",
+        ]);
         const l0s  = new Set(selCatL0);
         const l1s  = new Set(selCatL1);
         const l2s  = new Set(selCatL2);
@@ -210,8 +218,7 @@ export default function InventoryDashboard() {
             if (!inRange(r.inventory_units, rUnits)) return false;
             if (!inRange(r.nlc,             rNlc))   return false;
             if (!inRange(r.inventory_value, rValue)) return false;
-            if (!q) return true;
-            return Object.values(r).some((v) => String(v ?? "").toLowerCase().includes(q));
+            return matchText(r);
         });
     }, [data, filter, selCatL0, selCatL1, selCatL2, selChannel, selType, selectedBrand,
         selModels, selSkus, selBrandsM, selWeeksM, rUnits, rNlc, rValue]);

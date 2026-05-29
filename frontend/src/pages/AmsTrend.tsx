@@ -5,6 +5,7 @@ import { api } from "@/lib/api";
 import { fmtINR, fmtInt, sortWeeks } from "@/lib/utils";
 import { ExportButtons } from "@/components/ExportButtons";
 import { useSortedRows } from "@/lib/useSortedRows";
+import { makeTextFilter } from "@/lib/useTextFilter";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
@@ -230,7 +231,7 @@ export default function AmsTrend() {
 
     const filtered = useMemo(() => {
         if (!data) return [];
-        const q = filter.trim().toLowerCase();
+        const matchText = makeTextFilter<any>(filter, ["SKU", "Model", "asin", "brand"]);
         const skuSet   = new Set(selSkus);
         const modelSet = new Set(selModels);
         const asinSet  = new Set(selAsins);
@@ -279,9 +280,7 @@ export default function AmsTrend() {
             if (!inRange(r.inventory_amazon,       rInvAmz))     return false;
             if (!inRange(r.inventory_total_amazon, rInvTotAmz))  return false;
             if (!inRange(r.pipeline_orders,        rPipeOrders)) return false;
-            if (!q) return true;
-            const blob = ((r.SKU || "") + " " + (r.Model || "") + " " + (r.asin || "") + " " + (r.brand || "")).toLowerCase();
-            return blob.includes(q);
+            return matchText(r);
         });
     }, [data, filter, selSkus, selModels, selAsins, selBrands, selWeeks, selL0, selL1, selL2,
         rSessions, rGmv, rUnits, rAdSpend, rContrib, rAttrPct, rOrgPct, rConvPct,

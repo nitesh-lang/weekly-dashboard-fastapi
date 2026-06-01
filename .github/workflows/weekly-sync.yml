@@ -10,7 +10,9 @@
 #   drops process automatically -- no need to click "Run workflow".
 #
 # Schedule:
-#   cron: '30 1 * * 1'  =  Monday 01:30 UTC  =  Monday 07:00 IST
+#   cron: '07 1 * * 1'  =  Monday 01:07 UTC  =  Monday 06:37 IST
+#   :07 minute (not :00 / :15 / :30 / :45) dodges GitHub Actions'
+#   shared-runner congestion buckets so the cron actually fires.
 #
 # Required GitHub repo secrets (Settings -> Secrets and variables -> Actions):
 #   AMS_ADS_CLIENT_ID
@@ -25,7 +27,7 @@ name: Weekly Auto-Sync
 
 on:
   schedule:
-    - cron: '30 1 * * 1'      # Monday 01:30 UTC = 07:00 IST
+    - cron: '7 1 * * 1'       # Monday 01:07 UTC = 06:37 IST (off-peak minute)
   push:
     branches: [main]
     paths:

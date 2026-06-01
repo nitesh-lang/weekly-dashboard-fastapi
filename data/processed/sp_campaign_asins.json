@@ -20786,7 +20786,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "Audio Array-Wireless Microphone-Catch All-SP-PT": {
+  "Audio Array-Wireless Microphone- B0GKPXQ8G3-SP-PT": {
     "brand": "Audio Array",
     "asins": [
       "B0FPR7VFCH",
@@ -22976,7 +22976,7 @@
     ],
     "profile_id": "1122755254933937"
   },
-  "Nexlev-B0CDPP45BM- Steam Cleaner-SP-KT-Exact": {
+  "Nexlev-B0CDPP45BM- Steam Cleaner-SP-KT-Exact-Branded": {
     "brand": "Nexlev",
     "asins": [
       "B0CDPP45BM"
@@ -26052,7 +26052,7 @@
     ],
     "profile_id": "1122755254933937"
   },
-  "Nexlev-B0DNJS23HS -Steam Cleaner-SP-KT-Exact/Phrase": {
+  "Nexlev-B0DNJS23HS -Steam Cleaner-SP-KT-Branded": {
     "brand": "Nexlev",
     "asins": [
       "B0DNJS23HS"
@@ -28171,6 +28171,86 @@
     "brand": "Nexlev",
     "asins": [
       "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlive-Oil Applicator Comb-B0DKK15YNJ-PH-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DKK15YNJ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-B0D9KDQCCM-Portable Sewing Machine-AT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KDQCCM"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-Portable Sewing Machine-B0D9KDQCCM-Phrase-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KDQCCM"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-Portable Sewing Machine-B0D9KDQCCM-AT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KDQCCM"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-Steam Mop-B0D2LJSQXZ-Phrase-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D2LJSQXZ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv- Steam Mop-B0D2LJSQXZ-AT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D2LJSQXZ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-B0D9KDQCCM-Portable Sewing Machine-Phrase-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KDQCCM"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv- Steam Mop-B0D2LJSQXZ-PT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D2LJSQXZ"
     ],
     "ad_types": [
       "productAd"

@@ -142,6 +142,11 @@ def load_ams_data() -> pd.DataFrame:
     .str.lower()
 )
 
+    # Operator rule: Fossil has no ads campaigns and is not tracked on
+    # AMS Trend.  Filter at the loader so the page, filters, KPIs and
+    # exports all stay consistent.
+    df = df[df["brand"] != "fossil"]
+
     return df
 
 # ==================================================

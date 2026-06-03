@@ -499,6 +499,11 @@ def amazon_sales_trend(
         .isin(["amazon", "1p sales"])
     ]
 
+    # Operator rule: Fossil is excluded from the Amazon + 1P trend page.
+    # Drop before computing the brand dropdown so it doesn't surface there
+    # either.  Sales snapshot still carries Fossil for other modules.
+    sales = sales[sales["brand"].astype(str).str.strip().str.lower() != "fossil"]
+
     # -------- ALL BRANDS (for dropdown) — before brand filter ----------
     all_brands = sorted(sales["brand"].dropna().astype(str).unique())
 
@@ -522,6 +527,7 @@ def amazon_sales_trend(
         all_sales["channel"].astype(str).str.strip().str.lower()
         .isin(["amazon", "1p sales"])
     ]
+    all_sales = all_sales[all_sales["brand"].astype(str).str.strip().str.lower() != "fossil"]
     all_weeks = sorted(
         all_sales["week"].dropna().unique().tolist(),
         key=lambda x: extract_week(x) or 0

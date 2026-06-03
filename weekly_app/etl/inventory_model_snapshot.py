@@ -203,29 +203,45 @@ def run_inventory_etl():
                 df[c] = ""
             df[c] = df[c].astype(str).str.strip().replace({"nan":"","None":""})
 
-        # ── ASIN-first master alignment ──
+        # ── Master alignment: ASIN → SKU → Model ──
         # Operator rule: ASIN is truth → SKU/Model/Brand come from master.
-        # If ASIN not in master, fall back to SKU lookup for Model/Brand.
-        # If neither matches, leave the raw values alone (will surface in
-        # the audit report so the operator can fix master / the source).
-        from weekly_app.core.master_override import master_lookups
+        # If ASIN doesn't match, fall back to SKU.  If SKU also misses,
+        # fall back to the raw row's Model to at least pin Brand from
+        # master.  Rows that fail all three surface in the audit report.
+        from weekly_app.core.master_override import master_lookups, model_to_rec_map
         asin_rec, sku_rec = master_lookups()
+        resolved = pd.Series(False, index=df.index)
+
         if asin_rec:
             m = df["asin"].isin(asin_rec)
             if m.any():
                 df.loc[m, "sku"]   = df.loc[m, "asin"].map(lambda a: asin_rec[a]["sku"])
                 df.loc[m, "model"] = df.loc[m, "asin"].map(lambda a: asin_rec[a]["model"])
                 df.loc[m, "brand"] = df.loc[m, "asin"].map(lambda a: asin_rec[a]["brand"])
+                resolved |= m
+
         if sku_rec:
-            # Only override rows that didn't already get resolved by ASIN
-            unresolved = ~df["asin"].isin(asin_rec) if asin_rec else pd.Series([True]*len(df), index=df.index)
-            m = unresolved & df["sku"].isin(sku_rec)
+            m = ~resolved & df["sku"].isin(sku_rec)
             if m.any():
                 df.loc[m, "model"] = df.loc[m, "sku"].map(lambda s: sku_rec[s]["model"])
                 df.loc[m, "brand"] = df.loc[m, "sku"].map(lambda s: sku_rec[s]["brand"])
-                # Also fill ASIN from master where the source had none but
-                # the SKU resolves — gives downstream a usable join key.
-                df.loc[m & (df["asin"]==""), "asin"] = df.loc[m & (df["asin"]==""), "sku"].map(lambda s: sku_rec[s]["asin"] or "")
+                # Backfill ASIN from master where the source had none
+                empty_asin = m & (df["asin"] == "")
+                if empty_asin.any():
+                    df.loc[empty_asin, "asin"] = df.loc[empty_asin, "sku"].map(
+                        lambda s: sku_rec[s]["asin"] or ""
+                    )
+                resolved |= m
+
+        # Last fallback: row's MODEL matches a master Model → pin Brand.
+        # SKU/ASIN stay raw (one Model maps to many SKUs/ASINs).
+        model_rec = model_to_rec_map()
+        if model_rec:
+            mu = df["model"].astype(str).str.strip().str.upper()
+            m = ~resolved & mu.isin(model_rec)
+            if m.any():
+                df.loc[m, "brand"] = mu[m].map(lambda k: model_rec[k]["brand"])
+
         # Re-normalize after override (master values are already trimmed)
         df["model"] = df["model"].astype(str).str.strip().str.upper()
 

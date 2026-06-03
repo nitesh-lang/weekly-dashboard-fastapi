@@ -69,6 +69,22 @@ def master_lookups() -> tuple[dict[str, dict], dict[str, dict]]:
     return asin_to_rec, sku_to_rec
 
 
+def model_to_rec_map() -> dict[str, dict]:
+    """{MODEL_UPPER → {brand, sku, asin, model}} for Model-based fallback.
+    Last-resort lookup when neither ASIN nor SKU on a raw row matches
+    master.  Multiple master entries can share a Model; we pick the
+    first — Brand is consistent across SKUs of the same Model, so only
+    Brand is safe to assert via this path (sku/asin are sample values).
+    """
+    a_rec, _ = master_lookups()
+    out: dict[str, dict] = {}
+    for rec in a_rec.values():
+        mu = (rec.get("model") or "").strip().upper()
+        if mu:
+            out.setdefault(mu, rec)
+    return out
+
+
 def asin_to_model_map() -> dict[str, str]:
     """Compatibility shim — {asin → model}."""
     a, _ = master_lookups()

@@ -155,14 +155,20 @@ jobs:
       # Pipeline integrity audit — fail-loud on silent unit losses.
       # Catches the class of bugs WoW audits miss: same-week drops
       # between raw → snapshot → route response, and never-zero column
-      # regressions.  Run AFTER step4 so all snapshots are settled but
-      # BEFORE the commit step so failures block stale data from being
-      # pushed.  Uses `continue-on-error: true` so the workflow still
-      # commits/pushes the data — the failure shows on the Actions tab
-      # as a yellow warning rather than a red block.
+      # regressions.  Non-zero exit blocks the workflow → the bot commit
+      # does NOT push and Render keeps serving last week's data until
+      # the regression is fixed.  Audit xlsx is still written for
+      # download from the failed workflow's artifacts panel.
       - name: Pipeline integrity audit
-        continue-on-error: true
         run: python -m scripts.pipeline_integrity_audit
+
+      - name: Upload audit xlsx on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-integrity-audit
+          path: data/processed/pipeline_integrity_audit.xlsx
+          if-no-files-found: warn
 
       - name: Commit + push refreshed data
         run: |

@@ -392,6 +392,10 @@ def check_off_master_asins() -> pd.DataFrame:
     rolled = out.groupby(
         ["asin", "raw_sku", "brand_folder", "channel"], as_index=False
     ).agg(weeks_seen=("week_num", "nunique"), total_qty=("qty", "sum"))
+    # Zero-qty placeholder rows are cosmetic — they appear in raw files
+    # as 0-stock entries.  Filtering them out keeps the audit focused on
+    # ASINs where real inventory is invisible to the dashboard.
+    rolled = rolled[rolled["total_qty"] > 0]
     rolled = rolled.sort_values(["total_qty"], ascending=False).reset_index(drop=True)
     return rolled
 

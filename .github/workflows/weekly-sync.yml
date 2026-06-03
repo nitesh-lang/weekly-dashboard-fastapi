@@ -152,6 +152,18 @@ jobs:
       - name: Step 4 — join business + ads
         run: python -m weekly_app.etl.step4_join_business_ads
 
+      # Pipeline integrity audit — fail-loud on silent unit losses.
+      # Catches the class of bugs WoW audits miss: same-week drops
+      # between raw → snapshot → route response, and never-zero column
+      # regressions.  Run AFTER step4 so all snapshots are settled but
+      # BEFORE the commit step so failures block stale data from being
+      # pushed.  Uses `continue-on-error: true` so the workflow still
+      # commits/pushes the data — the failure shows on the Actions tab
+      # as a yellow warning rather than a red block.
+      - name: Pipeline integrity audit
+        continue-on-error: true
+        run: python -m scripts.pipeline_integrity_audit
+
       - name: Commit + push refreshed data
         run: |
           set -e
@@ -174,6 +186,7 @@ jobs:
                   data/processed/weekly_sales_snapshot.csv \
                   data/processed/inventory_model_snapshot.csv \
                   data/processed/inventory_ams_snapshot.csv \
+                  data/processed/pipeline_integrity_audit.xlsx \
                   data/processed/returns_snapshot.csv \
                   data/processed/margin_snapshot.csv \
                   data/processed/inbound_snapshot.csv \

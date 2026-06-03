@@ -101,14 +101,24 @@ biz["sessions"] = pd.to_numeric(biz.get("sessions", 0), errors="coerce").fillna(
 biz["units"] = pd.to_numeric(biz.get("units_ordered", 0), errors="coerce").fillna(0)
 biz["buy_box_pct"] = pd.to_numeric(biz.get("buy_box_pct", 0), errors="coerce").fillna(0)
 
+# Preserve the source-folder brand so synthetic ASINs (e.g. __SB__) that
+# can't be matched to master keep their original tag instead of falling
+# to "UNKNOWN" on the UI.  Real ASINs get re-tagged via sku_master below.
+biz["brand_src"] = (
+    biz.get("brand", "")
+    .astype(str).str.strip()
+    .str.replace("_", " ", regex=False)
+)
+
 biz = (
-    biz[["asin", "week", "gmv", "sessions", "units", "buy_box_pct"]]
+    biz[["asin", "week", "gmv", "sessions", "units", "buy_box_pct", "brand_src"]]
     .groupby(["asin", "week"], as_index=False)
     .agg({
         "gmv": "sum",
         "sessions": "sum",
         "units": "sum",
-        "buy_box_pct": "mean"
+        "buy_box_pct": "mean",
+        "brand_src": "first",
     })
 )
 
@@ -182,8 +192,13 @@ final = final.merge(
     how="left"
 )
 
-# 🛡️ BRAND GUARANTEE
-final["brand"] = final["brand"].fillna("UNKNOWN")
+# 🛡️ BRAND GUARANTEE — prefer master, fall back to source-folder brand
+# from biz, then UNKNOWN.  This keeps __SB__ placeholder rows attached
+# to their actual brand on the UI instead of all collapsing to UNKNOWN.
+if "brand_src" in final.columns:
+    final["brand"] = final["brand"].fillna(final["brand_src"])
+    final = final.drop(columns=["brand_src"])
+final["brand"] = final["brand"].replace("", pd.NA).fillna("UNKNOWN")
 
 # TOTAL AMAZON SALES (WEEK LEVEL)
 total_amazon_sales = (

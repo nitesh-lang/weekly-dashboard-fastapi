@@ -76,9 +76,14 @@ for brand_dir in BRAND_FOLDERS:
             print(f"⚠ Missing business file: {business_file.name}")
             continue
 
-        if ads_file is None:
-            print(f"⚠ Missing ads file: ads_report_week{WEEK}.xlsx")
-            continue
+        # Tonor / Fossil / any brand without its own ads account land here:
+        # business_report exists but ads_report does not.  Don't skip — emit
+        # the biz rows with zeroed ads.  step4 picks up the real spend later
+        # via ads_weekly_aggregated.csv (which is brand-agnostic, keyed on
+        # asin+week — Tonor ASINs there come from the AudioArray account).
+        ads_missing = ads_file is None
+        if ads_missing:
+            print(f"⚠ Missing ads file: ads_report_week{WEEK}.xlsx — emitting biz-only rows")
 
         # ====================================================
         # READ BUSINESS REPORT
@@ -125,42 +130,52 @@ for brand_dir in BRAND_FOLDERS:
 
         # ====================================================
         # READ ADS (SP + SD)
+        # Skip when no local ads_file — biz rows still get emitted with
+        # zeroed ad metrics; step4 will join real spend from
+        # ads_weekly_aggregated.csv (cross-account, by asin+week).
         # ====================================================
-        sp_df = pd.read_excel(ads_file, sheet_name="SP")
-        sd_df = pd.read_excel(ads_file, sheet_name="SD")
+        if ads_missing:
+            ads_asin = pd.DataFrame(columns=[
+                "asin", "week", "brand", "ad_channel",
+                "Spend", "Clicks", "Impressions",
+                "attributed_sales", "ams_orders",
+            ])
+        else:
+            sp_df = pd.read_excel(ads_file, sheet_name="SP")
+            sd_df = pd.read_excel(ads_file, sheet_name="SD")
 
-        ads_df = pd.concat([sp_df, sd_df], ignore_index=True)
-        ads_df.columns = ads_df.columns.str.strip()
+            ads_df = pd.concat([sp_df, sd_df], ignore_index=True)
+            ads_df.columns = ads_df.columns.str.strip()
 
-        ads_asin = (
-            ads_df
-            .groupby("Advertised ASIN", as_index=False)
-            .agg({
-                "Spend": "sum",
-                "Clicks": "sum",
-                "Impressions": "sum",
-                "14 Day Total Sales (₹)": "sum",
-                "14 Day Total Units (#)": "sum"
+            ads_asin = (
+                ads_df
+                .groupby("Advertised ASIN", as_index=False)
+                .agg({
+                    "Spend": "sum",
+                    "Clicks": "sum",
+                    "Impressions": "sum",
+                    "14 Day Total Sales (₹)": "sum",
+                    "14 Day Total Units (#)": "sum"
+                })
+            )
+
+            ads_asin = ads_asin.rename(columns={
+                "Advertised ASIN": "asin",
+                "14 Day Total Sales (₹)": "attributed_sales",
+                "14 Day Total Units (#)": "ams_orders"
             })
-        )
 
-        ads_asin = ads_asin.rename(columns={
-            "Advertised ASIN": "asin",
-            "14 Day Total Sales (₹)": "attributed_sales",
-            "14 Day Total Units (#)": "ams_orders"
-        })
+            ads_asin["week"] = WEEK
+            ads_asin["brand"] = brand
+            ads_asin["ad_channel"] = "SP_SD"
 
-        ads_asin["week"] = WEEK
-        ads_asin["brand"] = brand
-        ads_asin["ad_channel"] = "SP_SD"
-
-        for col in [
-            "Spend", "Clicks", "Impressions",
-            "attributed_sales", "ams_orders"
-        ]:
-            ads_asin[col] = pd.to_numeric(
-                ads_asin[col], errors="coerce"
-            ).fillna(0)
+            for col in [
+                "Spend", "Clicks", "Impressions",
+                "attributed_sales", "ams_orders"
+            ]:
+                ads_asin[col] = pd.to_numeric(
+                    ads_asin[col], errors="coerce"
+                ).fillna(0)
 
         # ====================================================
         # JOIN BUSINESS + ADS
@@ -216,38 +231,41 @@ for brand_dir in BRAND_FOLDERS:
         ].apply(lambda x: 1 - x if x is not None else None)
 
         # ====================================================
-        # READ SB ADS
+        # READ SB ADS — skipped entirely when no local ads_file
         # ====================================================
-        sb_df = pd.read_excel(ads_file, sheet_name="SB")
-        sb_df.columns = sb_df.columns.str.strip()
+        if ads_missing:
+            sb_df = pd.DataFrame(columns=final_df.columns)
+        else:
+            sb_df = pd.read_excel(ads_file, sheet_name="SB")
+            sb_df.columns = sb_df.columns.str.strip()
 
-        sb_df = sb_df.rename(columns={
-            "Campaign Name": "campaign_name",
-            "Portfolio name": "portfolio_name",
-            "14 Day Total Sales (₹)": "attributed_sales",
-            "14 Day Total Units (#)": "ams_orders"
-        })
+            sb_df = sb_df.rename(columns={
+                "Campaign Name": "campaign_name",
+                "Portfolio name": "portfolio_name",
+                "14 Day Total Sales (₹)": "attributed_sales",
+                "14 Day Total Units (#)": "ams_orders"
+            })
 
-        sb_df["week"] = WEEK
-        sb_df["brand"] = brand
-        sb_df["asin"] = "__SB__"
-        sb_df["ad_channel"] = "SB"
+            sb_df["week"] = WEEK
+            sb_df["brand"] = brand
+            sb_df["asin"] = "__SB__"
+            sb_df["ad_channel"] = "SB"
 
-        for col in [
-            "Spend", "Clicks", "Impressions",
-            "attributed_sales", "ams_orders"
-        ]:
-            if col in sb_df.columns:
-                sb_df[col] = pd.to_numeric(
-                    sb_df[col], errors="coerce"
-                ).fillna(0)
+            for col in [
+                "Spend", "Clicks", "Impressions",
+                "attributed_sales", "ams_orders"
+            ]:
+                if col in sb_df.columns:
+                    sb_df[col] = pd.to_numeric(
+                        sb_df[col], errors="coerce"
+                    ).fillna(0)
 
-        # ALIGN SCHEMA
-        for col in final_df.columns:
-            if col not in sb_df.columns:
-                sb_df[col] = None
+            # ALIGN SCHEMA
+            for col in final_df.columns:
+                if col not in sb_df.columns:
+                    sb_df[col] = None
 
-        sb_df = sb_df[final_df.columns]
+            sb_df = sb_df[final_df.columns]
 
         # ====================================================
         # COMBINE WEEK DATA

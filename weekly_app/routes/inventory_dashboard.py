@@ -313,11 +313,21 @@ def inventory_dashboard(
             kpis={}, aging=[], channel_summary=[],
             available_weeks=[], available_brands=[]))
 
+    # ── LATEST-4-WEEK WINDOW ──
+    # Operator rule: inventory dashboard only needs the current week plus
+    # at most 3 prior weeks for context.  Older weeks bloat memory and
+    # the week picker without adding value (use AMS Trend for history).
+    INV_DASH_WEEKS = 4
+    all_week_nums = sorted(df["week_num"].dropna().unique())
+    keep_nums = all_week_nums[-INV_DASH_WEEKS:]
+    df = df[df["week_num"].isin(keep_nums)]
+
     available_weeks = sorted(df["week"].dropna().unique(), key=extract_week_num)
     available_brands = sorted(df["brand"].dropna().unique())
 
-    # WEEK FILTER
-    if week:
+    # WEEK FILTER — if operator passes an older week we no longer carry,
+    # gracefully fall back to the latest week in the trimmed window.
+    if week and week in available_weeks:
         df = df[df["week"]==week]
         active_week = week
     else:

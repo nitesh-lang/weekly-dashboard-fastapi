@@ -343,13 +343,19 @@ def inventory_dashboard(
     # AGGREGATION FIX
     # ========================================================
 
-# >>> ADD THIS BLOCK <<<
-    df[["category_l0","category_l1","category_l2"]] = \
-    df[["category_l0","category_l1","category_l2"]].fillna("")
+    # Fill NaN in ALL groupby keys before aggregation.  pandas .groupby
+    # defaults to dropna=True which silently drops every row that has
+    # NaN in any key — that was killing 3,634 W22 Open Order units (24
+    # PO-in-transit rows with blank ASINs) from the displayed total.
+    # Keep numeric aggregates intact by filling all key cols with "".
+    _key_cols = ["week","brand","model","sku","asin",
+                 "category_l0","category_l1","category_l2",
+                 "channel","type"]
+    for _c in _key_cols:
+        if _c in df.columns:
+            df[_c] = df[_c].fillna("").astype(str).replace({"nan":"","None":"","<NA>":""})
     df_agg = df.groupby(
-    ["week","brand","model","sku","asin",
-     "category_l0","category_l1","category_l2",
-     "channel","type"],
+    _key_cols,
     as_index=False
 ).agg({
     "inventory_units":"sum",
@@ -450,12 +456,16 @@ def inventory_rows_api(
         if brand and brand not in ("None", "All", ""):
             df = df[df["brand"].str.lower() == brand.strip().lower()]
 
-        for c in ["category_l0", "category_l1", "category_l2"]:
-            if c in df.columns:
-                df[c] = df[c].fillna("")
+        # Fill ALL groupby keys, not just categories — pandas dropna=True
+        # default would otherwise drop rows with NaN ASIN / channel / etc.
+        _agg_keys = [c for c in
+                     ["week","brand","model","sku","asin","category_l0","category_l1","category_l2","channel","type"]
+                     if c in df.columns]
+        for c in _agg_keys:
+            df[c] = df[c].fillna("").astype(str).replace({"nan":"","None":"","<NA>":""})
 
         df_agg = df.groupby(
-            [c for c in ["week","brand","model","sku","asin","category_l0","category_l1","category_l2","channel","type"] if c in df.columns],
+            _agg_keys,
             as_index=False
         ).agg({"inventory_units":"sum","inventory_value":"sum","nlc":"mean"})
 

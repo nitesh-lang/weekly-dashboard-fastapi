@@ -185,13 +185,22 @@ def load_inventory_snapshot() -> pd.DataFrame:
     df["asin"]     = df["asin"].astype(str).str.strip()
     df["week_num"] = df["week"].astype(str).str.extract(r"(\d+)").astype(float)
 
-    type_lower = df["type"].astype(str).str.strip().str.lower()
+    # Filter by channel directly — the snapshot CSV's `type` column is
+    # empty (type gets derived from channel at render time by
+    # _resolve_type elsewhere).  Using `type` here silently zeroed out
+    # AMPM and 1P inventory for ~every week.  Channel-based filters
+    # mirror the operator's CHANNEL_TO_TYPE mapping in inventory_dashboard.
     chan_lower = df["channel"].astype(str).str.strip().str.lower()
 
-    df["__ampm"]     = df["inventory_units"].where(type_lower == "warehouse",            0)
-    df["__1p"]       = df["inventory_units"].where(type_lower == "1p",                   0)
-    df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",               0)
-    df["__pipeline"] = df["inventory_units"].where(type_lower == "in-transit inventory", 0)
+    # AMPM = warehouse buffer stock (operator's local + B2B variant)
+    ampm_set     = {"ampm", "b2b-ampm", "b2b - ampm"}
+    # In-transit to operator's warehouse (vendor POs in flight)
+    pipeline_set = {"pipeline", "pipeline order", "open order"}
+
+    df["__ampm"]     = df["inventory_units"].where(chan_lower.isin(ampm_set),     0)
+    df["__1p"]       = df["inventory_units"].where(chan_lower == "1p",            0)
+    df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",        0)
+    df["__pipeline"] = df["inventory_units"].where(chan_lower.isin(pipeline_set), 0)
 
     asin_pivot = df.groupby(["asin", "Model", "week_num"], as_index=False).agg(
         inventory_ampm   =("__ampm", "sum"),

@@ -11198,6 +11198,50 @@
     ],
     "profile_id": "866679611348308"
   },
+  "White Mulberry-Lshape-SP-KT-Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFW59TRG",
+      "B0BFVMDJ2K"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "White Mulberry-Motorized-SP-PT-Exact": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C",
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "White Mulberry-Lshape-SP-PT-Exact": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFVMDJ2K",
+      "B0BFW59TRG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "White Mulberry-Motorized-SP-KT-BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C",
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
   "SP_AT_B0CPFS24ML_Gaming": {
     "brand": "White Mulberry",
     "asins": [
@@ -12105,6 +12149,26 @@
       "B0DB5YTQZV",
       "B0DP32F346",
       "B0DP2Z5DQ9"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White-B0FN81FD8M-monitor arm (high price)-SP-KT-Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0FN81FD8M"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry-B0FN81FD8M-monitor arm (high price)-SP-PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0FN81FD8M"
     ],
     "ad_types": [
       "productAd"
@@ -22342,7 +22406,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "AudioArray_Wireless Mic_SP_KT/PT": {
+  "AudioArray_Wireless Mic_SP_KT": {
     "brand": "Audio Array",
     "asins": [
       "B0G2C2RCXN",
@@ -27564,7 +27628,7 @@
     ],
     "profile_id": "1122755254933937"
   },
-  "Campaign - 20/5/2026 16:32:01.948": {
+  "Nexlive-Cordless Spin Mop-B0GKNGWLJ2-PT-SP": {
     "brand": "Nexlev",
     "asins": [
       "B0GKNGWLJ2"
@@ -28251,6 +28315,226 @@
     "brand": "Nexlev",
     "asins": [
       "B0D2LJSQXZ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DNJS23HS -Steam Cleaner-SP-AT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev -B0CYSLCRQS- Vacuum Cleaner -SP-CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0DVC7VJP1 - Stand Mixer - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DVC7VJP1"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0GN8WW6BC - Stand Mixer with Stainless Steel Bowl - PT(1)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8WW6BC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0DVC7VJP1 - Stand Mixer - PT -SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DVC7VJP1"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0FS6TB7CP - Portable Blender - PT(2)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-2 in 1 Stick Vacuum Cleaner-B0DCGHVN81-PT-SP(2)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCGHVN81"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GGHZWMVW-Vacuum-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev -B0GKNGWLJ2- Cordless Spin - CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GKNGWLJ2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0FS6TB7CP - Portable Blender - PT(1)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0GN8WW6BC - Stand Mixer with Stainless Steel Bowl  - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8WW6BC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0DVC7VJP1 - Stand Mixer - CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DVC7VJP1"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0GN8WW6BC - Stand Mixer with Stainless Steel Bowl - Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8WW6BC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0GN94YDY2 - Stand Mixer with Digital Timer - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN94YDY2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev -B0GKNGWLJ2- Cordless Spin - AT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GKNGWLJ2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GGHZWMVW-Vacuum-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-2 in 1 Stick Vacuum Cleaner-B0DCGHVN81-PT-SP(1)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCGHVN81"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DNJS23HS-Steam Mop cleaner-SP-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DCK7ZH5P-Sofa Cleaning Machine-SP-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK7ZH5P"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CYSLCRQS-Sofa Cleaning Machine-SP-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CYSLCRQS-Sofa Cleaning Machine-SP-CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CYSLCRQS-Sofa Cleaning Machine-SP-CT-Refine": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
     ],
     "ad_types": [
       "productAd"

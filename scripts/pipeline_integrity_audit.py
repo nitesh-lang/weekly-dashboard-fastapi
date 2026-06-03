@@ -44,9 +44,19 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 RAW_INV_DIR = ROOT / "data" / "raw" / "inventory"
 SNAP_INV    = ROOT / "data" / "processed" / "inventory_model_snapshot.csv"
+SNAP_SALES  = ROOT / "data" / "processed" / "weekly_sales_snapshot.csv"
+SNAP_AMS    = ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv"
+MASTER_FILE = ROOT / "data" / "master" / "sku_master.xlsx"
 OUT         = ROOT / "data" / "processed" / "pipeline_integrity_audit.xlsx"
 
 UNIT_TOLERANCE = 0  # zero-tolerance: every unit must reconcile
+
+# Brands the audit considers "active" — Fossil is excluded everywhere by
+# operator rule (no ads campaigns, off the AMS Trend / Amazon+1P pages).
+# Any Fossil-driven mismatch is silenced so fail-loud only fires on
+# regressions that affect the brands actually being reported on.
+ACTIVE_BRANDS  = {"audio array", "nexlev", "tonor", "white mulberry"}
+IGNORED_BRANDS = {"fossil"}
 
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -65,9 +75,18 @@ def _norm_brand(s: str) -> str:
 
 
 def _norm_chan(s) -> str:
+    """Canonical channel key.  Mirrors the ETL's CHANNEL_CANONICAL but
+    folded to lowercase + collapses 'B2B-AMPM' / 'B2B - AMPM' onto one
+    key so the audit doesn't double-flag the same channel."""
     if s is None:
         return ""
-    return str(s).strip().lower()
+    raw = str(s).strip().lower()
+    # Collapse whitespace around dashes and around spaces
+    raw = " ".join(raw.split())
+    aliases = {
+        "b2b-ampm": "b2b - ampm",
+    }
+    return aliases.get(raw, raw)
 
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -76,7 +95,7 @@ def _norm_chan(s) -> str:
 def _scan_raw_inventory() -> pd.DataFrame:
     """Walk all Week N/<Brand>/Inventory Snapshot.xlsx files and produce a
     long-form (week, brand, channel, qty) DataFrame.  Skips .bak and
-    _api intermediates."""
+    _api intermediates and IGNORED_BRANDS folders."""
     rows = []
     for week_dir in RAW_INV_DIR.glob("Week *"):
         wnum = _wnum(week_dir.name)
@@ -86,6 +105,8 @@ def _scan_raw_inventory() -> pd.DataFrame:
             if not brand_dir.is_dir():
                 continue
             brand = _norm_brand(brand_dir.name)
+            if brand in IGNORED_BRANDS:
+                continue
             for f in brand_dir.glob("*.xlsx"):
                 if any(s in f.name for s in (".bak", "_api")):
                     continue
@@ -138,6 +159,8 @@ def check_raw_vs_snapshot_inventory() -> pd.DataFrame:
     snap = pd.read_csv(SNAP_INV)
     snap["week_num"] = snap["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
     snap["chan_n"]   = snap["channel"].apply(_norm_chan)
+    snap["brand_n"]  = snap["brand"].astype(str).apply(_norm_brand)
+    snap = snap[~snap["brand_n"].isin(IGNORED_BRANDS)]
     snap_agg = snap.groupby(["week_num", "chan_n"], as_index=False)["inventory_units"].sum().rename(
         columns={"chan_n": "channel", "inventory_units": "snap_units"}
     )
@@ -356,6 +379,9 @@ def check_off_master_asins() -> pd.DataFrame:
         for brand_dir in week_dir.iterdir():
             if not brand_dir.is_dir():
                 continue
+            brand_norm = _norm_brand(brand_dir.name)
+            if brand_norm in IGNORED_BRANDS:
+                continue
             for f in brand_dir.glob("*.xlsx"):
                 if any(s in f.name for s in (".bak", "_api")):
                     continue
@@ -379,7 +405,7 @@ def check_off_master_asins() -> pd.DataFrame:
                 for _, r in df[mask].iterrows():
                     rows.append({
                         "week_num": wnum,
-                        "brand_folder": _norm_brand(brand_dir.name),
+                        "brand_folder": brand_norm,
                         "asin": r["asin"],
                         "raw_sku": r["sku"],
                         "channel": r["channel"],
@@ -401,6 +427,284 @@ def check_off_master_asins() -> pd.DataFrame:
 
 
 # ─────────────────────────────────────────────────────────────────────────
+# CHECK 6 — CHANNEL NAME CASE DRIFT
+# ─────────────────────────────────────────────────────────────────────────
+def check_channel_case_drift() -> pd.DataFrame:
+    """Flag channels whose name casing varies across weeks within the
+    inventory snapshot.  W20 storing the 1P channel as 'lowercase 1p'
+    while every other week uses '1P' caused 1P units to look like they
+    went to zero for one week.  Operator should normalise casing in
+    the raw file or the ETL should lowercase at ingest.
+    """
+    if not SNAP_INV.exists():
+        return pd.DataFrame()
+    inv = pd.read_csv(SNAP_INV)
+    inv["wn"]   = inv["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+    inv["chan_raw"]   = inv["channel"].astype(str)
+    inv["chan_norm"]  = inv["chan_raw"].str.strip().str.lower()
+    grp = inv.groupby("chan_norm")["chan_raw"].nunique()
+    drift_channels = grp[grp > 1].index.tolist()
+    out = []
+    for ch_norm in drift_channels:
+        sub = inv[inv["chan_norm"] == ch_norm]
+        for raw, g in sub.groupby("chan_raw"):
+            out.append({
+                "channel_normalised": ch_norm,
+                "channel_raw_value":  raw,
+                "weeks":              sorted(g["wn"].dropna().astype(int).unique().tolist()),
+                "rows":               len(g),
+            })
+    return pd.DataFrame(out)
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# CHECK 7 — WENT-TO-ZERO WITH HISTORY
+# ─────────────────────────────────────────────────────────────────────────
+def check_went_to_zero(latest_week: int) -> pd.DataFrame:
+    """Across sales / inventory / ams_trend, flag any (active brand,
+    channel/metric) pair that had positive activity in any of the prior
+    3 weeks but came up zero this week.  Distinct from never-zero check
+    in that the prior baseline is per-row (not global).
+    Catches: a brand silently dropping off a channel, an ETL filtering
+    bug, a missing raw file for one brand.
+    """
+    PRIOR = [latest_week - 3, latest_week - 2, latest_week - 1]
+    out: List[Dict[str, Any]] = []
+
+    # ── sales ──
+    if SNAP_SALES.exists():
+        s = pd.read_csv(SNAP_SALES)
+        s["wn"] = s["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        s["brand_n"] = s["brand"].astype(str).apply(_norm_brand)
+        s = s[s["brand_n"].isin(ACTIVE_BRANDS)]
+        s["chan_n"] = s["channel"].astype(str).apply(_norm_chan)
+        for (b, ch), g in s.groupby(["brand_n", "chan_n"]):
+            prior  = g[g["wn"].isin(PRIOR)]["units_sold"].sum()
+            latest = g[g["wn"] == latest_week]["units_sold"].sum()
+            if prior > 0 and latest == 0:
+                out.append({
+                    "layer": "sales",
+                    "brand": b,
+                    "key":   ch,
+                    "metric": "units_sold",
+                    "prior_3wk": float(prior),
+                    "latest":    float(latest),
+                })
+
+    # ── inventory ──
+    if SNAP_INV.exists():
+        inv = pd.read_csv(SNAP_INV)
+        inv["wn"] = inv["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        inv["brand_n"] = inv["brand"].astype(str).apply(_norm_brand)
+        inv = inv[inv["brand_n"].isin(ACTIVE_BRANDS)]
+        # Normalise channel casing to dodge the same case-drift bug
+        # that Check 6 surfaces — this check should not double-fire on it.
+        inv["chan_n"] = inv["channel"].astype(str).apply(_norm_chan)
+        for (b, ch), g in inv.groupby(["brand_n", "chan_n"]):
+            prior  = g[g["wn"].isin(PRIOR)]["inventory_units"].sum()
+            latest = g[g["wn"] == latest_week]["inventory_units"].sum()
+            if prior > 0 and latest == 0:
+                out.append({
+                    "layer": "inventory",
+                    "brand": b,
+                    "key":   ch,
+                    "metric": "inventory_units",
+                    "prior_3wk": float(prior),
+                    "latest":    float(latest),
+                })
+
+    # ── ams (business_ads_joined) ──
+    if SNAP_AMS.exists():
+        ams = pd.read_csv(SNAP_AMS)
+        ams["wn"] = pd.to_numeric(ams["week"], errors="coerce").astype("Int64")
+        ams["brand_n"] = ams["brand"].astype(str).apply(_norm_brand)
+        ams = ams[ams["brand_n"].isin(ACTIVE_BRANDS)]
+        for col, label in [("Spend", "ad_spend"),
+                           ("attributed_sales", "attributed_sales"),
+                           ("gmv", "amazon_gmv"),
+                           ("sessions", "sessions")]:
+            if col not in ams.columns:
+                continue
+            for b, g in ams.groupby("brand_n"):
+                prior  = pd.to_numeric(g[g["wn"].isin(PRIOR)][col], errors="coerce").fillna(0).sum()
+                latest = pd.to_numeric(g[g["wn"] == latest_week][col], errors="coerce").fillna(0).sum()
+                if prior > 0 and latest == 0:
+                    out.append({
+                        "layer": "ams_trend",
+                        "brand": b,
+                        "key":   "(brand-total)",
+                        "metric": label,
+                        "prior_3wk": float(prior),
+                        "latest":    float(latest),
+                    })
+
+    return pd.DataFrame(out).sort_values(["layer", "brand", "key"]).reset_index(drop=True) if out else pd.DataFrame()
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# CHECK 8 — MASTER COMPLETENESS
+# ─────────────────────────────────────────────────────────────────────────
+def check_master_completeness() -> pd.DataFrame:
+    """sku_master.xlsx hygiene check.  Flags:
+      - rows with empty Model (these are SKIPPED by master_lookups,
+        so any ASIN linked only to such a row gets dropped silently —
+        which is exactly what bit the 5 newly-added Nexlev rows)
+      - duplicate ASINs
+      - duplicate FBA SKUs
+      - rows with empty Brand
+    """
+    if not MASTER_FILE.exists():
+        return pd.DataFrame([{"issue": "MASTER FILE MISSING", "key": "—", "count": 0}])
+    m = pd.read_excel(MASTER_FILE)
+    m.columns = m.columns.str.strip()
+    out: List[Dict[str, Any]] = []
+
+    def _blank(s):
+        return s.isna() | (s.astype(str).str.strip().str.lower().isin(["", "nan", "none"]))
+
+    if "Model" in m.columns and "ASIN" in m.columns:
+        bad = m[_blank(m["Model"]) & ~_blank(m["ASIN"])]
+        for _, r in bad.iterrows():
+            out.append({
+                "issue":  "EMPTY MODEL — ASIN won't resolve (master_lookups skips this row)",
+                "asin":   str(r.get("ASIN", "")).strip(),
+                "sku":    str(r.get("FBA SKU", "")).strip(),
+                "brand":  str(r.get("Brand", "")).strip(),
+            })
+
+    if "Brand" in m.columns and "ASIN" in m.columns:
+        bad = m[_blank(m["Brand"]) & ~_blank(m["ASIN"])]
+        for _, r in bad.iterrows():
+            out.append({
+                "issue":  "EMPTY BRAND",
+                "asin":   str(r.get("ASIN", "")).strip(),
+                "sku":    str(r.get("FBA SKU", "")).strip(),
+                "brand":  "",
+            })
+
+    if "ASIN" in m.columns:
+        asin_s = m["ASIN"].astype(str).str.strip()
+        dup = asin_s[asin_s.duplicated(keep=False) & asin_s.ne("") & ~asin_s.str.lower().isin(["nan", "none"])]
+        for a, _ in dup.value_counts().items():
+            out.append({
+                "issue":  f"DUPLICATE ASIN ({dup.value_counts()[a]}× in master)",
+                "asin":   a,
+                "sku":    "",
+                "brand":  "",
+            })
+
+    if "FBA SKU" in m.columns:
+        sku_s = m["FBA SKU"].astype(str).str.strip()
+        dup = sku_s[sku_s.duplicated(keep=False) & sku_s.ne("") & ~sku_s.str.lower().isin(["nan", "none"])]
+        for s, _ in dup.value_counts().items():
+            out.append({
+                "issue":  f"DUPLICATE SKU ({dup.value_counts()[s]}× in master)",
+                "asin":   "",
+                "sku":    s,
+                "brand":  "",
+            })
+
+    return pd.DataFrame(out)
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# CHECK 9 — BRAND NAME CONSISTENCY ACROSS SNAPSHOTS
+# ─────────────────────────────────────────────────────────────────────────
+def check_brand_name_consistency() -> pd.DataFrame:
+    """A single brand should be spelled the same way across every
+    snapshot.  Catches: 'Audio Array' vs 'audio array' vs 'Audio_Array'
+    sneaking past joins that key on exact-match brand strings.
+    """
+    sources = {
+        "sales":     SNAP_SALES,
+        "inventory": SNAP_INV,
+        "ams":       SNAP_AMS,
+    }
+    seen: Dict[str, set] = {}
+    for label, path in sources.items():
+        if not path.exists():
+            continue
+        try:
+            df = pd.read_csv(path, usecols=lambda c: c.lower() == "brand")
+        except Exception:
+            df = pd.read_csv(path)
+        if "brand" not in {c.lower() for c in df.columns}:
+            continue
+        col = next(c for c in df.columns if c.lower() == "brand")
+        vals = df[col].dropna().astype(str).str.strip().unique()
+        seen[label] = set(vals)
+
+    # Group by lowercase to find casing/space drift
+    all_vals = set().union(*seen.values()) if seen else set()
+    groups: Dict[str, list] = {}
+    for v in all_vals:
+        key = _norm_brand(v)
+        groups.setdefault(key, []).append(v)
+
+    out: List[Dict[str, Any]] = []
+    for canonical, variants in groups.items():
+        if len(set(variants)) > 1 and canonical not in IGNORED_BRANDS:
+            for v in sorted(set(variants)):
+                appears_in = [src for src, s in seen.items() if v in s]
+                out.append({
+                    "canonical": canonical,
+                    "variant_seen": v,
+                    "appears_in": ", ".join(appears_in),
+                })
+    return pd.DataFrame(out)
+
+
+# ─────────────────────────────────────────────────────────────────────────
+# CHECK 10 — LATEST WEEK PRESENCE PER BRAND × LAYER
+# ─────────────────────────────────────────────────────────────────────────
+def check_latest_week_presence(latest_week: int) -> pd.DataFrame:
+    """Every active brand should have rows in every layer for the latest
+    week.  If a brand drops out of a layer entirely (e.g., operator
+    forgot to upload one brand's inventory file), flag it.
+    """
+    out: List[Dict[str, Any]] = []
+
+    def _brands_in_layer(path: Path, week_col: str, week_val: int) -> set:
+        if not path.exists():
+            return set()
+        df = pd.read_csv(path)
+        if df[week_col].dtype == object:
+            # expand=False → returns Series (default expand=True returns
+            # a DataFrame, which breaks the boolean mask below)
+            wn = df[week_col].astype(str).str.extract(r"(\d+)", expand=False)
+            wn = pd.to_numeric(wn, errors="coerce")
+        else:
+            wn = pd.to_numeric(df[week_col], errors="coerce")
+        sub = df[wn == week_val]
+        return {_norm_brand(b) for b in sub["brand"].dropna().astype(str).unique()}
+
+    layers = [
+        ("sales",     SNAP_SALES, "week"),
+        ("inventory", SNAP_INV,   "week"),
+        ("ams_trend", SNAP_AMS,   "week"),
+    ]
+    for layer, path, wcol in layers:
+        present = _brands_in_layer(path, wcol, latest_week)
+        missing = ACTIVE_BRANDS - present
+        # Note: Tonor has no ads-side rows when its biz file is the only
+        # source — that's expected per the operator rule and we don't
+        # flag here.  But sales + inventory MUST have all four brands.
+        if layer == "ams_trend":
+            # Tonor's ads land via the AudioArray account; the brand
+            # presence in ams_trend is contingent on master re-tagging
+            # working.  We DO want it flagged if missing.
+            pass
+        for b in sorted(missing):
+            out.append({
+                "layer": layer,
+                "brand": b,
+                "week":  latest_week,
+                "note":  f"MISSING — no rows for {b} in {layer} for W{latest_week}",
+            })
+    return pd.DataFrame(out)
+
+
+# ─────────────────────────────────────────────────────────────────────────
 # main
 # ─────────────────────────────────────────────────────────────────────────
 def main() -> int:
@@ -416,55 +720,55 @@ def main() -> int:
     print(f"PIPELINE INTEGRITY AUDIT — latest week = {latest_week}")
     print("=" * 72)
 
-    raw_vs_snap = check_raw_vs_snapshot_inventory()
-    snap_vs_rt  = check_snapshot_vs_route(latest_week)
-    never_zero  = check_never_zero(latest_week)
-    brand_retag = check_brand_retag_diagnostics()
-    off_master  = check_off_master_asins()
-
-    # Build summary counts
-    n_raw_snap   = len(raw_vs_snap)
-    n_snap_route = int((snap_vs_rt["delta"].abs() > UNIT_TOLERANCE).sum()) if not snap_vs_rt.empty else 0
-    n_zero       = len(never_zero)
+    # Check registry: (sheet_name, label, fn_call, is_fail_loud).
+    # is_fail_loud=False means the check produces informational output
+    # only — issues are reported but don't cause non-zero exit.
+    checks = [
+        ("1_raw_vs_snapshot",     "Raw vs Snapshot (per week×channel)",   check_raw_vs_snapshot_inventory(),       True),
+        ("2_snapshot_vs_route",   "Snapshot vs Route loaders",            check_snapshot_vs_route(latest_week),    True),
+        ("3_never_zero",          "Never-Zero column regression",         check_never_zero(latest_week),           True),
+        ("4_channel_case_drift",  "Channel name case drift across weeks", check_channel_case_drift(),              True),
+        ("5_went_to_zero",        "Brand×channel went to zero this week", check_went_to_zero(latest_week),         True),
+        ("6_master_completeness", "sku_master row hygiene",               check_master_completeness(),             True),
+        ("7_brand_name_consistency","Brand spelled inconsistently across snapshots", check_brand_name_consistency(), True),
+        ("8_latest_week_presence","Brand missing from a layer this week", check_latest_week_presence(latest_week), True),
+        ("9_brand_retags_info",   "(info) Brand re-tags by master",       check_brand_retag_diagnostics(),         False),
+        ("10_off_master_asins",   "(info) Off-master ASINs in raw inv",   check_off_master_asins(),                False),
+    ]
 
     print()
-    print(f"  Check 1 — Raw vs Snapshot (per week×channel)   : {n_raw_snap:>4} real unit losses")
-    print(f"  Check 2 — Snapshot vs Route                    : {n_snap_route:>4} layers losing units")
-    print(f"  Check 3 — Never-Zero columns                   : {n_zero:>4} regressions")
-    print(f"  (info)  — Brand re-tags by master              : {len(brand_retag):>4} brand-shifted (week×brand×channel) rows")
-    print(f"  (info)  — Off-master ASINs in raw inventory    : {len(off_master):>4} ASINs not in sku_master (root cause of most Check 1 hits)")
-    print()
+    fail_loud_issues = 0
+    info_count = 0
+    for sheet, label, df, is_fail_loud in checks:
+        # Special case Check 2 — it always returns a row per checked
+        # loader (success or fail); count only the failures.
+        if sheet == "2_snapshot_vs_route":
+            n = int((df["delta"].abs() > UNIT_TOLERANCE).sum()) if not df.empty and "delta" in df.columns else 0
+        else:
+            n = len(df)
+        marker = "⚠" if (is_fail_loud and n > 0) else ("ℹ" if n > 0 else "✓")
+        tag = "" if is_fail_loud else " (info)"
+        print(f"  {marker}  {sheet:<26} {label:<48}{tag}: {n:>4}")
+        if is_fail_loud:
+            fail_loud_issues += n
+        else:
+            info_count += n
 
+    print()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with pd.ExcelWriter(OUT, engine="openpyxl") as xl:
-        (raw_vs_snap if not raw_vs_snap.empty
-            else pd.DataFrame([{"note": "all reconciled — no real unit losses"}])
-        ).to_excel(xl, sheet_name="1_raw_vs_snapshot", index=False)
-
-        (snap_vs_rt if not snap_vs_rt.empty
-            else pd.DataFrame([{"note": "no route loaders checked"}])
-        ).to_excel(xl, sheet_name="2_snapshot_vs_route", index=False)
-
-        (never_zero if not never_zero.empty
-            else pd.DataFrame([{"note": "all never-zero columns populated"}])
-        ).to_excel(xl, sheet_name="3_never_zero", index=False)
-
-        (brand_retag if not brand_retag.empty
-            else pd.DataFrame([{"note": "no brand re-tags"}])
-        ).to_excel(xl, sheet_name="4_brand_retags_info", index=False)
-
-        (off_master if not off_master.empty
-            else pd.DataFrame([{"note": "every ASIN in raw inventory resolves to master"}])
-        ).to_excel(xl, sheet_name="5_off_master_asins", index=False)
+        for sheet, label, df, _ in checks:
+            (df if not df.empty
+                else pd.DataFrame([{"note": f"clean — {label}"}])
+            ).to_excel(xl, sheet_name=sheet, index=False)
 
     print(f"📁 Output: {OUT}")
     print()
 
-    total_issues = n_raw_snap + n_snap_route + n_zero
-    if total_issues == 0:
-        print("✅ Pipeline integrity: clean.")
+    if fail_loud_issues == 0:
+        print(f"✅ Pipeline integrity: clean.  ({info_count} informational row(s))")
         return 0
-    print(f"⚠ Pipeline integrity: {total_issues} issue(s) — see audit xlsx.")
+    print(f"⚠ Pipeline integrity: {fail_loud_issues} fail-loud issue(s) — see audit xlsx.")
     return 1
 
 

@@ -208,6 +208,22 @@ def run_inventory_etl():
                 df[c] = ""
             df[c] = df[c].astype(str).str.strip().replace({"nan":"","None":""})
 
+        # Normalise channel casing — operator's raw files sometimes type
+        # "1p" / "Ampm" / "B2B - Ampm" instead of the canonical casing.
+        # Without this, the same channel splits into multiple buckets
+        # downstream (silent-zero bug surfaced by the audit: W20 stored
+        # "1p" while every other week used "1P", so 1P inventory looked
+        # like it went to zero in W20).
+        CHANNEL_CANONICAL = {
+            "1p": "1P", "amazon": "Amazon", "blinkit": "Blinkit",
+            "ampm": "AMPM", "b2b - ampm": "B2B - AMPM",
+            "b2b-ampm": "B2B - AMPM", "pipeline": "Pipeline",
+            "open order": "Open Order", "ynt": "YNT",
+        }
+        df["channel"] = df["channel"].astype(str).str.strip().map(
+            lambda s: CHANNEL_CANONICAL.get(s.lower(), s)
+        )
+
         # ── Master alignment: ASIN → SKU → Model ──
         # Operator rule: ASIN is truth → SKU/Model/Brand come from master.
         # If ASIN doesn't match, fall back to raw SKU lookup against

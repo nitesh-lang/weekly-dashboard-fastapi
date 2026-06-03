@@ -182,33 +182,50 @@ def run_inventory_etl():
         else:
             df["week"] = folder_week
 
-        df = df.dropna(subset=["week", "model"])
+        # Only drop on week here — model is allowed to be NaN at this
+        # point because Amazon FBA rows arrive with empty model/category
+        # fields; the ASIN-first master alignment below fills Model from
+        # sku_master via the ASIN lookup.  Drop unresolved-model rows
+        # AFTER alignment instead (line further down).
+        df = df.dropna(subset=["week"])
 
         if df.empty:
             continue
 
-        # Preserve sku + asin per row so the snapshot can join cleanly
-        # with the per-ASIN sales snapshot.  Raw inventory files already
-        # carry both columns — we were dropping them in the old groupby.
-        if "sku" in df.columns:
-            df["sku"]  = df["sku"].astype(str).str.strip().replace({"nan":"","None":""})
-        else:
-            df["sku"] = ""
+        # ASIN is the only key we trust from the raw file.  SKU and
+        # Model values in the raw inventory exports are unreliable
+        # (Amazon FBA rows arrive with model/category empty; non-FBA
+        # rows can use fulfillment-center prefix SKUs that differ from
+        # master).  Wipe SKU + Model + Brand here and let the master
+        # lookup below repopulate them canonically from ASIN.
         if "asin" in df.columns:
             df["asin"] = df["asin"].astype(str).str.strip().replace({"nan":"","None":""})
         else:
             df["asin"] = ""
+
+        # Keep raw sku as a *fallback lookup key only* (not a trusted value).
+        raw_sku = (
+            df["sku"].astype(str).str.strip().replace({"nan":"","None":""})
+            if "sku" in df.columns else pd.Series([""] * len(df), index=df.index)
+        )
+
+        # Wipe trusted-value columns; master will repopulate.
+        df["sku"]   = ""
+        df["model"] = ""
+        df["brand"] = ""
+
         for c in ("channel", "type"):
             if c not in df.columns:
                 df[c] = ""
             df[c] = df[c].astype(str).str.strip().replace({"nan":"","None":""})
 
-        # ── Master alignment: ASIN → SKU → Model ──
-        # Operator rule: ASIN is truth → SKU/Model/Brand come from master.
-        # If ASIN doesn't match, fall back to SKU.  If SKU also misses,
-        # fall back to the raw row's Model to at least pin Brand from
-        # master.  Rows that fail all three surface in the audit report.
-        from weekly_app.core.master_override import master_lookups, model_to_rec_map
+        # ── Master alignment: ASIN → SKU (fallback key only) ──
+        # Operator rule: trust ONLY ASIN from the raw file.  SKU/Model/
+        # Brand all come from sku_master via ASIN lookup.  If ASIN is
+        # missing on the raw row, use raw SKU as a lookup key (NOT as a
+        # value) to find the canonical record in master.  Rows that
+        # can't be resolved get dropped after this block.
+        from weekly_app.core.master_override import master_lookups
         asin_rec, sku_rec = master_lookups()
         resolved = pd.Series(False, index=df.index)
 
@@ -220,30 +237,31 @@ def run_inventory_etl():
                 df.loc[m, "brand"] = df.loc[m, "asin"].map(lambda a: asin_rec[a]["brand"])
                 resolved |= m
 
+        # Fallback: row had no ASIN but raw SKU resolves in master.
+        # Master gives us canonical SKU/Model/Brand AND the ASIN.
         if sku_rec:
-            m = ~resolved & df["sku"].isin(sku_rec)
+            m = ~resolved & raw_sku.isin(sku_rec)
             if m.any():
-                df.loc[m, "model"] = df.loc[m, "sku"].map(lambda s: sku_rec[s]["model"])
-                df.loc[m, "brand"] = df.loc[m, "sku"].map(lambda s: sku_rec[s]["brand"])
-                # Backfill ASIN from master where the source had none
-                empty_asin = m & (df["asin"] == "")
-                if empty_asin.any():
-                    df.loc[empty_asin, "asin"] = df.loc[empty_asin, "sku"].map(
-                        lambda s: sku_rec[s]["asin"] or ""
-                    )
+                df.loc[m, "sku"]   = raw_sku[m].map(lambda s: sku_rec[s]["sku"] or s)
+                df.loc[m, "model"] = raw_sku[m].map(lambda s: sku_rec[s]["model"])
+                df.loc[m, "brand"] = raw_sku[m].map(lambda s: sku_rec[s]["brand"])
+                df.loc[m, "asin"]  = raw_sku[m].map(lambda s: sku_rec[s]["asin"] or "")
                 resolved |= m
-
-        # Last fallback: row's MODEL matches a master Model → pin Brand.
-        # SKU/ASIN stay raw (one Model maps to many SKUs/ASINs).
-        model_rec = model_to_rec_map()
-        if model_rec:
-            mu = df["model"].astype(str).str.strip().str.upper()
-            m = ~resolved & mu.isin(model_rec)
-            if m.any():
-                df.loc[m, "brand"] = mu[m].map(lambda k: model_rec[k]["brand"])
 
         # Re-normalize after override (master values are already trimmed)
         df["model"] = df["model"].astype(str).str.strip().str.upper()
+
+        # Now drop rows where Model still couldn't be resolved (ASIN not
+        # in master AND raw row had no model — these have no canonical
+        # identity downstream).  This catches the residual that the
+        # earlier dropna(subset=["week","model"]) used to swallow before
+        # master alignment ran.
+        df = df[
+            df["model"].astype(str).str.strip().ne("")
+            & ~df["model"].astype(str).str.upper().isin(["NAN", "NONE", "<NA>"])
+        ]
+        if df.empty:
+            continue
 
         # Carry category + nlc so consumers don't need to re-read raw xlsx.
         for c in ("category_l0", "category_l1", "category_l2"):

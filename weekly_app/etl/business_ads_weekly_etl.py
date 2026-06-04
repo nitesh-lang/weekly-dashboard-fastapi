@@ -69,7 +69,18 @@ for brand_dir in BRAND_FOLDERS:
         print(f"▶ Week {WEEK}")
 
         business_file = brand_dir / f"business_report_week{WEEK}.xlsx"
-        ads_file = next(brand_dir.glob(f"ads_report_week{WEEK}*.xlsx"), None)
+        # Deterministic ads-file pick — skip _api intermediates and .bak
+        # variants.  Path.glob() order is non-deterministic across OSes;
+        # on the Linux runner the _api.xlsx (lowercase 'asin' column) got
+        # picked instead of the canonical operator-exported file (which
+        # has 'Advertised ASIN'), crashing the groupby.
+        _candidates = [
+            p for p in brand_dir.glob(f"ads_report_week{WEEK}*.xlsx")
+            if "_api" not in p.name and ".bak" not in p.name
+        ]
+        # Prefer exact-name match first
+        exact = brand_dir / f"ads_report_week{WEEK}.xlsx"
+        ads_file = exact if exact in _candidates else (_candidates[0] if _candidates else None)
 
 
         if not business_file.exists():

@@ -11,6 +11,7 @@ import urllib.parse
 
 from weekly_app.core.json_utils import clean_nan
 from weekly_app.core.master_override import master_lookups
+from weekly_app.core.df_cache import load_csv_cached, load_excel_cached
 
 
 def _enrich_sku_with_master(df: pd.DataFrame) -> pd.DataFrame:
@@ -105,49 +106,50 @@ def is_amazon_am(ch: str) -> bool:
 # =====================================================
 # ---------------- LOADERS (SAFE) ---------------------
 # =====================================================
-def load_base_sales(weeks: list | None):
+def _load_sales_normalised():
     """
-    Loads base sales snapshot.
-    Handles missing file / missing columns safely.
+    Loads + normalises the full sales snapshot ONCE per file-mtime.
+    Cached via load_csv_cached.  Used by both load_base_sales() (which
+    filters down) and the route handler (which reads `week` to build the
+    picker), so the snapshot is parsed and string-normalised exactly
+    once per cron refresh instead of twice per request.
     """
     if not SALES_FILE.exists():
         return pd.DataFrame()
-
-    sales = pd.read_csv(SALES_FILE)
-
-    # ---------------- BASIC SANITIZATION ----------------
-    sales["week"] = sales["week"].astype(str).str.strip()
-    sales["sku"] = sales["sku"].astype(str)
+    sales = load_csv_cached(SALES_FILE)
+    sales["week"]    = sales["week"].astype(str).str.strip()
+    sales["sku"]     = sales["sku"].astype(str)
     sales["channel"] = sales["channel"].astype(str)
-
-    # ---------------- CATEGORY NORMALIZATION -------------
     for c in ["category_l0", "category_l1", "category_l2"]:
         if c in sales.columns:
             sales[c] = sales[c].apply(norm)
+    for c in ["units_sold", "gross_sales", "sales_nlc"]:
+        sales[c] = pd.to_numeric(sales[c], errors="coerce").fillna(0)
+    return sales
 
-    # ---------------- WEEK FILTER ------------------------
+
+def load_base_sales(weeks: list | None):
+    """Backwards-compatible wrapper — filters the cached frame by weeks."""
+    sales = _load_sales_normalised()
+    if sales.empty:
+        return sales
     if weeks:
         active = [w for w in weeks if w not in (None, "", "None")]
         if active:
             sales = sales[sales["week"].isin(active)]
-
-    # ---------------- NUMERIC SANITIZATION ---------------
-    for c in ["units_sold", "gross_sales", "sales_nlc"]:
-        sales[c] = pd.to_numeric(sales[c], errors="coerce").fillna(0)
-
     return sales
 
 
 def load_master():
     """
-    Loads SKU master safely.
-    SKU is NOT dropped.
-    MODEL is used as primary grouping key later.
+    Loads SKU master safely.  mtime-cached via load_excel_cached.
+    Excel parsing is ~10x slower than CSV — this is the single biggest
+    perf win for the drilldown route.
     """
     if not SKU_MASTER.exists():
         return pd.DataFrame(columns=["sku", "model_no"])
 
-    m = pd.read_excel(SKU_MASTER)
+    m = load_excel_cached(SKU_MASTER)
     m.columns = m.columns.str.strip()
 
     # Original renames
@@ -205,11 +207,11 @@ def drilldown(
     else:
         active_weeks = []
 
-    sales = load_base_sales(active_weeks)
+    # Load + normalise sales snapshot ONCE; derive picker options from
+    # the full frame, then filter to active_weeks for the actual data.
+    full_sales = _load_sales_normalised()
     master = load_master()
 
-    # Full week list for filter dropdown (independent of current selection)
-    _all_sales = load_base_sales(None)
     def _wk_num(w):
         try:
             import re as _re
@@ -217,16 +219,22 @@ def drilldown(
             return int(m.group()) if m else -1
         except Exception:
             return -1
-    # Cap to the latest 4 weeks — same convention as the inventory
-    # dashboard.  Drilldown is for current-state investigation; older
-    # weeks bloat the picker without adding value.
+
+    # Cap picker to the latest 4 weeks (matches inventory dashboard).
+    # URL ?weeks=Week+N still works for ad-hoc older pulls.
     DRILLDOWN_WEEKS = 4
     available_weeks = sorted(
-        _all_sales["week"].dropna().astype(str).str.strip().unique().tolist(),
+        full_sales["week"].dropna().astype(str).str.strip().unique().tolist(),
         key=_wk_num,
-    ) if not _all_sales.empty else []
+    ) if not full_sales.empty else []
     if len(available_weeks) > DRILLDOWN_WEEKS:
         available_weeks = available_weeks[-DRILLDOWN_WEEKS:]
+
+    # Now filter the actual aggregation frame to active_weeks
+    if active_weeks:
+        sales = full_sales[full_sales["week"].isin(active_weeks)]
+    else:
+        sales = full_sales
     # 🔥 SINGLE SOURCE OF TRUTH
     base = sales.merge(master, on="sku", how="left")
     base["Brand"] = base["Brand"].astype(str).str.strip()
@@ -260,6 +268,13 @@ def drilldown(
             return JSONResponse(clean_nan({
                 "week": week, "channel": channel, "brand": brand,
                 "type": type, "level": level, "value": value,
+                # Filter sources the SPA needs.  These were only being
+                # passed to the legacy Jinja template — the JSON API
+                # was returning empty pickers because of this omission.
+                "available_brands": available_brands,
+                "available_weeks":  available_weeks,
+                "active_weeks":     active_weeks,
+                "active_brands":    active_brands,
                 **ctx,
             }))
         return HTMLResponse(_env.get_template("drilldown_sales.html").render(

@@ -217,10 +217,16 @@ def drilldown(
             return int(m.group()) if m else -1
         except Exception:
             return -1
+    # Cap to the latest 4 weeks — same convention as the inventory
+    # dashboard.  Drilldown is for current-state investigation; older
+    # weeks bloat the picker without adding value.
+    DRILLDOWN_WEEKS = 4
     available_weeks = sorted(
         _all_sales["week"].dropna().astype(str).str.strip().unique().tolist(),
         key=_wk_num,
     ) if not _all_sales.empty else []
+    if len(available_weeks) > DRILLDOWN_WEEKS:
+        available_weeks = available_weeks[-DRILLDOWN_WEEKS:]
     # 🔥 SINGLE SOURCE OF TRUTH
     base = sales.merge(master, on="sku", how="left")
     base["Brand"] = base["Brand"].astype(str).str.strip()

@@ -705,6 +705,90 @@ def check_latest_week_presence(latest_week: int) -> pd.DataFrame:
 
 
 # ─────────────────────────────────────────────────────────────────────────
+# CHECK 11 — SALES RAW vs SNAPSHOT
+# ─────────────────────────────────────────────────────────────────────────
+def check_raw_vs_snapshot_sales(latest_week: int) -> pd.DataFrame:
+    """Reconcile raw sales xlsx files (amazon_sales.xlsx +
+    other_channels.xlsx sheets) against weekly_sales_snapshot.csv per
+    (week, brand) for the latest 4 weeks.  Catches: sales ETL silently
+    dropping rows where SKU isn't canonical in master (groupby on
+    NaN-model keys).  Mirrors the inventory raw-vs-snapshot check.
+    """
+    RAW = ROOT / "data" / "raw" / "sales"
+    if not (RAW.exists() and SNAP_SALES.exists()):
+        return pd.DataFrame()
+
+    folder_to_brand = {
+        "Audio_Array":    "Audio Array",
+        "Nexlev":         "Nexlev",
+        "Tonor":          "Tonor",
+        "White_Mulberry": "White Mulberry",
+    }
+    weeks_of_interest = {latest_week - 3, latest_week - 2, latest_week - 1, latest_week}
+
+    raw_rows = []
+    for week_dir in RAW.glob("Week *"):
+        wnum = _wnum(week_dir.name)
+        if wnum not in weeks_of_interest:
+            continue
+        for brand_dir in week_dir.iterdir():
+            if not brand_dir.is_dir() or brand_dir.name not in folder_to_brand:
+                continue
+            brand = folder_to_brand[brand_dir.name]
+            amz = brand_dir / "amazon_sales.xlsx"
+            if amz.exists():
+                try:
+                    df = pd.read_excel(amz)
+                    cols = {c.lower().strip(): c for c in df.columns}
+                    u = cols.get("units ordered") or cols.get("units_ordered")
+                    if u:
+                        raw_rows.append({
+                            "week": wnum, "brand": brand,
+                            "raw_units": float(pd.to_numeric(df[u], errors="coerce").fillna(0).sum()),
+                        })
+                except Exception:
+                    pass
+            oc = brand_dir / "other_channels.xlsx"
+            if oc.exists():
+                try:
+                    xl = pd.ExcelFile(oc)
+                    for sh in xl.sheet_names:
+                        d = pd.read_excel(oc, sheet_name=sh)
+                        cols = {c.lower().strip(): c for c in d.columns}
+                        u = cols.get("units sold") or cols.get("units_sold") or cols.get("qty") or cols.get("units")
+                        if u:
+                            raw_rows.append({
+                                "week": wnum, "brand": brand,
+                                "raw_units": float(pd.to_numeric(d[u], errors="coerce").fillna(0).sum()),
+                            })
+                except Exception:
+                    pass
+
+    if not raw_rows:
+        return pd.DataFrame()
+    raw_agg = pd.DataFrame(raw_rows).groupby(["week", "brand"], as_index=False).agg(raw_units=("raw_units", "sum"))
+
+    snap = pd.read_csv(SNAP_SALES)
+    snap["wn"] = snap["week"].astype(str).str.extract(r"(\d+)", expand=False)
+    snap["wn"] = pd.to_numeric(snap["wn"], errors="coerce").astype("Int64")
+    snap = snap[snap["wn"].isin(weeks_of_interest)]
+    snap = snap[snap["brand"].isin(folder_to_brand.values())]
+    snap_agg = snap.groupby(["wn", "brand"], as_index=False).agg(snap_units=("units_sold", "sum")).rename(columns={"wn": "week"})
+    snap_agg["week"] = snap_agg["week"].astype(int)
+    raw_agg["week"] = raw_agg["week"].astype(int)
+
+    m = raw_agg.merge(snap_agg, on=["week", "brand"], how="outer").fillna(0)
+    m["delta"] = (m["snap_units"] - m["raw_units"]).round(0).astype(int)
+    bad = m[m["delta"].abs() > UNIT_TOLERANCE].copy()
+    for c in ("raw_units", "snap_units"):
+        bad[c] = bad[c].round(0).astype(int)
+    bad["note"] = bad["delta"].apply(
+        lambda d: "ROWS LOST (ETL drop)" if d < 0 else "EXTRA IN SNAP (stale)"
+    )
+    return bad.sort_values(["week", "brand"]).reset_index(drop=True)
+
+
+# ─────────────────────────────────────────────────────────────────────────
 # main
 # ─────────────────────────────────────────────────────────────────────────
 def main() -> int:
@@ -734,6 +818,7 @@ def main() -> int:
         ("8_latest_week_presence","Brand missing from a layer this week", check_latest_week_presence(latest_week), True),
         ("9_brand_retags_info",   "(info) Brand re-tags by master",       check_brand_retag_diagnostics(),         False),
         ("10_off_master_asins",   "(info) Off-master ASINs in raw inv",   check_off_master_asins(),                False),
+        ("11_raw_vs_snap_sales",  "Sales raw vs snapshot (per brand×wk)", check_raw_vs_snapshot_sales(latest_week),True),
     ]
 
     print()

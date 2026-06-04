@@ -613,8 +613,42 @@ def run_sales_auto_etl(single_week: str = None):
         combined["asin"] = ""
     combined["asin"] = combined["asin"].fillna("").astype(str)
 
-    combined_num = combined.groupby(group_keys, as_index=False)[numeric_cols].sum()
-    combined_str = combined.groupby(group_keys, as_index=False)[str_cols].first()
+    # ── ASIN-first master backfill before the final groupby ──
+    # Other-channel sheets sometimes carry a SKU that's non-canonical
+    # (master has the same ASIN under a different FBA/FBP/FBM prefix).
+    # The earlier merge-on-SKU then leaves model = NaN for those rows.
+    # groupby(dropna=True) would silently drop them — the W22 Nexlev
+    # 9-unit Pharmaeasy/Blinkit gap was exactly this.  ASIN-first
+    # lookup fills model/brand/sku from master so the rows survive.
+    try:
+        from weekly_app.core.master_override import master_lookups
+        asin_rec, sku_rec = master_lookups()
+        if asin_rec:
+            m = combined["asin"].astype(str).isin(asin_rec)
+            need_model = m & combined["model"].astype(str).str.strip().isin(["", "nan", "None", "<NA>"])
+            if need_model.any():
+                combined.loc[need_model, "model"] = combined.loc[need_model, "asin"].map(
+                    lambda a: asin_rec[a]["model"]
+                )
+                combined.loc[need_model, "brand"] = combined.loc[need_model, "asin"].map(
+                    lambda a: asin_rec[a]["brand"]
+                )
+                # Keep the raw SKU as-is — operator wants raw SKU preserved
+                # as a fallback (per inventory rule).  Only fill if blank.
+                blank_sku = need_model & combined["sku"].astype(str).str.strip().isin(["", "nan", "None"])
+                if blank_sku.any():
+                    combined.loc[blank_sku, "sku"] = combined.loc[blank_sku, "asin"].map(
+                        lambda a: asin_rec[a]["sku"]
+                    )
+    except Exception as _e:
+        print(f"[ETL] ⚠ ASIN backfill failed: {_e!r}")
+
+    # Fill remaining NaN in groupby keys so dropna=True doesn't kill them.
+    for _k in ("brand", "model"):
+        combined[_k] = combined[_k].fillna("").astype(str).replace({"nan": "", "None": "", "<NA>": ""})
+
+    combined_num = combined.groupby(group_keys, as_index=False, dropna=False)[numeric_cols].sum()
+    combined_str = combined.groupby(group_keys, as_index=False, dropna=False)[str_cols].first()
     combined = combined_num.merge(combined_str, on=group_keys, how="left")
 
     combined = combined.drop_duplicates(

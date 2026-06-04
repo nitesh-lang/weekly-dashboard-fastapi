@@ -131,7 +131,8 @@ def _build_inbound_lookup() -> dict[str, dict]:
     if not INBOUND.exists():
         return {}
     try:
-        df = pd.read_csv(INBOUND)
+        from weekly_app.core.df_cache import load_csv_cached
+        df = load_csv_cached(INBOUND)
     except Exception:
         return {}
     df["asin"] = df["asin"].astype(str).str.strip()
@@ -154,7 +155,8 @@ def _build_reviews_lookup() -> dict[str, dict]:
     if not REVIEWS.exists():
         return {}
     try:
-        df = pd.read_csv(REVIEWS)
+        from weekly_app.core.df_cache import load_csv_cached
+        df = load_csv_cached(REVIEWS)
     except Exception:
         return {}
     df["asin"] = df["asin"].astype(str).str.strip()
@@ -176,7 +178,8 @@ def _build_payload() -> dict:
     if not SKU_MASTER.exists():
         return {"rows": [], "brands": [], "row_count": 0, "available": False}
 
-    master = pd.read_excel(SKU_MASTER)
+    from weekly_app.core.df_cache import load_excel_cached
+    master = load_excel_cached(SKU_MASTER)
     master.columns = master.columns.str.strip()
     # Defensive trim on join-key columns so operator whitespace doesn't
     # silently drop rows from filters / merges downstream.

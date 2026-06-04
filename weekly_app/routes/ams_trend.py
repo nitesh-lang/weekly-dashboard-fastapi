@@ -110,7 +110,8 @@ def load_ams_data() -> pd.DataFrame:
     if not AMS_FILE.exists():
         return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
 
-    df = pd.read_csv(AMS_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(AMS_FILE)
     df.columns = df.columns.str.strip()
 
     rename = {
@@ -171,11 +172,12 @@ def load_inventory_snapshot() -> pd.DataFrame:
     re-apply the alignment here.
     """
     from pathlib import Path
+    from weekly_app.core.df_cache import load_csv_cached
     snap = Path("data/processed/inventory_model_snapshot.csv")
     if not snap.exists():
         return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
     try:
-        df = pd.read_csv(snap)
+        df = load_csv_cached(snap)
     except Exception:
         return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
     if df.empty:

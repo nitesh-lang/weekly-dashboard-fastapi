@@ -68,7 +68,8 @@ def category_sales(
     if not SALES_FILE.exists():
         return HTMLResponse("Sales file not found", status_code=500)
 
-    df = pd.read_csv(SALES_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(SALES_FILE)
 
     # ---------------- NORMALIZE TEXT ----------------
     for c in ["brand"]:
@@ -164,8 +165,9 @@ def category_sales(
 
 
     # ---------------- RENDER ----------------
+    # Reuse cached frame instead of re-reading the CSV.
     all_brands = sorted(
-        pd.read_csv(SALES_FILE)["brand"].dropna().apply(norm).unique().tolist()
+        load_csv_cached(SALES_FILE)["brand"].dropna().apply(norm).unique().tolist()
     )
 
     if request.url.path.startswith("/api/"):

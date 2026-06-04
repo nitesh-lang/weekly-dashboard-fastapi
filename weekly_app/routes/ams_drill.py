@@ -36,7 +36,8 @@ def ams_drilldown(
     if not AMS_FILE.exists():
         return HTMLResponse("AMS data not available", status_code=404)
 
-    ams = pd.read_csv(AMS_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    ams = load_csv_cached(AMS_FILE)
 
     # -------- Filters --------
     if week:

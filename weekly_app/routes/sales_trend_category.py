@@ -40,7 +40,8 @@ def category_trend(request: Request):
     if not SALES_FILE.exists():
         return HTMLResponse("Sales snapshot not found", status_code=500)
 
-    sales = pd.read_csv(SALES_FILE)
+    from weekly_app.core.df_cache import load_csv_cached, load_excel_cached
+    sales = load_csv_cached(SALES_FILE)
 
     sales["model"] = sales["model"].astype(str).str.strip()
     sales["week_num"] = sales["week"].apply(extract_week)
@@ -49,7 +50,7 @@ def category_trend(request: Request):
     sales = sales[sales["week_num"].notna()]
 
     # ---------- LOAD SKU MASTER ----------
-    master = pd.read_excel(SKU_MASTER)
+    master = load_excel_cached(SKU_MASTER)
     master.columns = (
         master.columns.str.strip()
         .str.lower()

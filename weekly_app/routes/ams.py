@@ -34,7 +34,8 @@ def export_ams_summary(
     if not AMS_FILE.exists():
         return csv_response(pd.DataFrame(), "ams_summary.csv")
 
-    df = pd.read_csv(AMS_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(AMS_FILE)
 
     if week:
         df = df[df["week_start"] == week]
@@ -70,7 +71,8 @@ def export_ams_sku(
     if not AMS_FILE.exists():
         return csv_response(pd.DataFrame(), "ams_sku.csv")
 
-    df = pd.read_csv(AMS_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(AMS_FILE)
 
     if week:
         df = df[df["week_start"] == week]

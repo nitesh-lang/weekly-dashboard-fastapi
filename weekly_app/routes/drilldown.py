@@ -233,14 +233,13 @@ def drilldown(
     if active_brands and "Brand" in base.columns:
         lowered = [b.lower() for b in active_brands]
         base = base[base["Brand"].astype(str).str.strip().str.lower().isin(lowered)]
+    # Operator rule: Fossil is excluded from ads/AMS/Amazon+1P/Inventory.
+    # The drilldown brand picker is the only page that was still surfacing
+    # it — keep consistent so the filter set matches every other report.
     available_brands = sorted(
-    master["Brand"]
-    .dropna()
-    .astype(str)
-    .str.strip()
-    .unique()
-    .tolist()
-)
+        b for b in master["Brand"].dropna().astype(str).str.strip().unique().tolist()
+        if b.lower() != "fossil"
+    )
 
     def _safe(v):
         return str(v) if isinstance(v, (dict, list)) else v

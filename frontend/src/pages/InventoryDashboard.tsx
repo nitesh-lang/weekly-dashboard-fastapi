@@ -136,6 +136,7 @@ export default function InventoryDashboard() {
     // Extra state for column-header filters
     const selModels  = useMemo(() => params.getAll("models").filter(Boolean), [qsKey]);
     const selSkus    = useMemo(() => params.getAll("skus").filter(Boolean),   [qsKey]);
+    const selAsins   = useMemo(() => params.getAll("asins").filter(Boolean),  [qsKey]);
     const selBrandsM = useMemo(() => params.getAll("brands").filter(Boolean), [qsKey]);
     const selWeeksM  = useMemo(() => params.getAll("weeks").filter(Boolean),  [qsKey]);
     const rUnits     = useMemo(() => getRange("units"), [qsKey]);
@@ -159,6 +160,7 @@ export default function InventoryDashboard() {
     const allType    = useMemo(() => uniqSorted(data?.rows, "type"),        [data]);
     const allModelsM = useMemo(() => uniqSorted(data?.rows, "model"),       [data]);
     const allSkusM   = useMemo(() => uniqSorted(data?.rows, "sku"),         [data]);
+    const allAsinsM  = useMemo(() => uniqSorted(data?.rows, "asin"),        [data]);
     const allBrandsM = useMemo(() => uniqSorted(data?.rows, "brand"),       [data]);
     const allWeeksM  = useMemo(() => uniqSorted(data?.rows, "week"),        [data]);
 
@@ -191,6 +193,7 @@ export default function InventoryDashboard() {
         const tps  = new Set(selType);
         const ms   = new Set(selModels);
         const ss   = new Set(selSkus);
+        const as   = new Set(selAsins);
         const bs   = new Set(selBrandsM);
         const ws   = new Set(selWeeksM);
         function inRange(v: any, rng: { min: number | null; max: number | null }): boolean {
@@ -213,6 +216,7 @@ export default function InventoryDashboard() {
             if (tps.size && !tps.has(r.type || ""))        return false;
             if (ms.size  && !ms.has(r.model || ""))        return false;
             if (ss.size  && !ss.has(r.sku || ""))          return false;
+            if (as.size  && !as.has(r.asin || ""))         return false;
             if (bs.size  && !bs.has(r.brand || ""))        return false;
             if (ws.size  && !ws.has(r.week || ""))         return false;
             if (!inRange(r.inventory_units, rUnits)) return false;
@@ -221,7 +225,7 @@ export default function InventoryDashboard() {
             return matchText(r);
         });
     }, [data, filter, selCatL0, selCatL1, selCatL2, selChannel, selType, selectedBrand,
-        selModels, selSkus, selBrandsM, selWeeksM, rUnits, rNlc, rValue]);
+        selModels, selSkus, selAsins, selBrandsM, selWeeksM, rUnits, rNlc, rValue]);
 
     const { sorted, sort, onSort } = useSortedRows(filtered, { key: "inventory_value", dir: "desc" });
 
@@ -421,11 +425,13 @@ export default function InventoryDashboard() {
                                             filterValues={allModelsM} filterSelected={selModels}  onFilterChange={(v) => setMulti("models", v)} />
                                         <SortableTh sortKey="sku"         label="SKU"   sort={sort} onSort={onSort} align="left" stickyLeft={330} minWidth={110}
                                             filterValues={allSkusM}   filterSelected={selSkus}    onFilterChange={(v) => setMulti("skus", v)} />
-                                        {/* Channel sits next to SKU so the operator can see at a glance
+                                        <SortableTh sortKey="asin"        label="ASIN"  sort={sort} onSort={onSort} align="left" stickyLeft={440} minWidth={120}
+                                            filterValues={allAsinsM}  filterSelected={selAsins}   onFilterChange={(v) => setMulti("asins", v)} />
+                                        {/* Channel sits next to ASIN so the operator can see at a glance
                                             where a model is parked (AMPM / YNT / Amazon …) without
                                             scrolling.  Reuses the existing top-bar Channel picker via
                                             the shared selChannel state. */}
-                                        <SortableTh sortKey="channel"     label="Channel" sort={sort} onSort={onSort} align="left" stickyLeft={440} minWidth={100} lastFrozen
+                                        <SortableTh sortKey="channel"     label="Channel" sort={sort} onSort={onSort} align="left" stickyLeft={560} minWidth={100} lastFrozen
                                             filterValues={allChannel} filterSelected={selChannel} onFilterChange={(v) => setMulti("channel", v)} />
                                         <SortableTh sortKey="inventory_units" label="Units"     sort={sort} onSort={onSort} className="col-units col-divide-l" minWidth={110}
                                             numericRange={rUnits} onNumericFilter={(r) => setRange("units", r)} numericPresets={[1, 50, 500]} />
@@ -442,7 +448,8 @@ export default function InventoryDashboard() {
                                             <td style={{ position: "sticky", left: 80 }}  className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[110px]">{r.brand}</td>
                                             <td style={{ position: "sticky", left: 190 }} className="px-3 py-2 font-medium border-b bg-background group-hover:bg-accent/40 z-10 min-w-[140px]">{r.model}</td>
                                             <td style={{ position: "sticky", left: 330 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[110px]">{r.sku || "—"}</td>
-                                            <td style={{ position: "sticky", left: 440 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[100px] border-r-2 border-r-border text-[12.5px] uppercase tracking-wide text-foreground/80">{r.channel || "—"}</td>
+                                            <td style={{ position: "sticky", left: 440 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[120px] font-mono text-[12.5px]">{r.asin || "—"}</td>
+                                            <td style={{ position: "sticky", left: 560 }} className="px-3 py-2 border-b bg-background group-hover:bg-accent/40 z-10 min-w-[100px] border-r-2 border-r-border text-[12.5px] uppercase tracking-wide text-foreground/80">{r.channel || "—"}</td>
                                             <td className="px-3 py-2 text-right tabular border-b col-units col-divide-l">{fmtInt(r.inventory_units)}</td>
                                             <td className="px-3 py-2 text-right tabular border-b col-pct">{fmtINR(r.nlc)}</td>
                                             <td className="px-3 py-2 text-right tabular border-b col-sales">{fmtINR(r.inventory_value)}</td>

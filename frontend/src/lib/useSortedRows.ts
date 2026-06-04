@@ -4,10 +4,14 @@ export type SortDir = "asc" | "desc";
 export type SortState = { key: string; dir: SortDir } | null;
 
 /**
- * Tri-state column sorter for plain row arrays.
- * Click cycle: desc → asc → cleared. Nulls and empty strings always sink
- * to the bottom regardless of direction so blank rows don't pollute the
- * top of either sort order.
+ * Two-state column sorter for plain row arrays.
+ * Click cycle: desc ↔ asc.  The previous tri-state cycle included a
+ * "cleared" third click — operators kept hitting it by accident,
+ * sending rows back to the raw API order (which looked like sort
+ * was broken).  Two-state toggling matches Excel / shadcn expectations.
+ *
+ * Nulls and empty strings always sink to the bottom regardless of
+ * direction so blank rows don't pollute the top of either sort order.
  */
 export function useSortedRows<T extends Record<string, any>>(
     rows: T[],
@@ -48,8 +52,8 @@ export function useSortedRows<T extends Record<string, any>>(
     function onSort(key: string) {
         setSort((cur) => {
             if (!cur || cur.key !== key) return { key, dir: "desc" };
-            if (cur.dir === "desc") return { key, dir: "asc" };
-            return null;
+            // Two-state toggle — never clears on the third click.
+            return { key, dir: cur.dir === "desc" ? "asc" : "desc" };
         });
     }
 

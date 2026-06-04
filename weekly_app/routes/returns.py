@@ -22,7 +22,8 @@ _cache: dict = {"mtime": None, "body": None}
 def _build_payload_json() -> str:
     if not RETURNS_CSV.exists():
         return json.dumps({"rows": [], "brands": [], "row_count": 0, "available": False})
-    df = pd.read_csv(RETURNS_CSV)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(RETURNS_CSV)
     brands = sorted([b for b in df["brand"].dropna().unique().tolist() if str(b).strip()])
     rows_json = df.to_json(orient="records", date_format="iso")
     return (

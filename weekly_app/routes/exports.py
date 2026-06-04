@@ -4,6 +4,8 @@ import pandas as pd
 from pathlib import Path
 from io import BytesIO
 
+from weekly_app.core.df_cache import load_csv_cached, load_excel_cached
+
 router = APIRouter(prefix="/export", tags=["Exports"])
 
 SALES_FILE = Path("data/processed/weekly_sales_snapshot.csv")
@@ -94,7 +96,7 @@ def _load_rich_inventory(with_sku_status: bool = False) -> pd.DataFrame:
 
     if df is None or df.empty:
         if INV_FILE.exists():
-            df = normalize(pd.read_csv(INV_FILE))
+            df = normalize(load_csv_cached(INV_FILE))
 
     if df is None or df.empty:
         return pd.DataFrame()
@@ -135,7 +137,7 @@ def export_channel_summary(
     week: str = Query(None),
     brand: str = Query(None),
 ):
-    sales = normalize(pd.read_csv(SALES_FILE))
+    sales = normalize(load_csv_cached(SALES_FILE))
     inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, "mapped")
@@ -182,7 +184,7 @@ def export_category_summary(
     week: str = Query(None),
     brand: str = Query(None),
 ):
-    sales = normalize(pd.read_csv(SALES_FILE))
+    sales = normalize(load_csv_cached(SALES_FILE))
     inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, "mapped")
@@ -225,7 +227,7 @@ def export_inventory(
     brand: str = Query(None),
     view: str = Query("mapped"),
 ):
-    df = normalize(pd.read_csv(INV_FILE))
+    df = normalize(load_csv_cached(INV_FILE))
     df = apply_filters(df, week, brand, view)
     return csv_response(df, "inventory_snapshot.csv")
 
@@ -239,7 +241,7 @@ def export_stockout(
     brand: str = Query(None),
     view: str = Query("mapped"),
 ):
-    sales = normalize(pd.read_csv(SALES_FILE))
+    sales = normalize(load_csv_cached(SALES_FILE))
     inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, view)
@@ -278,7 +280,7 @@ def export_deadstock(
     brand: str = Query(None),
     view: str = Query("mapped"),
 ):
-    sales = normalize(pd.read_csv(SALES_FILE))
+    sales = normalize(load_csv_cached(SALES_FILE))
     inv = _load_rich_inventory(with_sku_status=True)
 
     sales = apply_filters(sales, week, brand, view)
@@ -321,7 +323,7 @@ def export_reconciliation(
     brand = clean_param(brand)
     channel = clean_param(channel)
 
-    sales = normalize(pd.read_csv(SALES_FILE))
+    sales = normalize(load_csv_cached(SALES_FILE))
     inv = _load_rich_inventory(with_sku_status=True)
 
     if week:
@@ -394,7 +396,7 @@ def export_unmapped(
     week = clean_param(week)
     brand = clean_param(brand)
 
-    sales = normalize(pd.read_csv(SALES_FILE))
+    sales = normalize(load_csv_cached(SALES_FILE))
     inv = _load_rich_inventory(with_sku_status=True)
 
     if "sku_status" in sales.columns:
@@ -1031,7 +1033,7 @@ def export_inventory_full(
         df = df[cols].fillna("")
     except Exception as _e:
         print(f"⚠ /export/inventory-full fell back to model-level CSV: {_e}")
-        df = normalize(pd.read_csv(INV_FILE))
+        df = normalize(load_csv_cached(INV_FILE))
         if week:
             df = df[df["week"] == week]
         if brand:
@@ -1054,7 +1056,7 @@ def export_category_full(
     level: str = Query("l0"),
     value: str = Query(None),
 ):
-    df = pd.read_csv(SALES_FILE)
+    df = load_csv_cached(SALES_FILE)
     df.columns = [c.strip().lower() for c in df.columns]
     from weekly_app.routes.category_sales import norm as _norm
     eff_brands = [_norm(b) for b in (brands or []) if b and b.strip()]

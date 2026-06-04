@@ -50,7 +50,8 @@ def _sales_30d_by_asin(master_asin_to_skus: dict[str, list[str]]) -> dict[str, i
     """
     if not SALES.exists():
         return {}
-    df = pd.read_csv(SALES)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(SALES)
     df.columns = df.columns.str.strip()
     if not {"week", "sku", "units_sold"}.issubset(df.columns):
         return {}
@@ -77,7 +78,8 @@ def _build_payload_json() -> str:
     if not MASTER.exists():
         return json.dumps({"rows": [], "brands": [], "row_count": 0, "available": False})
 
-    master = pd.read_excel(MASTER)
+    from weekly_app.core.df_cache import load_excel_cached
+    master = load_excel_cached(MASTER)
     master.columns = master.columns.str.strip()
     normalize_keys(master)
     rename = {
@@ -124,7 +126,8 @@ def _build_payload_json() -> str:
     # Returns lookup (from already-computed snapshot)
     returns_by_asin: dict[str, dict] = {}
     if RETURNS.exists():
-        rdf = pd.read_csv(RETURNS)
+        from weekly_app.core.df_cache import load_csv_cached
+        rdf = load_csv_cached(RETURNS)
         rdf.columns = rdf.columns.str.strip()
         for _, r in rdf.iterrows():
             asin = str(r.get("asin", "")).strip()

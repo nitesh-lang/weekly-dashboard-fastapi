@@ -122,7 +122,8 @@ def load_all_inventory():
     snap = Path("data/processed/inventory_model_snapshot.csv")
     if snap.exists() and snap.stat().st_size > 0:
         try:
-            data = pd.read_csv(snap)
+            from weekly_app.core.df_cache import load_csv_cached
+            data = load_csv_cached(snap)
             # week_num: extract trailing digits from "Week 21" → 21
             data["week_num"] = data["week"].astype(str).str.extract(r"(\d+)").astype(float)
             # Normalise type via _resolve_type to match the legacy raw-file path
@@ -232,7 +233,8 @@ def load_all_inventory():
     try:
         master_path = BASE_DIR / "data" / "master" / "sku_master.xlsx"
         if master_path.exists():
-            mst = pd.read_excel(master_path)
+            from weekly_app.core.df_cache import load_excel_cached
+            mst = load_excel_cached(master_path)
             mst.columns = [c.strip().lower() for c in mst.columns]
             if "model" in mst.columns:
                 lookup_cols = [c for c in ["category_l0", "category_l1", "category_l2", "nlc"]

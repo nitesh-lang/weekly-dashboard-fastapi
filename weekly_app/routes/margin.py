@@ -30,7 +30,8 @@ def _build_payload_json() -> str:
     if not MARGIN_CSV.exists():
         return json.dumps({"rows": [], "brands": [], "row_count": 0, "available": False})
 
-    df = pd.read_csv(MARGIN_CSV)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(MARGIN_CSV)
     brands = sorted(df["brand"].dropna().unique().tolist())
     # to_json writes valid JSON with null for NaN, then we wrap it in an object.
     rows_json = df.to_json(orient="records", date_format="iso")

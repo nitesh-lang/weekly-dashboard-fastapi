@@ -30,8 +30,9 @@ def channel_summary_viewer(
             },
         )
 
-    sales = pd.read_csv(SALES_FILE)
-    inventory = pd.read_csv(INVENTORY_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    sales = load_csv_cached(SALES_FILE)
+    inventory = load_csv_cached(INVENTORY_FILE)
 
     # -----------------------------
     # FILTER BASE

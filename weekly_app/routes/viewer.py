@@ -47,7 +47,8 @@ def sales_snapshot_viewer(
             },
         )
 
-    df = pd.read_csv(SALES_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(SALES_FILE)
     df.columns = [c.strip().lower() for c in df.columns]
 
     # Resolve active week filter from any of the param names that the

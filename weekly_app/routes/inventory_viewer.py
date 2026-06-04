@@ -36,7 +36,8 @@ def inventory_snapshot_viewer(
             },
         )
 
-    df = pd.read_csv(INVENTORY_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(INVENTORY_FILE)
 
     if df.empty:
         return templates.TemplateResponse(

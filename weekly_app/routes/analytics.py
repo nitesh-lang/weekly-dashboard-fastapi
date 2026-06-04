@@ -75,7 +75,8 @@ AMAZON_CHANNELS_LOWER = {"amazon", "1p sales", "1p", "1psales"}
 
 
 def _load_sales() -> pd.DataFrame:
-    df = pd.read_csv(SALES_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(SALES_FILE)
     df.columns = df.columns.str.strip().str.lower()
     df["week"] = df["week"].astype(str).str.strip()
     df["sku"] = df["sku"].astype(str)
@@ -97,7 +98,8 @@ def _load_sales() -> pd.DataFrame:
 def _load_ams() -> pd.DataFrame:
     if not AMS_FILE.exists():
         return pd.DataFrame()
-    df = pd.read_csv(AMS_FILE)
+    from weekly_app.core.df_cache import load_csv_cached
+    df = load_csv_cached(AMS_FILE)
     df.columns = df.columns.str.strip()
     if "week" in df.columns:
         df["week"] = df["week"].astype(str).str.strip()

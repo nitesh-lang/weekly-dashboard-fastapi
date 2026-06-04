@@ -57,8 +57,9 @@ def reconciliation_viewer(
         )
 
     # ---------------- LOAD ----------------
-    sales = clean(pd.read_csv(SALES_FILE))
-    inv = clean(pd.read_csv(INV_FILE))
+    from weekly_app.core.df_cache import load_csv_cached
+    sales = clean(load_csv_cached(SALES_FILE))
+    inv = clean(load_csv_cached(INV_FILE))
 
     # ---------------- FILTERS ----------------
     if week:

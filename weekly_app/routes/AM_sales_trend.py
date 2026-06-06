@@ -192,12 +192,11 @@ def load_inventory(latest_week):
     df["model"] = df["model"].astype(str).str.upper().str.strip()
 
     # Amazon+1P page → only Amazon-side stock counts.
-    # Per operator rule: AMPM (warehouse buffer pending FBA / 1P) +
-    # Amazon FBA + 1P (Vendor).  Excludes B2B-AMPM, YNT, Blinkit,
-    # Pipeline, Open Order — those serve non-Amazon channels.
+    # Single source of truth in weekly_app/core/channel_buckets.py so
+    # this can never drift from ams_trend's inventory_total_amazon.
+    from weekly_app.core.channel_buckets import AMAZON_SIDE_CHANNELS
     chan = df["channel"].astype(str).str.strip().str.lower()
-    amzn_side = {"ampm", "amazon", "1p"}
-    df = df[chan.isin(amzn_side)]
+    df = df[chan.isin(AMAZON_SIDE_CHANNELS)]
     if df.empty:
         return {}
 

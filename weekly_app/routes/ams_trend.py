@@ -194,19 +194,23 @@ def load_inventory_snapshot() -> pd.DataFrame:
     # mirror the operator's CHANNEL_TO_TYPE mapping in inventory_dashboard.
     chan_lower = df["channel"].astype(str).str.strip().str.lower()
 
-    # Operator rule (2026-06-06): inventory_total_amazon = AMPM (plain
-    # only, NOT B2B-AMPM) + Amazon FBA + 1P.  B2B-AMPM is allocated to
-    # wholesale and does NOT count as Amazon-side stock.  YNT + other
-    # non-Amazon channels also excluded.  Matches the scope used on
-    # /amazon-sales-trend page so the two reports reconcile per ASIN.
-    # Pipeline (vendor POs in flight) is displayed in its own column
-    # for visibility but is NOT included in inventory_total_amazon.
-    pipeline_set = {"pipeline", "pipeline order", "open order"}
+    # Channel bucket definitions live in weekly_app/core/channel_buckets.py
+    # — single source of truth so AMS Trend and Amazon+1P sales trend
+    # can never drift apart on the "what counts as Amazon-side?" rule.
+    from weekly_app.core.channel_buckets import (
+        AMAZON_SIDE_CHANNELS, PIPELINE_CHANNELS,
+    )
 
-    df["__ampm"]     = df["inventory_units"].where(chan_lower == "ampm",          0)
-    df["__1p"]       = df["inventory_units"].where(chan_lower == "1p",            0)
-    df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",        0)
-    df["__pipeline"] = df["inventory_units"].where(chan_lower.isin(pipeline_set), 0)
+    df["__ampm"]     = df["inventory_units"].where(chan_lower == "ampm",                0)
+    df["__1p"]       = df["inventory_units"].where(chan_lower == "1p",                  0)
+    df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",              0)
+    df["__pipeline"] = df["inventory_units"].where(chan_lower.isin(PIPELINE_CHANNELS),  0)
+    # Sanity assertion: the 3 buckets we pivot into below MUST be the
+    # AMAZON_SIDE_CHANNELS set.  If someone adds a 4th column above
+    # without updating the constant, this fires.
+    assert AMAZON_SIDE_CHANNELS == {"ampm", "amazon", "1p"}, \
+        "ams_trend.py inventory pivot expects exactly AMPM + Amazon + 1P; " \
+        "channel_buckets.AMAZON_SIDE_CHANNELS has drifted"
 
     asin_pivot = df.groupby(["asin", "Model", "week_num"], as_index=False).agg(
         inventory_ampm   =("__ampm", "sum"),

@@ -264,15 +264,15 @@ def check_snapshot_vs_route(latest_week: int) -> pd.DataFrame:
             + piv_w["inventory_amazon"].sum()
             + piv_w["pipeline_orders"].sum()
         )
-        # Compute the same four buckets directly from the snapshot
+        # Compute the same four buckets directly from the snapshot,
+        # using the centralized channel constants the route imports.
+        # If channel_buckets.py changes, this check follows automatically.
+        from weekly_app.core.channel_buckets import (
+            AMAZON_SIDE_CHANNELS, PIPELINE_CHANNELS,
+        )
         chan = snap_w["channel"].apply(_norm_chan)
-        ampm_set     = {"ampm", "b2b-ampm", "b2b - ampm"}
-        pipeline_set = {"pipeline", "pipeline order", "open order"}
         bucket_total = float(snap_w.loc[
-            chan.isin(ampm_set)
-            | (chan == "1p")
-            | (chan == "amazon")
-            | chan.isin(pipeline_set),
+            chan.isin(AMAZON_SIDE_CHANNELS) | chan.isin(PIPELINE_CHANNELS),
             "inventory_units",
         ].sum())
         out.append({
@@ -791,6 +791,99 @@ def check_raw_vs_snapshot_sales(latest_week: int) -> pd.DataFrame:
 # ─────────────────────────────────────────────────────────────────────────
 # main
 # ─────────────────────────────────────────────────────────────────────────
+def check_cross_route_inventory_consistency(latest_week: int) -> pd.DataFrame:
+    """For any (model × week), the two routes that show Amazon-side
+    stock must show the SAME number.  If they diverge, the channel
+    filter rules have drifted apart — exactly the class of bug where
+    AMS Trend was summing AMPM + B2B-AMPM but Amazon+1P was summing
+    AMPM only, showing 345 vs 314 for ST-01 W22.
+
+    Pairs checked:
+      A) /amazon-sales-trend load_inventory(model)
+         vs
+         /ams-trend load_inventory_snapshot() inventory_total_amazon
+            summed across that model's ASINs
+
+      B) /sales-trend load_inventory(brand, model)  (total stock)
+         vs
+         inventory_model_snapshot per-(brand,model) sum  (total stock)
+    """
+    out: list[Dict[str, Any]] = []
+
+    # Pair A: Amazon+1P trend ↔ AMS Trend
+    try:
+        from weekly_app.routes.AM_sales_trend import load_inventory as ams_p_load
+        from weekly_app.routes.ams_trend import load_inventory_snapshot as ams_trend_load
+        am1p = ams_p_load(latest_week) or {}
+        piv  = ams_trend_load()
+        piv_w = piv[piv["week"] == latest_week] if not piv.empty else pd.DataFrame()
+        if not piv_w.empty:
+            ams_per_model = (
+                piv_w.groupby("Model")["inventory_total_amazon"].sum().astype(int).to_dict()
+            )
+            all_models = set(am1p.keys()) | set(ams_per_model.keys())
+            for m in sorted(all_models):
+                v_a = int(am1p.get(m, 0))
+                v_b = int(ams_per_model.get(m, 0))
+                if v_a != v_b:
+                    out.append({
+                        "pair": "amazon+1p_vs_ams_trend",
+                        "key":  m,
+                        "amazon+1p_inventory":   v_a,
+                        "ams_trend_total_amazon": v_b,
+                        "delta":                 v_b - v_a,
+                        "note":                  "AMAZON-SIDE RULE DRIFTED between the two routes",
+                    })
+    except Exception as e:
+        out.append({
+            "pair": "amazon+1p_vs_ams_trend",
+            "key":  "(load failed)",
+            "amazon+1p_inventory": 0,
+            "ams_trend_total_amazon": 0,
+            "delta": 0,
+            "note":  f"loader raised: {e!r}",
+        })
+
+    # Pair B: Sales Trend ↔ Inventory Dashboard total
+    try:
+        from weekly_app.routes.sales_trend import load_inventory as st_load
+        st_map = st_load(latest_week)  # {(brand, model): units}
+        if SNAP_INV.exists():
+            inv = pd.read_csv(SNAP_INV)
+            inv["wn"] = inv["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+            inv_w = inv[inv["wn"] == latest_week].copy()
+            inv_w["brand_l"] = inv_w["brand"].astype(str).str.strip().str.lower()
+            inv_w["model_u"] = inv_w["model"].astype(str).str.strip().str.upper()
+            dash_per_bm = (
+                inv_w.groupby(["brand_l", "model_u"])["inventory_units"].sum().astype(int).to_dict()
+            )
+            # Sales Trend excludes Fossil; reconcile against non-Fossil rows only
+            all_keys = {k for k in dash_per_bm.keys() if k[0] != "fossil"} | set(st_map.keys())
+            for (b, m) in sorted(all_keys):
+                v_s = int(st_map.get((b, m), 0))
+                v_d = int(dash_per_bm.get((b, m), 0))
+                if v_s != v_d:
+                    out.append({
+                        "pair": "sales_trend_vs_inv_dashboard",
+                        "key":  f"{b} / {m}",
+                        "sales_trend_inv":    v_s,
+                        "inv_dashboard_total": v_d,
+                        "delta":              v_d - v_s,
+                        "note":               "TOTAL-STOCK RULE DRIFTED between the two routes",
+                    })
+    except Exception as e:
+        out.append({
+            "pair": "sales_trend_vs_inv_dashboard",
+            "key":  "(load failed)",
+            "sales_trend_inv": 0,
+            "inv_dashboard_total": 0,
+            "delta": 0,
+            "note":  f"loader raised: {e!r}",
+        })
+
+    return pd.DataFrame(out)
+
+
 def main() -> int:
     if not SNAP_INV.exists():
         print(f"[FATAL] {SNAP_INV} missing — run the inventory ETL first.")
@@ -819,6 +912,7 @@ def main() -> int:
         ("9_brand_retags_info",   "(info) Brand re-tags by master",       check_brand_retag_diagnostics(),         False),
         ("10_off_master_asins",   "(info) Off-master ASINs in raw inv",   check_off_master_asins(),                False),
         ("11_raw_vs_snap_sales",  "Sales raw vs snapshot (per brand×wk)", check_raw_vs_snapshot_sales(latest_week),True),
+        ("12_cross_route_inv",    "Cross-route inventory rule consistency", check_cross_route_inventory_consistency(latest_week), True),
     ]
 
     print()

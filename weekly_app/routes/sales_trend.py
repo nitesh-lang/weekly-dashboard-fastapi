@@ -131,16 +131,15 @@ def load_inventory(latest_week):
     )
 
     df = df[df["week_num"] == latest_week]
-    # Each model has one row per (channel × type) in the snapshot
-    # (AMPM / Amazon / 1P / B2B-AMPM / Blinkit / YNT / Pipeline /
-    # Open Order).  Sum across ALL channels so the operator sees the
-    # total stock position next to each model's weekly sales velocity.
-    # Previously this used set_index("model").to_dict() which silently
-    # kept only ONE channel's value (whichever pandas iterated last),
-    # so multi-channel models were under-counted — e.g., ST-01 W22
-    # really has 355 units (136 AMPM + 178 Amazon + 31 B2B-AMPM + 10
-    # YNT), but the page was showing 10 (YNT only).
-    return df.groupby("model")["inventory_units"].sum().to_dict()
+    if "brand" in df.columns:
+        df["brand"] = df["brand"].astype(str).str.strip().str.lower()
+    else:
+        df["brand"] = ""
+    # Sum across ALL channels per (brand, model).  Some models exist
+    # under multiple brands (e.g., TC777 PRO appears for two brands);
+    # keying by model alone would merge their stock.  The route then
+    # looks up inventory by (brand, model) to keep brands separate.
+    return df.groupby(["brand", "model"])["inventory_units"].sum().to_dict()
 
 # ============================================================
 # TREND LOGIC
@@ -221,19 +220,29 @@ def sales_trend(
         weeks_df = weeks_df.tail(4)
 
     weeks = weeks_df["week"].tolist()
-    latest_week = weeks_df["week_num"].iloc[-1]
+    # Guard against empty filter result — earlier this raised
+    # IndexError when no rows matched the selected brands+weeks.
+    if weeks_df.empty:
+        latest_week = 0
+    else:
+        latest_week = weeks_df["week_num"].iloc[-1]
 
     inventory = load_inventory(latest_week)
 
     data = {}
 
-    # FIX: iterate over base (brand-filtered), NOT full sales
+    # Key by (brand, model) — some models exist under multiple brands
+    # (e.g. AM-C3 appears under Audio Array AND Nexlev).  Keying on
+    # model alone would silently merge their sales into one row tagged
+    # with whichever brand happened to land first.
     for _, r in base.iterrows():
         model = r["model"]
+        brand = str(r.get("brand", "") or "").strip().lower()
         week = r["week"]
+        key = (brand, model)
 
-        data.setdefault(model, {
-            "brand": str(r.get("brand", "") or ""),
+        data.setdefault(key, {
+            "brand": brand,
             "model": model,
             "category_l0": str(r.get("category_l0", "") or "").replace("nan", ""),
             "category_l1": str(r.get("category_l1", "") or "").replace("nan", ""),
@@ -241,9 +250,9 @@ def sales_trend(
             "weeks": {}
         })
 
-        data[model]["weeks"].setdefault(week, {"units": 0, "sales": 0})
-        data[model]["weeks"][week]["units"] += r["units"]
-        data[model]["weeks"][week]["sales"] += r["sales"]
+        data[key]["weeks"].setdefault(week, {"units": 0, "sales": 0})
+        data[key]["weeks"][week]["units"] += r["units"]
+        data[key]["weeks"][week]["sales"] += r["sales"]
 
     total_sales = {
         w: sum(v["weeks"].get(w, {}).get("sales", 0) for v in data.values()) or 1
@@ -255,7 +264,7 @@ def sales_trend(
     sku_by_model_map = model_to_skus()
     rows = []
 
-    for model, v in data.items():
+    for (brand_key, model), v in data.items():
         units_seq = [v["weeks"].get(w, {}).get("units", 0) for w in weeks]
 
         # Source ASIN + SKU from master via the model's uppercase key.
@@ -274,7 +283,9 @@ def sales_trend(
             "last_4w_units": sum(units_seq),
             "avg_4w": round(sum(units_seq) / max(len(units_seq), 1), 2),
             "trend": trend(units_seq),
-            "inventory_units": inventory.get(model, 0)
+            # Inventory keyed by (brand, model) so models that exist
+            # under multiple brands stay separated.
+            "inventory_units": inventory.get((brand_key, model), 0)
         }
 
         for w in weeks:
@@ -286,6 +297,13 @@ def sales_trend(
 
         rows.append(row)
     # ================= GRAND TOTAL =================
+    # Sum inventory across rows for a portfolio-level stock total.
+    # Skip non-numeric blanks defensively.
+    grand_inv = sum(
+        r["inventory_units"]
+        for r in rows
+        if isinstance(r.get("inventory_units"), (int, float))
+    )
     grand = {
         "model": "Grand Total",
         "brand": "",
@@ -294,7 +312,7 @@ def sales_trend(
         "category_l0": "",
         "category_l1": "",
         "category_l2": "",
-         "inventory_units": "",
+         "inventory_units": grand_inv,
           "trend": "",
           }
     for w in weeks:
@@ -374,28 +392,34 @@ def sales_trend_rows_api(
         weeks = weeks_df["week"].tolist()
 
         data = {}
+        # Key by (brand, model) — see main route for rationale (multi-
+        # brand model collisions).  Also strip the literal "nan" string
+        # that pd.NA → str produces in the categories.
         for _, r in base.iterrows():
             m, w = r["model"], r["week"]
-            data.setdefault(m, {"brand":str(r.get("brand","")or""),"model":m,
-                "category_l0":str(r.get("category_l0","")or""),
-                "category_l1":str(r.get("category_l1","")or""),
-                "category_l2":str(r.get("category_l2","")or""), "weeks":{}})
-            data[m]["weeks"].setdefault(w, {"units":0,"sales":0})
-            data[m]["weeks"][w]["units"] += r["units"]
-            data[m]["weeks"][w]["sales"] += r["sales"]
+            b = str(r.get("brand","") or "").strip().lower()
+            key = (b, m)
+            data.setdefault(key, {"brand":b,"model":m,
+                "category_l0":str(r.get("category_l0","") or "").replace("nan",""),
+                "category_l1":str(r.get("category_l1","") or "").replace("nan",""),
+                "category_l2":str(r.get("category_l2","") or "").replace("nan",""), "weeks":{}})
+            data[key]["weeks"].setdefault(w, {"units":0,"sales":0})
+            data[key]["weeks"][w]["units"] += r["units"]
+            data[key]["weeks"][w]["sales"] += r["sales"]
 
         total_sales = {w: sum(v["weeks"].get(w,{}).get("sales",0) for v in data.values()) or 1 for w in weeks}
         inventory = load_inventory(weeks_df["week_num"].iloc[-1] if not weeks_df.empty else 0)
         asin_by_model = load_asin_by_model()
 
         rows = []
-        for m, v in data.items():
+        for (brand_key, m), v in data.items():
             units_seq = [v["weeks"].get(w,{}).get("units",0) for w in weeks]
             row = {"model":m,"brand":v.get("brand"),"asin":asin_by_model.get(m,""),
                    "category_l0":v["category_l0"],
                    "category_l1":v["category_l1"],"category_l2":v["category_l2"],
                    "last_4w_units":sum(units_seq),"avg_4w":round(sum(units_seq)/max(len(units_seq),1),2),
-                   "trend":trend(units_seq),"inventory_units":inventory.get(m,0)}
+                   "trend":trend(units_seq),
+                   "inventory_units":inventory.get((brand_key, m), 0)}
             for w in weeks:
                 s = v["weeks"].get(w,{}).get("sales",0)
                 u = v["weeks"].get(w,{}).get("units",0)

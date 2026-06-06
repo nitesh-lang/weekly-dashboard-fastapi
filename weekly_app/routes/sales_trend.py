@@ -106,6 +106,13 @@ def load_sales():
         lambda x: int(re.search(r"\d+", x).group()) if re.search(r"\d+", x) else None
     )
 
+    # Operator rule: Fossil is excluded from every other report
+    # (AMS Trend, Amazon+1P, Inventory Dashboard, Drilldown).
+    # Apply the same filter here so Sales Trend stays consistent.
+    # The /export/sales-trend CSV reads from load_sales() too, so this
+    # excludes Fossil from the download as well.
+    df = df[df["brand"] != "fossil"]
+
     return df
 
 # ============================================================

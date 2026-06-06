@@ -190,6 +190,17 @@ def load_inventory(latest_week):
 
     df = df.copy()
     df["model"] = df["model"].astype(str).str.upper().str.strip()
+
+    # Amazon+1P page → only Amazon-side stock counts.
+    # Per operator rule: AMPM (warehouse buffer pending FBA / 1P) +
+    # Amazon FBA + 1P (Vendor).  Excludes B2B-AMPM, YNT, Blinkit,
+    # Pipeline, Open Order — those serve non-Amazon channels.
+    chan = df["channel"].astype(str).str.strip().str.lower()
+    amzn_side = {"ampm", "amazon", "1p"}
+    df = df[chan.isin(amzn_side)]
+    if df.empty:
+        return {}
+
     return (
         df.groupby("model")["inventory_units"]
         .sum()

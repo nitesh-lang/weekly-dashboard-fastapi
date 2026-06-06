@@ -996,6 +996,164 @@ def check_cross_route_ads_consistency(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_cross_route_sessions_consistency(latest_week: int) -> pd.DataFrame:
+    """For each (ASIN × week), `sessions` should match between
+    AMS Trend (load_ams_data) and Amazon+1P trend (load_business).
+    Both pull from business_ads_joined.csv — any drift = a real
+    route processing bug.  Tolerance: 1 session.
+    """
+    TOLERANCE = 1.0
+    out: list[Dict[str, Any]] = []
+    try:
+        if not SNAP_AMS.exists():
+            return pd.DataFrame()
+        a = pd.read_csv(SNAP_AMS)
+        a["wn"] = pd.to_numeric(a["week"], errors="coerce").astype("Int64")
+        a = a[a["wn"] == latest_week].copy()
+        if a.empty:
+            return pd.DataFrame()
+        # AMS Trend route excludes Fossil per operator rule; mirror
+        # that filter here so the audit doesn't flag Fossil ASINs that
+        # are correctly absent from the route output.
+        a["brand_n"] = a["brand"].astype(str).apply(_norm_brand)
+        a = a[a["brand_n"] != "fossil"]
+        a["asin"] = a["asin"].astype(str).str.strip()
+        a_per_asin = a.groupby("asin")["sessions"].sum().to_dict()
+
+        # Pull what AMS Trend's route loader would emit
+        from weekly_app.routes.ams_trend import load_ams_data
+        ams = load_ams_data()
+        ams_w = ams[ams["week"] == latest_week]
+        ams_per_asin = ams_w.groupby("asin")["sessions"].sum().to_dict() if not ams_w.empty else {}
+
+        # Amazon+1P trend reads via load_business; it pivots per-(model)
+        # not per-(asin), so we reconcile at ASIN level using the file
+        # source directly — drift here means AMS Trend route mangled it.
+        for asin in sorted(set(a_per_asin) | set(ams_per_asin)):
+            if not asin or asin in ("nan", "__SB__"):
+                continue
+            v_file = float(a_per_asin.get(asin, 0.0))
+            v_ams  = float(ams_per_asin.get(asin, 0.0))
+            delta = round(v_ams - v_file, 2)
+            if abs(delta) > TOLERANCE:
+                out.append({
+                    "asin": asin,
+                    "file_sessions": v_file,
+                    "ams_trend_sessions": v_ams,
+                    "delta": delta,
+                    "note": "SESSIONS drift between business_ads_joined and AMS Trend route",
+                })
+    except Exception as e:
+        out.append({
+            "asin": "(load failed)", "file_sessions": 0,
+            "ams_trend_sessions": 0, "delta": 0,
+            "note": f"loader raised: {e!r}",
+        })
+    return pd.DataFrame(out)
+
+
+def check_cross_route_units_consistency(latest_week: int) -> pd.DataFrame:
+    """For each (ASIN × week), Amazon-side units (Amazon 3P + 1P) should
+    match between AMS Trend.units and Sales Trend Amazon + "1p Sales"
+    channels summed per ASIN.  Same Amazon-side scope as Check 13 but
+    for units instead of GMV.  Tolerance: 1 unit.
+    """
+    TOLERANCE = 1.0
+    AMAZON_SIDE_SALES_CHANNELS = {"amazon", "1p sales"}
+    out: list[Dict[str, Any]] = []
+    try:
+        if not (SNAP_SALES.exists() and SNAP_AMS.exists()):
+            return pd.DataFrame()
+        s = pd.read_csv(SNAP_SALES)
+        s["wn"] = s["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        s["chan_n"] = s["channel"].astype(str).str.strip().str.lower()
+        s = s[(s["wn"] == latest_week) & (s["chan_n"].isin(AMAZON_SIDE_SALES_CHANNELS))]
+        if s.empty:
+            return pd.DataFrame()
+        s["asin"] = s["asin"].astype(str).str.strip()
+        s_per_asin = s.groupby("asin")["units_sold"].sum().to_dict()
+
+        a = pd.read_csv(SNAP_AMS)
+        a["wn"] = pd.to_numeric(a["week"], errors="coerce").astype("Int64")
+        a = a[a["wn"] == latest_week]
+        a["asin"] = a["asin"].astype(str).str.strip()
+        a_per_asin = a.groupby("asin")["units"].sum().to_dict()
+
+        for asin in sorted(set(s_per_asin) | set(a_per_asin)):
+            if not asin or asin in ("nan", "__SB__"):
+                continue
+            v_s = float(s_per_asin.get(asin, 0.0))
+            v_a = float(a_per_asin.get(asin, 0.0))
+            delta = round(v_a - v_s, 2)
+            if abs(delta) > TOLERANCE:
+                out.append({
+                    "asin":                 asin,
+                    "sales_trend_units":    v_s,
+                    "ams_trend_units":      v_a,
+                    "delta":                delta,
+                    "note": "AMAZON+1P UNITS drift between sales_snapshot and business_ads_joined",
+                })
+    except Exception as e:
+        out.append({
+            "asin": "(load failed)", "sales_trend_units": 0,
+            "ams_trend_units": 0, "delta": 0,
+            "note": f"loader raised: {e!r}",
+        })
+    return pd.DataFrame(out)
+
+
+def check_cross_route_brand_totals(latest_week: int) -> pd.DataFrame:
+    """Per-brand sales (latest week) should be identical between
+    Main Dashboard's brand KPI and Sales Trend's brand sums.
+    Both routes read weekly_sales_snapshot but apply different code
+    paths.  Tolerance: ₹1.
+    """
+    TOLERANCE_RS = 1.0
+    out: list[Dict[str, Any]] = []
+    try:
+        if not SNAP_SALES.exists():
+            return pd.DataFrame()
+        s = pd.read_csv(SNAP_SALES)
+        s["wn"] = s["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        s = s[s["wn"] == latest_week].copy()
+        if s.empty:
+            return pd.DataFrame()
+        s["brand_n"] = s["brand"].astype(str).apply(_norm_brand)
+        # Sales Trend route excludes Fossil; mirror that for apples-to-apples
+        s_st = s[s["brand_n"] != "fossil"]
+        st_per_brand = s_st.groupby("brand_n")["gross_sales"].sum().round(2).to_dict()
+
+        # Main Dashboard's per-brand KPI — pull it via its route's loader
+        # to catch any custom filter/aggregation drift.
+        from weekly_app.routes.AM_sales_trend import load_sales as am1p_load_sales
+        ams_s = am1p_load_sales()
+        ams_s = ams_s[ams_s["week_num"] == latest_week]
+        # AM_sales_trend already drops Fossil; group by brand
+        am_per_brand = ams_s.groupby("brand")["sales"].sum().round(2).to_dict()
+
+        for brand in sorted(set(st_per_brand) | set(am_per_brand)):
+            if not brand or brand == "fossil":
+                continue
+            v_st = float(st_per_brand.get(brand, 0.0))
+            v_am = float(am_per_brand.get(brand, 0.0))
+            delta = round(v_am - v_st, 2)
+            if abs(delta) > TOLERANCE_RS:
+                out.append({
+                    "brand":               brand,
+                    "snap_total_sales":    v_st,
+                    "am1p_route_sales":    v_am,
+                    "delta_rs":            delta,
+                    "note": "BRAND TOTAL drift between snapshot and Amazon+1P route loader",
+                })
+    except Exception as e:
+        out.append({
+            "brand": "(load failed)", "snap_total_sales": 0,
+            "am1p_route_sales": 0, "delta_rs": 0,
+            "note": f"loader raised: {e!r}",
+        })
+    return pd.DataFrame(out)
+
+
 def main() -> int:
     if not SNAP_INV.exists():
         print(f"[FATAL] {SNAP_INV} missing — run the inventory ETL first.")
@@ -1027,6 +1185,9 @@ def main() -> int:
         ("12_cross_route_inv",    "Cross-route inventory rule consistency", check_cross_route_inventory_consistency(latest_week), True),
         ("13_cross_route_sales",  "Cross-route sales rule consistency",     check_cross_route_sales_consistency(latest_week),     True),
         ("14_cross_route_ads",    "Cross-route ads rule consistency",       check_cross_route_ads_consistency(latest_week),       True),
+        ("15_cross_route_sessions","Cross-route sessions consistency",      check_cross_route_sessions_consistency(latest_week),  True),
+        ("16_cross_route_units",  "Cross-route Amazon+1P units consistency",check_cross_route_units_consistency(latest_week),     True),
+        ("17_cross_route_brands", "Cross-route per-brand totals consistency",check_cross_route_brand_totals(latest_week),         True),
     ]
 
     print()

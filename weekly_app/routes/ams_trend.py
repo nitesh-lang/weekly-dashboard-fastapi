@@ -194,12 +194,16 @@ def load_inventory_snapshot() -> pd.DataFrame:
     # mirror the operator's CHANNEL_TO_TYPE mapping in inventory_dashboard.
     chan_lower = df["channel"].astype(str).str.strip().str.lower()
 
-    # AMPM = warehouse buffer stock (operator's local + B2B variant)
-    ampm_set     = {"ampm", "b2b-ampm", "b2b - ampm"}
-    # In-transit to operator's warehouse (vendor POs in flight)
+    # Operator rule (2026-06-06): inventory_total_amazon = AMPM (plain
+    # only, NOT B2B-AMPM) + Amazon FBA + 1P.  B2B-AMPM is allocated to
+    # wholesale and does NOT count as Amazon-side stock.  YNT + other
+    # non-Amazon channels also excluded.  Matches the scope used on
+    # /amazon-sales-trend page so the two reports reconcile per ASIN.
+    # Pipeline (vendor POs in flight) is displayed in its own column
+    # for visibility but is NOT included in inventory_total_amazon.
     pipeline_set = {"pipeline", "pipeline order", "open order"}
 
-    df["__ampm"]     = df["inventory_units"].where(chan_lower.isin(ampm_set),     0)
+    df["__ampm"]     = df["inventory_units"].where(chan_lower == "ampm",          0)
     df["__1p"]       = df["inventory_units"].where(chan_lower == "1p",            0)
     df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",        0)
     df["__pipeline"] = df["inventory_units"].where(chan_lower.isin(pipeline_set), 0)

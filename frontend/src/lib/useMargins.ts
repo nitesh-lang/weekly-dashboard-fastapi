@@ -30,6 +30,15 @@ export interface MarginRow {
     gross_margin_pct: number | null;
     net_margin: number | null;
     net_margin_pct: number | null;
+    // Inventory bifurcation — joined by ASIN in margin_snapshot ETL.
+    //   total_stock  = every channel summed (latest week inv snapshot)
+    //   soh          = AMPM + B2B-AMPM warehouse (matches AMS Planning)
+    //   am_soh       = sellable stock already at Amazon FBA (inbound)
+    //   am_intransit = warehouse → Amazon shipments in flight (inbound)
+    total_stock: number | null;
+    soh: number | null;
+    am_soh: number | null;
+    am_intransit: number | null;
 }
 
 interface MarginPayload {

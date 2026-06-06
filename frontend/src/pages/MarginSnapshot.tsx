@@ -305,6 +305,7 @@ export default function MarginSnapshot() {
                                             sorted as any,
                                             ["brand", "model", "sku", "asin",
                                              "category_l1", "category_l2", "product_name",
+                                             "soh", "am_intransit", "am_soh", "total_stock",
                                              "latest_fob", "dp", "mrp", "bau_deal_sp",
                                              "gross_margin", "gross_margin_pct",
                                              "net_margin", "net_margin_pct"],
@@ -319,6 +320,7 @@ export default function MarginSnapshot() {
                                         size="sm"
                                         onClick={() => copyTableToClipboard(sorted as any, ["brand", "model", "sku", "asin",
                                              "category_l1", "category_l2", "product_name",
+                                             "soh", "am_intransit", "am_soh", "total_stock",
                                              "latest_fob", "dp", "mrp", "bau_deal_sp",
                                              "gross_margin", "gross_margin_pct",
                                              "net_margin", "net_margin_pct"])}
@@ -351,6 +353,10 @@ export default function MarginSnapshot() {
                                                 filterValues={allL1}     filterSelected={selL1}     onFilterChange={(v) => setMulti("cat_l1", v)} />
                                             <SortableTh sortKey="category_l2"  label="Category L2" sort={sort} onSort={onSort} align="left" minWidth={140}
                                                 filterValues={allL2}     filterSelected={selL2}     onFilterChange={(v) => setMulti("cat_l2", v)} />
+                                            <SortableTh sortKey="soh"          label="SOH"           sort={sort} onSort={onSort} className="col-divide-l" minWidth={90} />
+                                            <SortableTh sortKey="am_intransit" label="AM-Intransit"  sort={sort} onSort={onSort} minWidth={110} />
+                                            <SortableTh sortKey="am_soh"       label="AM-SOH"        sort={sort} onSort={onSort} minWidth={90} />
+                                            <SortableTh sortKey="total_stock"  label="Total Stock"   sort={sort} onSort={onSort} minWidth={100} />
                                             <SortableTh sortKey="dp"           label="DP"          sort={sort} onSort={onSort} className="col-summary col-divide-l" minWidth={100}
                                                 numericRange={rDp}     onNumericFilter={(r) => setRange("dp", r)}     numericPresets={[100, 500, 1000]} />
                                             <SortableTh sortKey="bau_deal_sp"  label="BAU SP"      sort={sort} onSort={onSort} className="col-summary" minWidth={110}
@@ -389,6 +395,10 @@ export default function MarginSnapshot() {
                                                     <td style={{ position: "sticky", left: 380 }} className="border-b z-10 min-w-[120px] border-r-2 border-r-border"><AsinLink asin={r.asin} /></td>
                                                     <td className="border-b">{r.category_l1 || "—"}</td>
                                                     <td className="border-b">{r.category_l2 || "—"}</td>
+                                                    <td className="text-right tabular border-b col-divide-l">{r.soh ? fmtInt(r.soh as number) : "—"}</td>
+                                                    <td className="text-right tabular border-b">{r.am_intransit ? fmtInt(r.am_intransit as number) : "—"}</td>
+                                                    <td className="text-right tabular border-b">{r.am_soh ? fmtInt(r.am_soh as number) : "—"}</td>
+                                                    <td className="text-right tabular border-b font-medium">{r.total_stock ? fmtInt(r.total_stock as number) : "—"}</td>
                                                     <td className="text-right tabular border-b col-summary col-divide-l">{r.dp  != null ? fmtINR(r.dp as number)  : "—"}</td>
                                                     <td className="text-right tabular border-b col-summary">{r.bau_deal_sp != null ? fmtINR(r.bau_deal_sp as number) : "—"}</td>
                                                     <td className="text-right tabular border-b col-sales col-divide-l">{r.gross_margin != null ? fmtINR(r.gross_margin as number) : "—"}</td>

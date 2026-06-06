@@ -131,7 +131,16 @@ def load_inventory(latest_week):
     )
 
     df = df[df["week_num"] == latest_week]
-    return df.set_index("model")["inventory_units"].to_dict()
+    # Each model has one row per (channel × type) in the snapshot
+    # (AMPM / Amazon / 1P / B2B-AMPM / Blinkit / YNT / Pipeline /
+    # Open Order).  Sum across ALL channels so the operator sees the
+    # total stock position next to each model's weekly sales velocity.
+    # Previously this used set_index("model").to_dict() which silently
+    # kept only ONE channel's value (whichever pandas iterated last),
+    # so multi-channel models were under-counted — e.g., ST-01 W22
+    # really has 355 units (136 AMPM + 178 Amazon + 31 B2B-AMPM + 10
+    # YNT), but the page was showing 10 (YNT only).
+    return df.groupby("model")["inventory_units"].sum().to_dict()
 
 # ============================================================
 # TREND LOGIC

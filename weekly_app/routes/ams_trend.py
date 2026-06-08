@@ -187,6 +187,15 @@ def load_inventory_snapshot() -> pd.DataFrame:
     df["asin"]     = df["asin"].astype(str).str.strip()
     df["week_num"] = df["week"].astype(str).str.extract(r"(\d+)").astype(float)
 
+    # Explicit blank-ASIN filter.  Rows without an ASIN are pipeline
+    # orders for ASINs not yet listed in master — the per-ASIN view
+    # can't display them anyway.  Filter here so the groupby below
+    # behaves identically across pandas versions (older pandas keep
+    # "nan" string rows; newer ones drop them silently — caused
+    # check_snapshot_vs_route to flag a 3634-unit delta on the runner
+    # while local runs reported delta=0).
+    df = df[~df["asin"].isin(["", "nan", "NaN", "<NA>", "None"])]
+
     # Filter by channel directly — the snapshot CSV's `type` column is
     # empty (type gets derived from channel at render time by
     # _resolve_type elsewhere).  Using `type` here silently zeroed out

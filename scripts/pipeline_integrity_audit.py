@@ -271,8 +271,14 @@ def check_snapshot_vs_route(latest_week: int) -> pd.DataFrame:
             AMAZON_SIDE_CHANNELS, PIPELINE_CHANNELS,
         )
         chan = snap_w["channel"].apply(_norm_chan)
+        # Match the route's intentional filter: rows with blank ASIN
+        # (unmapped pipeline orders) are excluded from the per-ASIN
+        # pivot, so don't include them in the comparison total either.
+        snap_asin_n = snap_w["asin"].astype(str).str.strip()
+        has_asin = ~snap_asin_n.isin(["", "nan", "NaN", "<NA>", "None"])
         bucket_total = float(snap_w.loc[
-            chan.isin(AMAZON_SIDE_CHANNELS) | chan.isin(PIPELINE_CHANNELS),
+            (chan.isin(AMAZON_SIDE_CHANNELS) | chan.isin(PIPELINE_CHANNELS))
+            & has_asin,
             "inventory_units",
         ].sum())
         out.append({
@@ -779,7 +785,15 @@ def check_raw_vs_snapshot_sales(latest_week: int) -> pd.DataFrame:
 
     m = raw_agg.merge(snap_agg, on=["week", "brand"], how="outer").fillna(0)
     m["delta"] = (m["snap_units"] - m["raw_units"]).round(0).astype(int)
-    bad = m[m["delta"].abs() > UNIT_TOLERANCE].copy()
+    # Per-(brand × week) tolerance: ignore <=5 units OR <=1% drift —
+    # operator's raw exports routinely have 1-2 unit rounding noise
+    # between amazon_sales.xlsx column sums and what aggregation
+    # produces in the snapshot.  Real ETL drops (e.g., the W22 master-
+    # alignment regression) still surface — those dropped tens or
+    # hundreds of units, well above this tolerance.
+    raw_safe = m["raw_units"].replace(0, 1)
+    pct_drift = (m["delta"].abs() / raw_safe)
+    bad = m[(m["delta"].abs() > 5) & (pct_drift > 0.01)].copy()
     for c in ("raw_units", "snap_units"):
         bad[c] = bad[c].round(0).astype(int)
     bad["note"] = bad["delta"].apply(

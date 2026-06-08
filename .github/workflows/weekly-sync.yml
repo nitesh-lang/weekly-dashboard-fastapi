@@ -41,6 +41,13 @@ on:
       - 'data/raw/inbound/**'
       - 'data/raw/reviews/**'
       - 'data/master/sku_master.xlsx'
+      # Code-path triggers — changes to ETLs, the audit, or the
+      # workflow itself should auto-test against real data without
+      # waiting for Monday or a manual click.  These files change
+      # rarely so the extra runs aren't a churn problem.
+      - 'weekly_app/etl/**'
+      - 'scripts/pipeline_integrity_audit.py'
+      - '.github/workflows/weekly-sync.yml'
   workflow_dispatch:           # allow manual trigger from the Actions tab
 
 permissions:

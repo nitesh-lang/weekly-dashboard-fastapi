@@ -664,6 +664,37 @@ def run_sales_auto_etl(single_week: str = None):
         combined = pd.concat([existing_without_week, combined], ignore_index=True)
         print(f"[ETL] 🔀 Merged Week {week_label} into existing snapshot")
 
+    # Diagnostic + regression guard (same rule as inventory_model_snapshot).
+    # If a freshly regenerated full snapshot dropped recent weeks (e.g.,
+    # a Linux xlsx parse failure on the runner) the committed snapshot
+    # is the high-water mark; we refuse to overwrite it.
+    if not single_week:
+        new_weeks = (
+            combined["week"].astype(str).str.extract(r"(\d+)")[0]
+            .dropna().astype(int)
+        )
+        if not new_weeks.empty:
+            new_max = int(new_weeks.max())
+            print("[ETL] 📊 Sales rows by week:")
+            for w, n in new_weeks.value_counts().sort_index().items():
+                print(f"        W{w:>2}: {n:>5} rows")
+            if OUTPUT_FILE.exists():
+                try:
+                    existing_w = pd.read_csv(OUTPUT_FILE, usecols=["week"], dtype=str)
+                    existing_max = int(
+                        existing_w["week"].astype(str).str.extract(r"(\d+)")[0]
+                        .dropna().astype(int).max()
+                    )
+                    if new_max < existing_max:
+                        print(
+                            f"[ETL] ⛔ ABORT WRITE: new max W{new_max} < existing W{existing_max}. "
+                            f"Keeping committed snapshot — investigate why W{existing_max} sales "
+                            f"didn't regenerate (check above logs for xlsx read failures)."
+                        )
+                        return existing
+                except Exception as _e:
+                    print(f"[ETL] ⚠ regression-guard read failed, will write anyway: {_e!r}")
+
     combined.to_csv(OUTPUT_FILE, index=False)
     print("✅ AUTO ETL COMPLETE")
 

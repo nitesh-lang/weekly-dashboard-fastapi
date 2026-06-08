@@ -183,18 +183,21 @@ def load_inventory_snapshot() -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame(columns=list(UI_SCHEMA.keys()))
 
+    # Robust blank check first (BEFORE astype-str, so .isna() still
+    # catches np.nan and pd.NA).  Different pandas versions stringify
+    # NaN differently — "nan" / "<NA>" / "" — so we union .isna()
+    # with a lowercase string check to cover every variant.  Without
+    # this, the runner's pandas dropped these rows silently in the
+    # downstream groupby while local pandas kept them, producing a
+    # 3634-unit cross-platform audit delta.
+    _blank_asin = df["asin"].isna() | (
+        df["asin"].astype(str).str.strip().str.lower().isin(["", "nan", "none", "<na>", "n/a"])
+    )
+    df = df[~_blank_asin]
+
     df["Model"]    = df["model"].astype(str).str.upper().str.strip()
     df["asin"]     = df["asin"].astype(str).str.strip()
     df["week_num"] = df["week"].astype(str).str.extract(r"(\d+)").astype(float)
-
-    # Explicit blank-ASIN filter.  Rows without an ASIN are pipeline
-    # orders for ASINs not yet listed in master — the per-ASIN view
-    # can't display them anyway.  Filter here so the groupby below
-    # behaves identically across pandas versions (older pandas keep
-    # "nan" string rows; newer ones drop them silently — caused
-    # check_snapshot_vs_route to flag a 3634-unit delta on the runner
-    # while local runs reported delta=0).
-    df = df[~df["asin"].isin(["", "nan", "NaN", "<NA>", "None"])]
 
     # Filter by channel directly — the snapshot CSV's `type` column is
     # empty (type gets derived from channel at render time by

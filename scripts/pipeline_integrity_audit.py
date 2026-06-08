@@ -271,16 +271,27 @@ def check_snapshot_vs_route(latest_week: int) -> pd.DataFrame:
             AMAZON_SIDE_CHANNELS, PIPELINE_CHANNELS,
         )
         chan = snap_w["channel"].apply(_norm_chan)
-        # Match the route's intentional filter: rows with blank ASIN
-        # (unmapped pipeline orders) are excluded from the per-ASIN
-        # pivot, so don't include them in the comparison total either.
-        snap_asin_n = snap_w["asin"].astype(str).str.strip()
-        has_asin = ~snap_asin_n.isin(["", "nan", "NaN", "<NA>", "None"])
+        # Match the route's intentional filter (rows with blank ASIN
+        # are excluded from the per-ASIN pivot — pipeline orders for
+        # unlisted products).  Robust against every NaN representation
+        # by combining .isna() with a lowercase string check; older
+        # iteration used only str-based isin which missed pd.NA on
+        # newer pandas.
+        _is_blank = snap_w["asin"].isna() | (
+            snap_w["asin"].astype(str).str.strip().str.lower()
+            .isin(["", "nan", "none", "<na>", "n/a"])
+        )
+        has_asin = ~_is_blank
         bucket_total = float(snap_w.loc[
             (chan.isin(AMAZON_SIDE_CHANNELS) | chan.isin(PIPELINE_CHANNELS))
             & has_asin,
             "inventory_units",
         ].sum())
+        # Diagnostic: surface the breakdown in workflow logs so a future
+        # delta is interpretable without re-downloading the artifact.
+        print(f"[audit-check2b] bucket(chan-only)={int(snap_w.loc[chan.isin(AMAZON_SIDE_CHANNELS)|chan.isin(PIPELINE_CHANNELS),'inventory_units'].sum())} "
+              f"bucket(chan+has_asin)={int(bucket_total)} "
+              f"route={int(route_total)} blank_asin_rows={int(_is_blank.sum())}")
         out.append({
             "layer": "route:ams_trend.load_inventory_snapshot",
             "week_num": latest_week,

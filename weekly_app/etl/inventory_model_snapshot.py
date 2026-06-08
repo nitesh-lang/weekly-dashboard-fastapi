@@ -338,6 +338,41 @@ def run_inventory_etl():
     # --------------------------------------------------------
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
+    # Diagnostic: rows per week so the workflow log surfaces any
+    # silent week-drop on the runner (e.g., an xlsx file that fails to
+    # parse on Linux but works locally).
+    week_counts = (
+        final_df["week"].astype(str).str.extract(r"(\d+)")[0]
+        .dropna().astype(int).value_counts().sort_index()
+    )
+    print("📊 Rows by week:")
+    for w, n in week_counts.items():
+        print(f"   W{w:>2}: {n:>5} rows")
+    new_max = int(week_counts.index.max()) if not week_counts.empty else -1
+
+    # Regression guard: never overwrite a snapshot with one that lost
+    # recent weeks.  Protects against the runner-side scenario where a
+    # specific xlsx silently fails to parse and the regenerated file is
+    # missing W{N..N+K}.  Locally-committed snapshot is treated as the
+    # high-water mark; if the regenerated one is older, keep the
+    # existing file unchanged.
+    if OUT_FILE.exists():
+        try:
+            existing = pd.read_csv(OUT_FILE, usecols=["week"], dtype=str)
+            existing_max = int(
+                existing["week"].astype(str).str.extract(r"(\d+)")[0]
+                .dropna().astype(int).max()
+            )
+            if new_max < existing_max:
+                print(
+                    f"⛔ ABORT WRITE: new max week W{new_max} < existing W{existing_max}. "
+                    f"Keeping existing snapshot — investigate why W{existing_max} rows "
+                    f"didn't regenerate (check Excel parse errors above)."
+                )
+                return
+        except Exception as e:
+            print(f"⚠ regression-guard read failed, will write anyway: {e!r}")
+
     final_df.to_csv(OUT_FILE, index=False)
 
     print("✅ INVENTORY MODEL SNAPSHOT GENERATED")

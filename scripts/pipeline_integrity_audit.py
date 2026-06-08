@@ -1127,6 +1127,153 @@ def check_cross_route_units_consistency(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_off_master_asins_sales() -> pd.DataFrame:
+    """Sales-side analogue of check_off_master_asins.
+
+    Walks every brand × week sales raw file (amazon_sales.xlsx + every
+    sheet in other_channels.xlsx) and flags ASINs whose ASIN AND raw
+    SKU are both absent from sku_master.xlsx.  These rows survive
+    sales_auto_etl's master-fill (because there's nothing to fill from)
+    so they land in weekly_sales_snapshot with empty/unmapped model →
+    Sales Trend can show them but they don't roll up under their
+    intended brand/model.
+
+    Latest-4 weeks only so this is a near-term action list, not a
+    historical log.
+    """
+    RAW = ROOT / "data" / "raw" / "sales"
+    master_path = ROOT / "data" / "master" / "sku_master.xlsx"
+    if not (RAW.exists() and master_path.exists()):
+        return pd.DataFrame()
+
+    m = pd.read_excel(master_path)
+    m.columns = m.columns.str.strip()
+    master_asins = set(m["ASIN"].astype(str).str.strip()) if "ASIN" in m.columns else set()
+    master_skus  = set(m["FBA SKU"].astype(str).str.strip()) if "FBA SKU" in m.columns else set()
+    if "Original SKU" in m.columns:
+        master_skus |= set(m["Original SKU"].astype(str).str.strip())
+    master_asins.discard(""); master_asins.discard("nan")
+    master_skus.discard("");  master_skus.discard("nan")
+
+    # Find latest week from folder names → take latest 4
+    week_dirs = []
+    for p in RAW.iterdir():
+        if p.is_dir() and p.name.lower().startswith("week"):
+            try:
+                week_dirs.append((int(p.name.replace("Week", "").strip()), p))
+            except Exception:
+                pass
+    if not week_dirs:
+        return pd.DataFrame()
+    week_dirs.sort()
+    weeks_of_interest = {w for w, _ in week_dirs[-4:]}
+
+    rows: list[Dict[str, Any]] = []
+    for wnum, wdir in week_dirs:
+        if wnum not in weeks_of_interest:
+            continue
+        for brand_dir in wdir.iterdir():
+            if not brand_dir.is_dir():
+                continue
+            brand_norm = _norm_brand(brand_dir.name)
+
+            # amazon_sales.xlsx — single sheet, (Child) ASIN + SKU + Units Ordered
+            amz = brand_dir / "amazon_sales.xlsx"
+            if amz.exists():
+                try:
+                    df = pd.read_excel(amz)
+                    df.columns = [c.strip() for c in df.columns]
+                    cl = {c.lower(): c for c in df.columns}
+                    a_col = cl.get("(child) asin") or cl.get("child asin") or cl.get("asin")
+                    s_col = cl.get("sku")
+                    u_col = cl.get("units ordered") or cl.get("units_ordered")
+                    if a_col:
+                        sub = df[[c for c in (a_col, s_col, u_col) if c]].copy()
+                        sub.columns = ["asin"] + (["sku"] if s_col else []) + (["units"] if u_col else [])
+                        sub["asin"] = sub["asin"].astype(str).str.strip()
+                        if "sku" in sub.columns:
+                            sub["sku"] = sub["sku"].astype(str).str.strip()
+                        else:
+                            sub["sku"] = ""
+                        sub["units"] = pd.to_numeric(sub.get("units", 0), errors="coerce").fillna(0)
+                        mask = (
+                            sub["asin"].ne("")
+                            & ~sub["asin"].isin(master_asins)
+                            & ~sub["sku"].isin(master_skus)
+                        )
+                        for _, r in sub[mask].iterrows():
+                            rows.append({
+                                "week_num":     wnum,
+                                "brand_folder": brand_norm,
+                                "source":       "amazon_sales",
+                                "channel":      "amazon",
+                                "asin":         r["asin"],
+                                "raw_sku":      r["sku"],
+                                "units":        int(r["units"]),
+                            })
+                except Exception as e:
+                    rows.append({
+                        "week_num": wnum, "brand_folder": brand_norm,
+                        "source": "amazon_sales", "channel": "—",
+                        "asin": "(read failed)", "raw_sku": str(e)[:80],
+                        "units": 0,
+                    })
+
+            # other_channels.xlsx — each sheet is one channel (1p Sales, B2B, Blinkit, etc.)
+            oc = brand_dir / "other_channels.xlsx"
+            if oc.exists():
+                try:
+                    xl = pd.ExcelFile(oc)
+                    for sh in xl.sheet_names:
+                        try:
+                            d = pd.read_excel(oc, sheet_name=sh)
+                        except Exception:
+                            continue
+                        d.columns = [c.strip() for c in d.columns]
+                        cl = {c.lower(): c for c in d.columns}
+                        a_col = cl.get("asin") or cl.get("(child) asin")
+                        s_col = cl.get("sku")
+                        u_col = cl.get("qty") or cl.get("units") or cl.get("units sold") or cl.get("units_sold")
+                        if not a_col:
+                            continue
+                        sub = d[[c for c in (a_col, s_col, u_col) if c]].copy()
+                        sub.columns = ["asin"] + (["sku"] if s_col else []) + (["units"] if u_col else [])
+                        sub["asin"] = sub["asin"].astype(str).str.strip()
+                        if "sku" in sub.columns:
+                            sub["sku"] = sub["sku"].astype(str).str.strip()
+                        else:
+                            sub["sku"] = ""
+                        sub["units"] = pd.to_numeric(sub.get("units", 0), errors="coerce").fillna(0)
+                        mask = (
+                            sub["asin"].ne("")
+                            & ~sub["asin"].isin(master_asins)
+                            & ~sub["sku"].isin(master_skus)
+                        )
+                        for _, r in sub[mask].iterrows():
+                            rows.append({
+                                "week_num":     wnum,
+                                "brand_folder": brand_norm,
+                                "source":       "other_channels",
+                                "channel":      sh,
+                                "asin":         r["asin"],
+                                "raw_sku":      r["sku"],
+                                "units":        int(r["units"]),
+                            })
+                except Exception:
+                    pass
+
+    if not rows:
+        return pd.DataFrame()
+    out = pd.DataFrame(rows)
+    # Roll up: same ASIN in multiple weeks/sheets gets one summary row.
+    rolled = out.groupby(
+        ["asin", "raw_sku", "brand_folder", "source", "channel"],
+        as_index=False,
+    ).agg(weeks_seen=("week_num", "nunique"), total_units=("units", "sum"))
+    rolled = rolled[rolled["total_units"] > 0]
+    return rolled.sort_values("total_units", ascending=False).reset_index(drop=True)
+
+
 def check_cross_route_brand_totals(latest_week: int) -> pd.DataFrame:
     """Per-brand sales (latest week) should be identical between
     Main Dashboard's brand KPI and Sales Trend's brand sums.
@@ -1238,6 +1385,11 @@ def main() -> int:
         ("15_cross_route_sessions","Cross-route sessions consistency",      check_cross_route_sessions_consistency(latest_week),  True),
         ("16_cross_route_units",  "Cross-source units drift (diagnostic)",  check_cross_route_units_consistency(latest_week),     False),
         ("17_cross_route_brands", "Cross-route per-brand totals consistency",check_cross_route_brand_totals(latest_week),         True),
+        # Operator action list: ASINs/SKUs in raw sales files that
+        # don't resolve in sku_master.  These rows survive ETL but
+        # roll up under a blank brand/model — operator should add
+        # them to master so sales reconcile cleanly.
+        ("18_off_master_sales",   "(info) Off-master ASINs in raw sales",  check_off_master_asins_sales(),                  False),
     ]
 
     print()

@@ -152,8 +152,13 @@ for brand_dir in BRAND_FOLDERS:
                 "attributed_sales", "ams_orders",
             ])
         else:
-            sp_df = pd.read_excel(ads_file, sheet_name="SP")
-            sd_df = pd.read_excel(ads_file, sheet_name="SD")
+            # Defensive read: a brand × week may legitimately have no SP
+            # or SD data (e.g., when the Reports API returns empty for
+            # that segment).  Treat a missing sheet as an empty frame so
+            # the workflow doesn't crash on the first blank brand.
+            _sheets = pd.ExcelFile(ads_file).sheet_names
+            sp_df = pd.read_excel(ads_file, sheet_name="SP") if "SP" in _sheets else pd.DataFrame()
+            sd_df = pd.read_excel(ads_file, sheet_name="SD") if "SD" in _sheets else pd.DataFrame()
 
             ads_df = pd.concat([sp_df, sd_df], ignore_index=True)
             ads_df.columns = ads_df.columns.str.strip()

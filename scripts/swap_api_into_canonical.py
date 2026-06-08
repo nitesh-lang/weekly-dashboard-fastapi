@@ -93,13 +93,22 @@ def swap_one(brand_dir: Path, week: int) -> dict:
         except Exception:
             pass
 
-    # Write SP, SD, SB to canonical
-    sheets = {}
-    if not new_sp.empty:  sheets["SP"] = new_sp
-    if not new_sd.empty:  sheets["SD"] = new_sd
-    if not existing_sb.empty:  sheets["SB"] = existing_sb
-    if not sheets:
-        out["note"] = "all sheets empty"; return out
+    # Write SP, SD, SB to canonical.  ALWAYS emit SP + SD sheets even
+    # when API returned nothing for that week — downstream consumers
+    # (business_ads_weekly_etl) call pd.read_excel(sheet_name="SP")
+    # blindly, so a missing sheet crashes the workflow.  An empty
+    # sheet with the standard column headers is the safe sentinel.
+    EMPTY_COLS = [
+        "Portfolio name", "Campaign Name", "Advertised ASIN",
+        "Spend", "Clicks", "Impressions",
+        "14 Day Total Sales (₹)", "14 Day Total Units (#)",
+    ]
+    sheets = {
+        "SP": new_sp if not new_sp.empty else pd.DataFrame(columns=EMPTY_COLS),
+        "SD": new_sd if not new_sd.empty else pd.DataFrame(columns=EMPTY_COLS),
+    }
+    if not existing_sb.empty:
+        sheets["SB"] = existing_sb
 
     with pd.ExcelWriter(canon, engine="openpyxl", mode="w") as w:
         for name, sdf in sheets.items():

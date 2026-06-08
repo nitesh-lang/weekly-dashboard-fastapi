@@ -11198,7 +11198,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "White Mulberry-Lshape-SP-KT-Phrase": {
+  "Camb-Lshape-SP-KT-Phrase": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFW59TRG",
@@ -11209,7 +11209,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "White Mulberry-Motorized-SP-PT-Exact": {
+  "Camb-Motorized-SP-PT-Exact": {
     "brand": "White Mulberry",
     "asins": [
       "B0CPT3Q25C",
@@ -11220,7 +11220,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "White Mulberry-Lshape-SP-PT-Exact": {
+  "Camb-Lshape-SP-PT-Exact": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFVMDJ2K",
@@ -12169,6 +12169,26 @@
     "brand": "White Mulberry",
     "asins": [
       "B0FN81FD8M"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry-Dual Monitor Arm-B0DB5VVPSB-PT-SP": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VVPSB"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry Monitor Arm-B0DB5W4TCP-SP-PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5W4TCP"
     ],
     "ad_types": [
       "productAd"
@@ -16249,7 +16269,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "Audio Array-B0CKHVHVQ1-AM W45 Microphone-SP-PT": {
+  "Audio Array-B0CKHVHVQ1-AM W45 Microphone-SP-CT": {
     "brand": "Audio Array",
     "asins": [
       "B0CKHVHVQ1"
@@ -22101,7 +22121,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "AudioArray-B0FFB6YJM1-Soundbar-SP-PT": {
+  "AudioArray-B0FFB6YJM1-Soundbar-SP-CT Refine": {
     "brand": "Audio Array",
     "asins": [
       "B0FFB6YJM1"
@@ -22542,6 +22562,37 @@
     "brand": "Audio Array",
     "asins": [
       "B0B4G19R58"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array-B0CKHVHVQ1-AM W45 Microphone-SP-KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0CKHVHVQ1"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array-B0CKHVHVQ1-AM W45 Wireless-SP-PT (2)": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0CKHVHVQ1"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudiioArray_Mixer/Microphone System_SP_AT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G53KWRWH",
+      "B0GW92316G"
     ],
     "ad_types": [
       "productAd"
@@ -28535,6 +28586,99 @@
     "brand": "Nexlev",
     "asins": [
       "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - SP- B0GN86G345 -  Car Air Purifier- PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN86G345"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GGHZWMVW-Vacuum-PT01": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-Steam Mop Floor Cleaner-B0DNJS23HS- PT01": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev -SP- B0GN8N96R5 - Smart Air Purifier - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8N96R5"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-Steam Mop Floor Cleaner-B0DNJS23HS- PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Branded-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8WW6BC",
+      "B0GN94YDY2",
+      "B0GGHZWMVW",
+      "B0DCGHVN81"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0DVC7VJP1 - Stand Mixer - PT - SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DVC7VJP1"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-Portable Blender-B0FS6TB7CP-PT-SP-01": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-2 in 1 Stick Vacuum Cleaner-B0DCGHVN81- SP- Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCGHVN81"
     ],
     "ad_types": [
       "productAd"

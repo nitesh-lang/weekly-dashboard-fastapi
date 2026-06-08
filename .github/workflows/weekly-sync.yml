@@ -53,6 +53,15 @@ on:
 permissions:
   contents: write              # needed to push the data refresh commit
 
+# Serialise runs.  Two pushes landing seconds apart used to fire two
+# parallel workflows that both pulled the same ads and raced on the
+# git push.  With this group, the second run queues until the first
+# finishes; cancel-in-progress is false so an already-running
+# commit/push is never aborted mid-flight.
+concurrency:
+  group: weekly-sync
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest

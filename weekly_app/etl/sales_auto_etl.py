@@ -681,10 +681,15 @@ def run_sales_auto_etl(single_week: str = None):
             if OUTPUT_FILE.exists():
                 try:
                     existing_w = pd.read_csv(OUTPUT_FILE, usecols=["week"], dtype=str)
-                    existing_max = int(
+                    existing_weeks = (
                         existing_w["week"].astype(str).str.extract(r"(\d+)")[0]
-                        .dropna().astype(int).max()
+                        .dropna().astype(int)
                     )
+                    existing_max = int(existing_weeks.max())
+                    existing_counts = existing_weeks.value_counts()
+                    new_counts = new_weeks.value_counts()
+
+                    # 1) Max-week regression
                     if new_max < existing_max:
                         print(
                             f"[ETL] ⛔ ABORT WRITE: new max W{new_max} < existing W{existing_max}. "
@@ -692,6 +697,22 @@ def run_sales_auto_etl(single_week: str = None):
                             f"didn't regenerate (check above logs for xlsx read failures)."
                         )
                         return existing
+
+                    # 2) Row-count regression (≥30% drop in any week present
+                    #    in both).  Caught the Run #19 scenario where the
+                    #    Linux runner silently dropped 96% of Audio Array
+                    #    W23 sales rows while max-week stayed at 23.
+                    for w in sorted(set(existing_counts.index) & set(new_counts.index)):
+                        old_n = int(existing_counts[w])
+                        new_n = int(new_counts[w])
+                        if old_n >= 50 and new_n < old_n * 0.70:
+                            drop_pct = (1 - new_n / old_n) * 100
+                            print(
+                                f"[ETL] ⛔ ABORT WRITE: W{w} regressed from {old_n} → {new_n} rows "
+                                f"({drop_pct:.0f}% drop). Keeping committed snapshot — investigate "
+                                f"which raw xlsx failed to parse in this run."
+                            )
+                            return existing
                 except Exception as _e:
                     print(f"[ETL] ⚠ regression-guard read failed, will write anyway: {_e!r}")
 

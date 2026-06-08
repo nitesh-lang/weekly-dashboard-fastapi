@@ -359,10 +359,15 @@ def run_inventory_etl():
     if OUT_FILE.exists():
         try:
             existing = pd.read_csv(OUT_FILE, usecols=["week"], dtype=str)
-            existing_max = int(
+            existing_weeks = (
                 existing["week"].astype(str).str.extract(r"(\d+)")[0]
-                .dropna().astype(int).max()
+                .dropna().astype(int)
             )
+            existing_max = int(existing_weeks.max())
+            existing_counts = existing_weeks.value_counts()
+            new_counts = week_counts
+
+            # 1) Max-week regression
             if new_max < existing_max:
                 print(
                     f"⛔ ABORT WRITE: new max week W{new_max} < existing W{existing_max}. "
@@ -370,6 +375,21 @@ def run_inventory_etl():
                     f"didn't regenerate (check Excel parse errors above)."
                 )
                 return
+
+            # 2) Row-count regression (≥30% drop in any week present in both).
+            #    Catches the Linux-runner xlsx parse bug where max-week is
+            #    preserved but row counts within a week collapse silently.
+            for w in sorted(set(existing_counts.index) & set(new_counts.index)):
+                old_n = int(existing_counts[w])
+                new_n = int(new_counts[w])
+                if old_n >= 50 and new_n < old_n * 0.70:
+                    drop_pct = (1 - new_n / old_n) * 100
+                    print(
+                        f"⛔ ABORT WRITE: W{w} regressed from {old_n} → {new_n} rows "
+                        f"({drop_pct:.0f}% drop). Keeping existing snapshot — investigate "
+                        f"which raw xlsx failed to parse."
+                    )
+                    return
         except Exception as e:
             print(f"⚠ regression-guard read failed, will write anyway: {e!r}")
 

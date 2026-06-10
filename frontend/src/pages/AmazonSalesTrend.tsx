@@ -15,7 +15,8 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ExportButtons } from "@/components/ExportButtons";
-import { TrendingUp, TrendingDown, Minus, Download, ShoppingCart, Copy, Check } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, Download, ShoppingCart, Copy, Check, ChevronDown, ChevronUp } from "lucide-react";
+import { TrendChart } from "@/components/TrendChart";
 
 interface AmazonRow {
     model: string;
@@ -147,6 +148,21 @@ export default function AmazonSalesTrend() {
 
     const { sorted, sort, onSort } = useSortedRows(filtered, { key: "last_4w_units", dir: "desc" });
 
+    // Per-week GMV + units rolled across visible rows for the overview chart.
+    const [showOverview, setShowOverview] = useState(true);
+    const chartTrend = useMemo(() => {
+        return allWeeks.map((w) => {
+            let gmv = 0, units = 0;
+            for (const r of filtered) {
+                const s = r[w + "_sales"];
+                const u = r[w + "_units"];
+                if (typeof s === "number") gmv   += s;
+                if (typeof u === "number") units += u;
+            }
+            return { week: w, gmv, units };
+        });
+    }, [filtered, allWeeks]);
+
     return (
         <AppLayout>
             <div className="flex flex-wrap items-end gap-4">
@@ -166,6 +182,28 @@ export default function AmazonSalesTrend() {
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error && <ErrorBlock error={error} />}
+
+            {data && (
+                <>
+                    <div className="flex items-center justify-end">
+                        <Button variant="ghost" size="sm" onClick={() => setShowOverview((s) => !s)}>
+                            {showOverview
+                                ? <><ChevronUp className="h-3.5 w-3.5" />Hide overview</>
+                                : <><ChevronDown className="h-3.5 w-3.5" />Show overview</>}
+                        </Button>
+                    </div>
+                    {showOverview && (
+                        <TrendChart
+                            trend={chartTrend}
+                            selectedBrandLabel={
+                                selectedBrands.length === 1 ? selectedBrands[0]
+                                : selectedBrands.length > 1 ? `${selectedBrands.length} brands`
+                                : "All Brands · Amazon+1P"
+                            }
+                        />
+                    )}
+                </>
+            )}
 
             {data && (
                 <Card className="overflow-hidden">

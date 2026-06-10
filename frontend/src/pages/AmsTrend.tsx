@@ -16,7 +16,8 @@ import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Download, ArrowUp, ArrowDown, ArrowUpDown, Megaphone } from "lucide-react";
+import { Download, ArrowUp, ArrowDown, ArrowUpDown, Megaphone, ChevronDown, ChevronUp } from "lucide-react";
+import { AmsOverviewChart } from "@/components/AmsOverviewChart";
 
 interface AmsKpis {
     gmv?: number; sessions?: number; units?: number;
@@ -312,6 +313,30 @@ export default function AmsTrend() {
         };
     }, [filtered]);
 
+    // Per-week roll-up across filtered rows for the overview chart.
+    const [showOverview, setShowOverview] = useState(true);
+    const chartTrend = useMemo(() => {
+        const real = filtered.filter(
+            (r) => String(r.Model ?? "").toLowerCase() !== "grand total"
+        );
+        const byWeek = new Map<number, { spend: number; gmv: number; attr: number }>();
+        for (const r of real) {
+            const wn = Number(r.week);
+            if (!isFinite(wn)) continue;
+            const cur = byWeek.get(wn) || { spend: 0, gmv: 0, attr: 0 };
+            cur.spend += Number(r.ad_spend) || 0;
+            cur.gmv   += Number((r as any).GMV ?? r.gmv) || 0;
+            cur.attr  += Number(r.attributed_sales) || 0;
+            byWeek.set(wn, cur);
+        }
+        return [...byWeek.entries()].sort((a, b) => a[0] - b[0]).map(([w, v]) => ({
+            week: `Week ${w}`,
+            ad_spend: v.spend,
+            acos:  v.attr > 0 ? v.spend / v.attr : null,
+            tacos: v.gmv  > 0 ? v.spend / v.gmv  : null,
+        }));
+    }, [filtered]);
+
     function cellsFor(r: AmsRow): string[] {
         const gmv  = r.GMV ?? r.gmv;
         const tacosVal = r.tacos ?? r.TACOS;
@@ -377,14 +402,33 @@ export default function AmsTrend() {
 
             {data && (
                 <>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
                         <MiniKpi label="GMV"              value={fmtINR(filteredKpis.gmv)}                                                              accent="#059669" />
                         <MiniKpi label="Units"            value={fmtInt(filteredKpis.units)}                                                            accent="#2563eb" />
                         <MiniKpi label="Sessions"         value={fmtInt(filteredKpis.sessions)}                                                         accent="#0891b2" />
                         <MiniKpi label="Ad Spend"         value={fmtINR(filteredKpis.ad_spend)}                                                         accent="#d97706" />
                         <MiniKpi label="Attributed Sales" value={fmtINR(filteredKpis.attributed_sales)}                                                 accent="#7c3aed" />
-                        <MiniKpi label="ACOS"             value={filteredKpis.acos != null ? (filteredKpis.acos * 100).toFixed(1) + "%" : "—"}           accent="#be185d" />
+                        <MiniKpi label="ACOS"             value={filteredKpis.acos  != null ? (filteredKpis.acos  * 100).toFixed(1) + "%" : "—"}        accent="#be185d" />
+                        <MiniKpi label="TACOS"            value={filteredKpis.tacos != null ? (filteredKpis.tacos * 100).toFixed(1) + "%" : "—"}        accent="#a16207" />
                     </div>
+
+                    <div className="flex items-center justify-end">
+                        <Button variant="ghost" size="sm" onClick={() => setShowOverview((s) => !s)}>
+                            {showOverview
+                                ? <><ChevronUp className="h-3.5 w-3.5" />Hide overview</>
+                                : <><ChevronDown className="h-3.5 w-3.5" />Show overview</>}
+                        </Button>
+                    </div>
+                    {showOverview && (
+                        <AmsOverviewChart
+                            trend={chartTrend}
+                            selectedBrandLabel={
+                                selBrands.length === 1 ? selBrands[0]
+                                : selBrands.length > 1 ? `${selBrands.length} brands`
+                                : "All Brands"
+                            }
+                        />
+                    )}
 
                     <Card className="overflow-hidden">
                         <SectionHeader

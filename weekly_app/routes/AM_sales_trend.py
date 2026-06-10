@@ -268,11 +268,11 @@ def build_amazon_sales_trend(sales_df, business_df, sel_weeks=None):
         .sort_values("week_num")
     )
 
-    # ✅ If weeks selected, use those — otherwise default to last 4
+    # ✅ If weeks selected, use those — otherwise default to last 12
     if sel_weeks:
         weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
     else:
-        weeks_df = weeks_df.tail(4)
+        weeks_df = weeks_df.tail(12)
 
     weeks = weeks_df["week"].tolist()
 

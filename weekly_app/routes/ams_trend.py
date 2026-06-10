@@ -294,9 +294,10 @@ def get_ams_trend(
         all_weeks_list = sorted(int(w) for w in df["week"].dropna().unique())
         latest_week = all_weeks_list[-1] if all_weeks_list else None
 
-    # Default window = last 4 weeks. When the operator hasn't picked
-    # anything we want a useful trend snapshot, not a single column.
-    default_window = all_weeks_list[-4:] if len(all_weeks_list) >= 4 else all_weeks_list
+    # Default window = last 12 weeks. When the operator hasn't picked
+    # anything we want a useful trend snapshot for the overview chart;
+    # the table picker still lets them narrow further.
+    default_window = all_weeks_list[-12:] if len(all_weeks_list) >= 12 else all_weeks_list
 
     # ===============================
     # INVENTORY MERGE (MODEL + WEEK)

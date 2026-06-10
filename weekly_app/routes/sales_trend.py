@@ -224,7 +224,7 @@ def sales_trend(
     if sel_weeks:
         weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
     else:
-        weeks_df = weeks_df.tail(4)
+        weeks_df = weeks_df.tail(12)
 
     weeks = weeks_df["week"].tolist()
     # Guard against empty filter result — earlier this raised
@@ -395,7 +395,7 @@ def sales_trend_rows_api(
         if sel_weeks:
             weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
         else:
-            weeks_df = weeks_df.tail(4)
+            weeks_df = weeks_df.tail(12)
         weeks = weeks_df["week"].tolist()
 
         data = {}

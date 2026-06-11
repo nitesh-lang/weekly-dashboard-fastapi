@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Download, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { exportToXlsx, copyTableToClipboard } from "@/lib/utils";
+import { useCanExport } from "@/lib/auth";
 
 /**
  * Export + Copy buttons used on every data-table page.
@@ -29,6 +30,9 @@ export function ExportButtons({
 }) {
     const [copied, setCopied] = useState(false);
     const isDisabled = !!disabled || !rows.length;
+    // Viewer role loses export + copy entirely; admins/operators see both.
+    const canExport = useCanExport();
+    if (!canExport) return null;
 
     async function handleExport() {
         await exportToXlsx(rows, columns, filename);

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
+import { useCanExport } from "@/lib/auth";
 import { useSortedRows } from "@/lib/useSortedRows";
 import AppLayout from "@/components/AppLayout";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
@@ -167,28 +168,30 @@ export default function CategorySales() {
 
             {data && (
                 <Card className="overflow-hidden">
-                    <div className="flex items-center justify-end border-b px-4 py-2 gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => exportToXlsx(
-                                sorted as any,
-                                [groupCol, "units_sold", "gross_sales", "gmv_pct"],
-                                `category-sales-${level}.csv`,
-                            )}
-                        >
-                            <Download className="h-3.5 w-3.5" />
-                            Export
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => copyTableToClipboard(sorted as any, [groupCol, "units_sold", "gross_sales", "gmv_pct"])}
-                        >
-                            <Copy className="h-3.5 w-3.5" />
-                            Copy
-                        </Button>
-                    </div>
+                    {useCanExport() && (
+                        <div className="flex items-center justify-end border-b px-4 py-2 gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => exportToXlsx(
+                                    sorted as any,
+                                    [groupCol, "units_sold", "gross_sales", "gmv_pct"],
+                                    `category-sales-${level}.csv`,
+                                )}
+                            >
+                                <Download className="h-3.5 w-3.5" />
+                                Export
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => copyTableToClipboard(sorted as any, [groupCol, "units_sold", "gross_sales", "gmv_pct"])}
+                            >
+                                <Copy className="h-3.5 w-3.5" />
+                                Copy
+                            </Button>
+                        </div>
+                    )}
                     <div className="overflow-auto max-h-[72vh]">
                         <table className="text-[13px] w-full" style={{ tableLayout: "auto" }}>
                             <thead className="bg-secondary sticky top-0 z-10">

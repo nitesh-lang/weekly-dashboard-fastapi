@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fmtINR, fmtInt, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
+import { useCanExport } from "@/lib/auth";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { makeTextFilter } from "@/lib/useTextFilter";
 import { useMargins, type MarginRow } from "@/lib/useMargins";
@@ -42,6 +43,7 @@ function isSuspect(r: MarginRow): boolean {
 }
 
 export default function MarginSnapshot() {
+    const canExport = useCanExport();
     const [params, setParams] = useSearchParams();
     const qsKey = params.toString();
     const [filter, setFilter] = useDebouncedUrlParam("q");
@@ -298,36 +300,40 @@ export default function MarginSnapshot() {
                                         onChange={(e) => setFilter(e.target.value)}
                                         className="max-w-xs h-8 text-sm"
                                     />
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => exportToXlsx(
-                                            sorted as any,
-                                            ["brand", "model", "sku", "asin",
-                                             "category_l1", "category_l2", "product_name",
-                                             "soh", "am_intransit", "am_soh", "total_stock",
-                                             "latest_fob", "dp", "mrp", "bau_deal_sp",
-                                             "gross_margin", "gross_margin_pct",
-                                             "net_margin", "net_margin_pct"],
-                                            "margin-snapshot.xlsx",
-                                        )}
-                                    >
-                                        <Download className="h-3.5 w-3.5" />
-                                        Export
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => copyTableToClipboard(sorted as any, ["brand", "model", "sku", "asin",
-                                             "category_l1", "category_l2", "product_name",
-                                             "soh", "am_intransit", "am_soh", "total_stock",
-                                             "latest_fob", "dp", "mrp", "bau_deal_sp",
-                                             "gross_margin", "gross_margin_pct",
-                                             "net_margin", "net_margin_pct"])}
-                                    >
-                                        <Copy className="h-3.5 w-3.5" />
-                                        Copy
-                                    </Button>
+                                    {canExport && (
+                                        <>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => exportToXlsx(
+                                                    sorted as any,
+                                                    ["brand", "model", "sku", "asin",
+                                                     "category_l1", "category_l2", "product_name",
+                                                     "soh", "am_intransit", "am_soh", "total_stock",
+                                                     "latest_fob", "dp", "mrp", "bau_deal_sp",
+                                                     "gross_margin", "gross_margin_pct",
+                                                     "net_margin", "net_margin_pct"],
+                                                    "margin-snapshot.xlsx",
+                                                )}
+                                            >
+                                                <Download className="h-3.5 w-3.5" />
+                                                Export
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => copyTableToClipboard(sorted as any, ["brand", "model", "sku", "asin",
+                                                     "category_l1", "category_l2", "product_name",
+                                                     "soh", "am_intransit", "am_soh", "total_stock",
+                                                     "latest_fob", "dp", "mrp", "bau_deal_sp",
+                                                     "gross_margin", "gross_margin_pct",
+                                                     "net_margin", "net_margin_pct"])}
+                                            >
+                                                <Copy className="h-3.5 w-3.5" />
+                                                Copy
+                                            </Button>
+                                        </>
+                                    )}
                                 </>
                             }
                         />

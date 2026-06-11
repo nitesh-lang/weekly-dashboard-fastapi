@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/lib/auth";
+import { useAuth, canAccessTab } from "@/lib/auth";
 import { api } from "@/lib/api";
 import { useSyncStatus, formatRelative } from "@/lib/useSyncStatus";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import {
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
     Target, Truck, Calculator, Award, ExternalLink,
+    ShieldCheck,
 } from "lucide-react";
 
 // ── Hover prefetch ──────────────────────────────────────────────────────
@@ -168,9 +169,18 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                     </Link>
                 </div>
 
-                {/* Nav groups */}
+                {/* Nav groups — filtered by the current user's tab allowlist.
+                   admin role bypasses the check; an empty tabs array means
+                   "no restriction" (every nav item rendered).  Groups whose
+                   every item is hidden collapse entirely. */}
                 <nav className="flex-1 overflow-y-auto px-3 pb-4">
-                    {NAV_GROUPS.map((grp) => (
+                    {NAV_GROUPS
+                        .map((grp) => ({
+                            ...grp,
+                            items: grp.items.filter((it) => canAccessTab(user, it.to)),
+                        }))
+                        .filter((grp) => grp.items.length > 0)
+                        .map((grp) => (
                         <div key={grp.label} className="mb-5">
                             <div
                                 className="text-[10px] font-semibold uppercase mb-2 px-2"
@@ -214,6 +224,41 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                             </div>
                         </div>
                     ))}
+
+                    {/* ── Admin link — only shown to users with admin role.
+                       Sits between the data nav groups and the external-tool
+                       group so it doesn't get lost in the operator panel. */}
+                    {user?.role === "admin" && (
+                        <div className="mb-5">
+                            <div
+                                className="text-[10px] font-semibold uppercase mb-2 px-2"
+                                style={{ letterSpacing: "0.14em", color: "#9ca3af" }}
+                            >
+                                Settings
+                            </div>
+                            <div className="flex flex-col gap-0.5">
+                                <NavLink
+                                    to="/admin/users"
+                                    className={({ isActive }) =>
+                                        `group relative inline-flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium transition-all ${
+                                            isActive ? "text-white" : "text-foreground hover:bg-accent"
+                                        }`
+                                    }
+                                    style={({ isActive }: { isActive: boolean }) =>
+                                        isActive
+                                            ? {
+                                                  background: "linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)",
+                                                  boxShadow: "0 6px 16px -4px rgba(30, 64, 175, 0.35), inset 0 1px 0 rgba(255,255,255,0.16)",
+                                              }
+                                            : undefined
+                                    }
+                                >
+                                    <ShieldCheck className="h-4 w-4 shrink-0" />
+                                    <span className="flex-1">Users &amp; Roles</span>
+                                </NavLink>
+                            </div>
+                        </div>
+                    )}
 
                     {/* ── External tools ── separate Render apps that
                        complement the weekly brief.  Opens in a new tab. */}

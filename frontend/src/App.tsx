@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, RequireAuth } from "./lib/auth";
+import { AuthProvider, RequireAuth, RequireAdmin, RequireTab } from "./lib/auth";
 
 // Login is small and the first thing an unauthenticated visitor hits — eager-load it.
 import Login from "./pages/Login";
@@ -20,10 +20,7 @@ const DeadStock          = lazy(() => import("./pages/DeadStock"));
 const MarginSnapshot     = lazy(() => import("./pages/MarginSnapshot"));
 const Returns            = lazy(() => import("./pages/Returns"));
 const Drilldown          = lazy(() => import("./pages/Drilldown"));
-
-function Protected({ children }: { children: React.ReactNode }) {
-    return <RequireAuth>{children}</RequireAuth>;
-}
+const AdminUsers         = lazy(() => import("./pages/AdminUsers"));
 
 /** Inline skeleton shown while a route chunk downloads — should appear for
  *  ~100ms on first hit, instantly from cache afterwards. */
@@ -52,19 +49,20 @@ export default function App() {
             <Suspense fallback={<PageFallback />}>
                 <Routes>
                     <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard"           element={<Protected><Dashboard /></Protected>} />
-                    <Route path="/sales-trend"         element={<Protected><SalesTrend /></Protected>} />
-                    <Route path="/amazon-sales-trend"  element={<Protected><AmazonSalesTrend /></Protected>} />
-                    <Route path="/category-sales"      element={<Protected><CategorySales /></Protected>} />
-                    <Route path="/inventory-dashboard" element={<Protected><InventoryDashboard /></Protected>} />
-                    <Route path="/ams-trend"           element={<Protected><AmsTrend /></Protected>} />
-                    <Route path="/ams-poor-performers" element={<Protected><AmsPoorPerformers /></Protected>} />
-                    <Route path="/ams-planning"        element={<Protected><AmsPlanning /></Protected>} />
-                    <Route path="/no-sales-last-week"  element={<Protected><NoSalesLastWeek /></Protected>} />
-                    <Route path="/dead-stock"          element={<Protected><DeadStock /></Protected>} />
-                    <Route path="/margin-snapshot"     element={<Protected><MarginSnapshot /></Protected>} />
-                    <Route path="/returns"             element={<Protected><Returns /></Protected>} />
-                    <Route path="/drilldown"           element={<Protected><Drilldown /></Protected>} />
+                    <Route path="/dashboard"           element={<RequireAuth><RequireTab tab="/dashboard"><Dashboard /></RequireTab></RequireAuth>} />
+                    <Route path="/sales-trend"         element={<RequireAuth><RequireTab tab="/sales-trend"><SalesTrend /></RequireTab></RequireAuth>} />
+                    <Route path="/amazon-sales-trend"  element={<RequireAuth><RequireTab tab="/amazon-sales-trend"><AmazonSalesTrend /></RequireTab></RequireAuth>} />
+                    <Route path="/category-sales"      element={<RequireAuth><RequireTab tab="/category-sales"><CategorySales /></RequireTab></RequireAuth>} />
+                    <Route path="/inventory-dashboard" element={<RequireAuth><RequireTab tab="/inventory-dashboard"><InventoryDashboard /></RequireTab></RequireAuth>} />
+                    <Route path="/ams-trend"           element={<RequireAuth><RequireTab tab="/ams-trend"><AmsTrend /></RequireTab></RequireAuth>} />
+                    <Route path="/ams-poor-performers" element={<RequireAuth><RequireTab tab="/ams-poor-performers"><AmsPoorPerformers /></RequireTab></RequireAuth>} />
+                    <Route path="/ams-planning"        element={<RequireAuth><RequireTab tab="/ams-planning"><AmsPlanning /></RequireTab></RequireAuth>} />
+                    <Route path="/no-sales-last-week"  element={<RequireAuth><RequireTab tab="/no-sales-last-week"><NoSalesLastWeek /></RequireTab></RequireAuth>} />
+                    <Route path="/dead-stock"          element={<RequireAuth><RequireTab tab="/dead-stock"><DeadStock /></RequireTab></RequireAuth>} />
+                    <Route path="/margin-snapshot"     element={<RequireAuth><RequireTab tab="/margin-snapshot"><MarginSnapshot /></RequireTab></RequireAuth>} />
+                    <Route path="/returns"             element={<RequireAuth><RequireTab tab="/returns"><Returns /></RequireTab></RequireAuth>} />
+                    <Route path="/drilldown"           element={<RequireAuth><Drilldown /></RequireAuth>} />
+                    <Route path="/admin/users"         element={<RequireAuth><RequireAdmin><AdminUsers /></RequireAdmin></RequireAuth>} />
                     <Route path="*" element={<Navigate to="/dashboard" replace />} />
                 </Routes>
             </Suspense>

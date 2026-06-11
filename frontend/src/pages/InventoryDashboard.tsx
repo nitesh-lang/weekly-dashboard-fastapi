@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@/lib/utils";
+import { useCanExport } from "@/lib/auth";
 import { useSortedRows } from "@/lib/useSortedRows";
 import { makeTextFilter } from "@/lib/useTextFilter";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
@@ -375,36 +376,39 @@ export default function InventoryDashboard() {
                                         onChange={(e) => setFilter(e.target.value)}
                                         className="max-w-xs h-8 text-sm"
                                     />
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => exportToXlsx(
-                                            sorted as any,
-                                            // Keep all dims in the CSV export even though the table view
-                                            // hides them — operators may want them downstream.
-                                            ["week", "brand", "model", "sku",
-                                             "category_l0", "category_l1", "category_l2",
-                                             "channel", "type",
-                                             "inventory_units", "nlc", "inventory_value"],
-                                            "inventory-detail.xlsx",
-                                        )}
-                                    >
-                                        <Download className="h-3.5 w-3.5" />
-                                        Export
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => copyTableToClipboard(sorted as any, // Keep all dims in the CSV export even though the table view
-                                            // hides them — operators may want them downstream.
-                                            ["week", "brand", "model", "sku",
-                                             "category_l0", "category_l1", "category_l2",
-                                             "channel", "type",
-                                             "inventory_units", "nlc", "inventory_value"])}
-                                    >
-                                        <Copy className="h-3.5 w-3.5" />
-                                        Copy
-                                    </Button>
+                                    {useCanExport() && (
+                                        <>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => exportToXlsx(
+                                                    sorted as any,
+                                                    // Keep all dims in the CSV export even though the table view
+                                                    // hides them — operators may want them downstream.
+                                                    ["week", "brand", "model", "sku",
+                                                     "category_l0", "category_l1", "category_l2",
+                                                     "channel", "type",
+                                                     "inventory_units", "nlc", "inventory_value"],
+                                                    "inventory-detail.xlsx",
+                                                )}
+                                            >
+                                                <Download className="h-3.5 w-3.5" />
+                                                Export
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => copyTableToClipboard(sorted as any,
+                                                    ["week", "brand", "model", "sku",
+                                                     "category_l0", "category_l1", "category_l2",
+                                                     "channel", "type",
+                                                     "inventory_units", "nlc", "inventory_value"])}
+                                            >
+                                                <Copy className="h-3.5 w-3.5" />
+                                                Copy
+                                            </Button>
+                                        </>
+                                    )}
                                 </>
                             }
                         />

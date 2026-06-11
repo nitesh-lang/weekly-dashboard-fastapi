@@ -57,4 +57,11 @@ export const api = {
             method: "POST",
             body: body instanceof FormData ? body : body == null ? undefined : JSON.stringify(body),
         }),
+    patch: <T = unknown>(p: string, body?: unknown) =>
+        request<T>(p, {
+            method: "PATCH",
+            body: body == null ? undefined : JSON.stringify(body),
+        }),
+    delete: <T = unknown>(p: string) =>
+        request<T>(p, { method: "DELETE" }),
 };

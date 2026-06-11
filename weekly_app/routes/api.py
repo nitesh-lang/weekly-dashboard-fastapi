@@ -34,7 +34,12 @@ def api_me(request: Request):
     email = request.session.get("user_email")
     if not email:
         return JSONResponse({"error": "Not authenticated"}, status_code=401)
-    return {"email": email}
+    return {
+        "email": email,
+        "role":  auth_users.get_role(email),
+        "tabs":  auth_users.get_tabs(email),
+        "known_tabs": list(auth_users.KNOWN_TABS),
+    }
 
 
 @router.post("/logout")

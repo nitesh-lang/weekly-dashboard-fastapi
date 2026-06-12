@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { api } from "@/lib/api";
 import { MultiPicker } from "@/components/MultiPicker";
-import { Sparkles, RefreshCw, Clock } from "lucide-react";
+import { Sparkles, RefreshCw, Clock, AlertTriangle } from "lucide-react";
+import { ApiError } from "@/lib/api";
 
 interface BriefResponse {
     markdown:       string;
@@ -91,11 +92,7 @@ export default function Insights() {
                 </Card>
             )}
             {brief.error && (
-                <ErrorBlock
-                    error={brief.error as Error}
-                    onRetry={() => brief.refetch()}
-                    title="Couldn't generate the brief"
-                />
+                <BriefError error={brief.error} onRetry={() => brief.refetch()} />
             )}
 
             {brief.data && (
@@ -124,6 +121,45 @@ export default function Insights() {
                 </>
             )}
         </AppLayout>
+    );
+}
+
+/** Surfaces the backend's specific 503/500 reason so the operator knows
+ *  whether it's missing API key vs missing data vs Anthropic rate limit. */
+function BriefError({ error, onRetry }: { error: unknown; onRetry: () => void }) {
+    const apiErr = error instanceof ApiError ? error : null;
+    const status = apiErr?.status;
+    const body   = (apiErr?.body as { error?: string; detail?: string }) || null;
+    const reason = body?.error || body?.detail || (error as Error)?.message || "Unknown failure";
+
+    const isKeyMissing =
+        status === 503 && /ANTHROPIC_API_KEY/i.test(reason);
+    const isContextMissing =
+        status === 503 && /ai_context\.json/i.test(reason);
+
+    return (
+        <Card className="p-6 max-w-[720px]" style={{ borderColor: "#fecaca" }}>
+            <div className="flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 mt-0.5 shrink-0" style={{ color: "#b91c1c" }} />
+                <div className="flex-1">
+                    <div className="text-[15px] font-semibold mb-1">Couldn't generate the brief</div>
+                    <div className="text-[13px] mb-3" style={{ color: "#4b5563" }}>{reason}</div>
+
+                    {isKeyMissing && (
+                        <div className="text-[13px] rounded-md border p-3 mb-3" style={{ background: "#fffbeb", borderColor: "#fde68a", color: "#78350f" }}>
+                            <strong>Fix:</strong> add <code className="font-mono">ANTHROPIC_API_KEY</code> to the Render service Environment tab, then redeploy.  The chatbot uses the same key.
+                        </div>
+                    )}
+                    {isContextMissing && (
+                        <div className="text-[13px] rounded-md border p-3 mb-3" style={{ background: "#fffbeb", borderColor: "#fde68a", color: "#78350f" }}>
+                            <strong>Fix:</strong> run the weekly ETL — <code className="font-mono">POST /api/ai/ai-chat/rebuild-context</code> — to build the context the brief reads from.
+                        </div>
+                    )}
+
+                    <Button size="sm" variant="outline" onClick={onRetry}>Retry</Button>
+                </div>
+            </div>
+        </Card>
     );
 }
 

@@ -168,6 +168,12 @@ jobs:
       - name: Step 4 — join business + ads
         run: python -m weekly_app.etl.step4_join_business_ads
 
+      # Build the weekly Markdown brief from the freshest snapshots.
+      # Deterministic, template-based — no LLM call, no API key needed.
+      # /api/insights/brief just serves the file this produces.
+      - name: Build weekly brief
+        run: python scripts/build_weekly_brief.py || true
+
       # Pipeline integrity audit — fail-loud on silent unit losses.
       # Catches the class of bugs WoW audits miss: same-week drops
       # between raw → snapshot → route response, and never-zero column
@@ -209,6 +215,7 @@ jobs:
                   data/processed/inventory_model_snapshot.csv \
                   data/processed/inventory_ams_snapshot.csv \
                   data/processed/pipeline_integrity_audit.xlsx \
+                  data/processed/weekly_brief.md \
                   data/processed/returns_snapshot.csv \
                   data/processed/margin_snapshot.csv \
                   data/processed/inbound_snapshot.csv \

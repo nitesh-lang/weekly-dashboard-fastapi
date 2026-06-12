@@ -109,15 +109,28 @@ def get_brief(
 
 @router.get("/brands")
 def get_brand_list():
-    """Brand names available in the current ai_context for the picker."""
-    if not AI_CONTEXT_JSON.exists():
+    """Brand names the brief actually covers.  Parsed from the brief
+    itself so the picker stays in sync with the script's exclusion
+    rules (Fossil dropped, etc.) — no risk of offering a brand the
+    brief can't filter to."""
+    if not BRIEF_MD.exists():
         return {"brands": []}
     try:
-        ctx = json.loads(AI_CONTEXT_JSON.read_text(encoding="utf-8"))
+        md = BRIEF_MD.read_text(encoding="utf-8")
     except Exception:
         return {"brands": []}
-    seen = set()
-    for entry in ctx.get("top_models_last4", []):
-        b = (entry.get("brand") or "").strip()
-        if b: seen.add(b)
-    return {"brands": sorted(seen)}
+    # Brand briefs section opens with `**BrandName** ...` lines.
+    brands: list[str] = []
+    in_brand_briefs = False
+    for line in md.splitlines():
+        ls = line.strip()
+        if ls.startswith("## "):
+            in_brand_briefs = (ls.lower() == "## brand briefs")
+            continue
+        if in_brand_briefs and ls.startswith("**"):
+            m = re.match(r"\*\*([^*]+)\*\*", ls)
+            if m:
+                b = m.group(1).strip()
+                if b and b not in brands:
+                    brands.append(b)
+    return {"brands": brands}

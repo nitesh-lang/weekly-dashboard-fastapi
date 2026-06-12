@@ -194,15 +194,21 @@ def movers_sections(s: pd.DataFrame, latest_wn: int) -> str:
 def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, latest_wn: int) -> str:
     """Low-stock and dead-stock signals from the inventory snapshot
     against last-4w burn from the sales snapshot."""
-    inv_l = inv[inv["wn"] == latest_wn]
-    inv_by_model = (inv_l.groupby(["brand","model"])["inventory_units"].sum().reset_index()
-                      .rename(columns={"inventory_units":"stock"}))
+    inv_l = inv[inv["wn"] == latest_wn].copy()
+    # Normalised model key — sales has "AI-04 Red", inventory has
+    # "AI-04 RED"; a strict-string merge would orphan the rows and
+    # falsely flag healthy stock as dead.  Compare upper+stripped,
+    # keep the inventory casing for display.
+    inv_l["_mk"] = inv_l["model"].astype(str).str.strip().str.upper()
+    inv_by_model = (inv_l.groupby(["brand","model","_mk"])["inventory_units"]
+                      .sum().reset_index().rename(columns={"inventory_units":"stock"}))
 
-    burn4 = (s[s["wn"].between(latest_wn - 3, latest_wn)]
-             .groupby(["brand","model"])["units_sold"].sum().reset_index()
+    s4 = s[s["wn"].between(latest_wn - 3, latest_wn)].copy()
+    s4["_mk"] = s4["model"].astype(str).str.strip().str.upper()
+    burn4 = (s4.groupby(["brand","_mk"])["units_sold"].sum().reset_index()
              .rename(columns={"units_sold":"u4w"}))
     burn4["avg_weekly"] = burn4["u4w"] / 4.0
-    j = inv_by_model.merge(burn4, on=["brand","model"], how="left").fillna({"u4w": 0, "avg_weekly": 0})
+    j = inv_by_model.merge(burn4, on=["brand","_mk"], how="left").fillna({"u4w": 0, "avg_weekly": 0})
     j["cover_weeks"] = j.apply(
         lambda r: (r["stock"] / r["avg_weekly"]) if r["avg_weekly"] > 0 else None, axis=1
     )
@@ -374,11 +380,16 @@ def suggested_actions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, lates
     """Synthesise 3-7 concrete operator moves from the same signals."""
     actions = []
 
-    # 1) Low cover → reorder
-    inv_l = inv[inv["wn"] == latest_wn].groupby(["brand","model"])["inventory_units"].sum().reset_index()
-    burn4 = (s[s["wn"].between(latest_wn - 3, latest_wn)]
-             .groupby(["brand","model"])["units_sold"].sum() / 4.0).reset_index().rename(columns={"units_sold":"avg_w"})
-    j = inv_l.merge(burn4, on=["brand","model"], how="left").fillna({"avg_w":0})
+    # 1) Low cover → reorder.  Uses an upper-cased model key to merge
+    # because sales + inventory casing diverge ("AI-04 Red" vs
+    # "AI-04 RED") and a strict-string join would silently miss them.
+    inv_l = inv[inv["wn"] == latest_wn].copy()
+    inv_l["_mk"] = inv_l["model"].astype(str).str.strip().str.upper()
+    inv_l = inv_l.groupby(["brand","model","_mk"])["inventory_units"].sum().reset_index()
+    s4 = s[s["wn"].between(latest_wn - 3, latest_wn)].copy()
+    s4["_mk"] = s4["model"].astype(str).str.strip().str.upper()
+    burn4 = (s4.groupby(["brand","_mk"])["units_sold"].sum() / 4.0).reset_index().rename(columns={"units_sold":"avg_w"})
+    j = inv_l.merge(burn4, on=["brand","_mk"], how="left").fillna({"avg_w":0})
     j["cover"] = j.apply(lambda r: r["inventory_units"]/r["avg_w"] if r["avg_w"]>0 else None, axis=1)
     crit = j[(j["avg_w"]>=5) & (j["cover"].notna()) & (j["cover"]<=2.0)].sort_values("cover").head(3)
     for _, r in crit.iterrows():

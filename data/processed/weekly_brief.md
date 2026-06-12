@@ -1,10 +1,10 @@
 # Weekly Brief — Week 23
-*Generated 2026-06-12T07:38:42.369719Z from data through Week 23*
+*Generated 2026-06-12T09:53:57.671114Z from data through Week 23*
 ## This week at a glance
 
 Week 23 closed at **₹92.53L GMV** (+33.3% WoW, +14.0% vs prior 4w) on **3,225 units** (+14.6% WoW). This was a recovery week, led by **Audio Array** at 49% of portfolio GMV.
 
-Ad spend **₹8.87L** (+240.5%) — ROAS **4.50x** · ACOS **22.2%** · TACOS **12.4%**.
+Ad spend **₹8.87L** (+15.2%) — ROAS **4.38x** · ACOS **22.8%** · TACOS **12.5%**.
 
 ## What went well
 
@@ -28,14 +28,14 @@ Ad spend **₹8.87L** (+240.5%) — ROAS **4.50x** · ACOS **22.2%** · TACOS **
 - 🔴 **Nexlev / SC-03** — 25 units on hand, ~15.0 u/week burn (1.7 weeks cover). Reorder.
 
 **Dead stock (no sales last 4w, ≥30 units):**
-- 🟡 **Audio Array / AI-04 RED** — 3,981 units sitting idle.
 - 🟡 **Audio Array / AA-26 PRO** — 1,000 units sitting idle.
-- 🟡 **Audio Array / AM-C11 PRO** — 731 units sitting idle.
 - 🟡 **Audio Array / BE-4T** — 690 units sitting idle.
 - 🟡 **Nexlev / MR-03** — 664 units sitting idle.
-- 🟡 **Audio Array / AM-W47 WIRED** — 642 units sitting idle.
 - 🟡 **Nexlev / NP-02** — 619 units sitting idle.
-- 🟡 **Audio Array / AM-C3A** — 571 units sitting idle.
+- 🟡 **Nexlev / NP-03** — 570 units sitting idle.
+- 🟡 **Audio Array / AM-C5 WHITE** — 568 units sitting idle.
+- 🟡 **Audio Array / AM-C53** — 510 units sitting idle.
+- 🟡 **Audio Array / AM-C54** — 510 units sitting idle.
 
 ## Ad efficiency this week
 
@@ -48,13 +48,13 @@ Ad spend **₹8.87L** (+240.5%) — ROAS **4.50x** · ACOS **22.2%** · TACOS **
 
 ## Brand briefs
 
-**Audio Array** 🟢 — GMV ₹45.63L (+22.2% WoW) on 1,772 units (+22.2%). Top contributor **AI-04 Red** at ₹6.34L. Total stock 78,952 units. Ad spend ₹4.60L → ROAS 5.42x, ACOS 18.4%.
+**Audio Array** 🟢 — GMV ₹45.63L (+22.2% WoW) on 1,772 units (+22.2%). Top contributor **AI-04 Red** at ₹6.34L. Total stock 78,952 units. Ad spend ₹4.60L → ROAS 5.24x, ACOS 19.1%.
 
-**Nexlev** 🟢 — GMV ₹33.86L (+64.3% WoW) on 1,016 units (+7.3%). Top contributor **ST-01** at ₹3.38L. Total stock 71,535 units. Ad spend ₹2.88L → ROAS 3.16x, ACOS 31.7%.
+**Nexlev** 🟢 — GMV ₹33.86L (+64.3% WoW) on 1,016 units (+7.3%). Top contributor **ST-01** at ₹3.38L. Total stock 71,535 units. Ad spend ₹2.88L → ROAS 3.09x, ACOS 32.4%.
 
-**White Mulberry** 🟢 — GMV ₹11.35L (+27.7% WoW) on 348 units (+19.6%). Top contributor **WM-GD07-CB** at ₹3.53L. Total stock 9,015 units. Ad spend ₹1.29L → ROAS 3.96x, ACOS 25.3%.
+**White Mulberry** 🟢 — GMV ₹11.35L (+27.7% WoW) on 348 units (+19.6%). Top contributor **WM-GD07-CB** at ₹3.53L. Total stock 9,015 units. Ad spend ₹1.29L → ROAS 3.94x, ACOS 25.4%.
 
-**Tonor** 🔴 — GMV ₹1.69L (-34.0% WoW) on 89 units (-29.9%). Top contributor **K1** at ₹31.9K. Total stock 3,758 units. Ad spend ₹9.8K → ROAS 7.85x, ACOS 12.7%.
+**Tonor** 🔴 — GMV ₹1.69L (-34.0% WoW) on 89 units (-29.9%). Top contributor **K1** at ₹31.9K. Total stock 3,758 units. Ad spend ₹9.8K → ROAS 7.46x, ACOS 13.4%.
 
 ## Channel mix
 

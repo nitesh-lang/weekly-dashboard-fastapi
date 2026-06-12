@@ -232,8 +232,27 @@ jobs:
           # Race-safe push: another commit may have landed on main while
           # this job's ~20-min report pull was running.  Pull --rebase
           # before pushing, retry up to 3 times if remote moves again.
+          #
+          # -X theirs: when a conflict happens during rebase (e.g. the
+          # operator pushed a hand-edited weekly_brief.md or sku_master
+          # mid-run), take THIS runner's freshly-generated version.
+          # Then rebuild brief from the merged scripts + snapshots so
+          # any script changes the operator pushed are still respected
+          # in the final brief content.
           for attempt in 1 2 3; do
-            git pull --rebase --autostash origin main || true
+            if git pull --rebase --autostash -X theirs origin main; then
+              # Rebuild brief in case scripts/build_weekly_brief.py was
+              # updated by the just-pulled commits.  No-op if the script
+              # hasn't changed; amend silently if it has.
+              python scripts/build_weekly_brief.py || true
+              if ! git diff --quiet data/processed/weekly_brief.md 2>/dev/null; then
+                git add data/processed/weekly_brief.md
+                git commit --amend --no-edit
+              fi
+            else
+              echo "Rebase failed on attempt $attempt; aborting and retrying."
+              git rebase --abort || true
+            fi
             if git push origin main; then
               echo "Push succeeded on attempt $attempt."
               exit 0

@@ -2,9 +2,17 @@
 AI Chat route — reads pre-computed ai_context.json (fast).
 Falls back to live CSV processing if JSON not found.
 Supports multi-turn conversation history.
+
+When the user's question references a specific model (e.g. "AM-S1",
+"K1", "JR1401"), we ALSO do a live snapshot lookup for that model and
+inject a structured per-channel dossier (inventory by channel, sales by
+week, ads by week) into the prompt.  This guarantees per-channel
+accuracy ("how much AMPM for AM-S1?" → exact integer from the latest
+inventory snapshot) without depending on ai_context.json being fresh.
 """
 
 import os
+import re
 import json
 import anthropic
 import pandas as pd
@@ -13,7 +21,7 @@ from pathlib import Path
 from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from typing import List
+from typing import List, Dict, Any
 
 router = APIRouter(prefix="/api/ai", tags=["ai-chat"])
 
@@ -23,6 +31,205 @@ AI_CONTEXT_JSON = Path("data/processed/ai_context.json")
 SALES_CSV       = Path("data/processed/weekly_sales_snapshot.csv")
 AMS_CSV = Path("data/ams_weekly_data/processed_ads/business_ads_joined.csv")
 INVENTORY_CSV   = Path("data/processed/inventory_model_snapshot.csv")
+MASTER_FILE     = Path("data/master/sku_master.xlsx")
+INBOUND_CSV     = Path("data/processed/inbound_snapshot.csv")
+
+
+# ── Per-model live dossier ────────────────────────────────────────────────────
+# Cached lightly because read+pivot is ~50ms and we may hit it multiple times
+# per session.  Cache key includes inventory mtime so refreshes invalidate.
+_DOSSIER_CACHE: Dict[tuple, Dict[str, Any]] = {}
+
+
+def _known_models() -> Dict[str, str]:
+    """{model_upper → canonical_model} from sku_master.  Cached at module
+    level via Python's import semantics; re-read happens only when the
+    process restarts (master changes are infrequent)."""
+    if not MASTER_FILE.exists():
+        return {}
+    try:
+        m = pd.read_excel(MASTER_FILE)
+        m.columns = m.columns.str.strip()
+        if "Model" not in m.columns:
+            return {}
+        out = {}
+        for v in m["Model"].dropna().astype(str):
+            k = v.strip().upper()
+            if k and k not in ("NAN", "NONE"):
+                out[k] = v.strip()
+        return out
+    except Exception:
+        return {}
+
+
+def _extract_model_tokens(question: str) -> List[str]:
+    """Pull model-like tokens out of the user's question and intersect with
+    the master.  Catches "AM-S1", "K1", "JR1401", "AM-C13", "FS5602".
+
+    We deliberately over-match with the regex and let the master
+    intersection filter — avoids false positives like "ACOS", "ROAS"."""
+    if not question:
+        return []
+    candidates = set(re.findall(r"\b[A-Z]{1,4}[A-Z0-9\-]{1,12}\b", question.upper()))
+    # Also catch lowercase typed model names (operator may type "am-s1")
+    candidates |= set(re.findall(r"\b[a-z]{1,4}[a-z0-9\-]{1,12}\b", question.lower()))
+    candidates = {c.upper() for c in candidates}
+    known = _known_models()
+    hits = []
+    for c in candidates:
+        if c in known:
+            hits.append(known[c])
+    return hits[:5]  # cap — multi-model dump bloats prompt
+
+
+def _build_model_dossier(model: str) -> Dict[str, Any]:
+    """Live lookup across inventory + sales + ads + inbound snapshots for
+    one model.  Returns a dict the LLM can quote directly — no further
+    math required.  Per-channel inventory is the headline for accuracy
+    on questions like "how much AMPM for AM-S1?"."""
+    out: Dict[str, Any] = {"model": model}
+
+    # 1) Inventory by channel — latest week, plus prior-week delta
+    if INVENTORY_CSV.exists():
+        try:
+            inv = pd.read_csv(INVENTORY_CSV)
+            inv["wn"] = pd.to_numeric(
+                inv["week"].astype(str).str.extract(r"(\d+)")[0], errors="coerce"
+            )
+            mn = inv["model"].astype(str).str.strip().str.upper()
+            sub = inv[mn == model.upper()].copy()
+            if not sub.empty:
+                latest_wn = int(sub["wn"].max())
+                prev_wn   = latest_wn - 1
+                latest = sub[sub["wn"] == latest_wn]
+                prev   = sub[sub["wn"] == prev_wn]
+                by_chan_latest = (
+                    latest.groupby("channel")["inventory_units"].sum().astype(int).to_dict()
+                )
+                by_chan_prev = (
+                    prev.groupby("channel")["inventory_units"].sum().astype(int).to_dict()
+                )
+                out["inventory"] = {
+                    "latest_week": f"Week {latest_wn}",
+                    "by_channel_latest": by_chan_latest,
+                    "by_channel_prev":   by_chan_prev,
+                    "total_latest":      int(latest["inventory_units"].sum()),
+                    "total_prev":        int(prev["inventory_units"].sum()) if not prev.empty else None,
+                    "brand": (latest["brand"].iloc[0] if "brand" in latest.columns and not latest.empty else None),
+                    "asins": sorted({a for a in latest["asin"].astype(str).str.strip().unique() if a and a.lower() != "nan"})[:5],
+                }
+        except Exception as e:
+            out["inventory_error"] = str(e)
+
+    # 2) Inbound (Amazon-side SOH + in-transit) by ASIN — these are the
+    # operator's truth for "what's already at Amazon" vs "in flight"
+    if INBOUND_CSV.exists() and "inventory" in out and out["inventory"].get("asins"):
+        try:
+            inb = pd.read_csv(INBOUND_CSV)
+            inb["asin"] = inb["asin"].astype(str).str.strip()
+            asins = out["inventory"]["asins"]
+            sub = inb[inb["asin"].isin(asins)]
+            if not sub.empty:
+                out["inventory"]["am_soh"]       = int(sub["am_soh"].sum())
+                out["inventory"]["am_intransit"] = int(sub["am_intransit"].sum())
+        except Exception:
+            pass
+
+    # 3) Sales — last 12 weeks, per channel + per week totals
+    if SALES_CSV.exists():
+        try:
+            s = pd.read_csv(SALES_CSV)
+            s["wn"] = pd.to_numeric(
+                s["week"].astype(str).str.extract(r"(\d+)")[0], errors="coerce"
+            )
+            mn = s["model"].astype(str).str.strip().str.upper()
+            sub = s[mn == model.upper()].copy()
+            if not sub.empty:
+                last12 = sorted(sub["wn"].dropna().unique())[-12:]
+                sub = sub[sub["wn"].isin(last12)]
+                weekly = (
+                    sub.groupby("wn")
+                       .agg(units=("units_sold", "sum"), gmv=("gross_sales", "sum"))
+                       .round(2).reset_index()
+                )
+                weekly["week"] = weekly["wn"].astype(int).apply(lambda w: f"Week {w}")
+                out["sales_last_12w"] = weekly[["week", "units", "gmv"]].to_dict("records")
+
+                # Per-channel split, latest week only — answers "how much 1P?", "Amazon?"
+                latest_w = int(sub["wn"].max())
+                latest = sub[sub["wn"] == latest_w]
+                out["sales_latest_by_channel"] = {
+                    str(ch): {
+                        "units": int(g["units_sold"].sum()),
+                        "gmv":   round(float(g["gross_sales"].sum()), 2),
+                    }
+                    for ch, g in latest.groupby("channel")
+                }
+        except Exception as e:
+            out["sales_error"] = str(e)
+
+    # 4) Ads (AMS) — last 12 weeks per-week roll-up
+    if AMS_CSV.exists():
+        try:
+            a = pd.read_csv(AMS_CSV)
+            a["wn"] = pd.to_numeric(a["week"], errors="coerce")
+            mn = a["Model"].astype(str).str.strip().str.upper() if "Model" in a.columns \
+                else a.get("model", pd.Series([""])).astype(str).str.upper()
+            sub = a[mn == model.upper()].copy()
+            if not sub.empty:
+                last12 = sorted(sub["wn"].dropna().unique())[-12:]
+                sub = sub[sub["wn"].isin(last12)]
+                cols = {
+                    "spend":            "Spend" if "Spend" in sub.columns else "spend",
+                    "attributed_sales": "attributed_sales",
+                    "units":            "units" if "units" in sub.columns else None,
+                    "gmv":              "gmv" if "gmv" in sub.columns else None,
+                }
+                grp = sub.groupby("wn")
+                weekly = pd.DataFrame({
+                    "wn":    sorted(sub["wn"].unique()),
+                })
+                weekly["spend"] = weekly["wn"].map(lambda w: float(grp.get_group(w)[cols["spend"]].sum())) if cols["spend"] in sub.columns else 0
+                weekly["attributed_sales"] = weekly["wn"].map(lambda w: float(grp.get_group(w)[cols["attributed_sales"]].sum())) if cols["attributed_sales"] in sub.columns else 0
+                if cols["gmv"]:
+                    weekly["gmv"] = weekly["wn"].map(lambda w: float(grp.get_group(w)[cols["gmv"]].sum()))
+                weekly["roas"]  = weekly.apply(
+                    lambda r: round(r["attributed_sales"] / r["spend"], 2) if r["spend"] > 0 else None, axis=1
+                )
+                weekly["acos_pct"] = weekly.apply(
+                    lambda r: round((r["spend"] / r["attributed_sales"]) * 100, 2) if r["attributed_sales"] > 0 else None, axis=1
+                )
+                if "gmv" in weekly.columns:
+                    weekly["tacos_pct"] = weekly.apply(
+                        lambda r: round((r["spend"] / r["gmv"]) * 100, 2) if r["gmv"] > 0 else None, axis=1
+                    )
+                weekly["week"] = weekly["wn"].astype(int).apply(lambda w: f"Week {w}")
+                keep_cols = ["week", "spend", "attributed_sales", "roas", "acos_pct"]
+                if "tacos_pct" in weekly.columns: keep_cols.append("tacos_pct")
+                out["ads_last_12w"] = weekly[keep_cols].round(2).to_dict("records")
+        except Exception as e:
+            out["ads_error"] = str(e)
+
+    return out
+
+
+def _build_dossiers_for(question: str) -> List[Dict[str, Any]]:
+    models = _extract_model_tokens(question)
+    if not models:
+        return []
+    # Cache key: (inventory mtime, sales mtime, model)
+    inv_m   = INVENTORY_CSV.stat().st_mtime if INVENTORY_CSV.exists() else 0
+    sales_m = SALES_CSV.stat().st_mtime     if SALES_CSV.exists() else 0
+    out = []
+    for m in models:
+        key = (int(inv_m), int(sales_m), m.upper())
+        if key in _DOSSIER_CACHE:
+            out.append(_DOSSIER_CACHE[key])
+            continue
+        d = _build_model_dossier(m)
+        _DOSSIER_CACHE[key] = d
+        out.append(d)
+    return out
 
 
 class Message(BaseModel):
@@ -101,7 +308,10 @@ def trim_context_for_question(context: dict, question: str) -> dict:
         trimmed["model_ams_weekly_trend"] = cap_list(context.get("model_ams_weekly_trend", []), 60)
         trimmed["model_ams_performance"]  = cap_list(context.get("model_ams_performance", []), 15)
 
-    if is_inventory or is_alert or is_overview:
+    # Always bundle inventory + alerts when a model is referenced — operator
+    # expects sales + ads + inventory together in a single answer ("how's
+    # AM-S1 doing?" should return all three dimensions, not just sales).
+    if is_model or is_inventory or is_alert or is_overview:
         trimmed["inventory"] = cap_list(context.get("inventory", []), 20)
         trimmed["alerts"]    = cap_list(context.get("alerts", []), 10)
 
@@ -137,8 +347,19 @@ def load_context(week: str, brand: str) -> dict:
 
 
 # ── System prompt ─────────────────────────────────────────────────────────────
-def build_system_prompt(context: dict, week: str, brand: str, page: str) -> str:
+def build_system_prompt(
+    context: dict, week: str, brand: str, page: str,
+    dossiers: list | None = None,
+) -> str:
     ctx_str = json.dumps(context, indent=2, default=str)
+    dossier_block = ""
+    if dossiers:
+        dossier_block = (
+            "\n\nLIVE PER-MODEL DOSSIER (pulled fresh from the latest "
+            "snapshots — these numbers are authoritative; prefer them "
+            "over anything in the broader DATA block when they conflict):\n"
+            + json.dumps(dossiers, indent=2, default=str)
+        )
 
     # Alert summary for top of prompt
     alerts = context.get("alerts", [])
@@ -170,18 +391,47 @@ FILTERS — Week: {week} | Brand: {brand if brand not in ('All','') else 'All Br
 
 DATA:
 {ctx_str}
+{dossier_block}
 
 HOW TO ANSWER:
 - Use ONLY the data above. Never invent numbers.
 - WoW delta fields like gmv_wow_pct are pre-calculated — use them directly.
 - Currency: ₹ with Cr (crore=10M), L (lakh=100K), K (thousand).
-- For "overall analysis" or "full picture": structure as:
+
+WHEN A SPECIFIC MODEL / SKU / ASIN IS MENTIONED (e.g. "how is AM-S1
+doing?", "tell me about K1", "AM-C13 status"), the LIVE PER-MODEL
+DOSSIER above carries the authoritative per-channel breakdown.  Use
+those exact integers — do not round, do not approximate.  Structure
+your answer in three short sections (do not give just one dimension):
+
+  **Sales** — quote `sales_latest_by_channel` per-channel (Amazon, 1P
+              Sales, B2B, etc.) AND the last-12w trend from
+              `sales_last_12w`.  Note WoW change explicitly.
+  **Ads (AMS)** — quote spend, ROAS, ACOS, attributed sales from
+              `ads_last_12w` (latest week + 4w trend).
+  **Inventory** — quote `inventory.by_channel_latest` EXACTLY.  When
+              the operator asks for one channel (AMPM, B2B-AMPM, 1P,
+              Amazon FBA, Pipeline, Open Order, YNT, Blinkit), give
+              that exact integer.  Then add the WoW delta vs
+              `by_channel_prev` so they can see the direction.  Also
+              call out `am_soh` (already at Amazon FBA) and
+              `am_intransit` (warehouse → Amazon in flight) if present.
+
+Close with one operator action: reorder / bid up / bid down / pause / investigate.
+
+WHEN A SPECIFIC CHANNEL IS NAMED FOR A MODEL — e.g. "AMPM for AM-S1",
+"1P units of AA-22", "Amazon inventory K1" — answer with the exact
+integer from `inventory.by_channel_latest[channel_name]` (or
+`sales_latest_by_channel[channel_name]` for sales channels) in a
+single direct sentence first, then the per-week trend.  Do NOT pad
+with the full three-section breakdown unless the user also asked.
+
+For "overall analysis" or "full picture": structure as:
   **Sales Overview** → **Channel Mix** → **Top Models** → **AMS Performance** → **Alerts & Risks**
-- For model/ASIN trends: use model_ams_weekly_trend and model_weekly_sales — show week-by-week numbers.
-- For alerts: explain what they mean and what action to take.
-- Flag: ACOS > 60% = high risk. ROAS < 2 = low return. Stock < 14 days = reorder urgently.
-- Short questions: 3-5 sentences. Deep analysis: bold headers + bullets.
-- You have conversation history — reference earlier answers naturally."""
+For alerts: explain what they mean and what action to take.
+Flag: ACOS > 60% = high risk. ROAS < 2 = low return. Stock < 14 days = reorder urgently.
+Short questions: 3-5 sentences. Deep analysis: bold headers + bullets.
+You have conversation history — reference earlier answers naturally."""
 
 
 # ── Main endpoint ─────────────────────────────────────────────────────────────
@@ -189,7 +439,13 @@ HOW TO ANSWER:
 async def ai_chat(request: Request, body: ChatRequest):
     full_context    = load_context(body.week, body.brand)
     trimmed_context = trim_context_for_question(full_context, body.question)
-    system_prompt   = build_system_prompt(trimmed_context, body.week, body.brand, body.page)
+    # Live per-model lookup whenever the question names a known model —
+    # gives the LLM authoritative per-channel numbers that ai_context
+    # doesn't carry at that granularity.
+    dossiers        = _build_dossiers_for(body.question)
+    system_prompt   = build_system_prompt(
+        trimmed_context, body.week, body.brand, body.page, dossiers=dossiers,
+    )
 
     messages = [{"role": m.role, "content": m.content} for m in body.history[-10:]]
     messages.append({"role": "user", "content": body.question})

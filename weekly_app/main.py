@@ -20,6 +20,7 @@ from weekly_app.routes.drilldown import router as drilldown_router
 from weekly_app.routes.auth import router as auth_router
 from weekly_app.routes.api import router as api_router
 from weekly_app.routes.admin import router as admin_router
+from weekly_app.routes.insights import router as insights_router
 from weekly_app.routes.analytics import router as analytics_router
 from weekly_app.routes.margin import router as margin_router
 from weekly_app.routes.sync_status import router as sync_status_router
@@ -175,6 +176,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 app.include_router(auth_router)
 app.include_router(api_router)
 app.include_router(admin_router)
+app.include_router(insights_router)
 app.include_router(upload_router)
 app.include_router(dashboard_router)
 app.include_router(export_router)

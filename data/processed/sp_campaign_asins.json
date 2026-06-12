@@ -8213,6 +8213,156 @@
     ],
     "profile_id": "4164167382477819"
   },
+  "Nexlev-B0D672NXC8-Steam cleaner-KT-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D672NXC8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0DQCWRG3H-Hot Air Brush-PT-exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0D672NXC8-Steam cleaner-SP-PT-exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D672NXC8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0D672NXC8-Steam cleaner-KT-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D672NXC8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0DQCWRG3H-Hot Air Brush-PT-exact(2)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0DCK3N2JJ-Straightener Brush-KT-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK3N2JJ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0D9KFP4MG-Straightener Brush-SP-PT-exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFP4MG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0FPGDVVCX-Calf Massager-SP-At": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FPGDVVCX"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0DFCDZWND-Heating Pad-SP-PT-exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFCDZWND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0DFCDZWND-Heating Pad-KT-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFCDZWND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev- B0DJFH6RTL-Portable Tyre Inflator-SP-PT-exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH6RTL"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0DJFH6RTL-Portable Tyre Inflator-SP-AT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH6RTL"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0FPGDVVCX-Calf Massager-SP-KT-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FPGDVVCX"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0DCK3N2JJ-Straightener Brush-SP-PT-exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK3N2JJ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
+  "Nexlev-B0D9KFP4MG-Sraightener Brush-KT-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFP4MG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "4164167382477819"
+  },
   "Campaign - 20/7/2022 16:48:07": {
     "brand": "White Mulberry",
     "asins": [
@@ -11085,7 +11235,8 @@
   "Camb-B0CPT3Q25C - Motorized-SP-PT": {
     "brand": "White Mulberry",
     "asins": [
-      "B0CPT3Q25C"
+      "B0CPT3Q25C",
+      "B0DQ4YWSMC"
     ],
     "ad_types": [
       "productAd"
@@ -11209,7 +11360,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-Motorized-SP-PT-Exact": {
+  "Camb-Motorized-SP-PT": {
     "brand": "White Mulberry",
     "asins": [
       "B0CPT3Q25C",
@@ -11231,11 +11382,185 @@
     ],
     "profile_id": "866679611348308"
   },
-  "White Mulberry-Motorized-SP-KT-BM": {
+  "Camb-Motorized-SP-KT-BM": {
     "brand": "White Mulberry",
     "asins": [
       "B0CPT3Q25C",
       "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "White Mulberry Height Adjustable Table-Phrase-SP": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "White Mulberry Height Adjustable Table-B0CPT3Q25C-B0DQ4YWSMC-SP-BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DQ4YWSMC",
+      "B0CPT3Q25C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "White Mulberry Height Adjustable Table-B0CPT3Q25C-SP-Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C",
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb - Height Adjustable table -  SP - BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C",
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-Height Adjustable table-KT-Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C",
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP-Motorized Desk- B0CPT3Q25C-PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP- L Shaped-B0BFWD6SNF-PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFWD6SNF"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-Motorized desk-B0DQ4YWSMC- Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP-Motorized Desk- B0CPT3Q25C- BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-Motorized desk-B0DQ4YWSMC - BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-Motorized desk- B0DQ4YWSMC - PT 02": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-Motorized sit stand-B0DQ4YWSMC- PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP-Motorized Desk- B0CPT3Q25C- Exact - 01": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPT3Q25C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-Motorized desk-B0DQ4YWSMC - Exact": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DQ4YWSMC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP- L Shaped-B0BFWD6SNF-BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFWD6SNF"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP- L Shaped-B0BFWD6SNF- Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFWD6SNF"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP- L Shaped-B0BFWD6SNF-Exact": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFWD6SNF"
     ],
     "ad_types": [
       "productAd"
@@ -12185,7 +12510,7 @@
     ],
     "profile_id": "3563790765020958"
   },
-  "White Mulberry Monitor Arm-B0DB5W4TCP-SP-PT": {
+  "White Mulberry Monitor Arm-B0DB5W4TCP-SP-Phrase": {
     "brand": "White Mulberry",
     "asins": [
       "B0DB5W4TCP"
@@ -28679,6 +29004,16 @@
     "brand": "Nexlev",
     "asins": [
       "B0DCGHVN81"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexllev-Vacuum Cleaner-B0DCK7ZH5P-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK7ZH5P"
     ],
     "ad_types": [
       "productAd"

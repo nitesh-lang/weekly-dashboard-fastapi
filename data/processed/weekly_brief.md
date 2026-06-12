@@ -1,10 +1,10 @@
 # Weekly Brief — Week 23
-*Generated 2026-06-12T07:01:20.336505Z from data through Week 23*
+*Generated 2026-06-12T07:38:42.369719Z from data through Week 23*
 ## This week at a glance
 
 Week 23 closed at **₹92.53L GMV** (+33.3% WoW, +14.0% vs prior 4w) on **3,225 units** (+14.6% WoW). This was a recovery week, led by **Audio Array** at 49% of portfolio GMV.
 
-Ad spend **₹8.87L** (+15.2%) — ROAS **4.38x** · ACOS **22.8%** · TACOS **12.5%**.
+Ad spend **₹8.87L** (+240.5%) — ROAS **4.50x** · ACOS **22.2%** · TACOS **12.4%**.
 
 ## What went well
 
@@ -48,13 +48,13 @@ Ad spend **₹8.87L** (+15.2%) — ROAS **4.38x** · ACOS **22.8%** · TACOS **1
 
 ## Brand briefs
 
-**Audio Array** 🟢 — GMV ₹45.63L (+22.2% WoW) on 1,772 units (+22.2%). Top contributor **AI-04 Red** at ₹6.34L. Total stock 78,952 units. Ad spend ₹4.60L → ROAS 5.24x, ACOS 19.1%.
+**Audio Array** 🟢 — GMV ₹45.63L (+22.2% WoW) on 1,772 units (+22.2%). Top contributor **AI-04 Red** at ₹6.34L. Total stock 78,952 units. Ad spend ₹4.60L → ROAS 5.42x, ACOS 18.4%.
 
-**Nexlev** 🟢 — GMV ₹33.86L (+64.3% WoW) on 1,016 units (+7.3%). Top contributor **ST-01** at ₹3.38L. Total stock 71,535 units. Ad spend ₹2.88L → ROAS 3.09x, ACOS 32.4%.
+**Nexlev** 🟢 — GMV ₹33.86L (+64.3% WoW) on 1,016 units (+7.3%). Top contributor **ST-01** at ₹3.38L. Total stock 71,535 units. Ad spend ₹2.88L → ROAS 3.16x, ACOS 31.7%.
 
-**White Mulberry** 🟢 — GMV ₹11.35L (+27.7% WoW) on 348 units (+19.6%). Top contributor **WM-GD07-CB** at ₹3.53L. Total stock 9,015 units. Ad spend ₹1.29L → ROAS 3.94x, ACOS 25.4%.
+**White Mulberry** 🟢 — GMV ₹11.35L (+27.7% WoW) on 348 units (+19.6%). Top contributor **WM-GD07-CB** at ₹3.53L. Total stock 9,015 units. Ad spend ₹1.29L → ROAS 3.96x, ACOS 25.3%.
 
-**Tonor** 🔴 — GMV ₹1.69L (-34.0% WoW) on 89 units (-29.9%). Top contributor **K1** at ₹31.9K. Total stock 3,758 units. Ad spend ₹9.8K → ROAS 7.46x, ACOS 13.4%.
+**Tonor** 🔴 — GMV ₹1.69L (-34.0% WoW) on 89 units (-29.9%). Top contributor **K1** at ₹31.9K. Total stock 3,758 units. Ad spend ₹9.8K → ROAS 7.85x, ACOS 12.7%.
 
 ## Channel mix
 

@@ -21,6 +21,7 @@ const MarginSnapshot     = lazy(() => import("./pages/MarginSnapshot"));
 const Returns            = lazy(() => import("./pages/Returns"));
 const Drilldown          = lazy(() => import("./pages/Drilldown"));
 const AdminUsers         = lazy(() => import("./pages/AdminUsers"));
+const Insights           = lazy(() => import("./pages/Insights"));
 
 /** Inline skeleton shown while a route chunk downloads — should appear for
  *  ~100ms on first hit, instantly from cache afterwards. */
@@ -50,6 +51,7 @@ export default function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/dashboard"           element={<RequireAuth><RequireTab tab="/dashboard"><Dashboard /></RequireTab></RequireAuth>} />
+                    <Route path="/insights"            element={<RequireAuth><RequireTab tab="/insights"><Insights /></RequireTab></RequireAuth>} />
                     <Route path="/sales-trend"         element={<RequireAuth><RequireTab tab="/sales-trend"><SalesTrend /></RequireTab></RequireAuth>} />
                     <Route path="/amazon-sales-trend"  element={<RequireAuth><RequireTab tab="/amazon-sales-trend"><AmazonSalesTrend /></RequireTab></RequireAuth>} />
                     <Route path="/category-sales"      element={<RequireAuth><RequireTab tab="/category-sales"><CategorySales /></RequireTab></RequireAuth>} />

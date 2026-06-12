@@ -10,7 +10,7 @@ import {
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
     Target, Truck, Calculator, Award, ExternalLink,
-    ShieldCheck,
+    ShieldCheck, Sparkles,
 } from "lucide-react";
 
 // ── Hover prefetch ──────────────────────────────────────────────────────
@@ -24,6 +24,7 @@ import {
 // is safe — no thundering herd.
 const CHUNK_LOADERS: Record<string, () => Promise<unknown>> = {
     "/dashboard":            () => import("@/pages/Dashboard"),
+    "/insights":             () => import("@/pages/Insights"),
     "/sales-trend":          () => import("@/pages/SalesTrend"),
     "/amazon-sales-trend":   () => import("@/pages/AmazonSalesTrend"),
     "/category-sales":       () => import("@/pages/CategorySales"),
@@ -40,6 +41,10 @@ const CHUNK_LOADERS: Record<string, () => Promise<unknown>> = {
 type PrefetchSpec = Array<{ key: readonly unknown[]; fn: () => Promise<unknown> }>;
 const PREFETCH_QUERIES: Record<string, PrefetchSpec> = {
     "/dashboard":           [{ key: ["dashboard", ""],              fn: () => api.get("/api/dashboard") }],
+    "/insights":            [
+        { key: ["insights-brands"],     fn: () => api.get("/api/insights/brands") },
+        { key: ["insights-brief", "all"], fn: () => api.get("/api/insights/brief") },
+    ],
     "/sales-trend":         [{ key: ["sales-trend", ""],            fn: () => api.get("/api/sales-trend") }],
     "/amazon-sales-trend":  [{ key: ["amazon-sales-trend", ""],     fn: () => api.get("/api/amazon-sales-trend") }],
     "/category-sales":      [{ key: ["category-sales", "level=l0"], fn: () => api.get("/api/category-sales?level=l0") }],
@@ -64,6 +69,7 @@ const NAV_GROUPS = [
         label: "Overview",
         items: [
             { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+            { to: "/insights",  label: "Insights",  icon: Sparkles },
         ],
     },
     {

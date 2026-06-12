@@ -54,6 +54,7 @@ DEFAULT_ROLE = "admin"  # legacy users without a role field
 # admin UI uses this list to render checkboxes.
 KNOWN_TABS = (
     "/dashboard",
+    "/insights",
     "/sales-trend",
     "/amazon-sales-trend",
     "/category-sales",

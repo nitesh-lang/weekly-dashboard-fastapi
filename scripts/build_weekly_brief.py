@@ -36,10 +36,13 @@ AMS_CSV     = ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ad
 INBOUND_CSV = ROOT / "data" / "processed" / "inbound_snapshot.csv"
 OUT_FILE    = ROOT / "data" / "processed" / "weekly_brief.md"
 
-# Brands operator wants in the brief (Fossil excluded from ads/AMS sections per
-# operator rule, but kept in sales / inventory).
-ALL_BRANDS = ("Audio Array", "Nexlev", "White Mulberry", "Tonor", "Fossil")
-AMS_BRANDS = ("Audio Array", "Nexlev", "White Mulberry", "Tonor")  # no Fossil
+# Brands operator wants in the brief.  Fossil is excluded ENTIRELY —
+# its ad performance is non-comparable (no AMS account) and its sales
+# rhythm is different enough that mixing it into portfolio rollups
+# distorts the weekly story.
+EXCLUDED_BRANDS = ("fossil",)
+ALL_BRANDS      = ("Audio Array", "Nexlev", "White Mulberry", "Tonor")
+AMS_BRANDS      = ALL_BRANDS
 
 # Thresholds — kept consistent with the existing alerts engine.
 LOW_COVER_DAYS = 14
@@ -426,18 +429,28 @@ def suggested_actions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, lates
 
 
 # ─── Main ────────────────────────────────────────────────────────────
+def _drop_excluded(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty or "brand" not in df.columns:
+        return df
+    bn = df["brand"].astype(str).str.strip().str.lower()
+    return df[~bn.isin(EXCLUDED_BRANDS)].copy()
+
+
 def build_brief() -> str:
     s = pd.read_csv(SALES_CSV)
     s["wn"] = _wn(s["week"])
     s = s.dropna(subset=["wn"])
     s["wn"] = s["wn"].astype(int)
+    s = _drop_excluded(s)
 
     inv = pd.read_csv(INV_CSV)
     inv["wn"] = _wn(inv["week"])
     inv = inv.dropna(subset=["wn"])
     inv["wn"] = inv["wn"].astype(int)
+    inv = _drop_excluded(inv)
 
     a = pd.read_csv(AMS_CSV) if AMS_CSV.exists() else pd.DataFrame()
+    a = _drop_excluded(a)
 
     latest_wn = int(s["wn"].max())
     gen_ts = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")

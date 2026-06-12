@@ -1,26 +1,26 @@
 # Weekly Brief — Week 23
-*Generated 2026-06-12T06:38:05.328503Z from data through Week 23*
+*Generated 2026-06-12T07:01:20.336505Z from data through Week 23*
 ## This week at a glance
 
-Week 23 closed at **₹1.47Cr GMV** (+24.9% WoW, +12.4% vs prior 4w) on **3,808 units** (+15.8% WoW). This was a recovery week, led by **Fossil** at 37% of portfolio GMV.
+Week 23 closed at **₹92.53L GMV** (+33.3% WoW, +14.0% vs prior 4w) on **3,225 units** (+14.6% WoW). This was a recovery week, led by **Audio Array** at 49% of portfolio GMV.
 
-Ad spend **₹8.87L** (+15.2%) — ROAS **4.38x** · ACOS **22.8%** · TACOS **7.0%**.
+Ad spend **₹8.87L** (+15.2%) — ROAS **4.38x** · ACOS **22.8%** · TACOS **12.5%**.
 
 ## What went well
 
-- 🟢 **Fossil / JR1401** — 106 units (+73.8% WoW), GMV ₹8.76L (+60.3%).
 - 🟢 **Nexlev / ST-01** — 47 units (+176.5% WoW), GMV ₹3.38L (+293.9%).
 - 🟢 **Nexlev / GS-02** — 36 units (+50.0% WoW), GMV ₹2.70L (+550.3%).
 - 🟢 **Nexlev / VC-01** — 58 units (+11.5% WoW), GMV ₹3.19L (+238.1%).
 - 🟢 **Audio Array / AM-C1** — 263 units (+25.2% WoW), GMV ₹5.85L (+23.8%).
+- 🟢 **White Mulberry / WM-SE08-CF** — 12 units (+200.0% WoW), GMV ₹1.50L (+293.0%).
 
 ## What to watch
 
 - 🔴 **Nexlev / SC-05** — 82 units (-43.1% WoW), GMV ₹2.55L (-33.1%).
-- 🔴 **Fossil / FS4795** — 30 units (-16.7% WoW), GMV ₹3.68L (-16.7%).
 - 🔴 **Nexlev / DH-01** — 1 units (-93.8% WoW), GMV ₹5.1K (-93.3%).
-- 🔴 **Fossil / ES2811** — 10 units (-33.3% WoW), GMV ₹1.14L (-33.3%).
-- 🔴 **Fossil / JR1487** — 29 units (-14.7% WoW), GMV ₹2.19L (-17.2%).
+- 🔴 **Tonor / TM20** — 5 units (-75.0% WoW), GMV ₹12.7K (-75.0%).
+- 🔴 **White Mulberry / WM1ML** — 41 units (-24.1% WoW), GMV ₹1.15L (-22.5%).
+- 🔴 **Tonor / G11** — 7 units (-61.1% WoW), GMV ₹16.0K (-61.1%).
 
 ## Inventory health
 
@@ -56,21 +56,19 @@ Ad spend **₹8.87L** (+15.2%) — ROAS **4.38x** · ACOS **22.8%** · TACOS **7
 
 **Tonor** 🔴 — GMV ₹1.69L (-34.0% WoW) on 89 units (-29.9%). Top contributor **K1** at ₹31.9K. Total stock 3,758 units. Ad spend ₹9.8K → ROAS 7.46x, ACOS 13.4%.
 
-**Fossil** 🟢 — GMV ₹54.88L (+12.9% WoW) on 583 units (+23.0%). Top contributor **JR1401** at ₹8.76L. Total stock 0 units.
-
 ## Channel mix
 
-- 🟢 **Amazon** — ₹90.27L (61.2% of portfolio, +20.3% WoW)
-- 🟡 **1p Sales** — ₹35.87L (24.3% of portfolio, 0.0% WoW)
-- 🟢 **D2C - Nexlev** — ₹11.27L (7.6% of portfolio, +726.2% WoW)
-- 🟢 **B2B** — ₹5.99L (4.1% of portfolio, +673.7% WoW)
-- 🔴 **Blinkit Sales** — ₹3.30L (2.2% of portfolio, -10.4% WoW)
-- 🔴 **D2C - Audio Array** — ₹59.3K (0.4% of portfolio, -52.7% WoW)
+- 🟡 **1p Sales** — ₹35.87L (38.8% of portfolio, 0.0% WoW)
+- 🟢 **Amazon** — ₹35.39L (38.2% of portfolio, +34.1% WoW)
+- 🟢 **D2C - Nexlev** — ₹11.27L (12.2% of portfolio, +726.2% WoW)
+- 🟢 **B2B** — ₹5.99L (6.5% of portfolio, +673.7% WoW)
+- 🔴 **Blinkit Sales** — ₹3.30L (3.6% of portfolio, -10.4% WoW)
+- 🔴 **D2C - Audio Array** — ₹59.3K (0.6% of portfolio, -52.7% WoW)
 
 ## Top categories
 
-- **Traditional Watch** — ₹54.88L on 583 units.
 - **Home & Kitchen** — ₹26.58L on 698 units.
 - **HPC** — ₹5.71L on 286 units.
 - **Desk** — ₹5.01L on 71 units.
 - **Audio Mixer** — ₹3.22L on 87 units.
+- **Desk-Adjustable** — ₹2.45L on 21 units.

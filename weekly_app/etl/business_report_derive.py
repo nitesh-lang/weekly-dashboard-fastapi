@@ -180,14 +180,60 @@ def load_amazon_1p(path: Path) -> pd.DataFrame:
     return agg
 
 
+# ── Read SP-API Vendor Sales (1P) and aggregate per ASIN ───────────────
+def load_amazon_1p_sp_api(path: Path) -> pd.DataFrame:
+    """Returns {ASIN → (units, sales)} from the SP-API Vendor Sales
+    file emitted by scripts/sp_vendor_sales_pull.py.  Same output shape
+    as load_amazon_1p so derive_business_report's merge logic is
+    unchanged.  Qty + Sale columns map to orderedUnits + orderedRevenue
+    (the operator's canonical 1P "what Amazon bought" metrics)."""
+    empty = pd.DataFrame(columns=["_asin_key", "units_1p", "sales_1p", "sku_1p", "model_1p"])
+    if not path.exists():
+        return empty
+    try:
+        df = pd.read_excel(path)
+    except Exception:
+        return empty
+    df.columns = df.columns.str.strip()
+    if "ASIN" not in df.columns or "Qty" not in df.columns:
+        return empty
+    df["_asin_key"] = df["ASIN"].map(_norm)
+    df = df[df["_asin_key"] != ""]
+    if df.empty:
+        return empty
+    df["units_1p"]  = pd.to_numeric(df["Qty"],  errors="coerce").fillna(0)
+    df["sales_1p"]  = pd.to_numeric(df.get("Sale", 0), errors="coerce").fillna(0)
+    df["sku_1p"]    = df.get("SKU", "").astype(str).str.strip()   if "SKU"   in df.columns else ""
+    df["model_1p"]  = df.get("Model", "").astype(str).str.strip() if "Model" in df.columns else ""
+    return (df[["_asin_key", "units_1p", "sales_1p", "sku_1p", "model_1p"]]
+            .groupby("_asin_key", as_index=False)
+            .agg(units_1p=("units_1p", "sum"),
+                 sales_1p=("sales_1p", "sum"),
+                 sku_1p=("sku_1p", "first"),
+                 model_1p=("model_1p", "first")))
+
+
 # ── Combine 3P + 1P into the legacy business_report shape ──────────────
 def derive_business_report(brand_dir: str, week_num: int,
                             asin_meta: dict[str, dict]) -> pd.DataFrame:
     amazon_path = RAW_SALES / f"Week {week_num}" / brand_dir / "amazon_sales.xlsx"
     other_path  = RAW_SALES / f"Week {week_num}" / brand_dir / "other_channels.xlsx"
+    sp_api_path = RAW_SALES / f"Week {week_num}" / brand_dir / "Vendor Sales (SP-API).xlsx"
 
     three = load_amazon_3p(amazon_path)
-    one   = load_amazon_1p(other_path)
+
+    # SP-API 1P canonical when present + non-zero; manual 1p Sales sheet
+    # otherwise.  Empty SP-API must NOT silently zero out 1P (same
+    # safety net as the sales / inventory ETL refactors).
+    one = pd.DataFrame()
+    if sp_api_path.exists():
+        sp_one = load_amazon_1p_sp_api(sp_api_path)
+        if not sp_one.empty and float(sp_one["units_1p"].sum()) > 0:
+            one = sp_one
+            print(f"  📡 SP-API 1P sales canonical for {brand_dir} W{week_num} "
+                  f"({len(one)} ASINs, {int(one['units_1p'].sum())} units)")
+    if one.empty:
+        one = load_amazon_1p(other_path)
 
     if three.empty and one.empty:
         return pd.DataFrame(columns=LEGACY_COLS)
@@ -253,7 +299,16 @@ def run_for_week(week_num: int) -> dict:
 
     for brand_dir in sorted(p for p in wk_dir.iterdir() if p.is_dir()):
         brand_folder = brand_dir.name
-        if not (brand_dir / "amazon_sales.xlsx").exists() and not (brand_dir / "other_channels.xlsx").exists():
+        # Skip brand folders that have NO usable sales source at all.
+        # Vendor Sales (SP-API).xlsx counts as a valid 1P source even
+        # when amazon_sales.xlsx and other_channels.xlsx are absent —
+        # otherwise W24 would emit no business_report files for the
+        # SP-API-only brands (AA + Tonor).
+        if (
+            not (brand_dir / "amazon_sales.xlsx").exists()
+            and not (brand_dir / "other_channels.xlsx").exists()
+            and not (brand_dir / "Vendor Sales (SP-API).xlsx").exists()
+        ):
             continue
 
         out_dir = AMS_ROOT / brand_folder

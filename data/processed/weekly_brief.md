@@ -1,10 +1,10 @@
 # Weekly Brief — Week 23
-*Generated 2026-06-15T07:59:18.503038Z from data through Week 23*
+*Generated 2026-06-15T08:17:00.983139Z from data through Week 23*
 ## This week at a glance
 
 Week 23 closed at **₹92.53L GMV** (+33.3% WoW, +14.0% vs prior 4w) on **3,225 units** (+14.6% WoW). This was a recovery week, led by **Audio Array** at 49% of portfolio GMV.
 
-Ad spend **₹7.47L** (+186.9%) — ROAS **4.58x** · ACOS **21.8%** · TACOS **10.5%**.
+Ad spend **₹7.52L** (+188.4%) — ROAS **4.60x** · ACOS **21.8%** · TACOS **10.5%**.
 
 ## What went well
 
@@ -50,7 +50,7 @@ Ad spend **₹7.47L** (+186.9%) — ROAS **4.58x** · ACOS **21.8%** · TACOS **
 
 **Audio Array** 🟢 — GMV ₹45.63L (+22.2% WoW) on 1,772 units (+22.2%). Top contributor **AI-04 Red** at ₹6.34L. Total stock 78,952 units. Ad spend ₹3.96L → ROAS 5.51x, ACOS 18.2%.
 
-**Nexlev** 🟢 — GMV ₹33.86L (+64.3% WoW) on 1,016 units (+7.3%). Top contributor **ST-01** at ₹3.38L. Total stock 71,535 units. Ad spend ₹2.36L → ROAS 3.22x, ACOS 31.0%.
+**Nexlev** 🟢 — GMV ₹33.86L (+64.3% WoW) on 1,016 units (+7.3%). Top contributor **ST-01** at ₹3.38L. Total stock 71,535 units. Ad spend ₹2.40L → ROAS 3.29x, ACOS 30.4%.
 
 **White Mulberry** 🟢 — GMV ₹11.35L (+27.7% WoW) on 348 units (+19.6%). Top contributor **WM-GD07-CB** at ₹3.53L. Total stock 9,015 units. Ad spend ₹1.08L → ROAS 3.93x, ACOS 25.4%.
 

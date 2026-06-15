@@ -1,74 +1,103 @@
-# Weekly Brief — Week 23
-*Generated 2026-06-15T10:53:44.102897Z from data through Week 23*
+# Weekly Brief — Week 24
+*Generated 2026-06-15T12:56:31.451423Z from data through Week 24*
 ## This week at a glance
 
-Week 23 closed at **₹92.53L GMV** (+33.3% WoW, +14.0% vs prior 4w) on **3,225 units** (+14.6% WoW). This was a recovery week, led by **Audio Array** at 49% of portfolio GMV.
+Week 24 closed at **₹72.35L GMV** (-21.8% WoW, +8.4% vs prior 4w) on **2,951 units** (-8.5% WoW). This was a soft week, led by **Audio Array** at 54% of portfolio GMV.
 
-Ad spend **₹7.52L** (-16.9%) — ROAS **4.60x** · ACOS **21.8%** · TACOS **10.5%**.
+Ad spend **₹9.22L** (+22.7%) — ROAS **4.47x** · ACOS **22.4%** · TACOS **14.5%**.
 
 ## What went well
 
-- 🟢 **Nexlev / ST-01** — 47 units (+176.5% WoW), GMV ₹3.38L (+293.9%).
-- 🟢 **Nexlev / GS-02** — 36 units (+50.0% WoW), GMV ₹2.70L (+550.3%).
-- 🟢 **Nexlev / VC-01** — 58 units (+11.5% WoW), GMV ₹3.19L (+238.1%).
-- 🟢 **Audio Array / AM-C1** — 263 units (+25.2% WoW), GMV ₹5.85L (+23.8%).
-- 🟢 **White Mulberry / WM-SE08-CF** — 12 units (+200.0% WoW), GMV ₹1.50L (+293.0%).
+- 🟢 **Audio Array / AM-C1** — 247 units (+1958.3% WoW), GMV ₹5.55L (+2334.7%).
+- 🟢 **Audio Array / AI-04 Red** — 146 units (+371.0% WoW), GMV ₹5.94L (+513.6%).
+- 🟢 **Audio Array / AM-S2** — 47 units (+4600.0% WoW), GMV ₹2.87L (+7347.5%).
+- 🟢 **Audio Array / AM-W45** — 55 units (+1000.0% WoW), GMV ₹2.42L (+1305.1%).
+- 🟢 **Audio Array / AH-50** — 105 units (+950.0% WoW), GMV ₹1.77L (+1100.6%).
 
 ## What to watch
 
-- 🔴 **Nexlev / SC-05** — 82 units (-43.1% WoW), GMV ₹2.55L (-33.1%).
-- 🔴 **Nexlev / DH-01** — 1 units (-93.8% WoW), GMV ₹5.1K (-93.3%).
-- 🔴 **Tonor / TM20** — 5 units (-75.0% WoW), GMV ₹12.7K (-75.0%).
-- 🔴 **White Mulberry / WM1ML** — 41 units (-24.1% WoW), GMV ₹1.15L (-22.5%).
-- 🔴 **Tonor / G11** — 7 units (-61.1% WoW), GMV ₹16.0K (-61.1%).
+- 🔴 **Nexlev / VC-01** — 15 units (-46.4% WoW), GMV ₹26.8K (-90.0%).
+- 🔴 **Nexlev / GS-02** — 29 units (-3.3% WoW), GMV ₹56.6K (-78.0%).
+- 🔴 **Nexlev / SC-01** — 9 units (-57.1% WoW), GMV ₹24.3K (-88.1%).
+- 🔴 **Nexlev / TM-01** — 10 units (+11.1% WoW), GMV ₹6.0K (-78.5%).
+- 🔴 **Audio Array / AM-W24** — 0 units (-100.0% WoW), GMV ₹0 (-100.0%).
 
 ## Inventory health
 
-**Low cover (≤ 2 weeks at current burn):**
-- 🔴 **Nexlev / SC-03** — 25 units on hand, ~15.0 u/week burn (1.7 weeks cover). Reorder.
-
 **Dead stock (no sales last 4w, ≥30 units):**
+- 🟡 **Nexlev / ETC-08-BL** — 1,191 units sitting idle.
+- 🟡 **Nexlev / MR-03** — 1,049 units sitting idle.
 - 🟡 **Audio Array / AA-26 PRO** — 1,000 units sitting idle.
+- 🟡 **Nexlev / V-02** — 739 units sitting idle.
 - 🟡 **Audio Array / BE-4T** — 690 units sitting idle.
-- 🟡 **Nexlev / MR-03** — 664 units sitting idle.
-- 🟡 **Nexlev / NP-02** — 619 units sitting idle.
 - 🟡 **Nexlev / NP-03** — 570 units sitting idle.
 - 🟡 **Audio Array / AM-C5 WHITE** — 568 units sitting idle.
 - 🟡 **Audio Array / AM-C53** — 510 units sitting idle.
-- 🟡 **Audio Array / AM-C54** — 510 units sitting idle.
 
 ## Ad efficiency this week
 
-- Ad performance looks balanced — nothing flagged.
+**ROAS strong, spend share low — room to bid up:**
+- 🟢 **Audio Array / AM-W22** — ROAS 50.96x on only ₹57 spend. Consider raising bid / budget.
+- 🟢 **Tonor / TC310+** — ROAS 39.64x on only ₹186 spend. Consider raising bid / budget.
+- 🟢 **Tonor / TM310** — ROAS 33.77x on only ₹137 spend. Consider raising bid / budget.
+- 🟢 **Audio Array / AK-61 PRO** — ROAS 33.02x on only ₹423 spend. Consider raising bid / budget.
+- 🟢 **Audio Array / GB-03 (AI-12 + AM-C43)** — ROAS 31.88x on only ₹84 spend. Consider raising bid / budget.
+
+**ROAS below threshold (< 2x):**
+- 🔴 **Audio Array / AK-61 NEO** — ROAS 1.27x on ₹4.7K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / AI-12** — ROAS 1.92x on ₹4.0K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / UB-02 (AM-S1 + AA-21)** — ROAS 0.58x on ₹2.3K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / AH-60-RD** — ROAS 0.00x on ₹1.7K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / GB-02 (AM-C43 + AI-11)** — ROAS 1.90x on ₹1.7K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / AA-04** — ROAS 2.00x on ₹1.4K spend. Investigate bids / negatives.
+
+**ACOS > 40% (margin risk):**
+- 🔴 **Audio Array / UB-02 (AM-S1 + AA-21)** — ACOS 172.0% on ₹2.3K spend.
+- 🔴 **Audio Array / AK-61 NEO** — ACOS 78.5% on ₹4.7K spend.
+- 🔴 **Audio Array / AM-C41** — ACOS 54.5% on ₹762 spend.
+- 🔴 **Audio Array / GB-02 (AM-C43 + AI-11)** — ACOS 52.8% on ₹1.7K spend.
+- 🔴 **Audio Array / AI-12** — ACOS 52.0% on ₹4.0K spend.
+- 🔴 **Audio Array / AA-04** — ACOS 50.0% on ₹1.4K spend.
+
+**Spending with no attribution:**
+- 🔴 **Audio Array / AH-60-RD** — ₹1.7K spend, 0 attributed sales. Pause.
+- 🔴 **Audio Array / AK-37-W** — ₹441 spend, 0 attributed sales. Pause.
+- 🔴 **Audio Array / AM-W34** — ₹413 spend, 0 attributed sales. Pause.
+- 🔴 **Audio Array / AM-C44** — ₹348 spend, 0 attributed sales. Pause.
+- 🔴 **Tonor / TD310+** — ₹338 spend, 0 attributed sales. Pause.
+- 🔴 **Tonor / TM20** — ₹288 spend, 0 attributed sales. Pause.
 
 ## Suggested actions
 
-- **Reorder Nexlev / SC-03** — only 1.7 weeks of cover left at current burn.
-- **Investigate Tonor** — GMV down 34.0% WoW; check listing health, OOS, and ad pacing.
+- **Bid up Audio Array / AM-W22** — ROAS 50.96x on only ₹57 spend; room to scale.
+- **Bid up Tonor / TC310+** — ROAS 39.64x on only ₹186 spend; room to scale.
+- **Pause Audio Array / AH-60-RD** ad spend — ₹1.7K this week with no attributed sales.
+- **Pause Audio Array / AK-37-W** ad spend — ₹441 this week with no attributed sales.
+- **Investigate White Mulberry** — GMV down 33.2% WoW; check listing health, OOS, and ad pacing.
 
 ## Brand briefs
 
-**Audio Array** 🟢 — GMV ₹45.63L (+22.2% WoW) on 1,772 units (+22.2%). Top contributor **AI-04 Red** at ₹6.34L. Total stock 78,952 units. Ad spend ₹3.96L → ROAS 5.51x, ACOS 18.2%.
+**Audio Array** 🔴 — GMV ₹39.10L (-14.3% WoW) on 1,499 units (-15.4%). Top contributor **AI-04 Red** at ₹5.94L. Total stock 80,040 units. Ad spend ₹4.71L → ROAS 5.78x, ACOS 17.3%.
 
-**Nexlev** 🟢 — GMV ₹33.86L (+64.3% WoW) on 1,016 units (+7.3%). Top contributor **ST-01** at ₹3.38L. Total stock 71,535 units. Ad spend ₹2.40L → ROAS 3.29x, ACOS 30.4%.
+**Nexlev** 🔴 — GMV ₹24.08L (-28.9% WoW) on 1,124 units (+10.6%). Top contributor **B0DVC7VJP1** at ₹2.70L. Total stock 73,132 units. Ad spend ₹3.39L → ROAS 2.65x, ACOS 37.8%.
 
-**White Mulberry** 🟢 — GMV ₹11.35L (+27.7% WoW) on 348 units (+19.6%). Top contributor **WM-GD07-CB** at ₹3.53L. Total stock 9,015 units. Ad spend ₹1.08L → ROAS 3.93x, ACOS 25.4%.
+**White Mulberry** 🔴 — GMV ₹7.58L (-33.2% WoW) on 245 units (-29.6%). Top contributor **B0CPFS24ML** at ₹2.40L. Total stock 9,120 units. Ad spend ₹1.03L → ROAS 4.12x, ACOS 24.3%.
 
-**Tonor** 🔴 — GMV ₹1.69L (-34.0% WoW) on 89 units (-29.9%). Top contributor **K1** at ₹31.9K. Total stock 3,758 units. Ad spend ₹8.5K → ROAS 7.38x, ACOS 13.5%.
+**Tonor** 🔴 — GMV ₹1.58L (-6.5% WoW) on 83 units (-6.7%). Top contributor **K1** at ₹25.5K. Total stock 3,671 units. Ad spend ₹8.8K → ROAS 9.34x, ACOS 10.7%.
 
 ## Channel mix
 
-- 🟡 **1p Sales** — ₹35.87L (38.8% of portfolio, 0.0% WoW)
-- 🟢 **Amazon** — ₹35.39L (38.2% of portfolio, +34.1% WoW)
-- 🟢 **D2C - Nexlev** — ₹11.27L (12.2% of portfolio, +726.2% WoW)
-- 🟢 **B2B** — ₹5.99L (6.5% of portfolio, +673.7% WoW)
-- 🔴 **Blinkit Sales** — ₹3.30L (3.6% of portfolio, -10.4% WoW)
-- 🔴 **D2C - Audio Array** — ₹59.3K (0.6% of portfolio, -52.7% WoW)
+- 🟡 **1p Sales** — ₹36.19L (50.0% of portfolio, +0.9% WoW)
+- 🔴 **Amazon** — ₹27.42L (37.9% of portfolio, -22.5% WoW)
+- 🔴 **B2B** — ₹3.77L (5.2% of portfolio, -37.0% WoW)
+- 🟢 **Blinkit Sales** — ₹3.63L (5.0% of portfolio, +10.1% WoW)
+- 🔴 **D2C - Nexlev** — ₹1.10L (1.5% of portfolio, -90.2% WoW)
+- 🔴 **D2C - Audio Array** — ₹21.8K (0.3% of portfolio, -63.3% WoW)
 
 ## Top categories
 
-- **Home & Kitchen** — ₹26.58L on 698 units.
-- **HPC** — ₹5.71L on 286 units.
-- **Desk** — ₹5.01L on 71 units.
-- **Audio Mixer** — ₹3.22L on 87 units.
-- **Desk-Adjustable** — ₹2.45L on 21 units.
+- **Home & Kitchen** — ₹16.16L on 647 units.
+- **Microphone Condenser** — ₹7.56L on 329 units.
+- **Audio Interface** — ₹7.22L on 204 units.
+- **HPC** — ₹6.23L on 451 units.
+- **Monitor Speakers** — ₹4.68L on 72 units.

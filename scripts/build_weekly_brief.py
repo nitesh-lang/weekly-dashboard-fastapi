@@ -271,7 +271,7 @@ def ads_efficiency_section(a: pd.DataFrame, latest_wn: int) -> str:
         out.append("**ROAS strong, spend share low — room to bid up:**")
         for _, r in good_low_share.iterrows():
             out.append(
-                f"- 🟢 **{r['brand']} / {r['Model']}** — ROAS {r['roas']:.2f}x on only "
+                f"- 🟢 **{r['brand']} / {r['model']}** — ROAS {r['roas']:.2f}x on only "
                 f"{fmt_inr(r['spend'])} spend. Consider raising bid / budget."
             )
         out.append("")
@@ -279,7 +279,7 @@ def ads_efficiency_section(a: pd.DataFrame, latest_wn: int) -> str:
         out.append("**ROAS below threshold (< 2x):**")
         for _, r in bad_roas.iterrows():
             out.append(
-                f"- 🔴 **{r['brand']} / {r['Model']}** — ROAS {r['roas']:.2f}x on "
+                f"- 🔴 **{r['brand']} / {r['model']}** — ROAS {r['roas']:.2f}x on "
                 f"{fmt_inr(r['spend'])} spend. Investigate bids / negatives."
             )
         out.append("")
@@ -287,7 +287,7 @@ def ads_efficiency_section(a: pd.DataFrame, latest_wn: int) -> str:
         out.append("**ACOS > 40% (margin risk):**")
         for _, r in high_acos.iterrows():
             out.append(
-                f"- 🔴 **{r['brand']} / {r['Model']}** — ACOS {(r['acos']*100):.1f}% on "
+                f"- 🔴 **{r['brand']} / {r['model']}** — ACOS {(r['acos']*100):.1f}% on "
                 f"{fmt_inr(r['spend'])} spend."
             )
         out.append("")
@@ -295,7 +295,7 @@ def ads_efficiency_section(a: pd.DataFrame, latest_wn: int) -> str:
         out.append("**Spending with no attribution:**")
         for _, r in spend_only.iterrows():
             out.append(
-                f"- 🔴 **{r['brand']} / {r['Model']}** — {fmt_inr(r['spend'])} spend, 0 attributed sales. Pause."
+                f"- 🔴 **{r['brand']} / {r['model']}** — {fmt_inr(r['spend'])} spend, 0 attributed sales. Pause."
             )
         out.append("")
     if bad_roas.empty and high_acos.empty and spend_only.empty and good_low_share.empty:
@@ -406,7 +406,7 @@ def suggested_actions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, lates
               .sort_values("roas", ascending=False).head(2)
     for _, r in bid_up.iterrows():
         actions.append(
-            f"**Bid up {r['brand']} / {r['Model']}** — ROAS {r['roas']:.2f}x on only "
+            f"**Bid up {r['brand']} / {r['model']}** — ROAS {r['roas']:.2f}x on only "
             f"{fmt_inr(r['spend'])} spend; room to scale."
         )
 
@@ -414,7 +414,7 @@ def suggested_actions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, lates
     dead_spend = by[(by["spend"]>=200) & (by["attr"]<1)].sort_values("spend", ascending=False).head(2)
     for _, r in dead_spend.iterrows():
         actions.append(
-            f"**Pause {r['brand']} / {r['Model']}** ad spend — "
+            f"**Pause {r['brand']} / {r['model']}** ad spend — "
             f"{fmt_inr(r['spend'])} this week with no attributed sales."
         )
 

@@ -536,30 +536,34 @@ def process_week(week, sku_master, brand_folder=""):
         skip = {"1p sales"} if sp_api_owns_1p else None
         other = parse_other_channels(other_file, week, skip_sheets=skip)
 
-        # parse_other_channels now emits its own `asin` column from each
-        # sheet's ASIN cell, so we merge with master on sku for
-        # brand/model/nlc and use suffix _m for master's ASIN.  File's
-        # ASIN wins; master's only fills in when file value was blank.
-        other = other.merge(
-            sku_master,
-            on="sku",
-            how="left",
-            suffixes=("", "_m"),
-        )
-        if "asin_m" in other.columns:
-            other["asin"] = other["asin"].where(
-                other["asin"].astype(str).str.len() > 0,
-                other["asin_m"],
+        # When SP-API owns 1P AND the file has ONLY the 1p Sales sheet,
+        # parse_other_channels returns an empty DataFrame with no columns,
+        # so the merge on `sku` would KeyError.  Skip merge when empty.
+        if not other.empty:
+            # parse_other_channels now emits its own `asin` column from each
+            # sheet's ASIN cell, so we merge with master on sku for
+            # brand/model/nlc and use suffix _m for master's ASIN.  File's
+            # ASIN wins; master's only fills in when file value was blank.
+            other = other.merge(
+                sku_master,
+                on="sku",
+                how="left",
+                suffixes=("", "_m"),
             )
-            other = other.drop(columns=["asin_m"])
-        # BRAND OVERRIDE FROM FOLDER (if present)
-        if brand_folder:
-            other["brand"] = brand_folder.replace("_", " ")
+            if "asin_m" in other.columns:
+                other["asin"] = other["asin"].where(
+                    other["asin"].astype(str).str.len() > 0,
+                    other["asin_m"],
+                )
+                other = other.drop(columns=["asin_m"])
+            # BRAND OVERRIDE FROM FOLDER (if present)
+            if brand_folder:
+                other["brand"] = brand_folder.replace("_", " ")
 
-        # 🔒 DEDUPE OTHER CHANNELS — now SKU + ASIN since the file may
-        # carry the same SKU under different ASINs (variant relisting).
-        other = other.drop_duplicates(subset=["week", "channel", "sku", "asin", "brand"])
-        frames.append(other)
+            # 🔒 DEDUPE OTHER CHANNELS — now SKU + ASIN since the file may
+            # carry the same SKU under different ASINs (variant relisting).
+            other = other.drop_duplicates(subset=["week", "channel", "sku", "asin", "brand"])
+            frames.append(other)
 
     if not frames:
         print(f"[ETL] ⚠ No sales files for {week}")

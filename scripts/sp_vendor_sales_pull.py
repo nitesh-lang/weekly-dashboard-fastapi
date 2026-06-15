@@ -319,14 +319,21 @@ def run_account(acct: str, window_start: str, window_end: str, fallback_days: in
     rows = None
     effective_end = window_end
     try_end = window_end
+    # Anchor start at the operator Sunday — when the end shifts back because
+    # of Amazon's publication lag, the window must SHRINK (partial-week)
+    # rather than slide back as a fixed 7-day block.  Sliding back leaks
+    # the previous week's Saturday into the current week (e.g. AA W24:
+    # falling back from Jun 13 -> Jun 12 dragged Jun 6 in, +₹5.4L bleed).
+    anchored_start = window_start
     for attempt in range(fallback_days + 1):
         try_end = (datetime.fromisoformat(window_end).date() - timedelta(days=attempt)).isoformat()
-        try_start = (datetime.fromisoformat(try_end).date() - timedelta(days=6)).isoformat()
+        try_start = anchored_start
         try:
             rows = pull_vendor_sales(tok, try_start, try_end)
             effective_end = try_end
             if attempt > 0:
-                print(f"  fell back window end {window_end} -> {try_end} (publication lag)")
+                days = (datetime.fromisoformat(try_end).date() - datetime.fromisoformat(anchored_start).date()).days + 1
+                print(f"  fell back window end {window_end} -> {try_end} (publication lag; partial {days}-day pull)")
             break
         except DataNotAvailable:
             print(f"  data not available for {try_end}; trying earlier date")
@@ -335,7 +342,7 @@ def run_account(acct: str, window_start: str, window_end: str, fallback_days: in
         print(f"  gave up after {fallback_days+1} attempts; latest tried = {try_end}")
         return
 
-    effective_start = (datetime.fromisoformat(effective_end).date() - timedelta(days=6)).isoformat()
+    effective_start = anchored_start
     print(f"  daily rows pulled: {len(rows)}")
     snap = aggregate_window(rows, effective_start, effective_end)
     if snap.empty:

@@ -765,11 +765,32 @@ def check_raw_vs_snapshot_sales(latest_week: int) -> pd.DataFrame:
                         })
                 except Exception:
                     pass
+            # SP-API 1P sales: when present + non-empty, it is the
+            # canonical 1P raw source.  Mirror sales_auto_etl: count
+            # SP-API units AND skip the "1p Sales" sheet in
+            # other_channels.xlsx (shadowed by SP-API).
+            sp_sales = brand_dir / "Vendor Sales (SP-API).xlsx"
+            sp_owns_1p = False
+            if sp_sales.exists():
+                try:
+                    spd = pd.read_excel(sp_sales)
+                    if "Qty" in spd.columns:
+                        sp_units = float(pd.to_numeric(spd["Qty"], errors="coerce").fillna(0).sum())
+                        if sp_units > 0:
+                            raw_rows.append({
+                                "week": wnum, "brand": brand,
+                                "raw_units": sp_units,
+                            })
+                            sp_owns_1p = True
+                except Exception:
+                    pass
             oc = brand_dir / "other_channels.xlsx"
             if oc.exists():
                 try:
                     xl = pd.ExcelFile(oc)
                     for sh in xl.sheet_names:
+                        if sp_owns_1p and sh.strip().lower() == "1p sales":
+                            continue  # shadowed by SP-API canonical
                         d = pd.read_excel(oc, sheet_name=sh)
                         cols = {c.lower().strip(): c for c in d.columns}
                         u = cols.get("units sold") or cols.get("units_sold") or cols.get("qty") or cols.get("units")

@@ -1,10 +1,10 @@
 # Weekly Brief — Week 23
-*Generated 2026-06-15T08:17:00.983139Z from data through Week 23*
+*Generated 2026-06-15T09:05:05.359046Z from data through Week 23*
 ## This week at a glance
 
 Week 23 closed at **₹92.53L GMV** (+33.3% WoW, +14.0% vs prior 4w) on **3,225 units** (+14.6% WoW). This was a recovery week, led by **Audio Array** at 49% of portfolio GMV.
 
-Ad spend **₹7.52L** (+188.4%) — ROAS **4.60x** · ACOS **21.8%** · TACOS **10.5%**.
+Ad spend **₹7.52L** (-16.9%) — ROAS **4.60x** · ACOS **21.8%** · TACOS **10.5%**.
 
 ## What went well
 

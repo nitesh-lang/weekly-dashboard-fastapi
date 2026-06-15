@@ -1,44 +1,71 @@
-"""Dual-backend user store.
+"""File-backed user store.
 
-When `DATABASE_URL` is set (Render Postgres attached), every operation
-goes through Postgres.  Otherwise the legacy JSON file at
-`data/users.json` is used — keeps local dev frictionless (no DB to run
-locally).
+Path is configurable via the `USERS_FILE` env var so Render can mount
+a persistent disk and point at it (e.g. `USERS_FILE=/var/data/users.json`).
+Without that, the container's local `data/users.json` gets wiped on
+every deploy and only the bootstrap admin (auto-reseeded on startup)
+survives.
 
-Why two backends instead of always Postgres?
-- Render's container disk is ephemeral; the JSON file gets wiped on
-  every deploy and only the bootstrap admin survives.  Postgres
-  persists.
-- Local dev shouldn't require a running Postgres.  Falling back to
-  JSON keeps `python weekly_app/main.py` zero-config.
+Local dev leaves USERS_FILE unset → falls back to `data/users.json`.
 
-The public surface (find_user / create_user / update_user / etc.) is
-identical to the original file-only API so `api.py`, `admin.py`, and
-`auth.py` import unchanged.
+Schema:
+{
+  "users": [
+    {
+      "email":               "info@cambiumretail.com",
+      "password_hash":       "$2b$...",
+      "role":                "admin",
+      "tabs":                ["/sales-trend", ...],
+      "created_at":          "2026-04-30T...Z",
+      "password_updated_at": null
+    }
+  ]
+}
+
+Notes:
+- _load() is wrapped in a short-lived in-memory cache (~30s) because the
+  Google-Drive virtual filesystem on Windows occasionally throws
+  `OSError: [WinError 433] A device which does not exist was specified`
+  when stat'd from a child process.  Without the cache, every login
+  request rolled the dice on that flake.  Auto-invalidated on _save().
 """
-from __future__ import annotations
-
 import json
+import os
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any
 
-from weekly_app.core import db
-
-USERS_FILE = Path("data/users.json")
+# Persistent location on Render comes via env var; local dev uses the
+# repo-relative path.  Anything calling auth_users sees the same
+# interface — only the storage location moves.
+USERS_FILE = Path(os.environ.get("USERS_FILE", "data/users.json"))
 _CACHE_TTL_SECONDS = 30.0
 
-# Single source of truth for the bootstrap account.
+# Single source of truth for the bootstrap account. seed_user.py and the
+# startup auto-seed in main.py both use these.
 INITIAL_USER_EMAIL = "info@cambiumretail.com"
 INITIAL_USER_PASSWORD = "Cambium@109"  # initial only — change via /reset-password
 
 # ─────────────────────────────────────────────────────────────────────
 # Role-based access control (RBAC).
+#
+# - admin     full access, can manage users + see every tab
+# - operator  full data access (view + export + edit notes), no admin
+# - viewer    view-only — export/copy/edit are hidden + 403'd
+#
+# Per-user `tabs` is an allowlist of route paths (e.g. "/sales-trend").
+# Empty list = "all tabs allowed for this role"; admins ignore it
+# entirely.  Tab gating is enforced primarily by the React shell
+# (nav/route hiding) and again by /api/me's tabs field; APIs are
+# auth-gated but not tab-gated to keep the surface simple.
 # ─────────────────────────────────────────────────────────────────────
 VALID_ROLES = ("admin", "operator", "viewer")
 DEFAULT_ROLE = "admin"  # legacy users without a role field
 
+# Canonical tab catalog — must stay in sync with NAV_GROUPS on the
+# frontend.  Anything not listed here can't be assigned to a user; the
+# admin UI uses this list to render checkboxes.
 KNOWN_TABS = (
     "/dashboard",
     "/insights",
@@ -60,14 +87,14 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-# ─────────────────────────────────────────────────────────────────────
-# JSON backend (local dev only) — kept verbatim from the pre-Postgres
-# implementation so behaviour off-Render is unchanged.
-# ─────────────────────────────────────────────────────────────────────
-_json_cache: Optional[tuple] = None
+# Cache: (loaded_at_monotonic, data).  None means "never loaded".
+_cache: Optional[tuple] = None
 
 
-def _json_load_uncached() -> Dict[str, Any]:
+def _load_uncached() -> Dict[str, Any]:
+    """Single attempt to load + parse the users file.  Retries the FS call
+    a couple of times to ride out the Google-Drive WinError 433 hiccup.
+    Returns {"users": []} only on hard parse error, never on FS flake."""
     last_exc: Optional[Exception] = None
     for attempt in range(3):
         try:
@@ -76,153 +103,43 @@ def _json_load_uncached() -> Dict[str, Any]:
             return json.loads(USERS_FILE.read_text(encoding="utf-8"))
         except OSError as e:
             last_exc = e
-            time.sleep(0.05 * (attempt + 1))
+            time.sleep(0.05 * (attempt + 1))   # 50ms, 100ms backoff
         except Exception:
             return {"users": []}
+    # All retries failed — surface the FS error so the caller can decide.
     raise last_exc if last_exc else RuntimeError("users.json unreadable")
 
 
-def _json_load() -> Dict[str, Any]:
-    global _json_cache
+def _load() -> Dict[str, Any]:
+    global _cache
     now = time.monotonic()
-    if _json_cache is not None and (now - _json_cache[0]) < _CACHE_TTL_SECONDS:
-        return _json_cache[1]
+    if _cache is not None and (now - _cache[0]) < _CACHE_TTL_SECONDS:
+        return _cache[1]
     try:
-        data = _json_load_uncached()
+        data = _load_uncached()
     except Exception:
-        if _json_cache is not None:
-            return _json_cache[1]
+        # If the file is genuinely unreadable but we have a cached copy,
+        # return the stale one rather than 500ing.  Better than nothing.
+        if _cache is not None:
+            return _cache[1]
         return {"users": []}
-    _json_cache = (now, data)
+    _cache = (now, data)
     return data
 
 
-def _json_save(data: Dict[str, Any]) -> None:
-    global _json_cache
+def _save(data: Dict[str, Any]) -> None:
+    global _cache
     USERS_FILE.parent.mkdir(parents=True, exist_ok=True)
     USERS_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    _json_cache = (time.monotonic(), data)
+    # Invalidate cache so the next _load() picks up the freshly written file.
+    _cache = (time.monotonic(), data)
 
 
-# ─────────────────────────────────────────────────────────────────────
-# Postgres backend — used on Render when DATABASE_URL is set.
-# All helpers normalise email to lowercase to match the JSON behaviour.
-# ─────────────────────────────────────────────────────────────────────
-def _pg_row_to_user(row) -> Dict[str, Any]:
-    if not row:
-        return {}
-    email, pw_hash, role, tabs, created_at, pw_updated = row
-    return {
-        "email":               email,
-        "password_hash":       pw_hash,
-        "role":                role or DEFAULT_ROLE,
-        "tabs":                list(tabs or []),
-        "created_at":          created_at.isoformat() if created_at else None,
-        "password_updated_at": pw_updated.isoformat() if pw_updated else None,
-    }
-
-
-def _pg_find(email: str) -> Optional[Dict[str, Any]]:
-    norm = email.strip().lower()
-    with db.get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute(
-                "SELECT email, password_hash, role, tabs, created_at, password_updated_at "
-                "FROM users WHERE email = %s",
-                (norm,),
-            )
-            row = cur.fetchone()
-    return _pg_row_to_user(row) if row else None
-
-
-def _pg_list() -> List[Dict[str, Any]]:
-    with db.get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute(
-                "SELECT email, password_hash, role, tabs, created_at, password_updated_at "
-                "FROM users ORDER BY created_at"
-            )
-            rows = cur.fetchall()
-    return [_pg_row_to_user(r) for r in rows]
-
-
-def _pg_create(email: str, password_hash: str, role: str, tabs: list) -> Dict[str, Any]:
-    norm = email.strip().lower()
-    with db.get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute(
-                "INSERT INTO users (email, password_hash, role, tabs) "
-                "VALUES (%s, %s, %s, %s::jsonb) "
-                "RETURNING email, password_hash, role, tabs, created_at, password_updated_at",
-                (norm, password_hash, role, json.dumps(list(tabs))),
-            )
-            row = cur.fetchone()
-        conn.commit()
-    return _pg_row_to_user(row)
-
-
-def _pg_update(email: str, role: Optional[str], tabs: Optional[list]) -> bool:
-    sets, params = [], []
-    if role is not None:
-        sets.append("role = %s"); params.append(role)
-    if tabs is not None:
-        sets.append("tabs = %s::jsonb"); params.append(json.dumps(list(tabs)))
-    if not sets:
-        return True  # noop
-    params.append(email.strip().lower())
-    with db.get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute(
-                f"UPDATE users SET {', '.join(sets)} WHERE email = %s",
-                tuple(params),
-            )
-            ok = cur.rowcount > 0
-        conn.commit()
-    return ok
-
-
-def _pg_update_password(email: str, password_hash: str) -> bool:
-    with db.get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute(
-                "UPDATE users SET password_hash = %s, password_updated_at = NOW() "
-                "WHERE email = %s",
-                (password_hash, email.strip().lower()),
-            )
-            ok = cur.rowcount > 0
-        conn.commit()
-    return ok
-
-
-def _pg_delete(email: str) -> bool:
-    with db.get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute("DELETE FROM users WHERE email = %s", (email.strip().lower(),))
-            ok = cur.rowcount > 0
-        conn.commit()
-    return ok
-
-
-def _pg_count_admins() -> int:
-    with db.get_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT COUNT(*) FROM users WHERE role = 'admin'")
-            (n,) = cur.fetchone()
-    return int(n)
-
-
-# ─────────────────────────────────────────────────────────────────────
-# Public API — dispatches to the right backend based on DATABASE_URL.
-# Signatures match the original JSON-only implementation so callers
-# (api.py / admin.py / auth.py) don't change.
-# ─────────────────────────────────────────────────────────────────────
 def find_user(email: str) -> Optional[Dict[str, Any]]:
     if not email:
         return None
-    if db.is_enabled():
-        return _pg_find(email)
     norm = email.strip().lower()
-    for u in _json_load().get("users", []):
+    for u in _load().get("users", []):
         if u.get("email", "").strip().lower() == norm:
             return u
     return None
@@ -234,31 +151,28 @@ def create_user(
     role: str = "operator",
     tabs: Optional[list] = None,
 ) -> Dict[str, Any]:
+    data = _load()
     norm = email.strip().lower()
-    if role not in VALID_ROLES:
-        raise ValueError(f"Invalid role: {role!r}. Must be one of {VALID_ROLES}")
-    tabs_list = list(tabs) if tabs is not None else []
-
-    if db.is_enabled():
-        # Same uniqueness contract as the JSON path.
-        if _pg_find(norm):
-            raise ValueError(f"User already exists: {norm}")
-        return _pg_create(norm, password_hash, role, tabs_list)
-
-    data = _json_load()
     if any(u.get("email", "").strip().lower() == norm for u in data["users"]):
         raise ValueError(f"User already exists: {norm}")
+    if role not in VALID_ROLES:
+        raise ValueError(f"Invalid role: {role!r}. Must be one of {VALID_ROLES}")
     user = {
-        "email": norm, "password_hash": password_hash,
-        "role": role, "tabs": tabs_list,
-        "created_at": _now_iso(), "password_updated_at": None,
+        "email": norm,
+        "password_hash": password_hash,
+        "role": role,
+        "tabs": list(tabs) if tabs is not None else [],
+        "created_at": _now_iso(),
+        "password_updated_at": None,
     }
     data["users"].append(user)
-    _json_save(data)
+    _save(data)
     return user
 
 
 def get_role(email: str) -> str:
+    """Returns the user's role.  Legacy users without a role get DEFAULT_ROLE
+    (admin) — preserves backwards compatibility with the pre-RBAC bootstrap."""
     u = find_user(email)
     if not u:
         return DEFAULT_ROLE
@@ -266,6 +180,8 @@ def get_role(email: str) -> str:
 
 
 def get_tabs(email: str) -> list:
+    """Returns the per-user tabs allowlist.  Empty list = no restriction
+    (every tab the role allows is visible)."""
     u = find_user(email)
     if not u:
         return []
@@ -273,13 +189,9 @@ def get_tabs(email: str) -> list:
 
 
 def list_users() -> list:
-    if db.is_enabled():
-        return [
-            {k: u[k] for k in ("email", "role", "tabs", "created_at", "password_updated_at")}
-            for u in _pg_list()
-        ]
+    """All users, with the password_hash stripped — admin-UI consumption."""
     out = []
-    for u in _json_load().get("users", []):
+    for u in _load().get("users", []):
         out.append({
             "email": u.get("email", ""),
             "role":  u.get("role") or DEFAULT_ROLE,
@@ -295,60 +207,55 @@ def update_user(
     role: Optional[str] = None,
     tabs: Optional[list] = None,
 ) -> bool:
+    """Update role and/or tabs on an existing user.  Returns True on
+    success, False if the user wasn't found.  Validates role."""
     if role is not None and role not in VALID_ROLES:
         raise ValueError(f"Invalid role: {role!r}. Must be one of {VALID_ROLES}")
-    if db.is_enabled():
-        return _pg_update(email, role, tabs)
-
-    data = _json_load()
+    data = _load()
     norm = email.strip().lower()
     for u in data["users"]:
         if u.get("email", "").strip().lower() == norm:
             if role is not None: u["role"] = role
             if tabs is not None: u["tabs"] = list(tabs)
-            _json_save(data)
+            _save(data)
             return True
     return False
 
 
 def delete_user(email: str) -> bool:
-    if db.is_enabled():
-        return _pg_delete(email)
-    data = _json_load()
+    data = _load()
     norm = email.strip().lower()
     before = len(data["users"])
     data["users"] = [u for u in data["users"]
                      if u.get("email", "").strip().lower() != norm]
     if len(data["users"]) == before:
         return False
-    _json_save(data)
+    _save(data)
     return True
 
 
 def count_admins() -> int:
-    if db.is_enabled():
-        return _pg_count_admins()
-    return sum(1 for u in _json_load().get("users", [])
+    return sum(1 for u in _load().get("users", [])
                if (u.get("role") or DEFAULT_ROLE) == "admin")
 
 
 def update_password(email: str, password_hash: str) -> bool:
-    if db.is_enabled():
-        return _pg_update_password(email, password_hash)
-    data = _json_load()
+    data = _load()
     norm = email.strip().lower()
     for u in data["users"]:
         if u.get("email", "").strip().lower() == norm:
             u["password_hash"] = password_hash
             u["password_updated_at"] = _now_iso()
-            _json_save(data)
+            _save(data)
             return True
     return False
 
 
 def ensure_initial_user() -> bool:
-    """Create the bootstrap user if absent.  Idempotent — safe to call
-    on every startup.  Returns True if a user was created."""
+    """Create the bootstrap user if absent. Idempotent — safe to call on
+    every startup. Returns True if a user was created, False if it already
+    existed.
+    """
     from weekly_app.core import security  # local import to avoid circular
     if find_user(INITIAL_USER_EMAIL):
         return False
@@ -358,40 +265,3 @@ def ensure_initial_user() -> bool:
         role="admin",
     )
     return True
-
-
-def migrate_json_to_pg() -> int:
-    """One-time bootstrap migration.
-
-    Runs on Render startup: if Postgres is enabled and the users table
-    is empty, copy whatever the local JSON file holds.  Saves the
-    operator the manual step of re-creating their bootstrap account in
-    a fresh DB.  Idempotent — returns 0 once the table has users.
-    """
-    if not db.is_enabled():
-        return 0
-    try:
-        if _pg_list():   # already populated
-            return 0
-        if not USERS_FILE.exists():
-            return 0
-        data = _json_load_uncached()
-        users = data.get("users", [])
-        copied = 0
-        for u in users:
-            try:
-                _pg_create(
-                    u.get("email", ""),
-                    u.get("password_hash", ""),
-                    u.get("role") or DEFAULT_ROLE,
-                    list(u.get("tabs") or []),
-                )
-                copied += 1
-            except Exception as e:
-                print(f"[auth] migration skipped {u.get('email')}: {e!r}")
-        if copied:
-            print(f"[auth] migrated {copied} user(s) from data/users.json into Postgres")
-        return copied
-    except Exception as e:
-        print(f"[auth] migration failed: {e!r}")
-        return 0

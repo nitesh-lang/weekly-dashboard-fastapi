@@ -134,37 +134,19 @@ app.add_middleware(
     max_age=14 * 24 * 60 * 60,  # 14 days
 )
 
-# DB + auth bootstrap on first boot, in order:
-#   1. If DATABASE_URL is set, create the users table (idempotent).
-#   2. One-time migration: if Postgres is empty but data/users.json
-#      has users, copy them in.  Lets fresh Render Postgres adoptions
-#      pick up the bootstrap admin without any manual step.
-#   3. Auto-seed the bootstrap user if still absent.
-# Each step is wrapped so a DB blip can't take down the whole app —
-# auth falls back to the JSON file path gracefully.
+# Auto-seed the bootstrap user on first boot. Idempotent — does nothing
+# if the user already exists. Means a fresh Render deploy is usable
+# immediately without needing shell access to run scripts/seed_user.py.
+# The users file location respects the USERS_FILE env var, so when a
+# persistent disk is mounted on Render the seed writes to the disk
+# (e.g. /var/data/users.json) and survives subsequent deploys.
 try:
-    from weekly_app.core import db as _db
-    if _db.is_enabled():
-        try:
-            _db.init_schema()
-            print("✅ Postgres schema ready")
-        except Exception as _e:
-            print(f"⚠ Postgres init_schema failed: {_e}")
-        try:
-            from weekly_app.core.auth_users import migrate_json_to_pg
-            n = migrate_json_to_pg()
-            if n:
-                print(f"✅ Migrated {n} user(s) from data/users.json into Postgres")
-        except Exception as _e:
-            print(f"⚠ Postgres migration failed: {_e}")
-    try:
-        from weekly_app.core.auth_users import ensure_initial_user
-        if ensure_initial_user():
-            print("✅ Auto-seeded initial user")
-    except Exception as _e:
-        print(f"⚠ Auto-seed failed: {_e}")
+    from weekly_app.core.auth_users import ensure_initial_user, USERS_FILE
+    print(f"🔐 Users file: {USERS_FILE}")
+    if ensure_initial_user():
+        print("✅ Auto-seeded initial user")
 except Exception as _e:
-    print(f"⚠ Auth bootstrap failed: {_e}")
+    print(f"⚠ Auto-seed failed: {_e}")
 
 # =====================================================
 # GLOBAL ERROR HANDLER

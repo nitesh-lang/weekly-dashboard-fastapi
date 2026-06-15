@@ -11567,6 +11567,17 @@
     ],
     "profile_id": "866679611348308"
   },
+  "Camb-Motorized desk- SP- Defensive": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DQ4YWSMC",
+      "B0CPT3Q25C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
   "SP_AT_B0CPFS24ML_Gaming": {
     "brand": "White Mulberry",
     "asins": [
@@ -29061,10 +29072,130 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-B0DFCDZWND-Heating Pad-SP-PT-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFCDZWND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0D9KFP4MG-Straightener Brush-SP-PT-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFP4MG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0DQCWRG3H-Air Brush-SP-PT-Excat": {
     "brand": "Nexlev",
     "asins": [
       "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0D672NXC8-Steam cleaner-SP-PT-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D672NXC8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DCK3N2JJ-Straightener Brush-SP-PT-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK3N2JJ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DJFH6RTL-Tyre Inflator-SP-PT-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH6RTL"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0FPGDVVCX-Calf Massager-KT-AT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FPGDVVCX"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0FPGDVVCX-calf massager-KT-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FPGDVVCX"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DJFH6RTL-Tyre Inflator-KT-AT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH6RTL"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DQCWRG3H-Air Brush-SP-PT-Exact (2)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0D9KFP4MG-Straightener Brush-KT-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFP4MG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DNJS23HS-Steam Mop-SB-KT-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
     ],
     "ad_types": [
       "productAd"

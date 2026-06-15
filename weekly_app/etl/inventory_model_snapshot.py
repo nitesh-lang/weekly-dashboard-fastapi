@@ -122,6 +122,43 @@ def run_inventory_etl():
     sku_nlc = _load_sku_nlc_map()
     all_rows = []
 
+    # ─────────────────────────────────────────────────────────
+    # SP-API 1P canonical-source registry.
+    #
+    # When `Vendor SOH (SP-API).xlsx` is present for a given
+    # (Week, Brand-folder), that file becomes the AUTHORITATIVE
+    # source of 1P inventory rows for that brand+week.  Any 1P
+    # channel rows coming from OTHER files in the same brand+week
+    # folder (e.g. operator's manual `Inventory Snapshot.xlsx`)
+    # are dropped to avoid double-counting.
+    #
+    # Safety net: if the SP-API file exists but is empty / unreadable
+    # / has zero 1P rows, the manual rows are KEPT — empty SP-API
+    # data must never silently zero out the dashboard's 1P inventory.
+    sp_api_one_p_owns: set[tuple[str, str]] = set()
+    for sp_file in RAW_INV_DIR.rglob("Vendor SOH (SP-API).xlsx"):
+        try:
+            _df = pd.read_excel(sp_file)
+            _df.columns = [c.strip().lower() for c in _df.columns]
+            if "channel" not in _df.columns or "qty" not in _df.columns:
+                continue
+            chan_n = _df["channel"].astype(str).str.strip().str.lower()
+            one_p_qty = pd.to_numeric(
+                _df.loc[chan_n == "1p", "qty"], errors="coerce"
+            ).fillna(0).sum()
+            if one_p_qty <= 0:
+                # Empty/zero SP-API → fall back to manual; don't claim ownership.
+                continue
+        except Exception:
+            continue
+        week_label  = extract_week(sp_file.parent.parent.name)
+        brand_folder = sp_file.parent.name
+        if week_label and brand_folder:
+            sp_api_one_p_owns.add((week_label, brand_folder))
+    if sp_api_one_p_owns:
+        print(f"   📡 SP-API 1P canonical source for: "
+              f"{sorted(sp_api_one_p_owns)}")
+
     # --------------------------------------------------------
     # SCAN ALL XLSX FILES
     # --------------------------------------------------------
@@ -223,6 +260,24 @@ def run_inventory_etl():
         df["channel"] = df["channel"].astype(str).str.strip().map(
             lambda s: CHANNEL_CANONICAL.get(s.lower(), s)
         )
+
+        # ── SP-API 1P preference ──
+        # If this file is NOT the SP-API Vendor SOH file for its
+        # brand+week, but an SP-API file with non-zero 1P qty DOES
+        # exist for that brand+week, drop the 1P channel rows from
+        # this file — SP-API wins.  See `sp_api_one_p_owns` build
+        # above for the canonical-source registry.
+        is_sp_api_file = (file.name == "Vendor SOH (SP-API).xlsx")
+        if not is_sp_api_file:
+            brand_folder = file.parent.name
+            week_label   = df["week"].dropna().iloc[0] if not df["week"].dropna().empty else None
+            if week_label and (week_label, brand_folder) in sp_api_one_p_owns:
+                before = len(df)
+                df = df[df["channel"] != "1P"]
+                dropped = before - len(df)
+                if dropped:
+                    print(f"   🔇 dropped {dropped} 1P row(s) from {file.relative_to(RAW_INV_DIR)} "
+                          f"(SP-API owns 1P for {brand_folder} {week_label})")
 
         # ── Master alignment: ASIN → SKU → Model ──
         # Operator rule: ASIN is truth → SKU/Model/Brand come from master.

@@ -74,10 +74,21 @@ SKU_MASTER = REPO_ROOT / "data" / "master" / "sku_master.xlsx"
 
 # Account -> brand -> folder slug used under data/raw/inventory/Week NN/
 ACCOUNTS = {
+    # Cambium Retail Pvt Ltd (CRPL) vendor account holds three brands:
+    # Audio Array, Tonor, AND White Mulberry.  We loop all three so the
+    # CRPL response gets split into each brand's folder based on
+    # sku_master's ASIN→Brand mapping.  ASINs that aren't yet tagged in
+    # master land in the _audit/ folder for the operator to backfill.
     "AUDIOARRAY": {
-        "Audio Array":   "Audio_Array",
-        "Tonor":         "Tonor",
+        "Audio Array":    "Audio_Array",
+        "Tonor":          "Tonor",
+        "White Mulberry": "White_Mulberry",
     },
+    # Clicktech vendor account (legacy) — kept in the script for
+    # completeness, but the current refresh token points at a dormant
+    # account with ~20 old ASINs / 1 sellable unit.  WM's active
+    # listings actually live under CRPL above.  Safe to leave wired —
+    # produces empty xlsx + audit each run.
     "WHITEMULBERRY": {
         "White Mulberry": "White_Mulberry",
     },

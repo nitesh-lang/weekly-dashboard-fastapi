@@ -79,10 +79,13 @@ REPO_ROOT  = Path(__file__).resolve().parent.parent
 SKU_MASTER = REPO_ROOT / "data" / "master" / "sku_master.xlsx"
 
 ACCOUNTS = {
+    # CRPL holds Audio Array + Tonor + White Mulberry — loop all three.
     "AUDIOARRAY": {
-        "Audio Array":   "Audio_Array",
-        "Tonor":         "Tonor",
+        "Audio Array":    "Audio_Array",
+        "Tonor":          "Tonor",
+        "White Mulberry": "White_Mulberry",
     },
+    # Clicktech (legacy / dormant — kept for completeness).
     "WHITEMULBERRY": {
         "White Mulberry": "White_Mulberry",
     },

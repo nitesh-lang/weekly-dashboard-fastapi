@@ -400,6 +400,37 @@ def aggregate_to_weekly() -> dict[str, dict[int, dict[str, pd.DataFrame]]]:
     def _wk(d): return sun_sat_week(d)[0]
     df["week"] = df["date_d"].apply(_wk)
 
+    # ─── Coverage check ───────────────────────────────────────────
+    # The rolling 14-day API window slides forward each cron run.
+    # When the window's start crosses past a Sun-Sat week's Sunday,
+    # subsequent pulls return only a 1-6 day fragment of that week,
+    # and naively writing that fragment OVERWRITES the previously-
+    # correct canonical xlsx with degraded data (W21 lost ~₹3L,
+    # W22 lost ~₹6L this way).
+    #
+    # Fix: for each week, only keep it in the output if EVERY day
+    # Sun..Sat is present in the daily pull.  Partial-coverage weeks
+    # get skipped entirely — the swap step then leaves the canonical
+    # file alone, preserving its full-coverage data from when the
+    # week was first pulled.
+    fully_covered: set[int] = set()
+    for wk_num, sub_dates in df.groupby("week")["date_d"]:
+        # Recover the canonical Sun-Sat span for this week from any
+        # date in the group (sun_sat_week is consistent).
+        any_date = sub_dates.iloc[0]
+        _, sun, sat = sun_sat_week(any_date)
+        days_seen = set(sub_dates.unique())
+        expected  = {sun + dt.timedelta(days=i) for i in range(7)}
+        if expected.issubset(days_seen):
+            fully_covered.add(int(wk_num))
+    skipped = sorted(set(df["week"].astype(int).unique()) - fully_covered)
+    if skipped:
+        print(f"⚠ skipping partially-covered weeks (preserve canonical): {skipped}")
+    df = df[df["week"].astype(int).isin(fully_covered)]
+    if df.empty:
+        print("⚠ no fully-covered weeks in this window — no xlsx will be written")
+        return {}
+
     # Normalise column names per ad type into a shared schema
     out: dict[str, dict[int, dict[str, pd.DataFrame]]] = defaultdict(lambda: defaultdict(dict))
     for rtype, cfg in REPORT_TYPES.items():

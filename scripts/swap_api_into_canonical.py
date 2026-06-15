@@ -110,6 +110,38 @@ def swap_one(brand_dir: Path, week: int) -> dict:
     if not existing_sb.empty:
         sheets["SB"] = existing_sb
 
+    # ── Regression guard ──
+    # ads_reports_pull's coverage check should prevent this, but if a
+    # partial-window fragment slips through (or operator runs swap by
+    # hand) we refuse to overwrite a canonical file whose SP+SD spend
+    # exceeds the new file's by more than 30%.  Better to keep stale
+    # canonical than corrupt it with a fragment.  Empty canonical
+    # (first-time write) always proceeds.
+    DEGRADE_TOLERANCE = 0.70
+    if canon.exists():
+        try:
+            old_xl = pd.ExcelFile(canon)
+            old_spend = 0.0
+            for sh in ("SP", "SD"):
+                if sh in old_xl.sheet_names:
+                    od = pd.read_excel(canon, sheet_name=sh)
+                    if "Spend" in od.columns:
+                        old_spend += pd.to_numeric(od["Spend"], errors="coerce").fillna(0).sum()
+            new_spend = (
+                pd.to_numeric(sheets["SP"].get("Spend", pd.Series(dtype=float)), errors="coerce").fillna(0).sum()
+                + pd.to_numeric(sheets["SD"].get("Spend", pd.Series(dtype=float)), errors="coerce").fillna(0).sum()
+            )
+            if old_spend > 1000 and new_spend < old_spend * DEGRADE_TOLERANCE:
+                out["note"] = (
+                    f"⛔ refused swap: SP+SD spend regressed ₹{int(old_spend):,} → "
+                    f"₹{int(new_spend):,} ({(1-new_spend/old_spend)*100:.0f}% drop) — "
+                    f"partial-window fragment; keeping canonical."
+                )
+                print(f"  {out['note']}")
+                return out
+        except Exception as e:
+            print(f"  ⚠ regression-guard read failed, will write anyway: {e!r}")
+
     with pd.ExcelWriter(canon, engine="openpyxl", mode="w") as w:
         for name, sdf in sheets.items():
             sdf.to_excel(w, sheet_name=name, index=False)

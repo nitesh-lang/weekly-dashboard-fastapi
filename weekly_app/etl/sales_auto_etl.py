@@ -305,18 +305,26 @@ def parse_amazon(file, week):
 # =====================================================
 # -------------- OTHER CHANNEL PARSER -----------------
 # =====================================================
-def parse_other_channels(file, week):
+def parse_other_channels(file, week, skip_sheets=None):
     """
     Vendor / D2C / Marketplace.
     SKU + ASIN level — each sheet (1p Sales, D2C, B2B, Blinkit, etc.)
     carries its own ASIN column.  We honor the file's ASIN as ground
     truth so a SKU's true sale-time ASIN isn't overridden by master's
     primary-variant pick.
+
+    `skip_sheets` (set of lowercased sheet names) lets the caller drop
+    sheets that have a more authoritative source — currently used so
+    "1p sales" gets sourced from the SP-API Vendor Sales file when
+    present, not the manually-maintained sheet.
     """
     xls = pd.ExcelFile(file)
     rows = []
+    skip_norm = {s.strip().lower() for s in (skip_sheets or set())}
 
     for sheet in xls.sheet_names:
+        if sheet.strip().lower() in skip_norm:
+            continue
         df = pd.read_excel(xls, sheet_name=sheet)
         if df.empty:
             continue
@@ -364,6 +372,45 @@ def parse_other_channels(file, week):
         rows.append(g)
 
     return pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
+
+
+def parse_vendor_sales_sp_api(file, week):
+    """Load SP-API Vendor Sales (1P) xlsx — emit rows in the same
+    shape parse_other_channels' "1p Sales" sheet would have produced
+    (sku, asin, units_sold, gross_sales, channel, week).
+
+    Schema in the source file (sp_vendor_sales_pull.py output):
+        ASIN, SKU, Brand, Model, category_l0/l1/l2,
+        Qty (orderedUnits), Sale (orderedRevenue),
+        ShippedUnits, ShippedRevenue, CustomerReturns,
+        Channel ("1p Sales"), Week, WindowStart, WindowEnd
+
+    We use Qty (= orderedUnits) + Sale (= orderedRevenue) as the
+    canonical "units sold to Amazon" + "revenue" pair, matching what
+    the operator's manual "1p Sales" sheet historically tracked.
+    """
+    try:
+        df = pd.read_excel(file)
+    except Exception as e:
+        print(f"[ETL] ⚠ SP-API Vendor Sales unreadable {file}: {e!r}")
+        return pd.DataFrame()
+    df.columns = [norm(c) for c in df.columns]
+    needed = {"sku", "asin", "qty", "sale", "channel"}
+    if not needed.issubset(df.columns):
+        print(f"[ETL] ⚠ {file.name} missing columns {needed - set(df.columns)} — skipping")
+        return pd.DataFrame()
+    out = pd.DataFrame({
+        "sku":         df["sku"].astype(str).str.strip().replace({"nan": "", "None": ""}),
+        "asin":        df["asin"].astype(str).str.strip().replace({"nan": "", "None": ""}),
+        "units_sold":  pd.to_numeric(df["qty"],  errors="coerce").fillna(0),
+        "gross_sales": pd.to_numeric(df["sale"], errors="coerce").fillna(0),
+        "channel":     df["channel"].astype(str).str.strip(),
+        "week":        week,
+    })
+    # Drop rows with no identifiable SKU AND no ASIN — they can't merge
+    # with master and would noise the snapshot.
+    out = out[(out["sku"].str.len() > 0) | (out["asin"].str.len() > 0)]
+    return out
 
 
 # =====================================================
@@ -452,10 +499,42 @@ def process_week(week, sku_master, brand_folder=""):
 
         frames.append(expanded)
 
+    # ---------------- SP-API VENDOR (1P) — canonical when present ----------
+    # When the SP-API vendor sales file exists for this brand+week, it
+    # becomes the authoritative 1P source and we instruct
+    # parse_other_channels to skip the manual "1p Sales" sheet.
+    # Safety: only claim ownership if the SP-API file has non-zero
+    # units — empty SP-API must never silently zero out 1P.
+    sp_api_owns_1p = False
+    sp_file = week_dir / "Vendor Sales (SP-API).xlsx"
+    if sp_file.exists():
+        sp_rows = parse_vendor_sales_sp_api(sp_file, week)
+        if not sp_rows.empty and float(sp_rows["units_sold"].sum()) > 0:
+            sp_rows = sp_rows.merge(
+                sku_master, on="sku", how="left", suffixes=("", "_m"),
+            )
+            if "asin_m" in sp_rows.columns:
+                sp_rows["asin"] = sp_rows["asin"].where(
+                    sp_rows["asin"].astype(str).str.len() > 0,
+                    sp_rows["asin_m"],
+                )
+                sp_rows = sp_rows.drop(columns=["asin_m"])
+            if brand_folder:
+                sp_rows["brand"] = brand_folder.replace("_", " ")
+            sp_rows = sp_rows.drop_duplicates(
+                subset=["week", "channel", "sku", "asin", "brand"]
+            )
+            frames.append(sp_rows)
+            sp_api_owns_1p = True
+            print(f"[ETL] 📡 SP-API 1P sales canonical for {brand_folder} {week} "
+                  f"({len(sp_rows)} rows, {int(sp_rows['units_sold'].sum())} units)")
+
     # ---------------- OTHER CHANNELS --------
     other_file = week_dir / "other_channels.xlsx"
     if other_file.exists():
-        other = parse_other_channels(other_file, week)
+        # Skip the "1p Sales" sheet if SP-API already supplied it
+        skip = {"1p sales"} if sp_api_owns_1p else None
+        other = parse_other_channels(other_file, week, skip_sheets=skip)
 
         # parse_other_channels now emits its own `asin` column from each
         # sheet's ASIN cell, so we merge with master on sku for

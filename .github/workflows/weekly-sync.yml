@@ -145,6 +145,22 @@ jobs:
           SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY:    ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY }}
           SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY: ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY }}
 
+      # SP-API 1P Vendor Sales — Sun-Sat weekly window per ASIN.  `Qty`
+      # = OrderedUnits, `Sale` = OrderedRevenue (Amazon's
+      # invoiceable view).  ShippedUnits + ShippedRevenue are kept as
+      # auxiliary columns; under MANUFACTURING distributorView the
+      # shipped revenue is always ₹0 (Amazon recognises at order).
+      # Same 3-day publication-lag fallback as the SOH step.
+      - name: SP-API Vendor Sales pull (Audio Array / Tonor / WM)
+        run: python scripts/sp_vendor_sales_pull.py || true
+        env:
+          SP_LWA_CLIENT_ID_AUDIOARRAY:      ${{ secrets.SP_LWA_CLIENT_ID_AUDIOARRAY }}
+          SP_LWA_CLIENT_SECRET_AUDIOARRAY:  ${{ secrets.SP_LWA_CLIENT_SECRET_AUDIOARRAY }}
+          SP_LWA_CLIENT_ID_WHITEMULBERRY:     ${{ secrets.SP_LWA_CLIENT_ID_WHITEMULBERRY }}
+          SP_LWA_CLIENT_SECRET_WHITEMULBERRY: ${{ secrets.SP_LWA_CLIENT_SECRET_WHITEMULBERRY }}
+          SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY:    ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY }}
+          SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY: ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY }}
+
       # ── Operator-side ETLs ──
       # These read the raw files the operator commits and produce the
       # snapshot CSVs the dashboard reads.  `|| true` keeps the cron
@@ -223,7 +239,11 @@ jobs:
           git add 'data/raw/inventory/Week*/Audio_Array/Vendor SOH (SP-API).xlsx' \
                   'data/raw/inventory/Week*/Tonor/Vendor SOH (SP-API).xlsx' \
                   'data/raw/inventory/Week*/White_Mulberry/Vendor SOH (SP-API).xlsx' \
-                  'data/raw/inventory/Week*/_audit/vendor_soh_unmatched_*.csv' 2>/dev/null || true
+                  'data/raw/inventory/Week*/_audit/vendor_soh_unmatched_*.csv' \
+                  'data/raw/sales/Week*/Audio_Array/Vendor Sales (SP-API).xlsx' \
+                  'data/raw/sales/Week*/Tonor/Vendor Sales (SP-API).xlsx' \
+                  'data/raw/sales/Week*/White_Mulberry/Vendor Sales (SP-API).xlsx' \
+                  'data/raw/sales/Week*/_audit/vendor_sales_unmatched_*.csv' 2>/dev/null || true
           git add 'data/ams_weekly_data/*/ads_report_week[0-9]*.xlsx' \
                   'data/ams_weekly_data/*/ads_report_week[0-9][0-9].xlsx' \
                   'data/ams_weekly_data/*/business_report_week[0-9]*.xlsx' \

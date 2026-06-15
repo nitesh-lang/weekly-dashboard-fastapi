@@ -344,6 +344,67 @@ def run_etl_latest():
 from weekly_app.etl.inventory_model_snapshot import run_inventory_etl
 
 @app.on_event("startup")
+async def warm_data_cache():
+    """Pre-load the heavy snapshot files into the df_cache and the
+    dashboard's private cache at startup so the FIRST request after
+    each deploy doesn't pay the cold-read cost (sku_master.xlsx alone
+    is ~800ms cold).  Also warms the OS file-cache so any uncached
+    route reads benefit too.
+
+    Skipped on FORCE_STARTUP_ETL runs (those rebuild the snapshots
+    themselves — warming pre-rebuild data would just be wasted work).
+    """
+    if os.environ.get("FORCE_STARTUP_ETL") == "1":
+        return
+
+    import time
+    from weekly_app.core.df_cache import load_csv_cached, load_excel_cached
+
+    canonical = [
+        ("csv", Path("data/processed/weekly_sales_snapshot.csv")),
+        ("csv", Path("data/processed/inventory_model_snapshot.csv")),
+        ("csv", Path("data/processed/margin_snapshot.csv")),
+        ("csv", Path("data/processed/returns_snapshot.csv")),
+        ("csv", Path("data/processed/inbound_snapshot.csv")),
+        ("csv", Path("data/processed/inventory_ams_snapshot.csv")),
+        ("csv", Path("data/processed/reviews_snapshot.csv")),
+        ("csv", Path("data/ams_weekly_data/processed_ads/business_ads_joined.csv")),
+        ("csv", Path("data/ams_weekly_data/ams_weekly_fact/ams_weekly_fact_with_category.csv")),
+        ("xlsx", Path("data/master/sku_master.xlsx")),
+    ]
+    t0 = time.perf_counter()
+    warmed, missing = 0, 0
+    for kind, p in canonical:
+        if not p.exists():
+            missing += 1
+            continue
+        try:
+            if kind == "csv":
+                load_csv_cached(p)
+            else:
+                load_excel_cached(p)
+            warmed += 1
+        except Exception as e:
+            print(f"⚠ warm-up failed for {p.name}: {e}")
+
+    # Dashboard route holds its own module-local cache (predates the
+    # shared df_cache).  Warm it too so the / and /api/dashboard hot
+    # paths don't pay cold-read on first hit.
+    try:
+        from weekly_app.routes import dashboard as _dash
+        for p in (_dash.SALES_FILE, _dash.INVENTORY_FILE, _dash.AMS_FILE):
+            if p.exists():
+                _dash._load_csv_cached(p)
+        if _dash.SKU_MASTER.exists():
+            _dash._load_excel_cached(_dash.SKU_MASTER)
+    except Exception as e:
+        print(f"⚠ dashboard-cache warm-up partial: {e}")
+
+    dt = (time.perf_counter() - t0) * 1000
+    print(f"🔥 df_cache warmed: {warmed} files in {dt:.0f} ms ({missing} missing)")
+
+
+@app.on_event("startup")
 async def bootstrap_etl_if_needed():
     """
     Render-side ETL is intentionally disabled.

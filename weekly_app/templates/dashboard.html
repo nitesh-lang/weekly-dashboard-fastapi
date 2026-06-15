@@ -1529,6 +1529,7 @@ function buildSpark(id, labels, data, color) {
         const data    = slice(TREND, n);
         const dataAll = slice(TREND_ALL, n);
         const labels  = data.map(r => r.week);
+        const lastIdx = data.length - 1;
 
         const ctx2 = canvas.getContext('2d');
         const grad = ctx2.createLinearGradient(0, 0, 0, 280);
@@ -1542,10 +1543,11 @@ function buildSpark(id, labels, data, color) {
             backgroundColor: grad,
             borderWidth: 2.2,
             tension: 0.35,
-            pointRadius: 2.5, pointHoverRadius: 6,
-            pointBackgroundColor: '#7a1f1f',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 1.5,
+            pointRadius:           data.map((_, i) => i === lastIdx ? 6.5 : 2.5),
+            pointHoverRadius: 6,
+            pointBackgroundColor:  data.map((_, i) => i === lastIdx ? '#d97706' : '#7a1f1f'),
+            pointBorderColor:      '#fff',
+            pointBorderWidth:      data.map((_, i) => i === lastIdx ? 2.5 : 1.5),
             fill: true,
             yAxisID: 'y',
         }, {
@@ -1573,13 +1575,71 @@ function buildSpark(id, labels, data, color) {
             });
         }
 
+        // Plugin: pill label on the latest-week GMV point showing
+        // "Current · W## · ₹X" so the chart's right-most value is
+        // visually tied to the KPI tile (which also shows latest week).
+        const currentWeekCallout = {
+            id: 'currentWeekCallout',
+            afterDatasetsDraw(ch) {
+                const ds0 = ch.data.datasets[0];
+                if (!ds0 || !ds0.data.length) return;
+                const i = ds0.data.length - 1;
+                const meta = ch.getDatasetMeta(0);
+                if (!meta || !meta.data[i]) return;
+                const pt = meta.data[i];
+                const xPos = pt.x, yPos = pt.y;
+                const wk = ch.data.labels[i];
+                const val = ds0.data[i];
+                const text = wk + ' · ' + fmtINR(val);
+
+                const ctxp = ch.ctx;
+                ctxp.save();
+                ctxp.font = "600 11px 'IBM Plex Mono', monospace";
+                const padX = 9, padY = 5;
+                const tw = ctxp.measureText(text).width;
+                const w = tw + padX * 2, h = 22;
+                // place above the point, kept inside chart area
+                let px = xPos - w / 2;
+                const right = ch.chartArea.right - 2;
+                if (px + w > right) px = right - w;
+                if (px < ch.chartArea.left + 2) px = ch.chartArea.left + 2;
+                let py = yPos - h - 12;
+                if (py < ch.chartArea.top + 2) py = yPos + 14;
+
+                // rounded pill background (accent amber to match the
+                // highlighted point; tied to the KPI tile chrome)
+                const r = 6;
+                ctxp.fillStyle = '#d97706';
+                ctxp.beginPath();
+                ctxp.moveTo(px + r, py);
+                ctxp.lineTo(px + w - r, py);
+                ctxp.quadraticCurveTo(px + w, py, px + w, py + r);
+                ctxp.lineTo(px + w, py + h - r);
+                ctxp.quadraticCurveTo(px + w, py + h, px + w - r, py + h);
+                ctxp.lineTo(px + r, py + h);
+                ctxp.quadraticCurveTo(px, py + h, px, py + h - r);
+                ctxp.lineTo(px, py + r);
+                ctxp.quadraticCurveTo(px, py, px + r, py);
+                ctxp.closePath();
+                ctxp.fill();
+
+                ctxp.fillStyle = '#fff';
+                ctxp.textAlign = 'left';
+                ctxp.textBaseline = 'middle';
+                ctxp.fillText(text, px + padX, py + h / 2 + 0.5);
+                ctxp.restore();
+            }
+        };
+
         if (chart) chart.destroy();
         chart = new Chart(canvas.getContext('2d'), {
             type: 'line',
             data: { labels, datasets },
+            plugins: [currentWeekCallout],
             options: {
                 responsive: true, maintainAspectRatio: false,
                 interaction: { mode: 'index', intersect: false },
+                layout: { padding: { top: 28 } },
                 plugins: {
                     legend: { display: false },
                     tooltip: {

@@ -1,5 +1,5 @@
 # Weekly Brief — Week 23
-*Generated 2026-06-15T09:05:05.359046Z from data through Week 23*
+*Generated 2026-06-15T10:13:05.104880Z from data through Week 23*
 ## This week at a glance
 
 Week 23 closed at **₹92.53L GMV** (+33.3% WoW, +14.0% vs prior 4w) on **3,225 units** (+14.6% WoW). This was a recovery week, led by **Audio Array** at 49% of portfolio GMV.

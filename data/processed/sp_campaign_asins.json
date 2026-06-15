@@ -22924,6 +22924,37 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "Audio Array_Voice Amplifier_SP_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3B152FR"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Voice Amplifiers_SP_KT_Exact": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G39ZHDYP",
+      "B0G3B152FR"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Voice Amplifier_SP_KT_BM": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3B152FR"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Nexlev_SP_AT_CM-01/CM-02": {
     "brand": "Nexlev",
     "asins": [

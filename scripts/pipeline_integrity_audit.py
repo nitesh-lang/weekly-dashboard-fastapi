@@ -1420,6 +1420,132 @@ def check_cross_route_brand_totals(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_brand_magnitude_regression(latest_week: int) -> pd.DataFrame:
+    """Flag when a brand's value for a key metric drops >50% (or spikes
+    >2x) vs the median of the prior 4 weeks.  Catches the AMS partial-pull
+    class of incident — where ads spend for a brand-week landed at Rs 1L
+    instead of the historical Rs 8L baseline, but was non-zero so the
+    "went_to_zero" check missed it.
+
+    Metrics watched (latest-week brand totals):
+      • Sales GMV (weekly_sales_snapshot)
+      • Sales units (weekly_sales_snapshot)
+      • Inventory total SOH (inventory_model_snapshot)
+      • Ad spend (business_ads_joined)
+      • Attributed sales (business_ads_joined)
+      • Sessions (business_ads_joined)
+
+    Tolerances:
+      • Drop >50% or spike >100% vs prior-4w median
+      • Skip brands where prior-4w median is below a small threshold
+        (avoid noise from low-volume tail brands / new launches)
+    """
+    DROP_THRESHOLD  = 0.50   # latest < 50% of baseline → flag drop
+    SPIKE_THRESHOLD = 2.00   # latest > 2x baseline → flag spike
+    MIN_BASELINE = {
+        "sales_gmv":      100_000,   # Rs 1L+ baseline only
+        "sales_units":    20,
+        "inventory_soh":  500,
+        "ad_spend":       50_000,
+        "attributed":     100_000,
+        "sessions":       5_000,
+    }
+    prior_weeks = {latest_week - 4, latest_week - 3, latest_week - 2, latest_week - 1}
+
+    out: list[Dict[str, Any]] = []
+
+    def _flag(brand: str, metric: str, latest_val: float, baseline: float) -> None:
+        if baseline < MIN_BASELINE.get(metric, 0):
+            return
+        if latest_val < baseline * DROP_THRESHOLD:
+            out.append({
+                "brand":     brand,
+                "metric":    metric,
+                "latest":    round(latest_val, 0),
+                "prior_4w_median": round(baseline, 0),
+                "delta_pct": round((latest_val - baseline) / baseline * 100, 1),
+                "note":      "DROP > 50% vs prior 4-week median",
+            })
+        elif latest_val > baseline * SPIKE_THRESHOLD:
+            out.append({
+                "brand":     brand,
+                "metric":    metric,
+                "latest":    round(latest_val, 0),
+                "prior_4w_median": round(baseline, 0),
+                "delta_pct": round((latest_val - baseline) / baseline * 100, 1),
+                "note":      "SPIKE > 2x vs prior 4-week median",
+            })
+
+    # Sales (GMV + units) per brand×week
+    if SNAP_SALES.exists():
+        try:
+            s = pd.read_csv(SNAP_SALES)
+            s["wn"] = pd.to_numeric(
+                s["week"].astype(str).str.extract(r"(\d+)", expand=False),
+                errors="coerce"
+            ).astype("Int64")
+            agg = (
+                s.groupby(["brand", "wn"], as_index=False)
+                 .agg(gmv=("gross_sales", "sum"), units=("units_sold", "sum"))
+            )
+            for brand in agg["brand"].dropna().unique():
+                bdf = agg[agg["brand"] == brand]
+                latest_row = bdf[bdf["wn"] == latest_week]
+                prior      = bdf[bdf["wn"].isin(prior_weeks)]
+                if latest_row.empty or prior.empty:
+                    continue
+                _flag(brand, "sales_gmv",   float(latest_row["gmv"].iloc[0]),   float(prior["gmv"].median()))
+                _flag(brand, "sales_units", float(latest_row["units"].iloc[0]), float(prior["units"].median()))
+        except Exception as e:
+            out.append({"brand": "(load failed)", "metric": "sales", "latest": 0, "prior_4w_median": 0, "delta_pct": 0, "note": f"sales load raised: {e!r}"})
+
+    # Inventory total SOH per brand×week
+    if SNAP_INV.exists():
+        try:
+            i = pd.read_csv(SNAP_INV)
+            i["wn"] = pd.to_numeric(
+                i["week"].astype(str).str.extract(r"(\d+)", expand=False),
+                errors="coerce"
+            ).astype("Int64")
+            agg = (
+                i.groupby(["brand", "wn"], as_index=False)
+                 .agg(soh=("inventory_units", "sum"))
+            )
+            for brand in agg["brand"].dropna().unique():
+                bdf = agg[agg["brand"] == brand]
+                latest_row = bdf[bdf["wn"] == latest_week]
+                prior      = bdf[bdf["wn"].isin(prior_weeks)]
+                if latest_row.empty or prior.empty:
+                    continue
+                _flag(brand, "inventory_soh", float(latest_row["soh"].iloc[0]), float(prior["soh"].median()))
+        except Exception as e:
+            out.append({"brand": "(load failed)", "metric": "inventory", "latest": 0, "prior_4w_median": 0, "delta_pct": 0, "note": f"inventory load raised: {e!r}"})
+
+    # Ads (spend / attributed / sessions) per brand×week
+    BA_PATH = ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv"
+    if BA_PATH.exists():
+        try:
+            b = pd.read_csv(BA_PATH)
+            b["wn"] = pd.to_numeric(b["week"], errors="coerce").astype("Int64")
+            agg = (
+                b.groupby(["brand", "wn"], as_index=False)
+                 .agg(spend=("Spend", "sum"), attributed=("attributed_sales", "sum"), sessions=("sessions", "sum"))
+            )
+            for brand in agg["brand"].dropna().unique():
+                bdf = agg[agg["brand"] == brand]
+                latest_row = bdf[bdf["wn"] == latest_week]
+                prior      = bdf[bdf["wn"].isin(prior_weeks)]
+                if latest_row.empty or prior.empty:
+                    continue
+                _flag(brand, "ad_spend",   float(latest_row["spend"].iloc[0]),      float(prior["spend"].median()))
+                _flag(brand, "attributed", float(latest_row["attributed"].iloc[0]), float(prior["attributed"].median()))
+                _flag(brand, "sessions",   float(latest_row["sessions"].iloc[0]),   float(prior["sessions"].median()))
+        except Exception as e:
+            out.append({"brand": "(load failed)", "metric": "ads", "latest": 0, "prior_4w_median": 0, "delta_pct": 0, "note": f"ads load raised: {e!r}"})
+
+    return pd.DataFrame(out)
+
+
 def check_derivative_freshness() -> pd.DataFrame:
     """Flag when a downstream snapshot is older than the file it derives
     from — means the ETL chain wasn't fully re-run after a source change.
@@ -1542,6 +1668,14 @@ def main() -> int:
         # this fires, just re-run the named ETL.
         ("20_derivative_freshness", "Derivative snapshot stale vs parent (re-run needed)",
                                   check_derivative_freshness(),                                  True),
+        # Check 21 catches the AMS-partial-pull class of regression: a
+        # brand's value for a key metric (sales / ads / inventory) drops
+        # >50% or spikes >2x vs the prior 4-week median.  Catches partial
+        # API pulls that "went_to_zero" misses because values are non-zero
+        # but materially low.  Informational by default — surfaces in xlsx
+        # for operator review.
+        ("21_brand_magnitude_regression", "Brand metric > 50% drop or 2x spike vs prior 4w median",
+                                  check_brand_magnitude_regression(latest_week),                 False),
     ]
 
     print()

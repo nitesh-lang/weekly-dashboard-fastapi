@@ -9136,7 +9136,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP-Lshape-B0BFVMDJ2K/B0BFWD6SNF- Exact/Phrase": {
+  "Camb-SP-L shape-B0BFVMDJ2K/B0BFWD6SNF- Exact/Phrase": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFW59TRG",
@@ -9594,7 +9594,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP-Lshape-CDesk-Multiple Asin- PT": {
+  "Camb-SP-L shape-CDesk-Multiple Asin- PT": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFVNS8HS",
@@ -10676,7 +10676,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP-Lshape-B0BFWD6SNF - Broad": {
+  "Camb-SP-L shape-B0BFWD6SNF - Broad": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFWD6SNF"
@@ -10921,7 +10921,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP-Lshape-Multiple Asins- Exact/Phrase": {
+  "Camb-SP-L shape-Multiple Asins- Exact/Phrase": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFVMDJ2K",
@@ -11349,7 +11349,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-Lshape-SP-KT-Phrase": {
+  "Camb-L shape-SP-KT-Phrase": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFW59TRG",
@@ -11457,7 +11457,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP- L Shaped-B0BFWD6SNF-PT": {
+  "Camb-SP- L Shape-B0BFWD6SNF-PT": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFWD6SNF"
@@ -11537,7 +11537,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP- L Shaped-B0BFWD6SNF-BM": {
+  "Camb-SP- L Shape-B0BFWD6SNF-BM": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFWD6SNF"
@@ -11547,7 +11547,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP- L Shaped-B0BFWD6SNF- Phrase": {
+  "Camb-SP- L Shape-B0BFWD6SNF- Phrase": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFWD6SNF"
@@ -11557,7 +11557,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SP- L Shaped-B0BFWD6SNF-Exact": {
+  "Camb-SP- L Shape-B0BFWD6SNF-Exact": {
     "brand": "White Mulberry",
     "asins": [
       "B0BFWD6SNF"
@@ -11572,6 +11572,28 @@
     "asins": [
       "B0DQ4YWSMC",
       "B0CPT3Q25C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP- L Shape-Multi Asin- BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFWD6SNF",
+      "B0BFVMDJ2K"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb-SP- L Shape-Multi Asin- Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFWD6SNF",
+      "B0BFW59TRG"
     ],
     "ad_types": [
       "productAd"

@@ -168,7 +168,15 @@ def _read_1p_returns() -> dict[str, int]:
 
 
 def _read_one(path: Path) -> pd.DataFrame:
-    df = pd.read_csv(path)
+    # Operator's FBA Returns export comes from Amazon as both .csv (old)
+    # and .xlsx (current preferred).  Same schema either way.  1p Returns.xlsx
+    # is handled by load_one_p_returns() and skipped here.
+    if path.name == ONEP_FILE.name:
+        return pd.DataFrame()
+    if path.suffix.lower() == ".xlsx":
+        df = pd.read_excel(path)
+    else:
+        df = pd.read_csv(path)
     df.columns = [c.strip() for c in df.columns]
     expected = {"asin", "sku", "quantity", "detailed-disposition", "reason", "return-date"}
     have = {c.lower() for c in df.columns}
@@ -186,9 +194,17 @@ def run_returns_etl() -> int:
         print(f"⚠ Returns raw folder not found at {RAW_DIR}")
         return 0
 
-    files = sorted([p for p in RAW_DIR.glob("*.csv") if not p.name.startswith("~")])
+    # Pick up both .csv (legacy) and .xlsx (new operator export format).
+    # Exclude Excel lock files (~$*.xlsx) and the 1P file (handled separately).
+    files = sorted(
+        p for p in RAW_DIR.iterdir()
+        if p.is_file()
+        and p.suffix.lower() in (".csv", ".xlsx")
+        and not p.name.startswith("~")
+        and p.name != ONEP_FILE.name
+    )
     if not files:
-        print(f"⚠ {RAW_DIR} has no CSVs — skipping")
+        print(f"⚠ {RAW_DIR} has no CSV/XLSX returns files — skipping")
         return 0
 
     frames = []

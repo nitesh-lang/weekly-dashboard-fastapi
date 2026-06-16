@@ -1295,6 +1295,79 @@ def check_off_master_asins_sales() -> pd.DataFrame:
     return rolled.sort_values("total_units", ascending=False).reset_index(drop=True)
 
 
+def check_ams_gt_sales_per_model(latest_week: int) -> pd.DataFrame:
+    """Per (brand, model, week), AMS Trend GMV must NOT exceed Sales
+    Trend's Amazon+1P-channel GMV — AMS scope is a subset (Amazon+1P
+    channels only).  When it's higher, business_ads_joined is carrying
+    rows that don't reconcile back to weekly_sales_snapshot.
+
+    Common root causes:
+      • model=NaN bucket from untagged-in-master ASINs (now filtered
+        in step4, so this should be 0 going forward).
+      • Child-ASIN grain mismatch (business_report has multiple child
+        variants, sales_snapshot has just the parent).
+
+    Tolerance: Rs 5,000 OR 5% per (brand, model, week).  Catches the
+    AM-W45 / AI-04 RED / AI-14 class of bugs that brand-rollup #17
+    nets out and misses.
+    """
+    TOL_RS  = 5000.0
+    TOL_PCT = 0.05
+
+    try:
+        sales = pd.read_csv(SNAP_SALES)
+    except Exception:
+        return pd.DataFrame()
+    sales["wn"] = sales["week"].astype(str).str.extract(r"(\d+)").astype(int)
+    # Scope to latest week ONLY.  Older weeks predate the SP-API 1P
+    # refactor — their weekly_sales_snapshot 1P channel comes from
+    # operator manual files (often partial), while business_ads_joined
+    # always re-derives 1P from business_report (Amazon's full 1P view).
+    # Comparing the two for W<24 surfaces a known data-coverage gap
+    # rather than a route bug, so we only fail-loud on the current week.
+    weeks_of_interest = {latest_week}
+    sales = sales[sales["wn"].isin(weeks_of_interest)]
+    sales = sales[sales["brand"].astype(str).str.lower() != "fossil"]
+    chan = sales["channel"].astype(str).str.lower().str.strip()
+    sales = sales[chan.isin(["amazon", "1p sales"])]
+    sales["model_n"] = sales["model"].astype(str).str.upper().str.strip()
+    sales["brand_n"] = sales["brand"].astype(str).str.strip()
+    sales_agg = (
+        sales.groupby(["wn", "brand_n", "model_n"], as_index=False)
+             .agg(sales_gmv=("gross_sales", "sum"))
+    )
+
+    BA_PATH = ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv"
+    if not BA_PATH.exists():
+        return pd.DataFrame()
+    ba = pd.read_csv(BA_PATH)
+    ba = ba[ba["week"].isin(weeks_of_interest)]
+    ba = ba[ba["brand"].astype(str).str.lower() != "fossil"]
+    ba["model_n"] = ba["model"].astype(str).str.upper().str.strip()
+    ba["brand_n"] = ba["brand"].astype(str).str.strip()
+    ams_agg = (
+        ba.groupby(["week", "brand_n", "model_n"], as_index=False)
+          .agg(ams_gmv=("gmv", "sum"))
+          .rename(columns={"week": "wn"})
+    )
+
+    m = sales_agg.merge(ams_agg, on=["wn", "brand_n", "model_n"], how="outer").fillna(0)
+    m["delta"] = m["ams_gmv"] - m["sales_gmv"]
+    base = m["sales_gmv"].replace(0, 1)
+    m["pct"] = m["delta"] / base
+    bad = m[(m["delta"] > TOL_RS) & (m["pct"] > TOL_PCT)].copy()
+    if bad.empty:
+        return pd.DataFrame()
+    bad = bad.rename(columns={"wn": "week", "brand_n": "brand", "model_n": "model"})
+    bad["sales_gmv"] = bad["sales_gmv"].round(0).astype(int)
+    bad["ams_gmv"]   = bad["ams_gmv"].round(0).astype(int)
+    bad["delta"]     = bad["delta"].round(0).astype(int)
+    bad["pct"]       = (bad["pct"] * 100).round(1)
+    return bad.sort_values("delta", ascending=False)[
+        ["week", "brand", "model", "sales_gmv", "ams_gmv", "delta", "pct"]
+    ].reset_index(drop=True)
+
+
 def check_cross_route_brand_totals(latest_week: int) -> pd.DataFrame:
     """Per-brand sales (latest week) should be identical between
     Main Dashboard's brand KPI and Sales Trend's brand sums.
@@ -1411,6 +1484,13 @@ def main() -> int:
         # roll up under a blank brand/model — operator should add
         # them to master so sales reconcile cleanly.
         ("18_off_master_sales",   "(info) Off-master ASINs in raw sales",  check_off_master_asins_sales(),                  False),
+        # Check 19 catches the class of bug where business_ads_joined
+        # carries GMV for ASINs that weekly_sales_snapshot doesn't —
+        # AMS Trend then shows numbers HIGHER than Sales Trend for the
+        # same (brand, model), which is impossible if AMS scope is a
+        # subset.  Brand rollup checks (#17) net these out and miss them.
+        ("19_ams_gt_sales_per_model", "AMS Trend GMV > Sales Trend GMV (per brand×model×wk)",
+                                  check_ams_gt_sales_per_model(latest_week),                    True),
     ]
 
     print()

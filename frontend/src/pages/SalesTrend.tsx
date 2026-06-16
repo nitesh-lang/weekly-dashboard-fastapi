@@ -159,6 +159,22 @@ export default function SalesTrend() {
         });
     }, [filtered, allWeeks]);
 
+    // KPI strip — current-week totals matching the chart's rightmost point
+    // and the Dashboard's GMV tile.  Operator confusion was reading the
+    // W23 chart peak (~Rs 1.45 Cr) as "current" when latest is W24.
+    const kpis = useMemo(() => {
+        if (!chartTrend.length) return null;
+        const latest = chartTrend[chartTrend.length - 1];
+        const prev   = chartTrend.length > 1 ? chartTrend[chartTrend.length - 2] : null;
+        const wow   = (prev && prev.gmv > 0) ? (latest.gmv - prev.gmv) / prev.gmv : null;
+        const wowU  = (prev && prev.units > 0) ? (latest.units - prev.units) / prev.units : null;
+        const modelsActive = filtered.filter((r) => {
+            const u = r[latest.week + "_units"];
+            return typeof u === "number" && u > 0;
+        }).length;
+        return { latest, wow, wowU, modelsActive };
+    }, [chartTrend, filtered]);
+
     return (
         <AppLayout>
             <div className="flex flex-wrap items-end gap-4">
@@ -181,6 +197,53 @@ export default function SalesTrend() {
 
             {data && (
                 <>
+                    {kpis && (
+                        <Card className="px-5 py-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+                                        {kpis.latest.week} GMV
+                                    </div>
+                                    <div className="flex items-baseline gap-2 mt-1">
+                                        <div className="text-2xl font-semibold tabular tracking-tight">
+                                            {fmtINR(kpis.latest.gmv)}
+                                        </div>
+                                        {kpis.wow != null && (
+                                            <span className={`text-xs font-medium tabular ${kpis.wow >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+                                                {kpis.wow >= 0 ? "▲" : "▼"} {(Math.abs(kpis.wow) * 100).toFixed(1)}%
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="text-[11px] text-muted-foreground mt-0.5">vs prior week</div>
+                                </div>
+                                <div>
+                                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+                                        {kpis.latest.week} Units
+                                    </div>
+                                    <div className="flex items-baseline gap-2 mt-1">
+                                        <div className="text-2xl font-semibold tabular tracking-tight">
+                                            {fmtInt(kpis.latest.units)}
+                                        </div>
+                                        {kpis.wowU != null && (
+                                            <span className={`text-xs font-medium tabular ${kpis.wowU >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+                                                {kpis.wowU >= 0 ? "▲" : "▼"} {(Math.abs(kpis.wowU) * 100).toFixed(1)}%
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="text-[11px] text-muted-foreground mt-0.5">vs prior week</div>
+                                </div>
+                                <div>
+                                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+                                        Models active
+                                    </div>
+                                    <div className="text-2xl font-semibold tabular tracking-tight mt-1">
+                                        {fmtInt(kpis.modelsActive)}
+                                    </div>
+                                    <div className="text-[11px] text-muted-foreground mt-0.5">of {fmtInt(filtered.length)} shown</div>
+                                </div>
+                            </div>
+                        </Card>
+                    )}
                     <div className="flex items-center justify-end">
                         <Button variant="ghost" size="sm" onClick={() => setShowOverview((s) => !s)}>
                             {showOverview

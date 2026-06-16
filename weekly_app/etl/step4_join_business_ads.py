@@ -179,18 +179,36 @@ map_df = (
 final = final.merge(map_df, on="asin", how="left")
 
 # --------------------------------------------------
-# SKU MASTER = BRAND + CATEGORY (SOURCE OF TRUTH)
+# SKU MASTER = BRAND + MODEL + CATEGORY (SOURCE OF TRUTH)
+# Model is also sourced from master so ASINs without a Model entry in
+# business_report (e.g. all Fossil ASINs — Fossil has no per-week
+# business_report) still resolve.  Without this, ~₹3.24 Cr of GMV
+# across W21-W24 was bucketing into AMS Trend's model=NaN row.
 # --------------------------------------------------
-sku = sku.rename(columns={"ASIN": "child_asin", "Brand": "brand"})
+sku = sku.rename(columns={"ASIN": "child_asin", "Brand": "brand", "Model": "model_master"})
 sku["child_asin"] = sku["child_asin"].astype(str).str.strip()
 sku["brand"] = sku["brand"].astype(str).str.strip()
+if "model_master" in sku.columns:
+    sku["model_master"] = sku["model_master"].astype(str).str.upper().str.strip().replace(
+        {"NAN": "", "NONE": "", "-": ""}
+    )
 sku = sku.drop_duplicates(subset=["child_asin"])
 
-final = final.merge(
-    sku[["child_asin", "brand", "category_l0", "category_l1", "category_l2"]],
-    on="child_asin",
-    how="left"
-)
+merge_cols = ["child_asin", "brand", "category_l0", "category_l1", "category_l2"]
+if "model_master" in sku.columns:
+    merge_cols.insert(2, "model_master")
+
+final = final.merge(sku[merge_cols], on="child_asin", how="left")
+
+# 🛡️ MODEL FALLBACK — prefer business_report's Model, fall back to master.
+# When neither has it, leave blank so the AMS Trend route can collapse
+# the row into the brand row instead of a phantom "(no model)" bucket.
+if "model_master" in final.columns:
+    final["model"] = final["model"].astype(str).str.upper().str.strip().replace(
+        {"NAN": "", "NONE": "", "-": ""}
+    )
+    final["model"] = final["model"].where(final["model"].ne(""), final["model_master"])
+    final = final.drop(columns=["model_master"])
 
 # 🛡️ BRAND GUARANTEE — prefer master, fall back to source-folder brand
 # from biz, then UNKNOWN.  This keeps __SB__ placeholder rows attached
@@ -229,6 +247,33 @@ FINAL_COLS = [
 ]
 
 final = final[[c for c in FINAL_COLS if c in final.columns]]
+
+# --------------------------------------------------
+# STRICT FILTER — drop rows whose ASIN is not in sku_master at all.
+# Untagged ASINs (e.g. 341 unmatched CRPL ASINs that aren't yet
+# assigned to a Brand/Model in master) get a brand via the
+# folder-name fallback (`brand_src` → Audio Array etc.) but no
+# Model assignment, so they bucket into AMS Trend's "model=NaN"
+# row and inflate it by ₹78L+ for W24, breaking cross-route
+# consistency vs Sales Trend / Amazon+1P (which only emit rows
+# for ASINs admitted by the sku_master ASIN→Brand join).
+#
+# Gate on the actual admission criterion: ASIN in sku_master.
+# Rows whose ASIN IS in master but model is empty in
+# business_report are KEPT — they still attribute to a brand
+# and reconcile at the brand level.  Off-master ASINs still
+# surface in raw audit files (_audit/*.csv) for backfill.
+# --------------------------------------------------
+master_asins = set(sku["child_asin"].astype(str).str.strip().str.upper())
+before = len(final)
+final["_asin_n"] = final["child_asin"].astype(str).str.strip().str.upper()
+filt = final["_asin_n"].isin(master_asins)
+dropped = final[~filt].copy()
+final = final[filt].drop(columns=["_asin_n"])
+n_dropped = before - len(final)
+print(f"🧹 Strict filter: dropped {n_dropped} off-master-ASIN rows "
+      f"(was Rs {dropped['gmv'].sum():,.0f} GMV / {int(dropped['units'].sum())} units / "
+      f"Rs {dropped['Spend'].sum():,.0f} ad spend)")
 
 # --------------------------------------------------
 # OUTPUT

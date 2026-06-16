@@ -258,6 +258,15 @@ def dashboard(
     full_sales["sku"] = full_sales["sku"].astype(str)
     full_sales["channel"] = full_sales["channel"].astype(str)
 
+    # Operator rule: Fossil is excluded from every other report (Sales
+    # Trend, AMS Trend, Amazon+1P, Inventory Dashboard, Drilldown).  The
+    # Main Dashboard now follows the same rule so KPI tiles, brand mix,
+    # weekly trend chart, and SKU table reconcile with the rest of the UI.
+    # Sales snapshot still carries Fossil for other modules that load it
+    # directly (margin, returns, etc.).
+    if "brand" in full_sales.columns:
+        full_sales = full_sales[full_sales["brand"].astype(str).str.strip().str.lower() != "fossil"]
+
     # ── Derive filter metadata from the full unfiltered frame ──
     # ✅ FIXED: was re-reading CSV a second time at the bottom of the function
     #    just to get weeks/brands lists. Now we grab it here from the same load.
@@ -621,6 +630,13 @@ def dashboard(
             # Convert active_weeks to numeric week numbers for AMS file
             ams_week_nums = [w.replace("Week", "").strip() for w in active_weeks]
             ams = ams[ams["week"].isin(ams_week_nums)]
+
+            # Match the Fossil-exclusion rule applied to the sales loader
+            # above so AMS pivot (sessions / spend / attributed) reconciles
+            # with KPI tiles and the rest of the dashboard.
+            brand_col = next((c for c in ("brand", "brand_x", "brand_y") if c in ams.columns), None)
+            if brand_col:
+                ams = ams[ams[brand_col].astype(str).str.strip().str.lower() != "fossil"]
 
             ams_pivot_df = (
                 ams.groupby("week", as_index=False)

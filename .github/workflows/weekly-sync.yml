@@ -33,7 +33,11 @@ on:
     paths:
       # Mid-week refresh triggers — any of these paths changing on main
       # kicks off the full pipeline.  Keeps Render in sync with whatever
-      # raw files the operator just committed.
+      # raw files the operator just committed.  CODE-PATH triggers used
+      # to live here too but they made every code-only push spend 18 min
+      # re-pulling the Ads API for no new data.  Those now route to
+      # code-check.yml instead, which runs the audit on the existing
+      # committed raw files (~3 min, no external API calls).
       - 'data/raw/sales/**'
       - 'data/raw/inventory/**'
       - 'data/raw/returns/**'
@@ -41,13 +45,6 @@ on:
       - 'data/raw/inbound/**'
       - 'data/raw/reviews/**'
       - 'data/master/sku_master.xlsx'
-      # Code-path triggers — changes to ETLs, the audit, or the
-      # workflow itself should auto-test against real data without
-      # waiting for Monday or a manual click.  These files change
-      # rarely so the extra runs aren't a churn problem.
-      - 'weekly_app/etl/**'
-      - 'scripts/pipeline_integrity_audit.py'
-      - '.github/workflows/weekly-sync.yml'
   workflow_dispatch:           # allow manual trigger from the Actions tab
 
 permissions:

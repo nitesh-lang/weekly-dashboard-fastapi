@@ -1,0 +1,110 @@
+# Code-only audit — fires when ETL code or the audit script changes,
+# but operator hasn't dropped new raw data.  Skips the 18-min Ads
+# Reports API pull and the SP-API pulls (those data sources haven't
+# moved, so re-pulling them is pure waste).  Re-runs the ETL chain
+# against already-committed raw files and runs the integrity audit
+# so we still catch regressions introduced by the code change.
+#
+# Typical run-time: ~3-5 min (vs ~25-30 min for weekly-sync.yml).
+#
+# Does NOT commit/push — the operator is expected to have committed
+# any regenerated snapshots locally before pushing the code change.
+# Audit failure surfaces in the workflow status; xlsx is uploaded
+# as an artifact for inspection.
+
+name: Code Check (audit only, no API pulls)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'weekly_app/etl/**'
+      - 'scripts/pipeline_integrity_audit.py'
+      - 'scripts/build_weekly_brief.py'
+      - '.github/workflows/code-check.yml'
+      - '.github/workflows/weekly-sync.yml'
+  workflow_dispatch:
+
+# Don't run two of these concurrently if pushes land back-to-back.
+concurrency:
+  group: code-check
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUNBUFFERED: "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Re-derive everything that depends on operator-committed raw files,
+      # but skip every step that talks to an external API (ads_api_pull,
+      # ads_reports_pull, sp_vendor_*).  Those steps only matter when raw
+      # data changes — not when ETL code changes.
+
+      - name: Derive business_report from raw sales
+        run: python -m weekly_app.etl.business_report_derive || true
+
+      - name: Sales auto ETL
+        run: python -m weekly_app.etl.sales_auto_etl || true
+
+      - name: Inventory model snapshot
+        run: python -m weekly_app.etl.inventory_model_snapshot || true
+
+      - name: Inventory AMS snapshot
+        run: python -m weekly_app.etl.inventory_snapshot_etl || true
+
+      - name: Returns snapshot
+        run: python -m weekly_app.etl.returns_snapshot || true
+
+      - name: Margin snapshot
+        run: python -m weekly_app.etl.margin_snapshot || true
+
+      - name: Inbound snapshot
+        run: python -m weekly_app.etl.inbound_snapshot || true
+
+      - name: Reviews snapshot
+        run: python -m weekly_app.etl.reviews_snapshot || true
+
+      - name: Business+Ads weekly fact rebuild
+        run: python -m weekly_app.etl.business_ads_weekly_etl
+
+      - name: Step 3 — ads aggregation
+        run: python -m weekly_app.etl.step3_ads_aggregation
+
+      - name: Step 4 — join business + ads
+        run: python -m weekly_app.etl.step4_join_business_ads
+
+      - name: Step 5 — category mapping
+        run: python -m weekly_app.etl.step5_add_category_mapping || true
+
+      - name: Build weekly brief
+        run: python scripts/build_weekly_brief.py || true
+
+      - name: Pipeline integrity audit
+        run: python -m scripts.pipeline_integrity_audit
+
+      - name: Upload audit xlsx on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-integrity-audit
+          path: data/processed/pipeline_integrity_audit.xlsx
+          if-no-files-found: warn

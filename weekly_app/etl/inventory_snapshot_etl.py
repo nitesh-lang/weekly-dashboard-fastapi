@@ -152,7 +152,13 @@ if df.empty:
 
 def derive_ams_channel(row):
     # pipeline logic unchanged
-    if any(k in row["type"] for k in ["TRANSIT", "OPEN", "PIPELINE"]):
+    # Defensive: row["type"] can be NaN/float when an inventory line
+    # lacks a type tag (e.g. _audit folder or malformed raw row).  Coerce
+    # to str before the substring check so this never crashes the whole ETL.
+    t = row.get("type")
+    if not isinstance(t, str):
+        t = "" if (t is None or pd.isna(t)) else str(t)
+    if any(k in t for k in ["TRANSIT", "OPEN", "PIPELINE"]):
          return "PIPELINE"
     if row["channel"] in ["AMPM", "AMAZON", "1P"]:
         return row["channel"]

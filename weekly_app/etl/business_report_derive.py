@@ -31,6 +31,7 @@ import re
 import shutil
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT       = Path(__file__).resolve().parent.parent.parent
@@ -325,19 +326,70 @@ def run_for_week(week_num: int) -> dict:
             if not bak.exists():
                 shutil.copy2(out, bak)
 
-        df.to_excel(out, index=False)
+        write_status = _write_idempotent(df, out)
         units = float(df["units_ordered"].sum())
         sales = float(df["ordered_product_sales"].sum())
         sess  = float(df["Sessions - Total"].sum())
         summary["per_brand"][brand_folder] = {
             "rows": len(df), "units": units, "sales": sales, "sessions": sess,
-            "file": str(out.relative_to(ROOT)),
+            "file": str(out.relative_to(ROOT)), "write": write_status,
         }
-        print(f"   ✅ {brand_folder:<16}  {len(df):>4} rows  "
+        marker = "✅" if write_status == "written" else "⏸"
+        print(f"   {marker} {brand_folder:<16}  {len(df):>4} rows  "
               f"units={int(units):>6,}  sales=₹{sales:>11,.0f}  sessions={int(sess):>7,}  "
-              f"→ {out.relative_to(ROOT)}")
+              f"[{write_status}] → {out.relative_to(ROOT)}")
 
     return summary
+
+
+def _write_idempotent(df: pd.DataFrame, out: Path) -> str:
+    """Write df to out only if the content actually changed.
+
+    Excel xlsx writes are non-deterministic (timestamps, internal IDs)
+    so comparing bytes always shows a diff even when data is identical.
+    Instead we read the existing file back, normalize both sides the
+    same way, and compare cell-by-cell.  Returns "written" if the file
+    was touched, "unchanged" if it was already correct.
+    """
+    if not out.exists():
+        df.to_excel(out, index=False)
+        return "written"
+
+    try:
+        old = pd.read_excel(out)
+    except Exception:
+        # Existing file unreadable — overwrite.
+        df.to_excel(out, index=False)
+        return "written (prior unreadable)"
+
+    if list(old.columns) != list(df.columns) or len(old) != len(df):
+        df.to_excel(out, index=False)
+        return "written"
+
+    # Coerce both sides to the same dtype family per column so Excel's
+    # text/number round-trip quirks don't trip false-positive diffs.
+    same = True
+    for c in df.columns:
+        a = df[c]
+        b = old[c]
+        if pd.api.types.is_numeric_dtype(a) or pd.api.types.is_numeric_dtype(b):
+            an = pd.to_numeric(a, errors="coerce").round(6)
+            bn = pd.to_numeric(b, errors="coerce").round(6)
+            # NaN == NaN should count as equal here.
+            if not ((an == bn) | (an.isna() & bn.isna())).all():
+                same = False
+                break
+        else:
+            an = a.astype(str).str.strip().fillna("").replace({"nan": ""})
+            bn = b.astype(str).str.strip().fillna("").replace({"nan": ""})
+            if not (an == bn).all():
+                same = False
+                break
+
+    if same:
+        return "unchanged"
+    df.to_excel(out, index=False)
+    return "written"
 
 
 def main() -> None:

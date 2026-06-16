@@ -1420,6 +1420,51 @@ def check_cross_route_brand_totals(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_derivative_freshness() -> pd.DataFrame:
+    """Flag when a downstream snapshot is older than the file it derives
+    from — means the ETL chain wasn't fully re-run after a source change.
+
+    Catches the class of incident from 2026-06-16 where weekly_sales_snapshot
+    was regenerated mid-debug but business_ads_joined wasn't, leaving the
+    AMS layer briefly out of sync with Sales layer.  Check 19 surfaced it
+    indirectly via per-model GMV drift; this check makes the cause obvious.
+
+    Tolerance: 5 seconds (filesystem mtime jitter; consecutive writes
+    inside an ETL run can land within the same second).
+    """
+    TOL_SEC = 5
+    chain = [
+        # (parent file, child file, label)
+        (ROOT / "data" / "processed" / "weekly_sales_snapshot.csv",
+         ROOT / "data" / "ams_weekly_data" / "ams_weekly_fact" / "ams_weekly_fact.csv",
+         "weekly_sales_snapshot → ams_weekly_fact (biz_ads_weekly_etl needs re-run)"),
+        (ROOT / "data" / "ams_weekly_data" / "ams_weekly_fact" / "ams_weekly_fact.csv",
+         ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv",
+         "ams_weekly_fact → business_ads_joined (step4 needs re-run)"),
+        (ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv",
+         ROOT / "data" / "ams_weekly_data" / "ams_weekly_fact" / "ams_weekly_fact_with_category.csv",
+         "business_ads_joined → ams_weekly_fact_with_category (step5 needs re-run)"),
+        (ROOT / "data" / "processed" / "inventory_model_snapshot.csv",
+         ROOT / "data" / "processed" / "inventory_ams_snapshot.csv",
+         "inventory_model_snapshot → inventory_ams_snapshot (inv_snap needs re-run)"),
+    ]
+    out: list[Dict[str, Any]] = []
+    for parent, child, label in chain:
+        if not parent.exists() or not child.exists():
+            continue
+        p_mt = parent.stat().st_mtime
+        c_mt = child.stat().st_mtime
+        lag = p_mt - c_mt  # positive = parent newer = child stale
+        if lag > TOL_SEC:
+            out.append({
+                "parent":    str(parent.relative_to(ROOT)),
+                "child":     str(child.relative_to(ROOT)),
+                "lag_sec":   round(lag, 1),
+                "note":      label,
+            })
+    return pd.DataFrame(out)
+
+
 def main() -> int:
     if not SNAP_INV.exists():
         print(f"[FATAL] {SNAP_INV} missing — run the inventory ETL first.")
@@ -1491,6 +1536,12 @@ def main() -> int:
         # subset.  Brand rollup checks (#17) net these out and miss them.
         ("19_ams_gt_sales_per_model", "AMS Trend GMV > Sales Trend GMV (per brand×model×wk)",
                                   check_ams_gt_sales_per_model(latest_week),                    True),
+        # Check 20 surfaces the root cause that Check 19 catches indirectly:
+        # a downstream snapshot has older mtime than its parent.  Means an
+        # ETL step in the chain wasn't re-run after upstream changed.  When
+        # this fires, just re-run the named ETL.
+        ("20_derivative_freshness", "Derivative snapshot stale vs parent (re-run needed)",
+                                  check_derivative_freshness(),                                  True),
     ]
 
     print()

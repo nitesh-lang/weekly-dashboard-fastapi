@@ -244,10 +244,14 @@ def derive_business_report(brand_dir: str, week_num: int,
 
     # For 1P-only ASINs the SKU/Model/Title cells from Amazon 3P are NaN
     # — fill from the 1P sheet first, then from master if still missing.
+    # pandas 3.0+ raises TypeError when assigning a StringArray (with NaN)
+    # into a float64 column.  Coerce the destination column to object dtype
+    # first so the assignment is always type-safe across pandas versions.
     for col_dst, col_src in (("SKU", "sku_1p"), ("Model", "model_1p")):
         if col_dst in merged.columns and col_src in merged.columns:
+            merged[col_dst] = merged[col_dst].astype(object)
             mask = merged[col_dst].isna() | (merged[col_dst] == "")
-            merged.loc[mask, col_dst] = merged.loc[mask, col_src]
+            merged.loc[mask, col_dst] = merged.loc[mask, col_src].astype(object)
 
     # Master fallback for rows still missing identifiers
     def _fill_from_master(row):

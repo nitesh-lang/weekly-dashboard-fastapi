@@ -142,14 +142,23 @@ export default function SalesTrend() {
 
     const { sorted, sort, onSort } = useSortedRows(filtered, { key: "last_4w_units", dir: "desc" });
 
+    // Backend /api/sales-trend appends a "Grand Total" row to `rows`
+    // (it's a UI convenience for the table's footer).  Exclude it from
+    // every aggregation — counting it doubles the totals exactly.
+    const modelRows = useMemo(
+        () => filtered.filter((r) => String(r.model || "").trim().toLowerCase() !== "grand total"),
+        [filtered]
+    );
+
     // Overview chart — per-week GMV + units rolled up across the currently
-    // visible (filtered) rows.  Uses allWeeks (full history) so the chart's
-    // own 4w/8w/12w/All toggle works independently of the page Weeks picker.
+    // visible (filtered) model rows.  Uses allWeeks (full history) so the
+    // chart's own 4w/8w/12w/All toggle works independently of the page
+    // Weeks picker.
     const [showOverview, setShowOverview] = useState(true);
     const chartTrend = useMemo(() => {
         return allWeeks.map((w) => {
             let gmv = 0, units = 0;
-            for (const r of filtered) {
+            for (const r of modelRows) {
                 const s = r[w + "_sales"];
                 const u = r[w + "_units"];
                 if (typeof s === "number") gmv   += s;
@@ -157,23 +166,23 @@ export default function SalesTrend() {
             }
             return { week: w, gmv, units };
         });
-    }, [filtered, allWeeks]);
+    }, [modelRows, allWeeks]);
 
     // KPI strip — current-week totals matching the chart's rightmost point
     // and the Dashboard's GMV tile.  Operator confusion was reading the
-    // W23 chart peak (~Rs 1.45 Cr) as "current" when latest is W24.
+    // W23 chart peak as "current" when latest is W24.
     const kpis = useMemo(() => {
         if (!chartTrend.length) return null;
         const latest = chartTrend[chartTrend.length - 1];
         const prev   = chartTrend.length > 1 ? chartTrend[chartTrend.length - 2] : null;
         const wow   = (prev && prev.gmv > 0) ? (latest.gmv - prev.gmv) / prev.gmv : null;
         const wowU  = (prev && prev.units > 0) ? (latest.units - prev.units) / prev.units : null;
-        const modelsActive = filtered.filter((r) => {
+        const modelsActive = modelRows.filter((r) => {
             const u = r[latest.week + "_units"];
             return typeof u === "number" && u > 0;
         }).length;
         return { latest, wow, wowU, modelsActive };
-    }, [chartTrend, filtered]);
+    }, [chartTrend, modelRows]);
 
     return (
         <AppLayout>
@@ -239,7 +248,7 @@ export default function SalesTrend() {
                                     <div className="text-2xl font-semibold tabular tracking-tight mt-1">
                                         {fmtInt(kpis.modelsActive)}
                                     </div>
-                                    <div className="text-[11px] text-muted-foreground mt-0.5">of {fmtInt(filtered.length)} shown</div>
+                                    <div className="text-[11px] text-muted-foreground mt-0.5">of {fmtInt(modelRows.length)} shown</div>
                                 </div>
                             </div>
                         </Card>

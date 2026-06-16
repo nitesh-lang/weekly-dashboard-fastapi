@@ -1,10 +1,10 @@
 # Weekly Brief — Week 24
-*Generated 2026-06-16T07:21:59.400453Z from data through Week 24*
+*Generated 2026-06-16T10:11:06.081120Z from data through Week 24*
 ## This week at a glance
 
 Week 24 closed at **₹77.69L GMV** (-16.0% WoW, +10.3% vs prior 4w) on **3,156 units** (-2.1% WoW). This was a soft week, led by **Audio Array** at 57% of portfolio GMV.
 
-Ad spend **₹9.22L** (+22.7%) — ROAS **4.53x** · ACOS **22.1%** · TACOS **13.4%**.
+Ad spend **₹9.18L** (+22.2%) — ROAS **4.48x** · ACOS **22.3%** · TACOS **13.3%**.
 
 ## What went well
 
@@ -25,22 +25,22 @@ Ad spend **₹9.22L** (+22.7%) — ROAS **4.53x** · ACOS **22.1%** · TACOS **1
 ## Inventory health
 
 **Dead stock (no sales last 4w, ≥30 units):**
-- 🟡 **Nexlev / MR-03** — 1,049 units sitting idle.
 - 🟡 **Audio Array / AA-26 PRO** — 1,000 units sitting idle.
 - 🟡 **Audio Array / BE-4T** — 690 units sitting idle.
 - 🟡 **Nexlev / NP-03** — 570 units sitting idle.
 - 🟡 **Audio Array / AM-C5 WHITE** — 568 units sitting idle.
-- 🟡 **Audio Array / AM-C54** — 510 units sitting idle.
+- 🟡 **Nexlev / MR-03** — 545 units sitting idle.
 - 🟡 **Audio Array / AM-C53** — 510 units sitting idle.
+- 🟡 **Audio Array / AM-C54** — 510 units sitting idle.
 - 🟡 **Audio Array / AM-W11** — 505 units sitting idle.
 
 ## Ad efficiency this week
 
 **ROAS strong, spend share low — room to bid up:**
 - 🟢 **Audio Array / AM-W22** — ROAS 50.96x on only ₹57 spend. Consider raising bid / budget.
+- 🟢 **Audio Array / AK-61 PRO** — ROAS 44.03x on only ₹423 spend. Consider raising bid / budget.
 - 🟢 **Tonor / TC310+** — ROAS 39.64x on only ₹186 spend. Consider raising bid / budget.
 - 🟢 **Tonor / TM310** — ROAS 33.77x on only ₹137 spend. Consider raising bid / budget.
-- 🟢 **Audio Array / AK-61 PRO** — ROAS 33.02x on only ₹423 spend. Consider raising bid / budget.
 - 🟢 **Audio Array / GB-03 (AI-12 + AM-C43)** — ROAS 31.88x on only ₹84 spend. Consider raising bid / budget.
 
 **ROAS below threshold (< 2x):**
@@ -70,18 +70,18 @@ Ad spend **₹9.22L** (+22.7%) — ROAS **4.53x** · ACOS **22.1%** · TACOS **1
 ## Suggested actions
 
 - **Bid up Audio Array / AM-W22** — ROAS 50.96x on only ₹57 spend; room to scale.
-- **Bid up Tonor / TC310+** — ROAS 39.64x on only ₹186 spend; room to scale.
+- **Bid up Audio Array / AK-61 PRO** — ROAS 44.03x on only ₹423 spend; room to scale.
 - **Pause Audio Array / AH-60-RD** ad spend — ₹1.7K this week with no attributed sales.
 - **Pause Audio Array / AK-37-W** ad spend — ₹441 this week with no attributed sales.
 - **Investigate White Mulberry** — GMV down 33.2% WoW; check listing health, OOS, and ad pacing.
 
 ## Brand briefs
 
-**Audio Array** 🟡 — GMV ₹44.29L (-2.9% WoW) on 1,696 units (-4.3%). Top contributor **AI-04 Red** at ₹7.20L. Total stock 79,871 units. Ad spend ₹4.71L → ROAS 5.84x, ACOS 17.1%.
+**Audio Array** 🟡 — GMV ₹44.29L (-2.9% WoW) on 1,696 units (-4.3%). Top contributor **AI-04 Red** at ₹7.20L. Total stock 76,895 units. Ad spend ₹4.71L → ROAS 5.86x, ACOS 17.1%.
 
-**Nexlev** 🔴 — GMV ₹24.08L (-28.9% WoW) on 1,124 units (+10.6%). Top contributor **SC-05** at ₹2.86L. Total stock 73,132 units. Ad spend ₹3.39L → ROAS 2.67x, ACOS 37.4%.
+**Nexlev** 🔴 — GMV ₹24.08L (-28.9% WoW) on 1,124 units (+10.6%). Top contributor **SC-05** at ₹2.86L. Total stock 75,156 units. Ad spend ₹3.39L → ROAS 2.69x, ACOS 37.2%.
 
-**White Mulberry** 🔴 — GMV ₹7.58L (-33.2% WoW) on 245 units (-29.6%). Top contributor **WM-GD07-CB** at ₹2.40L. Total stock 9,120 units. Ad spend ₹1.04L → ROAS 4.26x, ACOS 23.5%.
+**White Mulberry** 🔴 — GMV ₹7.58L (-33.2% WoW) on 245 units (-29.6%). Top contributor **WM-GD07-CB** at ₹2.40L. Total stock 8,620 units. Ad spend ₹99.3K → ROAS 3.61x, ACOS 27.7%.
 
 **Tonor** 🟡 — GMV ₹1.72L (+2.2% WoW) on 91 units (+2.2%). Top contributor **TC-777 PRO** at ₹28.8K. Total stock 3,660 units. Ad spend ₹8.8K → ROAS 9.34x, ACOS 10.7%.
 

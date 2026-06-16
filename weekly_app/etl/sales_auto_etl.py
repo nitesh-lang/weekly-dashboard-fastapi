@@ -474,13 +474,26 @@ def process_week(week, sku_master, brand_folder=""):
     if amazon_file.exists():
         amz = parse_amazon(amazon_file, week)
         if "asin" in amz.columns:
-            # Per-ASIN join — preserves both primary and variant rows
+            # Per-ASIN join — preserves both primary and variant rows.
+            # Pull master's `model` alongside the rest so we can OVERRIDE
+            # parse_amazon's model fallback (which uses parent_asin as
+            # model when the Amazon export lacks the Model column).  Per
+            # the ASIN > SKU > Model hierarchy: ASIN is the anchor and
+            # SKU + Model come from sku_master.
             master_by_asin = sku_master.drop_duplicates(subset=["asin"])
             expanded = amz.merge(
-                master_by_asin[["asin", "sku", "brand", "nlc",
+                master_by_asin[["asin", "sku", "brand", "model", "nlc",
                                 "category_l0", "category_l1", "category_l2"]],
-                on="asin", how="left", suffixes=("", "_m"),
+                on="asin", how="left", suffixes=("", "_master"),
             )
+            # Prefer master's Model when present.  Falls back to whatever
+            # parse_amazon produced (the parent_asin / model column) only
+            # when master has no Model for this ASIN.
+            if "model_master" in expanded.columns:
+                m_master = expanded["model_master"].astype(str).str.strip()
+                blank_mask = m_master.isin(["", "nan", "None", "<NA>"])
+                expanded["model"] = m_master.where(~blank_mask, expanded["model"])
+                expanded = expanded.drop(columns=["model_master"])
         else:
             # Legacy model-grain join (no child_asin in source)
             expanded = amz.merge(sku_master, on="model", how="left")

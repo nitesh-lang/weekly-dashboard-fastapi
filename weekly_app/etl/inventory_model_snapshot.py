@@ -105,6 +105,51 @@ def clean_model(val):
 # ✅ FIXED 2: Vectorised clean_model using .str methods
 #             instead of row-by-row apply(clean_model).
 # ------------------------------------------------------------
+def _load_master_category_maps() -> tuple[dict, dict, dict, dict]:
+    """Build {ASIN → cat_l0/l1/l2} and {Model → cat_l0/l1/l2} lookups from
+    sku_master.xlsx.  Raw Inventory Snapshot.xlsx files don't carry
+    categories at all (operator only fills Brand/Model/SKU/ASIN/Qty/Channel),
+    so without a master-fill the snapshot has 50% category coverage and
+    UI filter-by-category returns blank for most picks.
+
+    Returns four dicts: by ASIN for each category level + one Model dict
+    that maps Model → first non-empty category triple (used when ASIN
+    misses but Model resolves)."""
+    asin_l0, asin_l1, asin_l2 = {}, {}, {}
+    model_map: dict[str, tuple[str, str, str]] = {}
+    try:
+        from weekly_app.core.df_cache import load_excel_cached
+        if not MASTER_FILE.exists():
+            return asin_l0, asin_l1, asin_l2, model_map
+        m = load_excel_cached(MASTER_FILE)
+        m = m.copy()
+        m.columns = m.columns.str.strip()
+        if "ASIN" not in m.columns:
+            return asin_l0, asin_l1, asin_l2, model_map
+        def _clean(s: pd.Series) -> pd.Series:
+            return s.astype(str).str.strip().replace({"nan": "", "None": "", "<NA>": ""})
+        m["ASIN_n"]  = _clean(m["ASIN"])
+        m["Model_n"] = _clean(m["Model"]).str.upper() if "Model" in m.columns else ""
+        for c in ("category_l0", "category_l1", "category_l2"):
+            if c not in m.columns:
+                m[c] = ""
+            m[c] = _clean(m[c])
+        for _, r in m.iterrows():
+            a = r["ASIN_n"]
+            if a:
+                if r["category_l0"]: asin_l0[a] = r["category_l0"]
+                if r["category_l1"]: asin_l1[a] = r["category_l1"]
+                if r["category_l2"]: asin_l2[a] = r["category_l2"]
+            mk = r["Model_n"]
+            if mk and mk not in model_map:
+                trip = (r["category_l0"], r["category_l1"], r["category_l2"])
+                if any(trip):
+                    model_map[mk] = trip
+    except Exception as _e:
+        print(f"⚠ _load_master_category_maps failed: {_e!r}")
+    return asin_l0, asin_l1, asin_l2, model_map
+
+
 def run_inventory_etl():
 
     if not RAW_INV_DIR.exists():
@@ -120,6 +165,8 @@ def run_inventory_etl():
     _last_run_mtimes.update(current_mtimes)
 
     sku_nlc = _load_sku_nlc_map()
+    _cat_l0, _cat_l1, _cat_l2, _cat_by_model = _load_master_category_maps()
+    print(f"📥 Master category maps loaded: L0={len(_cat_l0)} ASINs, L1={len(_cat_l1)}, L2={len(_cat_l2)}, by-model={len(_cat_by_model)}")
     all_rows = []
 
     # ─────────────────────────────────────────────────────────
@@ -340,6 +387,49 @@ def run_inventory_etl():
             if c not in df.columns:
                 df[c] = ""
             df[c] = df[c].astype(str).str.strip().replace({"nan":"","None":""})
+
+        # Propagate non-empty category from any row to ALL rows of the same
+        # (brand, model).  Raw Inventory Snapshot.xlsx populates category
+        # only on the 1P / primary-channel row — other channel/type rows
+        # (AMPM, Amazon, Pipeline, YNT) leave it blank.  Result: only ~50%
+        # of snapshot rows had category, and the UI's L0/L1/L2 filter would
+        # silently miss most of a category's models.
+        for c in ("category_l0", "category_l1", "category_l2"):
+            df[c] = df.groupby(["brand", "model"])[c].transform(
+                lambda s: s.replace("", pd.NA).ffill().bfill().fillna("")
+            )
+
+        # Master-fill categories when raw rows have empty values.  Try
+        # ASIN lookup first, then fall back to Model lookup for rows
+        # whose ASIN isn't in master.  Then propagate within (brand,model)
+        # so all channel/type rows of the same model carry the same
+        # category triple.
+        df["_asin_n"]  = df["asin"].astype(str).str.strip()
+        df["_model_n"] = df["model"].astype(str).str.strip().str.upper()
+        for c, amap in (("category_l0", _cat_l0),
+                        ("category_l1", _cat_l1),
+                        ("category_l2", _cat_l2)):
+            # Treat NaN, "", "nan", "None", "<NA>" all as empty
+            current = df[c].astype(str).str.strip()
+            empty = current.isin(["", "nan", "None", "<NA>"]) | df[c].isna()
+            if amap and empty.any():
+                df.loc[empty, c] = df.loc[empty, "_asin_n"].map(amap)
+            # Fall back to model-based map for any rows still empty
+            current = df[c].astype(str).str.strip()
+            empty = current.isin(["", "nan", "None", "<NA>"]) | df[c].isna()
+            if _cat_by_model and empty.any():
+                idx = ("category_l0", "category_l1", "category_l2").index(c)
+                df.loc[empty, c] = df.loc[empty, "_model_n"].map(
+                    lambda k: _cat_by_model.get(k, ("", "", ""))[idx]
+                )
+        df = df.drop(columns=["_asin_n", "_model_n"])
+        # Normalize and propagate within (brand, model) one last time so
+        # any straggling empty rows pick up a sibling's value.
+        for c in ("category_l0", "category_l1", "category_l2"):
+            df[c] = df[c].astype(str).str.strip().replace({"nan": "", "None": "", "<NA>": ""})
+            df[c] = df.groupby(["brand", "model"])[c].transform(
+                lambda s: s.replace("", pd.NA).ffill().bfill().fillna("")
+            )
 
         # Per-(SKU × ASIN × channel × type) aggregation — matches the
         # grain raw inventory files come at.

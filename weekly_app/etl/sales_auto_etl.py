@@ -812,6 +812,15 @@ def run_sales_auto_etl(single_week: str = None):
                 except Exception as _e:
                     print(f"[ETL] ⚠ regression-guard read failed, will write anyway: {_e!r}")
 
+    # Backfill empty category_l0/l1/l2 from sku_master so the UI
+    # category filter has full coverage (not just rows whose raw file
+    # happened to carry the value).  Same helper used by inventory.
+    try:
+        from weekly_app.core.category_lookup import fill_categories
+        combined = fill_categories(combined, asin_col="asin", model_col="model", brand_col="brand")
+    except Exception as _e:
+        print(f"[ETL] ⚠ category backfill skipped: {_e!r}")
+
     combined.to_csv(OUTPUT_FILE, index=False)
     print("✅ AUTO ETL COMPLETE")
 

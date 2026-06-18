@@ -275,6 +275,18 @@ print(f"🧹 Strict filter: dropped {n_dropped} off-master-ASIN rows "
       f"(was Rs {dropped['gmv'].sum():,.0f} GMV / {int(dropped['units'].sum())} units / "
       f"Rs {dropped['Spend'].sum():,.0f} ad spend)")
 
+# Backfill empty category_l0/l1/l2 from sku_master.  step4 already
+# merges category from master on child_asin, but only for ASINs where
+# master had a non-empty value.  fill_categories also tries the
+# Model fallback and then propagates within (brand, model) so every
+# row of the same product carries the full triple.  Without this,
+# business_ads_joined had L1=45% / L2=16% coverage.
+try:
+    from weekly_app.core.category_lookup import fill_categories
+    final = fill_categories(final, asin_col="child_asin", model_col="model", brand_col="brand")
+except Exception as _e:
+    print(f"[ETL] ⚠ category backfill skipped: {_e!r}")
+
 # --------------------------------------------------
 # OUTPUT
 # --------------------------------------------------

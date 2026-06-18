@@ -1420,6 +1420,58 @@ def check_cross_route_brand_totals(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_category_coverage() -> pd.DataFrame:
+    """Flag when a snapshot's category coverage drops below threshold.
+
+    Caught the 2026-06-17 inventory filter bug — raw Inventory Snapshot
+    files don't carry category columns and the ETL wasn't backfilling
+    from sku_master, leaving snapshot category_l0 at ~50% populated.
+    UI filter-by-category silently returned blank for most picks.
+
+    Per-snapshot thresholds reflect how complete master's coverage is
+    at each level — L2 is intrinsically sparser in master itself.
+    """
+    # Thresholds calibrated to master's actual coverage.  L0 is almost
+    # always set in master (incl. Fossil) — anything <90% means the ETL
+    # isn't backfilling.  L1 is intrinsically sparse for Fossil watches
+    # (operator hasn't filled it in master), so the threshold for files
+    # that include Fossil is lower than inventory (which excludes Fossil
+    # from many channel rows).  L2 is too sparse in master to alarm on.
+    SPECS = [
+        # (snapshot file, level, min_pct)
+        ("data/processed/weekly_sales_snapshot.csv",        "category_l0", 90.0),
+        ("data/processed/weekly_sales_snapshot.csv",        "category_l1", 60.0),
+        ("data/processed/inventory_model_snapshot.csv",     "category_l0", 90.0),
+        ("data/processed/inventory_model_snapshot.csv",     "category_l1", 80.0),
+        ("data/ams_weekly_data/processed_ads/business_ads_joined.csv", "category_l0", 90.0),
+        ("data/ams_weekly_data/processed_ads/business_ads_joined.csv", "category_l1", 40.0),
+    ]
+    out: list[Dict[str, Any]] = []
+    for path_str, col, min_pct in SPECS:
+        path = ROOT / path_str
+        if not path.exists():
+            continue
+        try:
+            df = pd.read_csv(path)
+        except Exception as e:
+            out.append({"snapshot": path_str, "column": col, "coverage_pct": 0, "min_required_pct": min_pct, "note": f"load failed: {e!r}"})
+            continue
+        if col not in df.columns:
+            continue
+        clean = df[col].astype(str).str.strip()
+        populated = (~clean.isin(["", "nan", "None", "<NA>"]) & df[col].notna()).sum()
+        pct = round(100.0 * populated / max(1, len(df)), 1)
+        if pct < min_pct:
+            out.append({
+                "snapshot":         path_str.split("/")[-1],
+                "column":           col,
+                "coverage_pct":     pct,
+                "min_required_pct": min_pct,
+                "note":             "Category coverage below threshold — UI filter will miss rows",
+            })
+    return pd.DataFrame(out)
+
+
 def check_brand_magnitude_regression(latest_week: int) -> pd.DataFrame:
     """Flag when a brand's value for a key metric drops >50% (or spikes
     >2x) vs the median of the prior 4 weeks.  Catches the AMS partial-pull
@@ -1676,6 +1728,12 @@ def main() -> int:
         # for operator review.
         ("21_brand_magnitude_regression", "Brand metric > 50% drop or 2x spike vs prior 4w median",
                                   check_brand_magnitude_regression(latest_week),                 False),
+        # Check 22: snapshot category_l0/l1/l2 coverage must stay above
+        # the documented threshold.  Catches the 2026-06-17 inventory bug
+        # where raw files lacked categories and the ETL didn't backfill,
+        # silently breaking the UI's category-filter pickers.
+        ("22_category_coverage", "Snapshot category_l0/l1 coverage < threshold (UI filter broken)",
+                                  check_category_coverage(),                                     True),
     ]
 
     print()

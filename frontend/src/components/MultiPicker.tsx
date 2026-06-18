@@ -46,15 +46,23 @@ export function MultiPicker({
 
     function display() {
         if (selected.length === 0) return placeholder;
+        // Treat "every option selected" the same as the empty placeholder
+        // visually — both mean "no filter applied" downstream.
+        if (selected.length === options.length && options.length > 0) {
+            return `All ${label.toLowerCase()} (${options.length})`;
+        }
         if (selected.length === 1) return selected[0];
         if (selected.length <= maxLabelItems) return selected.join(", ");
-        return `${selected.length} ${label.toLowerCase()}`;
+        return `${selected.length} of ${options.length} ${label.toLowerCase()}`;
     }
 
     function toggle(v: string) {
         onApply(selected.includes(v) ? selected.filter((x) => x !== v) : [...selected, v]);
     }
-    function selectAll() { onApply([]); }       // empty = "all"
+    // "All" explicitly checks every option so the operator sees the
+    // selection state.  Filter logic treats N selected the same as 0
+    // selected when N === options.length, so behaviour is identical.
+    function selectAll() { onApply([...options]); }
     function selectVisible() { onApply(Array.from(new Set([...selected, ...filtered]))); }
     function clearVisible()  {
         const fs = new Set(filtered);
@@ -126,18 +134,24 @@ export function MultiPicker({
                                 <div className="px-3 py-4 text-xs text-center" style={{ color: "#9ca3af" }}>
                                     No matches
                                 </div>
-                            ) : filtered.map((opt) => (
-                                <label
-                                    key={opt}
-                                    className="flex items-center gap-2 cursor-pointer rounded px-2 py-1 hover:bg-accent text-sm"
-                                >
-                                    <Checkbox
-                                        checked={selected.includes(opt)}
-                                        onCheckedChange={() => toggle(opt)}
-                                    />
-                                    <span className="truncate">{opt}</span>
-                                </label>
-                            ))}
+                            ) : filtered.map((opt) => {
+                                const isSel = selected.includes(opt);
+                                return (
+                                    <label
+                                        key={opt}
+                                        className={cn(
+                                            "flex items-center gap-2 cursor-pointer rounded px-2 py-1 hover:bg-accent text-sm",
+                                            isSel && "bg-primary/10 font-medium text-foreground"
+                                        )}
+                                    >
+                                        <Checkbox
+                                            checked={isSel}
+                                            onCheckedChange={() => toggle(opt)}
+                                        />
+                                        <span className="truncate">{opt}</span>
+                                    </label>
+                                );
+                            })}
                         </div>
                         <div className="border-t p-2">
                             <Button

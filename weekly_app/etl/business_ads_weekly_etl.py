@@ -61,8 +61,11 @@ for brand_dir in BRAND_FOLDERS:
         print(f"⚠ No weeks found for {brand}")
         continue
 
-    # Keep last 4 weeks
-    weeks = sorted(weeks)[-4:]
+    # Keep last 12 weeks — matches AMS Trend's default window so the
+    # operator can select up to 12 weeks in the picker.  Older weeks
+    # would be useful but the ads data only goes back to W4 anyway, and
+    # 12 is the standard rolling window used elsewhere.
+    weeks = sorted(weeks)[-12:]
     print(f"🗓 Weeks selected: {weeks}")
 
     for WEEK in weeks:
@@ -248,11 +251,17 @@ for brand_dir in BRAND_FOLDERS:
 
         # ====================================================
         # READ SB ADS — skipped entirely when no local ads_file
+        # Older ads_report files (pre-W21) don't always have an SB sheet.
+        # Treat missing sheet the same as no SB data for that week.
         # ====================================================
         if ads_missing:
             sb_df = pd.DataFrame(columns=final_df.columns)
         else:
-            sb_df = pd.read_excel(ads_file, sheet_name="SB")
+            try:
+                sb_df = pd.read_excel(ads_file, sheet_name="SB")
+            except ValueError:
+                print(f"   ⚠ SB sheet not found in {ads_file.name} — treating as 0 SB rows")
+                sb_df = pd.DataFrame(columns=final_df.columns)
             sb_df.columns = sb_df.columns.str.strip()
 
             sb_df = sb_df.rename(columns={

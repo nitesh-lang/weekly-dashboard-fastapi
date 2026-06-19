@@ -23,6 +23,8 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Dict, Any
 
+from weekly_app.core import data_query
+
 router = APIRouter(prefix="/api/ai", tags=["ai-chat"])
 
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
@@ -434,6 +436,197 @@ Short questions: 3-5 sentences. Deep analysis: bold headers + bullets.
 You have conversation history — reference earlier answers naturally."""
 
 
+# ── Tool definitions for Anthropic tool-use ───────────────────────────────────
+# Claude can call any of these to slice the canonical snapshots however the
+# operator's question requires.  This gives "agent-like" combinatorial recall
+# without an agent framework — Anthropic's native tool-use loop runs each
+# request, deterministic and audit-friendly.
+#
+# Channel vocabulary the operator uses (so the tool descriptions teach Claude
+# what to filter on):
+#   Sales channels:    Amazon, 1p Sales, B2B, Blinkit Sales, D2C - <Brand>, Pharmaeasy
+#   Inventory channels: 1P, AMPM, Amazon, B2B - AMPM, Pipeline, YNT, Blinkit
+#   Inventory types:    Warehouse, Marketplace, In-Transit Inventory,
+#                       Dispatch Partner
+
+CHAT_TOOLS = [
+    {
+        "name": "list_brands",
+        "description": "List every brand present in the sales snapshot. Use when the operator asks 'what brands do we have?' or to verify a brand name before filtering.",
+        "input_schema": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "list_models",
+        "description": "List models (optionally filtered by brand). Use when the operator references a model you're not sure exists, or wants 'all models for Audio Array'.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"brand": {"type": "string", "description": "Optional brand filter"}},
+        },
+    },
+    {
+        "name": "list_weeks",
+        "description": "List weeks available in a given data source so you know the valid range before asking for one. source must be one of: sales, inventory, ams, returns, inbound, margin.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "source": {"type": "string", "enum": ["sales", "inventory", "ams", "returns", "inbound", "margin"]},
+            },
+            "required": ["source"],
+        },
+    },
+    {
+        "name": "list_channels",
+        "description": "List the channel vocabulary used by a snapshot. source ∈ {sales, inventory}. Use when the operator says 'exclude X' and you need to confirm X exists.",
+        "input_schema": {
+            "type": "object",
+            "properties": {"source": {"type": "string", "enum": ["sales", "inventory"]}},
+            "required": ["source"],
+        },
+    },
+    {
+        "name": "get_sales",
+        "description": "Get sales data. Supports filters: model, brand, asin, sku, channels_in (include only these channels), channels_not_in (exclude these channels), weeks (list of int week numbers). rollup controls aggregation: 'channel_week' (default), 'week' (across channels), 'channel' (across weeks), 'total', or 'detail' for per-row. Returns totals dict + rows list.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "brand": {"type": "string"},
+                "asin":  {"type": "string"},
+                "sku":   {"type": "string"},
+                "channels_in":     {"type": "array", "items": {"type": "string"}},
+                "channels_not_in": {"type": "array", "items": {"type": "string"}},
+                "weeks":           {"type": "array", "items": {"type": "integer"}},
+                "rollup":          {"type": "string", "enum": ["channel_week","week","channel","total","detail"]},
+            },
+        },
+    },
+    {
+        "name": "get_inventory",
+        "description": "Get inventory snapshot data. Same filter semantics as get_sales plus types_in/types_not_in for the Type column (Warehouse, Marketplace, In-Transit Inventory, Dispatch Partner). latest_only=true (default) returns only the latest week present in the slice — set false to get history. rollup ∈ {channel (default, splits by channel × type), total, week, detail}. When the operator says 'AM-C1 inventory excluding Pipeline', pass model='AM-C1' and channels_not_in=['Pipeline'].",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "brand": {"type": "string"},
+                "asin":  {"type": "string"},
+                "sku":   {"type": "string"},
+                "channels_in":     {"type": "array", "items": {"type": "string"}},
+                "channels_not_in": {"type": "array", "items": {"type": "string"}},
+                "types_in":        {"type": "array", "items": {"type": "string"}},
+                "types_not_in":    {"type": "array", "items": {"type": "string"}},
+                "weeks":           {"type": "array", "items": {"type": "integer"}},
+                "latest_only":     {"type": "boolean"},
+                "rollup":          {"type": "string", "enum": ["channel","total","week","detail"]},
+            },
+        },
+    },
+    {
+        "name": "get_ams",
+        "description": "Get AMS / Amazon Ads metrics with derived ACOS, TACOS, ROAS, CPC. Filters: model, brand, asin, weeks. rollup ∈ {week (default), asin, total, detail}. Use for 'TACOS for AM-S1 last 4 weeks', 'ROAS for Audio Array W24'. AMS scope is Amazon + 1P only (ex-Fossil by operator rule).",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "brand": {"type": "string"},
+                "asin":  {"type": "string"},
+                "weeks": {"type": "array", "items": {"type": "integer"}},
+                "rollup": {"type": "string", "enum": ["week","asin","total","detail"]},
+            },
+        },
+    },
+    {
+        "name": "get_returns",
+        "description": "Get FBA returns aggregated per ASIN — returns_3p, sellable/unsellable units, sellable_pct, top_reason, last_return_at. Filters: model, brand, asin.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "brand": {"type": "string"},
+                "asin":  {"type": "string"},
+            },
+        },
+    },
+    {
+        "name": "get_margin",
+        "description": "Get per-ASIN margin data (cost, fees, net contribution). Filters: model, brand, asin.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "brand": {"type": "string"},
+                "asin":  {"type": "string"},
+            },
+        },
+    },
+    {
+        "name": "get_inbound",
+        "description": "Get FBA inbound + in-transit PO data per ASIN. Includes am_soh (already at Amazon) and am_intransit (warehouse → Amazon in flight). Filters: model, brand, asin.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "brand": {"type": "string"},
+                "asin":  {"type": "string"},
+            },
+        },
+    },
+    {
+        "name": "get_reviews",
+        "description": "Get Helium-10 reviews / sales rank data per ASIN. Filters: model, brand, asin.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "model": {"type": "string"},
+                "brand": {"type": "string"},
+                "asin":  {"type": "string"},
+            },
+        },
+    },
+]
+
+
+def _run_tool_use_loop(
+    *,
+    system_prompt: str,
+    messages: list,
+    max_iterations: int = 6,
+) -> str:
+    """Run Claude with tool-use enabled until it returns a plain text answer.
+
+    Returns the final assistant text. Each tool call is dispatched to
+    data_query and the result fed back as a tool_result block.
+    """
+    convo = list(messages)
+    for _ in range(max_iterations):
+        resp = client.messages.create(
+            model="claude-sonnet-4-20250514",
+            max_tokens=2000,
+            system=system_prompt,
+            tools=CHAT_TOOLS,
+            messages=convo,
+        )
+        if resp.stop_reason != "tool_use":
+            # Plain text terminal response — extract and return.
+            text_parts = [b.text for b in resp.content if getattr(b, "type", None) == "text"]
+            return "\n".join(text_parts).strip()
+
+        # Append the assistant message (with tool_use blocks) and execute each tool.
+        convo.append({"role": "assistant", "content": resp.content})
+        tool_results = []
+        for block in resp.content:
+            if getattr(block, "type", None) != "tool_use":
+                continue
+            result = data_query.dispatch(block.name, dict(block.input or {}))
+            tool_results.append({
+                "type":        "tool_result",
+                "tool_use_id": block.id,
+                "content":     json.dumps(result, default=str),
+            })
+        convo.append({"role": "user", "content": tool_results})
+
+    return "I made too many lookups without converging. Please rephrase or narrow the question."
+
+
 # ── Main endpoint ─────────────────────────────────────────────────────────────
 @router.post("/ai-chat")
 async def ai_chat(request: Request, body: ChatRequest):
@@ -450,16 +643,38 @@ async def ai_chat(request: Request, body: ChatRequest):
     messages = [{"role": m.role, "content": m.content} for m in body.history[-10:]]
     messages.append({"role": "user", "content": body.question})
 
+    # Tool-use addendum — teaches Claude that it has live data access and
+    # should prefer tool calls over the static DATA block when the operator
+    # asks for a specific slice (channels excluded, week ranges, per-model
+    # metrics).  The static block stays for high-level orientation.
+    tool_prompt = (
+        "\n\nLIVE QUERY TOOLS:\n"
+        "You have data_query tools that read the canonical snapshots in real "
+        "time.  PREFER tool calls over the static DATA block whenever the "
+        "operator asks for a specific slice — model, channel exclusions, "
+        "week ranges, per-ASIN metrics, returns, margin, inbound, reviews.  "
+        "Chain tools as needed in one turn: e.g. for 'AM-C1 inventory excluding "
+        "pipeline and TACOS last 4 weeks', call get_inventory(model='AM-C1', "
+        "channels_not_in=['Pipeline']) AND get_ams(model='AM-C1', weeks=[21,22,23,24]) "
+        "then compose the answer.  If a model/brand/week isn't found, call "
+        "list_models / list_brands / list_weeks to recover.  Keep tool inputs "
+        "concise; never call get_*(rollup='detail') unless the operator asked "
+        "for per-row drilldown.  When you have the numbers, answer directly — "
+        "do not narrate the tool calls."
+    )
+    system_prompt_with_tools = system_prompt + tool_prompt
+
     def stream_response():
         try:
-            with client.messages.stream(
-                model="claude-sonnet-4-20250514",
-                max_tokens=1500,
-                system=system_prompt,
+            answer = _run_tool_use_loop(
+                system_prompt=system_prompt_with_tools,
                 messages=messages,
-            ) as stream:
-                for chunk in stream.text_stream:
-                    yield f"data: {json.dumps({'text': chunk})}\n\n"
+            )
+            # Stream the final answer in modest chunks so the SPA's
+            # progressive-render UX still feels live.
+            CHUNK = 80
+            for i in range(0, len(answer), CHUNK):
+                yield f"data: {json.dumps({'text': answer[i:i+CHUNK]})}\n\n"
             yield "data: [DONE]\n\n"
         except anthropic.AuthenticationError:
             yield f"data: {json.dumps({'error': 'Invalid API key.'})}\n\n"

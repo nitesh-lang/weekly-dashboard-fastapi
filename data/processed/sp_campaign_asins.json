@@ -13440,7 +13440,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "Audio Array-Condenser-Multiple Ad Group-SP-KT-Exact/Phrase": {
+  "Audio Array-Condenser- B0B4DPX2J2-SP-KT-Exact/Phrase": {
     "brand": "Audio Array",
     "asins": [
       "B0B4DPX2J2",
@@ -23122,6 +23122,16 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "Audio Array-B0FG88HVQ8-DJ Headphone-SP-KT-BM": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FG88HVQ8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Nexlev_SP_AT_CM-01/CM-02": {
     "brand": "Nexlev",
     "asins": [
@@ -29537,6 +29547,26 @@
     "brand": "Nexlev",
     "asins": [
       "B0DCGHVN81"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GGHZWMVW-Vacuum-PT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GGHZWMVW-Vacuum-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
     ],
     "ad_types": [
       "productAd"

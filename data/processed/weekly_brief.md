@@ -1,5 +1,5 @@
 # Weekly Brief — Week 24
-*Generated 2026-06-22T08:04:08.091872Z from data through Week 24*
+*Generated 2026-06-22T10:32:16.293090Z from data through Week 24*
 ## This week at a glance
 
 Week 24 closed at **₹77.69L GMV** (-16.0% WoW, +10.3% vs prior 4w) on **3,156 units** (-2.1% WoW). This was a soft week, led by **Audio Array** at 57% of portfolio GMV.

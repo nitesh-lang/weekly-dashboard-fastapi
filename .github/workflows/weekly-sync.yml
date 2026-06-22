@@ -200,6 +200,13 @@ jobs:
       - name: Step 4 — join business + ads
         run: python -m weekly_app.etl.step4_join_business_ads
 
+      # step5 carries category_l0/l1/l2 onto ams_weekly_fact rows.
+      # Without this, business_ads_joined.csv refreshes every cron but
+      # ams_weekly_fact_with_category.csv stays at last operator-run
+      # state — derivative-freshness check 20 catches the drift.
+      - name: Step 5 — category mapping
+        run: python -m weekly_app.etl.step5_add_category_mapping
+
       # Build the weekly Markdown brief from the freshest snapshots.
       # Deterministic, template-based — no LLM call, no API key needed.
       # /api/insights/brief just serves the file this produces.
@@ -245,6 +252,7 @@ jobs:
                   'data/ams_weekly_data/*/ads_report_week[0-9][0-9].xlsx' \
                   'data/ams_weekly_data/*/business_report_week[0-9]*.xlsx' \
                   data/ams_weekly_data/ams_weekly_fact/ams_weekly_fact.csv \
+                  data/ams_weekly_data/ams_weekly_fact/ams_weekly_fact_with_category.csv \
                   data/ams_weekly_data/processed_ads/ads_weekly_aggregated.csv \
                   data/ams_weekly_data/processed_ads/business_ads_joined.csv \
                   data/processed/sb_campaign_asins.json \

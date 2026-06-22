@@ -1,5 +1,5 @@
 # Weekly Brief — Week 24
-*Generated 2026-06-16T12:21:28.476509Z from data through Week 24*
+*Generated 2026-06-22T08:04:08.091872Z from data through Week 24*
 ## This week at a glance
 
 Week 24 closed at **₹77.69L GMV** (-16.0% WoW, +10.3% vs prior 4w) on **3,156 units** (-2.1% WoW). This was a soft week, led by **Audio Array** at 57% of portfolio GMV.
@@ -99,5 +99,5 @@ Ad spend **₹8.52L** (+13.3%) — ROAS **4.66x** · ACOS **21.5%** · TACOS **1
 - **Home & Kitchen** — ₹16.16L on 647 units.
 - **Microphone Condenser** — ₹8.86L on 385 units.
 - **Audio Interface** — ₹8.30L on 234 units.
-- **HPC** — ₹6.23L on 451 units.
+- **HPC** — ₹6.35L on 458 units.
 - **Monitor Speakers** — ₹5.37L on 82 units.

@@ -1003,6 +1003,18 @@
     ],
     "profile_id": "866679611348308"
   },
+  "Camb Gaming Desk-B0CPFS24ML-BM-Product Collection-SB": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPFS24ML",
+      "B0BFWD6SNF",
+      "B0BFVMDJ2K"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "866679611348308"
+  },
   "White Mulberry L shape Category SB KT": {
     "brand": "White Mulberry",
     "asins": [
@@ -2882,7 +2894,7 @@
     ],
     "profile_id": "1122755254933937"
   },
-  "Nexlev-B0CYSLCRQS-Vacuum Cleaner - SBV-Phrase01": {
+  "Nexlev-B0CYSLCRQS-Vacuum Cleaner - SBV-Phrase01-Branded": {
     "brand": "Nexlev",
     "asins": [
       "B0CYSLCRQS"
@@ -3587,6 +3599,26 @@
     ],
     "ad_types": [
       "BRAND_VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CYSLCRQS-Sofa Vacuum Cleaner -SBV-KT-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexliv-B0DNJS23HS-BM-SBV": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "VIDEO"
     ],
     "profile_id": "1122755254933937"
   },

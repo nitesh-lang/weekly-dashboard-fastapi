@@ -21401,7 +21401,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "Audio Array-DJ Headphones-Multi Ad Groups -SP-PT": {
+  "Audio Array-DJ Headphones- B0FQBXS6Y2 -SP-PT": {
     "brand": "Audio Array",
     "asins": [
       "B0FQBTRM28",
@@ -21866,7 +21866,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "Audio Array-Catch All-Audio Mixer-SP-KT-Exact": {
+  "Audio Array-Audio Mixer-SP-KT-Exact": {
     "brand": "Audio Array",
     "asins": [
       "B0G53H49BS",
@@ -29567,6 +29567,26 @@
     "brand": "Nexlev",
     "asins": [
       "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Vacuum Cleaner-B0GM1CZC7Y-KT-SP-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GM1CZC7Y"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Vacuum Cleaner-B0GM1CZC7Y-SP-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GM1CZC7Y"
     ],
     "ad_types": [
       "productAd"

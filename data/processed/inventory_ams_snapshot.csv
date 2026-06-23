@@ -1,2 +1,1 @@
-week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,pipeline_orders,inv_units_model
-25,NAN,84740.0,250.0,20451.0,105441.0,36391.0,105441.0
+week,model,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,pipeline_orders,inv_units_model

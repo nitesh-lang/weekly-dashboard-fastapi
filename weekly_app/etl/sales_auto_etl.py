@@ -331,10 +331,20 @@ def parse_other_channels(file, week, skip_sheets=None):
 
         df.columns = [norm(c) for c in df.columns]
 
-        if not {"sku", "qty", "sale_amount"}.issubset(df.columns):
+        # Need qty + sale_amount + at least ONE of {sku, asin}.  Before,
+        # we required sku; sheets that only carried ASIN (e.g. WM W25
+        # 1p Sales) were silently skipped, hiding ₹L of revenue from
+        # the snapshot.  Now accept either — sku is filled from master
+        # via ASIN later in the chain when missing.
+        if not {"qty", "sale_amount"}.issubset(df.columns):
+            continue
+        if "sku" not in df.columns and "asin" not in df.columns:
             continue
 
-        df["sku"] = df["sku"].astype(str).str.strip()
+        if "sku" in df.columns:
+            df["sku"] = df["sku"].astype(str).str.strip().replace({"nan": "", "None": ""})
+        else:
+            df["sku"] = ""
         df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
 
         # Honor file-side ASIN when present (every sheet has one in the
@@ -545,8 +555,15 @@ def process_week(week, sku_master, brand_folder=""):
     # ---------------- OTHER CHANNELS --------
     other_file = week_dir / "other_channels.xlsx"
     if other_file.exists():
-        # Skip the "1p Sales" sheet if SP-API already supplied it
-        skip = {"1p sales"} if sp_api_owns_1p else None
+        # Skip any manual 1P sheet when SP-API already supplied that brand+week.
+        # Operator sheet names vary across brands: "1p Sales", "1p", "1P",
+        # "amazon 1p", "amazon 1p sales".  All represent the same source —
+        # shadowed by SP-API Vendor Sales when present.  Without this,
+        # Tonor's "1p" sheet would double-count alongside SP-API for W25+.
+        skip = (
+            {"1p sales", "1p", "amazon 1p", "amazon 1p sales"}
+            if sp_api_owns_1p else None
+        )
         other = parse_other_channels(other_file, week, skip_sheets=skip)
 
         # When SP-API owns 1P AND the file has ONLY the 1p Sales sheet,
@@ -569,6 +586,24 @@ def process_week(week, sku_master, brand_folder=""):
                     other["asin_m"],
                 )
                 other = other.drop(columns=["asin_m"])
+            # ASIN-only rows (operator sheet that lacks SKU column) miss the
+            # sku-based merge above.  Fall back to ASIN→master so model/sku/
+            # brand/nlc still resolve.  Caught W25 WM 1p Sales — sheet had
+            # ASIN + Qty + Sale only, no SKU, so the merge produced blank
+            # model/brand and the rows disappeared from snapshot rollups.
+            need_master = (
+                other["asin"].astype(str).str.strip().ne("")
+                & other["sku"].astype(str).str.strip().eq("")
+            )
+            if need_master.any():
+                master_by_asin = sku_master.drop_duplicates(subset=["asin"]).set_index("asin")
+                for col in ("sku", "model", "brand", "nlc",
+                            "category_l0", "category_l1", "category_l2"):
+                    if col not in master_by_asin.columns:
+                        continue
+                    other.loc[need_master, col] = (
+                        other.loc[need_master, "asin"].map(master_by_asin[col])
+                    )
             # BRAND OVERRIDE FROM FOLDER (if present)
             if brand_folder:
                 other["brand"] = brand_folder.replace("_", " ")

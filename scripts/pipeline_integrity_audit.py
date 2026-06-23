@@ -789,7 +789,7 @@ def check_raw_vs_snapshot_sales(latest_week: int) -> pd.DataFrame:
                 try:
                     xl = pd.ExcelFile(oc)
                     for sh in xl.sheet_names:
-                        if sp_owns_1p and sh.strip().lower() == "1p sales":
+                        if sp_owns_1p and sh.strip().lower() in {"1p sales", "1p", "amazon 1p", "amazon 1p sales"}:
                             continue  # shadowed by SP-API canonical
                         d = pd.read_excel(oc, sheet_name=sh)
                         cols = {c.lower().strip(): c for c in d.columns}

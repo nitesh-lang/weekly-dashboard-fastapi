@@ -385,7 +385,7 @@ export default function InventoryDashboard() {
                                                     sorted as any,
                                                     // Keep all dims in the CSV export even though the table view
                                                     // hides them — operators may want them downstream.
-                                                    ["week", "brand", "model", "sku",
+                                                    ["week", "brand", "model", "sku", "asin",
                                                      "category_l0", "category_l1", "category_l2",
                                                      "channel", "type",
                                                      "inventory_units", "nlc", "inventory_value"],
@@ -399,7 +399,7 @@ export default function InventoryDashboard() {
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={() => copyTableToClipboard(sorted as any,
-                                                    ["week", "brand", "model", "sku",
+                                                    ["week", "brand", "model", "sku", "asin",
                                                      "category_l0", "category_l1", "category_l2",
                                                      "channel", "type",
                                                      "inventory_units", "nlc", "inventory_value"])}

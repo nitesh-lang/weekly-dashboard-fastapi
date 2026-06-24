@@ -196,6 +196,43 @@ jobs:
           SP_REFRESH_TOKEN_VIOMI:           ${{ secrets.SP_REFRESH_TOKEN_VIOMI }}
           SP_REFRESH_TOKEN_WHITEMULBERRY:   ${{ secrets.SP_REFRESH_TOKEN_WHITEMULBERRY }}
 
+      # SP-API 3P Seller FBA Customer Returns — last 90 days per
+      # account (operator's standard 3-month tracking window).  Output
+      # mirrors the existing manual files under data/raw/returns/:
+      #   AUDIOARRAY     -> Audio Array.xlsx
+      #   CAMBIUMRETAIL  -> CRPL.xlsx          (Fossil rows filtered out)
+      #   NEXLEV         -> Nexlev.xlsx
+      #   VIOMI          -> viomi.xlsx
+      #   WHITEMULBERRY  -> WhiteMulberry.xlsx
+      # An empty result for any account is treated as a no-op (keeps
+      # the prior manual file untouched) rather than blowing it away.
+      - name: SP-API Seller Returns pull (5 accounts, 90d)
+        run: python scripts/sp_seller_returns_pull.py || true
+        env:
+          SP_LWA_CLIENT_ID:                 ${{ secrets.SP_LWA_CLIENT_ID }}
+          SP_LWA_CLIENT_SECRET:             ${{ secrets.SP_LWA_CLIENT_SECRET }}
+          SP_REFRESH_TOKEN_AUDIOARRAY:      ${{ secrets.SP_REFRESH_TOKEN_AUDIOARRAY }}
+          SP_REFRESH_TOKEN_CAMBIUMRETAIL:   ${{ secrets.SP_REFRESH_TOKEN_CAMBIUMRETAIL }}
+          SP_REFRESH_TOKEN_NEXLEV:          ${{ secrets.SP_REFRESH_TOKEN_NEXLEV }}
+          SP_REFRESH_TOKEN_VIOMI:           ${{ secrets.SP_REFRESH_TOKEN_VIOMI }}
+          SP_REFRESH_TOKEN_WHITEMULBERRY:   ${{ secrets.SP_REFRESH_TOKEN_WHITEMULBERRY }}
+
+      # SP-API 1P Vendor Returns — aggregates 90-day GET_VENDOR_SALES
+      # response into 1p Returns.xlsx, matching the operator's manual
+      # Vendor Central Sales Diagnostic export.  Chunks the window
+      # into 14-day pieces (Amazon FATALs larger windows under
+      # throttle).  WM 1P stays empty until the WMI-DRPL token is
+      # restored.
+      - name: SP-API Vendor Returns pull (90d, chunked)
+        run: python scripts/sp_vendor_returns_pull.py || true
+        env:
+          SP_LWA_CLIENT_ID_AUDIOARRAY:      ${{ secrets.SP_LWA_CLIENT_ID_AUDIOARRAY }}
+          SP_LWA_CLIENT_SECRET_AUDIOARRAY:  ${{ secrets.SP_LWA_CLIENT_SECRET_AUDIOARRAY }}
+          SP_LWA_CLIENT_ID_WHITEMULBERRY:     ${{ secrets.SP_LWA_CLIENT_ID_WHITEMULBERRY }}
+          SP_LWA_CLIENT_SECRET_WHITEMULBERRY: ${{ secrets.SP_LWA_CLIENT_SECRET_WHITEMULBERRY }}
+          SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY:    ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY }}
+          SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY: ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY }}
+
       # ── Operator-side ETLs ──
       # These read the raw files the operator commits and produce the
       # snapshot CSVs the dashboard reads.  `|| true` keeps the cron
@@ -300,6 +337,16 @@ jobs:
                   'data/raw/inventory/Week*/Tonor/Seller FBA Inventory (SP-API).xlsx' \
                   'data/raw/inventory/Week*/White_Mulberry/Seller FBA Inventory (SP-API).xlsx' \
                   'data/raw/inventory/Week*/_audit/seller_fba_inv_unmatched*.csv' 2>/dev/null || true
+          # SP-API returns — 3P per-account (last 90d) + 1P consolidated.
+          # File names match the operator's manual drop-in convention so
+          # returns_snapshot.py picks them up without any path changes.
+          git add 'data/raw/returns/Audio Array.xlsx' \
+                  'data/raw/returns/CRPL.xlsx' \
+                  'data/raw/returns/Nexlev.xlsx' \
+                  'data/raw/returns/viomi.xlsx' \
+                  'data/raw/returns/WhiteMulberry.xlsx' \
+                  'data/raw/returns/1p Returns.xlsx' \
+                  'data/raw/returns/_audit/seller_returns_unmatched.csv' 2>/dev/null || true
           git add 'data/ams_weekly_data/*/ads_report_week[0-9]*.xlsx' \
                   'data/ams_weekly_data/*/ads_report_week[0-9][0-9].xlsx' \
                   'data/ams_weekly_data/*/business_report_week[0-9]*.xlsx' \

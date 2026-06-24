@@ -39,3 +39,9 @@ data/ams_weekly_data/*/ads_report_week*_api.xlsx
 # Ads Reports state file — contains short-lived report IDs / signed S3
 # URLs that expire in ~1 hour, plus credentials hints in failure strings.
 data/processed/.ads_reports_state.json
+
+# SP-API seller pulls — per-account TSV/CSV intermediates merged into
+# the canonical per-brand "Seller Sales (SP-API).xlsx" / "Seller FBA
+# Inventory (SP-API).xlsx".  Keep the canonical xlsx, not the raw merge.
+data/raw/sales/**/_seller_sp_api/
+data/raw/inventory/**/_seller_sp_api/

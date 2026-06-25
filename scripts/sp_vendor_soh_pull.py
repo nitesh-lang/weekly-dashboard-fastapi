@@ -164,7 +164,10 @@ def pull_vendor_inventory(token: str, snapshot_date: str) -> list[dict]:
     print(f"  reportId: {rep_id}")
 
     doc_id = None
-    for i in range(60):
+    # 180 polls × 5s = 15 min.  Vendor reports occasionally take that long
+    # under Amazon-side queue load (observed on WM 1P first run after the
+    # new SP-API role was added — IN_PROGRESS for 5+ min before DONE).
+    for i in range(180):
         time.sleep(5)
         rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rep_id}",
                           headers={"x-amz-access-token": token}, timeout=30)

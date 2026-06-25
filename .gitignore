@@ -45,3 +45,7 @@ data/processed/.ads_reports_state.json
 # Inventory (SP-API).xlsx".  Keep the canonical xlsx, not the raw merge.
 data/raw/sales/**/_seller_sp_api/
 data/raw/inventory/**/_seller_sp_api/
+
+# Ads change-history probe artifacts — investigation output, never commit
+# (workflow uploads them as run artifacts instead).
+scripts/_audit/

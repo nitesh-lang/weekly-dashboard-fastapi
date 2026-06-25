@@ -1,0 +1,84 @@
+# Manual read-only investigation: identify the actor(s) behind the
+# 2026-06-22 02:03 IST burst of ~261 unauthorized bid changes on
+# Audio Array India SP campaigns.
+#
+# This workflow exists separately from weekly-sync so it can run
+# off-cycle without disturbing the production pipeline.  It is:
+#   - workflow_dispatch ONLY (no schedule, no push trigger)
+#   - read-only (no git push, no commits)
+#   - uses the SAME AMS_ADS_* GitHub secret the working cron uses
+#   - uploads the raw API responses as an artifact for download
+#
+# Triggered manually from GitHub Actions UI -> Ads Change History Probe
+# -> Run workflow.  Results appear under the run's "Artifacts" section.
+#
+# All endpoints called are LIST/GET only.  Write/revoke remains explicitly
+# out of scope for this workflow.
+
+name: Ads Change History Probe (read-only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      window_start:
+        description: 'ISO 8601 UTC start (default 2026-06-21T18:00:00Z)'
+        required: false
+        default: '2026-06-21T18:00:00Z'
+      window_end:
+        description: 'ISO 8601 UTC end (default 2026-06-22T02:00:00Z)'
+        required: false
+        default: '2026-06-22T02:00:00Z'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      AMS_ADS_CLIENT_ID:      ${{ secrets.AMS_ADS_CLIENT_ID }}
+      AMS_ADS_CLIENT_SECRET:  ${{ secrets.AMS_ADS_CLIENT_SECRET }}
+      AMS_ADS_REFRESH_TOKEN:  ${{ secrets.AMS_ADS_REFRESH_TOKEN }}
+      PROBE_WINDOW_START:     ${{ inputs.window_start }}
+      PROBE_WINDOW_END:       ${{ inputs.window_end }}
+      PYTHONIOENCODING:       utf-8
+      PYTHONUNBUFFERED:       '1'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify credentials present (no value leak)
+        run: |
+          if [ -z "$AMS_ADS_CLIENT_ID" ] || [ -z "$AMS_ADS_CLIENT_SECRET" ] || [ -z "$AMS_ADS_REFRESH_TOKEN" ]; then
+            echo "::error::Missing one or more AMS_ADS_* secrets in this repo."
+            exit 1
+          fi
+          echo "AMS_ADS_CLIENT_ID length:     ${#AMS_ADS_CLIENT_ID}"
+          echo "AMS_ADS_CLIENT_SECRET length: ${#AMS_ADS_CLIENT_SECRET}"
+          echo "AMS_ADS_REFRESH_TOKEN length: ${#AMS_ADS_REFRESH_TOKEN}"
+
+      - name: Run probe
+        run: python scripts/ads_change_history_probe.py
+
+      - name: Upload probe artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ads-change-probe-${{ github.run_id }}
+          path: scripts/_audit/ads_change_probe/
+          if-no-files-found: warn
+          retention-days: 14

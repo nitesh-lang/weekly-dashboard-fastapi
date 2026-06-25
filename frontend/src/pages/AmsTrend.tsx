@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Download, ArrowUp, ArrowDown, ArrowUpDown, Megaphone, ChevronDown, ChevronUp } from "lucide-react";
 import { AmsOverviewChart } from "@/components/AmsOverviewChart";
+import { AmsInsightsPanel } from "@/components/AmsInsightsPanel";
 
 interface AmsKpis {
     gmv?: number; sessions?: number; units?: number;
@@ -195,12 +196,20 @@ export default function AmsTrend() {
     // the default last-4 window.  Backend returns last 4 weeks when no
     // sel_weeks is provided, full list of weeks is in data.all_weeks for
     // the picker.
+    // Query-string shared by /api/ams/trend AND /api/ams/insights so the
+    // two endpoints can never disagree about which slice the page is reading.
+    // Brands + weeks travel as repeated params (sel_weeks=..&sel_weeks=..,
+    // brand=..&brand=..), matching the FastAPI list[str] / list[int] signature.
+    const apiQs = useMemo(() => {
+        const parts: string[] = [];
+        selWeeks.forEach((w) => parts.push(`sel_weeks=${encodeURIComponent(w)}`));
+        selBrands.forEach((b) => parts.push(`brand=${encodeURIComponent(b)}`));
+        return parts.join("&");
+    }, [selWeeks, selBrands]);
+
     const { data, isLoading, error } = useQuery<AmsData>({
-        queryKey: ["ams-trend", selWeeks.join(",")],
-        queryFn: () => {
-            const qs = selWeeks.map((w) => `sel_weeks=${encodeURIComponent(w)}`).join("&");
-            return api.get(`/api/ams/trend${qs ? `?${qs}` : ""}`);
-        },
+        queryKey: ["ams-trend", apiQs],
+        queryFn: () => api.get(`/api/ams/trend${apiQs ? `?${apiQs}` : ""}`),
     });
 
     // Build unique lists for each picker from the loaded rows.
@@ -411,6 +420,9 @@ export default function AmsTrend() {
                         <MiniKpi label="ACOS"             value={filteredKpis.acos  != null ? (filteredKpis.acos  * 100).toFixed(1) + "%" : "—"}        accent="#be185d" />
                         <MiniKpi label="TACOS"            value={filteredKpis.tacos != null ? (filteredKpis.tacos * 100).toFixed(1) + "%" : "—"}        accent="#a16207" />
                     </div>
+
+                    {/* Senior-PPC insight panel — reads the same slice the KPIs + table show */}
+                    <AmsInsightsPanel qs={apiQs} />
 
                     <div className="flex items-center justify-end">
                         <Button variant="ghost" size="sm" onClick={() => setShowOverview((s) => !s)}>

@@ -11,6 +11,47 @@ import pandas as pd
 import numpy as np
 from typing import Optional
 import json
+import time
+
+# ==================================================
+# RESPONSE CACHE
+# ==================================================
+# AMS Trend's biggest perf cost is rebuilding the 3,700-row × 37-col
+# payload on every filter click — ~750ms warm just for the data prep,
+# plus ~3 MB JSON to ship.  The data only changes once a week, so we
+# memoize the FastAPI Response object keyed on the normalized filter
+# tuple.  TTL=300s gives 5 min of repeat-hit speed (effectively the
+# operator's entire session of clicking around) while still flushing
+# fast enough that a mid-session data refresh is reflected.
+_RESPONSE_CACHE: dict[str, tuple[float, "Response"]] = {}
+_RESPONSE_CACHE_TTL = 300  # seconds
+
+def _cache_key(prefix: str, *args) -> str:
+    """Build a deterministic key from (endpoint, *filters)."""
+    parts = [prefix]
+    for a in args:
+        if a is None:
+            parts.append("∅")
+        elif isinstance(a, (list, tuple)):
+            parts.append(",".join(str(x) for x in sorted(a)))
+        else:
+            parts.append(str(a))
+    return "|".join(parts)
+
+def _cached_or(key: str, build_fn):
+    """Return cached Response or run build_fn() to fill cache."""
+    now = time.time()
+    hit = _RESPONSE_CACHE.get(key)
+    if hit and (now - hit[0]) < _RESPONSE_CACHE_TTL:
+        return hit[1]
+    resp = build_fn()
+    _RESPONSE_CACHE[key] = (now, resp)
+    # Bound the cache size — 64 entries is plenty for the AMS Trend
+    # filter combinatorics an operator actually clicks through.
+    if len(_RESPONSE_CACHE) > 64:
+        oldest = min(_RESPONSE_CACHE, key=lambda k: _RESPONSE_CACHE[k][0])
+        _RESPONSE_CACHE.pop(oldest, None)
+    return resp
 
 # ==================================================
 # ROUTER CONFIG
@@ -267,7 +308,21 @@ def get_ams_trend(
     asin: Optional[str] = Query(None),
     brand: Optional[list[str]] = Query(default=None),
 ):
+    # 5-min response cache — same filter combo hits memory instead of
+    # re-running the load+merge+derive+serialize pipeline (~750ms warm).
+    cache_key = _cache_key("trend", week, weeks, sel_weeks, category_l0,
+                           category_l1, category_l2, model, asin, brand)
+    return _cached_or(cache_key, lambda: _build_trend_response(
+        week=week, weeks=weeks, sel_weeks=sel_weeks,
+        category_l0=category_l0, category_l1=category_l1,
+        category_l2=category_l2, model=model, asin=asin, brand=brand,
+    ))
 
+
+def _build_trend_response(
+    week, weeks, sel_weeks, category_l0, category_l1, category_l2,
+    model, asin, brand,
+):
     # ===============================
     # LOAD DATA
     # ===============================
@@ -477,6 +532,19 @@ def get_ams_insights(
     model: Optional[str] = Query(None),
     asin: Optional[str] = Query(None),
     brand: Optional[list[str]] = Query(default=None),
+):
+    cache_key = _cache_key("insights", week, weeks, sel_weeks, category_l0,
+                           category_l1, category_l2, model, asin, brand)
+    return _cached_or(cache_key, lambda: _build_insights_response(
+        week=week, weeks=weeks, sel_weeks=sel_weeks,
+        category_l0=category_l0, category_l1=category_l1,
+        category_l2=category_l2, model=model, asin=asin, brand=brand,
+    ))
+
+
+def _build_insights_response(
+    week, weeks, sel_weeks, category_l0, category_l1, category_l2,
+    model, asin, brand,
 ):
     from weekly_app.core.ams_insights import build_insights
 

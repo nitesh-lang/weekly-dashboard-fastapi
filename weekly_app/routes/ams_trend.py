@@ -458,6 +458,96 @@ def get_ams_trend(
     })
 
 # ==================================================
+# API: AMS INSIGHTS
+# ==================================================
+# Same filter contract as /api/ams/trend so the SPA can call both
+# in parallel on every filter change.  Returns expert-level
+# performance commentary derived from the row-level data — the
+# kind of read a senior PPC analyst would write on Monday.
+# Read-only, no side effects.
+# ==================================================
+@router.get("/insights")
+def get_ams_insights(
+    week: Optional[int] = Query(None),
+    weeks: Optional[int] = Query(None),
+    sel_weeks: Optional[list[int]] = Query(default=None),
+    category_l0: Optional[str] = Query(None),
+    category_l1: Optional[str] = Query(None),
+    category_l2: Optional[str] = Query(None),
+    model: Optional[str] = Query(None),
+    asin: Optional[str] = Query(None),
+    brand: Optional[list[str]] = Query(default=None),
+):
+    from weekly_app.core.ams_insights import build_insights
+
+    # Reuse the same load+filter pipeline /api/ams/trend uses so
+    # insights can never disagree with the table on the same screen.
+    df = load_ams_data()
+
+    brands_norm: list[str] = []
+    if brand:
+        brands_norm = [b.strip().lower() for b in brand if b and b.strip().lower() != "all"]
+    if brands_norm:
+        df = df[df["brand"].isin(brands_norm)]
+
+    # Window default — last 12 weeks if nothing chosen.
+    if "week" in df.columns:
+        all_weeks_list = sorted(int(w) for w in df["week"].dropna().unique())
+        default_window = all_weeks_list[-12:] if len(all_weeks_list) >= 12 else all_weeks_list
+    else:
+        default_window = []
+
+    # Merge per-(asin, week) inventory so the inventory section can read
+    # inventory_total_amazon at the right row-level grain.
+    inv = load_inventory_snapshot()
+    if not inv.empty:
+        df = pd.merge(
+            df, inv,
+            left_on=["asin", "week"], right_on=["asin", "week"],
+            how="left", suffixes=("", "_inv"),
+        )
+        miss = df["inv_units_model"].isna() if "inv_units_model" in df.columns else None
+        if miss is not None and miss.any():
+            inv_by_model = (inv.drop_duplicates(["Model", "week"])
+                                [["Model", "week", "inventory_ampm", "inventory_1p",
+                                  "inventory_amazon", "inventory_total_amazon",
+                                  "pipeline_orders", "inv_units_model"]])
+            df_miss = df.loc[miss, ["Model", "week"]].merge(
+                inv_by_model, on=["Model", "week"], how="left"
+            )
+            for col in ["inventory_ampm", "inventory_1p", "inventory_amazon",
+                        "inventory_total_amazon", "pipeline_orders", "inv_units_model"]:
+                df.loc[miss, col] = df_miss[col].values
+
+    # Apply the rest of the filters identically to /trend.
+    if sel_weeks:
+        df = df[df["week"].isin(sel_weeks)]
+        used = sel_weeks
+    elif week:
+        df = df[df["week"] == week]
+        used = [week]
+    elif default_window:
+        df = df[df["week"].isin(default_window)]
+        used = default_window
+    else:
+        used = []
+
+    if asin:
+        df = df[df["asin"] == asin]
+    if model:
+        df = df[df["Model"] == model]
+    if category_l0 and category_l0.lower() != "all":
+        df = df[df["category_l0"] == category_l0.strip().lower()]
+    if category_l1 and category_l1 != "All":
+        df = df[df["category_l1"] == category_l1]
+    if category_l2 and category_l2 != "All":
+        df = df[df["category_l2"] == category_l2]
+
+    insights = build_insights(df, selected_weeks=used)
+    return strict_json_response(insights)
+
+
+# ==================================================
 # HTML VIEW
 # ==================================================
 # React SPA owns `/ams-trend`; old Jinja /api/ams/view route disabled.

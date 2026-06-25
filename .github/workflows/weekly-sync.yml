@@ -93,6 +93,14 @@ jobs:
             exit 1
           fi
 
+      # Ads API pre-flight — verify every IN profile the cron depends on
+      # actually returns 200 on /sp/campaigns/list with the current LWA
+      # token.  /v2/profiles can list a profile that we'd still 403 on
+      # when calling its data endpoints, which would silently produce
+      # PARTIAL ads data downstream.  Fail loudly here instead.
+      - name: Ads API health check (per-profile reachability)
+        run: python scripts/ads_api_health_check.py
+
       # Refresh the campaign -> ASIN lookup (used by sb_ingest L0 layer)
       - name: Refresh campaign->ASIN map (SP+SD+SB)
         run: python -m weekly_app.etl.ads_api_pull sp sd sb

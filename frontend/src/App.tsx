@@ -22,6 +22,7 @@ const Returns            = lazy(() => import("./pages/Returns"));
 const Drilldown          = lazy(() => import("./pages/Drilldown"));
 const AdminUsers         = lazy(() => import("./pages/AdminUsers"));
 const Insights           = lazy(() => import("./pages/Insights"));
+const Price              = lazy(() => import("./pages/Price"));
 
 /** Inline skeleton shown while a route chunk downloads — should appear for
  *  ~100ms on first hit, instantly from cache afterwards. */
@@ -62,6 +63,7 @@ export default function App() {
                     <Route path="/no-sales-last-week"  element={<RequireAuth><RequireTab tab="/no-sales-last-week"><NoSalesLastWeek /></RequireTab></RequireAuth>} />
                     <Route path="/dead-stock"          element={<RequireAuth><RequireTab tab="/dead-stock"><DeadStock /></RequireTab></RequireAuth>} />
                     <Route path="/margin-snapshot"     element={<RequireAuth><RequireTab tab="/margin-snapshot"><MarginSnapshot /></RequireTab></RequireAuth>} />
+                    <Route path="/price"               element={<RequireAuth><RequireTab tab="/price"><Price /></RequireTab></RequireAuth>} />
                     <Route path="/returns"             element={<RequireAuth><RequireTab tab="/returns"><Returns /></RequireTab></RequireAuth>} />
                     <Route path="/drilldown"           element={<RequireAuth><Drilldown /></RequireAuth>} />
                     <Route path="/admin/users"         element={<RequireAuth><RequireAdmin><AdminUsers /></RequireAdmin></RequireAuth>} />

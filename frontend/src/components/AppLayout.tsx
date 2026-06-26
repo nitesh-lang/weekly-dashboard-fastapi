@@ -36,6 +36,7 @@ const CHUNK_LOADERS: Record<string, () => Promise<unknown>> = {
     "/dead-stock":           () => import("@/pages/DeadStock"),
     "/margin-snapshot":      () => import("@/pages/MarginSnapshot"),
     "/returns":              () => import("@/pages/Returns"),
+    "/price":                () => import("@/pages/Price"),
 };
 
 type PrefetchSpec = Array<{ key: readonly unknown[]; fn: () => Promise<unknown> }>;
@@ -62,6 +63,7 @@ const PREFETCH_QUERIES: Record<string, PrefetchSpec> = {
     ],
     "/margin-snapshot":     [{ key: ["margins"], fn: () => api.get("/api/margins") }],
     "/returns":             [{ key: ["returns-overview"], fn: () => api.get("/api/returns-overview") }],
+    "/price":               [{ key: ["pricing"], fn: () => api.get("/api/pricing") }],
 };
 
 const NAV_GROUPS = [
@@ -79,6 +81,7 @@ const NAV_GROUPS = [
             { to: "/amazon-sales-trend",  label: "Amazon + 1P",     icon: ShoppingCart },
             { to: "/category-sales",      label: "Category",        icon: Tag },
             { to: "/margin-snapshot",     label: "Margin Snapshot", icon: Percent },
+            { to: "/price",               label: "Price",           icon: Percent },
         ],
     },
     {

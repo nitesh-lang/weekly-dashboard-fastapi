@@ -27,6 +27,7 @@ from weekly_app.routes.sync_status import router as sync_status_router
 from weekly_app.routes.ams_planning import router as ams_planning_router
 from weekly_app.routes.returns import router as returns_router
 from weekly_app.routes.returns_overview import router as returns_overview_router
+from weekly_app.routes.pricing import router as pricing_router
 from fastapi.responses import HTMLResponse
 from starlette.middleware.sessions import SessionMiddleware
 from weekly_app.middleware.auth_guard import AuthGuardMiddleware
@@ -239,6 +240,9 @@ app.include_router(returns_router)
 # ✅ RETURNS OVERVIEW — /api/returns-overview per-ASIN grid from master + returns + sales
 app.include_router(returns_overview_router)
 
+# ✅ PRICING — /api/pricing per-account SP-API selling-price snapshot
+app.include_router(pricing_router)
+
 print("✅ upload_router mounted")
 print("✅ dashboard_router mounted")
 print("✅ export_router mounted")
@@ -390,6 +394,7 @@ async def warm_data_cache():
         ("csv", Path("data/processed/inbound_snapshot.csv")),
         ("csv", Path("data/processed/inventory_ams_snapshot.csv")),
         ("csv", Path("data/processed/reviews_snapshot.csv")),
+        ("csv", Path("data/processed/price_snapshot.csv")),
         ("csv", Path("data/ams_weekly_data/processed_ads/business_ads_joined.csv")),
         ("csv", Path("data/ams_weekly_data/ams_weekly_fact/ams_weekly_fact_with_category.csv")),
         ("xlsx", Path("data/master/sku_master.xlsx")),

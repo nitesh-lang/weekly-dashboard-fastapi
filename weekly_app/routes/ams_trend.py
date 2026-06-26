@@ -19,11 +19,19 @@ import time
 # AMS Trend's biggest perf cost is rebuilding the 3,700-row × 37-col
 # payload on every filter click — ~750ms warm just for the data prep,
 # plus ~3 MB JSON to ship.  The data only changes once a week, so we
-# memoize the FastAPI Response object keyed on the normalized filter
+# memoize the serialized JSON bytes keyed on the normalized filter
 # tuple.  TTL=300s gives 5 min of repeat-hit speed (effectively the
 # operator's entire session of clicking around) while still flushing
 # fast enough that a mid-session data refresh is reflected.
-_RESPONSE_CACHE: dict[str, tuple[float, "Response"]] = {}
+#
+# We deliberately cache the *bytes*, not the Response object.
+# GZipMiddleware mutates response.raw_headers in place (it shares the
+# header list with its own initial_message), so reusing a Response
+# object across requests leaves it with a stale Content-Encoding: gzip
+# header while self.body is still the uncompressed JSON — the next
+# pass through GZip double-counts and h11 aborts the wire with
+# "Too much data for declared Content-Length".
+_RESPONSE_CACHE: dict[str, tuple[float, bytes]] = {}
 _RESPONSE_CACHE_TTL = 300  # seconds
 
 def _cache_key(prefix: str, *args) -> str:
@@ -39,13 +47,15 @@ def _cache_key(prefix: str, *args) -> str:
     return "|".join(parts)
 
 def _cached_or(key: str, build_fn):
-    """Return cached Response or run build_fn() to fill cache."""
+    """Return a fresh Response wrapping cached JSON bytes, or run
+    build_fn() to fill cache.  build_fn() must return a Response whose
+    .body is the JSON payload bytes (strict_json_response does)."""
     now = time.time()
     hit = _RESPONSE_CACHE.get(key)
     if hit and (now - hit[0]) < _RESPONSE_CACHE_TTL:
-        return hit[1]
+        return Response(content=hit[1], media_type="application/json")
     resp = build_fn()
-    _RESPONSE_CACHE[key] = (now, resp)
+    _RESPONSE_CACHE[key] = (now, resp.body)
     # Bound the cache size — 64 entries is plenty for the AMS Trend
     # filter combinatorics an operator actually clicks through.
     if len(_RESPONSE_CACHE) > 64:

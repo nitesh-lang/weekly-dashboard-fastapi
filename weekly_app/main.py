@@ -28,7 +28,6 @@ from weekly_app.routes.ams_planning import router as ams_planning_router
 from weekly_app.routes.returns import router as returns_router
 from weekly_app.routes.returns_overview import router as returns_overview_router
 from fastapi.responses import HTMLResponse
-from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from weekly_app.middleware.auth_guard import AuthGuardMiddleware
 
@@ -93,15 +92,38 @@ from starlette.middleware.gzip import GZipMiddleware
 # browser / Render's CDN never re-fetches them.  Hashes change on every
 # rebuild so cache invalidation is automatic.  SPA shell stays no-cache so
 # the operator always gets the latest references.
-class CacheHeadersMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        resp = await call_next(request)
-        path = request.url.path
-        if path.startswith("/static/spa/assets/"):
-            resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
-        elif path == "/static/spa/index.html":
-            resp.headers["Cache-Control"] = "no-cache, must-revalidate"
-        return resp
+#
+# Pure ASGI (not BaseHTTPMiddleware).  BaseHTTPMiddleware re-streams the
+# response through an internal _StreamingResponse that desyncs with
+# GZipMiddleware's Content-Length on large JSON payloads, producing
+# "h11 Too much data for declared Content-Length" on /api/ams/trend.
+class CacheHeadersMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+        path = scope.get("path", "")
+
+        async def send_wrapper(message):
+            if message["type"] == "http.response.start":
+                cache_value = None
+                if path.startswith("/static/spa/assets/"):
+                    cache_value = b"public, max-age=31536000, immutable"
+                elif path == "/static/spa/index.html":
+                    cache_value = b"no-cache, must-revalidate"
+                if cache_value:
+                    headers = [
+                        (k, v) for (k, v) in message.get("headers", [])
+                        if k.lower() != b"cache-control"
+                    ]
+                    headers.append((b"cache-control", cache_value))
+                    message["headers"] = headers
+            await send(message)
+
+        await self.app(scope, receive, send_wrapper)
 
 
 # Compress JSON / HTML responses ≥ 1KB.  No-op for pre-compressed bytes

@@ -13,8 +13,6 @@ via the same 401 path as APIs, then the user lands on the SPA login.
 from urllib.parse import quote
 
 from fastapi.responses import RedirectResponse, JSONResponse
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.requests import Request
 
 PUBLIC_PATHS = {
     "/login",
@@ -48,15 +46,31 @@ JINJA_GUARDED_PREFIXES = (
 )
 
 
-class AuthGuardMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        path = request.url.path
+# Pure ASGI middleware (not BaseHTTPMiddleware).  Starlette's BaseHTTPMiddleware
+# re-streams response bodies through an internal _StreamingResponse, which
+# desyncs with GZipMiddleware's Content-Length on large JSON payloads —
+# h11 then aborts the response with "Too much data for declared Content-Length".
+# The pure-ASGI form passes through send() calls verbatim and sidesteps the bug.
+class AuthGuardMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        path = scope.get("path", "")
 
         if path in PUBLIC_PATHS or any(path.startswith(p) for p in PUBLIC_PREFIXES):
-            return await call_next(request)
+            await self.app(scope, receive, send)
+            return
 
-        if request.session.get("user_email"):
-            return await call_next(request)
+        # SessionMiddleware mounts the session dict on scope["session"].
+        session = scope.get("session") or {}
+        if session.get("user_email"):
+            await self.app(scope, receive, send)
+            return
 
         # Unauthenticated.  Three buckets:
         #   1. /api/*  → 401 JSON so fetch() callers can react.
@@ -64,13 +78,20 @@ class AuthGuardMiddleware(BaseHTTPMiddleware):
         #   3. anything else → pass through so the SPA shell can load;
         #      React calls /api/me on mount and routes to /login itself.
         if path.startswith("/api/"):
-            return JSONResponse({"error": "unauthorized"}, status_code=401)
+            response = JSONResponse({"error": "unauthorized"}, status_code=401)
+            await response(scope, receive, send)
+            return
 
         if any(path.startswith(p) for p in JINJA_GUARDED_PREFIXES):
             next_url = path
-            if request.url.query:
-                next_url += "?" + request.url.query
-            return RedirectResponse(f"/login?next={quote(next_url, safe='')}", status_code=303)
+            query = scope.get("query_string", b"")
+            if query:
+                next_url += "?" + query.decode("latin-1")
+            response = RedirectResponse(
+                f"/login?next={quote(next_url, safe='')}", status_code=303
+            )
+            await response(scope, receive, send)
+            return
 
         # SPA route — let the React app load and handle auth client-side.
-        return await call_next(request)
+        await self.app(scope, receive, send)

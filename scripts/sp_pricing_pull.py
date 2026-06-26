@@ -144,11 +144,14 @@ def fetch_account_listings(account: str, asins: list[str]) -> dict[str, float]:
     # Batch of 20 ASINs per call.
     for i in range(0, len(asins), 20):
         chunk = asins[i:i + 20]
+        # `Asins` must be sent as repeated query params per the SP-API
+        # OpenAPI spec — passing a list to requests serialises that way.
+        # `CustomerType` is for getItemOffers; getPricing uses `OfferType`.
         params = {
             "MarketplaceId": IN_MKT,
             "ItemType":      "Asin",
-            "Asins":         ",".join(chunk),
-            "CustomerType":  "Consumer",
+            "Asins":         chunk,
+            "OfferType":     "B2C",
             "ItemCondition": "New",
         }
         try:

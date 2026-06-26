@@ -171,18 +171,35 @@ def _model_totals_for_week(df: pd.DataFrame, wk: int) -> pd.DataFrame:
     w = df[df["week"] == wk].copy()
     if w.empty:
         return pd.DataFrame()
-    g = (w.groupby("Model", as_index=False)
-           .agg(spend=("ad_spend", "sum"),
-                attr_sales=("attributed_sales", "sum"),
-                gmv=("gmv", "sum"),
-                clicks=("clicks", "sum"),
-                impressions=("impressions", "sum"),
-                orders=("ams_orders", "sum"),
-                units=("units", "sum")))
+    # `brand` carried through with `first` — Model→Brand is 1:1 in the
+    # master, so this just gives us the brand to prefix in callout labels.
+    agg_kwargs = dict(
+        spend=("ad_spend", "sum"),
+        attr_sales=("attributed_sales", "sum"),
+        gmv=("gmv", "sum"),
+        clicks=("clicks", "sum"),
+        impressions=("impressions", "sum"),
+        orders=("ams_orders", "sum"),
+        units=("units", "sum"),
+    )
+    if "brand" in w.columns:
+        agg_kwargs["brand"] = ("brand", "first")
+    g = w.groupby("Model", as_index=False).agg(**agg_kwargs)
     g["acos"] = np.where(g["attr_sales"] > 0, g["spend"] / g["attr_sales"],     np.nan)
     g["roas"] = np.where(g["spend"] > 0,      g["attr_sales"] / g["spend"],     np.nan)
     g["cpc"]  = np.where(g["clicks"] > 0,     g["spend"] / g["clicks"],         np.nan)
     return g
+
+
+def _label(row) -> str:
+    """`Brand / MODEL` callout label.  Brand is stored lowercase in the
+    loader; title-case it for display.  Falls back to Model alone when
+    brand is missing or unknown."""
+    model = str(row.get("Model", "")).strip()
+    brand = str(row.get("brand", "")).strip()
+    if brand and brand.lower() not in ("nan", "none", "unknown", ""):
+        return f"{brand.title()} / {model}"
+    return model
 
 
 # ---------------------------------------------------------------------
@@ -352,7 +369,7 @@ def _build_movers(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
     if top_share_spend >= SPEND_CONCENTRATION_FLAG:
         gap_pp = (top_share_spend - top_share_sales) * 100
         kind = "warning" if gap_pp > 5 else "neutral"
-        text = (f"Model **{top['Model']}** consumed {top_share_spend*100:.0f}% of W{latest_wk} ad spend "
+        text = (f"Model **{_label(top)}** consumed {top_share_spend*100:.0f}% of W{latest_wk} ad spend "
                 f"({_inr(top['spend'])}) but produced {top_share_sales*100:.0f}% of attributed sales "
                 f"({_inr(top['attr_sales'])})"
                 + (f" — {gap_pp:+.0f}pp efficiency drag, this single model is the primary lever."
@@ -364,9 +381,9 @@ def _build_movers(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
     median_roas = mdl["roas"].dropna().median() if not mdl["roas"].dropna().empty else None
     if median_roas is not None and median_roas > 0:
         winners = mdl[(mdl["roas"] >= 2 * median_roas) & (mdl["spend"] >= 5000)].copy()
-        winners = winners.sort_values("attr_sales", ascending=False).head(2)
+        winners = winners.sort_values("attr_sales", ascending=False).head(4)
         for _, w in winners.iterrows():
-            text = (f"Top performer: **{w['Model']}** "
+            text = (f"Top performer: **{_label(w)}** "
                     f"— ROAS {w['roas']:.2f}x on {_inr(w['spend'])} spend "
                     f"(vs brand median {median_roas:.2f}x). "
                     f"Room to push bids 10-15% before efficiency degrades.")
@@ -376,13 +393,13 @@ def _build_movers(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
     # Drainers — ROAS <2 on ≥₹10k spend, OR ≥₹5k spend with zero attributed sales
     drainers = mdl[((mdl["roas"] < ROAS_CRITICAL) & (mdl["spend"] >= 10000))
                    | ((mdl["attr_sales"] == 0) & (mdl["spend"] >= 5000))].copy()
-    drainers = drainers.sort_values("spend", ascending=False).head(2)
+    drainers = drainers.sort_values("spend", ascending=False).head(4)
     for _, d in drainers.iterrows():
         if d["attr_sales"] == 0:
-            text = (f"Drainer: **{d['Model']}** spent {_inr(d['spend'])} with "
+            text = (f"Drainer: **{_label(d)}** spent {_inr(d['spend'])} with "
                     f"ZERO attributed sales — pause or rewrite ad copy/targeting immediately.")
         else:
-            text = (f"Drainer: **{d['Model']}** — ROAS {d['roas']:.2f}x "
+            text = (f"Drainer: **{_label(d)}** — ROAS {d['roas']:.2f}x "
                     f"({_inr(d['spend'])} spent, {_inr(d['attr_sales'])} sales). "
                     f"Cut bids 20% or move budget to higher-ROAS models.")
         out.append({"kind": "negative", "text": text, "metric": "roas",
@@ -406,14 +423,19 @@ def _build_anomalies(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
         return []
     out: list[dict] = []
 
+    # After merge(suffixes=("_cur", "_prv")) the brand lives in brand_cur
+    # — _label() just reads .get("brand", ...), so synthesise that.
+    def _row_with_brand(r):
+        return {"Model": r["Model"], "brand": r.get("brand_cur") or r.get("brand_prv")}
+
     # Models where CPC jumped >50% AND spend was material in both weeks
     j["cpc_d"] = (j["cpc_cur"] - j["cpc_prv"]) / j["cpc_prv"].replace(0, np.nan)
     spikes = j[(j["cpc_d"].abs() >= DELTA_HUGE_PCT)
                & (j["spend_cur"] >= 3000)
                & (j["spend_prv"] >= 3000)].copy()
-    spikes = spikes.sort_values("spend_cur", ascending=False).head(2)
+    spikes = spikes.sort_values("spend_cur", ascending=False).head(4)
     for _, s in spikes.iterrows():
-        text = (f"CPC anomaly on **{s['Model']}**: "
+        text = (f"CPC anomaly on **{_label(_row_with_brand(s))}**: "
                 f"{_inr(s['cpc_prv'])} → {_inr(s['cpc_cur'])} ({_pct(s['cpc_d'])} WoW). "
                 f"Investigate before it propagates to the rest of the campaign group.")
         out.append({"kind": "warning", "text": text, "metric": "cpc",
@@ -423,9 +445,9 @@ def _build_anomalies(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
     j["spend_d"] = (j["spend_cur"] - j["spend_prv"]) / j["spend_prv"].replace(0, np.nan)
     j["sales_d"] = (j["attr_sales_cur"] - j["attr_sales_prv"]) / j["attr_sales_prv"].replace(0, np.nan)
     waste = j[(j["spend_d"] >= 0.5) & (j["sales_d"].fillna(0) <= 0.1)
-              & (j["spend_cur"] >= 5000)].head(1)
+              & (j["spend_cur"] >= 5000)].head(2)
     for _, w in waste.iterrows():
-        text = (f"Diminishing returns on **{w['Model']}**: spend {_pct(w['spend_d'])} WoW "
+        text = (f"Diminishing returns on **{_label(_row_with_brand(w))}**: spend {_pct(w['spend_d'])} WoW "
                 f"({_inr(w['spend_prv'])} → {_inr(w['spend_cur'])}) but attributed sales "
                 f"only {_pct(w['sales_d'])}. You've passed the elastic point on this model.")
         out.append({"kind": "negative", "text": text, "metric": "spend",
@@ -444,11 +466,15 @@ def _build_inventory(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
     if w.empty or "inventory_total_amazon" not in w.columns:
         return out
 
-    mdl = (w.groupby("Model", as_index=False)
-             .agg(spend=("ad_spend", "sum"),
-                  attr_sales=("attributed_sales", "sum"),
-                  units=("units", "sum"),
-                  inv=("inventory_total_amazon", "sum")))
+    inv_agg = dict(
+        spend=("ad_spend", "sum"),
+        attr_sales=("attributed_sales", "sum"),
+        units=("units", "sum"),
+        inv=("inventory_total_amazon", "sum"),
+    )
+    if "brand" in w.columns:
+        inv_agg["brand"] = ("brand", "first")
+    mdl = w.groupby("Model", as_index=False).agg(**inv_agg)
     mdl["roas"] = np.where(mdl["spend"] > 0, mdl["attr_sales"] / mdl["spend"], np.nan)
     # Days of cover = inventory / (units sold this week / 7)
     mdl["days_cover"] = np.where(mdl["units"] > 0,
@@ -459,9 +485,9 @@ def _build_inventory(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
     risky = mdl[(mdl["roas"] >= ROAS_HEALTHY_MIN)
                 & (mdl["days_cover"].between(0, 14))
                 & (mdl["spend"] >= 3000)].copy()
-    risky = risky.sort_values("attr_sales", ascending=False).head(2)
+    risky = risky.sort_values("attr_sales", ascending=False).head(3)
     for _, r in risky.iterrows():
-        text = (f"**{r['Model']}** is converting well (ROAS {r['roas']:.2f}x) "
+        text = (f"**{_label(r)}** is converting well (ROAS {r['roas']:.2f}x) "
                 f"but only **{r['days_cover']:.0f} days of cover** ({int(r['inv'])} units). "
                 f"Either inbound stock fast or throttle bids to avoid driving "
                 f"traffic to an OOS listing in 2 weeks.")
@@ -470,9 +496,9 @@ def _build_inventory(df: pd.DataFrame, weekly: pd.DataFrame) -> list[dict]:
 
     # OOS but still spending
     oos = mdl[(mdl["inv"] == 0) & (mdl["spend"] >= 1000)].copy()
-    oos = oos.sort_values("spend", ascending=False).head(1)
+    oos = oos.sort_values("spend", ascending=False).head(3)
     for _, o in oos.iterrows():
-        text = (f"**{o['Model']}** is at ZERO Amazon-side inventory but "
+        text = (f"**{_label(o)}** is at ZERO Amazon-side inventory but "
                 f"still spending {_inr(o['spend'])} on ads. Pause campaigns now — "
                 f"every click is wasted spend.")
         out.append({"kind": "negative", "text": text, "metric": "spend",

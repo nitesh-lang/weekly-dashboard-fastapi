@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { ExportButtons } from "@/components/ExportButtons";
 import { TrendingUp, TrendingDown, Minus, Download, LineChart, Copy, Check, ChevronDown, ChevronUp } from "lucide-react";
 import { TrendChart } from "@/components/TrendChart";
+import { SalesInsightsPanel } from "@/components/SalesInsightsPanel";
 
 interface TrendRow {
     model: string;
@@ -64,6 +65,18 @@ export default function SalesTrend() {
     const qs = new URLSearchParams();
     selectedBrands.forEach((b) => qs.append("brands", b));
     selectedWeeks.forEach((w) => qs.append("sel_weeks", w));
+
+    // Insights endpoint also accepts model + asin so the read can scope
+    // to a specific picker selection.  Kept separate from `qs` so the
+    // table query (and its picker enumeration) stays portfolio-wide.
+    const insightsQs = useMemo(() => {
+        const u = new URLSearchParams();
+        selectedBrands.forEach((b) => u.append("brands", b));
+        selectedWeeks.forEach((w) => u.append("sel_weeks", w));
+        selModels.forEach((m) => u.append("model", m));
+        selAsins.forEach((a) => u.append("asin", a));
+        return u.toString();
+    }, [selectedBrands, selectedWeeks, selModels, selAsins]);
 
     const { data, isLoading, error } = useQuery<SalesTrendData>({
         queryKey: ["sales-trend", qs.toString()],
@@ -253,6 +266,10 @@ export default function SalesTrend() {
                             </div>
                         </Card>
                     )}
+                    {/* Facts-only weekly read — backed by /api/sales-trend/insights.
+                        Same picker contract as the table; narrows when a Model or
+                        ASIN is selected. */}
+                    <SalesInsightsPanel qs={insightsQs} />
                     <div className="flex items-center justify-end">
                         <Button variant="ghost" size="sm" onClick={() => setShowOverview((s) => !s)}>
                             {showOverview

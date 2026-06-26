@@ -443,6 +443,66 @@ def sales_trend_rows_api(
         return JSONResponse({"rows":[],"total":0,"page":page,"has_more":False})
 
 
+# ── JSON API: Sales Trend insights — facts-only weekly read ──
+# Same filter contract as /api/sales-trend so the SPA can call both in
+# parallel on every filter change.  Model + ASIN accept repeated query
+# params so the panel can scope to a specific picker selection.
+@router.get("/api/sales-trend/insights")
+def sales_trend_insights(
+    brand: str = "All",
+    brands: List[str] = Query(default=[]),
+    sel_weeks: Optional[List[str]] = Query(default=None),
+    model: Optional[List[str]] = Query(default=None),
+    asin: Optional[List[str]] = Query(default=None),
+):
+    from fastapi.responses import JSONResponse
+    from weekly_app.core.sales_insights import build_sales_insights
+
+    sales = load_sales()
+
+    eff_brands_lower = [b.strip().lower() for b in (brands or [])
+                        if b and b.strip().lower() != "all"]
+    if not eff_brands_lower and brand and brand != "All":
+        eff_brands_lower = [brand.strip().lower()]
+    if eff_brands_lower:
+        sales = sales[sales["brand"].isin(eff_brands_lower)]
+
+    if model:
+        models_up = [str(m).strip().upper() for m in model if m]
+        if models_up:
+            sales = sales[sales["model"].isin(models_up)]
+
+    # ASIN → model translation via master (sales rows don't carry asin).
+    if asin:
+        asin_set = {a.strip() for a in asin if a}
+        if asin_set:
+            asin_by_model = load_asin_by_model()
+            models_for_asin = {
+                m for m, joined in asin_by_model.items()
+                if any(a.strip() in asin_set for a in joined.split(",") if a.strip())
+            }
+            sales = sales[sales["model"].isin(models_for_asin)]
+
+    # Resolve the week window using the same logic the table uses.
+    weeks_df = (sales[["week", "week_num"]].dropna().drop_duplicates()
+                                            .sort_values("week_num"))
+    if sel_weeks:
+        weeks_df = weeks_df[weeks_df["week"].isin(sel_weeks)]
+    else:
+        weeks_df = weeks_df.tail(12)
+    selected_week_nums = weeks_df["week_num"].astype(int).tolist()
+    if selected_week_nums:
+        sales = sales[sales["week_num"].isin(selected_week_nums)]
+
+    # Inventory at the latest selected week — keys already (brand, MODEL_UPPER).
+    inv_by_model = load_inventory(max(selected_week_nums)) if selected_week_nums else {}
+
+    insights = build_sales_insights(sales,
+                                    selected_weeks=selected_week_nums,
+                                    inventory_by_model=inv_by_model)
+    return JSONResponse(insights)
+
+
 # JSON alias for the React frontend.
 from fastapi.responses import JSONResponse as _JR
 router.add_api_route("/api/sales-trend", sales_trend, methods=["GET"], response_class=_JR)

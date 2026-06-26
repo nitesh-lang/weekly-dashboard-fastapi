@@ -539,8 +539,11 @@ def get_ams_insights(
     category_l0: Optional[str] = Query(None),
     category_l1: Optional[str] = Query(None),
     category_l2: Optional[str] = Query(None),
-    model: Optional[str] = Query(None),
-    asin: Optional[str] = Query(None),
+    # model + asin accept repeated values (?model=A&model=B) so the
+    # operator can scope the Performance read to a specific Model /
+    # ASIN selection from the AMS Trend pickers.
+    model: Optional[list[str]] = Query(default=None),
+    asin: Optional[list[str]] = Query(default=None),
     brand: Optional[list[str]] = Query(default=None),
 ):
     cache_key = _cache_key("insights", week, weeks, sel_weeks, category_l0,
@@ -611,9 +614,9 @@ def _build_insights_response(
         used = []
 
     if asin:
-        df = df[df["asin"] == asin]
+        df = df[df["asin"].isin(asin)]
     if model:
-        df = df[df["Model"] == model]
+        df = df[df["Model"].isin(model)]
     if category_l0 and category_l0.lower() != "all":
         df = df[df["category_l0"] == category_l0.strip().lower()]
     if category_l1 and category_l1 != "All":

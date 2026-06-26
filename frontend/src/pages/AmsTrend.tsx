@@ -207,6 +207,19 @@ export default function AmsTrend() {
         return parts.join("&");
     }, [selWeeks, selBrands]);
 
+    // Insights endpoint also accepts Model + ASIN filters so the
+    // Performance read can answer for a specific item / week slice.
+    // We keep these OUT of apiQs above so the /trend response (and
+    // the pickers it populates) stays portfolio-wide.
+    const insightsQs = useMemo(() => {
+        const parts: string[] = [];
+        selWeeks.forEach((w) => parts.push(`sel_weeks=${encodeURIComponent(w)}`));
+        selBrands.forEach((b) => parts.push(`brand=${encodeURIComponent(b)}`));
+        selModels.forEach((m) => parts.push(`model=${encodeURIComponent(m)}`));
+        selAsins.forEach((a) => parts.push(`asin=${encodeURIComponent(a)}`));
+        return parts.join("&");
+    }, [selWeeks, selBrands, selModels, selAsins]);
+
     const { data, isLoading, error } = useQuery<AmsData>({
         queryKey: ["ams-trend", apiQs],
         queryFn: () => api.get(`/api/ams/trend${apiQs ? `?${apiQs}` : ""}`),
@@ -421,8 +434,10 @@ export default function AmsTrend() {
                         <MiniKpi label="TACOS"            value={filteredKpis.tacos != null ? (filteredKpis.tacos * 100).toFixed(1) + "%" : "—"}        accent="#a16207" />
                     </div>
 
-                    {/* Senior-PPC insight panel — reads the same slice the KPIs + table show */}
-                    <AmsInsightsPanel qs={apiQs} />
+                    {/* Senior-PPC insight panel — receives an extended qs
+                        that also carries Model + ASIN picker selections so
+                        the read scopes to a specific item when chosen. */}
+                    <AmsInsightsPanel qs={insightsQs} />
 
                     <div className="flex items-center justify-end">
                         <Button variant="ghost" size="sm" onClick={() => setShowOverview((s) => !s)}>

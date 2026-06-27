@@ -20,6 +20,7 @@ interface PriceRow {
     sku: string;
     brand: string;
     model: string;
+    amazon_1p_price: number | null;
     buybox_price: number | null;
     buybox_seller_id: string | null;
     buybox_belongs_to_us: boolean;
@@ -185,7 +186,8 @@ export default function Price() {
                                     <ExportButtons
                                         rows={sorted as any}
                                         columns={["asin", "sku", "brand", "model",
-                                            ...accounts, "buybox_price", "buybox_seller_id", "buybox_belongs_to_us", "currency"]}
+                                            ...accounts, "amazon_1p_price",
+                                            "buybox_price", "buybox_seller_id", "buybox_belongs_to_us", "currency"]}
                                         filename="price-snapshot.xlsx"
                                     />
                                 </>
@@ -206,7 +208,8 @@ export default function Price() {
                                                 className="col-sales"
                                             />
                                         ))}
-                                        <SortableTh sortKey="buybox_price"     label="Buy Box ₹"    sort={sort} onSort={onSort} align="right" className="col-summary col-divide-l" />
+                                        <SortableTh sortKey="amazon_1p_price"  label="Amazon 1P ₹"  sort={sort} onSort={onSort} align="right" className="col-summary col-divide-l" />
+                                        <SortableTh sortKey="buybox_price"     label="Buy Box ₹"    sort={sort} onSort={onSort} align="right" className="col-summary" />
                                         <SortableTh sortKey="buybox_seller_id" label="Buy Box Seller" sort={sort} onSort={onSort} align="left" />
                                     </tr>
                                 </thead>
@@ -223,6 +226,9 @@ export default function Price() {
                                                 </td>
                                             ))}
                                             <td className="px-3 py-2 text-right tabular whitespace-nowrap border-b col-summary col-divide-l group-hover:bg-accent/40">
+                                                {fmtMoney(r.amazon_1p_price, r.currency)}
+                                            </td>
+                                            <td className="px-3 py-2 text-right tabular whitespace-nowrap border-b col-summary group-hover:bg-accent/40">
                                                 {fmtMoney(r.buybox_price, r.currency)}
                                             </td>
                                             <td className="px-3 py-2 whitespace-nowrap border-b group-hover:bg-accent/40">

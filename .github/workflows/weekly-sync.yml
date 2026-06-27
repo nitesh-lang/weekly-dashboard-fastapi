@@ -166,20 +166,16 @@ jobs:
           SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY:    ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_AUDIOARRAY }}
           SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY: ${{ secrets.SP_API_VENDOR_REFRESH_TOKEN_WHITEMULBERRY }}
 
-      # SP-API Pricing pull — per-account listed Consumer SP + buy-box
-      # for every non-Fossil ASIN in sku_master.  Fast for the per-
-      # account getPricing pass (~15s), slow for the buy-box pass
-      # (~5 min at the 0.1 r/s itemOffersBatch budget).  `|| true` so
-      # a missing token for one account doesn't sink the whole run.
-      - name: SP-API Pricing pull (4 accounts, listed + buy-box)
-        run: python scripts/sp_pricing_pull.py || true
+      # Keepa pricing pull — per-account 3P + Amazon 1P consumer prices
+      # for every non-Fossil ASIN in sku_master.  Single API key
+      # (KEEPA_API_KEY), no per-account consent dance.  ~3 tokens per
+      # ASIN with offers=20 + stats=1 → ~1.6k tokens for a full sweep.
+      # Runs in lieu of sp_pricing_pull while the SP-API Pricing role
+      # consent is being resolved on the AdPilot Production app.
+      - name: Keepa pricing pull (Amazon 1P + per-account 3P)
+        run: python scripts/keepa_pricing_pull.py || true
         env:
-          SP_LWA_CLIENT_ID:                 ${{ secrets.SP_LWA_CLIENT_ID }}
-          SP_LWA_CLIENT_SECRET:             ${{ secrets.SP_LWA_CLIENT_SECRET }}
-          SP_REFRESH_TOKEN_AUDIOARRAY:      ${{ secrets.SP_REFRESH_TOKEN_AUDIOARRAY }}
-          SP_REFRESH_TOKEN_NEXLEV:          ${{ secrets.SP_REFRESH_TOKEN_NEXLEV }}
-          SP_REFRESH_TOKEN_VIOMI:           ${{ secrets.SP_REFRESH_TOKEN_VIOMI }}
-          SP_REFRESH_TOKEN_WHITEMULBERRY:   ${{ secrets.SP_REFRESH_TOKEN_WHITEMULBERRY }}
+          KEEPA_API_KEY: ${{ secrets.KEEPA_API_KEY }}
 
       # SP-API 3P Seller Sales — Detail Page Sales and Traffic By Child
       # Item across all 5 seller accounts.  Merges, GST-adjusts

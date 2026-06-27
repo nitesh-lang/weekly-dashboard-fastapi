@@ -95,10 +95,11 @@ def get_pricing():
             df[col] = pd.to_numeric(df[col], errors="coerce")
         else:
             df[col] = pd.NA
-    if "buybox_price" in df.columns:
-        df["buybox_price"] = pd.to_numeric(df["buybox_price"], errors="coerce")
-    else:
-        df["buybox_price"] = pd.NA
+    for col in ("buybox_price", "amazon_1p_price"):
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+        else:
+            df[col] = pd.NA
 
     fetched_at = ""
     if "fetched_at" in df.columns and not df["fetched_at"].empty:
@@ -112,6 +113,7 @@ def get_pricing():
             "sku":   _safe(r.get("sku")),
             "brand": _safe(r.get("brand")),
             "model": _safe(r.get("model")),
+            "amazon_1p_price":      _safe(r.get("amazon_1p_price")),
             "buybox_price":         _safe(r.get("buybox_price")),
             "buybox_seller_id":     _safe(r.get("buybox_seller_id")),
             "buybox_belongs_to_us": bool(r.get("buybox_belongs_to_us")) if pd.notna(r.get("buybox_belongs_to_us")) else False,

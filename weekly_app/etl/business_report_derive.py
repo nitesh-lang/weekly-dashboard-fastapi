@@ -111,6 +111,22 @@ def load_amazon_3p(path: Path) -> pd.DataFrame:
         return pd.DataFrame(columns=LEGACY_COLS + ["_asin_key"])
     df = pd.read_excel(path)
     df.columns = df.columns.str.strip()
+    # Schema bridge — SP-API Seller Sales emits title-case Amazon report
+    # column names ("Units Ordered", "Ordered Product Sales", "Sessions"...)
+    # while amazon_sales.xlsx (operator's Brand Analytics download) emits
+    # snake_case ("units_ordered", "ordered_product_sales", "Sessions - Total"...).
+    # LEGACY_COLS is the snake_case set; rename the SP-API headers in
+    # place so downstream LEGACY_COLS slicing actually picks up the data.
+    # Without this, 3P units/sales from SP-API silently become 0 in
+    # business_report_weekN.xlsx (W26 lost ₹21 L Nexlev + ₹6 L WM + 18u Tonor 3P
+    # this way until caught by the cross-route reconciliation).
+    sp_api_renames = {
+        "Units Ordered":         "units_ordered",
+        "Ordered Product Sales": "ordered_product_sales",
+        "Sessions":              "Sessions - Total",
+        "Page Views":            "Page Views - Total",
+    }
+    df = df.rename(columns={k: v for k, v in sp_api_renames.items() if k in df.columns})
     # Add columns the legacy schema expects but the raw export might omit
     for c in LEGACY_COLS:
         if c not in df.columns:

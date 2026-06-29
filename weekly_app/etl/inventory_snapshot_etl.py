@@ -54,14 +54,38 @@ for brand_dir in RAW_INVENTORY_DIR.iterdir():
         continue
 
     inv_file = brand_dir / "Inventory Snapshot.xlsx"
-    if not inv_file.exists():
-        print(f"⚠️ Missing inventory file for brand: {brand_dir.name}")
-        continue
+    if inv_file.exists():
+        temp = pd.read_excel(inv_file)
+        temp.columns = temp.columns.str.lower().str.strip()
+        temp["brand"] = brand_dir.name
+        frames.append(temp)
+    else:
+        print(f"⚠️ Missing operator Inventory Snapshot.xlsx for brand: {brand_dir.name}")
 
-    temp = pd.read_excel(inv_file)
-    temp.columns = temp.columns.str.lower().str.strip()
-    temp["brand"] = brand_dir.name
-    frames.append(temp)
+    # Defensive supplement: ALSO read Seller FBA Inventory (SP-API).xlsx
+    # when present.  Without this, if the operator drops the manual
+    # Inventory Snapshot but it doesn't have Amazon-channel rows (the
+    # operator may rely on the SP-API auto-pull instead), Amazon FBA
+    # stock disappears from inventory_ams_snapshot.csv.  The same gap
+    # already bit inventory_model_snapshot.py for W26 — pre-empting
+    # the same hit here.
+    fba_file = brand_dir / "Seller FBA Inventory (SP-API).xlsx"
+    if fba_file.exists():
+        try:
+            fba = pd.read_excel(fba_file)
+        except Exception:
+            fba = None
+        if fba is not None and not fba.empty:
+            fba.columns = fba.columns.str.lower().str.strip()
+            if "inventory" in fba.columns and "model" in fba.columns:
+                fba["qty"]     = pd.to_numeric(fba["inventory"], errors="coerce").fillna(0)
+                fba["channel"] = "AMAZON"
+                if "type" not in fba.columns:
+                    fba["type"] = "FBA"
+                if "week" not in fba.columns and "Week" in pd.read_excel(fba_file, nrows=0).columns:
+                    fba["week"] = pd.read_excel(fba_file)["Week"]
+                fba["brand"] = brand_dir.name
+                frames.append(fba)
 
 if not frames:
     raise RuntimeError("No inventory files found for any brand")

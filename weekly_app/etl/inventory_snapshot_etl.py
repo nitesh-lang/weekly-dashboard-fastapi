@@ -70,6 +70,52 @@ df = pd.concat(frames, ignore_index=True)
 print("RAW INVENTORY ROWS (ALL BRANDS):", len(df))
 
 # =========================================================
+# BACKFILL MODEL + CATEGORIES FROM sku_master (ASIN-keyed)
+# =========================================================
+# Operator's Inventory Snapshot.xlsx ships with SKU + ASIN + Brand +
+# Qty + Channel populated, but Model + category_l0/l1/l2 are routinely
+# blank — they're expected to come from sku_master.  Without this
+# backfill the groupby below collapses everything into a single
+# "Model=NAN" row and inventory_amazon ends up 0 portfolio-wide
+# (audit check 3 fires).
+if "asin" in df.columns:
+    sku_master_file = BASE_DIR / "data" / "master" / "sku_master.xlsx"
+    if sku_master_file.exists():
+        _m = pd.read_excel(sku_master_file)
+        _m.columns = _m.columns.str.strip()
+        _need = ["ASIN", "Model", "category_l0", "category_l1", "category_l2"]
+        _m = _m[[c for c in _need if c in _m.columns]].copy()
+        rename = {"ASIN": "asin", "Model": "_m_model",
+                  "category_l0": "_m_cl0", "category_l1": "_m_cl1", "category_l2": "_m_cl2"}
+        _m = _m.rename(columns={k: v for k, v in rename.items() if k in _m.columns})
+        _m["asin"] = _m["asin"].astype(str).str.strip()
+        if "_m_model" in _m.columns:
+            _m["_m_model"] = _m["_m_model"].astype(str).str.strip().str.upper()
+        _m = _m.drop_duplicates(subset=["asin"])
+        df["asin"] = df["asin"].astype(str).str.strip()
+        df = df.merge(_m, on="asin", how="left")
+        # Fill Model where blank ("nan"/"none"/empty)
+        if "_m_model" in df.columns and "model" in df.columns:
+            _blank = (df["model"].isna()
+                      | df["model"].astype(str).str.strip().str.lower().isin(["", "nan", "none"]))
+            df.loc[_blank, "model"] = df.loc[_blank, "_m_model"]
+        # Fill categories where blank — adds the column if absent
+        for raw_col, m_col in [("category_l0", "_m_cl0"),
+                                ("category_l1", "_m_cl1"),
+                                ("category_l2", "_m_cl2")]:
+            if m_col not in df.columns:
+                continue
+            if raw_col not in df.columns:
+                df[raw_col] = df[m_col]
+            else:
+                _blank = (df[raw_col].isna()
+                          | df[raw_col].astype(str).str.strip().str.lower().isin(["", "nan", "none"]))
+                df.loc[_blank, raw_col] = df.loc[_blank, m_col]
+        # Drop helper columns
+        df = df.drop(columns=[c for c in ["_m_model", "_m_cl0", "_m_cl1", "_m_cl2"]
+                              if c in df.columns])
+
+# =========================================================
 # REQUIRED COLUMN CHECK (SAFE)
 # =========================================================
 
@@ -121,7 +167,12 @@ df["model"] = df["model"].astype(str).str.strip().str.upper()
 before_rows = len(df)
 
 df = df[df["week"].notna()]
-df = df[df["model"].notna() & (df["model"] != "")]
+# Drop rows whose Model is missing/blank OR is the stringified
+# 'NAN'/'NONE' (left over after astype(str) on a NaN cell).  Pre-fix
+# these slipped through and collapsed the groupby into a single
+# Model="NAN" row, zeroing out inventory_amazon for the latest week.
+_m_norm = df["model"].astype(str).str.strip().str.lower()
+df = df[df["model"].notna() & (df["model"] != "") & ~_m_norm.isin(["nan", "none"])]
 
 df["week"] = df["week"].astype("Int64")
 

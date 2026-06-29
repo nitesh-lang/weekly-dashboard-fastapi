@@ -218,6 +218,23 @@ def run_inventory_etl():
 
         df.columns = [c.strip().lower() for c in df.columns]
 
+        # SP-API Seller FBA Inventory files don't carry `channel` or
+        # `qty` — they carry `inventory` (= afn_total − unsellable).
+        # Translate them into the schema the rest of the loop expects
+        # so Amazon FBA stock lands in inventory_model_snapshot.csv
+        # (otherwise inventory_amazon stays 0 portfolio-wide and the
+        # audit's never-zero check fires every week).
+        if file.name == "Seller FBA Inventory (SP-API).xlsx":
+            if "inventory" in df.columns and "model" in df.columns:
+                df["qty"] = pd.to_numeric(df["inventory"], errors="coerce").fillna(0)
+                df["channel"] = "AMAZON"
+                # `type` column is informational downstream; tag explicitly.
+                if "type" not in df.columns:
+                    df["type"] = "FBA"
+                # `week` column matches the per-week ETL grouping.
+                if "week" not in df.columns and "Week" in df.columns:
+                    df["week"] = df["Week"]
+
         if "model" not in df.columns or "qty" not in df.columns:
             continue
 

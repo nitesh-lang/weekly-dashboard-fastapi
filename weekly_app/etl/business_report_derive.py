@@ -217,11 +217,23 @@ def load_amazon_1p_sp_api(path: Path) -> pd.DataFrame:
 # ── Combine 3P + 1P into the legacy business_report shape ──────────────
 def derive_business_report(brand_dir: str, week_num: int,
                             asin_meta: dict[str, dict]) -> pd.DataFrame:
-    amazon_path = RAW_SALES / f"Week {week_num}" / brand_dir / "amazon_sales.xlsx"
-    other_path  = RAW_SALES / f"Week {week_num}" / brand_dir / "other_channels.xlsx"
-    sp_api_path = RAW_SALES / f"Week {week_num}" / brand_dir / "Vendor Sales (SP-API).xlsx"
+    amazon_path     = RAW_SALES / f"Week {week_num}" / brand_dir / "amazon_sales.xlsx"
+    other_path      = RAW_SALES / f"Week {week_num}" / brand_dir / "other_channels.xlsx"
+    sp_api_path     = RAW_SALES / f"Week {week_num}" / brand_dir / "Vendor Sales (SP-API).xlsx"
+    sp_seller_path  = RAW_SALES / f"Week {week_num}" / brand_dir / "Seller Sales (SP-API).xlsx"
 
-    three = load_amazon_3p(amazon_path)
+    # 3P side: prefer operator's amazon_sales.xlsx; fall back to the
+    # cron-pulled Seller Sales (SP-API).xlsx (same schema by design —
+    # see scripts/sp_seller_sales_pull.OUTPUT_COLS).  Without this
+    # fallback the entire AMS-Trend chain silently loses every brand's
+    # 3P Amazon sales for any week the operator skipped the manual
+    # amazon_sales.xlsx drop (W26 lost ₹76 L across 5 brands).
+    three_source = amazon_path if amazon_path.exists() else (
+        sp_seller_path if sp_seller_path.exists() else amazon_path
+    )
+    if three_source is sp_seller_path:
+        print(f"  📡 SP-API 3P seller sales canonical for {brand_dir} W{week_num}")
+    three = load_amazon_3p(three_source)
 
     # SP-API 1P canonical when present + non-zero; manual 1p Sales sheet
     # otherwise.  Empty SP-API must NOT silently zero out 1P (same

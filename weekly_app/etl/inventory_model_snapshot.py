@@ -235,6 +235,25 @@ def run_inventory_etl():
                 if "week" not in df.columns and "Week" in df.columns:
                     df["week"] = df["Week"]
 
+        # Bundle SKUs (e.g. "UB-05 (AM-S2+AA-21)") legitimately have no
+        # ASIN — bundles are SKU-level constructs.  Downstream loaders
+        # like ams_trend.load_inventory_snapshot drop blank-ASIN rows
+        # before groupby(asin, Model, week) to avoid NaN-key collisions,
+        # so bundle inventory was silently lost from the AMS Trend
+        # snapshot — while AM_sales_trend (which only groups by Model)
+        # still saw it, producing the cross-route drift audit Check 12
+        # caught.  Synthesise a stable per-SKU ASIN here so both routes
+        # carry the same numbers.
+        if "asin" in df.columns and "sku" in df.columns:
+            _blank_asin = (
+                df["asin"].isna()
+                | df["asin"].astype(str).str.strip().str.lower().isin(["", "nan", "none", "<na>"])
+            )
+            if _blank_asin.any():
+                df.loc[_blank_asin, "asin"] = (
+                    "BUNDLE_" + df.loc[_blank_asin, "sku"].astype(str).str.strip()
+                )
+
         if "model" not in df.columns or "qty" not in df.columns:
             continue
 

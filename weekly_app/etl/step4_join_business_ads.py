@@ -264,7 +264,17 @@ final = final[[c for c in FINAL_COLS if c in final.columns]]
 # and reconcile at the brand level.  Off-master ASINs still
 # surface in raw audit files (_audit/*.csv) for backfill.
 # --------------------------------------------------
+# sku_master has ~20 bundle-SKU rows whose ASIN column is NaN; the
+# .astype(str).upper() pipeline coerces those to "NAN" and they
+# silently enter the allow-list.  Without this exclusion, every
+# upstream NaN-child_asin row (~6.3k mostly Fossil aggregate rows
+# from business_report joins) passes the strict filter, then floods
+# business_ads_joined.csv with un-categorizable ghost rows and
+# audit Check 22 fires on category coverage.
 master_asins = set(sku["child_asin"].astype(str).str.strip().str.upper())
+master_asins.discard("NAN")
+master_asins.discard("NONE")
+master_asins.discard("")
 before = len(final)
 final["_asin_n"] = final["child_asin"].astype(str).str.strip().str.upper()
 filt = final["_asin_n"].isin(master_asins)

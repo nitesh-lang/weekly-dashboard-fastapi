@@ -1,5 +1,5 @@
 # Weekly Brief — Week 25
-*Generated 2026-06-29T05:34:29.101122Z from data through Week 25*
+*Generated 2026-06-29T06:29:51.227533Z from data through Week 25*
 ## This week at a glance
 
 Week 25 closed at **₹83.38L GMV** (+7.3% WoW, +13.2% vs prior 4w) on **3,232 units** (+2.4% WoW). This was a recovery week, led by **Audio Array** at 55% of portfolio GMV.

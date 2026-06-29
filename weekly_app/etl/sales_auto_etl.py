@@ -480,7 +480,20 @@ def process_week(week, sku_master, brand_folder=""):
     # Joining master on ASIN — when child-ASIN matches the primary or a
     # known variation — gives the correct brand/nlc/category.  Variant
     # ASINs not in master come through as UNMAPPED.
+    #
+    # SP-API fallback: when the operator hasn't dropped amazon_sales.xlsx
+    # this week but the cron has produced Seller Sales (SP-API).xlsx with
+    # the same schema (see sp_seller_sales_pull.OUTPUT_COLS), use that
+    # automatically.  Pre-fix the operator had to keep dropping the manual
+    # file every week or every brand's 3P Amazon sales silently dropped
+    # out of weekly_sales_snapshot.csv (W26 lost ₹76L across 5 brands
+    # before this code-path landed).
     amazon_file = week_dir / "amazon_sales.xlsx"
+    sp_seller_file = week_dir / "Seller Sales (SP-API).xlsx"
+    if not amazon_file.exists() and sp_seller_file.exists():
+        print(f"  ℹ Using SP-API Seller Sales for {brand_folder or 'brand'} "
+              f"(amazon_sales.xlsx not dropped this week)")
+        amazon_file = sp_seller_file
     if amazon_file.exists():
         amz = parse_amazon(amazon_file, week)
         if "asin" in amz.columns:

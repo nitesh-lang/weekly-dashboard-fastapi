@@ -752,10 +752,18 @@ def check_raw_vs_snapshot_sales(latest_week: int) -> pd.DataFrame:
             if not brand_dir.is_dir() or brand_dir.name not in folder_to_brand:
                 continue
             brand = folder_to_brand[brand_dir.name]
+            # 3P Amazon source: prefer operator's amazon_sales.xlsx when
+            # present, else fall back to the cron-pulled Seller Sales
+            # (SP-API).xlsx.  Mirror sales_auto_etl's fallback so this
+            # audit doesn't false-flag a "snapshot has extra units"
+            # diff just because the SP-API file is the canonical source
+            # this week.
             amz = brand_dir / "amazon_sales.xlsx"
-            if amz.exists():
+            sp_seller = brand_dir / "Seller Sales (SP-API).xlsx"
+            amazon_source = amz if amz.exists() else (sp_seller if sp_seller.exists() else None)
+            if amazon_source is not None:
                 try:
-                    df = pd.read_excel(amz)
+                    df = pd.read_excel(amazon_source)
                     cols = {c.lower().strip(): c for c in df.columns}
                     u = cols.get("units ordered") or cols.get("units_ordered")
                     if u:
@@ -1472,6 +1480,132 @@ def check_category_coverage() -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_sp_api_ingestion(latest_week: int) -> pd.DataFrame:
+    """Flag when an SP-API auto-pull file has > 0 raw units for the
+    latest week but the corresponding snapshot channel for that
+    brand+week is empty (or < 50% of the raw total).
+
+    Catches the failure mode where the cron successfully writes a new
+    SP-API file to disk + git, but no downstream ETL has been updated
+    to ingest it.  W26 hit this silently for two layers:
+       - Seller Sales (SP-API).xlsx   → snapshot Amazon channel = 0
+       - Seller FBA Inventory (SP-API).xlsx → snapshot Amazon channel = 0
+    Each cost ~₹76 L / 26,615 units of visibility before being caught.
+
+    Pairs checked (raw file → snapshot channel):
+       Seller Sales (SP-API).xlsx        → weekly_sales_snapshot "Amazon"
+       Vendor Sales (SP-API).xlsx        → weekly_sales_snapshot "1p Sales"
+       Seller FBA Inventory (SP-API).xlsx → inventory_model_snapshot "Amazon"
+       Vendor SOH (SP-API).xlsx (1p rows) → inventory_model_snapshot "1P"
+    """
+    out: list[Dict[str, Any]] = []
+    folder_to_brand = {
+        "Audio_Array":    "Audio Array",
+        "Nexlev":         "Nexlev",
+        "Tonor":          "Tonor",
+        "White_Mulberry": "White Mulberry",
+        "Fossil":         "Fossil",
+    }
+
+    sales_snap = None
+    inv_snap   = None
+    if SNAP_SALES.exists():
+        sales_snap = pd.read_csv(SNAP_SALES)
+        sales_snap["wn"] = (
+            sales_snap["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        )
+    if SNAP_INV.exists():
+        inv_snap = pd.read_csv(SNAP_INV)
+        inv_snap["wn"] = (
+            inv_snap["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        )
+
+    sales_dir = ROOT / "data" / "raw" / "sales" / f"Week {latest_week}"
+    inv_dir   = ROOT / "data" / "raw" / "inventory" / f"Week {latest_week}"
+
+    def _flag(layer, brand, raw_file, expected_channel, raw_units, snap_units):
+        out.append({
+            "layer":            layer,
+            "brand":            brand,
+            "raw_file":         raw_file,
+            "expected_channel": expected_channel,
+            "raw_units":        int(raw_units),
+            "snapshot_units":   int(snap_units),
+            "delta":            int(snap_units - raw_units),
+            "note": ("SP-API file has rows but snapshot missed them — "
+                     "ETL ingestion path needs the new source"),
+        })
+
+    def _sum_snap_sales(brand_name: str, channel: str) -> float:
+        if sales_snap is None:
+            return 0.0
+        m = ((sales_snap["wn"] == latest_week)
+             & sales_snap["brand"].astype(str).str.strip().eq(brand_name)
+             & sales_snap["channel"].astype(str).str.strip().str.lower().eq(channel.lower()))
+        return float(pd.to_numeric(sales_snap.loc[m, "units_sold"],
+                                   errors="coerce").fillna(0).sum())
+
+    def _sum_snap_inv(brand_name: str, channel: str) -> float:
+        if inv_snap is None:
+            return 0.0
+        m = ((inv_snap["wn"] == latest_week)
+             & inv_snap["brand"].astype(str).str.strip().str.lower().eq(brand_name.lower())
+             & inv_snap["channel"].astype(str).str.strip().str.lower().eq(channel.lower()))
+        return float(pd.to_numeric(inv_snap.loc[m, "inventory_units"],
+                                   errors="coerce").fillna(0).sum())
+
+    def _read_raw(file, units_lower_col: str, channel_filter: str | None = None) -> float:
+        try:
+            df = pd.read_excel(file)
+        except Exception:
+            return 0.0
+        df.columns = [c.strip().lower() for c in df.columns]
+        if units_lower_col not in df.columns:
+            return 0.0
+        if channel_filter is not None and "channel" in df.columns:
+            df = df[df["channel"].astype(str).str.strip().str.lower() == channel_filter.lower()]
+        return float(pd.to_numeric(df[units_lower_col], errors="coerce").fillna(0).sum())
+
+    for folder, brand in folder_to_brand.items():
+        # 3P Seller Sales → snapshot Amazon
+        f = sales_dir / folder / "Seller Sales (SP-API).xlsx"
+        if f.exists():
+            raw = _read_raw(f, "units ordered")
+            if raw > 0:
+                snap = _sum_snap_sales(brand, "Amazon")
+                if snap < 0.5 * raw:
+                    _flag("sales", brand, "Seller Sales (SP-API).xlsx", "Amazon", raw, snap)
+
+        # 1P Vendor Sales → snapshot 1p Sales
+        f = sales_dir / folder / "Vendor Sales (SP-API).xlsx"
+        if f.exists():
+            raw = _read_raw(f, "qty")
+            if raw > 0:
+                snap = _sum_snap_sales(brand, "1p Sales")
+                if snap < 0.5 * raw:
+                    _flag("sales", brand, "Vendor Sales (SP-API).xlsx", "1p Sales", raw, snap)
+
+        # 3P Seller FBA Inventory → snapshot Amazon
+        f = inv_dir / folder / "Seller FBA Inventory (SP-API).xlsx"
+        if f.exists():
+            raw = _read_raw(f, "inventory")
+            if raw > 0:
+                snap = _sum_snap_inv(brand, "Amazon")
+                if snap < 0.5 * raw:
+                    _flag("inventory", brand, "Seller FBA Inventory (SP-API).xlsx", "Amazon", raw, snap)
+
+        # 1P Vendor SOH (only the 1p channel rows) → snapshot 1P
+        f = inv_dir / folder / "Vendor SOH (SP-API).xlsx"
+        if f.exists():
+            raw = _read_raw(f, "qty", channel_filter="1p")
+            if raw > 0:
+                snap = _sum_snap_inv(brand, "1P")
+                if snap < 0.5 * raw:
+                    _flag("inventory", brand, "Vendor SOH (SP-API).xlsx", "1P", raw, snap)
+
+    return pd.DataFrame(out)
+
+
 def check_brand_magnitude_regression(latest_week: int) -> pd.DataFrame:
     """Flag when a brand's value for a key metric drops >50% (or spikes
     >2x) vs the median of the prior 4 weeks.  Catches the AMS partial-pull
@@ -1734,6 +1868,12 @@ def main() -> int:
         # silently breaking the UI's category-filter pickers.
         ("22_category_coverage", "Snapshot category_l0/l1 coverage < threshold (UI filter broken)",
                                   check_category_coverage(),                                     True),
+        # Check 23 (new 2026-06-29) — early-warning for the "SP-API
+        # auto-pull file exists but no downstream ETL ingests it" class
+        # of bug.  W26 hit this twice silently (sales 3P Amazon +
+        # inventory Amazon FBA) before this check existed.
+        ("23_sp_api_ingestion", "SP-API file has rows but snapshot didn't ingest them",
+                                  check_sp_api_ingestion(latest_week),                          True),
     ]
 
     print()

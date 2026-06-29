@@ -180,6 +180,16 @@ def load_amazon_1p(path: Path) -> pd.DataFrame:
         for c in ("Qty", "Sale Amount"):
             if c not in df.columns:
                 df[c] = 0
+            # Strip currency formatting ("₹58,241.50") before parsing.
+            # Some operator drops persist the cell as a currency string
+            # (especially when copy-pasted from Vendor Central's display)
+            # and the raw pd.to_numeric fails silently → row contributes
+            # units but ₹0 sales.  W26 WM 1p Sales tripped this and the
+            # AMS Trend page came out ₹1.65 L short vs Sales Trend.
+            df[c] = (
+                df[c].astype(str)
+                     .str.replace(r"[^\d.\-]", "", regex=True)
+            )
             df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0)
         sub = df[["_asin_key", "Qty", "Sale Amount"]].copy()
         sub["sku_1p"]   = df.get("SKU", "").astype(str).str.strip() if "SKU" in df.columns else ""

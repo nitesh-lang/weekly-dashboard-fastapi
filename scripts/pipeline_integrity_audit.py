@@ -1606,6 +1606,67 @@ def check_sp_api_ingestion(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_ams_vs_sales_brand(latest_week: int) -> pd.DataFrame:
+    """Per-brand W{latest} GMV in business_ads_joined.csv (AMS Trend)
+    must match weekly_sales_snapshot.csv Amazon-side gross_sales
+    (Sales Trend's Amazon+1P slice).  Both represent the same money;
+    any drift means the ETL chains disagree about a brand.
+
+    Catches the class of bug where one pipeline ingests a source and
+    the other doesn't, or where one parser handles a column format
+    the other doesn't (e.g. W26 WM tripped this with ₹1.65 L missed
+    by the AMS chain due to a currency-string parse failure).
+
+    Tolerance: ₹1.  Fossil excluded (it's not on the dashboard).
+    """
+    TOL_RS = 1.0
+    out: list[Dict[str, Any]] = []
+    BIZ_JOINED = ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv"
+    if not (SNAP_SALES.exists() and BIZ_JOINED.exists()):
+        return pd.DataFrame()
+    try:
+        s = pd.read_csv(SNAP_SALES)
+        s["wn"] = s["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        s = s[s["wn"] == latest_week].copy()
+        amz_side = s[s["channel"].astype(str).str.lower().isin(["amazon", "1p sales"])]
+        amz_side["brand_n"] = amz_side["brand"].astype(str).apply(_norm_brand)
+        amz_side = amz_side[amz_side["brand_n"] != "fossil"]
+        sales_per_brand = (amz_side.groupby("brand_n")["gross_sales"]
+                                    .sum().round(2).to_dict())
+
+        ba = pd.read_csv(BIZ_JOINED)
+        baw = ba[ba["week"] == latest_week]
+        baw = baw.assign(brand_n=baw["brand"].astype(str).apply(_norm_brand))
+        baw = baw[baw["brand_n"] != "fossil"]
+        ams_per_brand = (baw.groupby("brand_n")["gmv"]
+                           .sum().round(2).to_dict())
+
+        for brand in sorted(set(sales_per_brand) | set(ams_per_brand)):
+            if not brand or brand == "fossil":
+                continue
+            v_st = float(sales_per_brand.get(brand, 0.0))
+            v_am = float(ams_per_brand.get(brand, 0.0))
+            delta = round(v_am - v_st, 2)
+            if abs(delta) > TOL_RS:
+                out.append({
+                    "brand":                brand,
+                    "sales_trend_amz_side": v_st,
+                    "ams_trend_gmv":        v_am,
+                    "delta_rs":             delta,
+                    "note": ("AMS Trend GMV ≠ Sales Trend Amazon-side gross_sales — "
+                             "one chain is missing a 3P/1P source or column format"),
+                })
+    except Exception as e:
+        out.append({
+            "brand": "(load failed)",
+            "sales_trend_amz_side": 0.0,
+            "ams_trend_gmv":        0.0,
+            "delta_rs":             0.0,
+            "note": f"loader raised: {e!r}",
+        })
+    return pd.DataFrame(out)
+
+
 def check_brand_magnitude_regression(latest_week: int) -> pd.DataFrame:
     """Flag when a brand's value for a key metric drops >50% (or spikes
     >2x) vs the median of the prior 4 weeks.  Catches the AMS partial-pull
@@ -1874,6 +1935,14 @@ def main() -> int:
         # inventory Amazon FBA) before this check existed.
         ("23_sp_api_ingestion", "SP-API file has rows but snapshot didn't ingest them",
                                   check_sp_api_ingestion(latest_week),                          True),
+        # Check 24 (new 2026-06-29) — per-brand AMS Trend GMV must
+        # equal Sales Trend Amazon-side gross_sales.  Both reflect the
+        # same 3P + 1P money on Amazon; if they diverge by more than
+        # ₹1 something silently dropped between the two pipelines.
+        # W26 WM tripped this with a ₹1.65 L gap from a currency-string
+        # parse failure in business_report_derive's 1P loader.
+        ("24_ams_vs_sales_brand", "AMS Trend GMV vs Sales Trend Amazon-side per brand",
+                                  check_ams_vs_sales_brand(latest_week),                        True),
     ]
 
     print()

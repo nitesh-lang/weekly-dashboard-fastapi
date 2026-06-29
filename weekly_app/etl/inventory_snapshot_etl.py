@@ -87,6 +87,26 @@ for brand_dir in RAW_INVENTORY_DIR.iterdir():
                 fba["brand"] = brand_dir.name
                 frames.append(fba)
 
+    # Same defensive supplement for the 1P side — read Vendor SOH
+    # (SP-API).xlsx when present so 1P inventory survives even if the
+    # operator stops dropping Inventory Snapshot.xlsx.  The file is
+    # already in the (lowercased) channel=qty schema downstream
+    # expects, so we just need to filter to the 1P channel rows and
+    # tag the brand.
+    vendor_soh_file = brand_dir / "Vendor SOH (SP-API).xlsx"
+    if vendor_soh_file.exists():
+        try:
+            vsoh = pd.read_excel(vendor_soh_file)
+        except Exception:
+            vsoh = None
+        if vsoh is not None and not vsoh.empty:
+            vsoh.columns = vsoh.columns.str.lower().str.strip()
+            if "channel" in vsoh.columns and "qty" in vsoh.columns and "model" in vsoh.columns:
+                vsoh_1p = vsoh[vsoh["channel"].astype(str).str.strip().str.lower() == "1p"].copy()
+                if not vsoh_1p.empty:
+                    vsoh_1p["brand"] = brand_dir.name
+                    frames.append(vsoh_1p)
+
 if not frames:
     raise RuntimeError("No inventory files found for any brand")
 

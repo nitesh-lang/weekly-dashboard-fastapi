@@ -127,15 +127,28 @@ def sun_sat_week_number(date_str: str) -> int:
 # ─────────────────────────────────────────────────────────────────────
 # Auth / API
 # ─────────────────────────────────────────────────────────────────────
-def get_access_token(account: str) -> str:
+def get_access_token(account: str) -> str | None:
+    """Returns an access token or None if the per-account refresh token
+    is missing (caller skips that account).  If the *shared* LWA app
+    creds (SP_LWA_CLIENT_ID / SP_LWA_CLIENT_SECRET) are missing, exits
+    the entire process with code 2 — there's nothing useful to do
+    without the app, so we want the cron to fail loudly instead of
+    silently green-passing via `|| true`."""
     cid = os.environ.get("SP_LWA_CLIENT_ID")
     sec = os.environ.get("SP_LWA_CLIENT_SECRET")
-    rt  = os.environ.get(f"SP_REFRESH_TOKEN_{account}")
-    if not (cid and sec and rt):
-        raise SystemExit(
-            f"Missing one of SP_LWA_CLIENT_ID / SP_LWA_CLIENT_SECRET / "
-            f"SP_REFRESH_TOKEN_{account} in .env"
+    if not (cid and sec):
+        print(
+            "ERROR: SP_LWA_CLIENT_ID and/or SP_LWA_CLIENT_SECRET unset. "
+            "Set them in .env locally, and as GitHub Actions repo secrets "
+            "for the cron. Aborting (exit 2).",
+            file=sys.stderr,
         )
+        sys.exit(2)
+    rt = os.environ.get(f"SP_REFRESH_TOKEN_{account}")
+    if not rt:
+        print(f"  WARN: SP_REFRESH_TOKEN_{account} unset — skipping {account}.",
+              file=sys.stderr)
+        return None
     r = requests.post(LWA_URL, data={
         "grant_type":    "refresh_token",
         "refresh_token": rt,
@@ -143,10 +156,13 @@ def get_access_token(account: str) -> str:
         "client_secret": sec,
     }, timeout=30)
     if r.status_code != 200:
-        raise SystemExit(
-            f"LWA token exchange failed for {account}: HTTP {r.status_code} "
-            f"{r.text[:200]}"
-        )
+        # Token exchange failure is per-account: log + skip the account
+        # rather than killing the whole pull.  Real app-level auth
+        # problems would have surfaced in the shared-creds check above.
+        print(f"  WARN: LWA token exchange failed for {account}: "
+              f"HTTP {r.status_code} {r.text[:200]} — skipping.",
+              file=sys.stderr)
+        return None
     return r.json()["access_token"]
 
 
@@ -156,6 +172,8 @@ def pull_sales_and_traffic(account: str, start_iso: str, end_iso: str) -> list[d
     list (per-child-ASIN rollup with units / sales / sessions / pv /
     buy-box, plus _B2B variants)."""
     tok = get_access_token(account)
+    if tok is None:
+        return []
     H = {"x-amz-access-token": tok, "Content-Type": "application/json"}
     body = {
         "reportType":     "GET_SALES_AND_TRAFFIC_REPORT",

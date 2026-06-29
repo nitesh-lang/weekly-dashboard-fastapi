@@ -183,8 +183,13 @@ jobs:
       # Replaces the manual amazon_sales.xlsx download per brand.
       # Tonor sales sit inside the AUDIOARRAY account; the per-brand
       # split happens after the master-by-ASIN join.
+      # No `|| true` here — the script exits 2 on missing shared LWA app
+      # creds (SP_LWA_CLIENT_ID/SECRET). Per-account refresh-token gaps
+      # are handled inside the script (warn + skip), so the step only
+      # fails when there's a genuine app-level config problem worth
+      # surfacing instead of silently green-passing.
       - name: SP-API Seller Sales pull (5 accounts, GST-net)
-        run: python scripts/sp_seller_sales_pull.py || true
+        run: python scripts/sp_seller_sales_pull.py
         env:
           SP_LWA_CLIENT_ID:                 ${{ secrets.SP_LWA_CLIENT_ID }}
           SP_LWA_CLIENT_SECRET:             ${{ secrets.SP_LWA_CLIENT_SECRET }}
@@ -204,8 +209,9 @@ jobs:
       # (per the ASIN > SKU > Model alignment rule) so
       # fulfillment-center SKU variants (FBS/FBN/FBO/FBP prefixes)
       # still tag back to the canonical brand/model.
+      # Same fail-loud contract as Seller Sales above.
       - name: SP-API Seller FBA Inventory pull (5 accounts)
-        run: python scripts/sp_seller_inventory_pull.py || true
+        run: python scripts/sp_seller_inventory_pull.py
         env:
           SP_LWA_CLIENT_ID:                 ${{ secrets.SP_LWA_CLIENT_ID }}
           SP_LWA_CLIENT_SECRET:             ${{ secrets.SP_LWA_CLIENT_SECRET }}
@@ -225,8 +231,9 @@ jobs:
       #   WHITEMULBERRY  -> WhiteMulberry.xlsx
       # An empty result for any account is treated as a no-op (keeps
       # the prior manual file untouched) rather than blowing it away.
+      # Same fail-loud contract as Seller Sales above.
       - name: SP-API Seller Returns pull (5 accounts, 90d)
-        run: python scripts/sp_seller_returns_pull.py || true
+        run: python scripts/sp_seller_returns_pull.py
         env:
           SP_LWA_CLIENT_ID:                 ${{ secrets.SP_LWA_CLIENT_ID }}
           SP_LWA_CLIENT_SECRET:             ${{ secrets.SP_LWA_CLIENT_SECRET }}

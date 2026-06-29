@@ -116,15 +116,26 @@ def sun_sat_week_number(date_str: str) -> int:
 # ─────────────────────────────────────────────────────────────────────
 # Auth + Report submission
 # ─────────────────────────────────────────────────────────────────────
-def get_access_token(account: str) -> str:
+def get_access_token(account: str) -> str | None:
+    """Returns an access token or None if the per-account refresh token
+    is missing (caller skips that account).  Missing shared app creds
+    exits with code 2 so the cron fails loudly instead of silently
+    passing via `|| true`."""
     cid = os.environ.get("SP_LWA_CLIENT_ID")
     sec = os.environ.get("SP_LWA_CLIENT_SECRET")
-    rt  = os.environ.get(f"SP_REFRESH_TOKEN_{account}")
-    if not (cid and sec and rt):
-        raise SystemExit(
-            f"Missing one of SP_LWA_CLIENT_ID / SP_LWA_CLIENT_SECRET / "
-            f"SP_REFRESH_TOKEN_{account} in .env"
+    if not (cid and sec):
+        print(
+            "ERROR: SP_LWA_CLIENT_ID and/or SP_LWA_CLIENT_SECRET unset. "
+            "Set them in .env locally, and as GitHub Actions repo secrets "
+            "for the cron. Aborting (exit 2).",
+            file=sys.stderr,
         )
+        sys.exit(2)
+    rt = os.environ.get(f"SP_REFRESH_TOKEN_{account}")
+    if not rt:
+        print(f"  WARN: SP_REFRESH_TOKEN_{account} unset — skipping {account}.",
+              file=sys.stderr)
+        return None
     r = requests.post(LWA_URL, data={
         "grant_type":    "refresh_token",
         "refresh_token": rt,
@@ -132,14 +143,19 @@ def get_access_token(account: str) -> str:
         "client_secret": sec,
     }, timeout=30)
     if r.status_code != 200:
-        raise RuntimeError(f"LWA exchange failed for {account}: HTTP {r.status_code}")
+        print(f"  WARN: LWA exchange failed for {account}: HTTP {r.status_code} "
+              f"{r.text[:200]} — skipping.", file=sys.stderr)
+        return None
     return r.json()["access_token"]
 
 
 def pull_fba_inventory(account: str) -> pd.DataFrame:
     """Submit GET_FBA_MYI_UNSUPPRESSED_INVENTORY_DATA + poll + download.
-    Returns the report as a DataFrame (raw TSV → pandas)."""
+    Returns the report as a DataFrame (raw TSV → pandas).  Returns an
+    empty frame if the account has no refresh token configured."""
     tok = get_access_token(account)
+    if tok is None:
+        return pd.DataFrame()
     H = {"x-amz-access-token": tok, "Content-Type": "application/json"}
     body = {
         "reportType":     REPORT_TYPE,

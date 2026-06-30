@@ -417,6 +417,9 @@ export default function AmsTrend() {
                 <MultiPicker label="Models" options={allModels} selected={selModels} onApply={setSelModels} />
                 <MultiPicker label="SKUs"   options={allSkus}   selected={selSkus}   onApply={setSelSkus} />
                 <MultiPicker label="ASINs"  options={allAsins}  selected={selAsins}  onApply={setSelAsins} />
+                <MultiPicker label="Category L0" options={allL0} selected={selL0} onApply={(v) => setMulti("cat_l0", v)} />
+                <MultiPicker label="Category L1" options={allL1} selected={selL1} onApply={(v) => setMulti("cat_l1", v)} />
+                <MultiPicker label="Category L2" options={allL2} selected={selL2} onApply={(v) => setMulti("cat_l2", v)} />
             </div>
 
             {isLoading && <LoadingSkeleton rows={8} />}

@@ -9,6 +9,7 @@ import { makeTextFilter } from "@/lib/useTextFilter";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { ColumnFilter } from "@/components/ColumnFilter";
 import { NumberRangeFilter } from "@/components/NumberRangeFilter";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -431,6 +432,60 @@ export default function AmsTrend() {
                 <MultiPicker label="Category L1" options={allL1} selected={selL1} onApply={(v) => setMulti("cat_l1", v)} />
                 <MultiPicker label="Category L2" options={allL2} selected={selL2} onApply={(v) => setMulti("cat_l2", v)} />
             </div>
+
+            {/* Active-filter summary strip — auto-hides when nothing is filtered. */}
+            <FilterChipStrip
+                filters={[
+                    {
+                        label: "Weeks",
+                        values: selWeeks.map((w) => `W${w}`),
+                        onRemove: (v) => setMulti("weeks", selWeeks.filter((w) => `W${w}` !== v)),
+                        onClear:  () => setMulti("weeks", []),
+                    },
+                    {
+                        label: "Brand",
+                        values: selBrands,
+                        onRemove: (v) => setSelBrands(selBrands.filter((x) => x !== v)),
+                        onClear:  () => setSelBrands([]),
+                    },
+                    {
+                        label: "Model",
+                        values: selModels,
+                        onRemove: (v) => setSelModels(selModels.filter((x) => x !== v)),
+                        onClear:  () => setSelModels([]),
+                    },
+                    {
+                        label: "SKU",
+                        values: selSkus,
+                        onRemove: (v) => setSelSkus(selSkus.filter((x) => x !== v)),
+                        onClear:  () => setSelSkus([]),
+                    },
+                    {
+                        label: "ASIN",
+                        values: selAsins,
+                        onRemove: (v) => setSelAsins(selAsins.filter((x) => x !== v)),
+                        onClear:  () => setSelAsins([]),
+                    },
+                    {
+                        label: "Cat L0",
+                        values: selL0,
+                        onRemove: (v) => setMulti("cat_l0", selL0.filter((x) => x !== v)),
+                        onClear:  () => setMulti("cat_l0", []),
+                    },
+                    {
+                        label: "Cat L1",
+                        values: selL1,
+                        onRemove: (v) => setMulti("cat_l1", selL1.filter((x) => x !== v)),
+                        onClear:  () => setMulti("cat_l1", []),
+                    },
+                    {
+                        label: "Cat L2",
+                        values: selL2,
+                        onRemove: (v) => setMulti("cat_l2", selL2.filter((x) => x !== v)),
+                        onClear:  () => setMulti("cat_l2", []),
+                    },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error && <ErrorBlock error={error} />}

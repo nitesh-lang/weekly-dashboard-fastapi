@@ -6,6 +6,7 @@ import { fmtINR, fmtInt, sortWeeks, exportToXlsx, copyTableToClipboard } from "@
 import { useCanExport } from "@/lib/auth";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { KpiCard } from "@/components/KpiCard";
 import { TrendChart } from "@/components/TrendChart";
 import { BrandMix } from "@/components/BrandMix";
@@ -100,7 +101,13 @@ export default function Dashboard() {
                     options={allWeeks}
                     selected={selectedWeeks}
                     onApply={(v) => setMulti("weeks", v)}
-                    placeholder="All Weeks"
+                    placeholder={
+                        data?.selected?.weeks_display
+                            ? data.selected.weeks_display
+                            : data?.latest_week_label
+                                ? `${data.latest_week_label} (latest)`
+                                : "All Weeks"
+                    }
                 />
                 <MultiPicker
                     label="Brands"
@@ -110,6 +117,24 @@ export default function Dashboard() {
                     placeholder="All Brands"
                 />
             </div>
+
+            {/* Active-filter summary — auto-hides when no filter is applied. */}
+            <FilterChipStrip
+                filters={[
+                    {
+                        label: "Weeks",
+                        values: selectedWeeks,
+                        onRemove: (v) => setMulti("weeks",  selectedWeeks.filter((x) => x !== v)),
+                        onClear:  () => setMulti("weeks",  []),
+                    },
+                    {
+                        label: "Brand",
+                        values: selectedBrands,
+                        onRemove: (v) => setMulti("brands", selectedBrands.filter((x) => x !== v)),
+                        onClear:  () => setMulti("brands", []),
+                    },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && (
                 <div className="text-sm text-muted-foreground">Loading dashboard data…</div>

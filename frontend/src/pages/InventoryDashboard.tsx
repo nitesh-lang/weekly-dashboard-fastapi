@@ -9,6 +9,7 @@ import { makeTextFilter } from "@/lib/useTextFilter";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
@@ -283,6 +284,18 @@ export default function InventoryDashboard() {
                 <MultiPicker label="Channel"   options={allChannel}  selected={selChannel}  onApply={(v) => setMulti("channel", v)} />
                 <MultiPicker label="Type"      options={allType}     selected={selType}     onApply={(v) => setMulti("type", v)} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Week",    values: selectedWeek  ? [selectedWeek]  : [], onRemove: () => setSingle("week", []),           onClear: () => setSingle("week", []) },
+                    { label: "Brand",   values: selectedBrand ? [selectedBrand] : [], onRemove: () => setSingle("brand", []),          onClear: () => setSingle("brand", []) },
+                    { label: "Cat L0",  values: selCatL0,                              onRemove: (v) => setMulti("cat_l0", selCatL0.filter((x) => x !== v)), onClear: () => setMulti("cat_l0", []) },
+                    { label: "Cat L1",  values: selCatL1,                              onRemove: (v) => setMulti("cat_l1", selCatL1.filter((x) => x !== v)), onClear: () => setMulti("cat_l1", []) },
+                    { label: "Cat L2",  values: selCatL2,                              onRemove: (v) => setMulti("cat_l2", selCatL2.filter((x) => x !== v)), onClear: () => setMulti("cat_l2", []) },
+                    { label: "Channel", values: selChannel,                            onRemove: (v) => setMulti("channel", selChannel.filter((x) => x !== v)), onClear: () => setMulti("channel", []) },
+                    { label: "Type",    values: selType,                               onRemove: (v) => setMulti("type",   selType.filter((x) => x !== v)),   onClear: () => setMulti("type", []) },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error && <ErrorBlock error={error} />}

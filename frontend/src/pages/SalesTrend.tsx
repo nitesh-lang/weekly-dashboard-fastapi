@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -223,6 +224,15 @@ export default function SalesTrend() {
                 <MultiPicker label="Models" options={allModels} selected={selModels}      onApply={setSelModels} />
                 <MultiPicker label="ASINs"  options={allAsins}  selected={selAsins}       onApply={setSelAsins} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Weeks",  values: selectedWeeks,  onRemove: (v) => setMulti("sel_weeks", selectedWeeks.filter((x) => x !== v)),  onClear: () => setMulti("sel_weeks", []) },
+                    { label: "Brand",  values: selectedBrands, onRemove: (v) => setMulti("brands",    selectedBrands.filter((x) => x !== v)), onClear: () => setMulti("brands", []) },
+                    { label: "Model",  values: selModels,      onRemove: (v) => setSelModels(selModels.filter((x) => x !== v)),               onClear: () => setSelModels([]) },
+                    { label: "ASIN",   values: selAsins,       onRemove: (v) => setSelAsins(selAsins.filter((x) => x !== v)),                 onClear: () => setSelAsins([]) },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error && <ErrorBlock error={error} />}

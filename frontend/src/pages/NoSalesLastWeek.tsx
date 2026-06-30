@@ -240,7 +240,17 @@ export default function NoSalesLastWeek() {
                     </p>
                 </div>
                 <div className="flex-1" />
-                <MultiPicker label="Weeks"  options={allWeeks}  selected={selectedWeeks}  onApply={(v) => setMulti("sel_weeks", v)} />
+                <MultiPicker
+                    label="Weeks"
+                    options={allWeeks}
+                    selected={selectedWeeks}
+                    onApply={(v) => setMulti("sel_weeks", v)}
+                    placeholder={
+                        weeks.length
+                            ? `${weeks[0]}–${weeks[weeks.length - 1]} · ${weeks.length}w shown`
+                            : "All"
+                    }
+                />
                 <MultiPicker label="Brands" options={allBrands} selected={selectedBrands} onApply={(v) => setMulti("brands", v)} />
             </div>
 

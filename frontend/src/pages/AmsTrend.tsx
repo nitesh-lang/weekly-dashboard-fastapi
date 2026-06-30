@@ -412,7 +412,17 @@ export default function AmsTrend() {
                     </p>
                 </div>
                 <div className="flex-1" />
-                <MultiPicker label="Weeks"  options={allWeeks}  selected={selWeeks}  onApply={(v) => setMulti("weeks", v)} />
+                <MultiPicker
+                    label="Weeks"
+                    options={allWeeks}
+                    selected={selWeeks}
+                    onApply={(v) => setMulti("weeks", v)}
+                    placeholder={
+                        data?.default_weeks && data.default_weeks.length
+                            ? `W${data.default_weeks[0]}–W${data.default_weeks[data.default_weeks.length - 1]} · last ${data.default_weeks.length}w`
+                            : "All"
+                    }
+                />
                 <MultiPicker label="Brands" options={allBrands} selected={selBrands} onApply={setSelBrands} />
                 <MultiPicker label="Models" options={allModels} selected={selModels} onApply={setSelModels} />
                 <MultiPicker label="SKUs"   options={allSkus}   selected={selSkus}   onApply={setSelSkus} />

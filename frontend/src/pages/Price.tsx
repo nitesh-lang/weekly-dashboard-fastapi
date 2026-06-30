@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
@@ -139,6 +140,14 @@ export default function Price() {
                 <MultiPicker label="Models" options={allModels} selected={selModels} onApply={(v) => setMulti("models", v)} />
                 <MultiPicker label="ASINs"  options={allAsins}  selected={selAsins}  onApply={(v) => setMulti("asins", v)} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Brand", values: selBrands, onRemove: (v) => setMulti("brands", selBrands.filter((x) => x !== v)), onClear: () => setMulti("brands", []) },
+                    { label: "Model", values: selModels, onRemove: (v) => setMulti("models", selModels.filter((x) => x !== v)), onClear: () => setMulti("models", []) },
+                    { label: "ASIN",  values: selAsins,  onRemove: (v) => setMulti("asins",  selAsins.filter((x) => x !== v)),  onClear: () => setMulti("asins", []) },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error && <ErrorBlock error={error} />}

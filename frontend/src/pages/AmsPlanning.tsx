@@ -9,6 +9,7 @@ import { useReturns } from "@/lib/useReturns";
 import { useMargins } from "@/lib/useMargins";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { SortableTh } from "@/components/SortableTh";
 import { AsinLink } from "@/components/AsinLink";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -280,6 +281,14 @@ export default function AmsPlanning() {
                 <MultiPicker label="ASIN Type"  options={asinTypes} selected={selAsinTypes} onApply={(v) => setMulti("asin_type", v)} />
                 <MultiPicker label="Status"     options={statuses}  selected={selStatuses}  onApply={(v) => setMulti("status", v)} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Brand",     values: selBrands,    onRemove: (v) => setMulti("brands",    selBrands.filter((x) => x !== v)),    onClear: () => setMulti("brands", []) },
+                    { label: "ASIN Type", values: selAsinTypes, onRemove: (v) => setMulti("asin_type", selAsinTypes.filter((x) => x !== v)), onClear: () => setMulti("asin_type", []) },
+                    { label: "Status",    values: selStatuses,  onRemove: (v) => setMulti("status",    selStatuses.filter((x) => x !== v)),  onClear: () => setMulti("status", []) },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={10} />}
             {error && <ErrorBlock error={error} onRetry={() => refetch()} title="Couldn't load planning data" />}

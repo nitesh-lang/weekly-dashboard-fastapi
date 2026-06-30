@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -255,6 +256,12 @@ export default function DeadStock() {
                 <div className="flex-1" />
                 <MultiPicker label="Brands" options={allBrands} selected={selBrands} onApply={setSelBrands} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Brand", values: selBrands, onRemove: (v) => setSelBrands(selBrands.filter((x) => x !== v)), onClear: () => setSelBrands([]) },
+                ] as FilterChipGroup[]}
+            />
 
             {/* Threshold tuner */}
             <Card className="overflow-hidden">

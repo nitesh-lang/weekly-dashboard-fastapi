@@ -8,6 +8,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import AppLayout from "@/components/AppLayout";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { SortableTh } from "@/components/SortableTh";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -162,6 +163,13 @@ export default function CategorySales() {
                 <MultiPicker label="Weeks"  options={allWeeks}  selected={selectedWeeks}  onApply={(v) => setMulti("sel_weeks", v)} />
                 <MultiPicker label="Brands" options={allBrands} selected={selectedBrands} onApply={(v) => setMulti("brands", v)} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Weeks", values: selectedWeeks,  onRemove: (v) => setMulti("sel_weeks", selectedWeeks.filter((x) => x !== v)),  onClear: () => setMulti("sel_weeks", []) },
+                    { label: "Brand", values: selectedBrands, onRemove: (v) => setMulti("brands",    selectedBrands.filter((x) => x !== v)), onClear: () => setMulti("brands", []) },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error && <ErrorBlock error={error} />}

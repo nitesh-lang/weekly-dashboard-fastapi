@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
@@ -223,6 +224,13 @@ export default function AmsPoorPerformers() {
                 <MultiPicker label="Brands" options={allBrands} selected={selBrands} onApply={setSelBrands} />
                 <MultiPicker label="ASINs"  options={allAsins}  selected={selAsins}  onApply={setSelAsins} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Brand", values: selBrands, onRemove: (v) => setSelBrands(selBrands.filter((x) => x !== v)), onClear: () => setSelBrands([]) },
+                    { label: "ASIN",  values: selAsins,  onRemove: (v) => setSelAsins(selAsins.filter((x) => x !== v)),   onClear: () => setSelAsins([]) },
+                ] as FilterChipGroup[]}
+            />
 
             {/* Threshold knobs */}
             <Card className="overflow-hidden">

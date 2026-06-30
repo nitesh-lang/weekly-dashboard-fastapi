@@ -8,6 +8,7 @@ import { useMargins, type MarginRow } from "@/lib/useMargins";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -204,6 +205,12 @@ export default function MarginSnapshot() {
                 <div className="flex-1" />
                 <MultiPicker label="Brands" options={portfolioBrands} selected={selBrands} onApply={(v) => setMulti("brands", v)} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Brand", values: selBrands, onRemove: (v) => setMulti("brands", selBrands.filter((x) => x !== v)), onClear: () => setMulti("brands", []) },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error && <ErrorBlock error={error} onRetry={() => refetch()} title="Couldn't load margin data" />}

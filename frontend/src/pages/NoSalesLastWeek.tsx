@@ -7,6 +7,7 @@ import { useSortedRows } from "@/lib/useSortedRows";
 import { useDebouncedUrlParam } from "@/lib/useDebouncedUrlParam";
 import AppLayout from "@/components/AppLayout";
 import { MultiPicker } from "@/components/MultiPicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { AsinLink } from "@/components/AsinLink";
 import { SortableTh } from "@/components/SortableTh";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -253,6 +254,13 @@ export default function NoSalesLastWeek() {
                 />
                 <MultiPicker label="Brands" options={allBrands} selected={selectedBrands} onApply={(v) => setMulti("brands", v)} />
             </div>
+
+            <FilterChipStrip
+                filters={[
+                    { label: "Weeks", values: selectedWeeks,  onRemove: (v) => setMulti("sel_weeks", selectedWeeks.filter((x) => x !== v)),  onClear: () => setMulti("sel_weeks", []) },
+                    { label: "Brand", values: selectedBrands, onRemove: (v) => setMulti("brands",    selectedBrands.filter((x) => x !== v)), onClear: () => setMulti("brands", []) },
+                ] as FilterChipGroup[]}
+            />
 
             {isLoading && <LoadingSkeleton rows={8} />}
             {error    && <div className="text-sm" style={{ color: "#b91c1c" }}>Failed to load: {(error as Error).message}</div>}

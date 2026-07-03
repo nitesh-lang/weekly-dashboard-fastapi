@@ -1,5 +1,5 @@
 # Weekly Brief — Week 26
-*Generated 2026-07-03T11:46:29.542593Z from data through Week 26*
+*Generated 2026-07-03T14:04:46.909042Z from data through Week 26*
 ## This week at a glance
 
 Week 26 closed at **₹80.91L GMV** (-3.0% WoW, +16.3% vs prior 4w) on **3,133 units** (-3.1% WoW). This was a steady week, led by **Audio Array** at 54% of portfolio GMV.
@@ -49,27 +49,27 @@ Ad spend **₹8.60L** (+8.0%) — ROAS **4.17x** · ACOS **24.0%** · TACOS **13
 
 **ROAS below threshold (< 2x):**
 - 🔴 **White Mulberry / WM-HA2M-BK** — ROAS 1.92x on ₹7.9K spend. Investigate bids / negatives.
-- 🔴 **White Mulberry / WM-MODL-WH** — ROAS 1.88x on ₹6.8K spend. Investigate bids / negatives.
-- 🔴 **Audio Array / AA-02** — ROAS 1.83x on ₹5.0K spend. Investigate bids / negatives.
-- 🔴 **White Mulberry / WM-GS2M-BK** — ROAS 1.00x on ₹3.9K spend. Investigate bids / negatives.
-- 🔴 **Audio Array / AM-C2** — ROAS 0.76x on ₹3.0K spend. Investigate bids / negatives.
+- 🔴 **White Mulberry / WM-GS2M-BK** — ROAS 1.60x on ₹4.7K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / AA-02** — ROAS 1.67x on ₹4.6K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / AM-C2** — ROAS 0.30x on ₹2.6K spend. Investigate bids / negatives.
 - 🔴 **White Mulberry / VLMS1ML** — ROAS 1.92x on ₹2.1K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / AK-61 NEO** — ROAS 0.00x on ₹2.1K spend. Investigate bids / negatives.
 
 **ACOS > 40% (margin risk):**
-- 🔴 **Audio Array / AM-C2** — ACOS 131.9% on ₹3.0K spend.
-- 🔴 **White Mulberry / WM-GS2M-BK** — ACOS 99.7% on ₹3.9K spend.
-- 🔴 **Audio Array / AA-20** — ACOS 80.4% on ₹1.2K spend.
+- 🔴 **Audio Array / AM-C2** — ACOS 336.8% on ₹2.6K spend.
 - 🔴 **Nexlev / TI-02** — ACOS 78.9% on ₹1.1K spend.
+- 🔴 **Audio Array / AM-C5** — ACOS 73.1% on ₹1.5K spend.
+- 🔴 **White Mulberry / WM-GS2M-BK** — ACOS 62.5% on ₹4.7K spend.
+- 🔴 **Audio Array / AA-02** — ACOS 60.0% on ₹4.6K spend.
 - 🔴 **White Mulberry / WM1ML** — ACOS 54.8% on ₹1.6K spend.
-- 🔴 **Audio Array / AA-02** — ACOS 54.6% on ₹5.0K spend.
 
 **Spending with no attribution:**
 - 🔴 **Audio Array / AK-61 NEO** — ₹2.1K spend, 0 attributed sales. Pause.
 - 🔴 **Audio Array / AM-W47 WIRELESS** — ₹1.6K spend, 0 attributed sales. Pause.
 - 🔴 **White Mulberry / WM-LOD-IN** — ₹1.0K spend, 0 attributed sales. Pause.
+- 🔴 **Audio Array / AA-20** — ₹794 spend, 0 attributed sales. Pause.
 - 🔴 **Audio Array / UB-03 (AM-S1 + AA-22)** — ₹661 spend, 0 attributed sales. Pause.
 - 🔴 **Audio Array / GB-05 (AM-C43 + AI-06)** — ₹622 spend, 0 attributed sales. Pause.
-- 🔴 **Tonor / TC-2030** — ₹504 spend, 0 attributed sales. Pause.
 
 ## Suggested actions
 

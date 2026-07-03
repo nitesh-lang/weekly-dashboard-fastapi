@@ -152,6 +152,9 @@ if "asin" in df.columns:
             if raw_col not in df.columns:
                 df[raw_col] = df[m_col]
             else:
+                # Widen raw_col to object so we can assign strings even
+                # when the column was created as all-NaN float64.
+                df[raw_col] = df[raw_col].astype("object")
                 _blank = (df[raw_col].isna()
                           | df[raw_col].astype(str).str.strip().str.lower().isin(["", "nan", "none"]))
                 df.loc[_blank, raw_col] = df.loc[_blank, m_col]

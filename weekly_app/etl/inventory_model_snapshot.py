@@ -445,11 +445,14 @@ def run_inventory_etl():
         for c, amap in (("category_l0", _cat_l0),
                         ("category_l1", _cat_l1),
                         ("category_l2", _cat_l2)):
+            # Widen dtype so pandas 2.2+ StringDtype doesn't reject the
+            # map result (which may contain NaN or non-string sentinels).
+            df[c] = df[c].astype("object")
             # Treat NaN, "", "nan", "None", "<NA>" all as empty
             current = df[c].astype(str).str.strip()
             empty = current.isin(["", "nan", "None", "<NA>"]) | df[c].isna()
             if amap and empty.any():
-                df.loc[empty, c] = df.loc[empty, "_asin_n"].map(amap)
+                df.loc[empty, c] = df.loc[empty, "_asin_n"].map(amap).fillna("")
             # Fall back to model-based map for any rows still empty
             current = df[c].astype(str).str.strip()
             empty = current.isin(["", "nan", "None", "<NA>"]) | df[c].isna()
@@ -457,7 +460,7 @@ def run_inventory_etl():
                 idx = ("category_l0", "category_l1", "category_l2").index(c)
                 df.loc[empty, c] = df.loc[empty, "_model_n"].map(
                     lambda k: _cat_by_model.get(k, ("", "", ""))[idx]
-                )
+                ).fillna("")
         df = df.drop(columns=["_asin_n", "_model_n"])
         # Normalize and propagate within (brand, model) one last time so
         # any straggling empty rows pick up a sibling's value.

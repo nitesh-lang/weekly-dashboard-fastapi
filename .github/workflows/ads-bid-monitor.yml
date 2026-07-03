@@ -1,0 +1,159 @@
+# Ads bid-change monitor — snapshots SP keyword/campaign/ad-group/target
+# state every 30 min and diffs against the previous snapshot.  Opens an
+# issue when a bid-change BURST (default: ≥50 changes in one interval)
+# is detected — that's the class of event we can't otherwise identify
+# because Amazon's IN Ads Console doesn't expose the `Changed by` column
+# and the async Reports API doesn't have a change-history report type.
+#
+# Cron: every 30 min.  Runtime: ~1-2 min per profile × 4 profiles ≈ 4-8
+# min per run.  Well inside GitHub Actions free-tier quota.
+#
+# Required repo secrets (already present — same as weekly-sync):
+#   AMS_ADS_CLIENT_ID
+#   AMS_ADS_CLIENT_SECRET
+#   AMS_ADS_REFRESH_TOKEN
+#
+# The workflow needs `issues: write` for the burst alert issue creation
+# path.  Uses the built-in GITHUB_TOKEN.
+
+name: Ads bid monitor
+
+on:
+  schedule:
+    - cron: '13,43 * * * *'   # every 30 min (:13 and :43 dodge shared-runner congestion)
+  workflow_dispatch:
+    inputs:
+      profiles:
+        description: "Comma-separated profileIds to restrict (optional)"
+        required: false
+        default: ""
+
+concurrency:
+  group: ads-bid-monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      AMS_ADS_CLIENT_ID:      ${{ secrets.AMS_ADS_CLIENT_ID }}
+      AMS_ADS_CLIENT_SECRET:  ${{ secrets.AMS_ADS_CLIENT_SECRET }}
+      AMS_ADS_REFRESH_TOKEN:  ${{ secrets.AMS_ADS_REFRESH_TOKEN }}
+      PYTHONIOENCODING:       utf-8
+      PYTHONUNBUFFERED:       "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Snapshot
+        run: |
+          if [ -n "${{ github.event.inputs.profiles }}" ]; then
+            python scripts/ads_bid_snapshot.py --profiles "${{ github.event.inputs.profiles }}"
+          else
+            python scripts/ads_bid_snapshot.py
+          fi
+
+      - name: Diff + burst detection
+        id: diff
+        run: |
+          python scripts/ads_bid_diff.py
+          # Expose burst-marker path (if any) to later steps
+          MARKER=$(ls -1 data/processed/ads_bid_diffs/BURST_MARKER_*.txt 2>/dev/null | tail -1 || true)
+          if [ -n "$MARKER" ]; then
+            echo "burst=true"        >> $GITHUB_OUTPUT
+            echo "marker=$MARKER"    >> $GITHUB_OUTPUT
+          else
+            echo "burst=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit snapshots + diffs
+        run: |
+          set -e
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/processed/ads_bid_snapshots data/processed/ads_bid_diffs 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No snapshot/diff changes to commit."
+            exit 0
+          fi
+          STAMP=$(date -u +%Y-%m-%dT%H:%MZ)
+          git commit -m "chore(ads-monitor): auto-snapshot $STAMP"
+          # Race-safe push — bid monitor runs every 30 min and can race
+          # against weekly-sync's commit on Monday.
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main; then :; else
+              git rebase --abort || true
+            fi
+            if git push origin main; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "Push attempt $attempt failed, retrying…"
+            sleep 5
+          done
+          echo "::warning::push failed after 3 attempts"
+
+      - name: Upload burst xlsx as artifact
+        if: steps.diff.outputs.burst == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ads-bid-burst-${{ github.run_id }}
+          path: data/processed/ads_bid_diffs/BURST_*.xlsx
+          if-no-files-found: warn
+
+      - name: Open alert issue on burst
+        if: steps.diff.outputs.burst == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs   = require('fs');
+            const path = require('path');
+            const marker = "${{ steps.diff.outputs.marker }}";
+            let files = [];
+            try { files = fs.readFileSync(marker, 'utf8').split('\n').filter(Boolean); }
+            catch (e) { files = []; }
+            const stamp = new Date().toISOString().replace('T', ' ').slice(0, 16) + 'Z';
+            const body = [
+              `# Bid-change burst detected · ${stamp}`,
+              ``,
+              `The Ads bid monitor found **≥50 changes** in one interval on the profile(s)`,
+              `listed below — the same fingerprint as the Nexlev W26 02:26 IST batch.`,
+              ``,
+              `## Burst files (attached as workflow artifact)`,
+              files.length ? files.map(f => `- \`${f}\``).join('\n') : '_(no marker file — check job log)_',
+              ``,
+              `## What to do`,
+              `1. Download the artifact "ads-bid-burst-${context.runId}" from the run.`,
+              `2. Note the timestamp range in the file (previous snapshot → current snapshot).`,
+              `3. File an Amazon Ads support ticket citing that exact minute; ask them to`,
+              `   identify the actor from their internal audit log.  They have this data;`,
+              `   the Console just doesn't expose it.`,
+              ``,
+              `Workflow run: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${context.runId}`,
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: `⚠ Bid-change burst detected · ${stamp}`,
+              body,
+              labels: ['ads-monitor', 'burst-alert'],
+            });

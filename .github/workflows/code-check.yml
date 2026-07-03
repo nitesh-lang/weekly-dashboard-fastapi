@@ -60,10 +60,10 @@ jobs:
       # data changes — not when ETL code changes.
 
       - name: Derive business_report from raw sales
-        run: python -m weekly_app.etl.business_report_derive || true
+        run: python -m weekly_app.etl.business_report_derive
 
       - name: Sales auto ETL
-        run: python -m weekly_app.etl.sales_auto_etl || true
+        run: python -m weekly_app.etl.sales_auto_etl
 
       - name: Inventory model snapshot
         run: python -m weekly_app.etl.inventory_model_snapshot
@@ -72,16 +72,16 @@ jobs:
         run: python -m weekly_app.etl.inventory_snapshot_etl
 
       - name: Returns snapshot
-        run: python -m weekly_app.etl.returns_snapshot || true
+        run: python -m weekly_app.etl.returns_snapshot
 
       - name: Margin snapshot
-        run: python -m weekly_app.etl.margin_snapshot || true
+        run: python -m weekly_app.etl.margin_snapshot
 
       - name: Inbound snapshot
-        run: python -m weekly_app.etl.inbound_snapshot || true
+        run: python -m weekly_app.etl.inbound_snapshot
 
       - name: Reviews snapshot
-        run: python -m weekly_app.etl.reviews_snapshot || true
+        run: python -m weekly_app.etl.reviews_snapshot
 
       - name: Business+Ads weekly fact rebuild
         run: python -m weekly_app.etl.business_ads_weekly_etl
@@ -93,7 +93,7 @@ jobs:
         run: python -m weekly_app.etl.step4_join_business_ads
 
       - name: Step 5 — category mapping
-        run: python -m weekly_app.etl.step5_add_category_mapping || true
+        run: python -m weekly_app.etl.step5_add_category_mapping
 
       - name: Build weekly brief
         run: python scripts/build_weekly_brief.py || true

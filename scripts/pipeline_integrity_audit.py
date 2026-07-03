@@ -1840,17 +1840,20 @@ def check_derivative_freshness() -> pd.DataFrame:
 
 
 def check_inventory_snapshot_freshness() -> pd.DataFrame:
-    """Flag when inventory_model_snapshot.csv or inventory_ams_snapshot.csv
-    do NOT contain the latest raw week folder.
+    """Flag when any weekly snapshot CSV that carries a `week` column
+    fails to contain the latest raw week folder.
 
-    Existed silently for weeks: the weekly-sync ran both ETLs under
+    Existed silently for weeks: the weekly-sync ran ETLs under
     `|| true`, so a TypeError inside the ETL was swallowed and the cron
-    reported success while both CSVs stayed frozen at an earlier week's
-    data.  Check 15 (derivative freshness) only compares child-vs-parent
-    mtime, so when both stayed stale together, nothing tripped.
+    reported success while snapshot CSVs stayed frozen at an earlier
+    week's data.  Check 20 (derivative freshness) only compares
+    child-vs-parent mtime, so when both stayed stale together, nothing
+    tripped.
 
-    Rule: max(week) inside each snapshot CSV must equal the max
-    `Week NN` folder present under `data/raw/inventory/`.
+    Rule: max(week) inside each weekly snapshot CSV must equal the max
+    `Week NN` folder present under `data/raw/inventory/` (which is the
+    fastest-updated week folder — sales/inventory share the same weekly
+    cadence).
     """
     raw_dir = ROOT / "data" / "raw" / "inventory"
     if not raw_dir.exists():
@@ -1865,11 +1868,17 @@ def check_inventory_snapshot_freshness() -> pd.DataFrame:
         return pd.DataFrame()
     latest_raw_week = max(raw_weeks)
 
-    out: list[Dict[str, Any]] = []
-    for path in (
+    # Every weekly snapshot with a `week` column belongs here.  Point-
+    # in-time snapshots (returns/margin/inbound/reviews) don't carry
+    # `week`, so they're covered by check_pointintime_snapshot_freshness.
+    watched = [
         ROOT / "data" / "processed" / "inventory_model_snapshot.csv",
         ROOT / "data" / "processed" / "inventory_ams_snapshot.csv",
-    ):
+        ROOT / "data" / "processed" / "weekly_sales_snapshot.csv",
+    ]
+
+    out: list[Dict[str, Any]] = []
+    for path in watched:
         if not path.exists():
             out.append({
                 "file":              str(path.relative_to(ROOT)),
@@ -1906,6 +1915,51 @@ def check_inventory_snapshot_freshness() -> pd.DataFrame:
                 "snapshot_max_week": snap_max,
                 "gap_weeks":         gap,
                 "note":              "snapshot did not ingest the latest raw week — ETL likely failed on the last cron run",
+            })
+    return pd.DataFrame(out)
+
+
+def check_pointintime_snapshot_freshness() -> pd.DataFrame:
+    """Flag point-in-time snapshot CSVs (no `week` column, replaced
+    entirely each run) that are stale relative to a known-live anchor.
+
+    Anchor: inventory_model_snapshot.csv — the load-bearing snapshot,
+    already fail-loud in the workflow.  If a sibling snapshot is more
+    than a day older than the anchor, its ETL likely failed silently on
+    the last cron run.
+
+    Complements Check 25 for CSVs like returns/margin/inbound/reviews
+    that don't expose a week column.
+    """
+    anchor = ROOT / "data" / "processed" / "inventory_model_snapshot.csv"
+    if not anchor.exists():
+        return pd.DataFrame()
+    anchor_mt = anchor.stat().st_mtime
+    STALE_SEC = 24 * 3600  # >1 day older than anchor → suspect
+
+    siblings = [
+        ROOT / "data" / "processed" / "returns_snapshot.csv",
+        ROOT / "data" / "processed" / "margin_snapshot.csv",
+        ROOT / "data" / "processed" / "inbound_snapshot.csv",
+        ROOT / "data" / "processed" / "reviews_snapshot.csv",
+    ]
+    out: list[Dict[str, Any]] = []
+    for path in siblings:
+        if not path.exists():
+            out.append({
+                "file":               str(path.relative_to(ROOT)),
+                "anchor":             str(anchor.relative_to(ROOT)),
+                "lag_hours":          None,
+                "note":               "snapshot missing — ETL never ran or failed silently",
+            })
+            continue
+        lag = anchor_mt - path.stat().st_mtime
+        if lag > STALE_SEC:
+            out.append({
+                "file":               str(path.relative_to(ROOT)),
+                "anchor":             str(anchor.relative_to(ROOT)),
+                "lag_hours":          round(lag / 3600, 1),
+                "note":               "snapshot older than anchor by >24h — ETL likely failed silently on the last cron run",
             })
     return pd.DataFrame(out)
 
@@ -2023,6 +2077,13 @@ def main() -> int:
         # data/raw/inventory/.
         ("25_inv_snapshot_freshness", "Inventory snapshot behind latest raw week (silent ETL failure)",
                                   check_inventory_snapshot_freshness(),                         True),
+        # Check 26 (new 2026-07-03) — same silent-failure class as
+        # Check 25, but for point-in-time snapshots
+        # (returns/margin/inbound/reviews) that don't carry a `week`
+        # column.  Compares each sibling's mtime against
+        # inventory_model_snapshot.csv (the fail-loud anchor).
+        ("26_pit_snapshot_freshness", "Point-in-time snapshot stale vs inventory anchor (silent ETL failure)",
+                                  check_pointintime_snapshot_freshness(),                       True),
     ]
 
     print()

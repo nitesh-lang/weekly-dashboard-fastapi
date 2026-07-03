@@ -120,7 +120,7 @@ jobs:
       # sb_ingest handles operator-exported SB files (W21 today, latest week
       # tomorrow).  It's harmless when no SB files are present.
       - name: SB ingest (operator-exported files, if any)
-        run: python -m weekly_app.etl.sb_ingest || true
+        run: python -m weekly_app.etl.sb_ingest
 
       - name: SB ingest from API (covers weeks without operator files)
         run: python scripts/sb_ingest_from_api.py
@@ -129,7 +129,7 @@ jobs:
       # 1p Sales tab so step4's biz join uses the freshest sales data
       # the operator pushed.  Replaces the manual Amazon-UI export step.
       - name: Derive business_report from raw sales
-        run: python -m weekly_app.etl.business_report_derive || true
+        run: python -m weekly_app.etl.business_report_derive
 
       # SP-API 1P (Vendor Central) inventory — drops per-brand
       # "Vendor SOH (SP-API).xlsx" under data/raw/inventory/Week NN/.
@@ -266,7 +266,7 @@ jobs:
       # file doesn't sink the whole run -- the next steps still benefit
       # from the other refreshes.
       - name: Sales auto ETL — weekly_sales_snapshot.csv
-        run: python -m weekly_app.etl.sales_auto_etl || true
+        run: python -m weekly_app.etl.sales_auto_etl
 
       # Inventory snapshots are load-bearing for every route on the
       # dashboard.  Prior policy was `|| true` — silent failures meant
@@ -282,16 +282,16 @@ jobs:
         run: python -m weekly_app.etl.inventory_snapshot_etl
 
       - name: Returns snapshot
-        run: python -m weekly_app.etl.returns_snapshot || true
+        run: python -m weekly_app.etl.returns_snapshot
 
       - name: Margin snapshot
-        run: python -m weekly_app.etl.margin_snapshot || true
+        run: python -m weekly_app.etl.margin_snapshot
 
       - name: Inbound snapshot (FBA + In-Transit PO)
-        run: python -m weekly_app.etl.inbound_snapshot || true
+        run: python -m weekly_app.etl.inbound_snapshot
 
       - name: Reviews snapshot (Helium-10)
-        run: python -m weekly_app.etl.reviews_snapshot || true
+        run: python -m weekly_app.etl.reviews_snapshot
 
       # Rebuild ams_weekly_fact.csv (step4's biz base) from the latest
       # business_report files.  Without this step, ams_weekly_fact stays

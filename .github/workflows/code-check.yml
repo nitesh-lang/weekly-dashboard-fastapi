@@ -66,10 +66,10 @@ jobs:
         run: python -m weekly_app.etl.sales_auto_etl || true
 
       - name: Inventory model snapshot
-        run: python -m weekly_app.etl.inventory_model_snapshot || true
+        run: python -m weekly_app.etl.inventory_model_snapshot
 
       - name: Inventory AMS snapshot
-        run: python -m weekly_app.etl.inventory_snapshot_etl || true
+        run: python -m weekly_app.etl.inventory_snapshot_etl
 
       - name: Returns snapshot
         run: python -m weekly_app.etl.returns_snapshot || true

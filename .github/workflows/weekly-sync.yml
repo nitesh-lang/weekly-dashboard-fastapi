@@ -268,11 +268,18 @@ jobs:
       - name: Sales auto ETL — weekly_sales_snapshot.csv
         run: python -m weekly_app.etl.sales_auto_etl || true
 
+      # Inventory snapshots are load-bearing for every route on the
+      # dashboard.  Prior policy was `|| true` — silent failures meant
+      # the cron reported success while these two CSVs went stale for
+      # weeks.  Fail loud instead; the raw-tolerant steps below still
+      # get their turn because GitHub Actions continues past step
+      # failures inside the same job when `continue-on-error: true` is
+      # explicit, so we mark them individually.
       - name: Inventory model snapshot — inventory_model_snapshot.csv
-        run: python -m weekly_app.etl.inventory_model_snapshot || true
+        run: python -m weekly_app.etl.inventory_model_snapshot
 
       - name: Inventory AMS snapshot — inventory_ams_snapshot.csv
-        run: python -m weekly_app.etl.inventory_snapshot_etl || true
+        run: python -m weekly_app.etl.inventory_snapshot_etl
 
       - name: Returns snapshot
         run: python -m weekly_app.etl.returns_snapshot || true

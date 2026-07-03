@@ -35,6 +35,7 @@ Exit:   non-zero when any issue is found (lets the cron fail-loud)
 """
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 from typing import List, Dict, Any
@@ -1838,6 +1839,77 @@ def check_derivative_freshness() -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_inventory_snapshot_freshness() -> pd.DataFrame:
+    """Flag when inventory_model_snapshot.csv or inventory_ams_snapshot.csv
+    do NOT contain the latest raw week folder.
+
+    Existed silently for weeks: the weekly-sync ran both ETLs under
+    `|| true`, so a TypeError inside the ETL was swallowed and the cron
+    reported success while both CSVs stayed frozen at an earlier week's
+    data.  Check 15 (derivative freshness) only compares child-vs-parent
+    mtime, so when both stayed stale together, nothing tripped.
+
+    Rule: max(week) inside each snapshot CSV must equal the max
+    `Week NN` folder present under `data/raw/inventory/`.
+    """
+    raw_dir = ROOT / "data" / "raw" / "inventory"
+    if not raw_dir.exists():
+        return pd.DataFrame()
+    raw_weeks = []
+    for p in raw_dir.iterdir():
+        if p.is_dir():
+            m = re.match(r"[Ww]eek\s*(\d+)", p.name)
+            if m:
+                raw_weeks.append(int(m.group(1)))
+    if not raw_weeks:
+        return pd.DataFrame()
+    latest_raw_week = max(raw_weeks)
+
+    out: list[Dict[str, Any]] = []
+    for path in (
+        ROOT / "data" / "processed" / "inventory_model_snapshot.csv",
+        ROOT / "data" / "processed" / "inventory_ams_snapshot.csv",
+    ):
+        if not path.exists():
+            out.append({
+                "file":              str(path.relative_to(ROOT)),
+                "latest_raw_week":   latest_raw_week,
+                "snapshot_max_week": None,
+                "gap_weeks":         None,
+                "note":              "snapshot missing — ETL never ran or failed silently",
+            })
+            continue
+        try:
+            df = pd.read_csv(path, usecols=["week"])
+        except Exception as e:
+            out.append({
+                "file":              str(path.relative_to(ROOT)),
+                "latest_raw_week":   latest_raw_week,
+                "snapshot_max_week": None,
+                "gap_weeks":         None,
+                "note":              f"snapshot unreadable: {e}",
+            })
+            continue
+        snap_weeks = (df["week"].astype(str)
+                                 .str.extract(r"(\d+)")[0]
+                                 .dropna().astype(int))
+        if snap_weeks.empty:
+            snap_max = None
+            gap = None
+        else:
+            snap_max = int(snap_weeks.max())
+            gap = latest_raw_week - snap_max
+        if snap_max is None or snap_max < latest_raw_week:
+            out.append({
+                "file":              str(path.relative_to(ROOT)),
+                "latest_raw_week":   latest_raw_week,
+                "snapshot_max_week": snap_max,
+                "gap_weeks":         gap,
+                "note":              "snapshot did not ingest the latest raw week — ETL likely failed on the last cron run",
+            })
+    return pd.DataFrame(out)
+
+
 def main() -> int:
     if not SNAP_INV.exists():
         print(f"[FATAL] {SNAP_INV} missing — run the inventory ETL first.")
@@ -1943,6 +2015,14 @@ def main() -> int:
         # parse failure in business_report_derive's 1P loader.
         ("24_ams_vs_sales_brand", "AMS Trend GMV vs Sales Trend Amazon-side per brand",
                                   check_ams_vs_sales_brand(latest_week),                        True),
+        # Check 25 (new 2026-07-03) — catch the class of failure where a
+        # weekly ETL step run under `|| true` swallows its error and the
+        # cron reports success while the snapshot CSV stays frozen at
+        # an earlier week's data.  Compares each inventory CSV's
+        # max(week) against the max Week NN folder under
+        # data/raw/inventory/.
+        ("25_inv_snapshot_freshness", "Inventory snapshot behind latest raw week (silent ETL failure)",
+                                  check_inventory_snapshot_freshness(),                         True),
     ]
 
     print()

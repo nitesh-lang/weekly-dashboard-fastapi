@@ -1,0 +1,2 @@
+data/processed/ads_bid_diffs/BURST_1122755254933937_20260703T201439Z.xlsx
+data/processed/ads_bid_diffs/BURST_3633693611482083_20260703T201439Z.xlsx

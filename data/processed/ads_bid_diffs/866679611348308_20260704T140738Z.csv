@@ -1,0 +1,16 @@
+kind,entity_id,campaign_id,ad_group_id,field,from_value,to_value,keyword_text,match_type
+budget_changed,262398489862684,262398489862684,,budget.amount,500.0,300.0,,
+budget_changed,426994415684787,426994415684787,,budget.amount,600.0,400.0,,
+budget_changed,319658247499276,319658247499276,,budget.amount,750.0,850.0,,
+budget_changed,112671401667830,112671401667830,,budget.amount,500.0,800.0,,
+budget_changed,122486618578318,122486618578318,,budget.amount,350.0,650.0,,
+budget_changed,84335100495107,84335100495107,,budget.amount,400.0,750.0,,
+budget_changed,122200237335741,122200237335741,,budget.amount,200.0,350.0,,
+budget_changed,127788110712070,127788110712070,,budget.amount,400.0,650.0,,
+bid_changed,23878883907140,112671401667830,8104856647790,bid,20.78,22.69,+l +shape +study +table +for +home,BROAD
+bid_changed,267003204689449,275080209531414,222164671888696,bid,44.06,46.26,gaming desk l shaped,PHRASE
+bid_changed,268207964424391,275080209531414,222164671888696,bid,40.74,42.78,l shaped gaming desk,PHRASE
+bid_changed,161396687253495,136223121722055,178249845638833,bid,21.58,22.23,+corner +computer +table +for +home,BROAD
+bid_changed,203230930112281,136223121722055,178249845638833,bid,20.75,21.37,+computer +table +for +home +l +shape,BROAD
+bid_changed,198945547189519,112671401667830,8104856647790,bid,20.73,22.64,+l +shaped +office +table,BROAD
+bid_changed,141052610853810,112671401667830,8104856647790,bid,18.8,19.55,+l +shape +desk,BROAD

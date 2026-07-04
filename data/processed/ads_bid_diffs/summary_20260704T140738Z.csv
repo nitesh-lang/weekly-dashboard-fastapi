@@ -1,0 +1,5 @@
+profile_id,profile_label,prev_snapshot,curr_snapshot,total,bid_changed,state_changed,budget_changed,added,removed
+1122755254933937,Nexlev (vendor),2026-07-04T11:57:00Z,2026-07-04T14:07:37Z,9,0,0,9,0,0
+3563790765020958,White Mulberry (vendor),2026-07-04T11:47:57Z,2026-07-04T13:59:19Z,8,0,0,8,0,0
+3633693611482083,AudioArray (vendor),2026-07-04T11:54:59Z,2026-07-04T14:05:40Z,4,0,0,4,0,0
+866679611348308,Cambium Retail Private Limited (seller),2026-07-04T11:47:41Z,2026-07-04T13:59:05Z,15,7,0,8,0,0

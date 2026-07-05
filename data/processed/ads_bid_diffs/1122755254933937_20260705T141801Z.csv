@@ -1,0 +1,14 @@
+kind,entity_id,campaign_id,ad_group_id,field,from_value,to_value,keyword_text,match_type,target_expression
+budget_changed,142775272023469,142775272023469,,budget.amount,750.0,2000.0,,,
+budget_changed,64162594622419,64162594622419,,budget.amount,800.0,1800.0,,,
+budget_changed,206386193753093,206386193753093,,budget.amount,3000.0,3200.0,,,
+budget_changed,529871399973174,529871399973174,,budget.amount,1000.0,1600.0,,,
+budget_changed,17001454287662,17001454287662,,budget.amount,2000.0,2800.0,,,
+budget_changed,129974340009862,129974340009862,,budget.amount,800.0,1399.0,,,
+budget_changed,261106870353900,261106870353900,,budget.amount,860.0,1399.0,,,
+budget_changed,544517272011782,544517272011782,,budget.amount,3200.0,4200.0,,,
+bid_changed,205967192721994,159789836674912,260921599855795,bid,18.25,19.16,sofa vacuum cleaner,EXACT,
+bid_changed,92123278088044,159789836674912,260921599855795,bid,17.8,18.69,vacuum cleaner for sofa and bed,EXACT,
+bid_changed,42345375428967,159789836674912,260921599855795,bid,23.15,24.31,sofa cleaner machine,EXACT,
+bid_changed,59349429583757,159789836674912,260921599855795,bid,17.72,18.61,mini vacuum cleaner for home dust,EXACT,
+bid_changed,269350028241398,245688487686616,109247946806209,bid,17.56,19.23,,,ASIN_SAME_AS=B0FS7LL36M

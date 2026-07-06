@@ -1,564 +1,4 @@
 {
-  "AM-C11": {
-    "brand": "Audio Array",
-    "asins": [
-      "B0B4G1HPL5"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "36023856736901"
-  },
-  "Tripod Condenser Microphones display": {
-    "brand": "Audio Array",
-    "asins": [
-      "B0B4DS678Q",
-      "B0B4G1PXWV",
-      "B0B4FVV78V",
-      "B0B4FXDHXW"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "36023856736901"
-  },
-  "Accessories": {
-    "brand": "Audio Array",
-    "asins": [
-      "B0B4G7VWXD",
-      "B0B4G94VP3",
-      "B0B4JRQP22",
-      "B0B4G8PH2P"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "36023856736901"
-  },
-  "Boom arm condenser mic display": {
-    "brand": "Audio Array",
-    "asins": [
-      "B0B4DPX2J2",
-      "B0B4G19R58",
-      "B0B4FZS38V"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "36023856736901"
-  },
-  "Display Ads for InMarket-All Categories": {
-    "brand": "Audio Array",
-    "asins": [
-      "B0B4G19R58",
-      "B0B4G1HPL5",
-      "B0B4FXDHXW",
-      "B0B4DS678Q",
-      "B0B4G1PXWV",
-      "B0B4G8ZB64",
-      "B0B4G7VWXD",
-      "B0B4FVV78V",
-      "B0B4DPX2J2",
-      "B0B4FZS38V",
-      "B0B4KC7VBM",
-      "B0B4K87PR4",
-      "B0BLNDQ757",
-      "B0BLNC5D8L",
-      "B0BLKD4815",
-      "B0BLKCDRNB",
-      "B0BLKHVCDX",
-      "B0BLKB55BM",
-      "B0BLKB6FRR",
-      "B0BLKCXQRT",
-      "B0BLKF46QG",
-      "B0BLKGPL4X",
-      "B0BLKCWZQD",
-      "B0BLKD8FVG",
-      "B0BLKDC4PP",
-      "B0BLKCSJ7Z",
-      "B0BLKCJXZR",
-      "B0BLKCB2JY",
-      "B0BLK9QL7X",
-      "B0BLKBJ5HN",
-      "B0BLK7VQ2N",
-      "B0BLK8PXNY",
-      "B0BLK6P24G",
-      "B0BLK8DNPD",
-      "B0BLK31PYH",
-      "B0BLK1Z7PJ",
-      "B0BLJYX15C",
-      "B0B4G8PH2P",
-      "B0B4JRQP22",
-      "B0B4G94VP3",
-      "B0B4G89VQJ",
-      "B0B4G5ZLTB",
-      "B0B4G763WS",
-      "B0B4G59Y8W",
-      "B0B4G5JG4P",
-      "B0BLS2HJ68",
-      "B0BLRKFBBP",
-      "B0BLRK37TB",
-      "B0BLRGCNRG",
-      "B0BLS63XCL",
-      "B0BLNCP74M",
-      "B0BLJVJ2GN",
-      "B0BQ7H7418",
-      "B0BPMN89NG",
-      "B0BPMBMN3S",
-      "B0BPLZ5CGV",
-      "B0BPM2T7BQ",
-      "B0BPLWW72Y"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "36023856736901"
-  },
-  "Gaming Chairs Display Ads": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0B5HCTGN5",
-      "B0B5HCG8MM",
-      "B0B5HFG6W7",
-      "B0B5HFGQGM",
-      "B0B5HDPTLC",
-      "B0B5HB1HJH",
-      "B0B5F78LMB",
-      "B0B5HCN3TJ",
-      "B0B71QY1TH",
-      "B0B71QN43M"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "FBA Products - Display Ads": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0B5HCTGN5",
-      "B0B5HCG8MM",
-      "B0B5HCN3TJ",
-      "B0B5HFG6W7",
-      "B0B5HB1HJH",
-      "B0B5HFGQGM",
-      "B0B5F78LMB",
-      "B0B5HDPTLC"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Display - Contextual": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0B5HCN3TJ",
-      "B0B5HFG6W7",
-      "B0B5HB1HJH",
-      "B0B5HFGQGM",
-      "B0B5F78LMB",
-      "B0B5HDPTLC"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Steam Cleaner_Remarketing": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Garment Steamer_Remarketing": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPQXPC1",
-      "B0CDPMX152"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Pet Grooming Kit_Auidence": {
-    "brand": "Nexlev",
-    "asins": [
-      "B093KRX2K1",
-      "B0CBK1CRZG"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev GS SD Lifestyle": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPQXPC1",
-      "B093KRX2K1"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Garment Steamer_Comp_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPQXPC1",
-      "B0CDPMX152",
-      "B0CQX9ZZMH"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Travel Blanket_Comp_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CFFQK45G",
-      "B0CFH6C6YM",
-      "B0CFH2B2MV",
-      "B0CFH2C369",
-      "B0CFH5R7Y7"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Travel Pillow_Comp_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDQ98FDM",
-      "B0CDQ55W2M",
-      "B0CDQ6G4TC",
-      "B0CDQ5NBH8",
-      "B0CDQ5Y3YB"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Cat Fountain_Comp_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CQ2RKB68",
-      "B0CQ2R3LPH",
-      "B0C7GSJDKY",
-      "B0C7GMKPP3",
-      "B0D637B562"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_VR_Pillow_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDQ98FDM",
-      "B0CDQ55W2M",
-      "B0CDQ6G4TC",
-      "B0CDQ5NBH8",
-      "B0CDQ5Y3YB"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_VR_Steam Cleaner_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_VR_GS-01/GS-02/GS-04/GS-05_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPQXPC1",
-      "B0CDPMX152",
-      "B0CQX9ZZMH",
-      "B0D383WQPB"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_VR_Pet Grooming Kit_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B09ZTMMXTK",
-      "B0CBK1CRZG",
-      "B093KRX2K1"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_VR_Pet Fountain_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CQ2RKB68",
-      "B0CQ2R3LPH",
-      "B0C7GMKPP3",
-      "B0C7GSJDKY"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_VR_Blanket_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CFFQK45G",
-      "B0CFH6C6YM",
-      "B0CFH2B2MV",
-      "B0CFH2C369",
-      "B0CFH5R7Y7"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Garment Steamer_Comp_Steam Iron_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPMX152",
-      "B0CQX9ZZMH",
-      "B0CDPQXPC1"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_Oral Care_Toothbrush_VR_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CSG3FC4G",
-      "B0D2P7WLJB",
-      "B0D2P5TGWK",
-      "B0D2P6KF4N",
-      "B0CS69T7HF",
-      "B0CSG2JZ19"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_P_13_VCPM": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D637B562",
-      "B0D67727VG",
-      "B0D672NXC8",
-      "B0D2LGR3GG",
-      "B0D63DTKQB",
-      "B0D63FKYZ5",
-      "B0D2LJSQXZ"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_P_19_VCPM": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D9KFZYG8",
-      "B0D9KDQCCM",
-      "B0D9KCNVNM",
-      "B0D9KB2RTT",
-      "B0D9KFQG8Q",
-      "B0D9KCKY9F"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_B0D9KDQCCM": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D9KDQCCM"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_B0D67727VG": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D67727VG"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_B0D63DTKQB": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D63DTKQB"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_B0D63FKYZ5": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D63FKYZ5"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_B0D637B562": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D637B562"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_AUDI_B0D9KCKY9F": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D9KCKY9F"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_PRD_B0D9KDQCCM_B0D9KDQCCM": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D9KDQCCM"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_SC-02_Lookback": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CYSMBCB8",
-      "B0F43P6D23"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_SC-01_Lookback": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_V-01_Lookback": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D83Q7L8W"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_MR-01_Lookback": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CYSLCRQS",
-      "B0DCK7ZH5P"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_EA-01_Lookback": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D67727VG",
-      "B0DHRQPGGM"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_HM-02_Lookback": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D63DTKQB"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD_VR_Massagers - New": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DM6BB3VT",
-      "B0F29SZCVF",
-      "B0DMT19RWC",
-      "B0DNJJKBKG",
-      "B0DNJHKZ2G",
-      "B0DMSMKRD9",
-      "B0DMSHZXG2",
-      "B0DMSSLXST",
-      "B0DM6MG4ZH"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SD| PT |VCPM| V-01| V-01 (RG) | V-03": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D83Q7L8W",
-      "B0DQ8W1RBV",
-      "B0DQCWRG3H"
-    ],
-    "ad_types": [
-      "productAd"
-    ],
-    "profile_id": "4164167382477819"
-  },
   "Manual Sit Stand Desk - Contextual Targeting": {
     "brand": "White Mulberry",
     "asins": [
@@ -1229,6 +669,96 @@
     "asins": [
       "B0FN4DSQ6P",
       "B0FN4D3C89"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- Monitor Arms- B0DB5VG39T- SD - PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- Monitor Arms- B0DB5VVPSB- SD - PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VVPSB"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM - Monitor Arms- Multi Asins - Retargetting - SD": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T",
+      "B0DP32F346",
+      "B0DB5YTQZV",
+      "B0DB5VVPSB",
+      "B0DB5W4TCP",
+      "B0DP2VVRND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- Monitor Arms- B0DP32F346- SD - PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DP32F346"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- Monitor Arms- B0DB5W4TCP- SD - PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5W4TCP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- Monitor Arms- MultiAsin - SD - Defensive": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T",
+      "B0DP32F346",
+      "B0DB5YTQZV",
+      "B0DB5VVPSB",
+      "B0DB5W4TCP",
+      "B0DP2VVRND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- Monitor Arms- B0DP2VVRND- SD - PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DP2VVRND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- Monitor Arms- B0DB5YTQZV- SD - PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5YTQZV"
     ],
     "ad_types": [
       "productAd"
@@ -2320,7 +1850,7 @@
     ],
     "profile_id": "3633693611482083"
   },
-  "Audio Array-Multi Ad group-Condenser-SD-PT": {
+  "Audio Array-B0B4DPX2J2-Condenser-SD-PT": {
     "brand": "Audio Array",
     "asins": [
       "B0B4DPX2J2",
@@ -2906,6 +2436,17 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "SD_SC-02_Lookback": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSMBCB8",
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nex_HPC_SD_ET-01/ET-02/ETC-07_PRM_30": {
     "brand": "Nexlev",
     "asins": [
@@ -3340,6 +2881,16 @@
       "B0CYSLCRQS",
       "B0DCK7ZH5P",
       "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nelev-Mixer-SD-CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8WW6BC"
     ],
     "ad_types": [
       "productAd"

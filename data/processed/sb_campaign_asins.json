@@ -1,591 +1,4 @@
 {
-  "Sponsored Brands Campaign": {
-    "brand": "Audio Array",
-    "asins": [
-      "B0BLKCXQRT",
-      "B0BLKCWZQD",
-      "B0BLK31PYH",
-      "B0B4DPX2J2",
-      "B0BLNCP74M",
-      "B0BLNDQ757",
-      "B0B4JRQP22",
-      "B0BLKHVCDX",
-      "B0BLKGPL4X",
-      "B0BLKCSJ7Z",
-      "B0BLKD4815",
-      "B0B4G8PH2P",
-      "B0BQ7H7418",
-      "B0BLS63XCL",
-      "B0B4G7VWXD",
-      "B0B4G94VP3",
-      "B0B4DS678Q",
-      "B0B4FVV78V"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "36023856736901"
-  },
-  "SBV | KT | KE-01 -Electric Food Kettle": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DFCG2VGS"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_KT_Massagers - BM/CFM/MG/EM/FM/KM": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DM66B2DW",
-      "B0DMT19RWC",
-      "B0DNJJKBKG",
-      "B0DM6BB3VT",
-      "B0DMSSLXST"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev_SB_HM-02/EA-01/LE-01/LE-02/LE-03/LE-04_KT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D63DTKQB",
-      "B0DKK15YNJ",
-      "B0D67727VG"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV | KT |SC-04 |Foldable Steam Cleaner|-B0DNJS23HS": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DNJS23HS"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Pet Grooming Kit_KT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CBK1CRZG"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_SC-02/SM-01/SS-01_Category PT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D9KCKY9F",
-      "B0D2LJSQXZ",
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "STORE_SPOTLIGHT"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV | CT | CM-01 &CM-02|electric heating pad": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DFCDZWND",
-      "B0DFCDKMWR"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_T-01/T-02/FS-01/CR-01_KT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D2LD6BYJ",
-      "B0D2LGR3GG",
-      "B0D2LHNS9B"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Steam cleaner_Reach_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "BRAND_VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev_SBV_KT_Dental Flosser_DF-01_B0CW1JJP9S": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CW1JJP9S"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Steam Cleaner New_KT_BMC_SC-02": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CYSMBCB8"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev_SBV_Reach_KT_GS-01/GS-02/GS-05_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPQXPC1",
-      "B0D383WQPB",
-      "B0CQX9ZZMH"
-    ],
-    "ad_types": [
-      "BRAND_VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV | PT |CM-01 &CM-02|electric heating pad": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DFCDZWND",
-      "B0DFCDKMWR"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Waterproof Blanket_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CFH6C6YM"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV |KT| SPM-01 - B0DCK7J87D - Phrase": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DTYDTKN8",
-      "B0DCK7J87D"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB | CT |SC-01| SC-02|SC-04-Steam Cleaner": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DNJS23HS",
-      "B0CDPP45BM",
-      "B0CYSMBCB8"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV |PT |TIC-03-Tyre Inflator": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DJFH4K8B"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev-B0DNJS23HS-Steam Mop-SB-KT-BM": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DNJS23HS",
-      "B0D2LJSQXZ",
-      "B0GKNGWLJ2"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB | CT |BM-02|FM-01|FM-02|MG-01|KM-01-Massager": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DMSMKRD9",
-      "B0DMT19RWC",
-      "B0DM66B2DW",
-      "B0DM6BB3VT",
-      "B0DFCDZWND"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev-B0F43P6D23-Steam Cleaner-SB-KT-Phrase": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0F43P6D23",
-      "B0CDPP45BM",
-      "B0D672NXC8"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Maverick Chair Video Display": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0B5HDPTLC"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_Blanket_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CFH2C369",
-      "B0CFH6C6YM",
-      "B0CFH2B2MV"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev-B0CDPP45BM-Cleaning Machine-SB-PT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0F43P6D23",
-      "B0CDPP45BM",
-      "B0D672NXC8"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_KT_V-01/HD-01/HD-02": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DT6Y7KJM",
-      "B0D86ZC9YT",
-      "B0D83Q7L8W"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV |KT |TIC-03-Tyre Inflator": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DJFH4K8B"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Garment Steamer_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPQXPC1"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV | KT |CM-01 &CM-02|electric heating pad": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DFCDKMWR",
-      "B0DFCDZWND"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_V-01/HSB-03/HSB-04_Category PT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D83Q7L8W",
-      "B0DCK3N2JJ",
-      "B0D9KFP4MG"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Falcon Chair Video Display": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0B5HCG8MM"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_Pet Fountain_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0C7GSJDKY",
-      "B0C7GMKPP3",
-      "B0CQ2R3LPH"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_SC-02/SM-01/SS-01_Category": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPP45BM",
-      "B0D2LJSQXZ",
-      "B0D9KCKY9F"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_Pillow_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDQ5NBH8",
-      "B0CDQ5Y3YB",
-      "B0CDQ6G4TC"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_SC-01/SC-02/SM-01_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DNJS23HS",
-      "B0CYSMBCB8",
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Pet Grooming Kit_PT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CBK1CRZG"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev_SB_Store_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CYSLCRQS",
-      "B0D63DTKQB",
-      "B0CYSMBCB8",
-      "B0D63FKYZ5",
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "STORE_SPOTLIGHT"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV |Brand- KT |TIC-03-Tyre Inflator": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DJFH4K8B"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Garment Steamer GS04_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CQX9ZZMH"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV |Brand- KT |CM-01 &CM-02|electric heating pad": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DFCDKMWR",
-      "B0DFCDZWND"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Callus_Remover_KT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D2LHNS9B"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV |CT | TIC-03-Tyre Inflator": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DJFH4K8B"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Dust Mite_KT_BMC_MR-01": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CYSLCRQS"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_oilapplicator_headmassager_KT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D63DTKQB",
-      "B0D67727VG",
-      "B0DCGHKRXX"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_Oral Care_Reach_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CW1JJP9S",
-      "B0CSG2JZ19",
-      "B0CS69T7HF",
-      "B0D25LNDSY"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Hair Volumizer_V-01_KT": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D83Q7L8W"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Exact": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CYSLCRQS",
-      "B0DCK7ZH5P",
-      "B0D672NXC8"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_Reach_KT_GS-01/GS-02/GS-04_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPMX152",
-      "B0D383WQPB",
-      "B0CQX9ZZMH"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB_KT_VC-01/VC-02/VC-03": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0DCGHVN81",
-      "B0DKJZDY72",
-      "B0DKJSCLBD"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Phrase(Video)": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CYSLCRQS"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SB | CT|V-01RG|HS-01|HS-02|HD-01- Hair Styling Tools": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0D86ZC9YT",
-      "B0DQ8W1RBV",
-      "B0D2LKB4BJ"
-    ],
-    "ad_types": [
-      "PRODUCT_COLLECTION"
-    ],
-    "profile_id": "4164167382477819"
-  },
-  "SBV_Steam Cleaner_KT_BMC": {
-    "brand": "Nexlev",
-    "asins": [
-      "B0CDPP45BM"
-    ],
-    "ad_types": [
-      "VIDEO"
-    ],
-    "profile_id": "4164167382477819"
-  },
   "SB_L shape Desk_Comp": {
     "brand": "White Mulberry",
     "asins": [
@@ -1158,6 +571,20 @@
     ],
     "ad_types": [
       "VIDEO"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry-Monitor Arm-Collective- SB - Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T",
+      "B0DB5W4TCP",
+      "B0DP32F346",
+      "B0DB5YTQZV",
+      "B0DB5VVPSB"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "3563790765020958"
   },
@@ -2092,6 +1519,16 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "Audio Array_B0G53H49BS_Audio Mixer_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G53H49BS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Audio Array-B0BLJVJ2GN-AA 05 Suspension-SB-PT": {
     "brand": "Audio Array",
     "asins": [
@@ -2176,6 +1613,16 @@
     "brand": "Audio Array",
     "asins": [
       "B0CM9HYVDM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0DXFPM4N2_Studio Monitor_SB Video": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0DXFPM4N2"
     ],
     "ad_types": [
       "VIDEO"
@@ -2311,6 +1758,18 @@
     ],
     "ad_types": [
       "PRODUCT_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Studio Headphones_SB_KT_Phrase": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FG88HVQ8",
+      "B0FQBXS6Y2",
+      "B0FQBTRM28"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "3633693611482083"
   },
@@ -2483,6 +1942,16 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "Audio Array_B0G3B152FR_Wireless Amplifeir_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3B152FR"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Audio Array AM-C44 SBV KT - B0CM9KJZWQ": {
     "brand": "Audio Array",
     "asins": [
@@ -2556,6 +2025,16 @@
     ],
     "ad_types": [
       "PRODUCT_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0GN97RFPR_Sound Monitor AMS-2_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0GN97RFPR"
+    ],
+    "ad_types": [
+      "VIDEO"
     ],
     "profile_id": "3633693611482083"
   },
@@ -2660,6 +2139,18 @@
     ],
     "ad_types": [
       "PRODUCT_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Condenser Mic_SB_KT_Phrase": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4DPX2J2",
+      "B0D3M1B4Z8",
+      "B0B4G19R58"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "3633693611482083"
   },
@@ -2802,6 +2293,30 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "SB_KT_Massagers - BM/CFM/MG/EM/FM/KM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DMT19RWC",
+      "B0DM6BB3VT",
+      "B0DMSSLXST"
+    ],
+    "ad_types": [
+      "PRODUCT_COLLECTION"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_SB_Store_KT_BMC": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS",
+      "B0D63FKYZ5",
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "STORE_SPOTLIGHT"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "HnK_SBV | KT |SC-04 | B0DNJS23HS - Reel": {
     "brand": "Nexlev",
     "asins": [
@@ -2809,6 +2324,16 @@
     ],
     "ad_types": [
       "BRAND_VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "SBV |PT |TIC-03-Tyre Inflator": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH4K8B"
+    ],
+    "ad_types": [
+      "VIDEO"
     ],
     "profile_id": "1122755254933937"
   },
@@ -2873,6 +2398,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "SBV |Brand- KT |TIC-03-Tyre Inflator": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH4K8B"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0DNJS23HS-SBV-Phrase-Mop Cleaner-SP": {
     "brand": "Nexlev",
     "asins": [
@@ -2931,6 +2466,16 @@
     "brand": "Nexlev",
     "asins": [
       "B0DVC58QPZ"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "SBV |KT| SPM-01 - B0DCK7J87D - Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DTYDTKN8"
     ],
     "ad_types": [
       "VIDEO"
@@ -3036,6 +2581,18 @@
     ],
     "ad_types": [
       "MANUAL_COLLECTION"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "SB | CT |BM-02|FM-01|FM-02|MG-01|KM-01-Massager": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DM6BB3VT",
+      "B0DMT19RWC",
+      "B0DFCDZWND"
+    ],
+    "ad_types": [
+      "PRODUCT_COLLECTION"
     ],
     "profile_id": "1122755254933937"
   },
@@ -3256,6 +2813,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev_SBV_KT_Dental Flosser_DF-01_B0CW1JJP9S": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CW1JJP9S"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nex_HnK_SBV_KT_SC-05_B0F43P6D23_BCG_Phrase & Exact_Reel": {
     "brand": "Nexlev",
     "asins": [
@@ -3372,6 +2939,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "SBV_Steam Cleaner New_KT_BMC_SC-02": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSMBCB8"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0DVC7VJP1-Stand Mixer- SBV- PT02": {
     "brand": "Nexlev",
     "asins": [
@@ -3473,6 +3050,18 @@
     ],
     "ad_types": [
       "MANUAL_COLLECTION"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "SB_Oral Care_Reach_KT_BMC": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CW1JJP9S",
+      "B0D25LNDSY",
+      "B0CSG2JZ19"
+    ],
+    "ad_types": [
+      "PRODUCT_COLLECTION"
     ],
     "profile_id": "1122755254933937"
   },
@@ -3602,10 +3191,70 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev_B0CYSLCRQS_Sofa Cleaning Machine_SBV_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DNJS23HS-Steam Cleaner-SBV- Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CDPP45BM-Steam Cleaner-SBV- BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0F43P6D23-Steam Cleaner-SBV- BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0F43P6D23-Steam Cleaner-SBV- exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0CYSLCRQS-Sofa Vacuum Cleaner -SBV-KT-Phrase": {
     "brand": "Nexlev",
     "asins": [
       "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
     ],
     "ad_types": [
       "VIDEO"
@@ -3622,10 +3271,170 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "NexLev_B0GN8WW6BC_Stand Mixer_SBV_KT_BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8WW6BC"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0GN8WW6BC_Stand Mixer_SBV_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN8WW6BC"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0DCK7ZH5P_Sofa Cleaning Machine_SBV_KT_Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK7ZH5P"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0CDPP45BM_Steam Cleaner_SBV_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Phrase(Video)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0DVC7VJP1-Stand Mixer- SBV- PT04": {
     "brand": "Nexlev",
     "asins": [
       "B0DVC7VJP1"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0F43P6D23-Steam Cleaner-SBV- PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0CDPP45BM-Steam Cleaner-SBV- Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DNJS23HS-Steam Cleaner-SBV- Exact 01": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0F43P6D23_Steam Cleaner_SBV_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DNJS23HS-Steam Cleaner-SBV- Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0CYSLCRQS_Sofa Cleaning Machine_SBV_KT_BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DNJS23HS-Steam Cleaner-SBV- PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0DCK7ZH5P_Sofa Cleaning Machine_SBV_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK7ZH5P"
     ],
     "ad_types": [
       "VIDEO"

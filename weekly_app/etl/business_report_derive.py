@@ -34,6 +34,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from weekly_app.etl._excel_safe import read_excel_safe
+
 ROOT       = Path(__file__).resolve().parent.parent.parent
 RAW_SALES  = ROOT / "data" / "raw" / "sales"
 AMS_ROOT   = ROOT / "data" / "ams_weekly_data"
@@ -80,7 +82,7 @@ def _norm(s) -> str:
 def build_asin_meta_map() -> dict[str, dict]:
     if not MASTER.exists():
         return {}
-    m = pd.read_excel(MASTER)
+    m = read_excel_safe(MASTER)
     m.columns = m.columns.str.strip()
     out: dict[str, dict] = {}
     for _, r in m.iterrows():
@@ -109,7 +111,7 @@ def build_asin_meta_map() -> dict[str, dict]:
 def load_amazon_3p(path: Path) -> pd.DataFrame:
     if not path.exists():
         return pd.DataFrame(columns=LEGACY_COLS + ["_asin_key"])
-    df = pd.read_excel(path)
+    df = read_excel_safe(path)
     df.columns = df.columns.str.strip()
     # Schema bridge — SP-API Seller Sales emits title-case Amazon report
     # column names ("Units Ordered", "Ordered Product Sales", "Sessions"...)
@@ -171,7 +173,7 @@ def load_amazon_1p(path: Path) -> pd.DataFrame:
 
     frames = []
     for s in one_p_sheets:
-        df = pd.read_excel(path, sheet_name=s)
+        df = read_excel_safe(path, sheet_name=s)
         df.columns = df.columns.str.strip()
         if "ASIN" not in df.columns:
             continue
@@ -218,7 +220,7 @@ def load_amazon_1p_sp_api(path: Path) -> pd.DataFrame:
     if not path.exists():
         return empty
     try:
-        df = pd.read_excel(path)
+        df = read_excel_safe(path)
     except Exception:
         return empty
     df.columns = df.columns.str.strip()
@@ -403,7 +405,7 @@ def _write_idempotent(df: pd.DataFrame, out: Path) -> str:
         return "written"
 
     try:
-        old = pd.read_excel(out)
+        old = read_excel_safe(out)
     except Exception:
         # Existing file unreadable — overwrite.
         df.to_excel(out, index=False)

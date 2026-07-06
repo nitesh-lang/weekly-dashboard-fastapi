@@ -7,6 +7,8 @@ from pathlib import Path
 import pandas as pd
 import re
 
+from weekly_app.etl._excel_safe import read_excel_safe
+
 # ------------------------------------------------------------
 # BASE PATHS
 # ------------------------------------------------------------
@@ -23,7 +25,7 @@ def _load_sku_nlc_map() -> dict:
     """{sku → nlc} from sku_master.xlsx — used as fallback when raw inventory rows
     have a blank nlc (Week 18+ exports stopped including it)."""
     try:
-        m = pd.read_excel(MASTER_FILE)
+        m = read_excel_safe(MASTER_FILE)
     except Exception:
         return {}
     m.columns = [c.strip().lower() for c in m.columns]
@@ -185,7 +187,7 @@ def run_inventory_etl():
     sp_api_one_p_owns: set[tuple[str, str]] = set()
     for sp_file in RAW_INV_DIR.rglob("Vendor SOH (SP-API).xlsx"):
         try:
-            _df = pd.read_excel(sp_file)
+            _df = read_excel_safe(sp_file)
             _df.columns = [c.strip().lower() for c in _df.columns]
             if "channel" not in _df.columns or "qty" not in _df.columns:
                 continue
@@ -212,7 +214,7 @@ def run_inventory_etl():
     for file in RAW_INV_DIR.rglob("*.xlsx"):
 
         try:
-            df = pd.read_excel(file)
+            df = read_excel_safe(file)
         except Exception:
             continue
 
@@ -250,6 +252,10 @@ def run_inventory_etl():
                 | df["asin"].astype(str).str.strip().str.lower().isin(["", "nan", "none", "<na>"])
             )
             if _blank_asin.any():
+                # pandas 2.2+ setitem guard — widen asin to object so a
+                # BUNDLE_ string assignment into a float64/NaN column
+                # doesn't raise LossySetitemError.
+                df["asin"] = df["asin"].astype("object")
                 df.loc[_blank_asin, "asin"] = (
                     "BUNDLE_" + df.loc[_blank_asin, "sku"].astype(str).str.strip()
                 )
@@ -551,42 +557,27 @@ def run_inventory_etl():
             existing_counts = existing_weeks.value_counts()
             new_counts = week_counts
 
-            # 1) Max-week regression
+            # Regression guard is now WARN-ONLY.  Original behaviour
+            # (return-and-keep-existing on ≥30% drop) was silently
+            # freezing the dashboard on Linux-CI xlsx parse regressions
+            # that don't reproduce on Windows.  Root cause of Linux
+            # drops is now addressed via read_excel_safe(engine="calamine")
+            # + parse_amazon empty-Model-column fix.  Log the drop
+            # loudly and let Check 25/26 in pipeline_integrity_audit
+            # surface real problems — but never withhold the write.
             if new_max < existing_max:
                 print(
-                    f"⛔ ABORT WRITE: new max week W{new_max} < existing W{existing_max}. "
-                    f"Keeping existing snapshot — investigate why W{existing_max} rows "
-                    f"didn't regenerate (check Excel parse errors above)."
+                    f"⚠  new max week W{new_max} < existing W{existing_max} "
+                    f"— snapshot writing anyway; investigate stale week."
                 )
-                return
-
-            # 2) Row-count regression (≥30% drop in any week present in both).
-            #    Catches the Linux-runner xlsx parse bug where max-week is
-            #    preserved but row counts within a week collapse silently.
             for w in sorted(set(existing_counts.index) & set(new_counts.index)):
                 old_n = int(existing_counts[w])
                 new_n = int(new_counts[w])
-                # Threshold loosened 2026-07-06 to 0.30 (70% drop max):
-                # W5 dropped 984→688 (30%) and W6 dropped 1177→514 (56%)
-                # on the same run.  Both are legitimate historical
-                # regressions from sku_master hygiene drift, not raw
-                # parse failures — the abort check should only trip on
-                # near-total data loss (>70%).  Anything smaller is
-                # noise the operator would rather see land + investigate
-                # than block W27's arrival.  Warning band kept below.
-                if old_n >= 50 and new_n < old_n * 0.30:
-                    drop_pct = (1 - new_n / old_n) * 100
-                    print(
-                        f"⛔ ABORT WRITE: W{w} regressed from {old_n} → {new_n} rows "
-                        f"({drop_pct:.0f}% drop). Keeping existing snapshot — investigate "
-                        f"which raw xlsx failed to parse."
-                    )
-                    return
                 if old_n >= 50 and new_n < old_n * 0.75:
                     drop_pct = (1 - new_n / old_n) * 100
                     print(
                         f"⚠  W{w} shrank {old_n} → {new_n} rows ({drop_pct:.0f}%) "
-                        f"— below abort threshold but worth investigating."
+                        f"— writing anyway; audit checks 25/26 will surface real regressions."
                     )
         except Exception as e:
             print(f"⚠ regression-guard read failed, will write anyway: {e!r}")

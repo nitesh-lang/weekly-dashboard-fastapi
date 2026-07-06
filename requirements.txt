@@ -6,6 +6,13 @@ jinja2
 python-multipart
 openpyxl>=3.1.2
 xlrd>=2.0.1
+# Rust-based xlsx parser — kept alongside openpyxl.  On Linux CI runners
+# pandas+openpyxl silently drops rows for some xlsx encodings that
+# Windows Excel writes (see commit 805a020 + agent findings 2026-07-06),
+# which cascaded into today's day-long W27 landing cycle.  Calamine
+# reads the same files correctly; the ETL-side `_read_excel_safe`
+# helper prefers it and falls back to openpyxl if unavailable.
+python-calamine>=0.2.0
 psycopg2-binary
 SQLAlchemy>=2.0
 python-dotenv

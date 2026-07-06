@@ -2,6 +2,8 @@ import pandas as pd
 from pathlib import Path
 import re
 
+from weekly_app.etl._excel_safe import read_excel_safe
+
 # =========================================================
 # CONFIG
 # =========================================================
@@ -55,7 +57,7 @@ for brand_dir in RAW_INVENTORY_DIR.iterdir():
 
     inv_file = brand_dir / "Inventory Snapshot.xlsx"
     if inv_file.exists():
-        temp = pd.read_excel(inv_file)
+        temp = read_excel_safe(inv_file)
         temp.columns = temp.columns.str.lower().str.strip()
         temp["brand"] = brand_dir.name
         frames.append(temp)
@@ -72,7 +74,7 @@ for brand_dir in RAW_INVENTORY_DIR.iterdir():
     fba_file = brand_dir / "Seller FBA Inventory (SP-API).xlsx"
     if fba_file.exists():
         try:
-            fba = pd.read_excel(fba_file)
+            fba = read_excel_safe(fba_file)
         except Exception:
             fba = None
         if fba is not None and not fba.empty:
@@ -82,8 +84,8 @@ for brand_dir in RAW_INVENTORY_DIR.iterdir():
                 fba["channel"] = "AMAZON"
                 if "type" not in fba.columns:
                     fba["type"] = "FBA"
-                if "week" not in fba.columns and "Week" in pd.read_excel(fba_file, nrows=0).columns:
-                    fba["week"] = pd.read_excel(fba_file)["Week"]
+                if "week" not in fba.columns and "Week" in read_excel_safe(fba_file, nrows=0).columns:
+                    fba["week"] = read_excel_safe(fba_file)["Week"]
                 fba["brand"] = brand_dir.name
                 frames.append(fba)
 
@@ -96,7 +98,7 @@ for brand_dir in RAW_INVENTORY_DIR.iterdir():
     vendor_soh_file = brand_dir / "Vendor SOH (SP-API).xlsx"
     if vendor_soh_file.exists():
         try:
-            vsoh = pd.read_excel(vendor_soh_file)
+            vsoh = read_excel_safe(vendor_soh_file)
         except Exception:
             vsoh = None
         if vsoh is not None and not vsoh.empty:
@@ -125,7 +127,7 @@ print("RAW INVENTORY ROWS (ALL BRANDS):", len(df))
 if "asin" in df.columns:
     sku_master_file = BASE_DIR / "data" / "master" / "sku_master.xlsx"
     if sku_master_file.exists():
-        _m = pd.read_excel(sku_master_file)
+        _m = read_excel_safe(sku_master_file)
         _m.columns = _m.columns.str.strip()
         # Include Brand so we can override the folder-inferred brand
         # when the operator drops a file under the wrong folder (e.g.,
@@ -174,12 +176,16 @@ if "asin" in df.columns:
                             .drop_duplicates()
                             .head(10))
                 print(sample.to_string(index=False))
+            # pandas 2.2+ setitem guard on brand.
+            df["brand"] = df["brand"].astype("object")
             df.loc[_has_master_brand, "brand"] = df.loc[_has_master_brand, "_m_brand"]
 
         # Fill Model where blank ("nan"/"none"/empty)
         if "_m_model" in df.columns and "model" in df.columns:
             _blank = (df["model"].isna()
                       | df["model"].astype(str).str.strip().str.lower().isin(["", "nan", "none"]))
+            # pandas 2.2+ setitem guard on model.
+            df["model"] = df["model"].astype("object")
             df.loc[_blank, "model"] = df.loc[_blank, "_m_model"]
         # Fill categories where blank — adds the column if absent
         for raw_col, m_col in [("category_l0", "_m_cl0"),

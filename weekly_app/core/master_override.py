@@ -29,7 +29,13 @@ import pandas as pd
 
 from weekly_app.core.df_cache import load_excel_cached
 
-MASTER_PATH = Path("data/master/sku_master.xlsx")
+# Anchor to the module location (not CWD).  When ETL scripts are
+# imported from an entry-point that hasn't `cd`-ed to the repo root
+# (e.g. Render startup, some CI paths), a bare "data/master/…" relative
+# path resolves to the wrong directory, master_lookups() returns
+# ({}, {}), and the ASIN→model/brand backfill in sales_auto_etl silently
+# no-ops — feeding the W23-collapse cascade caught on 2026-07-06.
+MASTER_PATH = Path(__file__).resolve().parents[2] / "data" / "master" / "sku_master.xlsx"
 
 
 def master_lookups() -> tuple[dict[str, dict], dict[str, dict]]:

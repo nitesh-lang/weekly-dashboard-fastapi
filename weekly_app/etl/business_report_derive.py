@@ -318,6 +318,11 @@ def derive_business_report(brand_dir: str, week_num: int,
 
     # If parent ASIN is still empty (1P-only row that had no master hit
     # either) fall back to the asin_key itself.
+    # Widen ASIN columns to `object` first — otherwise pandas 2.2+
+    # refuses to setitem a StringArray into a float64 all-NaN column
+    # (happens when the merge produced no non-null ASINs upstream).
+    merged["(Parent) ASIN"] = merged["(Parent) ASIN"].astype("object")
+    merged["(Child) ASIN"]  = merged["(Child) ASIN"].astype("object")
     blank = merged["(Parent) ASIN"].map(_norm) == ""
     merged.loc[blank, "(Parent) ASIN"] = merged.loc[blank, "_asin_key"]
     blank_c = merged["(Child) ASIN"].map(_norm) == ""

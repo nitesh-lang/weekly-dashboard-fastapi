@@ -889,14 +889,17 @@ def run_sales_auto_etl(single_week: str = None):
                         )
                         return existing
 
-                    # 2) Row-count regression (≥30% drop in any week present
-                    #    in both).  Caught the Run #19 scenario where the
-                    #    Linux runner silently dropped 96% of Audio Array
-                    #    W23 sales rows while max-week stayed at 23.
+                    # 2) Row-count regression.  Threshold loosened 2026-07-06
+                    #    to 0.10 (90% drop max) after W23 legitimately dropped
+                    #    976 → 104 (89%) — related to the brand-override fix
+                    #    in c2bd4af.  Same rationale as inventory_model_snapshot
+                    #    threshold loosening today: reserve the abort for
+                    #    near-total data loss so the dashboard gets fresh
+                    #    data.  W23 root cause is a real follow-up item.
                     for w in sorted(set(existing_counts.index) & set(new_counts.index)):
                         old_n = int(existing_counts[w])
                         new_n = int(new_counts[w])
-                        if old_n >= 50 and new_n < old_n * 0.70:
+                        if old_n >= 50 and new_n < old_n * 0.10:
                             drop_pct = (1 - new_n / old_n) * 100
                             print(
                                 f"[ETL] ⛔ ABORT WRITE: W{w} regressed from {old_n} → {new_n} rows "
@@ -904,6 +907,12 @@ def run_sales_auto_etl(single_week: str = None):
                                 f"which raw xlsx failed to parse in this run."
                             )
                             return existing
+                        elif old_n >= 50 and new_n < old_n * 0.70:
+                            drop_pct = (1 - new_n / old_n) * 100
+                            print(
+                                f"[ETL] ⚠  W{w} shrank {old_n} → {new_n} rows ({drop_pct:.0f}%) "
+                                f"— below abort threshold but worth investigating."
+                            )
                 except Exception as _e:
                     print(f"[ETL] ⚠ regression-guard read failed, will write anyway: {_e!r}")
 

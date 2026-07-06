@@ -410,11 +410,31 @@ jobs:
                   data/processed/reviews_snapshot.csv \
                   data/processed/price_snapshot.csv 2>/dev/null || true
 
-          # Debug 2026-07-06 — figure out why data/processed/*.csv keep
-          # not making it into cron commits despite being freshly written.
+          # Safety net 2026-07-06 — the processed/*.csv files kept not
+          # landing in cron commits despite the ETLs writing them fresh
+          # on the runner (debug proved file size grew, max week = 27
+          # on disk).  Force git to re-stat everything AND force-add the
+          # snapshot CSVs so no `assume-unchanged` / stale-index / other
+          # weirdness can drop them.
+          git update-index --really-refresh 2>&1 | head -20 || true
+          for f in \
+              data/processed/weekly_sales_snapshot.csv \
+              data/processed/inventory_model_snapshot.csv \
+              data/processed/inventory_ams_snapshot.csv \
+              data/processed/returns_snapshot.csv \
+              data/processed/margin_snapshot.csv \
+              data/processed/inbound_snapshot.csv \
+              data/processed/reviews_snapshot.csv \
+              data/processed/pipeline_integrity_audit.xlsx \
+              data/processed/weekly_brief.md ; do
+            if [ -f "$f" ]; then
+              git update-index --no-assume-unchanged "$f" 2>/dev/null || true
+              git add -f "$f" 2>/dev/null || true
+            fi
+          done
+
+          # Debug 2026-07-06 — capture git's view right before commit.
           echo "=========== DEBUG git state BEFORE commit ==========="
-          echo "-- git status --porcelain (all) --"
-          git status --porcelain | head -60
           echo "-- git status --porcelain -- data/processed/ --"
           git status --porcelain -- data/processed/
           echo "-- ls -l data/processed/weekly_sales_snapshot.csv --"
@@ -422,10 +442,8 @@ jobs:
           echo "-- max week on disk --"
           awk -F, 'NR>1{gsub(/[^0-9]/,"",$1); if($1+0>mx) mx=$1+0} END{print "max week=" mx}' \
               data/processed/weekly_sales_snapshot.csv 2>&1 || true
-          echo "-- diff --cached names --"
+          echo "-- diff --cached names (staged for commit) --"
           git diff --cached --name-only | head -30
-          echo "-- diff --name-only (unstaged) --"
-          git diff --name-only | head -30
           echo "-- is snapshot in --assume-unchanged? --"
           git ls-files -v data/processed/weekly_sales_snapshot.csv 2>&1
           echo "===================================================="

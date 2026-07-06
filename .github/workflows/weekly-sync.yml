@@ -125,11 +125,15 @@ jobs:
       - name: SB ingest from API (covers weeks without operator files)
         run: python scripts/sb_ingest_from_api.py
 
-      # Re-derive business_report_weekN.xlsx from amazon_sales (3P) +
-      # 1p Sales tab so step4's biz join uses the freshest sales data
-      # the operator pushed.  Replaces the manual Amazon-UI export step.
-      - name: Derive business_report from raw sales
-        run: python -m weekly_app.etl.business_report_derive
+      # NOTE: `Derive business_report from raw sales` was here, before
+      # the SP-API Seller Sales / Vendor Sales pulls.  That ordering
+      # meant business_report_derive checked for the CURRENT week's
+      # `Seller Sales (SP-API).xlsx` before it existed on disk,
+      # silently skipping any brand whose only 3P source was the
+      # SP-API pull (i.e. no operator amazon_sales.xlsx drop).
+      # Nexlev W27 lost ₹30 L this way on 2026-07-06 — AMS Trend read
+      # 0 for Nexlev while Sales Trend read ₹30 L.  Moved to AFTER
+      # the SP-API pulls; see step further down.
 
       # SP-API 1P (Vendor Central) inventory — drops per-brand
       # "Vendor SOH (SP-API).xlsx" under data/raw/inventory/Week NN/.
@@ -270,6 +274,19 @@ jobs:
       # tolerant of missing raw files in any single module so one bad
       # file doesn't sink the whole run -- the next steps still benefit
       # from the other refreshes.
+
+      # Re-derive business_report_weekN.xlsx from amazon_sales (3P) +
+      # 1p Sales tab so step4's biz join uses the freshest sales data
+      # the operator pushed.  Replaces the manual Amazon-UI export step.
+      # MUST run AFTER the SP-API Seller Sales + Vendor Sales pulls so
+      # the current week's `Seller Sales (SP-API).xlsx` and
+      # `Vendor Sales (SP-API).xlsx` are on disk before it looks for
+      # them.  Bad ordering ate Nexlev W27's ₹30 L 3P from AMS Trend
+      # on 2026-07-06 — see cross-reference above where this step
+      # used to live.
+      - name: Derive business_report from raw sales
+        run: python -m weekly_app.etl.business_report_derive
+
       - name: Sales auto ETL — weekly_sales_snapshot.csv
         run: python -m weekly_app.etl.sales_auto_etl
 

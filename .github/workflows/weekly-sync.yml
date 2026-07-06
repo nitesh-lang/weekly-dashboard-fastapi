@@ -243,14 +243,19 @@ jobs:
           SP_REFRESH_TOKEN_VIOMI:           ${{ secrets.SP_REFRESH_TOKEN_VIOMI }}
           SP_REFRESH_TOKEN_WHITEMULBERRY:   ${{ secrets.SP_REFRESH_TOKEN_WHITEMULBERRY }}
 
-      # SP-API 1P Vendor Returns — aggregates 90-day GET_VENDOR_SALES
-      # response into 1p Returns.xlsx, matching the operator's manual
-      # Vendor Central Sales Diagnostic export.  Chunks the window
-      # into 14-day pieces (Amazon FATALs larger windows under
-      # throttle).  WM 1P stays empty until the WMI-DRPL token is
-      # restored.
-      - name: SP-API Vendor Returns pull (90d, chunked)
-        run: python scripts/sp_vendor_returns_pull.py || true
+      # SP-API 1P Vendor Returns — aggregates GET_VENDOR_SALES into
+      # 1p Returns.xlsx, matching the operator's manual Vendor Central
+      # Sales Diagnostic export.  Chunked into 14-day pieces (Amazon
+      # FATALs larger windows under throttle).
+      #
+      # Cut from 90d -> 30d 2026-07-06: 14 chunks × ~4 min each was
+      # eating the whole job clock and tripping the 120m timeout mid-
+      # run.  30d = 3 chunks / account × 2 vendors ≈ 25 min, leaving
+      # room for the ETL stack and commit.  If we need the 90d window
+      # for a specific reconciliation, run the script manually with
+      # `--days 90` or split into its own workflow.
+      - name: SP-API Vendor Returns pull (30d, chunked)
+        run: python scripts/sp_vendor_returns_pull.py --days 30 || true
         env:
           SP_LWA_CLIENT_ID_AUDIOARRAY:      ${{ secrets.SP_LWA_CLIENT_ID_AUDIOARRAY }}
           SP_LWA_CLIENT_SECRET_AUDIOARRAY:  ${{ secrets.SP_LWA_CLIENT_SECRET_AUDIOARRAY }}

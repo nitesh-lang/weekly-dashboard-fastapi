@@ -228,9 +228,12 @@ def main() -> int:
                     help="Cap the number of ASINs (smoke testing)")
     args = ap.parse_args()
 
-    api_key = os.environ.get("KEEPA_API_KEY")
+    # Accept either KEEPA_SECRET_KEY (operator's chosen name in .env /
+    # repo secrets) or KEEPA_API_KEY (legacy — kept for backwards
+    # compatibility).  Whichever is set wins.
+    api_key = os.environ.get("KEEPA_SECRET_KEY") or os.environ.get("KEEPA_API_KEY")
     if not api_key:
-        print("ERROR: KEEPA_API_KEY missing from environment (.env)")
+        print("ERROR: KEEPA_SECRET_KEY (or KEEPA_API_KEY) missing from environment (.env / repo secrets)")
         return 1
 
     master = load_master(limit=args.limit)

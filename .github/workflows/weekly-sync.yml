@@ -175,7 +175,11 @@ jobs:
       - name: Keepa pricing pull (Amazon 1P + per-account 3P)
         run: python scripts/keepa_pricing_pull.py || true
         env:
-          KEEPA_API_KEY: ${{ secrets.KEEPA_API_KEY }}
+          # Accept either secret name — operator standardised on
+          # KEEPA_SECRET_KEY 2026-07-06; KEEPA_API_KEY kept for
+          # backwards compatibility.
+          KEEPA_SECRET_KEY: ${{ secrets.KEEPA_SECRET_KEY }}
+          KEEPA_API_KEY:    ${{ secrets.KEEPA_API_KEY }}
 
       # SP-API 3P Seller Sales — Detail Page Sales and Traffic By Child
       # Item across all 5 seller accounts.  Merges, GST-adjusts

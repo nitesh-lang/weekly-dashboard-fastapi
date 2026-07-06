@@ -416,13 +416,16 @@ jobs:
           # runs and silently dropped subsequent files.  Add it back
           # once the pull step is wired.
 
-          # Force git to re-stat the working tree and force-add the
-          # snapshot files individually.  Simpler + safer than the
-          # multi-file `git add ...` chunks — one bad pathspec doesn't
-          # take down the rest.  Root cause of Linux xlsx drops is now
-          # fixed in the ETL layer (calamine engine + parse_amazon
-          # content-check), so this is defence-in-depth, not the fix.
+          # Force git to re-stat the working tree and force-add every
+          # file the ETL / SP-API steps might have produced.  Simpler +
+          # safer than the multi-file `git add ...` chunks above —
+          # one bad pathspec can't take down the rest.  Root cause of
+          # Linux xlsx drops is now fixed in the ETL layer (calamine
+          # engine + parse_amazon content-check), so this is
+          # defence-in-depth, not the fix.
           git update-index --really-refresh 2>&1 | head -20 || true
+
+          # Every processed snapshot the dashboard reads directly.
           for f in \
               data/processed/weekly_sales_snapshot.csv \
               data/processed/inventory_model_snapshot.csv \
@@ -437,6 +440,28 @@ jobs:
               git add -f "$f" 2>/dev/null || true
             fi
           done
+
+          # Every SP-API-produced raw xlsx for the latest week (find
+          # is safer than glob patterns — one nonexistent path can't
+          # abort the whole invocation).  Also picks up new brand
+          # folders without needing workflow edits.
+          find data/raw/sales -type f \
+               \( -name "Seller Sales (SP-API).xlsx" \
+               -o -name "Vendor Sales (SP-API).xlsx" \
+               -o -name "FBA Shipments (SP-API).xlsx" \
+               -o -name "seller_sales_unmatched*.csv" \
+               -o -name "vendor_sales_unmatched*.csv" \) \
+               -exec git add -f {} + 2>/dev/null || true
+          find data/raw/inventory -type f \
+               \( -name "Seller FBA Inventory (SP-API).xlsx" \
+               -o -name "Vendor SOH (SP-API).xlsx" \
+               -o -name "seller_fba_inv_unmatched*.csv" \
+               -o -name "vendor_soh_unmatched*.csv" \) \
+               -exec git add -f {} + 2>/dev/null || true
+          # Returns (both 3P per-account and 1P consolidated).
+          find data/raw/returns -maxdepth 2 -type f \
+               \( -name "*.xlsx" -o -name "*.csv" \) \
+               -exec git add -f {} + 2>/dev/null || true
 
           if git diff --cached --quiet; then
             echo "No data changes — skipping commit."

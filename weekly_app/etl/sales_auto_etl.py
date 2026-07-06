@@ -925,7 +925,22 @@ def run_sales_auto_etl(single_week: str = None):
     except Exception as _e:
         print(f"[ETL] ⚠ category backfill skipped: {_e!r}")
 
+    # Debug 2026-07-06 — the CI-committed weekly_sales_snapshot.csv keeps
+    # showing max_week=26 despite this ETL logging W27:932 rows.  Print
+    # explicit disk state so we can see whether to_csv is landing on the
+    # path the commit step is watching, and whether git sees any change.
+    import os
+    _before_size = OUTPUT_FILE.stat().st_size if OUTPUT_FILE.exists() else 0
     combined.to_csv(OUTPUT_FILE, index=False)
+    _after_size = OUTPUT_FILE.stat().st_size
+    print(f"[ETL] 💾 wrote {OUTPUT_FILE} (before={_before_size} bytes, after={_after_size} bytes, rows={len(combined)})")
+    # Verify by round-tripping: read the file we just wrote and show max week
+    try:
+        _rt = pd.read_csv(OUTPUT_FILE, usecols=["week"], dtype=str)
+        _rt_max = int(_rt["week"].astype(str).str.extract(r"(\d+)")[0].dropna().astype(int).max())
+        print(f"[ETL] 🔁 round-trip max week from disk = {_rt_max}")
+    except Exception as _e:
+        print(f"[ETL] ⚠ round-trip check failed: {_e!r}")
     print("✅ AUTO ETL COMPLETE")
 
     return combined

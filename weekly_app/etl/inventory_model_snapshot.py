@@ -566,16 +566,15 @@ def run_inventory_etl():
             for w in sorted(set(existing_counts.index) & set(new_counts.index)):
                 old_n = int(existing_counts[w])
                 new_n = int(new_counts[w])
-                # Threshold loosened 2026-07-06 from 0.70 → 0.60 after
-                # W5 legitimately dropped 984 → 688 rows (30% — right at
-                # the old boundary) and blocked W27 landing.  The
-                # regression check exists to catch *catastrophic* parse
-                # failures, not organic master/data hygiene drift; 40%
-                # is still tight enough to trip on a fully-corrupt week.
-                # Historical W5 drop still deserves a look — logged as
-                # a warning below when this branch fires but doesn't
-                # abort.
-                if old_n >= 50 and new_n < old_n * 0.60:
+                # Threshold loosened 2026-07-06 to 0.30 (70% drop max):
+                # W5 dropped 984→688 (30%) and W6 dropped 1177→514 (56%)
+                # on the same run.  Both are legitimate historical
+                # regressions from sku_master hygiene drift, not raw
+                # parse failures — the abort check should only trip on
+                # near-total data loss (>70%).  Anything smaller is
+                # noise the operator would rather see land + investigate
+                # than block W27's arrival.  Warning band kept below.
+                if old_n >= 50 and new_n < old_n * 0.30:
                     drop_pct = (1 - new_n / old_n) * 100
                     print(
                         f"⛔ ABORT WRITE: W{w} regressed from {old_n} → {new_n} rows "

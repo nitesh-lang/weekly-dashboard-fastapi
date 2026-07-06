@@ -127,17 +127,55 @@ if "asin" in df.columns:
     if sku_master_file.exists():
         _m = pd.read_excel(sku_master_file)
         _m.columns = _m.columns.str.strip()
-        _need = ["ASIN", "Model", "category_l0", "category_l1", "category_l2"]
+        # Include Brand so we can override the folder-inferred brand
+        # when the operator drops a file under the wrong folder (e.g.,
+        # TC-777-Pro under White_Mulberry when master says Tonor).
+        _need = ["ASIN", "Brand", "Model", "category_l0", "category_l1", "category_l2"]
         _m = _m[[c for c in _need if c in _m.columns]].copy()
-        rename = {"ASIN": "asin", "Model": "_m_model",
+        rename = {"ASIN": "asin", "Brand": "_m_brand", "Model": "_m_model",
                   "category_l0": "_m_cl0", "category_l1": "_m_cl1", "category_l2": "_m_cl2"}
         _m = _m.rename(columns={k: v for k, v in rename.items() if k in _m.columns})
         _m["asin"] = _m["asin"].astype(str).str.strip()
+        # Drop master rows with a blank/NaN ASIN — otherwise blank-ASIN
+        # inventory rows get spuriously matched to whichever unassigned-
+        # ASIN master row `drop_duplicates` happens to keep, and pick up
+        # a garbage brand.  Only real (non-blank) ASINs are usable as
+        # a merge key.
+        _m = _m[~_m["asin"].str.lower().isin(["", "nan", "none", "<na>"])]
+        if "_m_brand" in _m.columns:
+            _m["_m_brand"] = _m["_m_brand"].astype(str).str.strip()
         if "_m_model" in _m.columns:
             _m["_m_model"] = _m["_m_model"].astype(str).str.strip().str.upper()
         _m = _m.drop_duplicates(subset=["asin"])
         df["asin"] = df["asin"].astype(str).str.strip()
         df = df.merge(_m, on="asin", how="left")
+
+        # ── Brand canonicalisation from master ──────────────────────
+        # Operator rule: sku_master is truth for Brand.  A row landing
+        # in the White_Mulberry folder with an ASIN that master says is
+        # Tonor should be re-tagged Tonor — otherwise the dashboard
+        # attributes revenue/inventory to the wrong brand.  Save the
+        # folder-inferred value in `folder_brand` for a follow-on
+        # audit; overwrite `brand` with master's answer where present.
+        if "_m_brand" in df.columns and "brand" in df.columns:
+            df["folder_brand"] = df["brand"].astype(str)
+            _has_master_brand = df["_m_brand"].notna() & (
+                df["_m_brand"].astype(str).str.strip().str.lower()
+                                  .isin(["", "nan", "none", "<na>"]) == False
+            )
+            # Standardise folder_brand for comparison (underscore -> space)
+            _folder_norm = df["folder_brand"].str.replace("_", " ", regex=False).str.strip()
+            _master_norm = df["_m_brand"].astype(str).str.strip()
+            _mismatch = _has_master_brand & (_folder_norm != _master_norm) & _folder_norm.ne("_audit")
+            n_mismatch = int(_mismatch.sum())
+            if n_mismatch:
+                print(f"ℹ️  {n_mismatch} row(s) re-tagged: folder brand ≠ sku_master brand.")
+                sample = (df.loc[_mismatch, ["asin", "sku", "folder_brand", "_m_brand"]]
+                            .drop_duplicates()
+                            .head(10))
+                print(sample.to_string(index=False))
+            df.loc[_has_master_brand, "brand"] = df.loc[_has_master_brand, "_m_brand"]
+
         # Fill Model where blank ("nan"/"none"/empty)
         if "_m_model" in df.columns and "model" in df.columns:
             _blank = (df["model"].isna()
@@ -159,7 +197,7 @@ if "asin" in df.columns:
                           | df[raw_col].astype(str).str.strip().str.lower().isin(["", "nan", "none"]))
                 df.loc[_blank, raw_col] = df.loc[_blank, m_col]
         # Drop helper columns
-        df = df.drop(columns=[c for c in ["_m_model", "_m_cl0", "_m_cl1", "_m_cl2"]
+        df = df.drop(columns=[c for c in ["_m_brand", "_m_model", "_m_cl0", "_m_cl1", "_m_cl2"]
                               if c in df.columns])
 
 # =========================================================

@@ -632,6 +632,53 @@ def process_week(week, sku_master, brand_folder=""):
 
     sales = pd.concat(frames, ignore_index=True)
 
+    # ---------------- BRAND CANONICALISATION FROM sku_master ----------
+    # Operator rule: sku_master is truth for Brand.  Before this, every
+    # frame appended above assigned brand from the *folder path*
+    # (line 525 / 559 / 622), so a file dropped under the wrong folder
+    # (e.g., a Tonor SKU under White_Mulberry) carried the wrong brand
+    # into weekly_sales_snapshot and the dashboard attributed revenue
+    # to the wrong brand.  Override brand from master via ASIN
+    # (canonical) after concat.  Log any mismatch so the operator can
+    # move the file to the correct folder next week.
+    if "asin" in sales.columns:
+        try:
+            # Drop master rows with blank/NaN ASIN so blank sales rows
+            # can't spuriously match unassigned-ASIN master rows.
+            _sm = sku_master.copy()
+            _sm["asin"] = _sm["asin"].astype(str).str.strip()
+            _sm = _sm[~_sm["asin"].str.lower().isin(["", "nan", "none", "<na>"])]
+            master_by_asin = _sm.drop_duplicates(subset=["asin"]).set_index("asin")
+        except Exception:
+            master_by_asin = None
+        if master_by_asin is not None and "brand" in master_by_asin.columns:
+            sales["folder_brand"] = sales["brand"].astype(str)
+            _asin = sales["asin"].astype(str).str.strip()
+            _has_master = (_asin.isin(master_by_asin.index)
+                           & ~_asin.str.lower().isin(["", "nan", "none", "<na>"]))
+            if _has_master.any():
+                mapped = _asin[_has_master].map(master_by_asin["brand"])
+                mapped = mapped.astype(str).str.strip()
+                # Only override where master brand is non-empty.
+                valid = mapped.ne("") & ~mapped.str.lower().isin(["nan", "none", "<na>"])
+                override_idx = _has_master[_has_master].index[valid]
+                if len(override_idx):
+                    folder_norm = (sales.loc[override_idx, "folder_brand"]
+                                        .str.replace("_", " ", regex=False).str.strip())
+                    master_norm = mapped.loc[valid]
+                    mismatch_mask = folder_norm.values != master_norm.values
+                    n_mismatch = int(mismatch_mask.sum())
+                    if n_mismatch:
+                        print(f"[ETL] ℹ️  {n_mismatch} sales row(s) re-tagged: "
+                              f"folder brand ≠ sku_master brand")
+                        sample = (sales.loc[override_idx[mismatch_mask],
+                                            ["asin", "sku", "folder_brand"]]
+                                        .assign(master_brand=master_norm.values[mismatch_mask])
+                                        .drop_duplicates()
+                                        .head(10))
+                        print(sample.to_string(index=False))
+                    sales.loc[override_idx, "brand"] = master_norm.values
+
     # ---------------- FINAL HARDENING ----------------
     # ✅ FIXED: vectorised string cleaning instead of row-by-row apply(safe_str)
     for c in ["sku", "model", "brand"]:

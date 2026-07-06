@@ -62,7 +62,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
 
     env:
       AMS_ADS_CLIENT_ID:      ${{ secrets.AMS_ADS_CLIENT_ID }}

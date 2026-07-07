@@ -231,6 +231,19 @@ export default function InventoryDashboard() {
 
     const { sorted, sort, onSort } = useSortedRows(filtered, { key: "inventory_value", dir: "desc" });
 
+    // Export / Copy dump the FULL loaded dataset (week + brand-scoped, Fossil-excluded),
+    // NOT the client-facet/text/range-filtered rows.  Operator expectation is that
+    // "Export" = the complete inventory for the selected week; column dropdowns and
+    // the Filter search box shape the on-screen view only.
+    const exportRows = useMemo(() => {
+        if (!data) return [];
+        const explicitFossil = (selectedBrand || "").trim().toLowerCase() === "fossil"
+            || selBrandsM.some((b) => b.toLowerCase() === "fossil");
+        return data.rows.filter((r) =>
+            explicitFossil || (r.brand || "").trim().toLowerCase() !== "fossil"
+        );
+    }, [data, selectedBrand, selBrandsM]);
+
     // KPIs derived from the *client-filtered* rows so picking Cat L0/L1/L2,
     // Channel, Type, or the column-header filters collapses the headline
     // numbers in step with the table.  data.kpis was server-computed over
@@ -395,9 +408,7 @@ export default function InventoryDashboard() {
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={() => exportToXlsx(
-                                                    sorted as any,
-                                                    // Keep all dims in the CSV export even though the table view
-                                                    // hides them — operators may want them downstream.
+                                                    exportRows as any,
                                                     ["week", "brand", "model", "sku", "asin",
                                                      "category_l0", "category_l1", "category_l2",
                                                      "channel", "type",
@@ -411,7 +422,7 @@ export default function InventoryDashboard() {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                onClick={() => copyTableToClipboard(sorted as any,
+                                                onClick={() => copyTableToClipboard(exportRows as any,
                                                     ["week", "brand", "model", "sku", "asin",
                                                      "category_l0", "category_l1", "category_l2",
                                                      "channel", "type",

@@ -32,6 +32,7 @@ import shutil
 from pathlib import Path
 
 import pandas as pd
+from weekly_app.etl._excel_safe import read_excel_safe
 
 ROOT     = Path(__file__).resolve().parent.parent.parent
 MASTER   = ROOT / "data" / "master" / "sku_master.xlsx"
@@ -74,7 +75,7 @@ def _norm(s) -> str:
 # Master + active lookups
 # ─────────────────────────────────────────────────────────────────────
 def build_master_lookups():
-    m = pd.read_excel(MASTER)
+    m = read_excel_safe(MASTER)
     m.columns = m.columns.str.strip()
 
     asin_to_meta: dict[str, dict] = {}
@@ -135,7 +136,7 @@ def build_active_set(week_num: int) -> set[str]:
             if not biz.exists():
                 continue
             try:
-                df = pd.read_excel(biz)
+                df = read_excel_safe(biz)
             except Exception:
                 continue
             df.columns = df.columns.str.strip()
@@ -324,7 +325,7 @@ NUMERIC_COLS = ["Impressions", "Clicks", "Spend",
 
 
 def read_sb_file(path: Path) -> pd.DataFrame:
-    df = pd.read_excel(path)
+    df = read_excel_safe(path)
     df.columns = df.columns.str.strip()
     if "Campaign Name" not in df.columns:
         return pd.DataFrame(columns=OUT_COLS)
@@ -368,7 +369,7 @@ def write_sb_sheets(per_brand_rows: dict[str, pd.DataFrame], week_num: int) -> N
         for s in xl.sheet_names:
             if s.upper() == "SB":
                 continue  # we'll overwrite SB
-            sheets_to_write[s] = pd.read_excel(out, sheet_name=s)
+            sheets_to_write[s] = read_excel_safe(out, sheet_name=s)
         sheets_to_write["SB"] = df_sb[OUT_COLS] if not df_sb.empty else pd.DataFrame(columns=OUT_COLS)
 
         with pd.ExcelWriter(out, engine="openpyxl") as w:

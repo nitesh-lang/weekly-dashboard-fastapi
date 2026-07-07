@@ -27,6 +27,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from weekly_app.etl._excel_safe import read_excel_safe
+
 ROOT       = Path(__file__).resolve().parent.parent.parent
 RAW_DIR    = ROOT / "data" / "raw" / "margin"
 OUT_FILE   = ROOT / "data" / "processed" / "margin_snapshot.csv"
@@ -76,7 +78,7 @@ RENAME = {
 
 
 def _read_one(path: Path) -> pd.DataFrame:
-    df = pd.read_excel(path, sheet_name=SHEET_NAME)
+    df = read_excel_safe(path, sheet_name=SHEET_NAME)
     available = [c for c in KEEP_COLS if c in df.columns]
     missing = set(KEEP_COLS) - set(available)
     if missing:

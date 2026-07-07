@@ -45,6 +45,7 @@ from pathlib import Path
 
 import pandas as pd
 from weekly_app.core.data_norm import normalize_keys
+from weekly_app.etl._excel_safe import read_excel_safe
 
 ROOT       = Path(__file__).resolve().parent.parent.parent
 RAW_DIR    = ROOT / "data" / "raw" / "returns"
@@ -69,7 +70,7 @@ def _load_master() -> pd.DataFrame:
         print(f"⚠ sku_master not found at {MASTER} — returns won't be brand-tagged")
         return pd.DataFrame(columns=["asin", "brand", "model",
                                      "category_l0", "category_l1", "sku", "nlc"])
-    m = pd.read_excel(MASTER)
+    m = read_excel_safe(MASTER)
     m.columns = m.columns.str.strip()
     normalize_keys(m)
     rename = {
@@ -123,7 +124,7 @@ def _build_sales_30d_by_asin() -> dict[str, int]:
     by_sku = df.groupby("sku", as_index=False)["units_sold"].sum()
 
     # SKU → ASIN
-    m = pd.read_excel(MASTER)
+    m = read_excel_safe(MASTER)
     m.columns = m.columns.str.strip()
     m = m.rename(columns={"FBA SKU": "sku", "ASIN": "asin"})
     if "sku" not in m.columns or "asin" not in m.columns:
@@ -149,7 +150,7 @@ def _read_1p_returns() -> dict[str, int]:
         print(f"   (no 1P returns file at {ONEP_FILE.name} — skipping 1P)")
         return {}
     try:
-        df = pd.read_excel(ONEP_FILE, header=1)
+        df = read_excel_safe(ONEP_FILE, header=1)
     except Exception as e:
         print(f"   ⚠ Failed to read {ONEP_FILE.name}: {e}")
         return {}
@@ -174,7 +175,7 @@ def _read_one(path: Path) -> pd.DataFrame:
     if path.name == ONEP_FILE.name:
         return pd.DataFrame()
     if path.suffix.lower() == ".xlsx":
-        df = pd.read_excel(path)
+        df = read_excel_safe(path)
     else:
         df = pd.read_csv(path)
     df.columns = [c.strip() for c in df.columns]

@@ -1,6 +1,8 @@
 import pandas as pd
 from pathlib import Path
 
+from weekly_app.etl._excel_safe import read_excel_safe
+
 # ==================================================
 # STEP 4: BUSINESS + ADS + SKU MASTER (FINAL)
 #
@@ -36,7 +38,7 @@ OUT_FILE = OUT_DIR / "business_ads_joined.csv"
 # --------------------------------------------------
 ads = pd.read_csv(ADS_FILE)
 biz = pd.read_csv(BIZ_FILE)
-sku = pd.read_excel(SKU_FILE)
+sku = read_excel_safe(SKU_FILE)
 
 ads.columns = ads.columns.str.strip()
 biz.columns = biz.columns.str.strip()
@@ -149,7 +151,7 @@ for brand_dir in AMS_DIR.iterdir():
     if not rpt.exists():
         continue
 
-    df = pd.read_excel(rpt)
+    df = read_excel_safe(rpt)
     df.columns = df.columns.str.strip()
 
     if not {"(Parent) ASIN", "(Child) ASIN", "Model"}.issubset(df.columns):

@@ -557,33 +557,52 @@ def run_inventory_etl():
             existing_counts = existing_weeks.value_counts()
             new_counts = week_counts
 
-            # Per-week regression handling (2026-07-07 rewrite):
-            # Historical weeks (< max - 1) that regress ≥30% preserve
-            # the committed rows.  Recent weeks (>= max - 1) get fresh
-            # writes with warnings.  Prevents Linux xlsx parse bugs
-            # from corrupting finalised weeks; see sales_auto_etl
-            # for the same pattern.
+            # Per-week regression handling (2026-07-08 rewrite):
+            # Three-tier defence against xlsx parse regressions:
+            #
+            # 1. HISTORICAL weeks (< max-1): preserve committed rows on
+            #    any ≥30% drop.  Finalised weeks should never shrink;
+            #    if they do, it's a Linux xlsx bug or master-override
+            #    accident, not real data movement.
+            #
+            # 2. CURRENT / previous week (>= max-1) with CATASTROPHIC
+            #    drop (fresh <60% of committed): preserve.  Normal
+            #    mid-week refreshes add or refresh rows; a 40%+ drop
+            #    is almost certainly a Linux openpyxl parse bomb (the
+            #    exact bug that ate W27 inventory on 2026-07-07).
+            #    Sanity gate + audit still catch this if it slips
+            #    through, but preserving here means the operator's
+            #    dashboard doesn't go dark even for one cron cycle.
+            #
+            # 3. CURRENT / previous week with moderate drop (60-70% of
+            #    committed): warn, accept fresh — could be legitimate
+            #    (channel retire, brand exit).
             if new_max < existing_max:
                 print(
                     f"⚠  new max week W{new_max} < existing W{existing_max} "
                     f"— snapshot writing anyway; investigate stale week."
                 )
-            historical_boundary = new_max - 1
+            historical_boundary   = new_max - 1
+            HISTORICAL_FLOOR      = 0.70   # historical weeks: <30% drop OK
+            CATASTROPHE_FLOOR     = 0.60   # current/prev week: <40% drop OK
             weeks_preserved: list[int] = []
             existing_df = None
             for w in sorted(set(existing_counts.index) & set(new_counts.index)):
                 old_n = int(existing_counts[w])
                 new_n = int(new_counts[w])
-                if old_n < 50 or new_n >= old_n * 0.70:
+                if old_n < 50 or new_n >= old_n * HISTORICAL_FLOOR:
                     continue
                 drop_pct = (1 - new_n / old_n) * 100
-                if w >= historical_boundary:
+                is_current_or_prev = w >= historical_boundary
+                is_catastrophic    = new_n < old_n * CATASTROPHE_FLOOR
+                if is_current_or_prev and not is_catastrophic:
                     print(
-                        f"⚠  W{w} shrank {old_n} → {new_n} rows ({drop_pct:.0f}%) "
-                        f"— recent week, writing anyway."
+                        f"⚠  W{w} shrank {old_n} -> {new_n} rows ({drop_pct:.0f}%) "
+                        f"— recent week, writing anyway (drop under catastrophe floor)."
                     )
                     continue
-                # Historical week — preserve.
+                # Preserve: either historical week regression OR
+                # catastrophic current/prev-week drop (Linux xlsx bomb).
                 if existing_df is None:
                     existing_df = pd.read_csv(OUT_FILE)
                 old_rows = existing_df[
@@ -603,12 +622,13 @@ def run_inventory_etl():
                     ignore_index=True,
                 )
                 weeks_preserved.append(w)
+                kind = "CATASTROPHIC" if is_catastrophic and is_current_or_prev else "historical"
                 print(
-                    f"🛡  W{w} historical preservation: fresh had {new_n} rows "
+                    f"🛡  W{w} {kind} preservation: fresh had {new_n} rows "
                     f"({drop_pct:.0f}% drop), keeping committed {old_n} rows."
                 )
             if weeks_preserved:
-                print(f"🛡  Total historical weeks preserved: {weeks_preserved}")
+                print(f"🛡  Total weeks preserved: {weeks_preserved}")
         except Exception as e:
             print(f"⚠ regression-guard read failed, will write anyway: {e!r}")
 

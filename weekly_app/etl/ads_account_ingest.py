@@ -43,6 +43,7 @@ import shutil
 from pathlib import Path
 
 import pandas as pd
+from weekly_app.etl._excel_safe import read_excel_safe
 
 ROOT       = Path(__file__).resolve().parent.parent.parent
 MASTER     = ROOT / "data" / "master" / "sku_master.xlsx"
@@ -85,7 +86,7 @@ def _norm(s) -> str:
 def build_asin_brand_map() -> dict[str, str]:
     if not MASTER.exists():
         return {}
-    m = pd.read_excel(MASTER)
+    m = read_excel_safe(MASTER)
     m.columns = m.columns.str.strip()
     out: dict[str, str] = {}
     for _, r in m.iterrows():
@@ -147,7 +148,7 @@ def find_week_sources(week_num: int) -> list[Path]:
 
 # ── Read one SP / SD file → aggregated rows ────────────────────────────
 def read_and_aggregate(path: Path, asin_map: dict[str, str]) -> pd.DataFrame:
-    df = pd.read_excel(path)
+    df = read_excel_safe(path)
     df.columns = df.columns.str.strip()
 
     # Coerce required columns (fill missing with safe defaults)

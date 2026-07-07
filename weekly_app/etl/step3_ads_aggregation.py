@@ -2,6 +2,8 @@ import pandas as pd
 from pathlib import Path
 import re
 
+from weekly_app.etl._excel_safe import read_excel_safe
+
 # ==================================================
 # STEP 3 : ADS AGGREGATION (SP + SD ONLY)
 #
@@ -33,7 +35,7 @@ def extract_week(filename: str):
 # --------------------------------------------------
 sku_df = None
 if SKU_MASTER_FILE.exists():
-    sku_df = pd.read_excel(SKU_MASTER_FILE)
+    sku_df = read_excel_safe(SKU_MASTER_FILE)
     sku_df.columns = sku_df.columns.str.strip()
 
     REQUIRED = {"ASIN", "Model"}
@@ -77,7 +79,7 @@ for brand_dir in AMS_DATA_DIR.iterdir():
         # ===============================
         for sheet, ad_type in [("SP", "SP_SD"), ("SD", "SP_SD"), ("SB", "SB")]:
             try:
-                df = pd.read_excel(ads_file, sheet_name=sheet)
+                df = read_excel_safe(ads_file, sheet_name=sheet)
                 df.columns = df.columns.str.strip()
                 if "Advertised ASIN" not in df.columns or df.empty:
                     continue

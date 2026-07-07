@@ -3,6 +3,8 @@ from pathlib import Path
 import re
 import sys
 
+from weekly_app.etl._excel_safe import read_excel_safe
+
 # ============================================================
 # CONFIG (DO NOT HARD-CODE PER BRAND)
 # ============================================================
@@ -102,7 +104,7 @@ for brand_dir in BRAND_FOLDERS:
         # ====================================================
         # READ BUSINESS REPORT
         # ====================================================
-        biz_df = pd.read_excel(business_file)
+        biz_df = read_excel_safe(business_file)
         biz_df.columns = biz_df.columns.str.strip()
 
         biz_df["gmv"] = biz_df.get("gmv", 0)
@@ -160,8 +162,8 @@ for brand_dir in BRAND_FOLDERS:
             # that segment).  Treat a missing sheet as an empty frame so
             # the workflow doesn't crash on the first blank brand.
             _sheets = pd.ExcelFile(ads_file).sheet_names
-            sp_df = pd.read_excel(ads_file, sheet_name="SP") if "SP" in _sheets else pd.DataFrame()
-            sd_df = pd.read_excel(ads_file, sheet_name="SD") if "SD" in _sheets else pd.DataFrame()
+            sp_df = read_excel_safe(ads_file, sheet_name="SP") if "SP" in _sheets else pd.DataFrame()
+            sd_df = read_excel_safe(ads_file, sheet_name="SD") if "SD" in _sheets else pd.DataFrame()
 
             ads_df = pd.concat([sp_df, sd_df], ignore_index=True)
             ads_df.columns = ads_df.columns.str.strip()
@@ -258,7 +260,7 @@ for brand_dir in BRAND_FOLDERS:
             sb_df = pd.DataFrame(columns=final_df.columns)
         else:
             try:
-                sb_df = pd.read_excel(ads_file, sheet_name="SB")
+                sb_df = read_excel_safe(ads_file, sheet_name="SB")
             except ValueError:
                 print(f"   ⚠ SB sheet not found in {ads_file.name} — treating as 0 SB rows")
                 sb_df = pd.DataFrame(columns=final_df.columns)

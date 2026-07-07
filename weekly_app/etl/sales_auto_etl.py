@@ -901,51 +901,51 @@ def run_sales_auto_etl(single_week: str = None):
                     existing_counts = existing_weeks.value_counts()
                     new_counts = new_weeks.value_counts()
 
-                    # Per-week regression handling (2026-07-07 rewrite):
-                    #   Old behaviour (`return existing`) silently froze
-                    #   every week — dashboard stuck at W26 all day.
-                    #   Interim behaviour (warn-only) let Linux xlsx
-                    #   parse bugs corrupt HISTORICAL weeks — W23 lost
-                    #   872 rows because Linux openpyxl+calamine both
-                    #   fumbled the W23 xlsx files that Windows reads
-                    #   fine.
+                    # Per-week regression handling (2026-07-08 rewrite):
+                    # Three-tier defence against xlsx parse regressions:
                     #
-                    #   New behaviour: for any HISTORICAL week (not
-                    #   current or immediately-previous) where the fresh
-                    #   ETL produced <70% of the committed row count,
-                    #   preserve the committed rows and swap them into
-                    #   `combined`.  This freezes finalised weeks
-                    #   against re-parse regressions while still
-                    #   accepting fresh data for the current week.
+                    # 1. HISTORICAL weeks (< max-1): preserve committed
+                    #    rows on any ≥30% drop.  Finalised weeks should
+                    #    never shrink; if they do it's a Linux xlsx bug
+                    #    or master-override accident.
+                    #
+                    # 2. CURRENT / previous week with CATASTROPHIC drop
+                    #    (fresh <60% of committed): preserve.  Normal
+                    #    mid-week refreshes add/refresh rows; a 40%+
+                    #    drop is almost certainly a Linux openpyxl parse
+                    #    bomb.  (Original W23 loss of 872 rows had the
+                    #    same shape.)  Sanity gate also catches this.
+                    #
+                    # 3. CURRENT / previous week with moderate drop
+                    #    (60-70%): warn, accept fresh — could be
+                    #    legitimate (channel retire, brand exit).
                     if new_max < existing_max:
                         print(
                             f"[ETL] ⚠  new max W{new_max} < existing W{existing_max}. "
                             f"Snapshot will be written anyway — investigate why W{existing_max} "
                             f"sales didn't regenerate (check for xlsx read failures above)."
                         )
-                    # `historical_boundary` = last week we consider "still
-                    # fresh".  Current week is `new_max`; keep W{max-1}
-                    # fresh too (attribution can shift into last week).
-                    # Anything older = frozen historical.
                     historical_boundary = new_max - 1
+                    HISTORICAL_FLOOR   = 0.70   # historical: <30% drop OK
+                    CATASTROPHE_FLOOR  = 0.60   # current/prev: <40% drop OK
                     weeks_preserved: list[int] = []
                     existing_df = None
                     for w in sorted(set(existing_counts.index) & set(new_counts.index)):
                         old_n = int(existing_counts[w])
                         new_n = int(new_counts[w])
-                        if old_n < 50 or new_n >= old_n * 0.70:
-                            # No significant drop, or too few rows to
-                            # meaningfully compare.  Take fresh.
+                        if old_n < 50 or new_n >= old_n * HISTORICAL_FLOOR:
                             continue
                         drop_pct = (1 - new_n / old_n) * 100
-                        if w >= historical_boundary:
-                            # Recent week regression — write fresh, warn.
+                        is_current_or_prev = w >= historical_boundary
+                        is_catastrophic    = new_n < old_n * CATASTROPHE_FLOOR
+                        if is_current_or_prev and not is_catastrophic:
                             print(
-                                f"[ETL] ⚠  W{w} shrank {old_n} → {new_n} rows ({drop_pct:.0f}% drop) "
-                                f"— snapshot writing anyway; audit checks 25/26 will surface if real."
+                                f"[ETL] ⚠  W{w} shrank {old_n} -> {new_n} rows ({drop_pct:.0f}% drop) "
+                                f"— snapshot writing anyway (under catastrophe floor); audit checks 25/26 will surface if real."
                             )
                             continue
-                        # Historical week regression — preserve old rows.
+                        # Preserve: either historical week or catastrophic
+                        # current/prev-week drop.
                         if existing_df is None:
                             existing_df = pd.read_csv(OUTPUT_FILE, dtype=str)
                             # Coerce the numeric columns back so downstream
@@ -976,13 +976,14 @@ def run_sales_auto_etl(single_week: str = None):
                             ignore_index=True,
                         )
                         weeks_preserved.append(w)
+                        kind = "CATASTROPHIC" if is_catastrophic and is_current_or_prev else "historical"
                         print(
-                            f"[ETL] 🛡  W{w} historical preservation: "
+                            f"[ETL] 🛡  W{w} {kind} preservation: "
                             f"fresh had {new_n} rows ({drop_pct:.0f}% drop), "
                             f"keeping committed {old_n} rows."
                         )
                     if weeks_preserved:
-                        print(f"[ETL] 🛡  Total historical weeks preserved: {weeks_preserved}")
+                        print(f"[ETL] 🛡  Total weeks preserved: {weeks_preserved}")
                 except Exception as _e:
                     print(f"[ETL] ⚠ regression-guard read failed, will write anyway: {_e!r}")
 

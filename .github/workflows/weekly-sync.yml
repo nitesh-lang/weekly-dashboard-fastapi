@@ -364,6 +364,25 @@ jobs:
           path: data/processed/pipeline_integrity_audit.xlsx
           if-no-files-found: warn
 
+      # Snapshot sanity gate — fail-loud pre-commit blocker.
+      # Compares this run's freshly-produced snapshots against origin/main
+      # for the CURRENT week.  Aborts the commit if either the row count
+      # or the unit total dropped below 70% of the committed version.
+      #
+      # Catches the class of bug that hit on 2026-07-07: auto-sync re-ran
+      # ETL, Linux openpyxl parsed the manual inventory xlsx into 50% of
+      # its actual rows, historical-preservation only defends weeks
+      # < max-1 so the CURRENT week (W27) was overwritten silently, and
+      # the bad snapshot rode all the way to Render before the operator
+      # caught it via the Inventory Detail export.
+      #
+      # Bypass: set repo/workflow secret SANITY_GATE_ALLOW=1 for the run
+      # that legitimately drops volume (brand exit, channel retire).
+      - name: Snapshot sanity gate (row-count + unit-total floor)
+        env:
+          SANITY_GATE_ALLOW: ${{ secrets.SANITY_GATE_ALLOW }}
+        run: python scripts/snapshot_sanity_gate.py
+
       - name: Commit + push refreshed data
         run: |
           set -e

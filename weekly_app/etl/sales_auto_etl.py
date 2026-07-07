@@ -901,33 +901,88 @@ def run_sales_auto_etl(single_week: str = None):
                     existing_counts = existing_weeks.value_counts()
                     new_counts = new_weeks.value_counts()
 
-                    # Regression guard is now WARN-ONLY.  Original behaviour
-                    # (return existing on ≥30% drop) was silently freezing the
-                    # dashboard on Linux-CI xlsx parse regressions that don't
-                    # reproduce on Windows — the guard couldn't tell a real
-                    # parse failure from organic sku_master hygiene drift, so
-                    # it blocked every W## from landing on ambiguous days.
-                    # Root cause of Linux drops is now addressed via
-                    # `read_excel_safe(engine="calamine")` and the
-                    # `parse_amazon` empty-Model-column fix.  Log the drop
-                    # loudly so Check 25 / operator can act on real
-                    # regressions, but never withhold the write — Render
-                    # keeps serving stale data if we do, which is worse.
+                    # Per-week regression handling (2026-07-07 rewrite):
+                    #   Old behaviour (`return existing`) silently froze
+                    #   every week — dashboard stuck at W26 all day.
+                    #   Interim behaviour (warn-only) let Linux xlsx
+                    #   parse bugs corrupt HISTORICAL weeks — W23 lost
+                    #   872 rows because Linux openpyxl+calamine both
+                    #   fumbled the W23 xlsx files that Windows reads
+                    #   fine.
+                    #
+                    #   New behaviour: for any HISTORICAL week (not
+                    #   current or immediately-previous) where the fresh
+                    #   ETL produced <70% of the committed row count,
+                    #   preserve the committed rows and swap them into
+                    #   `combined`.  This freezes finalised weeks
+                    #   against re-parse regressions while still
+                    #   accepting fresh data for the current week.
                     if new_max < existing_max:
                         print(
                             f"[ETL] ⚠  new max W{new_max} < existing W{existing_max}. "
                             f"Snapshot will be written anyway — investigate why W{existing_max} "
                             f"sales didn't regenerate (check for xlsx read failures above)."
                         )
+                    # `historical_boundary` = last week we consider "still
+                    # fresh".  Current week is `new_max`; keep W{max-1}
+                    # fresh too (attribution can shift into last week).
+                    # Anything older = frozen historical.
+                    historical_boundary = new_max - 1
+                    weeks_preserved: list[int] = []
+                    existing_df = None
                     for w in sorted(set(existing_counts.index) & set(new_counts.index)):
                         old_n = int(existing_counts[w])
                         new_n = int(new_counts[w])
-                        if old_n >= 50 and new_n < old_n * 0.70:
-                            drop_pct = (1 - new_n / old_n) * 100
+                        if old_n < 50 or new_n >= old_n * 0.70:
+                            # No significant drop, or too few rows to
+                            # meaningfully compare.  Take fresh.
+                            continue
+                        drop_pct = (1 - new_n / old_n) * 100
+                        if w >= historical_boundary:
+                            # Recent week regression — write fresh, warn.
                             print(
                                 f"[ETL] ⚠  W{w} shrank {old_n} → {new_n} rows ({drop_pct:.0f}% drop) "
                                 f"— snapshot writing anyway; audit checks 25/26 will surface if real."
                             )
+                            continue
+                        # Historical week regression — preserve old rows.
+                        if existing_df is None:
+                            existing_df = pd.read_csv(OUTPUT_FILE, dtype=str)
+                            # Coerce the numeric columns back so downstream
+                            # concat + write doesn't stringify everything.
+                            for _c in ("units_sold", "gross_sales", "gmv",
+                                       "nlc", "sales_nlc"):
+                                if _c in existing_df.columns:
+                                    existing_df[_c] = pd.to_numeric(
+                                        existing_df[_c], errors="coerce").fillna(0)
+                        w_label = f"Week {w}" if not str(existing_df["week"].iloc[0]).isdigit() else str(w)
+                        old_rows = existing_df[existing_df["week"].astype(str).str.extract(r"(\d+)")[0] == str(w)]
+                        if old_rows.empty:
+                            print(f"[ETL] ⚠  W{w} historical preservation: could not locate old rows, "
+                                  f"falling back to fresh ({drop_pct:.0f}% drop).")
+                            continue
+                        # Drop the fresh W{w} rows and splice in old ones.
+                        combined = combined[
+                            combined["week"].astype(str).str.extract(r"(\d+)")[0] != str(w)
+                        ]
+                        # Align columns — if `old_rows` is missing a col
+                        # (e.g. `folder_brand`), add it as empty so the
+                        # concat is clean.
+                        for _c in combined.columns:
+                            if _c not in old_rows.columns:
+                                old_rows[_c] = ""
+                        combined = pd.concat(
+                            [combined, old_rows[combined.columns]],
+                            ignore_index=True,
+                        )
+                        weeks_preserved.append(w)
+                        print(
+                            f"[ETL] 🛡  W{w} historical preservation: "
+                            f"fresh had {new_n} rows ({drop_pct:.0f}% drop), "
+                            f"keeping committed {old_n} rows."
+                        )
+                    if weeks_preserved:
+                        print(f"[ETL] 🛡  Total historical weeks preserved: {weeks_preserved}")
                 except Exception as _e:
                     print(f"[ETL] ⚠ regression-guard read failed, will write anyway: {_e!r}")
 

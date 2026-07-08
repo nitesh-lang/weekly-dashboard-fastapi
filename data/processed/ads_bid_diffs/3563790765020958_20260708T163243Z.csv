@@ -1,0 +1,5 @@
+kind,entity_id,campaign_id,ad_group_id,field,from_value,to_value
+state_changed,19074646583079,19074646583079,,state,ENABLED,PAUSED
+state_changed,63184301712321,63184301712321,,state,ENABLED,PAUSED
+state_changed,82610433731110,82610433731110,,state,ENABLED,PAUSED
+state_changed,265356432727683,265356432727683,,state,ENABLED,PAUSED

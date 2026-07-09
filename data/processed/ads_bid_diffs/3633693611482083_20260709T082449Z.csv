@@ -1,0 +1,7 @@
+kind,entity_id,campaign_id,ad_group_id,field,from_value,to_value
+budget_changed,423969438527542,423969438527542,,budget.amount,400.0,700.0
+budget_changed,309250355185998,309250355185998,,budget.amount,900.0,600.0
+budget_changed,197838945268298,197838945268298,,budget.amount,1400.0,1100.0
+budget_changed,283581033611943,283581033611943,,budget.amount,850.0,550.0
+budget_changed,103696758155703,103696758155703,,budget.amount,300.0,700.0
+budget_changed,303664432816417,303664432816417,,budget.amount,2500.0,3300.0

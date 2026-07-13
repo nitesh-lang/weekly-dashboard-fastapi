@@ -190,6 +190,21 @@ final = final.merge(map_df, on="asin", how="left")
 sku = sku.rename(columns={"ASIN": "child_asin", "Brand": "brand", "Model": "model_master"})
 sku["child_asin"] = sku["child_asin"].astype(str).str.strip()
 sku["brand"] = sku["brand"].astype(str).str.strip()
+# 🛡️ FILTER BLANK/NaN ASINs BEFORE DEDUP
+# sku_master has ~25 rows for future/unlaunched models (all Audio Array
+# variants) where the ASIN column is blank.  Without this filter, they
+# all collapse to child_asin="nan" and drop_duplicates keeps ONE survivor
+# — which then joins to EVERY row in `final` whose child_asin never got
+# filled by map_df (Fossil, and any brand without a business_report for
+# `latest_week`).  Effect: Fossil GMV silently dumped into brand=Audio
+# Array on the AMS Trend UI (verified 2026-07-13: ~₹5.2 Cr AA over-count
+# across W14–W25; W26–W27 clean because Fossil started getting per-week
+# business_reports).
+sku = sku[
+    sku["child_asin"].str.lower().ne("nan")
+    & sku["child_asin"].ne("")
+    & sku["child_asin"].str.lower().ne("none")
+]
 if "model_master" in sku.columns:
     sku["model_master"] = sku["model_master"].astype(str).str.upper().str.strip().replace(
         {"NAN": "", "NONE": "", "-": ""}

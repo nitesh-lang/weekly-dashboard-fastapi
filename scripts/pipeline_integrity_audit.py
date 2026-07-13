@@ -1705,9 +1705,19 @@ def check_ams_vs_sales_brand_history(latest_week: int) -> pd.DataFrame:
         ba = ba[ba["brand_n"] != "fossil"]
         ams = ba.groupby(["week", "brand_n"])["gmv"].sum().round(2)
 
+        # Restrict comparison to weeks where the ADS side has ANY data.
+        # business_ads_joined.csv is a rolling 12-week window (~W17-W28
+        # today), so sales-side rows for weeks below that (W4-W16) have
+        # no ads counterpart and would flag as -100% delta — pure scope
+        # artifact, not a mistag.  Only compare in the overlap so the
+        # brand-mistag gate downstream doesn't fire on noise.
+        ads_weeks = {int(wn) for (wn, _) in ams.index if pd.notna(wn)}
+        if not ads_weeks:
+            return pd.DataFrame()
+
         all_keys = set()
         for (wn, brand) in sales.index:
-            if pd.notna(wn):
+            if pd.notna(wn) and int(wn) in ads_weeks:
                 all_keys.add((int(wn), str(brand)))
         for (wn, brand) in ams.index:
             if pd.notna(wn):

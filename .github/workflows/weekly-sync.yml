@@ -77,6 +77,26 @@ jobs:
         with:
           fetch-depth: 1
 
+      # Race-safe code refresh — catches the class of failure hit on
+      # 2026-07-13: workflow run 29245883438 started at 14:44 IST with a
+      # stale checkout, then eee3131 (a step4 blank-ASIN fix) landed on
+      # main at 17:49 IST while the run was still executing.  When the
+      # run finally reached its ETL steps at ~18:00 IST it processed data
+      # with the OLD checked-out step4 code, produced inflated CSVs, and
+      # the auto-commit's `pull --rebase -X theirs` at the bottom of this
+      # yml then overrode my clean CSVs with its own buggy ones.  Result:
+      # AMS Trend last-12-week ex-Fossil went from Rs 7.7 Cr back up to
+      # Rs 12.9 Cr on Render — the exact bug we had just fixed hours before.
+      #
+      # Reset to origin/main just before running ETLs so we always use
+      # the freshest code, regardless of how long we were queued.
+      - name: Refresh to latest origin/main (avoid stale-checkout race)
+        run: |
+          git fetch origin main
+          echo "Checkout HEAD before refresh: $(git rev-parse HEAD)"
+          git reset --hard origin/main
+          echo "Refreshed HEAD:               $(git rev-parse HEAD)"
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -363,6 +383,18 @@ jobs:
           name: pipeline-integrity-audit
           path: data/processed/pipeline_integrity_audit.xlsx
           if-no-files-found: warn
+
+      # Brand-mistag gate — fail-loud pre-commit blocker.
+      # Reads Check 27 (all-weeks AMS Trend vs Sales Trend brand cross-check)
+      # from the audit xlsx just written by the previous step.  Definite
+      # mistag rows (|Rs| >= 5L AND |pct| >= 30% — calibrated to the
+      # 2026-07-13 Fossil-to-AA magnitude) hard-block the commit.  Ordinary
+      # drifts (WM 1P blocked; current-week attribution lag) log as
+      # advisory but pass.  Bypass via SANITY_GATE_ALLOW=1.
+      - name: Brand-mistag gate (Check 27 cross-check)
+        env:
+          SANITY_GATE_ALLOW: ${{ secrets.SANITY_GATE_ALLOW }}
+        run: python scripts/brand_mistag_gate.py
 
       # Snapshot sanity gate — fail-loud pre-commit blocker.
       # Compares this run's freshly-produced snapshots against origin/main

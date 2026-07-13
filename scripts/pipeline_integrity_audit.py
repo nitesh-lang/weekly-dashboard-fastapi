@@ -1668,6 +1668,79 @@ def check_ams_vs_sales_brand(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_ams_vs_sales_brand_history(latest_week: int) -> pd.DataFrame:
+    """Check 24's all-weeks companion: per-(brand, week) drift between
+    business_ads_joined.csv and weekly_sales_snapshot.csv Amazon+1P.
+
+    Catches historical bugs where a brand's rows are systematically
+    re-tagged.  Example: 2026-07-13 sku_master blank-ASIN + drop_duplicates
+    phantom-survivor collapsed ~25 unlaunched-AA-model rows into ONE row
+    tagged brand=Audio Array; every Fossil ASIN with unresolved
+    child_asin then joined to that survivor, silently re-tagging ~₹5.28
+    Cr of Fossil GMV as Audio Array across W14-W25.  Check 24's latest-
+    week-only scope missed it entirely (W26+W27 were already clean
+    because Fossil started shipping business_report from W26); memory
+    reference_ams_trend_aa_fossil_mistag_incident.md.
+
+    Tolerance intentionally looser than Check 24 (₹10K AND >2% relative)
+    to avoid false alarms on legitimate small drifts in older weeks that
+    predate SP-API 1P ingest coverage.  Both thresholds must fire.
+    """
+    TOL_RS = 10_000.0
+    TOL_PCT = 2.0
+    out: list[Dict[str, Any]] = []
+    BIZ_JOINED = ROOT / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv"
+    if not (SNAP_SALES.exists() and BIZ_JOINED.exists()):
+        return pd.DataFrame()
+    try:
+        s = pd.read_csv(SNAP_SALES)
+        s["wn"] = s["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        amz = s[s["channel"].astype(str).str.lower().isin(["amazon", "1p sales"])].copy()
+        amz["brand_n"] = amz["brand"].astype(str).apply(_norm_brand)
+        amz = amz[amz["brand_n"] != "fossil"]
+        sales = amz.groupby(["wn", "brand_n"])["gross_sales"].sum().round(2)
+
+        ba = pd.read_csv(BIZ_JOINED)
+        ba = ba.assign(brand_n=ba["brand"].astype(str).apply(_norm_brand))
+        ba = ba[ba["brand_n"] != "fossil"]
+        ams = ba.groupby(["week", "brand_n"])["gmv"].sum().round(2)
+
+        all_keys = set()
+        for (wn, brand) in sales.index:
+            if pd.notna(wn):
+                all_keys.add((int(wn), str(brand)))
+        for (wn, brand) in ams.index:
+            if pd.notna(wn):
+                all_keys.add((int(wn), str(brand)))
+
+        for wn, brand in sorted(all_keys):
+            v_st = float(sales.get((wn, brand), 0.0))
+            v_am = float(ams.get((wn, brand), 0.0))
+            delta = round(v_am - v_st, 2)
+            pct = (delta / v_st * 100) if v_st > 0 else (100.0 if v_am > 0 else 0.0)
+            if abs(delta) >= TOL_RS and abs(pct) >= TOL_PCT:
+                out.append({
+                    "week":                f"W{int(wn)}",
+                    "brand":               brand,
+                    "sales_trend_amz_side": v_st,
+                    "ams_trend_gmv":       v_am,
+                    "delta_rs":            delta,
+                    "delta_pct":           round(pct, 2),
+                    "note": ("AMS Trend brand-week GMV drifts from Sales Trend Amazon+1P "
+                             ">= 2% AND >= Rs 10,000 — possible brand mis-tag (see "
+                             "Fossil-to-AA pattern of 2026-07-13) OR missing/duplicate "
+                             "source ingest for this brand-week"),
+                })
+    except Exception as e:
+        out.append({
+            "week": "-", "brand": "(load failed)",
+            "sales_trend_amz_side": 0.0, "ams_trend_gmv": 0.0,
+            "delta_rs": 0.0, "delta_pct": 0.0,
+            "note": f"loader raised: {e!r}",
+        })
+    return pd.DataFrame(out)
+
+
 def check_brand_magnitude_regression(latest_week: int) -> pd.DataFrame:
     """Flag when a brand's value for a key metric drops >50% (or spikes
     >2x) vs the median of the prior 4 weeks.  Catches the AMS partial-pull
@@ -2084,6 +2157,17 @@ def main() -> int:
         # inventory_model_snapshot.csv (the fail-loud anchor).
         ("26_pit_snapshot_freshness", "Point-in-time snapshot stale vs inventory anchor (silent ETL failure)",
                                   check_pointintime_snapshot_freshness(),                       True),
+        # Check 27 (new 2026-07-13) — Check 24's all-weeks companion.
+        # Catches historical brand-mis-tag class of bug where Check 24's
+        # latest-week-only scope wouldn't fire.  Triggered by the sku_
+        # master phantom-NaN-survivor issue that dumped ~Rs 5.28 Cr of
+        # Fossil GMV into brand=Audio Array across W14-W25 for 4 weeks
+        # before operator spotted the eyeball-wrong 12.9 Cr / 7.88% TACOS
+        # on AMS Trend UI.  See reference_ams_trend_aa_fossil_mistag_incident.
+        # Tolerance: Rs 10K AND >= 2% (both must fire) — looser than
+        # Check 24 to avoid noise on legitimate historical drifts.
+        ("27_ams_vs_sales_brand_history", "AMS Trend GMV vs Sales Trend Amazon+1P per brand (ALL weeks)",
+                                  check_ams_vs_sales_brand_history(latest_week),                True),
     ]
 
     print()

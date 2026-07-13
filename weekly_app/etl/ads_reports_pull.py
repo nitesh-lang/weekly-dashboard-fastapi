@@ -162,7 +162,7 @@ def _reports_headers(profile_id: str, token: str) -> dict:
 
 # ── Submit one report request ──────────────────────────────────────────
 def submit_report(profile_id: str, token: str, rtype_key: str,
-                  start: dt.date, end: dt.date, max_retries: int = 6) -> str:
+                  start: dt.date, end: dt.date, max_retries: int = 8) -> str:
     cfg = REPORT_TYPES[rtype_key]
     body = {
         "name": f"{rtype_key} {start.isoformat()}_{end.isoformat()} p{profile_id}",
@@ -182,8 +182,12 @@ def submit_report(profile_id: str, token: str, rtype_key: str,
                           headers=_reports_headers(profile_id, token),
                           json=body, timeout=60)
         if r.status_code == 429:
-            # Amazon SB endpoints throttle aggressively — back off generously
-            wait = 10 * (attempt + 1)  # 10, 20, 30, 40, 50, 60s
+            # Amazon SB endpoints throttle aggressively — exponential backoff
+            # with 5-min cap.  Old schedule (10, 20, 30, 40, 50, 60s = 3.5 min
+            # total) proved insufficient during 2026-07-13 cron: 3 SB submits
+            # failed after Amazon's throttle window > 3.5 min.  New schedule:
+            # 60, 120, 240, 300, 300, 300, 300, 300s = up to 32 min total.
+            wait = min(60 * (2 ** attempt), 300)
             time.sleep(wait)
             continue
         if r.status_code >= 400:
@@ -317,7 +321,9 @@ def resubmit_failed() -> dict:
             job["failure"] = str(e)[:300]
             print(f"  ✗ {job['rtype']:<16} {job['profile_id']:<18} {cs2}..{ce}  → {str(e)[:120]}")
         # SB endpoints throttle hard — slow pace
-        time.sleep(4.0 if job["rtype"].startswith("sb_") else 1.2)
+        # SB submits get 15s spacing (was 4s) — pre-emptive throttle avoidance
+        # after 2026-07-13 cron saw 3× 429 on SB submit despite 4s spacing.
+        time.sleep(15.0 if job["rtype"].startswith("sb_") else 1.2)
     save_state(state)
     return state
 

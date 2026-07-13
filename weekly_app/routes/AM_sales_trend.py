@@ -499,6 +499,7 @@ def amazon_sales_trend(
     request: Request,
     brand: str = "All",                          # legacy single-brand kept for back-compat
     brands: List[str] = Query(default=[]),       # multi-brand checkboxes
+    asin_types: List[str] = Query(default=[]),   # Core / Medium / Tail / EOL / New / …
     sel_weeks: Optional[List[str]] = Query(default=None)
 ):
     sales = load_sales()
@@ -514,18 +515,31 @@ def amazon_sales_trend(
     # either.  Sales snapshot still carries Fossil for other modules.
     sales = sales[sales["brand"].astype(str).str.strip().str.lower() != "fossil"]
 
-    # -------- ALL BRANDS (for dropdown) — before brand filter ----------
+    # -------- ALL BRANDS + ASIN TYPES (for pickers) — before filter ----------
     all_brands = sorted(sales["brand"].dropna().astype(str).unique())
+    if "asin_type" in sales.columns:
+        all_asin_types = sorted(
+            t for t in sales["asin_type"].dropna().astype(str).str.strip().unique()
+            if t and t.lower() not in ("nan", "none")
+        )
+    else:
+        all_asin_types = []
 
     # Resolve the effective brand list: multi takes precedence over legacy single.
     eff_brands_lower = [b.strip().lower() for b in brands if b and b.strip().lower() != "all"]
     if not eff_brands_lower and brand and brand != "All":
         eff_brands_lower = [brand.strip().lower()]
 
+    # ASIN Type filter (multi-select).
+    eff_asin_types = [t.strip() for t in (asin_types or []) if t and t.strip()]
+
     if eff_brands_lower:
         sales = sales[
             sales["brand"].astype(str).str.strip().str.lower().isin(eff_brands_lower)
         ]
+
+    if eff_asin_types and "asin_type" in sales.columns:
+        sales = sales[sales["asin_type"].astype(str).isin(eff_asin_types)]
 
     business = load_business()
 
@@ -551,12 +565,14 @@ def amazon_sales_trend(
     if request.url.path.startswith("/api/"):
         from fastapi.responses import JSONResponse
         return JSONResponse(clean_nan({
-            "rows":            rows,
-            "weeks":           weeks,
-            "all_weeks":       all_weeks,
-            "brands":          all_brands,
-            "selected_brands": selected_brands_display,
-            "selected_weeks":  sel_weeks or [],
+            "rows":                rows,
+            "weeks":               weeks,
+            "all_weeks":           all_weeks,
+            "brands":              all_brands,
+            "asin_types":          all_asin_types,
+            "selected_brands":     selected_brands_display,
+            "selected_asin_types": eff_asin_types,
+            "selected_weeks":      sel_weeks or [],
         }))
 
     return HTMLResponse(_env.get_template("sales_trend_amazon.html").render(

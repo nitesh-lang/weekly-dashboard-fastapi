@@ -30,11 +30,13 @@ interface DashboardData {
     sku_total:         number;
     weeks:             string[];
     brands:            string[];
+    asin_types?:       string[];
     selected:          {
         week: string | null;
         brand: string | null;
         weeks: string[] | null;
         brands: string[] | null;
+        asin_types?: string[] | null;
         view: string;
         weeks_display: string | null;
     };
@@ -50,13 +52,15 @@ export default function Dashboard() {
     const [showOverview, setShowOverview] = useState(false);
     const [showSummaries, setShowSummaries] = useState(false);
 
-    const selectedWeeks  = params.getAll("weeks").filter(Boolean);
-    const selectedBrands = params.getAll("brands").filter(Boolean);
-    const view           = params.get("view") || "mapped";
+    const selectedWeeks     = params.getAll("weeks").filter(Boolean);
+    const selectedBrands    = params.getAll("brands").filter(Boolean);
+    const selectedAsinTypes = params.getAll("asin_types").filter(Boolean);
+    const view              = params.get("view") || "mapped";
 
     const qs = new URLSearchParams();
-    selectedWeeks.forEach((w) => qs.append("weeks", w));
-    selectedBrands.forEach((b) => qs.append("brands", b));
+    selectedWeeks.forEach((w)     => qs.append("weeks", w));
+    selectedBrands.forEach((b)    => qs.append("brands", b));
+    selectedAsinTypes.forEach((t) => qs.append("asin_types", t));
     qs.set("view", view);
 
     const { data, isLoading, error } = useQuery<DashboardData>({
@@ -74,8 +78,9 @@ export default function Dashboard() {
         setParams(next, { replace: false });
     }
 
-    const allWeeks  = useMemo(() => sortWeeks(data?.weeks || []), [data]);
-    const allBrands = useMemo(() => data?.brands || [], [data]);
+    const allWeeks     = useMemo(() => sortWeeks(data?.weeks || []), [data]);
+    const allBrands    = useMemo(() => data?.brands || [], [data]);
+    const allAsinTypes = useMemo(() => data?.asin_types || [], [data]);
 
     const selectedBrandLabel = useMemo(() => {
         if (!selectedBrands.length) return "All Brands";
@@ -116,6 +121,15 @@ export default function Dashboard() {
                     onApply={(v) => setMulti("brands", v)}
                     placeholder="All Brands"
                 />
+                {allAsinTypes.length > 0 && (
+                    <MultiPicker
+                        label="ASIN Type"
+                        options={allAsinTypes}
+                        selected={selectedAsinTypes}
+                        onApply={(v) => setMulti("asin_types", v)}
+                        placeholder="All ASIN Types"
+                    />
+                )}
             </div>
 
             {/* Active-filter summary — auto-hides when no filter is applied. */}
@@ -132,6 +146,12 @@ export default function Dashboard() {
                         values: selectedBrands,
                         onRemove: (v) => setMulti("brands", selectedBrands.filter((x) => x !== v)),
                         onClear:  () => setMulti("brands", []),
+                    },
+                    {
+                        label: "ASIN Type",
+                        values: selectedAsinTypes,
+                        onRemove: (v) => setMulti("asin_types", selectedAsinTypes.filter((x) => x !== v)),
+                        onClear:  () => setMulti("asin_types", []),
                     },
                 ] as FilterChipGroup[]}
             />
@@ -259,6 +279,7 @@ export default function Dashboard() {
                                     p.set("type", "sales");
                                     selectedWeeks.forEach((w) => p.append("weeks", w));
                                     selectedBrands.forEach((b) => p.append("brands", b));
+                                    selectedAsinTypes.forEach((t) => p.append("asin_types", t));
                                     return p.toString();
                                 })()}`}>
                                     Channel Drilldown <ArrowRight className="h-3.5 w-3.5" />
@@ -325,6 +346,7 @@ export default function Dashboard() {
                                                 drillParams.set("channel", r.channel);
                                                 selectedWeeks.forEach((w) => drillParams.append("weeks", w));
                                                 selectedBrands.forEach((b) => drillParams.append("brands", b));
+                                                selectedAsinTypes.forEach((t) => drillParams.append("asin_types", t));
                                                 return (
                                                 <tr key={i} className="border-b hover:bg-accent/40">
                                                     <td className="px-3 py-2">

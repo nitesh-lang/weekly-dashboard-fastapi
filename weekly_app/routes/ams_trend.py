@@ -199,6 +199,42 @@ def load_ams_data() -> pd.DataFrame:
     # exports all stay consistent.
     df = df[df["brand"] != "fossil"]
 
+    # Attach ASIN Type (Core / Medium / Tail / EOL / New / …) from
+    # sku_master via ASIN join.  The AMS fact CSV is derived upstream of
+    # the master and doesn't carry the lifecycle tier itself — pull it in
+    # here so the AMS Trend page can filter by tier the same way the
+    # Dashboard / Sales Trend pages do.
+    if "asin_type" not in df.columns:
+        try:
+            from pathlib import Path as _P
+            _master_file = _P("data/master/sku_master.xlsx")
+            if _master_file.exists():
+                from weekly_app.core.df_cache import load_excel_cached as _lxc
+                _m = _lxc(_master_file)
+                _m.columns = _m.columns.str.strip()
+                _asin_col = next((c for c in ["ASIN", "Asin", "asin"] if c in _m.columns), None)
+                _type_col = next(
+                    (c for c in ["ASIN Type", "asin_type", "Asin Type", "ASIN_TYPE"] if c in _m.columns),
+                    None,
+                )
+                if _asin_col and _type_col:
+                    _mm = _m[[_asin_col, _type_col]].copy()
+                    _mm.columns = ["asin", "asin_type"]
+                    _mm["asin"] = _mm["asin"].astype(str).str.strip()
+                    _mm["asin_type"] = _mm["asin_type"].astype(str).str.strip().replace(
+                        {"nan": "", "None": ""}
+                    )
+                    _mm = _mm[_mm["asin"].ne("")].drop_duplicates(subset=["asin"])
+                    df = df.merge(_mm, on="asin", how="left")
+        except Exception:
+            pass
+    if "asin_type" in df.columns:
+        df["asin_type"] = df["asin_type"].astype(str).str.strip().replace(
+            {"nan": "", "None": ""}
+        )
+    else:
+        df["asin_type"] = ""
+
     return df
 
 # ==================================================
@@ -317,26 +353,39 @@ def get_ams_trend(
     model: Optional[str] = Query(None),
     asin: Optional[str] = Query(None),
     brand: Optional[list[str]] = Query(default=None),
+    asin_types: Optional[list[str]] = Query(default=None),
 ):
     # 5-min response cache — same filter combo hits memory instead of
     # re-running the load+merge+derive+serialize pipeline (~750ms warm).
     cache_key = _cache_key("trend", week, weeks, sel_weeks, category_l0,
-                           category_l1, category_l2, model, asin, brand)
+                           category_l1, category_l2, model, asin, brand,
+                           asin_types)
     return _cached_or(cache_key, lambda: _build_trend_response(
         week=week, weeks=weeks, sel_weeks=sel_weeks,
         category_l0=category_l0, category_l1=category_l1,
         category_l2=category_l2, model=model, asin=asin, brand=brand,
+        asin_types=asin_types,
     ))
 
 
 def _build_trend_response(
     week, weeks, sel_weeks, category_l0, category_l1, category_l2,
-    model, asin, brand,
+    model, asin, brand, asin_types=None,
 ):
     # ===============================
     # LOAD DATA
     # ===============================
     df = load_ams_data()
+
+    # ASIN Type picker options — derived from the pre-brand-filter frame so
+    # options don't disappear when the operator narrows other filters.
+    if "asin_type" in df.columns:
+        all_asin_types = sorted(
+            t for t in df["asin_type"].dropna().astype(str).str.strip().unique()
+            if t and t.lower() not in ("nan", "none")
+        )
+    else:
+        all_asin_types = []
 
     # ✅ APPLY BRAND FILTER FIRST (CRITICAL)
     # `brand` is a multi-value query param now — filter via isin(). Empty list
@@ -346,6 +395,13 @@ def _build_trend_response(
         brands_norm = [b.strip().lower() for b in brand if b and b.strip().lower() != "all"]
     if brands_norm:
         df = df[df["brand"].isin(brands_norm)]
+
+    # ✅ ASIN TYPE FILTER — Core / Medium / Tail / EOL / New / …
+    active_asin_types = []
+    if asin_types:
+        active_asin_types = [t.strip() for t in asin_types if t and t.strip()]
+    if active_asin_types and "asin_type" in df.columns:
+        df = df[df["asin_type"].astype(str).isin(active_asin_types)]
 
     # Full AMS base (used for contribution calc)
     base_df = df.copy()
@@ -520,6 +576,8 @@ def _build_trend_response(
         "rows": rows,
         "all_weeks": all_weeks_list,
         "default_weeks": default_window,
+        "asin_types": all_asin_types,
+        "selected_asin_types": active_asin_types,
     })
 
 # ==================================================

@@ -50,6 +50,8 @@ interface AmsData {
     rows: AmsRow[];
     all_weeks?: number[];
     default_weeks?: number[];
+    asin_types?: string[];
+    selected_asin_types?: string[];
 }
 
 /* Match Jinja formatters exactly. */
@@ -133,10 +135,11 @@ export default function AmsTrend() {
 
     // Filter pickers persist in the URL so reloads / shared links keep state.
     // Memoized on qsKey so the arrays don't churn references each render.
-    const selSkus   = useMemo(() => params.getAll("skus").filter(Boolean),   [qsKey]);
-    const selModels = useMemo(() => params.getAll("models").filter(Boolean), [qsKey]);
-    const selAsins  = useMemo(() => params.getAll("asins").filter(Boolean),  [qsKey]);
-    const selBrands = useMemo(() => params.getAll("brands").filter(Boolean), [qsKey]);
+    const selSkus      = useMemo(() => params.getAll("skus").filter(Boolean),      [qsKey]);
+    const selModels    = useMemo(() => params.getAll("models").filter(Boolean),    [qsKey]);
+    const selAsins     = useMemo(() => params.getAll("asins").filter(Boolean),     [qsKey]);
+    const selBrands    = useMemo(() => params.getAll("brands").filter(Boolean),    [qsKey]);
+    const selAsinTypes = useMemo(() => params.getAll("asin_types").filter(Boolean),[qsKey]);
 
     function setMulti(name: string, values: string[]) {
         const next = new URLSearchParams(params);
@@ -203,10 +206,11 @@ export default function AmsTrend() {
     // brand=..&brand=..), matching the FastAPI list[str] / list[int] signature.
     const apiQs = useMemo(() => {
         const parts: string[] = [];
-        selWeeks.forEach((w) => parts.push(`sel_weeks=${encodeURIComponent(w)}`));
-        selBrands.forEach((b) => parts.push(`brand=${encodeURIComponent(b)}`));
+        selWeeks.forEach((w)     => parts.push(`sel_weeks=${encodeURIComponent(w)}`));
+        selBrands.forEach((b)    => parts.push(`brand=${encodeURIComponent(b)}`));
+        selAsinTypes.forEach((t) => parts.push(`asin_types=${encodeURIComponent(t)}`));
         return parts.join("&");
-    }, [selWeeks, selBrands]);
+    }, [selWeeks, selBrands, selAsinTypes]);
 
     // Insights endpoint also accepts Model + ASIN filters so the
     // Performance read can answer for a specific item / week slice.
@@ -425,6 +429,15 @@ export default function AmsTrend() {
                     }
                 />
                 <MultiPicker label="Brands" options={allBrands} selected={selBrands} onApply={setSelBrands} />
+                {(data?.asin_types?.length ?? 0) > 0 && (
+                    <MultiPicker
+                        label="ASIN Type"
+                        options={data?.asin_types || []}
+                        selected={selAsinTypes}
+                        onApply={(v) => setMulti("asin_types", v)}
+                        placeholder="All ASIN Types"
+                    />
+                )}
                 <MultiPicker label="Models" options={allModels} selected={selModels} onApply={setSelModels} />
                 <MultiPicker label="SKUs"   options={allSkus}   selected={selSkus}   onApply={setSelSkus} />
                 <MultiPicker label="ASINs"  options={allAsins}  selected={selAsins}  onApply={setSelAsins} />
@@ -447,6 +460,12 @@ export default function AmsTrend() {
                         values: selBrands,
                         onRemove: (v) => setSelBrands(selBrands.filter((x) => x !== v)),
                         onClear:  () => setSelBrands([]),
+                    },
+                    {
+                        label: "ASIN Type",
+                        values: selAsinTypes,
+                        onRemove: (v) => setMulti("asin_types", selAsinTypes.filter((x) => x !== v)),
+                        onClear:  () => setMulti("asin_types", []),
                     },
                     {
                         label: "Model",

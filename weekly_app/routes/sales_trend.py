@@ -196,6 +196,7 @@ def sales_trend(
     request: Request,
     brand: str = "All",                              # legacy single-brand
     brands: List[str] = Query(default=[]),           # multi-brand checkboxes
+    asin_types: List[str] = Query(default=[]),       # Core / Medium / Tail / EOL / New / …
     sel_weeks: Optional[List[str]] = Query(default=None)
 ):
     sales = load_sales()
@@ -204,15 +205,28 @@ def sales_trend(
         sales["week"].dropna().unique().tolist(),
         key=lambda x: int(re.search(r"\d+", str(x)).group()) if re.search(r"\d+", str(x)) else 0
     )
+    # ASIN Type picker options — derived from unfiltered frame.
+    if "asin_type" in sales.columns:
+        all_asin_types = sorted(
+            t for t in sales["asin_type"].dropna().astype(str).str.strip().unique()
+            if t and t.lower() not in ("nan", "none")
+        )
+    else:
+        all_asin_types = []
 
     # Resolve effective brand list: multi wins over legacy single.
     eff_brands_lower = [b.strip().lower() for b in (brands or []) if b and b.strip().lower() != "all"]
     if not eff_brands_lower and brand and brand != "All":
         eff_brands_lower = [brand.strip().lower()]
 
+    # ASIN Type filter (multi-select).
+    eff_asin_types = [t.strip() for t in (asin_types or []) if t and t.strip()]
+
     base = sales
     if eff_brands_lower:
-        base = sales[sales["brand"].isin(eff_brands_lower)]
+        base = base[base["brand"].isin(eff_brands_lower)]
+    if eff_asin_types and "asin_type" in base.columns:
+        base = base[base["asin_type"].astype(str).isin(eff_asin_types)]
 
     weeks_df = (
         base[["week", "week_num"]]
@@ -350,7 +364,9 @@ def sales_trend(
             "weeks": weeks,
             "all_weeks": all_weeks,
             "brands": all_brands,
+            "asin_types": all_asin_types,
             "selected_brands": selected_brands_display,
+            "selected_asin_types": eff_asin_types,
             "selected_weeks": sel_weeks or [],
         }))
 
@@ -373,6 +389,7 @@ def sales_trend_rows_api(
     request: Request,
     brand: str = "All",                              # legacy single-brand
     brands: List[str] = Query(default=[]),           # multi-brand checkboxes
+    asin_types: List[str] = Query(default=[]),       # Core / Medium / Tail / EOL / New / …
     sel_weeks: Optional[List[str]] = Query(default=None),
     page: int = 1,
     page_size: int = 100,
@@ -386,10 +403,13 @@ def sales_trend_rows_api(
         eff_brands_lower = [b.strip().lower() for b in (brands or []) if b and b.strip().lower() != "all"]
         if not eff_brands_lower and brand and brand != "All":
             eff_brands_lower = [brand.strip().lower()]
+        eff_asin_types = [t.strip() for t in (asin_types or []) if t and t.strip()]
 
         base = sales
         if eff_brands_lower:
-            base = sales[sales["brand"].isin(eff_brands_lower)]
+            base = base[base["brand"].isin(eff_brands_lower)]
+        if eff_asin_types and "asin_type" in base.columns:
+            base = base[base["asin_type"].astype(str).isin(eff_asin_types)]
 
         weeks_df = base[["week","week_num"]].dropna().drop_duplicates().sort_values("week_num")
         if sel_weeks:

@@ -126,6 +126,7 @@ def dashboard(
     weeks: List[str] = Query(default=[]),   # ← multi-week checkboxes
     brand: str = None,                       # legacy single-brand
     brands: List[str] = Query(default=[]),  # ← multi-brand checkboxes
+    asin_types: List[str] = Query(default=[]),  # ← Core / Medium / Tail / EOL / New / New Launch / To be Launched
     view: str = "mapped",
 ):
 
@@ -151,6 +152,10 @@ def dashboard(
     if not active_brands and brand and brand.strip().lower() not in ("none", "all", ""):
         active_brands = [brand.strip()]
 
+    # Build active_asin_types — sku_master's ASIN Type column (Core / Medium
+    # / Tail / EOL / New / New Launch / To be Launched).  Empty list = all.
+    active_asin_types = [t.strip() for t in (asin_types or []) if t and t.strip()]
+
     selected = {
         "week":           active_weeks[0] if len(active_weeks) == 1 else None,
         "weeks":          active_weeks,
@@ -162,6 +167,8 @@ def dashboard(
         "brand":          active_brands[0] if len(active_brands) == 1 else None,
         "brands":         active_brands,
         "brands_display": ", ".join(active_brands) if active_brands else "All Brands",
+        "asin_types":     active_asin_types,
+        "asin_types_display": ", ".join(active_asin_types) if active_asin_types else "All ASIN Types",
         "view":           view,
     }
 
@@ -278,6 +285,16 @@ def dashboard(
         sorted(full_sales["brand"].dropna().astype(str).str.strip().unique())
         if "brand" in full_sales.columns else []
     )
+    # ASIN Type picker options — derived from unfiltered frame so options
+    # don't disappear when the operator narrows other filters.  Empty
+    # strings dropped so the picker shows only the real lifecycle tiers.
+    if "asin_type" in full_sales.columns:
+        asin_types_list = sorted(
+            t for t in full_sales["asin_type"].dropna().astype(str).str.strip().unique()
+            if t and t.lower() not in ("nan", "none")
+        )
+    else:
+        asin_types_list = []
 
     # ── Now slice for the actual view ──
     sales = full_sales.copy()
@@ -294,6 +311,12 @@ def dashboard(
     if active_brands and "brand" in sales.columns:
         lowered = [b.lower() for b in active_brands]
         sales = sales[sales["brand"].str.lower().isin(lowered)]
+
+    # ✅ STEP 2b — ASIN TYPE FILTER (Core / Medium / Tail / EOL / New / …)
+    # Applies BEFORE the mapped-view filter so downstream aggregates and
+    # KPIs reflect only the selected lifecycle tiers.
+    if active_asin_types and "asin_type" in sales.columns:
+        sales = sales[sales["asin_type"].astype(str).isin(active_asin_types)]
 
     if view == "mapped" and "sku_status" in sales.columns:
         sales = sales[sales["sku_status"] == "MAPPED"]
@@ -709,6 +732,7 @@ def dashboard(
             "sku_total":         len(all_sku_rows),
             "weeks":             all_week_labels,
             "brands":            brands_list,
+            "asin_types":        asin_types_list,
             "selected":          selected,
             "latest_week_label": latest_week_label,
             "generated_at":      generated_at,
@@ -744,6 +768,7 @@ def dashboard_sku_rows_api(
     weeks: List[str] = Query(default=[]),
     brand: str = None,
     brands: List[str] = Query(default=[]),
+    asin_types: List[str] = Query(default=[]),
     view: str = "mapped",
     page: int = 1,
     page_size: int = 100,
@@ -809,12 +834,17 @@ def dashboard_sku_rows_api(
         if not active_brands and brand and brand not in ("None", "All", ""):
             active_brands = [brand.strip()]
 
+        # ASIN Type multi-filter — mirrors the main dashboard endpoint.
+        active_asin_types = [t.strip() for t in (asin_types or []) if t and t.strip()]
+
         sales = full_sales.copy()
         if active_weeks:
             sales = sales[sales["week"].isin(active_weeks)]
         if active_brands:
             lowered = [b.lower() for b in active_brands]
             sales = sales[sales["brand"].str.strip().str.lower().isin(lowered)]
+        if active_asin_types and "asin_type" in sales.columns:
+            sales = sales[sales["asin_type"].astype(str).isin(active_asin_types)]
         if view == "mapped" and "sku_status" in sales.columns:
             sales = sales[sales["sku_status"] == "MAPPED"]
 

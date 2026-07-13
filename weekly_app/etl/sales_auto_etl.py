@@ -168,6 +168,12 @@ def load_sku_master():
             df[c] = ""
         df[c] = df[c].apply(clean_category)
 
+    # ASIN Type (Core / Medium / Tail / EOL / New / New Launch / To be Launched)
+    # — piped into snapshot so Dashboard + downstream can filter by lifecycle tier.
+    if "asin_type" not in df.columns:
+        df["asin_type"] = ""
+    df["asin_type"] = df["asin_type"].astype(str).str.strip().replace({"nan": "", "None": ""})
+
     result = df[
         [
             "sku",
@@ -178,6 +184,7 @@ def load_sku_master():
             "category_l0",
             "category_l1",
             "category_l2",
+            "asin_type",
         ]
     ]
 
@@ -520,7 +527,8 @@ def process_week(week, sku_master, brand_folder=""):
             master_by_asin = sku_master.drop_duplicates(subset=["asin"])
             expanded = amz.merge(
                 master_by_asin[["asin", "sku", "brand", "model", "nlc",
-                                "category_l0", "category_l1", "category_l2"]],
+                                "category_l0", "category_l1", "category_l2",
+                                "asin_type"]],
                 on="asin", how="left", suffixes=("", "_master"),
             )
             # Prefer master's Model when present.  Falls back to whatever
@@ -625,7 +633,8 @@ def process_week(week, sku_master, brand_folder=""):
             if need_master.any():
                 master_by_asin = sku_master.drop_duplicates(subset=["asin"]).set_index("asin")
                 for col in ("sku", "model", "brand", "nlc",
-                            "category_l0", "category_l1", "category_l2"):
+                            "category_l0", "category_l1", "category_l2",
+                            "asin_type"):
                     if col not in master_by_asin.columns:
                         continue
                     # Widen destination to object so pandas 2.2+ doesn't
@@ -744,6 +753,7 @@ def process_week(week, sku_master, brand_folder=""):
             "category_l0",
             "category_l1",
             "category_l2",
+            "asin_type",
         ]
     ]
 
@@ -816,7 +826,7 @@ def run_sales_auto_etl(single_week: str = None):
     # because Amazon rows were collapsed at model-grain).
     group_keys = ["week", "brand", "model", "channel", "asin"]
     numeric_cols = ["units_sold", "gross_sales", "gmv", "nlc", "sales_nlc"]
-    str_cols = ["sku", "sku_status", "category_l0", "category_l1", "category_l2"]
+    str_cols = ["sku", "sku_status", "category_l0", "category_l1", "category_l2", "asin_type"]
     # Backfill missing asin so groupby doesn't drop rows (older data /
     # legacy parse_amazon path).
     if "asin" not in combined.columns:

@@ -37,7 +37,9 @@ interface TrendRow {
 interface SalesTrendData {
     rows: TrendRow[]; trend_total: number;
     weeks: string[]; all_weeks: string[]; brands: string[];
+    asin_types?: string[];
     selected_brands: string[]; selected_weeks: string[];
+    selected_asin_types?: string[];
 }
 
 function TrendBadge({ t }: { t: TrendRow["trend"] }) {
@@ -52,10 +54,11 @@ export default function SalesTrend() {
     const qsKey = params.toString();
     // Memoize URL-derived arrays on the stable qsKey so React Query / useMemo
     // hooks downstream don't see fresh references every render.
-    const selectedBrands = useMemo(() => params.getAll("brands").filter(Boolean),    [qsKey]);
-    const selectedWeeks  = useMemo(() => params.getAll("sel_weeks").filter(Boolean), [qsKey]);
-    const selModels      = useMemo(() => params.getAll("models").filter(Boolean),    [qsKey]);
-    const selAsins       = useMemo(() => params.getAll("asins").filter(Boolean),     [qsKey]);
+    const selectedBrands    = useMemo(() => params.getAll("brands").filter(Boolean),     [qsKey]);
+    const selectedWeeks     = useMemo(() => params.getAll("sel_weeks").filter(Boolean),  [qsKey]);
+    const selectedAsinTypes = useMemo(() => params.getAll("asin_types").filter(Boolean), [qsKey]);
+    const selModels         = useMemo(() => params.getAll("models").filter(Boolean),     [qsKey]);
+    const selAsins          = useMemo(() => params.getAll("asins").filter(Boolean),      [qsKey]);
     const [filter, setFilter] = useDebouncedUrlParam("q");
     const setSelModels = (values: string[]) => setMulti("models", values);
     const setSelAsins  = (values: string[]) => setMulti("asins",  values);
@@ -64,8 +67,9 @@ export default function SalesTrend() {
     // the loaded rows client-side, so they stay out of the queryKey to
     // avoid unnecessary refetches when the operator narrows the view.
     const qs = new URLSearchParams();
-    selectedBrands.forEach((b) => qs.append("brands", b));
-    selectedWeeks.forEach((w) => qs.append("sel_weeks", w));
+    selectedBrands.forEach((b)    => qs.append("brands", b));
+    selectedWeeks.forEach((w)     => qs.append("sel_weeks", w));
+    selectedAsinTypes.forEach((t) => qs.append("asin_types", t));
 
     // Insights endpoint also accepts model + asin so the read can scope
     // to a specific picker selection.  Kept separate from `qs` so the
@@ -105,9 +109,10 @@ export default function SalesTrend() {
         setParams(u, { replace: false });
     }
 
-    const weeks     = data?.weeks || [];
-    const allWeeks  = useMemo(() => sortWeeks(data?.all_weeks || []), [data]);
-    const allBrands = data?.brands || [];
+    const weeks        = data?.weeks || [];
+    const allWeeks     = useMemo(() => sortWeeks(data?.all_weeks || []), [data]);
+    const allBrands    = data?.brands || [];
+    const allAsinTypes = data?.asin_types || [];
 
     const allModels = useMemo(() => Array.from(new Set((data?.rows || []).map((r) => r.model).filter(Boolean))).sort() as string[], [data]);
     const allAsins  = useMemo(() => Array.from(new Set((data?.rows || []).map((r) => r.asin).filter(Boolean))).sort() as string[], [data]);
@@ -220,17 +225,21 @@ export default function SalesTrend() {
                             : "All"
                     }
                 />
-                <MultiPicker label="Brands" options={allBrands} selected={selectedBrands} onApply={(v) => setMulti("brands", v)} />
-                <MultiPicker label="Models" options={allModels} selected={selModels}      onApply={setSelModels} />
-                <MultiPicker label="ASINs"  options={allAsins}  selected={selAsins}       onApply={setSelAsins} />
+                <MultiPicker label="Brands"    options={allBrands}    selected={selectedBrands}    onApply={(v) => setMulti("brands", v)} />
+                {allAsinTypes.length > 0 && (
+                    <MultiPicker label="ASIN Type" options={allAsinTypes} selected={selectedAsinTypes} onApply={(v) => setMulti("asin_types", v)} placeholder="All ASIN Types" />
+                )}
+                <MultiPicker label="Models"    options={allModels}    selected={selModels}         onApply={setSelModels} />
+                <MultiPicker label="ASINs"     options={allAsins}     selected={selAsins}          onApply={setSelAsins} />
             </div>
 
             <FilterChipStrip
                 filters={[
-                    { label: "Weeks",  values: selectedWeeks,  onRemove: (v) => setMulti("sel_weeks", selectedWeeks.filter((x) => x !== v)),  onClear: () => setMulti("sel_weeks", []) },
-                    { label: "Brand",  values: selectedBrands, onRemove: (v) => setMulti("brands",    selectedBrands.filter((x) => x !== v)), onClear: () => setMulti("brands", []) },
-                    { label: "Model",  values: selModels,      onRemove: (v) => setSelModels(selModels.filter((x) => x !== v)),               onClear: () => setSelModels([]) },
-                    { label: "ASIN",   values: selAsins,       onRemove: (v) => setSelAsins(selAsins.filter((x) => x !== v)),                 onClear: () => setSelAsins([]) },
+                    { label: "Weeks",     values: selectedWeeks,     onRemove: (v) => setMulti("sel_weeks",  selectedWeeks.filter((x) => x !== v)),     onClear: () => setMulti("sel_weeks", []) },
+                    { label: "Brand",     values: selectedBrands,    onRemove: (v) => setMulti("brands",     selectedBrands.filter((x) => x !== v)),    onClear: () => setMulti("brands", []) },
+                    { label: "ASIN Type", values: selectedAsinTypes, onRemove: (v) => setMulti("asin_types", selectedAsinTypes.filter((x) => x !== v)), onClear: () => setMulti("asin_types", []) },
+                    { label: "Model",     values: selModels,         onRemove: (v) => setSelModels(selModels.filter((x) => x !== v)),                   onClear: () => setSelModels([]) },
+                    { label: "ASIN",      values: selAsins,          onRemove: (v) => setSelAsins(selAsins.filter((x) => x !== v)),                     onClear: () => setSelAsins([]) },
                 ] as FilterChipGroup[]}
             />
 

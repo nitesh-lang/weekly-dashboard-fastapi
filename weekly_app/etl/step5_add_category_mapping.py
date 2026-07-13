@@ -82,8 +82,17 @@ print("🟢 Non-SB rows:", len(non_sb_df))
 
 # ==================================================
 # STEP-4 CATEGORY SOURCE (ASIN LEVEL – SOURCE OF TRUTH)
+#
+# NOTE: we drop the `brand` column from step4 before merging so we don't
+# collide with `brand` from ams_weekly_fact.csv (which is authoritative —
+# ads_weekly_aggregated carries brand for every ASIN including Fossil).
+# The old collision produced `brand_x`/`brand_y` from the merge, then
+# concat with sb_df (which still had `brand`) left 88% of rows with
+# `brand=NaN`, which slipped past the AMS Trend endpoint's
+# `brand != "fossil"` filter and let 4117 Fossil rows inflate the
+# ex-Fossil totals by ~₹5.3 Cr on the last-12-week view.
 # ==================================================
-cat_cols = ["asin", "brand", "category_l0", "category_l1", "category_l2"]
+cat_cols = ["asin", "category_l0", "category_l1", "category_l2"]
 
 missing_cols = [c for c in cat_cols if c not in step4_df.columns]
 if missing_cols:

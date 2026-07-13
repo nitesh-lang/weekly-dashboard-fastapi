@@ -28,6 +28,14 @@ name: Weekly Auto-Sync
 on:
   schedule:
     - cron: '7 1 * * 1'       # Monday 01:07 UTC = 06:37 IST (off-peak minute)
+    # ONE-TIME W28 ads recovery — Tue 2026-07-14 09:00 IST (03:30 UTC).
+    # Amazon Ads Reports API was down all day 2026-07-13; W28 Auto-Sync
+    # commit landed sales/inventory but ads still missing (see project
+    # memory `ads_reports_stuck_2026_07_13`).  This Tuesday cron picks
+    # up automatically at 09:00 IST so ads data lands even if operator's
+    # laptop is off.  REMOVE THIS LINE after the 2026-07-14 run succeeds
+    # or leave in place to make Tuesday-09:00 a recurring backup slot.
+    - cron: '30 3 * * 2'      # Tuesday 03:30 UTC = 09:00 IST — W28 ads catch-up
   push:
     branches: [main]
     paths:

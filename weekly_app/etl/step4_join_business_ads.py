@@ -188,6 +188,12 @@ final = final.merge(map_df, on="asin", how="left")
 # across W21-W24 was bucketing into AMS Trend's model=NaN row.
 # --------------------------------------------------
 sku = sku.rename(columns={"ASIN": "child_asin", "Brand": "brand", "Model": "model_master"})
+# Drop truly-missing values BEFORE astype(str) coerces them into
+# environment-dependent strings (Windows local: "nan"; Linux CI with
+# certain pandas/pyarrow combos: "<NA>").  The string-match filter
+# below wouldn't catch "<NA>" — that's what re-fired the
+# Fossil-to-AA mistag on 2026-07-14 run 29325714636 despite eee3131.
+sku = sku[sku["child_asin"].notna()]
 sku["child_asin"] = sku["child_asin"].astype(str).str.strip()
 sku["brand"] = sku["brand"].astype(str).str.strip()
 # 🛡️ FILTER BLANK/NaN ASINs BEFORE DEDUP
@@ -200,11 +206,16 @@ sku["brand"] = sku["brand"].astype(str).str.strip()
 # Array on the AMS Trend UI (verified 2026-07-13: ~₹5.2 Cr AA over-count
 # across W14–W25; W26–W27 clean because Fossil started getting per-week
 # business_reports).
-sku = sku[
-    sku["child_asin"].str.lower().ne("nan")
-    & sku["child_asin"].ne("")
-    & sku["child_asin"].str.lower().ne("none")
-]
+# Enumerate every stringified blank/missing pattern.  Windows pandas
+# stringifies a blank Excel cell as "nan"; Linux pandas (CI runner) with
+# pyarrow backend stringifies pd.NA as "<NA>" instead — and the original
+# 3-pattern filter missed "<NA>", so the phantom survivor came back on
+# CI even after eee3131.  Downstream: run 29325714636 on 2026-07-14
+# regressed AA W14-W25 back to +₹5.28 Cr Fossil-mistag inflation.  See
+# reference_ams_trend_aa_fossil_mistag_incident.md.
+_BLANK_ASIN_MARKERS = {"nan", "none", "", "<na>", "n/a", "na", "-"}
+_norm_asin = sku["child_asin"].str.strip().str.lower()
+sku = sku[~_norm_asin.isin(_BLANK_ASIN_MARKERS)]
 if "model_master" in sku.columns:
     sku["model_master"] = sku["model_master"].astype(str).str.upper().str.strip().replace(
         {"NAN": "", "NONE": "", "-": ""}
@@ -289,11 +300,20 @@ final = final[[c for c in FINAL_COLS if c in final.columns]]
 # business_ads_joined.csv with un-categorizable ghost rows and
 # audit Check 22 fires on category coverage.
 master_asins = set(sku["child_asin"].astype(str).str.strip().str.upper())
-master_asins.discard("NAN")
-master_asins.discard("NONE")
-master_asins.discard("")
+# Discard every stringified-missing marker so no phantom key can slip
+# into the allow-list from the sku side.  Widened after 2026-07-14
+# regression: pyarrow-backed dtype produces "<NA>" for missing Excel
+# cells which the old 3-marker discard missed.
+for _blank in ("NAN", "NONE", "", "<NA>", "N/A", "NA", "-"):
+    master_asins.discard(_blank)
 before = len(final)
-final["_asin_n"] = final["child_asin"].astype(str).str.strip().str.upper()
+# Same widened normalisation on the final side — a NaN in final
+# stringifies to different values across pandas backends; treat every
+# blank marker as "not in master" so the strict filter is symmetric
+# with the sku-side scrub above.
+_final_norm = final["child_asin"].astype(str).str.strip().str.upper()
+_blank_mask = _final_norm.isin({"NAN", "NONE", "", "<NA>", "N/A", "NA", "-"})
+final["_asin_n"] = _final_norm.where(~_blank_mask, "__BLANK__")
 filt = final["_asin_n"].isin(master_asins)
 dropped = final[~filt].copy()
 final = final[filt].drop(columns=["_asin_n"])

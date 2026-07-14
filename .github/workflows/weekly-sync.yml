@@ -410,6 +410,22 @@ jobs:
             data/processed/pipeline_integrity_audit.xlsx
           if-no-files-found: warn
 
+      # DIAGNOSTIC — upload RAW W28 ads_report files so operator can process
+      # them locally when the brand-mistag gate blocks the auto-commit.
+      # The raw ads files from a successful Pull Reports API step would
+      # otherwise die with the ephemeral runner filesystem.  Uploading here
+      # gives us a "download-once-use-forever" path around Amazon's flaky
+      # SB endpoint.  Remove once step4 CI-vs-local divergence is fixed.
+      - name: DEBUG upload raw ads_report files (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-raw-ads-week28
+          path: |
+            data/ams_weekly_data/*/ads_report_week*.xlsx
+            data/ams_weekly_data/*/business_report_week28.xlsx
+          if-no-files-found: warn
+
       # Brand-mistag gate — fail-loud pre-commit blocker.
       # Reads Check 27 (all-weeks AMS Trend vs Sales Trend brand cross-check)
       # from the audit xlsx just written by the previous step.  Definite

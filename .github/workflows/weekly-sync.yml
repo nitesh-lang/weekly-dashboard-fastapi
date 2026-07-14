@@ -392,6 +392,24 @@ jobs:
           path: data/processed/pipeline_integrity_audit.xlsx
           if-no-files-found: warn
 
+      # DIAGNOSTIC — upload step4/step5 outputs regardless of run outcome so
+      # we can inspect the CI-generated business_ads_joined.csv when the
+      # brand-mistag gate fires (auto-commit blocks, files never land on
+      # origin, so post-mortem needs the artifact).  Remove once the CI
+      # step4-vs-local-step4 divergence root cause is identified.
+      - name: DEBUG upload step4/step5 outputs (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-step4-step5-outputs
+          path: |
+            data/ams_weekly_data/processed_ads/business_ads_joined.csv
+            data/ams_weekly_data/processed_ads/ads_weekly_aggregated.csv
+            data/ams_weekly_data/ams_weekly_fact/ams_weekly_fact.csv
+            data/ams_weekly_data/ams_weekly_fact/ams_weekly_fact_with_category.csv
+            data/processed/pipeline_integrity_audit.xlsx
+          if-no-files-found: warn
+
       # Brand-mistag gate — fail-loud pre-commit blocker.
       # Reads Check 27 (all-weeks AMS Trend vs Sales Trend brand cross-check)
       # from the audit xlsx just written by the previous step.  Definite

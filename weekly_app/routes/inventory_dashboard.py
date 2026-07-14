@@ -298,7 +298,8 @@ def inventory_dashboard(
     # the week silently.
     weeks: list[str] = Query(default=[]),
     sel_weeks: list[str] = Query(default=[]),
-    brand: str | None = Query(None),
+    brand: str | None = Query(None),                  # legacy single-brand
+    brands: list[str] = Query(default=[]),            # multi-brand checkboxes
     # Accepted but unused — viewer dashboard has no mapped/all toggle.
     view: str | None = Query(None),
 ):
@@ -306,6 +307,11 @@ def inventory_dashboard(
         carry = [w for w in list(weeks) + list(sel_weeks) if str(w).strip()]
         if carry:
             week = carry[0]
+
+    # Resolve effective brand list — multi wins over legacy single.
+    active_brands = [b.strip() for b in (brands or []) if b and b.strip()]
+    if not active_brands and brand and brand.strip().lower() not in ("", "none", "all"):
+        active_brands = [brand.strip()]
 
     df = load_all_inventory()
 
@@ -337,9 +343,10 @@ def inventory_dashboard(
         df = df[df["week_num"]==mw]
         active_week = df["week"].iloc[0]
 
-    # BRAND FILTER
-    if brand:
-        df = df[df["brand"]==brand]
+    # BRAND FILTER (multi-select aware)
+    if active_brands:
+        lowered = [b.lower() for b in active_brands]
+        df = df[df["brand"].astype(str).str.strip().str.lower().isin(lowered)]
 
     # ========================================================
     # AGGREGATION FIX
@@ -437,7 +444,8 @@ def inventory_dashboard(
 def inventory_rows_api(
     request: Request,
     week: str = None,
-    brand: str = None,
+    brand: str = None,                              # legacy single-brand
+    brands: list[str] = Query(default=[]),          # multi-brand checkboxes
     page: int = 1,
     page_size: int = 100,
 ):
@@ -455,8 +463,14 @@ def inventory_rows_api(
             df = df[df["week_num"] == mw]
         else:
             df = df[df["week"].astype(str) == str(week)]
-        if brand and brand not in ("None", "All", ""):
-            df = df[df["brand"].str.lower() == brand.strip().lower()]
+
+        # Multi-brand filter — legacy single-brand still respected.
+        active_brands = [b.strip() for b in (brands or []) if b and b.strip()]
+        if not active_brands and brand and brand not in ("None", "All", ""):
+            active_brands = [brand.strip()]
+        if active_brands:
+            lowered = [b.lower() for b in active_brands]
+            df = df[df["brand"].astype(str).str.strip().str.lower().isin(lowered)]
 
         # Fill ALL groupby keys, not just categories — pandas dropna=True
         # default would otherwise drop rows with NaN ASIN / channel / etc.

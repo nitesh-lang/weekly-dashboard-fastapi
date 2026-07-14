@@ -88,8 +88,14 @@ function uniqSorted(rows: InventoryRow[] | undefined, key: keyof InventoryRow): 
 export default function InventoryDashboard() {
     const [params, setParams] = useSearchParams();
     const qsKey = params.toString();
-    const selectedWeek  = params.get("week") || "";
-    const selectedBrand = params.get("brand") || "";
+    const selectedWeek   = params.get("week") || "";
+    // Multi-brand selection (legacy singular ?brand= still read as fallback).
+    const selectedBrands = useMemo(() => {
+        const multi = params.getAll("brands").filter(Boolean);
+        if (multi.length) return multi;
+        const legacy = params.get("brand");
+        return legacy ? [legacy] : [];
+    }, [qsKey]);
     // New multi-pickers (URL-persisted, client-side filters).
     const selCatL0   = useMemo(() => params.getAll("cat_l0").filter(Boolean),   [qsKey]);
     const selCatL1   = useMemo(() => params.getAll("cat_l1").filter(Boolean),   [qsKey]);
@@ -101,7 +107,7 @@ export default function InventoryDashboard() {
 
     const qs = new URLSearchParams();
     if (selectedWeek)  qs.set("week", selectedWeek);
-    if (selectedBrand) qs.set("brand", selectedBrand);
+    selectedBrands.forEach((b) => qs.append("brands", b));
 
     const { data, isLoading, error } = useQuery<InvData>({
         queryKey: ["inventory-dashboard", qs.toString()],
@@ -206,8 +212,9 @@ export default function InventoryDashboard() {
             if (rng.max != null && num > rng.max) return false;
             return true;
         }
-        // Hide Fossil rows unless explicitly selected via the URL brand param OR a column-level brand filter that includes Fossil.
-        const explicitFossil = (selectedBrand || "").trim().toLowerCase() === "fossil"
+        // Hide Fossil rows unless explicitly selected via the top-level brand
+        // picker OR a column-level brand filter that includes Fossil.
+        const explicitFossil = selectedBrands.some((b) => b.trim().toLowerCase() === "fossil")
             || selBrandsM.some((b) => b.toLowerCase() === "fossil");
         return data.rows.filter((r) => {
             if (!explicitFossil && (r.brand || "").trim().toLowerCase() === "fossil") return false;
@@ -226,7 +233,7 @@ export default function InventoryDashboard() {
             if (!inRange(r.inventory_value, rValue)) return false;
             return matchText(r);
         });
-    }, [data, filter, selCatL0, selCatL1, selCatL2, selChannel, selType, selectedBrand,
+    }, [data, filter, selCatL0, selCatL1, selCatL2, selChannel, selType, selectedBrands,
         selModels, selSkus, selAsins, selBrandsM, selWeeksM, rUnits, rNlc, rValue]);
 
     const { sorted, sort, onSort } = useSortedRows(filtered, { key: "inventory_value", dir: "desc" });
@@ -237,12 +244,12 @@ export default function InventoryDashboard() {
     // the Filter search box shape the on-screen view only.
     const exportRows = useMemo(() => {
         if (!data) return [];
-        const explicitFossil = (selectedBrand || "").trim().toLowerCase() === "fossil"
+        const explicitFossil = selectedBrands.some((b) => b.trim().toLowerCase() === "fossil")
             || selBrandsM.some((b) => b.toLowerCase() === "fossil");
         return data.rows.filter((r) =>
             explicitFossil || (r.brand || "").trim().toLowerCase() !== "fossil"
         );
-    }, [data, selectedBrand, selBrandsM]);
+    }, [data, selectedBrands, selBrandsM]);
 
     // KPIs derived from the *client-filtered* rows so picking Cat L0/L1/L2,
     // Channel, Type, or the column-header filters collapses the headline
@@ -290,7 +297,12 @@ export default function InventoryDashboard() {
                 </div>
                 <div className="flex-1" />
                 <MultiPicker label="Week"      options={allWeeks}    selected={selectedWeek  ? [selectedWeek]  : []} onApply={(v) => setSingle("week", v.slice(0, 1))} maxLabelItems={1} />
-                <MultiPicker label="Brand"     options={allBrands}   selected={selectedBrand ? [selectedBrand] : []} onApply={(v) => setSingle("brand", v.slice(0, 1))} maxLabelItems={1} />
+                <MultiPicker label="Brand"     options={allBrands}   selected={selectedBrands} onApply={(v) => {
+                    const next = new URLSearchParams(params);
+                    next.delete("brands"); next.delete("brand");   // clear both new + legacy
+                    v.forEach((b) => next.append("brands", b));
+                    setParams(next, { replace: false });
+                }} placeholder="All Brands" />
                 <MultiPicker label="Cat L0"    options={allCatL0}    selected={selCatL0}    onApply={(v) => setMulti("cat_l0", v)} />
                 <MultiPicker label="Cat L1"    options={allCatL1}    selected={selCatL1}    onApply={(v) => setMulti("cat_l1", v)} />
                 <MultiPicker label="Cat L2"    options={allCatL2}    selected={selCatL2}    onApply={(v) => setMulti("cat_l2", v)} />
@@ -301,7 +313,18 @@ export default function InventoryDashboard() {
             <FilterChipStrip
                 filters={[
                     { label: "Week",    values: selectedWeek  ? [selectedWeek]  : [], onRemove: () => setSingle("week", []),           onClear: () => setSingle("week", []) },
-                    { label: "Brand",   values: selectedBrand ? [selectedBrand] : [], onRemove: () => setSingle("brand", []),          onClear: () => setSingle("brand", []) },
+                    { label: "Brand",   values: selectedBrands,
+                        onRemove: (v) => {
+                            const next = new URLSearchParams(params);
+                            next.delete("brands"); next.delete("brand");
+                            selectedBrands.filter((x) => x !== v).forEach((b) => next.append("brands", b));
+                            setParams(next, { replace: false });
+                        },
+                        onClear: () => {
+                            const next = new URLSearchParams(params);
+                            next.delete("brands"); next.delete("brand");
+                            setParams(next, { replace: false });
+                        } },
                     { label: "Cat L0",  values: selCatL0,                              onRemove: (v) => setMulti("cat_l0", selCatL0.filter((x) => x !== v)), onClear: () => setMulti("cat_l0", []) },
                     { label: "Cat L1",  values: selCatL1,                              onRemove: (v) => setMulti("cat_l1", selCatL1.filter((x) => x !== v)), onClear: () => setMulti("cat_l1", []) },
                     { label: "Cat L2",  values: selCatL2,                              onRemove: (v) => setMulti("cat_l2", selCatL2.filter((x) => x !== v)), onClear: () => setMulti("cat_l2", []) },

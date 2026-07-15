@@ -115,27 +115,35 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Verify credentials present
+        if: github.event_name != 'push'
         run: |
           if [ -z "$AMS_ADS_CLIENT_ID" ] || [ -z "$AMS_ADS_CLIENT_SECRET" ] || [ -z "$AMS_ADS_REFRESH_TOKEN" ]; then
             echo "::error::Missing one or more AMS_ADS_* secrets (CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN)."
             exit 1
           fi
 
-      # Ads API pre-flight — verify every IN profile the cron depends on
-      # actually returns 200 on /sp/campaigns/list with the current LWA
-      # token.  /v2/profiles can list a profile that we'd still 403 on
-      # when calling its data endpoints, which would silently produce
-      # PARTIAL ads data downstream.  Fail loudly here instead.
+      # ADS-CHAIN STEPS (health check + campaign map + reports pull + SB
+      # ingest) are gated by `if: github.event_name != 'push'` so raw-
+      # file pushes (operator drops sales/inventory/margin/etc) skip the
+      # 30-60 min Amazon Ads pull and reuse the last-committed ads_report
+      # files under data/ams_weekly_data/{brand}/.  Rationale: mid-week
+      # data-file edits don't need fresh ads (ads are refreshed by the
+      # Monday 06:37 IST cron + Tuesday 09:00 IST backup slot); operator
+      # push should process in 5-8 min not 40-70 min.  Full ads refresh
+      # still runs on: schedule (cron) and workflow_dispatch (manual).
       - name: Ads API health check (per-profile reachability)
+        if: github.event_name != 'push'
         run: python scripts/ads_api_health_check.py
 
       # Refresh the campaign -> ASIN lookup (used by sb_ingest L0 layer)
       - name: Refresh campaign->ASIN map (SP+SD+SB)
+        if: github.event_name != 'push'
         run: python -m weekly_app.etl.ads_api_pull sp sd sb
 
       # Pull the last 14 days of Reports API metrics — covers the
       # just-closed Sun-Sat week with margin for late attribution updates.
       - name: Pull Reports API (last 14 days)
+        if: github.event_name != 'push'
         run: |
           START=$(date -u -d '14 days ago' +%Y-%m-%d)
           END=$(date -u -d '1 day ago' +%Y-%m-%d)
@@ -143,14 +151,17 @@ jobs:
           python -m weekly_app.etl.ads_reports_pull run --start "$START" --end "$END"
 
       - name: Swap API SP+SD into canonical xlsx files
+        if: github.event_name != 'push'
         run: python scripts/swap_api_into_canonical.py
 
       # sb_ingest handles operator-exported SB files (W21 today, latest week
       # tomorrow).  It's harmless when no SB files are present.
       - name: SB ingest (operator-exported files, if any)
+        if: github.event_name != 'push'
         run: python -m weekly_app.etl.sb_ingest
 
       - name: SB ingest from API (covers weeks without operator files)
+        if: github.event_name != 'push'
         run: python scripts/sb_ingest_from_api.py
 
       # NOTE: `Derive business_report from raw sales` was here, before

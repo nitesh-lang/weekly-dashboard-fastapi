@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
@@ -82,13 +82,25 @@ export default function Dashboard() {
     const allBrands    = useMemo(() => data?.brands || [], [data]);
     const allAsinTypes = useMemo(() => data?.asin_types || [], [data]);
 
-    // Sync backend-picked latest week to the URL on first load.  Without
-    // this the picker shows "All Weeks" placeholder while the numbers on
-    // screen are actually filtered to the latest week only — operator
-    // then picks W27 expecting to ADD it to W28 but ends up REPLACING
-    // (because URL was empty).  Reported UX 2026-07-15.
+    // Sync backend-picked latest week to the URL EXACTLY ONCE on first
+    // load.  Without this the picker shows "All Weeks" placeholder while
+    // the numbers on screen are actually filtered to the latest week —
+    // operator then picks W27 expecting to ADD it to W28 but ends up
+    // REPLACING (because URL was empty).  Reported UX 2026-07-15.
+    //
+    // Uses useRef so we never overwrite a subsequent user selection.
+    // data.selected.weeks is a new array reference on every refetch, so
+    // without this ref-guard the effect would fire on every W27/W28
+    // toggle and race the picker — potential fix bug landmine.
+    const didSyncInitialWeeks = useRef(false);
     useEffect(() => {
-        if (selectedWeeks.length === 0 && data?.selected?.weeks && data.selected.weeks.length > 0) {
+        if (didSyncInitialWeeks.current) return;
+        if (selectedWeeks.length > 0) {
+            didSyncInitialWeeks.current = true;   // user already has an explicit selection
+            return;
+        }
+        if (data?.selected?.weeks && data.selected.weeks.length > 0) {
+            didSyncInitialWeeks.current = true;
             const next = new URLSearchParams(params);
             next.delete("weeks");
             next.delete("week"); // legacy singular
@@ -96,7 +108,7 @@ export default function Dashboard() {
             setParams(next, { replace: true });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data?.selected?.weeks]);
+    }, [data?.selected?.weeks, selectedWeeks.length]);
 
     const selectedBrandLabel = useMemo(() => {
         if (!selectedBrands.length) return "All Brands";

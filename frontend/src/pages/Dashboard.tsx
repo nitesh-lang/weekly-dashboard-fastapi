@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
@@ -81,6 +81,22 @@ export default function Dashboard() {
     const allWeeks     = useMemo(() => sortWeeks(data?.weeks || []), [data]);
     const allBrands    = useMemo(() => data?.brands || [], [data]);
     const allAsinTypes = useMemo(() => data?.asin_types || [], [data]);
+
+    // Sync backend-picked latest week to the URL on first load.  Without
+    // this the picker shows "All Weeks" placeholder while the numbers on
+    // screen are actually filtered to the latest week only — operator
+    // then picks W27 expecting to ADD it to W28 but ends up REPLACING
+    // (because URL was empty).  Reported UX 2026-07-15.
+    useEffect(() => {
+        if (selectedWeeks.length === 0 && data?.selected?.weeks && data.selected.weeks.length > 0) {
+            const next = new URLSearchParams(params);
+            next.delete("weeks");
+            next.delete("week"); // legacy singular
+            data.selected.weeks.forEach((w) => next.append("weeks", w));
+            setParams(next, { replace: true });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data?.selected?.weeks]);
 
     const selectedBrandLabel = useMemo(() => {
         if (!selectedBrands.length) return "All Brands";

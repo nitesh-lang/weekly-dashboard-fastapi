@@ -188,7 +188,14 @@ export function MultiPicker({
                                 size="sm"
                                 variant="ghost"
                                 className="flex-1"
-                                onClick={() => { setStaged(selected); setOpen(false); }}
+                                onClick={() => {
+                                    // Cancel: revert staged and close without commit.
+                                    // Radix Popover's onOpenChange doesn't fire when parent
+                                    // programmatically sets open=false, so we drive the
+                                    // full close-and-discard flow manually here.
+                                    setStaged(selected);
+                                    setOpen(false);
+                                }}
                                 title="Discard staged changes"
                             >
                                 Cancel
@@ -197,7 +204,13 @@ export function MultiPicker({
                                 size="sm"
                                 variant="default"
                                 className="flex-1"
-                                onClick={() => setOpen(false)}
+                                onClick={() => {
+                                    // Apply: commit staged FIRST (Radix onOpenChange won't
+                                    // fire on programmatic setOpen(false), so we can't
+                                    // rely on it to trigger commitIfChanged), then close.
+                                    commitIfChanged();
+                                    setOpen(false);
+                                }}
                             >
                                 Apply
                             </Button>

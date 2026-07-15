@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,7 +10,7 @@ interface MultiPickerProps {
     label: string;
     options: string[];
     selected: string[];
-    /** Fires on every checkbox toggle — table updates live. */
+    /** Fires ONCE when the popover closes — one API refetch per session, not per click. */
     onApply: (selected: string[]) => void;
     placeholder?: string;
     maxLabelItems?: number;
@@ -18,14 +18,21 @@ interface MultiPickerProps {
 }
 
 /**
- * Top-of-page multi-select with fluent instant-commit UX.
+ * Top-of-page multi-select with STAGED-COMMIT UX.
  *
- * - Every checkbox toggle commits immediately (auto-refresh).
- * - Popover stays open while refining — operator can chain selections.
- * - Apply button is now "Done" — closes the popover.  Kept as a fallback
- *   so users who prefer explicit confirm-and-close still have a target.
- * - X badge on the trigger button clears the entire selection in one click.
+ * - Checkbox toggles update local `staged` state only — no refetch per click.
+ * - Popover close (Done, click outside, or trigger click) commits the
+ *   staged selection via onApply, if different from the committed value.
+ * - X badge on the trigger button clears the committed selection in one
+ *   click (fast path, no popover open).
  * - Search box for long option lists (>10 items).
+ *
+ * Rationale: prior "commit-on-every-toggle" mode caused a burst of
+ * sequential API refetches (weekly_dashboard-fastapi backend) whenever
+ * the operator picked N weeks — each toggle triggered a URL param
+ * change → React Query refetch.  Reported UX: "week selector is very
+ * slow, have to do one by one".  Staged commit means picking N weeks
+ * is one API call after the popover closes.
  */
 export function MultiPicker({
     label,
@@ -37,6 +44,17 @@ export function MultiPicker({
 }: MultiPickerProps) {
     const [open, setOpen]     = useState(false);
     const [search, setSearch] = useState("");
+    // Staged (draft) selections — mutated by toggle/All/None; committed
+    // to the parent via onApply when the popover closes.
+    const [staged, setStaged] = useState<string[]>(selected);
+
+    // Keep `staged` in sync with `selected` prop changes coming FROM
+    // the parent (URL param update, external reset, another picker
+    // triggering a re-render).  Only sync while the popover is closed
+    // so we don't clobber the operator's in-progress selection.
+    useEffect(() => {
+        if (!open) setStaged(selected);
+    }, [selected, open]);
 
     const filtered = useMemo(() => {
         const q = search.trim().toLowerCase();
@@ -57,21 +75,33 @@ export function MultiPicker({
     }
 
     function toggle(v: string) {
-        onApply(selected.includes(v) ? selected.filter((x) => x !== v) : [...selected, v]);
+        setStaged((prev) => prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v]);
     }
-    // "All" explicitly checks every option so the operator sees the
-    // selection state.  Filter logic treats N selected the same as 0
-    // selected when N === options.length, so behaviour is identical.
-    function selectAll() { onApply([...options]); }
-    function selectVisible() { onApply(Array.from(new Set([...selected, ...filtered]))); }
-    function clearVisible()  {
-        const fs = new Set(filtered);
-        onApply(selected.filter((v) => !fs.has(v)));
+    function selectAll()      { setStaged([...options]); }
+    function selectVisible()  { setStaged((prev) => Array.from(new Set([...prev, ...filtered]))); }
+    function clearVisibleStg(){ const fs = new Set(filtered); setStaged((prev) => prev.filter((v) => !fs.has(v))); }
+    function clearAllStaged() { setStaged([]); }
+
+    // Commit staged -> onApply only if it actually differs from `selected`.
+    // Sameness check ignores order so re-open+re-close of an unchanged
+    // popover doesn't trigger a spurious refetch.
+    function commitIfChanged() {
+        if (staged.length !== selected.length) { onApply(staged); return; }
+        const sSel = new Set(selected);
+        for (const s of staged) if (!sSel.has(s)) { onApply(staged); return; }
+        // No change — do nothing.
     }
-    function clearAll() { onApply([]); }
 
     function onOpenChange(o: boolean) {
-        if (o) setSearch("");
+        if (o) {
+            // Popover opening — reset search + reseed staged from current
+            // committed selection (in case parent updated between opens).
+            setSearch("");
+            setStaged(selected);
+        } else {
+            // Popover closing — commit staged.
+            commitIfChanged();
+        }
         setOpen(o);
     }
 
@@ -120,13 +150,13 @@ export function MultiPicker({
                             </button>
                             <button
                                 type="button"
-                                onClick={search ? clearVisible : clearAll}
+                                onClick={search ? clearVisibleStg : clearAllStaged}
                                 className="hover:text-foreground hover:underline"
                             >
                                 {search ? "Remove visible" : "None"}
                             </button>
                             <span className="ml-auto tabular" style={{ color: "#9ca3af" }}>
-                                {selected.length === 0 ? `all (${options.length})` : `${selected.length}/${options.length}`}
+                                {staged.length === 0 ? `all (${options.length})` : `${staged.length}/${options.length}`}
                             </span>
                         </div>
                         <div className="max-h-64 overflow-y-auto p-1">
@@ -135,7 +165,7 @@ export function MultiPicker({
                                     No matches
                                 </div>
                             ) : filtered.map((opt) => {
-                                const isSel = selected.includes(opt);
+                                const isSel = staged.includes(opt);
                                 return (
                                     <label
                                         key={opt}
@@ -153,14 +183,23 @@ export function MultiPicker({
                                 );
                             })}
                         </div>
-                        <div className="border-t p-2">
+                        <div className="border-t p-2 flex gap-2">
                             <Button
                                 size="sm"
-                                variant="outline"
-                                className="w-full"
+                                variant="ghost"
+                                className="flex-1"
+                                onClick={() => { setStaged(selected); setOpen(false); }}
+                                title="Discard staged changes"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="default"
+                                className="flex-1"
                                 onClick={() => setOpen(false)}
                             >
-                                Done
+                                Apply
                             </Button>
                         </div>
                     </PopoverContent>

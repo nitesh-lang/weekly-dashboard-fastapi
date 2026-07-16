@@ -40,15 +40,27 @@ ACCOUNT_COLUMNS = [
 
 
 def _safe(v):
-    """JSON-safe scalar.  NaN / +-inf / "nan" string → None."""
+    """JSON-safe scalar.  NaN / +-inf / pd.NA / "nan" string → None."""
     if v is None:
         return None
+    # pandas.NA / numpy.NaN / any missing marker
+    try:
+        if pd.isna(v):
+            return None
+    except (TypeError, ValueError):
+        pass
     if isinstance(v, float):
         if math.isnan(v) or math.isinf(v):
             return None
         return v
+    # numpy int / float wrappers -> native
+    if hasattr(v, "item"):
+        try:
+            v = v.item()
+        except Exception:
+            pass
     s = str(v).strip()
-    if s.lower() in ("nan", "none", ""):
+    if s.lower() in ("nan", "none", "", "<na>"):
         return None
     return v
 

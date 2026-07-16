@@ -1,0 +1,5 @@
+asin,brand,model,sku,account,referral_rs,referral_pct,variable_closing_rs,per_item_rs,fba_fees_rs,total_fees_rs,total_fees_pct,price_used_rs,price_source,currency,fetched_at
+B0CDPQXPC1,Nexlev,GS-01,FBK78979,NEXLEV,0.0,0.0,0.0,31.86,135.7,167.56,16.76,1000,fallback,INR,2026-07-16T08:27:42+00:00
+B0CDPP45BM,Nexlev,SC-01,FBA78981,NEXLEV,0.0,0.0,0.0,31.86,174.64,206.5,20.65,1000,fallback,INR,2026-07-16T08:27:42+00:00
+B0CDQ98FDM,Nexlev,NP-01,FBA78994,NEXLEV,0.0,0.0,0.0,31.86,90.86,122.72,12.27,1000,fallback,INR,2026-07-16T08:27:42+00:00
+B0CDQ55W2M,Nexlev,NP-02,FBA78995,NEXLEV,0.0,0.0,0.0,31.86,129.8,161.66,16.17,1000,fallback,INR,2026-07-16T08:27:42+00:00

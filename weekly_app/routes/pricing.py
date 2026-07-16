@@ -26,6 +26,7 @@ router = APIRouter(prefix="/api/pricing", tags=["pricing"])
 
 REPO_ROOT  = Path(__file__).resolve().parents[2]
 SNAP_CSV   = REPO_ROOT / "data" / "processed" / "price_snapshot.csv"
+FEES_CSV   = REPO_ROOT / "data" / "processed" / "referral_fees_snapshot.csv"
 
 # The seller-account columns we expect in the snapshot — mirrors the
 # pull script's ACCOUNT_COL map.  Order here drives the column order
@@ -101,6 +102,26 @@ def get_pricing():
         else:
             df[col] = pd.NA
 
+    # Merge in referral fees per ASIN (pre-GST, matches Manage Inventory
+    # display).  Snapshot is populated by scripts/sp_referral_fees_pull.py.
+    # If any ASIN has multiple account rows (rare cross-listing), keep
+    # the latest by fetched_at.
+    fees_by_asin: dict[str, dict] = {}
+    if FEES_CSV.exists():
+        try:
+            fdf = load_csv_cached(FEES_CSV)
+            fdf = fdf.sort_values("fetched_at").drop_duplicates("asin", keep="last")
+            for _, fr in fdf.iterrows():
+                fees_by_asin[str(fr.get("asin", "")).strip()] = {
+                    "referral_pct":  _safe(fr.get("referral_pct")),
+                    "referral_rs":   _safe(fr.get("referral_rs")),
+                    "fba_fees_rs":   _safe(fr.get("fba_fees_rs")),
+                    "total_fees_pct":_safe(fr.get("total_fees_pct")),
+                    "price_used_rs": _safe(fr.get("price_used_rs")),
+                }
+        except Exception as e:
+            print(f"[pricing route] fees merge skipped: {e!r}")
+
     fetched_at = ""
     if "fetched_at" in df.columns and not df["fetched_at"].empty:
         # All rows in one pull share the same timestamp; just take the first non-empty.
@@ -121,6 +142,14 @@ def get_pricing():
         }
         for col, label in ACCOUNT_COLUMNS:
             row[label] = _safe(r.get(col))
+        # Attach per-ASIN referral fees (pre-GST) if we have them
+        asin_key = str(r.get("asin", "")).strip()
+        fee = fees_by_asin.get(asin_key, {})
+        row["referral_pct"]   = fee.get("referral_pct")
+        row["referral_rs"]    = fee.get("referral_rs")
+        row["fba_fees_rs"]    = fee.get("fba_fees_rs")
+        row["total_fees_pct"] = fee.get("total_fees_pct")
+        row["fee_price_rs"]   = fee.get("price_used_rs")
         rows.append(row)
 
     return JSONResponse({

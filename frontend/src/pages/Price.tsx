@@ -25,6 +25,11 @@ interface PriceRow {
     buybox_price: number | null;
     buybox_seller_id: string | null;
     buybox_belongs_to_us: boolean;
+    referral_pct: number | null;      // pre-GST base referral fee %
+    referral_rs: number | null;
+    fba_fees_rs: number | null;
+    total_fees_pct: number | null;
+    fee_price_rs: number | null;
     currency: string;
     [accountLabel: string]: any;   // dynamic per-account columns
 }
@@ -196,7 +201,9 @@ export default function Price() {
                                         rows={sorted as any}
                                         columns={["asin", "sku", "brand", "model",
                                             ...accounts, "amazon_1p_price",
-                                            "buybox_price", "buybox_seller_id", "buybox_belongs_to_us", "currency"]}
+                                            "buybox_price", "buybox_seller_id", "buybox_belongs_to_us",
+                                            "referral_pct", "referral_rs", "fba_fees_rs", "total_fees_pct",
+                                            "currency"]}
                                         filename="price-snapshot.xlsx"
                                     />
                                 </>
@@ -220,6 +227,10 @@ export default function Price() {
                                         <SortableTh sortKey="amazon_1p_price"  label="Amazon 1P ₹"  sort={sort} onSort={onSort} align="right" className="col-summary col-divide-l" />
                                         <SortableTh sortKey="buybox_price"     label="Buy Box ₹"    sort={sort} onSort={onSort} align="right" className="col-summary" />
                                         <SortableTh sortKey="buybox_seller_id" label="Buy Box Seller" sort={sort} onSort={onSort} align="left" />
+                                        <SortableTh sortKey="referral_pct"     label="Referral %"   sort={sort} onSort={onSort} align="right" className="col-pct col-divide-l" />
+                                        <SortableTh sortKey="referral_rs"      label="Referral ₹"   sort={sort} onSort={onSort} align="right" className="col-pct" />
+                                        <SortableTh sortKey="fba_fees_rs"      label="FBA Fee ₹"    sort={sort} onSort={onSort} align="right" className="col-pct" />
+                                        <SortableTh sortKey="total_fees_pct"   label="Total Fees %" sort={sort} onSort={onSort} align="right" className="col-pct" />
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -249,6 +260,18 @@ export default function Price() {
                                                         </span>
                                                     )
                                                     : "—"}
+                                            </td>
+                                            <td className="px-3 py-2 text-right tabular whitespace-nowrap border-b col-pct col-divide-l group-hover:bg-accent/40">
+                                                {r.referral_pct == null ? "—" : r.referral_pct.toFixed(2) + "%"}
+                                            </td>
+                                            <td className="px-3 py-2 text-right tabular whitespace-nowrap border-b col-pct group-hover:bg-accent/40">
+                                                {r.referral_rs == null ? "—" : fmtMoney(r.referral_rs, r.currency)}
+                                            </td>
+                                            <td className="px-3 py-2 text-right tabular whitespace-nowrap border-b col-pct group-hover:bg-accent/40">
+                                                {r.fba_fees_rs == null ? "—" : fmtMoney(r.fba_fees_rs, r.currency)}
+                                            </td>
+                                            <td className="px-3 py-2 text-right tabular whitespace-nowrap border-b col-pct group-hover:bg-accent/40">
+                                                {r.total_fees_pct == null ? "—" : r.total_fees_pct.toFixed(2) + "%"}
                                             </td>
                                         </tr>
                                     ))}

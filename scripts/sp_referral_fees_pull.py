@@ -54,9 +54,17 @@ IN_MKT     = "A21TJRUUN4KGV"
 # Referral fee % on Amazon India is TIERED by listed price (e.g. Kitchen
 # Appliances: X% up to Rs 500, Y% above).  Passing a hypothetical price
 # that doesn't match the ASIN's real listing gives the wrong %.
-# Prefer the ASIN's actual listed price from price_snapshot.csv; fall
-# back to PRICE_REF_FALLBACK when unavailable.
+# Prefer the ASIN's actual listed price from getListingsItem, then from
+# price_snapshot.csv, then fall back to PRICE_REF_FALLBACK.
 PRICE_REF_FALLBACK = 1000
+
+# Amazon India charges 18% GST on ALL service fees (referral, closing,
+# FBA, etc).  SP-API's feesEstimate returns the POST-GST amount which
+# is what actually hits the seller's payout — but Manage Inventory /
+# operator's P&L conventionally shows PRE-GST base rates (5.31% * 1.18
+# = 4.50% base). Sellers with GSTIN claim the 18% as ITC.  We record
+# both so downstream can pick either.
+GST_RATE = 0.18
 
 # Accounts we might have tokens for.  Fossil (CAMBIUMRETAIL) is
 # excluded from operator reports so we skip it here too.
@@ -89,6 +97,83 @@ def get_access_token(account: str) -> str | None:
         print(f"  [{account}] LWA failed: {r.status_code} {r.text[:200]}")
         return None
     return r.json()["access_token"]
+
+
+def fetch_listed_price(access_token: str, sku: str) -> tuple[float | None, str | None]:
+    """Return (price, seller_id) for the seller's SKU listing via Listings
+    Items API.  Seller_id is discovered via getPricing?ItemType=Sku first.
+    Returns (None, None) if the SKU has no active listing."""
+    # Step 1 — getPricing by SKU to discover the SellerId
+    r = requests.get(
+        f"{SPAPI_HOST}/products/pricing/v0/price",
+        headers={"x-amz-access-token": access_token},
+        params={"MarketplaceId": IN_MKT, "Skus": sku, "ItemType": "Sku"},
+        timeout=30,
+    )
+    if r.status_code != 200:
+        return None, None
+    payload = r.json().get("payload") or []
+    if not payload:
+        return None, None
+    seller_id = payload[0].get("Product", {}).get("Identifiers", {}) \
+                          .get("SKUIdentifier", {}).get("SellerId")
+    if not seller_id:
+        return None, None
+
+    # Step 2 — Listings Items API returns YOUR own listing incl. offers[].price
+    r = requests.get(
+        f"{SPAPI_HOST}/listings/2021-08-01/items/{seller_id}/{sku}",
+        headers={"x-amz-access-token": access_token},
+        params={"marketplaceIds": IN_MKT, "includedData": "offers"},
+        timeout=30,
+    )
+    if r.status_code != 200:
+        return None, seller_id
+    offers = r.json().get("offers") or []
+    # Prefer B2C offer over B2B.
+    for o in offers:
+        if o.get("offerType") == "B2C":
+            amt = o.get("price", {}).get("amount")
+            if amt:
+                return float(amt), seller_id
+    for o in offers:
+        amt = o.get("price", {}).get("amount")
+        if amt:
+            return float(amt), seller_id
+    return None, seller_id
+
+
+def fetch_buybox_price(access_token: str, asin: str) -> tuple[float | None, str | None]:
+    """Return (buybox_landed_price, buybox_seller_id) via getItemOffers.
+    BuyBox price is what customers actually see + pay — differs from the
+    seller's listing price when a deal / promo is active."""
+    url = f"{SPAPI_HOST}/products/pricing/v0/items/{asin}/offers"
+    r = requests.get(
+        url,
+        headers={"x-amz-access-token": access_token},
+        params={"MarketplaceId": IN_MKT, "ItemCondition": "New"},
+        timeout=30,
+    )
+    if r.status_code == 429:
+        time.sleep(2.0)
+        r = requests.get(url, headers={"x-amz-access-token": access_token},
+                         params={"MarketplaceId": IN_MKT, "ItemCondition": "New"}, timeout=30)
+    if r.status_code != 200:
+        return None, None
+    d = r.json().get("payload") or {}
+    summary = d.get("Summary") or {}
+    bbps = summary.get("BuyBoxPrices") or []
+    for bp in bbps:
+        landed = (bp.get("LandedPrice") or {}).get("Amount")
+        if landed:
+            # Winner is the offer with IsBuyBoxWinner=true
+            winner_id = None
+            for o in d.get("Offers", []):
+                if o.get("IsBuyBoxWinner"):
+                    winner_id = o.get("SellerId")
+                    break
+            return float(landed), winner_id
+    return None, None
 
 
 def fetch_fees_for_asin(access_token: str, asin: str, price: float) -> dict | None:
@@ -217,7 +302,29 @@ def main() -> int:
             if role_missing:
                 break
             asin = row["ASIN"]
-            price_used = price_by_asin.get(asin, PRICE_REF_FALLBACK)
+            sku = str(row.get("FBA SKU", "")).strip()
+            # Fetch the ACTUAL current listed price for this SKU via
+            # Listings Items API.  Fall back to price_snapshot.csv, then
+            # to the hardcoded fallback if the listing lookup failed.
+            listed_price = None
+            seller_id = None
+            price_source = "fallback"
+            if sku:
+                listed_price, seller_id = fetch_listed_price(tok, sku)
+                time.sleep(CALL_INTERVAL_SEC)
+                if listed_price:
+                    price_source = "listing"
+            if not listed_price:
+                listed_price = price_by_asin.get(asin)
+                if listed_price:
+                    price_source = "price_snapshot"
+                else:
+                    listed_price = PRICE_REF_FALLBACK
+            price_used = listed_price
+
+            # BuyBox price via getItemOffers (what customers actually pay).
+            buybox_price, buybox_seller = fetch_buybox_price(tok, asin)
+            time.sleep(CALL_INTERVAL_SEC)
             try:
                 res = fetch_fees_for_asin(tok, asin, price_used)
             except PermissionError as e:
@@ -232,23 +339,41 @@ def main() -> int:
                 if errors <= 3:
                     print(f"  [{asin}] {res['__error__']}")
             else:
-                referral_pct = round(res["referral_rs"] / price_used * 100, 2) if price_used else 0
-                total_fees_pct = round(res["total_fees_rs"] / price_used * 100, 2) if price_used else 0
+                # SP-API returns POST-GST amounts.  Operator P&L uses PRE-GST
+                # base rates (Amazon India charges 18% GST on all fees which
+                # sellers with a GSTIN reclaim as ITC).  Divide by 1.18 to
+                # match the "4.5%" style numbers shown in Manage Inventory.
+                referral_rs_net    = round(res["referral_rs"]        / (1 + GST_RATE), 2)
+                variable_close_net = round(res["variable_closing_rs"] / (1 + GST_RATE), 2)
+                per_item_net       = round(res["per_item_rs"]        / (1 + GST_RATE), 2)
+                fba_net            = round(res["fba_fees_rs"]        / (1 + GST_RATE), 2)
+                total_net          = round(res["total_fees_rs"]      / (1 + GST_RATE), 2)
+                referral_pct_net   = round(referral_rs_net / price_used * 100, 2) if price_used else 0
+                total_pct_net      = round(total_net       / price_used * 100, 2) if price_used else 0
                 all_rows.append({
                     "asin":                asin,
                     "brand":               str(row.get("Brand", "")).strip(),
                     "model":               str(row.get("Model", "")).strip(),
-                    "sku":                 str(row.get("FBA SKU", "")).strip(),
+                    "sku":                 sku,
                     "account":             account,
-                    "referral_rs":         res["referral_rs"],
-                    "referral_pct":        referral_pct,
-                    "variable_closing_rs": res["variable_closing_rs"],
-                    "per_item_rs":         res["per_item_rs"],
-                    "fba_fees_rs":         res["fba_fees_rs"],
-                    "total_fees_rs":       res["total_fees_rs"],
-                    "total_fees_pct":      total_fees_pct,
+                    # PRE-GST (base fees Amazon charges — matches Manage Inventory display)
+                    "referral_rs":         referral_rs_net,
+                    "referral_pct":        referral_pct_net,
+                    "variable_closing_rs": variable_close_net,
+                    "per_item_rs":         per_item_net,
+                    "fba_fees_rs":         fba_net,
+                    "total_fees_rs":       total_net,
+                    "total_fees_pct":      total_pct_net,
+                    # POST-GST (raw SP-API amount — what actually hits payout)
+                    "referral_rs_gross":   res["referral_rs"],
+                    "total_fees_rs_gross": res["total_fees_rs"],
+                    "gst_rate":            GST_RATE,
+                    # Price context
                     "price_used_rs":       price_used,
-                    "price_source":        "listed" if asin in price_by_asin else "fallback",
+                    "price_source":        price_source,
+                    "buybox_price_rs":     buybox_price,
+                    "buybox_seller_id":    buybox_seller,
+                    "buybox_belongs_to_us": bool(buybox_seller and seller_id and buybox_seller == seller_id),
                     "currency":            "INR",
                     "fetched_at":          now,
                 })
@@ -276,6 +401,86 @@ def main() -> int:
     else:
         out.to_csv(OUT_CSV, index=False)
         print(f"\nWrote {len(out)} rows -> {OUT_CSV}")
+
+    # ── Upsert live prices into data/processed/price_snapshot.csv so the
+    # UI can show account-wise listed price + buy-box price without the
+    # separate sp_pricing_pull.py run (which was returning empty offers
+    # via getPricing).  Wide format: one row per ASIN, per-account
+    # listed-price column + buybox_price column.
+    price_cols_by_account = {
+        "AUDIOARRAY":    "price_audioarray",
+        "NEXLEV":        "price_nexlev",
+        "VIOMI":         "price_viomi",
+        "WHITEMULBERRY": "price_whitemulberry",
+    }
+    # Aggregate — for each ASIN keep the most-recent per-account listed
+    # price and any buy-box price we saw.
+    per_asin: dict[str, dict] = {}
+    for r in all_rows:
+        asin = r["asin"]
+        rec = per_asin.setdefault(asin, {
+            "asin":                 asin,
+            "sku":                  r["sku"],
+            "brand":                r["brand"],
+            "model":                r["model"],
+            "buybox_price":         None,
+            "buybox_seller_id":     None,
+            "buybox_belongs_to_us": False,
+            "currency":             r["currency"],
+            "fetched_at":           r["fetched_at"],
+        })
+        col = price_cols_by_account.get(r["account"])
+        if col:
+            rec[col] = r["price_used_rs"]
+        if r.get("buybox_price_rs"):
+            rec["buybox_price"]         = r["buybox_price_rs"]
+            rec["buybox_seller_id"]     = r["buybox_seller_id"]
+            rec["buybox_belongs_to_us"] = r["buybox_belongs_to_us"]
+
+    price_df = pd.DataFrame(per_asin.values())
+    # Reorder columns to match the existing sp_pricing_pull output shape.
+    ordered = ["asin", "sku", "brand", "model",
+               "price_audioarray", "price_nexlev", "price_viomi", "price_whitemulberry",
+               "buybox_price", "buybox_seller_id", "buybox_belongs_to_us",
+               "currency", "fetched_at"]
+    for c in ordered:
+        if c not in price_df.columns:
+            price_df[c] = None
+    price_df = price_df[ordered]
+
+    if PRICE_SNAP.exists():
+        old_p = pd.read_csv(PRICE_SNAP)
+        # Coerce identical column set on the old side too.
+        for c in ordered:
+            if c not in old_p.columns:
+                old_p[c] = None
+        old_p = old_p[ordered]
+        # Merge: for each ASIN, take fresh row values but preserve any
+        # non-null per-account price from the old row that we didn't
+        # update this run.
+        combined = pd.concat([old_p, price_df], ignore_index=True)
+        # Group by ASIN and merge — later (fresh) row wins column-by-column
+        # but nulls fall back to earlier row.
+        def _merge_group(g: pd.DataFrame) -> pd.Series:
+            g = g.sort_values("fetched_at", na_position="first")
+            merged_row = g.iloc[0].copy()
+            for col in ordered:
+                for _, r in g.iterrows():
+                    v = r.get(col)
+                    if pd.notna(v) and (isinstance(v, str) or float(v) if isinstance(v, (int, float)) else True):
+                        merged_row[col] = v
+            return merged_row
+        try:
+            merged_p = combined.groupby("asin", as_index=False, group_keys=False).apply(_merge_group).reset_index(drop=True)
+        except Exception:
+            # Fallback: simple last-wins per ASIN.
+            merged_p = combined.sort_values("fetched_at").drop_duplicates("asin", keep="last")
+        merged_p.to_csv(PRICE_SNAP, index=False)
+        print(f"Upserted {len(price_df)} ASINs into {PRICE_SNAP.name} (now {len(merged_p)} total)")
+    else:
+        price_df.to_csv(PRICE_SNAP, index=False)
+        print(f"Wrote {len(price_df)} rows -> {PRICE_SNAP.name} (new file)")
+
     return 0
 
 

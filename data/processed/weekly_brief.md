@@ -1,10 +1,10 @@
 # Weekly Brief — Week 29
-*Generated 2026-07-20T15:04:54.271747Z from data through Week 29*
+*Generated 2026-07-20T17:29:55.993111Z from data through Week 29*
 ## This week at a glance
 
 Week 29 closed at **₹90.82L GMV** (-26.5% WoW, +23.4% vs prior 4w) on **3,399 units** (-24.2% WoW). This was a soft week, led by **Audio Array** at 48% of portfolio GMV.
 
-Ad spend **₹0** this week.
+Ad spend **₹10.53L** (-11.7%) — ROAS **4.61x** · ACOS **21.7%** · TACOS **13.1%**.
 
 ## What went well
 
@@ -40,23 +40,56 @@ Ad spend **₹0** this week.
 
 ## Ad efficiency this week
 
-- Ad performance looks balanced — nothing flagged.
+**ROAS strong, spend share low — room to bid up:**
+- 🟢 **Audio Array / AM-C11X** — ROAS 65.39x on only ₹166 spend. Consider raising bid / budget.
+- 🟢 **Audio Array / AM-C46** — ROAS 60.45x on only ₹285 spend. Consider raising bid / budget.
+- 🟢 **Audio Array / AM-W16** — ROAS 57.09x on only ₹49 spend. Consider raising bid / budget.
+- 🟢 **Tonor / TD310+** — ROAS 54.39x on only ₹202 spend. Consider raising bid / budget.
+- 🟢 **Audio Array / AM-C11** — ROAS 44.27x on only ₹92 spend. Consider raising bid / budget.
+
+**ROAS below threshold (< 2x):**
+- 🔴 **Nexlev / PB-01** — ROAS 1.49x on ₹12.3K spend. Investigate bids / negatives.
+- 🔴 **Nexlev / VC-01** — ROAS 1.66x on ₹10.7K spend. Investigate bids / negatives.
+- 🔴 **Nexlev / MR-03** — ROAS 1.72x on ₹5.7K spend. Investigate bids / negatives.
+- 🔴 **Nexlev / SM-01** — ROAS 1.14x on ₹2.8K spend. Investigate bids / negatives.
+- 🔴 **Audio Array / AM-C10** — ROAS 1.98x on ₹1.7K spend. Investigate bids / negatives.
+- 🔴 **Nexlev / KE-01** — ROAS 1.78x on ₹1.7K spend. Investigate bids / negatives.
+
+**ACOS > 40% (margin risk):**
+- 🔴 **White Mulberry / WM-HA1M-BK** — ACOS 108.6% on ₹1.5K spend.
+- 🔴 **Audio Array / UB-02 (AM-S1 + AA-21)** — ACOS 107.0% on ₹1.4K spend.
+- 🔴 **Nexlev / SM-01** — ACOS 87.6% on ₹2.8K spend.
+- 🔴 **Nexlev / CM-02-PR** — ACOS 79.6% on ₹1.0K spend.
+- 🔴 **Nexlev / CFM-01** — ACOS 75.0% on ₹1.0K spend.
+- 🔴 **Nexlev / PB-01** — ACOS 67.1% on ₹12.3K spend.
+
+**Spending with no attribution:**
+- 🔴 **Nexlev / TI-02** — ₹895 spend, 0 attributed sales. Pause.
+- 🔴 **Nexlev / HSB-03** — ₹760 spend, 0 attributed sales. Pause.
+- 🔴 **Audio Array / PB-04 (AI-04 RED + AM-C44 X 2)** — ₹719 spend, 0 attributed sales. Pause.
+- 🔴 **Audio Array / AM-W34** — ₹515 spend, 0 attributed sales. Pause.
+- 🔴 **Audio Array / AM-K1** — ₹491 spend, 0 attributed sales. Pause.
+- 🔴 **Nexlev / TM-01** — ₹338 spend, 0 attributed sales. Pause.
 
 ## Suggested actions
 
 - **Reorder Nexlev / SC-03** — only 0.0 weeks of cover left at current burn.
 - **Reorder White Mulberry / TVMF1ML** — only 1.2 weeks of cover left at current burn.
+- **Bid up Audio Array / AM-C11X** — ROAS 65.39x on only ₹166 spend; room to scale.
+- **Bid up Audio Array / AM-C46** — ROAS 60.45x on only ₹285 spend; room to scale.
+- **Pause Nexlev / TI-02** ad spend — ₹895 this week with no attributed sales.
+- **Pause Nexlev / HSB-03** ad spend — ₹760 this week with no attributed sales.
 - **Investigate Nexlev** — GMV down 31.8% WoW; check listing health, OOS, and ad pacing.
 
 ## Brand briefs
 
-**Audio Array** 🔴 — GMV ₹43.95L (-22.2% WoW) on 1,693 units (-19.0%). Top contributor **AI-04 Red** at ₹4.79L. Total stock 90,454 units.
+**Audio Array** 🔴 — GMV ₹43.95L (-22.2% WoW) on 1,693 units (-19.0%). Top contributor **AI-04 Red** at ₹4.79L. Total stock 90,469 units. Ad spend ₹4.30L → ROAS 5.46x, ACOS 18.3%.
 
-**Nexlev** 🔴 — GMV ₹35.41L (-31.8% WoW) on 1,210 units (-29.1%). Top contributor **SC-05** at ₹5.40L. Total stock 81,810 units.
+**Nexlev** 🔴 — GMV ₹35.41L (-31.8% WoW) on 1,210 units (-29.1%). Top contributor **SC-05** at ₹5.40L. Total stock 81,872 units. Ad spend ₹4.74L → ROAS 3.76x, ACOS 26.6%.
 
-**White Mulberry** 🔴 — GMV ₹8.48L (-28.9% WoW) on 346 units (-32.9%). Top contributor **WM-GD07-CB** at ₹2.26L. Total stock 7,061 units.
+**White Mulberry** 🔴 — GMV ₹8.48L (-28.9% WoW) on 346 units (-32.9%). Top contributor **WM-GD07-CB** at ₹2.26L. Total stock 7,063 units. Ad spend ₹1.30L → ROAS 4.31x, ACOS 23.2%.
 
-**Tonor** 🔴 — GMV ₹2.97L (-5.1% WoW) on 150 units (-11.8%). Top contributor **K1** at ₹59.8K. Total stock 3,055 units.
+**Tonor** 🔴 — GMV ₹2.97L (-5.1% WoW) on 150 units (-11.8%). Top contributor **K1** at ₹59.8K. Total stock 3,055 units. Ad spend ₹19.6K → ROAS 8.25x, ACOS 12.1%.
 
 ## Channel mix
 

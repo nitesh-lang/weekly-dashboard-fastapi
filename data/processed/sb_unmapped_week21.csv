@@ -1,6 +1,2 @@
-week,brand,campaign,spend,sales,impressions,clicks,units,reason,ASINs or Model,ASINs or Model,ASINs or Model,,,,
-21,Nexlev,Nexlev -Catch All- Scalp Massager-SB-KT-Exact/Phrase,1986.76,1046.67,21486,104,2,no L1/L2/L3 match,"EA-01, EA-02 & LE-02",,,,,,
-21,Audio Array,Audio Array-Catch All-Condenser -SB-PT,5923.2,16706.58,25323,252,7,no L1/L2/L3 match,B0B4DPX2J2,B0D3M1B4Z8,B0FF9R3GKK,,,,
-21,Audio Array,Audio Array-Multiple Ad Group-SB-PT,15735.47,30588.14,208178,861,15,no L1/L2/L3 match,https://www.amazon.in/Audio-Array-AI-04-Interface-Red/dp/B0BPLZ5CGV,https://www.amazon.in/Audio-Array-AI-10-Professional-mobilephones/dp/B0CM6NTWBP?th=1,https://www.amazon.in/Audio-Array-Sound-Mixer-AI-06/dp/B0CH4RT4P8?th=1,https://www.amazon.in/Audio-Array-Suspension-broadcasting-AA-05/dp/B0BLJVJ2GN?th=1,https://www.amazon.in/Audio-Array-AA-21-Adjustable-Black/dp/B0CF5TCQKL?th=1,https://www.amazon.in/Audio-Array-AA-26-Tabletop-Stand/dp/B0DT6T6N6B,https://www.amazon.in/Audio-Array-Microphone-Compatible-AM-C2/dp/B0B4G19R58?th=1
-21,White Mulberry,Camb-SB-Multiple Asin- Product collection- exact /Reach,1161.14069,41987.29,12401,531,7,no L1/L2/L3 match,,,,,,,
-21,White Mulberry,Camb-SB-Multiple Asin- product collection- Reach,887.60389,12712.71,7087,136,1,no L1/L2/L3 match,,,,,,,
+week,brand,campaign,spend,sales,impressions,clicks,units,reason
+21,White Mulberry,Camb-SB-Multiple Asin- product collection- Reach,887.60389,12712.71,7087.0,136.0,1.0,no L1/L2/L3 match

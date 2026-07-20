@@ -3864,7 +3864,7 @@
     ],
     "profile_id": "3563790765020958"
   },
-  "WM-SP-Gas Spring MA- B0DB5VG39T/B0DB5VVPSB- PT": {
+  "WM-SP-Gas Spring MA- B0DB5VG39T- PT": {
     "brand": "White Mulberry",
     "asins": [
       "B0DB5VG39T",
@@ -3883,7 +3883,7 @@
     ],
     "profile_id": "3563790765020958"
   },
-  "WM-SP-Monitor Stand-B0DP2Z5DQ9 - PT": {
+  "WM-SP-Monitor Stand-B0DP2VVRND - PT": {
     "brand": "White Mulberry",
     "asins": [
       "B0DP2Z5DQ9",
@@ -4089,7 +4089,7 @@
     ],
     "profile_id": "3563790765020958"
   },
-  "WM-SP-Monitor Stand-B0DP2Z5DQ9 - Phrase": {
+  "WM-SP-Monitor Stand-B0DP2VVRND  - Phrase": {
     "brand": "White Mulberry",
     "asins": [
       "B0DP2VVRND",
@@ -4933,6 +4933,129 @@
     "brand": "White Mulberry",
     "asins": [
       "B0FN4HDM6Z"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- SP- Wooden Arm- B0DP32F346- Phrase 001": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DP32F346"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- SP- Wooden Arm- B0DP32F346- exact": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DP32F346"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- SP- Monitor Arm- B0DB5VG39T - exact": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry Monitor Arm-B0DB5VG39T-PT-SP- Dup": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM-SP-Gas Spring MA- B0DB5VG39T- PT- Dup": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry Monitor Stand-B0DP2VVRND-BM-SP-01": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DP2VVRND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry Monitor Stand-B0DP2VVRND-SP-Exact": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DP2VVRND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry Monitor Stand-B0DP2VVRND-PT-SP-01": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DP2VVRND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry Monitor Arm-B0DB5VG39T-BM-SP- Dup": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry L-Shape Corner Desk-B0BFW59TRG-Multiasin-BM-SP": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFW59TRG",
+      "B0BFVNS8HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry L-Shape Corner Desk-B0BFW59TRG-Phrase-SP": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFW59TRG",
+      "B0BFVNS8HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry L-Shape Corner Desk-B0BFW59TRG-Multiasin-AT-SP": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0BFW59TRG",
+      "B0BFVNS8HS"
     ],
     "ad_types": [
       "productAd"
@@ -16246,6 +16369,57 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "Audio Array_Wireless Mic_AM-W22_B0GKPXQ8G3_SP_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0GKPXQ8G3"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Wireless Mics_B0G3Q59X8C_SP_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3Q59X8C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Wireless Mics_SP_AT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0GKPXQ8G3",
+      "B0G3Q59X8C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Wireless Mic_AM-W24_B0G3Q59X8C_SP_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3Q59X8C"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Wireless Mics_B0GKPXQ8G3_SP_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0GKPXQ8G3"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Nexlev_SP_AT_CM-01/CM-02": {
     "brand": "Nexlev",
     "asins": [
@@ -25141,6 +25315,136 @@
     "brand": "Nexlev",
     "asins": [
       "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DFM4JZV9-Tyre Infaltor-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFM4JZV9"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DFM4JZV9-Tyre Infaltor-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFM4JZV9"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DFM4JZV9-Tyre Infaltor-AT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFM4JZV9"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DFM4JZV9-Tyre Infaltor-PT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFM4JZV9"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DJFH6RTL-Tyre Infaltor-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH6RTL"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DJFH6RTL-Tyre Infaltor-PT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH6RTL"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DJFH6RTL-Tyre Infaltor-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DJFH6RTL"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GM1CZC7Y-Vacuum-CT-Refine": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GM1CZC7Y"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GM1CZC7Y-Vacuum-CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GM1CZC7Y"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0FS6TB7CP-Portable Blender-PT2-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0FS6TB7CP-Portable Blender-PT-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0FS6TB7CP-Portable Blender-BM-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FS6TB7CP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0FS6TB7CP-Portable Blender-Exact-SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0FS6TB7CP"
     ],
     "ad_types": [
       "productAd"

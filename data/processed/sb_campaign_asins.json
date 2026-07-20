@@ -462,7 +462,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "Camb-SB-Multiple Asin- product collection- Reach": {
+  "Camb-SB-Motorized- Multiple Asin- product collection- Reach": {
     "brand": "White Mulberry",
     "asins": [
       "B0CPT3Q25C",
@@ -474,7 +474,7 @@
     ],
     "profile_id": "866679611348308"
   },
-  "White Mulberry Monitor Arm-B0DB5VG39T-PT-KT-SBV": {
+  "White Mulberry Monitor Arm-B0DB5VG39T-KT-SBV": {
     "brand": "White Mulberry",
     "asins": [
       "B0DB5VG39T"
@@ -509,6 +509,16 @@
     ],
     "profile_id": "3563790765020958"
   },
+  "WM- SBV- Monitor Arm- B0DB5VG39T - Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3563790765020958"
+  },
   "White Mulberry Monitor Arm-B0DB5VG39T-CT-SBV": {
     "brand": "White Mulberry",
     "asins": [
@@ -520,6 +530,16 @@
     "profile_id": "3563790765020958"
   },
   "WM-SB-Monitor Arms-B0DB5VG39T - CT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- SBV- Monitor Arm- B0DB5VG39T- Exact": {
     "brand": "White Mulberry",
     "asins": [
       "B0DB5VG39T"
@@ -543,6 +563,16 @@
     "brand": "White Mulberry",
     "asins": [
       "B0DP32F346"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM- SBV- Monitor Arm- B0DB5VG39T - PT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
     ],
     "ad_types": [
       "VIDEO"
@@ -3241,6 +3271,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-B0GGHZWMVW-Vacuum-PT01-SBV": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0CYSLCRQS-Sofa Vacuum Cleaner -SBV-KT-Phrase": {
     "brand": "Nexlev",
     "asins": [
@@ -3321,6 +3361,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-B0GGHZWMVW-Vacuum-SBV-PT01": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Phrase(Video)": {
     "brand": "Nexlev",
     "asins": [
@@ -3361,10 +3411,30 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-B0GGHZWMVW-Vacuum-Exact- SBV": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0CDPP45BM-Steam Cleaner-SBV- Exact": {
     "brand": "Nexlev",
     "asins": [
       "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0GGHZWMVW-Vacuum-Phrase- SBV": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
     ],
     "ad_types": [
       "VIDEO"
@@ -3385,6 +3455,16 @@
     "brand": "Nexlev",
     "asins": [
       "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0F43P6D23_Steam Cleaner_SBV- PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
     ],
     "ad_types": [
       "VIDEO"

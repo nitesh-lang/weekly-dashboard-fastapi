@@ -211,13 +211,18 @@ def run_inventory_etl():
     # --------------------------------------------------------
     # SCAN ALL XLSX FILES
     # --------------------------------------------------------
+    _DEBUG_W29 = True  # temp — remove after cross-platform diagnosis
     for file in RAW_INV_DIR.rglob("*.xlsx"):
 
         try:
             df = read_excel_safe(file)
-        except Exception:
+        except Exception as _e:
+            if _DEBUG_W29 and "Week 29" in str(file):
+                print(f"   ❌ [W29 SCAN] read failed for {file.relative_to(RAW_INV_DIR)}: {_e!r}")
             continue
 
+        if _DEBUG_W29 and "Week 29" in str(file):
+            print(f"   🔍 [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: {len(df)} rows, cols={list(df.columns)[:6]}")
         df.columns = [c.strip().lower() for c in df.columns]
 
         # SP-API Seller FBA Inventory files don't carry `channel` or
@@ -261,6 +266,8 @@ def run_inventory_etl():
                 )
 
         if "model" not in df.columns or "qty" not in df.columns:
+            if _DEBUG_W29 and "Week 29" in str(file):
+                print(f"   ⏭ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: skipped — missing model/qty")
             continue
 
         # ------------------------
@@ -313,9 +320,14 @@ def run_inventory_etl():
         # fields; the ASIN-first master alignment below fills Model from
         # sku_master via the ASIN lookup.  Drop unresolved-model rows
         # AFTER alignment instead (line further down).
+        _pre_wkna = len(df)
         df = df.dropna(subset=["week"])
+        if _DEBUG_W29 and "Week 29" in str(file):
+            print(f"   ✓ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: {_pre_wkna} → {len(df)} after week-dropna")
 
         if df.empty:
+            if _DEBUG_W29 and "Week 29" in str(file):
+                print(f"   ⏭ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: empty after week-dropna")
             continue
 
         # Preserve sku + asin per row.  Raw inventory files carry both;

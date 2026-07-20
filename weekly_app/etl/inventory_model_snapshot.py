@@ -429,11 +429,16 @@ def run_inventory_etl():
         # identity downstream).  This catches the residual that the
         # earlier dropna(subset=["week","model"]) used to swallow before
         # master alignment ran.
+        _pre_model_drop = len(df)
         df = df[
             df["model"].astype(str).str.strip().ne("")
             & ~df["model"].astype(str).str.upper().isin(["NAN", "NONE", "<NA>"])
         ]
+        if _DEBUG_W29 and "Week 29" in str(file):
+            print(f"   🎯 [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: {_pre_model_drop} → {len(df)} after model-resolution filter")
         if df.empty:
+            if _DEBUG_W29 and "Week 29" in str(file):
+                print(f"   ❗ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: EMPTIED by model-resolution filter")
             continue
 
         # Carry category + nlc so consumers don't need to re-read raw xlsx.
@@ -503,6 +508,8 @@ def run_inventory_etl():
             )
         )
 
+        if _DEBUG_W29 and "Week 29" in str(file):
+            print(f"   📦 [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: contributed {len(model_grp)} grouped rows to all_rows")
         all_rows.append(model_grp)
 
     # --------------------------------------------------------

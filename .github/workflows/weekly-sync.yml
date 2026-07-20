@@ -67,6 +67,12 @@ on:
         default: 'false'
         type: choice
         options: ['false', 'true']
+      allow_gate_bypass:
+        description: 'Bypass both gates (brand-mistag + snapshot-sanity) for this run. Use when the drop is legitimately below threshold (e.g. channels not yet dropped for the week).'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 permissions:
   contents: write              # needed to push the data refresh commit
@@ -463,7 +469,9 @@ jobs:
       # advisory but pass.  Bypass via SANITY_GATE_ALLOW=1.
       - name: Brand-mistag gate (Check 27 cross-check)
         env:
-          SANITY_GATE_ALLOW: ${{ secrets.SANITY_GATE_ALLOW }}
+          # Repo secret wins if set; workflow_dispatch input can override
+          # for a one-off run without touching secrets.
+          SANITY_GATE_ALLOW: ${{ inputs.allow_gate_bypass == 'true' && '1' || secrets.SANITY_GATE_ALLOW }}
         run: python scripts/brand_mistag_gate.py
 
       # Snapshot sanity gate — fail-loud pre-commit blocker.
@@ -482,7 +490,9 @@ jobs:
       # that legitimately drops volume (brand exit, channel retire).
       - name: Snapshot sanity gate (row-count + unit-total floor)
         env:
-          SANITY_GATE_ALLOW: ${{ secrets.SANITY_GATE_ALLOW }}
+          # Repo secret wins if set; workflow_dispatch input can override
+          # for a one-off run without touching secrets.
+          SANITY_GATE_ALLOW: ${{ inputs.allow_gate_bypass == 'true' && '1' || secrets.SANITY_GATE_ALLOW }}
         run: python scripts/snapshot_sanity_gate.py
 
       - name: Commit + push refreshed data

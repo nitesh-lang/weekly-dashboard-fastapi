@@ -353,11 +353,17 @@ def run_for_week(week_num: int) -> dict:
         # Vendor Sales (SP-API).xlsx counts as a valid 1P source even
         # when amazon_sales.xlsx and other_channels.xlsx are absent —
         # otherwise W24 would emit no business_report files for the
-        # SP-API-only brands (AA + Tonor).
+        # SP-API-only brands (AA + Tonor).  Seller Sales (SP-API).xlsx
+        # is the 3P SP-API fallback for amazon_sales.xlsx (see
+        # three_source resolution below) — missing it here means a
+        # 3P-only brand (Nexlev) with only the SP-API seller pull
+        # gets silently dropped from the whole business_report chain.
+        # W29 lost Nexlev (₹29.5L / 909 units) this way.
         if (
             not (brand_dir / "amazon_sales.xlsx").exists()
             and not (brand_dir / "other_channels.xlsx").exists()
             and not (brand_dir / "Vendor Sales (SP-API).xlsx").exists()
+            and not (brand_dir / "Seller Sales (SP-API).xlsx").exists()
         ):
             continue
 

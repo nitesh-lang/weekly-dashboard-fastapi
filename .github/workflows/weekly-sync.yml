@@ -36,6 +36,11 @@ on:
     # laptop is off.  REMOVE THIS LINE after the 2026-07-14 run succeeds
     # or leave in place to make Tuesday-09:00 a recurring backup slot.
     - cron: '30 3 * * 2'      # Tuesday 03:30 UTC = 09:00 IST — W28 ads catch-up
+    # W29 ads-only catch-up — Tue 2026-07-21 10:00 IST (04:30 UTC).
+    # Operator's local ads_reports_pull hung today 2026-07-20; scheduled
+    # a Tuesday 10:00 IST cron so ads data lands unattended.  Full ads
+    # chain runs on schedule events (skip_ads default false).
+    - cron: '30 4 * * 2'      # Tuesday 04:30 UTC = 10:00 IST — W29 ads catch-up
   push:
     branches: [main]
     paths:

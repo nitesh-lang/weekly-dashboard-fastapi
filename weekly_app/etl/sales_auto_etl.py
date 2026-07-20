@@ -621,14 +621,25 @@ def process_week(week, sku_master, brand_folder=""):
                     other["asin_m"],
                 )
                 other = other.drop(columns=["asin_m"])
-            # ASIN-only rows (operator sheet that lacks SKU column) miss the
-            # sku-based merge above.  Fall back to ASIN→master so model/sku/
-            # brand/nlc still resolve.  Caught W25 WM 1p Sales — sheet had
-            # ASIN + Qty + Sale only, no SKU, so the merge produced blank
-            # model/brand and the rows disappeared from snapshot rollups.
+            # ASIN-first fallback whenever the SKU-merge failed to resolve.
+            # Two flavours to catch:
+            #   1. Sheet has no SKU column at all (W25 WM 1p Sales case) —
+            #      SKU is blank, ASIN is present.
+            #   2. Sheet has a SKU value but it's a fulfillment-center
+            #      prefix variant not in master (e.g. `FBA79350` in file
+            #      vs `FBP79350` in master, same underlying product, same
+            #      ASIN B0D67727VG).  W29 Nexlev BIW/Blinkit/D2C/Pharmaeasy
+            #      lost model/brand this way.
+            # In both cases, ASIN is truth per the ASIN>SKU>Model hierarchy
+            # (see reference_master_alignment_hierarchy).  Trigger whenever
+            # the merge produced no master hit (model_m blank) AND the row
+            # has an ASIN we can look up.
+            _mm = other["model_m"].astype(str).str.strip() if "model_m" in other.columns else pd.Series("", index=other.index)
+            _model = other["model"].astype(str).str.strip() if "model" in other.columns else pd.Series("", index=other.index)
+            _no_master_hit = _mm.isin(["", "nan", "None", "<NA>"]) & _model.isin(["", "nan", "None", "<NA>"])
             need_master = (
                 other["asin"].astype(str).str.strip().ne("")
-                & other["sku"].astype(str).str.strip().eq("")
+                & _no_master_hit
             )
             if need_master.any():
                 master_by_asin = sku_master.drop_duplicates(subset=["asin"]).set_index("asin")

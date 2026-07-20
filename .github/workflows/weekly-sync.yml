@@ -61,6 +61,12 @@ on:
         default: 'false'
         type: choice
         options: ['false', 'true']
+      skip_extras:
+        description: 'Skip Keepa pricing + Returns/Margin/Reviews snapshots (operator will run these manually).'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 permissions:
   contents: write              # needed to push the data refresh commit
@@ -223,6 +229,7 @@ jobs:
       # Runs in lieu of sp_pricing_pull while the SP-API Pricing role
       # consent is being resolved on the AdPilot Production app.
       - name: Keepa pricing pull (Amazon 1P + per-account 3P)
+        if: inputs.skip_extras != 'true'
         run: python scripts/keepa_pricing_pull.py || true
         env:
           # Accept either secret name — operator standardised on
@@ -350,15 +357,18 @@ jobs:
         run: python -m weekly_app.etl.inventory_snapshot_etl
 
       - name: Returns snapshot
+        if: inputs.skip_extras != 'true'
         run: python -m weekly_app.etl.returns_snapshot
 
       - name: Margin snapshot
+        if: inputs.skip_extras != 'true'
         run: python -m weekly_app.etl.margin_snapshot
 
       - name: Inbound snapshot (FBA + In-Transit PO)
         run: python -m weekly_app.etl.inbound_snapshot
 
       - name: Reviews snapshot (Helium-10)
+        if: inputs.skip_extras != 'true'
         run: python -m weekly_app.etl.reviews_snapshot
 
       # Rebuild ams_weekly_fact.csv (step4's biz base) from the latest

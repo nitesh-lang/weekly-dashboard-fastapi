@@ -211,18 +211,13 @@ def run_inventory_etl():
     # --------------------------------------------------------
     # SCAN ALL XLSX FILES
     # --------------------------------------------------------
-    _DEBUG_W29 = True  # temp — remove after cross-platform diagnosis
     for file in RAW_INV_DIR.rglob("*.xlsx"):
 
         try:
             df = read_excel_safe(file)
-        except Exception as _e:
-            if _DEBUG_W29 and "Week 29" in str(file):
-                print(f"   ❌ [W29 SCAN] read failed for {file.relative_to(RAW_INV_DIR)}: {_e!r}")
+        except Exception:
             continue
 
-        if _DEBUG_W29 and "Week 29" in str(file):
-            print(f"   🔍 [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: {len(df)} rows, cols={list(df.columns)[:6]}")
         df.columns = [c.strip().lower() for c in df.columns]
 
         # SP-API Seller FBA Inventory files don't carry `channel` or
@@ -266,8 +261,6 @@ def run_inventory_etl():
                 )
 
         if "model" not in df.columns or "qty" not in df.columns:
-            if _DEBUG_W29 and "Week 29" in str(file):
-                print(f"   ⏭ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: skipped — missing model/qty")
             continue
 
         # ------------------------
@@ -320,14 +313,9 @@ def run_inventory_etl():
         # fields; the ASIN-first master alignment below fills Model from
         # sku_master via the ASIN lookup.  Drop unresolved-model rows
         # AFTER alignment instead (line further down).
-        _pre_wkna = len(df)
         df = df.dropna(subset=["week"])
-        if _DEBUG_W29 and "Week 29" in str(file):
-            print(f"   ✓ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: {_pre_wkna} → {len(df)} after week-dropna")
 
         if df.empty:
-            if _DEBUG_W29 and "Week 29" in str(file):
-                print(f"   ⏭ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: empty after week-dropna")
             continue
 
         # Preserve sku + asin per row.  Raw inventory files carry both;
@@ -429,16 +417,11 @@ def run_inventory_etl():
         # identity downstream).  This catches the residual that the
         # earlier dropna(subset=["week","model"]) used to swallow before
         # master alignment ran.
-        _pre_model_drop = len(df)
         df = df[
             df["model"].astype(str).str.strip().ne("")
             & ~df["model"].astype(str).str.upper().isin(["NAN", "NONE", "<NA>"])
         ]
-        if _DEBUG_W29 and "Week 29" in str(file):
-            print(f"   🎯 [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: {_pre_model_drop} → {len(df)} after model-resolution filter")
         if df.empty:
-            if _DEBUG_W29 and "Week 29" in str(file):
-                print(f"   ❗ [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: EMPTIED by model-resolution filter")
             continue
 
         # Carry category + nlc so consumers don't need to re-read raw xlsx.
@@ -495,12 +478,31 @@ def run_inventory_etl():
 
         # Per-(SKU × ASIN × channel × type) aggregation — matches the
         # grain raw inventory files come at.
+        # dropna=False so rows whose grouping keys still contain a NaN
+        # (e.g. `type` blank on operator's Inventory Snapshot.xlsx, or
+        # category_l0/l1/l2 that master couldn't fill for a brand-new
+        # ASIN) survive the groupby.  pandas default `dropna=True` would
+        # silently discard them.  On Linux CI this dropped every operator
+        # inventory row for W29 (Nexlev 262 / AA 237 / WM 40 / Tonor 22 →
+        # 0 contributed to all_rows).  Windows locally didn't trip because
+        # its NaN normalisation on the string columns produced empty
+        # strings, which groupby retains.  Verified 2026-07-20 CI trace
+        # on run 29744776794.
+        _grp_cols = ["week", "brand", "model", "sku", "asin", "channel", "type",
+                     "category_l0", "category_l1", "category_l2"]
+        # Belt-and-braces: normalise NaN → "" on every string key column so
+        # groupby with dropna=False keeps ONE bucket per empty-string key
+        # instead of one bucket per unique NaN sentinel value (which pandas
+        # sometimes materialises differently across engines).
+        for _c in _grp_cols:
+            if _c == "week":
+                continue
+            if _c in df.columns:
+                df[_c] = df[_c].astype("object").fillna("").astype(str).replace(
+                    {"nan": "", "None": "", "<NA>": ""}
+                )
         model_grp = (
-            df.groupby(
-                ["week", "brand", "model", "sku", "asin", "channel", "type",
-                 "category_l0", "category_l1", "category_l2"],
-                as_index=False
-            )
+            df.groupby(_grp_cols, as_index=False, dropna=False)
             .agg(
                 inventory_units=("qty", "sum"),
                 inventory_value=("row_value", "sum"),
@@ -508,8 +510,6 @@ def run_inventory_etl():
             )
         )
 
-        if _DEBUG_W29 and "Week 29" in str(file):
-            print(f"   📦 [W29 SCAN] {file.relative_to(RAW_INV_DIR)}: contributed {len(model_grp)} grouped rows to all_rows")
         all_rows.append(model_grp)
 
     # --------------------------------------------------------
@@ -525,10 +525,19 @@ def run_inventory_etl():
     # FINAL DEDUPE + CONSOLIDATION
     # (IMPORTANT – ensures 1 row per model)
     # --------------------------------------------------------
+    # Same NaN-safety here as in the per-file groupby above.
+    _final_grp_cols = ["week", "brand", "model", "sku", "asin", "channel", "type",
+                        "category_l0", "category_l1", "category_l2"]
+    for _c in _final_grp_cols:
+        if _c == "week":
+            continue
+        if _c in final_df.columns:
+            final_df[_c] = final_df[_c].astype("object").fillna("").astype(str).replace(
+                {"nan": "", "None": "", "<NA>": ""}
+            )
     final_df = (
         final_df
-        .groupby(["week", "brand", "model", "sku", "asin", "channel", "type",
-                  "category_l0", "category_l1", "category_l2"], as_index=False)
+        .groupby(_final_grp_cols, as_index=False, dropna=False)
         .agg(
             inventory_units=("inventory_units", "sum"),
             inventory_value=("inventory_value", "sum"),

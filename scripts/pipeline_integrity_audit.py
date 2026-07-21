@@ -1751,6 +1751,140 @@ def check_ams_vs_sales_brand_history(latest_week: int) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def check_ams_vs_sales_units_per_asin(latest_week: int) -> pd.DataFrame:
+    """Per-(ASIN, latest_week), units_ordered in ams_weekly_fact must
+    match units_sold in weekly_sales_snapshot (Amazon+1P channels only).
+
+    Catches the class of bug where business_report_derive picks up a
+    column-swapped raw file (e.g. 2026-07-21 WM other_channels.xlsx with
+    Qty and Sale Amount transposed pushed FBA79476 to 41,954 units vs
+    the true 39).  Sales snapshot's sales_auto_etl handled the same file
+    correctly because its per-row groupby doesn't confuse columns; but
+    business_report_derive's 3P+1P merge silently amplified the swap
+    (units_ordered = 3P_units + sales_amount_as_1p_units).  Check 19
+    only compares GMV — direction-agnostic on units — so it stayed
+    green.  This check would have caught it in one pass.
+
+    Tolerance: absolute delta > max(100, 20% * snap_units).  Wide
+    enough to swallow legitimate attribution-lag drift (typically
+    < 5%) while catching order-of-magnitude bugs.
+    """
+    ABS_MIN = 100
+    REL_TOL = 0.20
+    AMS_FACT = ROOT / "data" / "ams_weekly_data" / "ams_weekly_fact" / "ams_weekly_fact_with_category.csv"
+    if not (SNAP_SALES.exists() and AMS_FACT.exists()):
+        return pd.DataFrame()
+    out: list[Dict[str, Any]] = []
+    try:
+        s = pd.read_csv(SNAP_SALES)
+        s["wn"] = s["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
+        s = s[s["wn"] == latest_week].copy()
+        s = s[s["brand"].astype(str).str.lower() != "fossil"]
+        chan = s["channel"].astype(str).str.lower().str.strip()
+        s = s[chan.isin(["amazon", "1p sales"])]
+        snap_units = (s.groupby("asin", as_index=False)
+                       .agg(snap_units=("units_sold", "sum")))
+
+        af = pd.read_csv(AMS_FACT)
+        af = af[af["week"] == latest_week]
+        af = af[af["brand"].astype(str).str.lower() != "fossil"]
+        units_col = "units_ordered" if "units_ordered" in af.columns else "units"
+        ams_units = (af.groupby("asin", as_index=False)
+                       .agg(ams_units=(units_col, "sum")))
+
+        m = snap_units.merge(ams_units, on="asin", how="outer").fillna(0)
+        m["delta"] = m["ams_units"] - m["snap_units"]
+        m["abs_delta"] = m["delta"].abs()
+        m["tol"] = m["snap_units"].abs() * REL_TOL
+        m["tol"] = m["tol"].clip(lower=ABS_MIN)
+        bad = m[m["abs_delta"] > m["tol"]].copy()
+        if bad.empty:
+            return pd.DataFrame()
+        bad = bad.merge(
+            af[["asin", "brand", "sku", "model"]].drop_duplicates("asin"),
+            on="asin", how="left"
+        )
+        bad["snap_units"] = bad["snap_units"].round(0).astype(int)
+        bad["ams_units"]  = bad["ams_units"].round(0).astype(int)
+        bad["delta"]      = bad["delta"].round(0).astype(int)
+        bad["note"] = ("ams_weekly_fact units_ordered != weekly_sales_snapshot units_sold — "
+                       "likely business_report_derive read a wrong raw column "
+                       "(Qty/Sale Amount transposed) OR missing 3P/1P ingest")
+        return (bad.sort_values("abs_delta", ascending=False)
+                   [["asin", "brand", "sku", "model", "snap_units", "ams_units", "delta", "note"]]
+                   .reset_index(drop=True))
+    except Exception as e:
+        return pd.DataFrame([{
+            "asin": "(load failed)", "brand": "", "sku": "", "model": "",
+            "snap_units": 0, "ams_units": 0, "delta": 0,
+            "note": f"loader raised: {e!r}",
+        }])
+
+
+def check_unit_price_sanity(latest_week: int) -> pd.DataFrame:
+    """Per-(ASIN, latest_week), unit price in ams_weekly_fact must be
+    within 10x of the same ASIN's 4-week historical median.
+
+    Catches raw-file entry mistakes that produce order-of-magnitude
+    unit-price shifts:
+      • Qty/Sale Amount column swap  -> unit price collapses (₹1/unit
+        for a ₹2,300/unit product; 2026-07-21 WM incident).
+      • Decimal-point typo in Sale Amount  -> unit price spikes.
+      • Row-mapping bug that assigns one product's sales to another.
+
+    Only ASINs with units_ordered >= 5 in the latest week + at least 2
+    prior weeks of positive-unit history are checked (avoids noise on
+    tiny volumes / fresh launches).
+    """
+    MIN_UNITS      = 5
+    MIN_HISTORY_W  = 2
+    RATIO_LOW      = 0.10   # current < 10% of historical median
+    RATIO_HIGH     = 10.0   # current > 10x historical median
+    AMS_FACT = ROOT / "data" / "ams_weekly_data" / "ams_weekly_fact" / "ams_weekly_fact_with_category.csv"
+    if not AMS_FACT.exists():
+        return pd.DataFrame()
+    try:
+        af = pd.read_csv(AMS_FACT)
+        units_col = "units_ordered" if "units_ordered" in af.columns else "units"
+        af = af[af["brand"].astype(str).str.lower() != "fossil"]
+        af = af[af[units_col] > 0].copy()
+        af["price"] = af["ordered_product_sales"] / af[units_col]
+
+        hist = af[(af["week"] >= latest_week - 4) & (af["week"] < latest_week)]
+        hist_agg = (hist.groupby("asin")
+                        .agg(hist_median_price=("price", "median"),
+                             hist_weeks=("week", "nunique")))
+
+        cur = af[af["week"] == latest_week].copy()
+        cur = cur[cur[units_col] >= MIN_UNITS]
+        m = cur.merge(hist_agg, on="asin", how="inner")
+        m = m[m["hist_weeks"] >= MIN_HISTORY_W]
+        m = m[m["hist_median_price"] > 0]
+
+        m["ratio"] = m["price"] / m["hist_median_price"]
+        bad = m[(m["ratio"] < RATIO_LOW) | (m["ratio"] > RATIO_HIGH)].copy()
+        if bad.empty:
+            return pd.DataFrame()
+        bad["cur_price"]  = bad["price"].round(2)
+        bad["hist_price"] = bad["hist_median_price"].round(2)
+        bad["units"]      = bad[units_col].round(0).astype(int)
+        bad["sales"]      = bad["ordered_product_sales"].round(0).astype(int)
+        bad["ratio"]      = bad["ratio"].round(3)
+        bad["note"] = ("unit price (sales/units) deviates >10x from 4-week median — "
+                       "likely raw-file entry error: Qty/Sale Amount column swap OR "
+                       "decimal-point typo OR row-mapping bug")
+        return (bad.sort_values("ratio")
+                   [["asin", "brand", "sku", "model", "units", "sales",
+                     "cur_price", "hist_price", "ratio", "note"]]
+                   .reset_index(drop=True))
+    except Exception as e:
+        return pd.DataFrame([{
+            "asin": "(load failed)", "brand": "", "sku": "", "model": "",
+            "units": 0, "sales": 0, "cur_price": 0.0, "hist_price": 0.0, "ratio": 0.0,
+            "note": f"loader raised: {e!r}",
+        }])
+
+
 def check_brand_magnitude_regression(latest_week: int) -> pd.DataFrame:
     """Flag when a brand's value for a key metric drops >50% (or spikes
     >2x) vs the median of the prior 4 weeks.  Catches the AMS partial-pull
@@ -2178,6 +2312,23 @@ def main() -> int:
         # Check 24 to avoid noise on legitimate historical drifts.
         ("27_ams_vs_sales_brand_history", "AMS Trend GMV vs Sales Trend Amazon+1P per brand (ALL weeks)",
                                   check_ams_vs_sales_brand_history(latest_week),                True),
+        # Check 28 (new 2026-07-21) — per-(ASIN, latest_week) units drift
+        # between ams_weekly_fact and weekly_sales_snapshot.  Sibling of
+        # check 24 but on the UNITS axis, at ASIN grain.  Would have caught
+        # the 2026-07-21 WM other_channels column-swap incident where
+        # FBA79476 landed at 41,954 units in AMS Trend vs 39 in Sales
+        # Trend — bug that all prior checks missed because they only
+        # compare GMV or brand-level rollups.
+        ("28_ams_vs_sales_units_per_asin", "AMS units_ordered vs Sales units_sold (per ASIN, latest week)",
+                                  check_ams_vs_sales_units_per_asin(latest_week),               True),
+        # Check 29 (new 2026-07-21) — per-ASIN unit price (sales/units)
+        # deviation >10x from 4-week historical median.  Catches the
+        # column-swap class of bug directionally (both understated-sales
+        # and inflated-units flavours) plus decimal-point typos and
+        # row-mapping errors.  Complements check 28 by working on ASINs
+        # that only appear in ams_weekly_fact.
+        ("29_unit_price_sanity", "Unit price (sales/units) deviates >10x from 4w median (latest week)",
+                                  check_unit_price_sanity(latest_week),                         True),
     ]
 
     print()

@@ -51,12 +51,14 @@ on:
       # re-pulling the Ads API for no new data.  Those now route to
       # code-check.yml instead, which runs the audit on the existing
       # committed raw files (~3 min, no external API calls).
+      #
+      # RETURNS / MARGIN / REVIEWS excluded from push triggers (2026-07-21):
+      # operator pulls those manually via scripts/sp_{seller,vendor}_returns_pull.py
+      # etc.  Snapshots re-derive on the next scheduled Monday cron or on any
+      # sales / inventory / inbound / sku_master push that fires the workflow.
       - 'data/raw/sales/**'
       - 'data/raw/inventory/**'
-      - 'data/raw/returns/**'
-      - 'data/raw/margin/**'
       - 'data/raw/inbound/**'
-      - 'data/raw/reviews/**'
       - 'data/master/sku_master.xlsx'
   workflow_dispatch:           # allow manual trigger from the Actions tab
     inputs:

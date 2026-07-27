@@ -311,9 +311,30 @@ before = len(final)
 # stringifies to different values across pandas backends; treat every
 # blank marker as "not in master" so the strict filter is symmetric
 # with the sku-side scrub above.
+# Backfill child_asin from asin for historical-week rows that don't
+# appear in the LATEST week's business_report (map_df only covers the
+# latest week, so organic-only ASINs from prior weeks land here with
+# child_asin=NaN and get incorrectly filtered as "off-master" even
+# though the base asin is in sku_master).  Fixes the Tonor 3-9%
+# drift on Check 27 (2026-07-27 diagnosis): B082W4B7SX / B07TSN2H9D /
+# B0CH9JR3HL / B0BG8CJXHH had organic sales in W19/W26/W28, no ad
+# activity, and no row in W30's business_report — the strict filter
+# dropped them entirely from business_ads_joined.  Self-referential
+# fallback (child_asin = asin) restores them cleanly since these ASINs
+# are their own child anyway.
 _final_norm = final["child_asin"].astype(str).str.strip().str.upper()
 _blank_mask = _final_norm.isin({"NAN", "NONE", "", "<NA>", "N/A", "NA", "-"})
-final["_asin_n"] = _final_norm.where(~_blank_mask, "__BLANK__")
+_asin_upper = final["asin"].astype(str).str.strip().str.upper()
+_asin_blank = _asin_upper.isin({"NAN", "NONE", "", "<NA>", "N/A", "NA", "-"})
+# Prefer child_asin; fall back to asin; final fallback "__BLANK__" only
+# when BOTH are blank (truly untraceable row).
+final["_asin_n"] = _final_norm.where(
+    ~_blank_mask,
+    _asin_upper.where(~_asin_blank, "__BLANK__")
+)
+# Also backfill the actual child_asin column so downstream consumers
+# (business_ads_joined.csv, ams_weekly_fact) see the resolved value.
+final.loc[_blank_mask & ~_asin_blank, "child_asin"] = final.loc[_blank_mask & ~_asin_blank, "asin"]
 filt = final["_asin_n"].isin(master_asins)
 dropped = final[~filt].copy()
 final = final[filt].drop(columns=["_asin_n"])

@@ -457,7 +457,7 @@ def sales_trend_rows_api(
 
         start = (page-1)*page_size
         end   = start+page_size
-        return JSONResponse({"rows":rows[start:end],"total":len(rows),"page":page,"has_more":end<len(rows)})
+        return JSONResponse(clean_nan({"rows":rows[start:end],"total":len(rows),"page":page,"has_more":end<len(rows)}))
     except Exception:
         import traceback; traceback.print_exc()
         return JSONResponse({"rows":[],"total":0,"page":page,"has_more":False})
@@ -520,7 +520,7 @@ def sales_trend_insights(
     insights = build_sales_insights(sales,
                                     selected_weeks=selected_week_nums,
                                     inventory_by_model=inv_by_model)
-    return JSONResponse(insights)
+    return JSONResponse(clean_nan(insights))
 
 
 # JSON alias for the React frontend.

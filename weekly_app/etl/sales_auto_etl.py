@@ -339,7 +339,18 @@ def parse_other_channels(file, week, skip_sheets=None):
     "1p sales" gets sourced from the SP-API Vendor Sales file when
     present, not the manually-maintained sheet.
     """
-    xls = pd.ExcelFile(file)
+    # IMPORTANT: use calamine engine at ExcelFile open time so per-sheet
+    # reads route through it consistently.  Previously `pd.ExcelFile(file)`
+    # opened with pandas default (openpyxl on Linux CI), and passing that
+    # already-opened handle to `read_excel_safe(xls, ...)` silently ignored
+    # the calamine hint — every 1P Sales / other-channels sheet read on CI
+    # ran through openpyxl, which drops rows for some xlsx variants
+    # (e.g. W24 WM 1P Sales lost all 7 rows on the runner; local Windows
+    # read them fine).  Same class-of-bug as the 2026-07-06 W27 incident.
+    try:
+        xls = pd.ExcelFile(file, engine="calamine")
+    except Exception:
+        xls = pd.ExcelFile(file)  # calamine unavailable — fall back
     rows = []
     skip_norm = {s.strip().lower() for s in (skip_sheets or set())}
 

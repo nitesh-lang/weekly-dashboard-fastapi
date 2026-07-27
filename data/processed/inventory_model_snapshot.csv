@@ -20100,7 +20100,6 @@ Week 24,Audio Array,X5,FBA80110,B0H2Z6R6V8,Amazon,Marketplace,Monitor Speakers,"
 Week 24,Audio Array,XM-16,FBA80013,B0GTZLGPFR,B2B - AMPM,Warehouse,Audio Mixer,16 Channel Mixer With Carry Case,,3.0,56187.47,18729.16
 Week 24,Audio Array,XM-24,FBA80014,B0GTZ9X8Q2,AMPM,Warehouse,Audio Mixer,24 Channel Mixer With Carry Case,,1.0,23869.16,23869.16
 Week 24,Audio Array,XM-24,FBA80014,B0GTZ9X8Q2,B2B - AMPM,Warehouse,Audio Mixer,24 Channel Mixer With Carry Case,,5.0,119345.82,23869.16
-Week 24,Nexlev,,FBA80111,B0GYSS16FJ,Amazon,Marketplace,,,,16.0,0.0,0.0
 Week 24,Nexlev,AP-01,FBA79683,B0DVC9PRSD,AMPM,Warehouse,Home & Kitchen,Air Purifier,Air Purifier,23.0,233634.0,10158.0
 Week 24,Nexlev,AP-01,FBA79683,B0DVC9PRSD,Amazon,Marketplace,Home & Kitchen,Air Purifier,Air Purifier,29.0,294582.0,10158.0
 Week 24,Nexlev,AP-01,FBA79683,B0DVC9PRSD,B2B - AMPM,Warehouse,Home & Kitchen,Air Purifier,Air Purifier,10.0,101580.0,10158.0
@@ -20318,6 +20317,7 @@ Week 24,Nexlev,MR-01,FBA79263,B0CYSLCRQS,B2B - AMPM,Warehouse,Home & Kitchen,Cle
 Week 24,Nexlev,MR-01,FBA79263,B0CYSLCRQS,Blinkit,Marketplace,Home & Kitchen,Cleaning & Vacumming,Mite Remover,45.0,52290.0,1162.0
 Week 24,Nexlev,MR-01,FBA79263,B0CYSLCRQS,Open Order,,Home & Kitchen,Cleaning & Vacumming,Mite Remover,1000.0,1162000.0,1162.0
 Week 24,Nexlev,MR-01,FBA79263,B0CYSLCRQS,YNT,Dispatch Partner,Home & Kitchen,Cleaning & Vacumming,Mite Remover,13.0,15106.0,1162.0
+Week 24,Nexlev,MR-01_PART,FBA80111,B0GYSS16FJ,Amazon,Marketplace,,,,16.0,0.0,0.0
 Week 24,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,AMPM,Warehouse,Home & Kitchen,Cleaning & Vacumming,Mite Remover,134.0,185054.0,1381.0
 Week 24,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,Amazon,Marketplace,Home & Kitchen,Cleaning & Vacumming,Mite Remover,352.0,486112.0,1381.0
 Week 24,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,B2B - AMPM,Warehouse,Home & Kitchen,Cleaning & Vacumming,Mite Remover,17.0,23477.0,1381.0
@@ -21232,7 +21232,6 @@ Week 25,Nexlev,,FBA80079,B0GQCB4PJC,Amazon,Marketplace,,,,0.0,0.0,0.0
 Week 25,Nexlev,,FBA80080,B0GQGXR9D7,Amazon,Marketplace,,,,0.0,0.0,0.0
 Week 25,Nexlev,,FBA80081,B0GQGK4GJ7,Amazon,Marketplace,,,,0.0,0.0,0.0
 Week 25,Nexlev,,FBA80082,B0GQGZVGLL,Amazon,Marketplace,,,,0.0,0.0,0.0
-Week 25,Nexlev,,FBA80111,B0GYSS16FJ,Amazon,Marketplace,,,,20.0,0.0,0.0
 Week 25,Nexlev,,FBA80112,B0GYSMR9G2,Amazon,Marketplace,,,,0.0,0.0,0.0
 Week 25,Nexlev,,FBA80127,B0GZKXXBC3,Amazon,Marketplace,,,,0.0,0.0,0.0
 Week 25,Nexlev,AP-01,FBA79683,B0DVC9PRSD,AMPM,Warehouse,Home & Kitchen,Air Purifier,Air Purifier,23.0,233634.0,10158.0
@@ -21461,6 +21460,7 @@ Week 25,Nexlev,MR-01,FBA79263,B0CYSLCRQS,B2B - AMPM,Warehouse,Home & Kitchen,Cle
 Week 25,Nexlev,MR-01,FBA79263,B0CYSLCRQS,Blinkit,Marketplace,Home & Kitchen,Cleaning & Vacumming,Mite Remover,47.0,54614.0,1162.0
 Week 25,Nexlev,MR-01,FBA79263,B0CYSLCRQS,Open Order,In-Transit Inventory,Home & Kitchen,Cleaning & Vacumming,Mite Remover,1000.0,1162000.0,1162.0
 Week 25,Nexlev,MR-01,FBA79263,B0CYSLCRQS,YNT,Dispatch Partner,Home & Kitchen,Cleaning & Vacumming,Mite Remover,13.0,15106.0,1162.0
+Week 25,Nexlev,MR-01_PART,FBA80111,B0GYSS16FJ,Amazon,Marketplace,,,,20.0,0.0,0.0
 Week 25,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,AMPM,Warehouse,Home & Kitchen,Cleaning & Vacumming,Mite Remover,94.0,129814.0,1381.0
 Week 25,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,Amazon,Marketplace,Home & Kitchen,Cleaning & Vacumming,Mite Remover,418.0,577258.0,1381.0
 Week 25,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,B2B - AMPM,Warehouse,Home & Kitchen,Cleaning & Vacumming,Mite Remover,17.0,23477.0,1381.0
@@ -28006,7 +28006,7 @@ Week 30,Audio Array,AI-01,FBA76732,B0BLKCB2JY,AMPM,,Audio Interface,Audio Interf
 Week 30,Audio Array,AI-02 2X2| METALLIC RED,FBA79070,B0CLH7G5WH,AMPM,,Audio Interface,Audio Interface,,6.0,24255.15,4042.53
 Week 30,Audio Array,AI-03,FBA76863,B0BPM2T7BQ,1P,,Audio Interface,Audio Interface,,46.0,100276.64,2179.93
 Week 30,Audio Array,AI-03,FBA76863,B0BPM2T7BQ,AMPM,,Audio Interface,Audio Interface,,148.0,322629.19,2179.93
-Week 30,Audio Array,AI-03,FBA76863,B0BPM2T7BQ,Amazon,FBA,Audio Interface,Audio Interface,,7.0,15259.49,2179.93
+Week 30,Audio Array,AI-03,FBA76863,B0BPM2T7BQ,Amazon,FBA,Audio Interface,Audio Interface,,8.0,17439.42,2179.93
 Week 30,Audio Array,AI-04 PRO,FBA80181,BUNDLE_FBA80181,Open Order,,Audio Interface,Audio Interface,,1000.0,0.0,0.0
 Week 30,Audio Array,AI-04 RED,FBA76864,B0BPLZ5CGV,1P,,Audio Interface,Audio Interface,,803.0,1738956.31,2165.57
 Week 30,Audio Array,AI-04 RED,FBA76864,B0BPLZ5CGV,AMPM,,Audio Interface,Audio Interface,,1933.0,4186055.47,2165.57
@@ -28184,7 +28184,7 @@ Week 30,Audio Array,AM-C48,FBA79842,B0G4DNF8RZ,AMPM,,Microphone Dynamic,Micropho
 Week 30,Audio Array,AM-C48,FBA79842,B0G4DNF8RZ,Amazon,FBA,Microphone Dynamic,Microphone Dynamic,,23.0,44989.39,1956.06
 Week 30,Audio Array,AM-C49,FBA79996,B0GW8Z556N,1P,,Microphone Dynamic,Vocal Microphone,,8.0,4277.25,534.66
 Week 30,Audio Array,AM-C49,FBA79996,B0GW8Z556N,AMPM,,Microphone Dynamic,Vocal Microphone,,371.0,198357.59,534.66
-Week 30,Audio Array,AM-C49,FBA79996,B0GW8Z556N,Amazon,FBA,Microphone Dynamic,Vocal Microphone,,39.0,20851.61,534.66
+Week 30,Audio Array,AM-C49,FBA79996,B0GW8Z556N,Amazon,FBA,Microphone Dynamic,Vocal Microphone,,38.0,20316.95,534.66
 Week 30,Audio Array,AM-C5,FBA75677,B0B4KC7VBM,1P,,Microphone Conference,Conference Microphone,,68.0,87853.26,1291.96
 Week 30,Audio Array,AM-C5,FBA75677,B0B4KC7VBM,AMPM,,Microphone Conference,Conference Microphone,,1762.0,2276432.98,1291.96
 Week 30,Audio Array,AM-C5,FBA75677,B0B4KC7VBM,Amazon,FBA,Microphone Conference,Conference Microphone,,38.0,49094.47,1291.96
@@ -28635,13 +28635,13 @@ Week 30,Fossil,DZ5613,FBA79806,B07T2XYHYD,Amazon,FBA,Traditional Watch,,,2.0,0.0
 Week 30,Fossil,DZ5618,FBA79899,B07T62YVHY,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
 Week 30,Fossil,DZ7395,FBA69579,B01MTYS3BW,Amazon,FBA,Traditional Watch,,,1.0,0.0,0.0
 Week 30,Fossil,DZ7487,FBA79807,B07T53T1KV,Amazon,FBA,Traditional Watch,,,2.0,0.0,0.0
-Week 30,Fossil,ES2811,FBA66636,B004D4S7AY,Amazon,FBA,Traditional Watch,,,176.0,0.0,0.0
+Week 30,Fossil,ES2811,FBA66636,B004D4S7AY,Amazon,FBA,Traditional Watch,,,175.0,0.0,0.0
 Week 30,Fossil,ES3020,FBA66627,B007NM84PQ,Amazon,FBA,Traditional Watch,,,26.0,0.0,0.0
 Week 30,Fossil,ES3284,FBA66633,B00AFTT8KE,Amazon,FBA,Traditional Watch,,,12.0,0.0,0.0
 Week 30,Fossil,ES3352,FBA70542,B00DUCIUDY,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
 Week 30,Fossil,ES3405,FBA66654,B00FF8CDSO,Amazon,FBA,Traditional Watch,,,1.0,0.0,0.0
 Week 30,Fossil,ES3466,FBA67801,B00HVBJ6W4,Amazon,FBA,Traditional Watch,,,484.0,0.0,0.0
-Week 30,Fossil,ES3843,FBA66964,B00WM0CF4A,Amazon,FBA,Traditional Watch,,,82.0,0.0,0.0
+Week 30,Fossil,ES3843,FBA66964,B00WM0CF4A,Amazon,FBA,Traditional Watch,,,81.0,0.0,0.0
 Week 30,Fossil,ES4433,FBA69595,B07CSNG8XL,Amazon,FBA,Traditional Watch,,,93.0,0.0,0.0
 Week 30,Fossil,ES4519,FBA70769,B07M7P7VLX,Amazon,FBA,Traditional Watch,,,4.0,0.0,0.0
 Week 30,Fossil,ES4628,FBA71628,B07RZ1R1HJ,Amazon,FBA,Traditional Watch,,,23.0,0.0,0.0
@@ -28682,7 +28682,7 @@ Week 30,Fossil,ES5421,FBA79877,B0FCVHPY4B,Amazon,FBA,Traditional Watch,,,3.0,0.0
 Week 30,Fossil,ES5422,FBA79878,B0FCVGHVV7,Amazon,FBA,Traditional Watch,,,3.0,0.0,0.0
 Week 30,Fossil,ES5434,FBA79879,B0FCVBY986,Amazon,FBA,Traditional Watch,,,4.0,0.0,0.0
 Week 30,Fossil,ES5438,FBA79928,B0FTMRC37L,Amazon,FBA,Traditional Watch,,,7.0,0.0,0.0
-Week 30,Fossil,ES5439,FBA79929,B0FTMLYC74,Amazon,FBA,Traditional Watch,,,73.0,0.0,0.0
+Week 30,Fossil,ES5439,FBA79929,B0FTMLYC74,Amazon,FBA,Traditional Watch,,,72.0,0.0,0.0
 Week 30,Fossil,ES5443,FBA79930,B0FS5QZRYB,Amazon,FBA,Traditional Watch,,,16.0,0.0,0.0
 Week 30,Fossil,ES5444,FBA79931,B0FTMMNCK7,Amazon,FBA,Traditional Watch,,,12.0,0.0,0.0
 Week 30,Fossil,ES5451,FBA79932,B0FTML3VHG,Amazon,FBA,Traditional Watch,,,21.0,0.0,0.0
@@ -28694,11 +28694,11 @@ Week 30,Fossil,ES5473,FBA80230,B0GTC2MW2C,Amazon,FBA,Traditional Watch,,,1.0,0.0
 Week 30,Fossil,ES5477,FBA80231,B0GTC3BMTN,Amazon,FBA,Traditional Watch,,,1.0,0.0,0.0
 Week 30,Fossil,ES5478,FBA80232,B0GTC7QS9P,Amazon,FBA,Traditional Watch,,,3.0,0.0,0.0
 Week 30,Fossil,FS4656,FBA66628,B00DH9NPBM,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
-Week 30,Fossil,FS4735,FBA74721,B00AMWDOEK,Amazon,FBA,Traditional Watch,,,9.0,0.0,0.0
+Week 30,Fossil,FS4735,FBA74721,B00AMWDOEK,Amazon,FBA,Traditional Watch,,,8.0,0.0,0.0
 Week 30,Fossil,FS4795,FBA66963,B00AG37H8Y,Amazon,FBA,Traditional Watch,,,79.0,0.0,0.0
 Week 30,Fossil,FS4812,FBA66648,B00AFTTQQ0,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
 Week 30,Fossil,FS4813,FBA66640,B00AFTTQ8I,Amazon,FBA,Traditional Watch,,,1.0,0.0,0.0
-Week 30,Fossil,FS4867,FBA80093,B00H2ZDX00,Amazon,FBA,Traditional Watch,,,844.0,0.0,0.0
+Week 30,Fossil,FS4867,FBA80093,B00H2ZDX00,Amazon,FBA,Traditional Watch,,,843.0,0.0,0.0
 Week 30,Fossil,FS5151,FBS66987,B017SN1OI8,Amazon,FBA,Traditional Watch,,,611.0,0.0,0.0
 Week 30,Fossil,FS5164,FBA75262,B0183NW5H6,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
 Week 30,Fossil,FS5237,FBA74358,B01KNMEVDG,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
@@ -28732,7 +28732,7 @@ Week 30,Fossil,FS6090,FBA79640,B0DJ2V3TH2,Amazon,FBA,Traditional Watch,,,13.0,0.
 Week 30,Fossil,FS6094,FBA79641,B0DJ2VFZWN,Amazon,FBA,Traditional Watch,,,23.0,0.0,0.0
 Week 30,Fossil,FS6104,FBA79746,B0DSBQDZNV,Amazon,FBA,Traditional Watch,,,26.0,0.0,0.0
 Week 30,Fossil,FS6105,FBA79747,B0DSBQL4PK,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
-Week 30,Fossil,FS6106,FBA79748,B0DSBSGK17,Amazon,FBA,Traditional Watch,,,29.0,0.0,0.0
+Week 30,Fossil,FS6106,FBA79748,B0DSBSGK17,Amazon,FBA,Traditional Watch,,,30.0,0.0,0.0
 Week 30,Fossil,FS6107,FBA79749,B0DSBQN2B9,Amazon,FBA,Traditional Watch,,,2.0,0.0,0.0
 Week 30,Fossil,FS6108,FBA79750,B0DSBPT3J3,Amazon,FBA,Traditional Watch,,,9.0,0.0,0.0
 Week 30,Fossil,FS6110,FBA79752,B0DSBT4S4K,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
@@ -28741,7 +28741,7 @@ Week 30,Fossil,FS6112,FBA79754,B0DSBQYVSM,Amazon,FBA,Traditional Watch,,,10.0,0.
 Week 30,Fossil,FS6113,FBA79755,B0DSBRWZ8N,Amazon,FBA,Traditional Watch,,,16.0,0.0,0.0
 Week 30,Fossil,FS6128,FBA79880,B0FJ2SQTNR,Amazon,FBA,Traditional Watch,,,4.0,0.0,0.0
 Week 30,Fossil,FS6129,FBA79881,B0FCVBJX29,Amazon,FBA,Traditional Watch,,,5.0,0.0,0.0
-Week 30,Fossil,FS6131,FBA79882,B0FCVPBY7Y,Amazon,FBA,Traditional Watch,,,281.0,0.0,0.0
+Week 30,Fossil,FS6131,FBA79882,B0FCVPBY7Y,Amazon,FBA,Traditional Watch,,,280.0,0.0,0.0
 Week 30,Fossil,FS6132,FBA79883,B0FCVRKB8C,Amazon,FBA,Traditional Watch,,,22.0,0.0,0.0
 Week 30,Fossil,FS6133,FBA79884,B0FCVFDZP7,Amazon,FBA,Traditional Watch,,,10.0,0.0,0.0
 Week 30,Fossil,FS6139,FBA79934,B0FTKNBJY4,Amazon,FBA,Traditional Watch,,,2.0,0.0,0.0
@@ -28749,7 +28749,7 @@ Week 30,Fossil,FS6140,FBA79935,B0FTK3KCY6,Amazon,FBA,Traditional Watch,,,3.0,0.0
 Week 30,Fossil,FS6144,FBA79937,B0FTK7KQ1P,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
 Week 30,Fossil,FS6145SET,FBA79938,B0FTL6PH2Z,Amazon,FBA,Traditional Watch,,,0.0,0.0,0.0
 Week 30,Fossil,FS6149,FBA79939,B0FTMNTYMX,Amazon,FBA,Traditional Watch,,,4.0,0.0,0.0
-Week 30,Fossil,FS6150,FBA79940,B0FTK1RVG8,Amazon,FBA,Traditional Watch,,,12.0,0.0,0.0
+Week 30,Fossil,FS6150,FBA79940,B0FTK1RVG8,Amazon,FBA,Traditional Watch,,,11.0,0.0,0.0
 Week 30,Fossil,FS6151,FBA79941,B0FTKWD4HQ,Amazon,FBA,Traditional Watch,,,9.0,0.0,0.0
 Week 30,Fossil,FS6154,FBA80044,B0GF78441L,Amazon,FBA,Traditional Watch,,,6.0,0.0,0.0
 Week 30,Fossil,FS6161,FBA80045,B0GF7GZ4K7,Amazon,FBA,Traditional Watch,,,8.0,0.0,0.0
@@ -28759,7 +28759,7 @@ Week 30,Fossil,FS6164,FBA80068,B0GF7JSSRF,Amazon,FBA,Traditional Watch,,,14.0,0.
 Week 30,Fossil,FS6166,FBA80233,B0GTBY76NG,Amazon,FBA,Traditional Watch,,,3.0,0.0,0.0
 Week 30,Fossil,FS6169,FBA80234,B0GTCF15F4,Amazon,FBA,Traditional Watch,,,2.0,0.0,0.0
 Week 30,Fossil,JR1401,FBA66974,B008AXYWHQ,Amazon,FBA,Traditional Watch,,,844.0,0.0,0.0
-Week 30,Fossil,JR1487,FBA70527,B00NVAWTLY,Amazon,FBA,Traditional Watch,,,235.0,0.0,0.0
+Week 30,Fossil,JR1487,FBA70527,B00NVAWTLY,Amazon,FBA,Traditional Watch,,,234.0,0.0,0.0
 Week 30,Fossil,ME3061,FBA66995,B00PW3J8LM,Amazon,FBA,Traditional Watch,,,7.0,0.0,0.0
 Week 30,Fossil,ME3098,FBA67803,B01487C7CO,Amazon,FBA,Traditional Watch,,,22.0,0.0,0.0
 Week 30,Fossil,ME3154,FBO76876,B0769YW2KN,Amazon,FBA,Traditional Watch,,,8.0,0.0,0.0
@@ -28923,7 +28923,7 @@ Week 30,Nexlev,CR-01,FBA79265,B0D2LHNS9B,Amazon,FBA,HPC,Skin Care,Callus Remover
 Week 30,Nexlev,CR-01,FBA79265,B0D2LHNS9B,B2B - AMPM,,HPC,Skin Care,Callus Remover,90.0,47970.0,533.0
 Week 30,Nexlev,DF-01-BK,FBA79174,B0CW1JJP9S,Amazon,FBA,HPC,Oral Care,Dental Flosser,0.0,0.0,1073.0
 Week 30,Nexlev,DH-01,FBA79991,B0GN85NZQN,AMPM,,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,1.0,0.0,0.0
-Week 30,Nexlev,DH-01,FBA79991,B0GN85NZQN,Amazon,FBA,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,160.0,0.0,0.0
+Week 30,Nexlev,DH-01,FBA79991,B0GN85NZQN,Amazon,FBA,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,159.0,0.0,0.0
 Week 30,Nexlev,DH-01,FBA79991,B0GN85NZQN,Open Order,,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,207.0,0.0,0.0
 Week 30,Nexlev,DH-01,FBA79991,B0GN85NZQN,Pipeline,,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,252.0,0.0,0.0
 Week 30,Nexlev,EA-01,FBP79350,B0D67727VG,AMPM,,HPC,Hair Care,Hair Oil Applicator,252.0,178920.0,710.0
@@ -28966,7 +28966,7 @@ Week 30,Nexlev,ETR-06,FBA79381,B0D9KCNVNM,YNT,,HPC,Oral Care,Electric Toothbrush
 Week 30,Nexlev,FM-01,FBA79592,B0DMSMKRD9,AMPM,,HPC,Electric Massagers,Foot Massager,1.0,1837.0,1837.0
 Week 30,Nexlev,FM-02,FBA79593,B0DMSSLXST,AMPM,,HPC,Electric Massagers,Foot Massager - Mini,10.0,8900.0,890.0
 Week 30,Nexlev,FS-01,FBA79404,B0D9KFZYG8,AMPM,,HPC,Skin Care,Face Steamer,1339.0,1199744.0,896.0
-Week 30,Nexlev,FS-01,FBA79404,B0D9KFZYG8,Amazon,FBA,HPC,Skin Care,Face Steamer,182.0,163072.0,896.0
+Week 30,Nexlev,FS-01,FBA79404,B0D9KFZYG8,Amazon,FBA,HPC,Skin Care,Face Steamer,202.0,180992.0,896.0
 Week 30,Nexlev,FS-01,FBA79404,B0D9KFZYG8,Blinkit,,HPC,Skin Care,Face Steamer,40.0,35840.0,896.0
 Week 30,Nexlev,FS-01,FBA79404,B0D9KFZYG8,YNT,,HPC,Skin Care,Face Steamer,9.0,8064.0,896.0
 Week 30,Nexlev,GS-01,FBK78979,B0CDPQXPC1,AMPM,,Home & Kitchen,Fabric Care,Garment steamer,9.0,0.0,0.0
@@ -29071,7 +29071,7 @@ Week 30,Nexlev,LR-03,FBA79819,B0FT8R24QM,B2B - AMPM,,Home & Kitchen,Fabric Care,
 Week 30,Nexlev,LR-03,FBA79819,B0FT8R24QM,Blinkit,,Home & Kitchen,Fabric Care,Lint Remover,24.0,3480.0,145.0
 Week 30,Nexlev,LR-03,FBA79819,B0FT8R24QM,YNT,,Home & Kitchen,Fabric Care,Lint Remover,9.0,1305.0,145.0
 Week 30,Nexlev,MC-01,FBA79811,B0FSF1N457,AMPM,,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper,683.0,202851.0,297.0
-Week 30,Nexlev,MC-01,FBA79811,B0FSF1N457,Amazon,FBA,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper,126.0,37422.0,297.0
+Week 30,Nexlev,MC-01,FBA79811,B0FSF1N457,Amazon,FBA,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper,125.0,37125.0,297.0
 Week 30,Nexlev,MC-01,FBA79811,B0FSF1N457,B2B - AMPM,,Home & Kitchen,Kitchen Appliances,Electric Mini Chopper,195.0,57915.0,297.0
 Week 30,Nexlev,MF-01,FBA79810,B0FS7T8151,AMPM,,Home & Kitchen,Kitchen Appliances,Milk Frother,1627.0,424647.0,261.0
 Week 30,Nexlev,MF-01,FBA79810,B0FS7T8151,Amazon,FBA,Home & Kitchen,Kitchen Appliances,Milk Frother,20.0,5220.0,261.0
@@ -29093,6 +29093,7 @@ Week 30,Nexlev,MR-01,FBA79263,B0CYSLCRQS,Open Order,,Home & Kitchen,Cleaning & V
 Week 30,Nexlev,MR-01,FBA79263,B0CYSLCRQS,Pipeline,,Home & Kitchen,Cleaning & Vacumming,Mite Remover,1002.0,1164324.0,1162.0
 Week 30,Nexlev,MR-01,FBA79263,B0CYSLCRQS,YNT,,Home & Kitchen,Cleaning & Vacumming,Mite Remover,5.0,5810.0,1162.0
 Week 30,Nexlev,MR-01 HEPA FILTER,FBA79436,B0DGTGKPJR,Amazon,FBA,Home & Kitchen,HEPA Filter,Spares,10.0,350.0,35.0
+Week 30,Nexlev,MR-01_PART,FBA80111,B0GYSS16FJ,Amazon,FBA,,,,30.0,0.0,0.0
 Week 30,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,AMPM,,Home & Kitchen,Cleaning & Vacumming,Mite Remover,18.0,24858.0,1381.0
 Week 30,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Mite Remover,287.0,396347.0,1381.0
 Week 30,Nexlev,MR-02,FBA79439,B0DCK7ZH5P,B2B - AMPM,,Home & Kitchen,Cleaning & Vacumming,Mite Remover,17.0,23477.0,1381.0
@@ -29139,14 +29140,14 @@ Week 30,Nexlev,SC-02,FBA79262,B0CYSMBCB8,B2B - AMPM,,Home & Kitchen,Cleaning & V
 Week 30,Nexlev,SC-03,FBA79277,B0D672NXC8,AMPM,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,11.0,44572.0,4052.0
 Week 30,Nexlev,SC-03,FBA79277,B0D672NXC8,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2.0,8104.0,4052.0
 Week 30,Nexlev,SC-04,FBA79567,B0DNJS23HS,AMPM,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,57.0,153615.0,2695.0
-Week 30,Nexlev,SC-04,FBA79567,B0DNJS23HS,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,343.0,924385.0,2695.0
+Week 30,Nexlev,SC-04,FBA79567,B0DNJS23HS,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,342.0,921690.0,2695.0
 Week 30,Nexlev,SC-04,FBA79567,B0DNJS23HS,Open Order,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1948.0,5249860.0,2695.0
 Week 30,Nexlev,SC-04,FBA79567,B0DNJS23HS,Pipeline,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1052.0,2835140.0,2695.0
 Week 30,Nexlev,SC-04,FBA79567,B0DNJS23HS,YNT,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2.0,5390.0,2695.0
 Week 30,Nexlev,SC-04 SET OF 2 MOPS,FBA79714,B0F2N1HTBT,Amazon,FBA,Home & Kitchen,Set of 2 Mops,Spares,10.0,0.0,0.0
 Week 30,Nexlev,SC-04 SPARE SET,FBA79843,B0FMF1D9NV,Amazon,FBA,Home & Kitchen,Spare Set,Spares,32.0,1280.0,40.0
 Week 30,Nexlev,SC-05,FBA79652,B0F43P6D23,AMPM,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,4.0,5772.0,1443.0
-Week 30,Nexlev,SC-05,FBA79652,B0F43P6D23,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,380.0,548340.0,1443.0
+Week 30,Nexlev,SC-05,FBA79652,B0F43P6D23,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,379.0,546897.0,1443.0
 Week 30,Nexlev,SC-05,FBA79652,B0F43P6D23,Blinkit,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,46.0,66378.0,1443.0
 Week 30,Nexlev,SC-05,FBA79652,B0F43P6D23,Open Order,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3504.0,5056272.0,1443.0
 Week 30,Nexlev,SC-05,FBA79652,B0F43P6D23,Pipeline,,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1002.0,1445886.0,1443.0
@@ -29156,7 +29157,7 @@ Week 30,Nexlev,SM-01,FBA79276,B0D2LJSQXZ,AMPM,,Home & Kitchen,Cleaning & Vacummi
 Week 30,Nexlev,SM-01,FBA79276,B0D2LJSQXZ,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Steam Mop,189.0,445473.0,2357.0
 Week 30,Nexlev,SM-01,FBA79276,B0D2LJSQXZ,B2B - AMPM,,Home & Kitchen,Cleaning & Vacumming,Steam Mop,36.0,84852.0,2357.0
 Week 30,Nexlev,SP-01,FBA79971,B0GGHZWMVW,AMPM,,,,,12.0,0.0,0.0
-Week 30,Nexlev,SP-01,FBA79971,B0GGHZWMVW,Amazon,FBA,,,,226.0,0.0,0.0
+Week 30,Nexlev,SP-01,FBA79971,B0GGHZWMVW,Amazon,FBA,,,,225.0,0.0,0.0
 Week 30,Nexlev,SP-01,FBA79971,B0GGHZWMVW,Open Order,,,,,2000.0,0.0,0.0
 Week 30,Nexlev,SP-02,FBA80215,BUNDLE_FBA80215,Open Order,,,,,1000.0,0.0,0.0
 Week 30,Nexlev,SPM-01,FBA79468,B0DCK7J87D,AMPM,,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,363.0,1007325.0,2775.0
@@ -29205,7 +29206,7 @@ Week 30,Nexlev,TIC-04,FBA79475,B0DJFJZMC6,AMPM,,Home & Kitchen,Car Accessories,T
 Week 30,Nexlev,TIC-04,FBA79475,B0DJFJZMC6,Amazon,FBA,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless,0.0,0.0,1392.0
 Week 30,Nexlev,TIC-04,FBA79475,B0DJFJZMC6,B2B - AMPM,,Home & Kitchen,Car Accessories,Tyre Inflators - Cordless,20.0,27840.0,1392.0
 Week 30,Nexlev,TM-01,FBA79467,B0DK9LYT4P,AMPM,,HPC,Trimmers & Body Groomers,Men's Beard Trimmer,69.0,33327.0,483.0
-Week 30,Nexlev,TM-01,FBA79467,B0DK9LYT4P,Amazon,FBA,HPC,Trimmers & Body Groomers,Men's Beard Trimmer,47.0,22701.0,483.0
+Week 30,Nexlev,TM-01,FBA79467,B0DK9LYT4P,Amazon,FBA,HPC,Trimmers & Body Groomers,Men's Beard Trimmer,46.0,22218.0,483.0
 Week 30,Nexlev,TM-01,FBA79467,B0DK9LYT4P,B2B - AMPM,,HPC,Trimmers & Body Groomers,Men's Beard Trimmer,123.0,59409.0,483.0
 Week 30,Nexlev,TM-01,FBA79467,B0DK9LYT4P,Blinkit,,HPC,Trimmers & Body Groomers,Men's Beard Trimmer,7.0,3381.0,483.0
 Week 30,Nexlev,TM-02,FBA79481,B0DFMRG2K4,AMPM,,HPC,Trimmers & Body Groomers,Intimate Trimmer,244.0,317688.0,1302.0
@@ -29251,7 +29252,7 @@ Week 30,Nexlev,VC-03,FBA79480,B0DDC3GVZW,B2B - AMPM,,Home & Kitchen,Cleaning & V
 Week 30,Nexlev,VC-03,FBA79480,B0DDC3GVZW,YNT,,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,76.0,61028.0,803.0
 Week 30,Nexlev,VC-03 HEPA,FBA79775,B0F67775SH,Amazon,FBA,Home & Kitchen,HEPA,Spares,10.0,450.0,45.0
 Week 30,Nexlev,VC-04,FBA79565,B0DKJZDY72,AMPM,,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,314.0,349168.0,1112.0
-Week 30,Nexlev,VC-04,FBA79565,B0DKJZDY72,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,36.0,40032.0,1112.0
+Week 30,Nexlev,VC-04,FBA79565,B0DKJZDY72,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,35.0,38920.0,1112.0
 Week 30,Nexlev,VC-04,FBA79565,B0DKJZDY72,B2B - AMPM,,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,96.0,106752.0,1112.0
 Week 30,Nexlev,VC-05,FBA79566,B0DKJSCLBD,AMPM,,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,478.0,508114.0,1063.0
 Week 30,Nexlev,VC-05,FBA79566,B0DKJSCLBD,Amazon,FBA,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,41.0,43583.0,1063.0
@@ -29344,7 +29345,7 @@ Week 30,White Mulberry,6780-4679-WHT-SIOC,FBA76408,B0BFBLLZJG,AMPM,,Shoe Rack,Sh
 Week 30,White Mulberry,HD1ML,FBA79616,B0DP3194QN,AMPM,,Monitor Arm,Monitor Arm,,4.0,6264.0,1566.0
 Week 30,White Mulberry,HD1ML,FBA79616,B0DP3194QN,Amazon,FBA,Monitor Arm,Monitor Arm,,0.0,0.0,1566.0
 Week 30,White Mulberry,HDGS1ML,FBK79793,B0FN81FD8M,AMPM,,Monitor Arm,Monitor Arm,,4.0,12800.0,3200.0
-Week 30,White Mulberry,HDGS1ML,FBK79793,B0FN81FD8M,Amazon,FBA,Monitor Arm,Monitor Arm,,1.0,3200.0,3200.0
+Week 30,White Mulberry,HDGS1ML,FBK79793,B0FN81FD8M,Amazon,FBA,Monitor Arm,Monitor Arm,,0.0,0.0,3200.0
 Week 30,White Mulberry,HDMSP1ML,FBK79792,B0FN4JG97R,Amazon,FBA,Monitor Arm,Monitor Arm,,3.0,6129.0,2043.0
 Week 30,White Mulberry,HDWF1ML,FBA79617,B0DP32F346,1P,,Monitor Arm,Monitor Arm,,61.0,0.0,0.0
 Week 30,White Mulberry,HDWF1ML,FBA79617,B0DP32F346,AMPM,,Monitor Arm,Monitor Arm,,137.0,171798.0,1254.0
@@ -29352,7 +29353,7 @@ Week 30,White Mulberry,HDWF1ML,FBA79617,B0DP32F346,Amazon,FBA,Monitor Arm,Monito
 Week 30,White Mulberry,HDWF1ML,FBA79617,B0DP32F346,B2B - AMPM,,Monitor Arm,Monitor Arm,,2.0,2508.0,1254.0
 Week 30,White Mulberry,HDWF1ML,FBA79617,B0DP32F346,YNT,,Monitor Arm,Monitor Arm,,2.0,2508.0,1254.0
 Week 30,White Mulberry,MS1ML,FBA79613,B0DP2VVRND,1P,,Monitor Arm,Monitor Arm,,138.0,0.0,0.0
-Week 30,White Mulberry,MS1ML,FBA79613,B0DP2VVRND,Amazon,FBA,Monitor Arm,Monitor Arm,,26.0,18720.0,720.0
+Week 30,White Mulberry,MS1ML,FBA79613,B0DP2VVRND,Amazon,FBA,Monitor Arm,Monitor Arm,,27.0,19440.0,720.0
 Week 30,White Mulberry,MS1ML,FBA79613,B0DP2VVRND,B2B - AMPM,,Monitor Arm,Monitor Arm,,5.0,3600.0,720.0
 Week 30,White Mulberry,MS2ML,FBA79614,B0DP313R77,Amazon,FBA,Monitor Arm,Monitor Arm,,0.0,0.0,1015.0
 Week 30,White Mulberry,POS2M,FBK79784,B0FN4FHH5Y,AMPM,,Monitor Arm,POS Stand,,8.0,16128.0,2016.0
@@ -29361,7 +29362,7 @@ Week 30,White Mulberry,POS2MK,FBK79785,B0FN4HDBN5,AMPM,,Monitor Arm,POS Stand,,1
 Week 30,White Mulberry,POSS-01,FBK79786,B0FN4FPJ83,AMPM,,Monitor Arm,POS Stand,,82.0,48298.0,589.0
 Week 30,White Mulberry,POSS-01,FBK79786,B0FN4FPJ83,Amazon,FBA,Monitor Arm,POS Stand,,66.0,38874.0,589.0
 Week 30,White Mulberry,TVCF1ML,FBK79787,B0FN4GQ9HT,AMPM,,Monitor Arm,TV Wall Mount,,494.0,86450.0,175.0
-Week 30,White Mulberry,TVCF1ML,FBK79787,B0FN4GQ9HT,Amazon,FBA,Monitor Arm,TV Wall Mount,,84.0,14700.0,175.0
+Week 30,White Mulberry,TVCF1ML,FBK79787,B0FN4GQ9HT,Amazon,FBA,Monitor Arm,TV Wall Mount,,88.0,15400.0,175.0
 Week 30,White Mulberry,TVCT1ML,FBK79788,B0FN4D3C89,Amazon,FBA,Monitor Arm,TV Wall Mount,,7.0,791.0,113.0
 Week 30,White Mulberry,TVCT1ML,FBK79788,B0FN4D3C89,Pipeline,,Monitor Arm,TV Wall Mount,,1008.0,113904.0,113.0
 Week 30,White Mulberry,TVFM1ML,FBK79791,B0FN4HDM6Z,AMPM,,Monitor Arm,TV Wall Mount,,610.0,441640.0,724.0
@@ -29369,7 +29370,7 @@ Week 30,White Mulberry,TVFM1ML,FBK79791,B0FN4HDM6Z,Amazon,FBA,Monitor Arm,TV Wal
 Week 30,White Mulberry,TVLF1ML,FBA79790,B0FHVWHQHR,Amazon,FBA,Monitor Arm,TV Wall Mount,,96.0,22080.0,230.0
 Week 30,White Mulberry,TVLF1ML,FBK79790,B0FN4GJ9S1,AMPM,,Monitor Arm,TV Wall Mount,,623.0,143290.0,230.0
 Week 30,White Mulberry,TVMF1ML,FBK79789,B0FN4DSQ6P,AMPM,,Monitor Arm,TV Wall Mount,,16.0,2864.0,179.0
-Week 30,White Mulberry,TVMF1ML,FBK79789,B0FN4DSQ6P,Amazon,FBA,Monitor Arm,TV Wall Mount,,87.0,15573.0,179.0
+Week 30,White Mulberry,TVMF1ML,FBK79789,B0FN4DSQ6P,Amazon,FBA,Monitor Arm,TV Wall Mount,,86.0,15394.0,179.0
 Week 30,White Mulberry,VLMS1ML,FBA79615,B0DP2Z5DQ9,AMPM,,Monitor Arm,Monitor Arm,,254.0,287020.0,1130.0
 Week 30,White Mulberry,VLMS1ML,FBA79615,B0DP2Z5DQ9,Amazon,FBA,Monitor Arm,Monitor Arm,,29.0,32770.0,1130.0
 Week 30,White Mulberry,VLMS1ML,FBA79615,B0DP2Z5DQ9,B2B - AMPM,,Monitor Arm,Monitor Arm,,3.0,3390.0,1130.0
@@ -29421,7 +29422,7 @@ Week 30,White Mulberry,WM-USE06-BK,FBA79164,B0CPFN27Z2,Amazon,FBA,Desk-Adjustabl
 Week 30,White Mulberry,WM-USE06-WH,FBA79165,B0CPFPT6DZ,Amazon,FBA,Desk-Adjustable,USB-Motorized,,0.0,0.0,11345.0
 Week 30,White Mulberry,WM1ML,FBA79612,B0DP2WC5VW,1P,,Monitor Arm,Monitor Arm,,3.0,0.0,0.0
 Week 30,White Mulberry,WM1ML,FBA79612,B0DP2WC5VW,AMPM,,Monitor Arm,Monitor Arm,,3.0,3222.0,1074.0
-Week 30,White Mulberry,WM1ML,FBA79612,B0DP2WC5VW,Amazon,FBA,Monitor Arm,Monitor Arm,,12.0,12888.0,1074.0
+Week 30,White Mulberry,WM1ML,FBA79612,B0DP2WC5VW,Amazon,FBA,Monitor Arm,Monitor Arm,,10.0,10740.0,1074.0
 Week 30,White Mulberry,WM1ML,FBA79612,B0DP2WC5VW,B2B - AMPM,,Monitor Arm,Monitor Arm,,4.0,4296.0,1074.0
 Week 30,White Mulberry,WM1ML,FBA79612,B0DP2WC5VW,Pipeline,,Monitor Arm,Monitor Arm,,1000.0,1074000.0,1074.0
 Week 4,Audio Array,AA-01,FBA75678,B0B4G8PH2P,1P,1P,Microphone Accessories,Accessories,,16.0,18070.97,1129.44

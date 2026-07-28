@@ -539,6 +539,20 @@
     ],
     "profile_id": "3563790765020958"
   },
+  "WM- SBV- Monitor Arm- Product Collection- Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T",
+      "B0DP32F346",
+      "B0DB5YTQZV",
+      "B0DB5VVPSB",
+      "B0DP2VVRND"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "3563790765020958"
+  },
   "WM- SBV- Monitor Arm- B0DB5VG39T- Exact": {
     "brand": "White Mulberry",
     "asins": [
@@ -1653,6 +1667,16 @@
     "brand": "Audio Array",
     "asins": [
       "B0DXFPM4N2"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0GKPXQ8G3_Wireless Mic_SBV": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0GKPXQ8G3"
     ],
     "ad_types": [
       "VIDEO"
@@ -3221,6 +3245,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-Steam Cleaner-B0CDPP45BM-SBV-BM2": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0CYSLCRQS_Sofa Cleaning Machine_SBV_PT": {
     "brand": "Nexlev",
     "asins": [
@@ -3321,6 +3355,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-Steam Cleaner-B0F43P6D23-SBV-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_Phrase": {
     "brand": "Nexlev",
     "asins": [
@@ -3345,6 +3389,16 @@
     "brand": "Nexlev",
     "asins": [
       "B0DCK7ZH5P"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Spot Cleaner Machine-B0GGHZWMVW-SBV-PT2": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
     ],
     "ad_types": [
       "VIDEO"
@@ -3391,6 +3445,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-Foldable Steam Cleaner-B0DNJS23HS-SBV-PT2": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_BM": {
     "brand": "Nexlev",
     "asins": [
@@ -3415,6 +3479,16 @@
     "brand": "Nexlev",
     "asins": [
       "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Steam Cleaner-B0F43P6D23-SBV-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
     ],
     "ad_types": [
       "VIDEO"
@@ -3461,6 +3535,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev-Steam Cleaner-B0CDPP45BM-SBV-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0F43P6D23_Steam Cleaner_SBV- PT": {
     "brand": "Nexlev",
     "asins": [
@@ -3495,6 +3579,26 @@
     "brand": "Nexlev",
     "asins": [
       "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Spot Cleaner Machine-B0GGHZWMVW-SBV-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Foldable Steam Cleaner-B0DNJS23HS-SBV-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
     ],
     "ad_types": [
       "VIDEO"

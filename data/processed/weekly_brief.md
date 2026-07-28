@@ -1,5 +1,5 @@
 # Weekly Brief — Week 30
-*Generated 2026-07-28T06:48:20.163587Z from data through Week 30*
+*Generated 2026-07-28T08:25:44.211798Z from data through Week 30*
 ## This week at a glance
 
 Week 30 closed at **₹83.14L GMV** (-9.0% WoW, +20.0% vs prior 4w) on **3,144 units** (-8.3% WoW). This was a soft week, led by **Audio Array** at 45% of portfolio GMV.
@@ -84,11 +84,11 @@ Ad spend **₹10.51L** (-0.2%) — ROAS **4.60x** · ACOS **21.7%** · TACOS **1
 
 ## Brand briefs
 
-**Audio Array** 🔴 — GMV ₹37.64L (-14.4% WoW) on 1,531 units (-9.6%). Top contributor **AM-W45** at ₹3.54L. Total stock 87,824 units. Ad spend ₹4.28L → ROAS 5.54x, ACOS 18.0%.
+**Audio Array** 🔴 — GMV ₹37.64L (-14.4% WoW) on 1,531 units (-9.6%). Top contributor **AM-W45** at ₹3.54L. Total stock 87,819 units. Ad spend ₹4.28L → ROAS 5.54x, ACOS 18.0%.
 
-**Nexlev** 🔴 — GMV ₹33.57L (-5.2% WoW) on 1,136 units (-6.1%). Top contributor **SP-01** at ₹5.80L. Total stock 81,256 units. Ad spend ₹4.66L → ROAS 3.81x, ACOS 26.2%.
+**Nexlev** 🔴 — GMV ₹33.57L (-5.2% WoW) on 1,136 units (-6.1%). Top contributor **SP-01** at ₹5.80L. Total stock 81,263 units. Ad spend ₹4.66L → ROAS 3.81x, ACOS 26.2%.
 
-**White Mulberry** 🟡 — GMV ₹9.14L (+0.6% WoW) on 332 units (-11.5%). Top contributor **WM-GD07-CB** at ₹2.26L. Total stock 6,758 units. Ad spend ₹1.41L → ROAS 3.81x, ACOS 26.2%.
+**White Mulberry** 🟡 — GMV ₹9.14L (+0.6% WoW) on 332 units (-11.5%). Top contributor **WM-GD07-CB** at ₹2.26L. Total stock 6,778 units. Ad spend ₹1.41L → ROAS 3.81x, ACOS 26.2%.
 
 **Tonor** 🔴 — GMV ₹2.80L (-5.8% WoW) on 145 units (-3.3%). Top contributor **K1** at ₹48.2K. Total stock 2,921 units. Ad spend ₹17.2K → ROAS 8.79x, ACOS 11.4%.
 

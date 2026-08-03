@@ -225,6 +225,33 @@ def parse_offers(payload: dict, seller_ids: dict[str, str],
         per_account[slug] = ((match.get("ListingPrice") or {}).get("Amount")
                              if match else None)
 
+    # Full per-offer list — Buy Box winner ranked first, then by price ascending
+    per_offer_rows = []
+    for o in offers:
+        price = ((o.get("ListingPrice") or {}).get("Amount"))
+        sid = o.get("SellerId")
+        per_offer_rows.append({
+            "seller_id":        sid,
+            "seller_name":      (seller_name_map.get(sid)
+                                 or (f"Other 3P ({sid})" if sid else None)),
+            "is_buybox_winner": bool(o.get("IsBuyBoxWinner")),
+            "is_fba":           bool(o.get("IsFulfilledByAmazon")),
+            "is_prime":         bool(((o.get("PrimeInformation") or {}).get("IsPrime"))),
+            "price":            price,
+            "shipping":         ((o.get("Shipping") or {}).get("Amount")),
+            "landed_price":     ((o.get("LandedPrice") or {}).get("Amount")),
+            "feedback_rating":  ((o.get("SellerFeedbackRating") or {})
+                                  .get("SellerPositiveFeedbackRating")),
+        })
+    # Rank: Buy Box winner = 1, others sorted by price asc
+    def _rank_key(row):
+        if row["is_buybox_winner"]:
+            return (0, row.get("landed_price") or float("inf"))
+        return (1, row.get("landed_price") or float("inf"))
+    per_offer_rows.sort(key=_rank_key)
+    for i, row in enumerate(per_offer_rows, 1):
+        row["seller_rank"] = i
+
     return {
         "buybox_price":       bb_price,
         "buybox_seller_name": bb_seller_name,
@@ -232,6 +259,7 @@ def parse_offers(payload: dict, seller_ids: dict[str, str],
         "amazon_1p_price":    amz_1p,
         "merchant_low_price": merchant_low,
         "offer_count":        oc,
+        "_offers":            per_offer_rows,   # exploded into second CSV
         **{f"price_{slug}": v for slug, v in per_account.items()},
     }
 
@@ -290,10 +318,14 @@ def main() -> int:
     tok = get_access_token("NEXLEV")
 
     rows = []
+    offer_rows = []   # long-format: one row per (asin, seller)
     fetched_at = datetime.now(timezone.utc).isoformat()
     for i, asin in enumerate(asins, 1):
         payload = fetch_offers(tok, asin)
         parsed = parse_offers(payload or {}, seller_ids, seller_name_map)
+        # Explode _offers into long-format sink
+        for o in (parsed.pop("_offers", None) or []):
+            offer_rows.append({"asin": asin, "fetched_at": fetched_at, **o})
         rows.append({"asin": asin, "fetched_at": fetched_at, **parsed})
         if i % 25 == 0:
             got = sum(1 for r in rows if r.get("amazon_1p_price") or r.get("buybox_price"))
@@ -320,6 +352,32 @@ def main() -> int:
     out_path = args.out if args.out.is_absolute() else (REPO_ROOT / args.out).resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out_path, index=False)
+
+    # Second CSV — long format, one row per (asin, seller).  Buy Box winner
+    # is seller_rank=1 for each ASIN.  This is the file to use when asking
+    # "who else is on this Buy Box + at what price".
+    offers_path = out_path.with_name(out_path.stem + "_offers" + out_path.suffix)
+    if offer_rows:
+        odf = pd.DataFrame(offer_rows)
+        # Attach sku/brand/model from master lookup for downstream filtering
+        odf = odf.merge(
+            master[["ASIN", "sku", "Brand", "Model"]].rename(
+                columns={"ASIN": "asin", "Brand": "brand", "Model": "model"}
+            ),
+            on="asin", how="left",
+        )
+        # Sensible column order
+        front = ["asin", "sku", "brand", "model", "seller_rank",
+                 "seller_id", "seller_name", "is_buybox_winner",
+                 "price", "landed_price", "shipping",
+                 "is_fba", "is_prime", "feedback_rating", "fetched_at"]
+        odf = odf[[c for c in front if c in odf.columns]]
+        odf.to_csv(offers_path, index=False)
+        try:
+            print(f"✓ wrote {offers_path.relative_to(REPO_ROOT)} "
+                  f"({len(odf)} offer rows across {odf['asin'].nunique()} ASINs)")
+        except ValueError:
+            print(f"✓ wrote {offers_path} ({len(odf)} offer rows)")
 
     print()
     try:

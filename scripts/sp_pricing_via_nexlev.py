@@ -1,46 +1,82 @@
-"""SP-API Pricing puller — Amazon 1P + Buy Box + per-account 3P prices
-via Nexlev's Pricing-scoped token.
+"""Buy Box owner puller — for every ASIN, WHO owns the Buy Box today?
 
-Workaround for the AA/WM/CRPL Pricing-scope gap (their refresh_tokens
-pre-date the Pricing role addition to the AdPilot LWA app 2026-07-16;
-reauth pending).  Nexlev's Amazon Inbound LWA app HAS Pricing scope,
-and getItemOffers returns ALL offers on ANY ASIN regardless of the
-calling account — so we can pull Buy Box + Amazon 1P + 3P offers for
-every non-Fossil brand via Nexlev's token alone.
+Answers the operator question: for our brands' ASINs on Amazon.in, is
+Amazon (1P), us (our seller account), or a competitor 3P reseller
+winning the Buy Box right now — and at what price?
 
-Endpoint: GET /products/pricing/v0/items/{ASIN}/offers
-  Returns:
-    Summary.BuyBoxPrices[]        — Buy Box winner (any fulfillment)
-    Summary.LowestPrices[]        — lowest per fulfillmentChannel
-                                    (Amazon = 1P, Merchant = 3P)
-    Offers[]                      — every seller's offer with SellerId,
-                                    LandedPrice, PrimeInformation, etc.
+## Use cases
 
-Rate limit: ~1 req/sec sustained.  Puller runs at 0.55s sleep to stay
-under that.  ~230 AA + 35 Tonor + N Nexlev + N WM ASINs → 4-6 min.
+  Investigate 1P Buy Box:  --brand audio_array
+                            --brand tonor
+       Both brands have Amazon 1P vendor sales.  This shows which
+       ASINs Amazon India (SellerId A21TJRUUN4KGV) actually wins
+       Buy Box on vs which get taken by a 3P reseller (yours or
+       competitor).
 
-Per-account 3P attribution:
-  Uses `data/master/our_seller_ids.json` — {brand_key: SellerId, ...}.
-  When present, Offers[] gets filtered by SellerId and each account's
-  landed price populates `price_<account>` columns.
-  When absent OR seller_id not in the offers, that column is null.
+  Investigate 3P Buy Box:  --brand nexlev
+                            --brand white_mulberry
+       Both brands sell primarily via their own 3P seller accounts.
+       Shows if your Nexlev / WM account is winning Buy Box vs
+       another reseller undercutting you.
 
-Output: data/processed/price_snapshot_nexlev.csv (wide format, one
-row per ASIN).  Schema mirrors sp_pricing_pull.py's output so the UI
-can consume either.
+## How it works
 
-CLI:
-  python scripts/sp_pricing_via_nexlev.py
-      # all non-Fossil ASINs, all brands
-  python scripts/sp_pricing_via_nexlev.py --brand audio_array,tonor
-      # comma-separated brands (folder-slug form)
-  python scripts/sp_pricing_via_nexlev.py --brand nexlev --limit 20
-      # smoke test
-  python scripts/sp_pricing_via_nexlev.py --out data/processed/foo.csv
-      # custom output path
+Uses `getItemOffers` (v0 per-ASIN) which returns every seller's offer
+on the ASIN, plus Amazon's Summary block with Buy Box winner and
+lowest per-fulfillment-channel price.  Calls go through Nexlev's LWA
+token because AA/WM/CRPL tokens pre-date the Pricing role addition
+to the AdPilot app (2026-07-16); Nexlev's Amazon Inbound app HAS
+Pricing scope, and pricing endpoints return the same marketplace-
+wide data regardless of the calling account.
 
-Required env: SP_LWA_CLIENT_ID, SP_LWA_CLIENT_SECRET,
-              SP_REFRESH_TOKEN_NEXLEV
+Rate limit ~1 req/sec sustained → 0.55s sleep between calls.
+226 AA / 35 Tonor / ~200 Nexlev / ~90 WM ASINs = 3-5 min per brand.
+
+## Us vs them attribution
+
+Provide `data/master/our_seller_ids.json` in this format:
+  {
+    "audio_array":    "A28KGDTB760OU9",
+    "nexlev":         "A_your_nexlev_id",
+    "tonor":          "A15YBOSC0EMOS0",
+    "white_mulberry": "A_your_wm_id"
+  }
+Then output's `buybox_seller_name` column shows:
+  - "Amazon India (1P)"  → Amazon 1P wins
+  - "Audio Array (3P)"   → your AA seller wins
+  - "Other 3P (SellerId)" → a competitor wins (you have SellerId to
+                            search on Seller Central or Google)
+Without seller_ids.json, all your accounts appear as "Other 3P".
+
+## Output
+
+`data/processed/price_snapshot_nexlev.csv` (or --out) with columns:
+  asin, sku, brand, model,
+  amazon_1p_price,      # from LowestPrices where fulfillmentChannel=Amazon
+                        # (includes FBA 3P offers, not just Amazon 1P)
+  buybox_price,         # Buy Box landed price
+  merchant_low_price,   # cheapest 3P offer regardless of Buy Box
+  price_<slug>,         # your account's landed price (needs seller_ids.json)
+  buybox_seller_name,   # who owns Buy Box (readable)
+  buybox_seller_id,     # raw SellerId (source of truth)
+  offer_count, error, fetched_at
+
+The script ALSO prints a **Buy Box owner leaderboard** at the end —
+top winners across all ASINs pulled, with counts and share.  That
+leaderboard is the quickest way to spot competitors.
+
+## CLI
+
+  python scripts/sp_pricing_via_nexlev.py --brand nexlev
+  python scripts/sp_pricing_via_nexlev.py --brand white_mulberry
+  python scripts/sp_pricing_via_nexlev.py --brand audio_array
+  python scripts/sp_pricing_via_nexlev.py --brand tonor
+  python scripts/sp_pricing_via_nexlev.py --brand nexlev,white_mulberry
+  python scripts/sp_pricing_via_nexlev.py --brand audio_array --limit 25   # smoke test
+  python scripts/sp_pricing_via_nexlev.py --brand tonor --out data/processed/tonor_bb.csv
+
+Required env in .env:
+  SP_LWA_CLIENT_ID, SP_LWA_CLIENT_SECRET, SP_REFRESH_TOKEN_NEXLEV
 """
 from __future__ import annotations
 
@@ -64,7 +100,15 @@ OUT_DEFAULT = REPO_ROOT / "data" / "processed" / "price_snapshot_nexlev.csv"
 
 LWA_URL    = "https://api.amazon.com/auth/o2/token"
 SPAPI_HOST = "https://sellingpartnerapi-eu.amazon.com"
-MARKET_IN  = "A21TJRUUN4KGV"   # amazon.in marketplace + Amazon India's SellerId
+MARKET_IN  = "A21TJRUUN4KGV"   # amazon.in marketplace
+
+# Well-known SellerIds (readable name in Buy Box column).  Our own accounts
+# get overlaid from data/master/our_seller_ids.json when available.
+KNOWN_SELLERS: dict[str, str] = {
+    "A21TJRUUN4KGV":  "Amazon India (1P)",
+    "A2XU06AVSXMD3D": "Cloudtail India",   # kept for historical rows
+    "AT95IG9ONZD7S":  "Appario Retail",    # kept for historical rows
+}
 
 # Brand-folder slug → sku_master Brand column value
 BRAND_ALIASES: dict[str, str] = {
@@ -130,7 +174,8 @@ def fetch_offers(tok: str, asin: str) -> dict | None:
     return {"__error": f"HTTP {r.status_code}"}
 
 
-def parse_offers(payload: dict, seller_ids: dict[str, str]) -> dict:
+def parse_offers(payload: dict, seller_ids: dict[str, str],
+                 seller_name_map: dict[str, str]) -> dict:
     """Extract Buy Box, Amazon 1P, per-account 3P prices from offers payload."""
     if not payload or payload.get("__error"):
         return {"error": (payload or {}).get("__error", "empty payload")}
@@ -146,6 +191,13 @@ def parse_offers(payload: dict, seller_ids: dict[str, str]) -> dict:
         if o.get("IsBuyBoxWinner"):
             bb_seller = o.get("SellerId")
             break
+    # Human-readable name
+    if bb_seller is None:
+        bb_seller_name = None
+    elif bb_seller in seller_name_map:
+        bb_seller_name = seller_name_map[bb_seller]
+    else:
+        bb_seller_name = f"Other 3P ({bb_seller})"
 
     # Amazon 1P price (fulfillmentChannel = Amazon in LowestPrices)
     amz_1p = None
@@ -175,6 +227,7 @@ def parse_offers(payload: dict, seller_ids: dict[str, str]) -> dict:
 
     return {
         "buybox_price":       bb_price,
+        "buybox_seller_name": bb_seller_name,
         "buybox_seller_id":   bb_seller,
         "amazon_1p_price":    amz_1p,
         "merchant_low_price": merchant_low,
@@ -224,8 +277,15 @@ def main() -> int:
         print(f"Loaded {len(seller_ids)} seller IDs from {SELLER_IDS.name}: "
               f"{sorted(seller_ids.keys())}")
     else:
-        print(f"No {SELLER_IDS.name} found — per-account 3P prices will be null. "
-              f"Add {{brand: SellerId}} JSON to enable that column.")
+        print(f"No {SELLER_IDS.name} found — per-account 3P price columns will be null "
+              f"AND our accounts will show as 'Other 3P' in buybox_seller_name. "
+              f"Add {{brand: SellerId}} JSON to enable friendly names + per-account cols.")
+
+    # Build reverse map for buybox_seller_name
+    seller_name_map = dict(KNOWN_SELLERS)
+    for brand_key, sid in seller_ids.items():
+        brand_full = BRAND_ALIASES.get(brand_key, brand_key.title())
+        seller_name_map[sid] = f"{brand_full} (3P)"
 
     tok = get_access_token("NEXLEV")
 
@@ -233,7 +293,7 @@ def main() -> int:
     fetched_at = datetime.now(timezone.utc).isoformat()
     for i, asin in enumerate(asins, 1):
         payload = fetch_offers(tok, asin)
-        parsed = parse_offers(payload or {}, seller_ids)
+        parsed = parse_offers(payload or {}, seller_ids, seller_name_map)
         rows.append({"asin": asin, "fetched_at": fetched_at, **parsed})
         if i % 25 == 0:
             got = sum(1 for r in rows if r.get("amazon_1p_price") or r.get("buybox_price"))
@@ -253,20 +313,56 @@ def main() -> int:
     prices = [c for c in df.columns
               if c.startswith("price_") or c in ("amazon_1p_price", "buybox_price",
                                                  "merchant_low_price")]
-    meta = ["buybox_seller_id", "offer_count", "error", "fetched_at"]
+    meta = ["buybox_seller_name", "buybox_seller_id", "offer_count", "error", "fetched_at"]
     cols = front + prices + [c for c in meta if c in df.columns]
     df = df[[c for c in cols if c in df.columns]]
 
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(args.out, index=False)
+    out_path = args.out if args.out.is_absolute() else (REPO_ROOT / args.out).resolve()
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(out_path, index=False)
 
     print()
-    print(f"✓ wrote {args.out.relative_to(REPO_ROOT)} ({len(df)} rows)")
+    try:
+        print(f"✓ wrote {out_path.relative_to(REPO_ROOT)} ({len(df)} rows)")
+    except ValueError:
+        print(f"✓ wrote {out_path} ({len(df)} rows)")
     print(f"  Amazon 1P coverage: {df['amazon_1p_price'].notna().sum()}/{len(df)}")
     print(f"  Buy Box coverage:   {df['buybox_price'].notna().sum()}/{len(df)}")
     for c in df.columns:
         if c.startswith("price_"):
             print(f"  {c:<30} {df[c].notna().sum()}/{len(df)}")
+
+    # ── Buy Box owner leaderboard — the point of this pull ──
+    print()
+    print("─" * 72)
+    print("BUY BOX OWNER LEADERBOARD  (who's winning Buy Box across these ASINs)")
+    print("─" * 72)
+    has_bb = df[df["buybox_seller_id"].notna()].copy()
+    if has_bb.empty:
+        print("  (no Buy Box winners found — Amazon returned empty Summary for all ASINs)")
+    else:
+        # Group + count
+        lb = (has_bb.groupby(["buybox_seller_id", "buybox_seller_name"])
+                    .size()
+                    .reset_index(name="asins_won")
+                    .sort_values("asins_won", ascending=False))
+        total_bb = int(lb["asins_won"].sum())
+        print(f"  {total_bb} ASINs with Buy Box owner identified "
+              f"(of {len(df)} pulled)\n")
+        print(f"  {'SellerId':<16}  {'Name':<32}  {'ASINs':>5}  Share")
+        print(f"  {'─'*16}  {'─'*32}  {'─'*5}  ─────")
+        for _, row in lb.head(15).iterrows():
+            share = row["asins_won"] / total_bb * 100
+            print(f"  {row['buybox_seller_id']:<16}  "
+                  f"{row['buybox_seller_name'][:32]:<32}  "
+                  f"{row['asins_won']:>5}  {share:5.1f}%")
+        if len(lb) > 15:
+            print(f"  ... {len(lb)-15} more sellers with 1-few ASINs each")
+        print()
+        print("Look up unknown SellerIds via storefront URL:")
+        print("  https://www.amazon.in/sp?seller=<SellerId>")
+        print("Add your own accounts to data/master/our_seller_ids.json")
+        print("to replace 'Other 3P' with your account name in future runs.")
     return 0
 
 

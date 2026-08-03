@@ -645,9 +645,27 @@ def process_week(week, sku_master, brand_folder=""):
             # (see reference_master_alignment_hierarchy).  Trigger whenever
             # the merge produced no master hit (model_m blank) AND the row
             # has an ASIN we can look up.
-            _mm = other["model_m"].astype(str).str.strip() if "model_m" in other.columns else pd.Series("", index=other.index)
-            _model = other["model"].astype(str).str.strip() if "model" in other.columns else pd.Series("", index=other.index)
-            _no_master_hit = _mm.isin(["", "nan", "None", "<NA>"]) & _model.isin(["", "nan", "None", "<NA>"])
+            # dtype-agnostic missing check — Linux CI with pyarrow backend
+            # stringifies pd.NA to variants the older `.isin(["nan","None","<NA>"])`
+            # list missed, so the ASIN-first fallback silently skipped rows.
+            # W31 WM 1p Sales (no SKU column in operator file → empty sku merge
+            # → model_m=NaN) reproduced this: local Windows populated model
+            # correctly, Linux runner left model=NaN → Check 19 flagged 6 WM
+            # models.  Use pd.isna() + normalized string check for robustness.
+            def _is_blank(s):
+                if s is None:
+                    return pd.Series(True, index=other.index)
+                s_str = s.astype(str).str.strip().str.lower()
+                return s.isna() | s_str.eq("") | s_str.isin(
+                    ["nan", "none", "<na>", "n/a", "na", "-"]
+                )
+            _mm_missing = (_is_blank(other["model_m"])
+                            if "model_m" in other.columns
+                            else pd.Series(True, index=other.index))
+            _model_missing = (_is_blank(other["model"])
+                               if "model" in other.columns
+                               else pd.Series(True, index=other.index))
+            _no_master_hit = _mm_missing & _model_missing
             need_master = (
                 other["asin"].astype(str).str.strip().ne("")
                 & _no_master_hit

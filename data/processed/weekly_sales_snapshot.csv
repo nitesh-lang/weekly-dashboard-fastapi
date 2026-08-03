@@ -11550,9 +11550,6 @@ Week 22,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,T
 Week 22,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 22,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 22,Fossil,SKW6355,Amazon,B01MZWUN47,0.0,0.0,0.0,0.0,0.0,FBA72029,MAPPED,Traditional Watch,,,
-Week 22,Nexlev,,Blinkit Sales,B0D67727VG,2.0,3998.0,3998.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 22,Nexlev,,Pharmaeasy,B0D842173P,2.0,1094.0,1094.0,0.0,0.0,FBA79347,MAPPED,HPC,Oral Care,Electric Toothbrush,
-Week 22,Nexlev,,Pharmaeasy,B0DNJJKBKG,1.0,1599.0,1599.0,0.0,0.0,FBA79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 22,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 22,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 22,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -11561,6 +11558,7 @@ Week 22,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,7117.0,7117.0,2005.0,4010.0,FB
 Week 22,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 22,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
 Week 22,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
+Week 22,Nexlev,BM-02,Pharmaeasy,B0DNJJKBKG,1.0,1599.0,1599.0,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 22,Nexlev,BR-01,Amazon,B0DKJXRXKM,17.0,21466.101694915254,21466.101694915254,536.0,9112.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 22,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,2.0,2708.0,2708.0,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 22,Nexlev,CAP-05,Amazon,B0GN86G345,1.0,2033.898305084746,2033.898305084746,0.0,0.0,FBA79989,MAPPED,,,,New Launch
@@ -11579,6 +11577,7 @@ Week 22,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAP
 Week 22,Nexlev,DF-01-BK,Amazon,B0CW1JJP9S,0.0,0.0,0.0,1073.0,0.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser,
 Week 22,Nexlev,DH-01,Amazon,B0GN85NZQN,16.0,76227.45762711864,76227.45762711864,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 22,Nexlev,EA-01,Amazon,B0D67727VG,14.0,12144.915254237289,12144.915254237289,710.0,9940.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 22,Nexlev,EA-01,Blinkit Sales,B0D67727VG,2.0,3998.0,3998.0,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 22,Nexlev,EA-02,Amazon,B0DKK15YNJ,22.0,40238.135593220344,40238.135593220344,1345.0,29590.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 22,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,6.0,12280.0,12280.0,1345.0,8070.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 22,Nexlev,EM-02,Pharmaeasy,B0DMSHZXG2,1.0,1653.0,1653.0,1422.0,1422.0,FBA79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro,
@@ -11588,6 +11587,7 @@ Week 22,Nexlev,ETC-04-WH,Amazon,B0D25LNDSY,0.0,0.0,0.0,412.0,0.0,FBA79346,MAPPED
 Week 22,Nexlev,ETC-04-WH,B2B,B0D25LNDSY,1.0,576.0,576.0,412.0,412.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 22,Nexlev,ETC-04-WH,Blinkit Sales,B0D25LNDSY,3.0,2286.0,2286.0,412.0,1236.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 22,Nexlev,ETC-05-PI,Amazon,B0D842173P,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
+Week 22,Nexlev,ETC-05-PI,Pharmaeasy,B0D842173P,2.0,1094.0,1094.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 22,Nexlev,ETC-07-WH,Amazon,B0FJG5PFGQ,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 22,Nexlev,ETC-07-WH,Blinkit Sales,B0FJG5PFGQ,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 22,Nexlev,ETC-08-BL,Amazon,B0FJ1ZB4G9,0.0,0.0,0.0,373.0,0.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
@@ -12464,21 +12464,19 @@ Week 24,Fossil,MK9242,Amazon,B0FQ8K147H,1.0,13641.525423728814,13641.52542372881
 Week 24,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,,
 Week 24,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 24,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 24,Nexlev,,Amazon,B0FCRT3ZZN,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0GYFK8LCY,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0GYSMR9G2,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H2J2ZWRW,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H2JC7124,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H2JJN6R8,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H33HN9LH,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H3QBK46G,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H3TMZ87Q,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H3TT9BJL,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H3TV13JP,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H3V14M5J,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,Amazon,B0H3VQ8ZM2,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 24,Nexlev,,B2B,B0D67727VG,1.0,890.0,890.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 24,Nexlev,,Blinkit Sales,B0D67727VG,6.0,11328.0,11328.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
+Week 24,Nexlev,,Amazon,B0FCRT3ZZN,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0GYFK8LCY,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0GYSMR9G2,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H2J2ZWRW,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H2JC7124,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H2JJN6R8,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H33HN9LH,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H3QBK46G,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H3TMZ87Q,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H3TT9BJL,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H3TV13JP,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H3V14M5J,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 24,Nexlev,,Amazon,B0H3VQ8ZM2,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 24,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 24,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 24,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -12504,6 +12502,8 @@ Week 24,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAP
 Week 24,Nexlev,DF-01-BK,Amazon,B0CW1JJP9S,1.0,1386.4406779661017,1386.4406779661017,1073.0,1073.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser,
 Week 24,Nexlev,DH-01,Amazon,B0GN85NZQN,1.0,5083.898305084746,5083.898305084746,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 24,Nexlev,EA-01,Amazon,B0D67727VG,23.0,20508.47457627119,20508.47457627119,710.0,16330.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 24,Nexlev,EA-01,B2B,B0D67727VG,1.0,890.0,890.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 24,Nexlev,EA-01,Blinkit Sales,B0D67727VG,6.0,11328.0,11328.0,710.0,4260.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 24,Nexlev,EA-02,Amazon,B0DKK15YNJ,19.0,35981.364406779656,35981.364406779656,1345.0,25555.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 24,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,3.0,6140.0,6140.0,1345.0,4035.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 24,Nexlev,EM-02,Pharmaeasy,B0DMSHZXG2,1.0,1668.295238095238,1668.295238095238,1422.0,1422.0,FBA79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro,
@@ -13425,24 +13425,22 @@ Week 25,Fossil,MK9242,Amazon,B0FQ8K147H,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Trad
 Week 25,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,,
 Week 25,Fossil,MKO1224,Amazon,B0FTMMHDNH,1.0,20758.474576271183,20758.474576271183,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 25,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 25,Nexlev,,Amazon,B0FCRT3ZZN,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0GJ4XJ6YR,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0GYFK8LCY,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H2JC7124,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H2JJN6R8,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H335HZ1P,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H33HN9LH,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H3QBK46G,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H3TFTXWT,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H3TMZ87Q,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H3TT9BJL,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H3TV13JP,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H3V14M5J,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H3VQ8ZM2,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H5WRN8W8,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Amazon,B0H5WV3HNL,0.0,0.0,0.0,0.0,0.0,,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,B2B,B0D67727VG,5.0,4452.0,4452.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 25,Nexlev,,Blinkit Sales,B0D67727VG,2.0,3617.0,3617.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
+Week 25,Nexlev,,Amazon,B0FCRT3ZZN,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0GJ4XJ6YR,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0GYFK8LCY,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H2JC7124,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H2JJN6R8,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H335HZ1P,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H33HN9LH,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H3QBK46G,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H3TFTXWT,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H3TMZ87Q,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H3TT9BJL,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H3TV13JP,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H3V14M5J,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H3VQ8ZM2,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H5WRN8W8,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
+Week 25,Nexlev,,Amazon,B0H5WV3HNL,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 25,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 25,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
 Week 25,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -13468,6 +13466,8 @@ Week 25,Nexlev,CR-01,Amazon,B0D2LHNS9B,1.0,846.6101694915254,846.6101694915254,5
 Week 25,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 25,Nexlev,CR-01,D2C - Nexlev,B0D2LHNS9B,1.0,651.6949153,651.6949153,533.0,533.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 25,Nexlev,EA-01,Amazon,B0D67727VG,27.0,23283.898305084746,23283.898305084746,710.0,19170.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 25,Nexlev,EA-01,B2B,B0D67727VG,5.0,4452.0,4452.0,710.0,3550.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 25,Nexlev,EA-01,Blinkit Sales,B0D67727VG,2.0,3617.0,3617.0,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 25,Nexlev,EA-02,Amazon,B0DKK15YNJ,27.0,50805.94067796611,50805.94067796611,1345.0,36315.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 25,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,3.0,6140.0,6140.0,1345.0,4035.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 25,Nexlev,ET-01-BK,Amazon,B0D2P5TGWK,4.0,760.1694915254237,760.1694915254237,295.0,1180.0,FBA79373,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
@@ -13715,17 +13715,12 @@ Week 25,Tonor,TM20,Amazon,B08NDB5NWP,2.0,5032.203389830509,5032.203389830509,169
 Week 25,Tonor,TM310,1p Sales,B0CSCT63BL,3.0,6226.26,6226.26,965.0,2895.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 25,Tonor,TM310,Amazon,B0CSCT63BL,1.0,2033.0508474576272,2033.0508474576272,965.0,965.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 25,Tonor,TRL-20,Amazon,B0CH9JR3HL,0.0,0.0,0.0,1397.0,0.0,FBA79586,MAPPED,Accessories,Ring Light,,
-Week 25,White Mulberry,,1p Sales,B0DB5VG39T,37.0,86089.42,86089.42,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 25,White Mulberry,,1p Sales,B0DB5VVPSB,11.0,40075.42,40075.42,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 25,White Mulberry,,1p Sales,B0DB5W4TCP,0.0,0.0,0.0,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 25,White Mulberry,,1p Sales,B0DB5YTQZV,10.0,16940.65,16940.65,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 25,White Mulberry,,1p Sales,B0DP2VVRND,23.0,38963.49,38963.49,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 25,White Mulberry,,1p Sales,B0DP2WC5VW,7.0,19212.71,19212.71,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 25,White Mulberry,,1p Sales,B0DP32F346,14.0,36767.87,36767.87,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,HD1ML,Amazon,B0DP3194QN,0.0,0.0,0.0,1566.0,0.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,HDGS1ML,Amazon,B0FN81FD8M,2.0,13557.627118644068,13557.627118644068,3200.0,6400.0,FBK79793,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,HDMSP1ML,Amazon,B0FN4JG97R,0.0,0.0,0.0,2043.0,0.0,FBK79792,MAPPED,Monitor Arm,Monitor Arm,,
+Week 25,White Mulberry,HDWF1ML,1p Sales,B0DP32F346,14.0,36767.87,36767.87,1254.0,17556.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,HDWF1ML,Amazon,B0DP32F346,0.0,0.0,0.0,1254.0,0.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
+Week 25,White Mulberry,MS1ML,1p Sales,B0DP2VVRND,23.0,38963.49,38963.49,720.0,16560.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,POS2M,Amazon,B0FN4FHH5Y,0.0,0.0,0.0,2016.0,0.0,FBK79784,MAPPED,Monitor Arm,POS Stand,,
 Week 25,White Mulberry,POS2MK,Amazon,B0FN4HDBN5,0.0,0.0,0.0,2722.0,0.0,FBK79785,MAPPED,Monitor Arm,POS Stand,,
 Week 25,White Mulberry,POSS-01,Amazon,B0FN4FPJ83,2.0,3388.135593220339,3388.135593220339,589.0,1178.0,FBK79786,MAPPED,Monitor Arm,POS Stand,,
@@ -13736,9 +13731,13 @@ Week 25,White Mulberry,TVLF1ML,Amazon,B0FHVWHQHR,5.0,3088.983050847458,3088.9830
 Week 25,White Mulberry,TVMF1ML,Amazon,B0FN4DSQ6P,69.0,33856.77966101695,33856.77966101695,179.0,12351.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,,
 Week 25,White Mulberry,VLMS1ML,Amazon,B0DP2Z5DQ9,2.0,4744.067796610169,4744.067796610169,1130.0,2260.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,WM-GD07-CB,Amazon,B0CPFS24ML,42.0,276916.9491525424,276916.9491525424,3269.0,137298.0,FBA79167,MAPPED,Desk,Gaming Desk,,
+Week 25,White Mulberry,WM-GS1M-BK,1p Sales,B0DB5VG39T,37.0,86089.42,86089.42,1341.0,49617.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,WM-GS1M-BK,Amazon,B0DB5VG39T,0.0,0.0,0.0,1341.0,0.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
+Week 25,White Mulberry,WM-GS2M-BK,1p Sales,B0DB5VVPSB,11.0,40075.42,40075.42,2236.0,24596.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,WM-GS2M-BK,Amazon,B0DB5VVPSB,1.0,3861.864406779661,3861.864406779661,2236.0,2236.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
+Week 25,White Mulberry,WM-HA1M-BK,1p Sales,B0DB5W4TCP,0.0,0.0,0.0,866.0,0.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,WM-HA1M-BK,Amazon,B0DB5W4TCP,1.0,1481.35593220339,1481.35593220339,866.0,866.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
+Week 25,White Mulberry,WM-HA2M-BK,1p Sales,B0DB5YTQZV,10.0,16940.65,16940.65,1380.0,13800.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,0.0,0.0,0.0,1380.0,0.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,4.0,28301.69491525424,28301.69491525424,3943.0,15772.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 25,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,9.0,59654.2372881356,59654.2372881356,3943.0,35487.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
@@ -13747,6 +13746,7 @@ Week 25,White Mulberry,WM-LOD-WH,Amazon,B0BFVMDJ2K,14.0,91980.50847457629,91980.
 Week 25,White Mulberry,WM-MDL-WH,Amazon,B0DQ1PKNSP,0.0,0.0,0.0,6432.0,0.0,FBA79658,MAPPED,Desk-Adjustable,Manual,,
 Week 25,White Mulberry,WM-MODL-WH,Amazon,B0DQ4YWSMC,6.0,63563.5593220339,63563.5593220339,7641.0,45846.0,FBA79662,MAPPED,Desk-Adjustable,Motorized,,
 Week 25,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,7.0,88988.98305084746,88988.98305084746,7018.0,49126.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,,
+Week 25,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,7.0,19212.71,19212.71,1074.0,7518.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 25,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,5.0,14826.27118644068,14826.27118644068,1074.0,5370.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,Audio Array,A3-XLR,Amazon,B0GMPGNXX3,1.0,507.63,507.63,195.60606299999998,195.60606299999998,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 26,Audio Array,AA-01,1p Sales,B0B4G8PH2P,4.0,7284.74,7284.74,1224.4990306619115,4897.996122647646,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
@@ -14435,7 +14435,6 @@ Week 26,Fossil,MK9242,Amazon,B0FQ8K147H,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Trad
 Week 26,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,,
 Week 26,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 26,Fossil,SKW2694,Amazon,B077SMJP9Z,1.0,6988.14,6988.14,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 26,Nexlev,,Blinkit Sales,B0D67727VG,1.0,1809.0,1809.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
 Week 26,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 26,Nexlev,AP-03,Amazon,B0DVC58QPZ,2.0,7116.95,7116.95,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
 Week 26,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -14463,6 +14462,7 @@ Week 26,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAP
 Week 26,Nexlev,CR-01,D2C - Nexlev,B0D2LHNS9B,1.0,651.6949153,651.6949153,533.0,533.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 26,Nexlev,DF-01-BK,Amazon,B0CW1JJP9S,0.0,0.0,0.0,1073.0,0.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser,
 Week 26,Nexlev,EA-01,Amazon,B0D67727VG,14.0,12098.32,12098.32,710.0,9940.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 26,Nexlev,EA-01,Blinkit Sales,B0D67727VG,1.0,1809.0,1809.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 26,Nexlev,EA-02,Amazon,B0DKK15YNJ,12.0,25413.559999999998,25413.559999999998,1345.0,16140.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 26,Nexlev,EA-02,B2B,B0DKK15YNJ,2.0,4614.0,4614.0,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 26,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,8.0,16373.0,16373.0,1345.0,10760.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -14695,16 +14695,11 @@ Week 26,Tonor,TM20,Amazon,B08NDB5NWP,0.0,0.0,0.0,1695.0,0.0,FBA77110,MAPPED,Conf
 Week 26,Tonor,TM310,1p Sales,B0CSCT63BL,0.0,0.0,0.0,965.0,0.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 26,Tonor,TM310,Amazon,B0CSCT63BL,1.0,2033.05,2033.05,965.0,965.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 26,Tonor,TRL-20,Amazon,B0CH9JR3HL,1.0,2117.8,2117.8,1397.0,1397.0,FBA79586,MAPPED,Accessories,Ring Light,,
-Week 26,White Mulberry,,1p Sales,B0DB5VG39T,25.0,58241.5,58241.5,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 26,White Mulberry,,1p Sales,B0DB5VVPSB,2.0,7286.44,7286.44,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 26,White Mulberry,,1p Sales,B0DB5W4TCP,8.0,11606.78,11606.78,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 26,White Mulberry,,1p Sales,B0DB5YTQZV,10.0,16940.63,16940.63,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 26,White Mulberry,,1p Sales,B0DP2VVRND,20.0,33881.35,33881.35,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 26,White Mulberry,,1p Sales,B0DP2WC5VW,2.0,5549.15,5549.15,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 26,White Mulberry,,1p Sales,B0DP32F346,12.0,31515.3,31515.3,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,HD1ML,Amazon,B0DP3194QN,0.0,0.0,0.0,1566.0,0.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,HDMSP1ML,Amazon,B0FN4JG97R,2.0,9879.66,9879.66,2043.0,4086.0,FBK79792,MAPPED,Monitor Arm,Monitor Arm,,
+Week 26,White Mulberry,HDWF1ML,1p Sales,B0DP32F346,12.0,31515.3,31515.3,1254.0,15048.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,HDWF1ML,Amazon,B0DP32F346,0.0,0.0,0.0,1254.0,0.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
+Week 26,White Mulberry,MS1ML,1p Sales,B0DP2VVRND,20.0,33881.35,33881.35,720.0,14400.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,MS1ML,Amazon,B0DP2VVRND,28.0,46883.9,46883.9,720.0,20160.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,MS2ML,Amazon,B0DP313R77,0.0,0.0,0.0,1015.0,0.0,FBA79614,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,POS2M,Amazon,B0FN4FHH5Y,2.0,9320.34,9320.34,2016.0,4032.0,FBK79784,MAPPED,Monitor Arm,POS Stand,,
@@ -14716,9 +14711,13 @@ Week 26,White Mulberry,TVLF1ML,Amazon,B0FHVWHQHR,4.0,2471.19,2471.19,230.0,920.0
 Week 26,White Mulberry,TVMF1ML,Amazon,B0FN4DSQ6P,52.0,25515.25,25515.25,179.0,9308.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,,
 Week 26,White Mulberry,VLMS1ML,Amazon,B0DP2Z5DQ9,3.0,4744.07,4744.07,1130.0,3390.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,WM-GD07-CB,Amazon,B0CPFS24ML,37.0,255055.08,255055.08,3269.0,120953.0,FBA79167,MAPPED,Desk,Gaming Desk,,
+Week 26,White Mulberry,WM-GS1M-BK,1p Sales,B0DB5VG39T,25.0,58241.5,58241.5,1341.0,33525.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,WM-GS1M-BK,Amazon,B0DB5VG39T,4.0,9786.44,9786.44,1341.0,5364.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
+Week 26,White Mulberry,WM-GS2M-BK,1p Sales,B0DB5VVPSB,2.0,7286.44,7286.44,2236.0,4472.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,WM-GS2M-BK,Amazon,B0DB5VVPSB,1.0,3861.86,3861.86,2236.0,2236.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
+Week 26,White Mulberry,WM-HA1M-BK,1p Sales,B0DB5W4TCP,8.0,11606.78,11606.78,866.0,6928.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,WM-HA1M-BK,Amazon,B0DB5W4TCP,0.0,0.0,0.0,866.0,0.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
+Week 26,White Mulberry,WM-HA2M-BK,1p Sales,B0DB5YTQZV,10.0,16940.63,16940.63,1380.0,13800.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,0.0,0.0,0.0,1380.0,0.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,0.0,0.0,0.0,3943.0,0.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 26,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,6.0,43215.25,43215.25,3943.0,23658.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
@@ -14726,6 +14725,7 @@ Week 26,White Mulberry,WM-LOD-IN,Amazon,B0BFVNS8HS,2.0,14150.85,14150.85,3943.0,
 Week 26,White Mulberry,WM-LOD-WH,Amazon,B0BFVMDJ2K,7.0,49527.97,49527.97,3943.0,27601.0,FBA76417,MAPPED,Desk,L-Shaped Desk,,
 Week 26,White Mulberry,WM-MODL-WH,Amazon,B0DQ4YWSMC,5.0,63436.43,63436.43,7641.0,38205.0,FBA79662,MAPPED,Desk-Adjustable,Motorized,,
 Week 26,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,2.0,25425.42,25425.42,7018.0,14036.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,,
+Week 26,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,2.0,5549.15,5549.15,1074.0,2148.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 26,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,6.0,17791.53,17791.53,1074.0,6444.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,Audio Array,A3-XLR,Amazon,B0GMPGNXX3,5.0,2538.14,2538.14,195.60606299999998,978.0303149999999,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 27,Audio Array,AA-01,1p Sales,B0B4G8PH2P,1.0,1736.44,1736.44,1224.4990306619115,1224.4990306619115,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
@@ -15418,8 +15418,6 @@ Week 27,Fossil,MK9242,Amazon,B0FQ8K147H,0.0,0.0,0.0,0.0,0.0,FBA79949,MAPPED,Trad
 Week 27,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,,
 Week 27,Fossil,MKO1224,Amazon,B0FTMMHDNH,1.0,20758.47,20758.47,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 27,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 27,Nexlev,,Blinkit Sales,B0D67727VG,4.0,7234.0,7234.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 27,Nexlev,,D2C - Nexlev,B0DCGHVN81,1.0,1609.322,1609.322,0.0,0.0,FBR79452,MAPPED,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,
 Week 27,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 27,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 27,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3473.73,3473.73,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -15446,6 +15444,7 @@ Week 27,Nexlev,CR-01,Amazon,B0D2LHNS9B,5.0,2827.12,2827.12,533.0,2665.0,FBA79265
 Week 27,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 27,Nexlev,DH-01,Amazon,B0GN85NZQN,12.0,53101.27,53101.27,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 27,Nexlev,EA-01,Amazon,B0D67727VG,29.0,26672.89,26672.89,710.0,20590.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 27,Nexlev,EA-01,Blinkit Sales,B0D67727VG,4.0,7234.0,7234.0,710.0,2840.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 27,Nexlev,EA-01,D2C - Nexlev,B0D67727VG,1.0,1069.524,1069.524,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 27,Nexlev,EA-02,Amazon,B0DKK15YNJ,10.0,19026.27,19026.27,1345.0,13450.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 27,Nexlev,EA-02,B2B,B0DKK15YNJ,2.0,4614.0,4614.0,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -15689,17 +15688,12 @@ Week 27,Tonor,TM20,Amazon,B08NDB5NWP,2.0,5083.05,5083.05,1695.0,3390.0,FBA77110,
 Week 27,Tonor,TM310,1p Sales,B0CSCT63BL,1.0,1948.31,1948.31,965.0,965.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 27,Tonor,TM310,Amazon,B0CSCT63BL,2.0,2033.05,2033.05,965.0,1930.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 27,Tonor,TRL-20,Amazon,B0CH9JR3HL,1.0,2117.8,2117.8,1397.0,1397.0,FBA79586,MAPPED,Accessories,Ring Light,,
-Week 27,White Mulberry,,1p Sales,B0DB5VG39T,58.0,127967.57,127967.57,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 27,White Mulberry,,1p Sales,B0DB5VVPSB,5.0,17521.21,17521.21,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 27,White Mulberry,,1p Sales,B0DB5W4TCP,6.0,8183.9,8183.9,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 27,White Mulberry,,1p Sales,B0DB5YTQZV,26.0,43141.97,43141.97,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 27,White Mulberry,,1p Sales,B0DP2VVRND,36.0,59849.9,59849.9,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 27,White Mulberry,,1p Sales,B0DP2WC5VW,0.0,0.0,0.0,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 27,White Mulberry,,1p Sales,B0DP3194QN,3.0,8895.77,8895.77,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 27,White Mulberry,,1p Sales,B0DP32F346,15.0,38593.2,38593.2,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
+Week 27,White Mulberry,HD1ML,1p Sales,B0DP3194QN,3.0,8895.77,8895.77,1566.0,4698.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,HD1ML,Amazon,B0DP3194QN,0.0,0.0,0.0,1566.0,0.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,HDMSP1ML,Amazon,B0FN4JG97R,7.0,28740.68,28740.68,2043.0,14301.0,FBK79792,MAPPED,Monitor Arm,Monitor Arm,,
+Week 27,White Mulberry,HDWF1ML,1p Sales,B0DP32F346,15.0,38593.2,38593.2,1254.0,18810.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,HDWF1ML,Amazon,B0DP32F346,0.0,0.0,0.0,1254.0,0.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
+Week 27,White Mulberry,MS1ML,1p Sales,B0DP2VVRND,36.0,59849.9,59849.9,720.0,25920.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,MS1ML,Amazon,B0DP2VVRND,14.0,23801.7,23801.7,720.0,10080.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,MS2ML,Amazon,B0DP313R77,3.0,6702.54,6702.54,1015.0,3045.0,FBA79614,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,POS2M,Amazon,B0FN4FHH5Y,1.0,4660.17,4660.17,2016.0,2016.0,FBK79784,MAPPED,Monitor Arm,POS Stand,,
@@ -15711,9 +15705,13 @@ Week 27,White Mulberry,TVLF1ML,Amazon,B0FHVWHQHR,12.0,7474.58,7474.58,230.0,2760
 Week 27,White Mulberry,TVMF1ML,Amazon,B0FN4DSQ6P,103.0,50014.41,50014.41,179.0,18437.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,,
 Week 27,White Mulberry,VLMS1ML,Amazon,B0DP2Z5DQ9,4.0,9488.14,9488.14,1130.0,4520.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,WM-GD07-CB,Amazon,B0CPFS24ML,50.0,359102.54,359102.54,3269.0,163450.0,FBA79167,MAPPED,Desk,Gaming Desk,,
+Week 27,White Mulberry,WM-GS1M-BK,1p Sales,B0DB5VG39T,58.0,127967.57,127967.57,1341.0,77778.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,WM-GS1M-BK,Amazon,B0DB5VG39T,0.0,0.0,0.0,1341.0,0.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
+Week 27,White Mulberry,WM-GS2M-BK,1p Sales,B0DB5VVPSB,5.0,17521.21,17521.21,2236.0,11180.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,WM-GS2M-BK,Amazon,B0DB5VVPSB,5.0,18907.63,18907.63,2236.0,11180.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
+Week 27,White Mulberry,WM-HA1M-BK,1p Sales,B0DB5W4TCP,6.0,8183.9,8183.9,866.0,5196.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,WM-HA1M-BK,Amazon,B0DB5W4TCP,0.0,0.0,0.0,866.0,0.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
+Week 27,White Mulberry,WM-HA2M-BK,1p Sales,B0DB5YTQZV,26.0,43141.97,43141.97,1380.0,35880.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,0.0,0.0,0.0,1380.0,0.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,3.0,20031.36,20031.36,3943.0,11829.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 27,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,11.0,76236.44,76236.44,3943.0,43373.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
@@ -15721,6 +15719,7 @@ Week 27,White Mulberry,WM-LOD-IN,Amazon,B0BFVNS8HS,4.0,27903.39,27903.39,3943.0,
 Week 27,White Mulberry,WM-LOD-WH,Amazon,B0BFVMDJ2K,9.0,60208.91,60208.91,3943.0,35487.0,FBA76417,MAPPED,Desk,L-Shaped Desk,,
 Week 27,White Mulberry,WM-MODL-WH,Amazon,B0DQ4YWSMC,2.0,25298.3,25298.3,7641.0,15282.0,FBA79662,MAPPED,Desk-Adjustable,Motorized,,
 Week 27,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,2.0,24576.27,24576.27,7018.0,14036.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,,
+Week 27,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,0.0,0.0,0.0,1074.0,0.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 27,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,19.0,55939.83,55939.83,1074.0,20406.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,Audio Array,A3-XLR,Amazon,B0GMPGNXX3,3.0,1522.88,1522.88,195.60606299999998,586.818189,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 28,Audio Array,AA-01,1p Sales,B0B4G8PH2P,4.0,7115.26,7115.26,1224.4990306619115,4897.996122647646,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
@@ -16437,8 +16436,6 @@ Week 28,Fossil,MK9240,Amazon,B0FTL6L4WG,0.0,0.0,0.0,0.0,0.0,FBA79948,MAPPED,Trad
 Week 28,Fossil,MK9242,Amazon,B0FQ8K147H,1.0,13641.53,13641.53,0.0,0.0,FBA79949,MAPPED,Traditional Watch,,,
 Week 28,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Traditional Watch,,,
 Week 28,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 28,Nexlev,,BI Worldwide,B0D67727VG,2.0,1779.0,1779.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 28,Nexlev,,Blinkit Sales,B0D67727VG,4.0,7234.0,7234.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
 Week 28,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 28,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 28,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3473.73,3473.73,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -16466,6 +16463,8 @@ Week 28,Nexlev,CR-01,Amazon,B0D2LHNS9B,11.0,5941.53,5941.53,533.0,5863.0,FBA7926
 Week 28,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 28,Nexlev,DH-01,Amazon,B0GN85NZQN,99.0,466678.81,466678.81,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 28,Nexlev,EA-01,Amazon,B0D67727VG,19.0,17542.38,17542.38,710.0,13490.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 28,Nexlev,EA-01,BI Worldwide,B0D67727VG,2.0,1779.0,1779.0,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 28,Nexlev,EA-01,Blinkit Sales,B0D67727VG,4.0,7234.0,7234.0,710.0,2840.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 28,Nexlev,EA-02,Amazon,B0DKK15YNJ,12.0,25504.24,25504.24,1345.0,16140.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 28,Nexlev,EA-02,BI Worldwide,B0DKK15YNJ,1.0,2104.0,2104.0,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 28,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,6.0,12280.0,12280.0,1345.0,8070.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -16706,17 +16705,12 @@ Week 28,Tonor,TM20,Amazon,B08NDB5NWP,1.0,2541.53,2541.53,1695.0,1695.0,FBA77110,
 Week 28,Tonor,TM310,1p Sales,B0CSCT63BL,2.0,3896.62,3896.62,965.0,1930.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 28,Tonor,TM310,Amazon,B0CSCT63BL,0.0,0.0,0.0,965.0,0.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 28,Tonor,TRL-20,Amazon,B0CH9JR3HL,3.0,6353.39,6353.39,1397.0,4191.0,FBA79586,MAPPED,Accessories,Ring Light,,
-Week 28,White Mulberry,,1p Sales,B0DB5VG39T,79.0,175038.75,175038.75,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 28,White Mulberry,,1p Sales,B0DB5VVPSB,7.0,24633.91,24633.91,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 28,White Mulberry,,1p Sales,B0DB5W4TCP,3.0,4107.63,4107.63,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 28,White Mulberry,,1p Sales,B0DB5YTQZV,26.0,43472.25,43472.25,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 28,White Mulberry,,1p Sales,B0DP2VVRND,67.0,110799.31,110799.31,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 28,White Mulberry,,1p Sales,B0DP2WC5VW,0.0,0.0,0.0,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 28,White Mulberry,,1p Sales,B0DP3194QN,9.0,26687.29,26687.29,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 28,White Mulberry,,1p Sales,B0DP32F346,24.0,62593.97,62593.97,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
+Week 28,White Mulberry,HD1ML,1p Sales,B0DP3194QN,9.0,26687.29,26687.29,1566.0,14094.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,HD1ML,Amazon,B0DP3194QN,1.0,3143.22,3143.22,1566.0,1566.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,HDMSP1ML,Amazon,B0FN4JG97R,0.0,0.0,0.0,2043.0,0.0,FBK79792,MAPPED,Monitor Arm,Monitor Arm,,
+Week 28,White Mulberry,HDWF1ML,1p Sales,B0DP32F346,24.0,62593.97,62593.97,1254.0,30096.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,HDWF1ML,Amazon,B0DP32F346,1.0,2592.37,2592.37,1254.0,1254.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
+Week 28,White Mulberry,MS1ML,1p Sales,B0DP2VVRND,67.0,110799.31,110799.31,720.0,48240.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,MS1ML,Amazon,B0DP2VVRND,1.0,1694.07,1694.07,720.0,720.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,MS2ML,Amazon,B0DP313R77,1.0,2033.05,2033.05,1015.0,1015.0,FBA79614,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,POS2M,Amazon,B0FN4FHH5Y,0.0,0.0,0.0,2016.0,0.0,FBK79784,MAPPED,Monitor Arm,POS Stand,,
@@ -16728,9 +16722,13 @@ Week 28,White Mulberry,TVLF1ML,Amazon,B0FHVWHQHR,13.0,8177.12,8177.12,230.0,2990
 Week 28,White Mulberry,TVMF1ML,Amazon,B0FN4DSQ6P,129.0,61468.64,61468.64,179.0,23091.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,,
 Week 28,White Mulberry,VLMS1ML,Amazon,B0DP2Z5DQ9,9.0,20855.08,20855.08,1130.0,10170.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,WM-GD07-CB,Amazon,B0CPFS24ML,38.0,239306.79,239306.79,3269.0,124222.0,FBA79167,MAPPED,Desk,Gaming Desk,,
+Week 28,White Mulberry,WM-GS1M-BK,1p Sales,B0DB5VG39T,79.0,175038.75,175038.75,1341.0,105939.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,WM-GS1M-BK,Amazon,B0DB5VG39T,17.0,39519.49,39519.49,1341.0,22797.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
+Week 28,White Mulberry,WM-GS2M-BK,1p Sales,B0DB5VVPSB,7.0,24633.91,24633.91,2236.0,15652.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,WM-GS2M-BK,Amazon,B0DB5VVPSB,9.0,29823.73,29823.73,2236.0,20124.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
+Week 28,White Mulberry,WM-HA1M-BK,1p Sales,B0DB5W4TCP,3.0,4107.63,4107.63,866.0,2598.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,WM-HA1M-BK,Amazon,B0DB5W4TCP,3.0,4444.07,4444.07,866.0,2598.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
+Week 28,White Mulberry,WM-HA2M-BK,1p Sales,B0DB5YTQZV,26.0,43472.25,43472.25,1380.0,35880.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,1.0,2783.9,2783.9,1380.0,1380.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,2.0,13755.08,13755.08,3943.0,7886.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 28,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,16.0,109538.98,109538.98,3943.0,63088.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
@@ -16738,6 +16736,7 @@ Week 28,White Mulberry,WM-LOD-IN,Amazon,B0BFVNS8HS,4.0,27064.41,27064.41,3943.0,
 Week 28,White Mulberry,WM-LOD-WH,Amazon,B0BFVMDJ2K,15.0,94188.98,94188.98,3943.0,59145.0,FBA76417,MAPPED,Desk,L-Shaped Desk,,
 Week 28,White Mulberry,WM-MODL-WH,Amazon,B0DQ4YWSMC,2.0,23727.12,23727.12,7641.0,15282.0,FBA79662,MAPPED,Desk-Adjustable,Motorized,,
 Week 28,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,1.0,11863.56,11863.56,7018.0,7018.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,,
+Week 28,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,0.0,0.0,0.0,1074.0,0.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 28,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,9.0,24948.31,24948.31,1074.0,9666.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,Audio Array,A3-XLR,Amazon,B0GMPGNXX3,0.0,0.0,0.0,195.60606299999998,0.0,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 29,Audio Array,AA-01,1p Sales,B0B4G8PH2P,0.0,0.0,0.0,1224.4990306619115,0.0,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
@@ -17451,10 +17450,6 @@ Week 29,Fossil,MK9263,Amazon,B0GTC5JGY7,0.0,0.0,0.0,0.0,0.0,FBA80247,MAPPED,Trad
 Week 29,Fossil,MK9270SET,Amazon,B0GTC9239V,0.0,0.0,0.0,0.0,0.0,FBA80248,MAPPED,Traditional Watch,,,
 Week 29,Fossil,MK9272SET,Amazon,B0GTBY2FK6,0.0,0.0,0.0,0.0,0.0,FBA80249,MAPPED,Traditional Watch,,,
 Week 29,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 29,Nexlev,,BI Worldwide,B0D67727VG,1.0,934.0,934.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 29,Nexlev,,Blinkit Sales,B0D67727VG,5.0,9042.86,9042.86,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 29,Nexlev,,D2C - Nexlev,B0DNJJKBKG,1.0,1882.857,1882.857,0.0,0.0,FBA79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 29,Nexlev,,Pharmaeasy,B0D842173P,2.0,1127.0,1127.0,0.0,0.0,FBA79347,MAPPED,HPC,Oral Care,Electric Toothbrush,
 Week 29,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 29,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 29,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.47,3558.47,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -17464,6 +17459,7 @@ Week 29,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6862.71,6862.71,2005.0,4010.0,
 Week 29,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 29,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.39,5253.39,0.0,0.0,FBA79988,MAPPED,,,,New Launch
 Week 29,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.59,1685.59,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
+Week 29,Nexlev,BM-02,D2C - Nexlev,B0DNJJKBKG,1.0,1882.857,1882.857,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 29,Nexlev,BR-01,Amazon,B0DKJXRXKM,2.0,2910.17,2910.17,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 29,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 29,Nexlev,CAP-05,Amazon,B0GN86G345,5.0,8261.02,8261.02,0.0,0.0,FBA79989,MAPPED,,,,New Launch
@@ -17482,6 +17478,8 @@ Week 29,Nexlev,CR-01,Amazon,B0D2LHNS9B,5.0,3364.41,3364.41,533.0,2665.0,FBA79265
 Week 29,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 29,Nexlev,DH-01,Amazon,B0GN85NZQN,36.0,170308.47,170308.47,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 29,Nexlev,EA-01,Amazon,B0D67727VG,18.0,15833.05,15833.05,710.0,12780.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 29,Nexlev,EA-01,BI Worldwide,B0D67727VG,1.0,934.0,934.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 29,Nexlev,EA-01,Blinkit Sales,B0D67727VG,5.0,9042.86,9042.86,710.0,3550.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 29,Nexlev,EA-02,Amazon,B0DKK15YNJ,16.0,29875.43,29875.43,1345.0,21520.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 29,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,7.0,14326.67,14326.67,1345.0,9415.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 29,Nexlev,EA-02,D2C - Nexlev,B0DKK15YNJ,1.0,2526.667,2526.667,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -17491,6 +17489,7 @@ Week 29,Nexlev,ET-02-GN,B2B,B0D2P7WLJB,2.0,360.0,360.0,295.0,590.0,FBA79374,MAPP
 Week 29,Nexlev,ETC-04-WH,Amazon,B0D25LNDSY,0.0,0.0,0.0,412.0,0.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 29,Nexlev,ETC-04-WH,Blinkit Sales,B0D25LNDSY,2.0,1438.98,1438.98,412.0,824.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 29,Nexlev,ETC-05-PI,Amazon,B0D842173P,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
+Week 29,Nexlev,ETC-05-PI,Pharmaeasy,B0D842173P,2.0,1127.0,1127.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 29,Nexlev,ETC-07-WH,Amazon,B0FJG5PFGQ,3.0,1345.76,1345.76,371.0,1113.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 29,Nexlev,ETC-07-WH,Blinkit Sales,B0FJG5PFGQ,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 29,Nexlev,ETC-08-BL,Amazon,B0FJ1ZB4G9,0.0,0.0,0.0,373.0,0.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
@@ -17718,17 +17717,12 @@ Week 29,Tonor,TM20,1p Sales,B08NDB5NWP,10.0,25415.28,25415.28,1695.0,16950.0,FBA
 Week 29,Tonor,TM20,Amazon,B08NDB5NWP,3.0,7624.58,7624.58,1695.0,5085.0,FBA77110,MAPPED,Conference Microphone,Wired,,
 Week 29,Tonor,TM310,1p Sales,B0CSCT63BL,1.0,2033.06,2033.06,965.0,965.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 29,Tonor,TM310,Amazon,B0CSCT63BL,1.0,2033.05,2033.05,965.0,965.0,FBA79577,MAPPED,Conference Microphone,Wired,,
-Week 29,White Mulberry,,1p Sales,B0DB5VG39T,18.0,41933.88,41933.88,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 29,White Mulberry,,1p Sales,B0DB5VVPSB,2.0,7286.44,7286.44,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 29,White Mulberry,,1p Sales,B0DB5W4TCP,3.0,4192.38,4192.38,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 29,White Mulberry,,1p Sales,B0DB5YTQZV,13.0,22022.9,22022.9,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 29,White Mulberry,,1p Sales,B0DP2VVRND,53.0,89785.52,89785.52,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 29,White Mulberry,,1p Sales,B0DP2WC5VW,0.0,288.13,288.13,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 29,White Mulberry,,1p Sales,B0DP3194QN,0.0,0.0,0.0,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 29,White Mulberry,,1p Sales,B0DP32F346,12.0,31457.32,31457.32,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
+Week 29,White Mulberry,HD1ML,1p Sales,B0DP3194QN,0.0,0.0,0.0,1566.0,0.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,HDGS1ML,Amazon,B0FN81FD8M,0.0,0.0,0.0,3200.0,0.0,FBK79793,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,HDMSP1ML,Amazon,B0FN4JG97R,2.0,9520.34,9520.34,2043.0,4086.0,FBK79792,MAPPED,Monitor Arm,Monitor Arm,,
+Week 29,White Mulberry,HDWF1ML,1p Sales,B0DP32F346,12.0,31457.32,31457.32,1254.0,15048.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,HDWF1ML,Amazon,B0DP32F346,1.0,2711.02,2711.02,1254.0,1254.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
+Week 29,White Mulberry,MS1ML,1p Sales,B0DP2VVRND,53.0,89785.52,89785.52,720.0,38160.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,MS1ML,Amazon,B0DP2VVRND,3.0,5082.21,5082.21,720.0,2160.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,MS2ML,Amazon,B0DP313R77,0.0,0.0,0.0,1015.0,0.0,FBA79614,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,POS2M,Amazon,B0FN4FHH5Y,0.0,0.0,0.0,2016.0,0.0,FBK79784,MAPPED,Monitor Arm,POS Stand,,
@@ -17740,9 +17734,13 @@ Week 29,White Mulberry,TVLF1ML,Amazon,B0FHVWHQHR,11.0,6134.75,6134.75,230.0,2530
 Week 29,White Mulberry,TVMF1ML,Amazon,B0FN4DSQ6P,84.0,42675.42,42675.42,179.0,15036.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,,
 Week 29,White Mulberry,VLMS1ML,Amazon,B0DP2Z5DQ9,13.0,28342.37,28342.37,1130.0,14690.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,WM-GD07-CB,Amazon,B0CPFS24ML,33.0,225905.93,225905.93,3269.0,107877.0,FBA79167,MAPPED,Desk,Gaming Desk,,
+Week 29,White Mulberry,WM-GS1M-BK,1p Sales,B0DB5VG39T,18.0,41933.88,41933.88,1341.0,24138.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,WM-GS1M-BK,Amazon,B0DB5VG39T,21.0,48288.14,48288.14,1341.0,28161.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
+Week 29,White Mulberry,WM-GS2M-BK,1p Sales,B0DB5VVPSB,2.0,7286.44,7286.44,2236.0,4472.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,WM-GS2M-BK,Amazon,B0DB5VVPSB,11.0,41007.63,41007.63,2236.0,24596.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
+Week 29,White Mulberry,WM-HA1M-BK,1p Sales,B0DB5W4TCP,3.0,4192.38,4192.38,866.0,2598.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,WM-HA1M-BK,Amazon,B0DB5W4TCP,0.0,0.0,0.0,866.0,0.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
+Week 29,White Mulberry,WM-HA2M-BK,1p Sales,B0DB5YTQZV,13.0,22022.9,22022.9,1380.0,17940.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,16.0,34418.64,34418.64,1380.0,22080.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,3.0,14062.71,14062.71,3943.0,11829.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 29,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,16.0,98438.98,98438.98,3943.0,63088.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
@@ -17751,6 +17749,7 @@ Week 29,White Mulberry,WM-LOD-WH,Amazon,B0BFVMDJ2K,7.0,42198.31,42198.31,3943.0,
 Week 29,White Mulberry,WM-MODL-BK,Amazon,B0DQ51R95T,1.0,10168.64,10168.64,7641.0,7641.0,FBA79661,MAPPED,Desk-Adjustable,Motorized,,
 Week 29,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,2.0,25425.42,25425.42,7018.0,14036.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,,
 Week 29,White Mulberry,WM-SMD09-WH,Amazon,B0CPT2YJX2,0.0,0.0,0.0,6978.0,0.0,FBA79175,MAPPED,Desk,L-Shaped Desk,,
+Week 29,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,0.0,288.13,288.13,1074.0,0.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 29,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,10.0,27957.63,27957.63,1074.0,10740.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,Audio Array,A3-XLR,Amazon,B0GMPGNXX3,3.0,1522.88,1522.88,195.60606299999998,586.818189,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 30,Audio Array,A3-XLR,D2C - Audio Array,B0GMPGNXX3,1.0,538.0,538.0,195.60606299999998,195.60606299999998,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
@@ -18374,8 +18373,6 @@ Week 30,Fossil,MK9263,Amazon,B0GTC5JGY7,0.0,0.0,0.0,0.0,0.0,FBA80247,MAPPED,Trad
 Week 30,Fossil,MK9270SET,Amazon,B0GTC9239V,0.0,0.0,0.0,0.0,0.0,FBA80248,MAPPED,Traditional Watch,,,
 Week 30,Fossil,MK9272SET,Amazon,B0GTBY2FK6,0.0,0.0,0.0,0.0,0.0,FBA80249,MAPPED,Traditional Watch,,,
 Week 30,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 30,Nexlev,,Blinkit Sales,B0D67727VG,5.0,9043.0,9043.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 30,Nexlev,,Pharmaeasy,B0D842173P,2.0,1127.0,1127.0,0.0,0.0,FBA79347,MAPPED,HPC,Oral Care,Electric Toothbrush,
 Week 30,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 30,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3682.2,3682.2,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
 Week 30,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -18399,6 +18396,7 @@ Week 30,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAP
 Week 30,Nexlev,DH-01,Amazon,B0GN85NZQN,94.0,415941.52,415941.52,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 30,Nexlev,DH-01,D2C - Nexlev,B0GN85NZQN,1.0,4940.0,4940.0,0.0,0.0,FBA79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 30,Nexlev,EA-01,Amazon,B0D67727VG,10.0,9388.14,9388.14,710.0,7100.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 30,Nexlev,EA-01,Blinkit Sales,B0D67727VG,5.0,9043.0,9043.0,710.0,3550.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 30,Nexlev,EA-02,Amazon,B0DKK15YNJ,9.0,19139.83,19139.83,1345.0,12105.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 30,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,4.0,8187.0,8187.0,1345.0,5380.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 30,Nexlev,EA-02,D2C - Nexlev,B0DKK15YNJ,1.0,2523.0,2523.0,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -18408,6 +18406,7 @@ Week 30,Nexlev,ET-02-GN,B2B,B0D2P7WLJB,3.0,1081.0,1081.0,295.0,885.0,FBA79374,MA
 Week 30,Nexlev,ETC-04-WH,Amazon,B0D25LNDSY,0.0,0.0,0.0,412.0,0.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 30,Nexlev,ETC-04-WH,Blinkit Sales,B0D25LNDSY,7.0,4189.0,4189.0,412.0,2884.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 30,Nexlev,ETC-05-PI,Amazon,B0D842173P,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
+Week 30,Nexlev,ETC-05-PI,Pharmaeasy,B0D842173P,2.0,1127.0,1127.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 30,Nexlev,ETC-07-WH,Amazon,B0FJG5PFGQ,6.0,4037.29,4037.29,371.0,2226.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 30,Nexlev,ETC-07-WH,Blinkit Sales,B0FJG5PFGQ,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 30,Nexlev,ETC-08-BL,Amazon,B0FJ1ZB4G9,2.0,1345.76,1345.76,373.0,746.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
@@ -18602,18 +18601,13 @@ Week 30,Tonor,TM20,1p Sales,B08NDB5NWP,6.0,15249.17,15249.17,1695.0,10170.0,FBA7
 Week 30,Tonor,TM20,Amazon,B08NDB5NWP,0.0,0.0,0.0,1695.0,0.0,FBA77110,MAPPED,Conference Microphone,Wired,,
 Week 30,Tonor,TM310,1p Sales,B0CSCT63BL,2.0,4066.1,4066.1,965.0,1930.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 30,Tonor,TM310,Amazon,B0CSCT63BL,1.0,2033.05,2033.05,965.0,965.0,FBA79577,MAPPED,Conference Microphone,Wired,,
-Week 30,White Mulberry,,1p Sales,B0DB5VG39T,51.0,118812.66,118812.66,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 30,White Mulberry,,1p Sales,B0DB5VVPSB,8.0,29145.76,29145.76,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 30,White Mulberry,,1p Sales,B0DB5W4TCP,4.0,5589.84,5589.84,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 30,White Mulberry,,1p Sales,B0DB5YTQZV,29.0,49127.88,49127.88,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 30,White Mulberry,,1p Sales,B0DP2VVRND,52.0,88015.4,88015.4,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 30,White Mulberry,,1p Sales,B0DP2WC5VW,0.0,0.0,0.0,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 30,White Mulberry,,1p Sales,B0DP3194QN,0.0,0.0,0.0,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 30,White Mulberry,,1p Sales,B0DP32F346,22.0,57778.03,57778.03,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
+Week 30,White Mulberry,HD1ML,1p Sales,B0DP3194QN,0.0,0.0,0.0,1566.0,0.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,HD1ML,Amazon,B0DP3194QN,0.0,0.0,0.0,1566.0,0.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,HDGS1ML,Amazon,B0FN81FD8M,2.0,13832.2,13832.2,3200.0,6400.0,FBK79793,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,HDMSP1ML,Amazon,B0FN4JG97R,2.0,9520.34,9520.34,2043.0,4086.0,FBK79792,MAPPED,Monitor Arm,Monitor Arm,,
+Week 30,White Mulberry,HDWF1ML,1p Sales,B0DP32F346,22.0,57778.03,57778.03,1254.0,27588.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,HDWF1ML,Amazon,B0DP32F346,0.0,0.0,0.0,1254.0,0.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
+Week 30,White Mulberry,MS1ML,1p Sales,B0DP2VVRND,52.0,88015.4,88015.4,720.0,37440.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,MS1ML,Amazon,B0DP2VVRND,20.0,32187.29,32187.29,720.0,14400.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,POS2M,Amazon,B0FN4FHH5Y,0.0,0.0,0.0,2016.0,0.0,FBK79784,MAPPED,Monitor Arm,POS Stand,,
 Week 30,White Mulberry,POSS-01,Amazon,B0FN4FPJ83,8.0,11858.47,11858.47,589.0,4712.0,FBK79786,MAPPED,Monitor Arm,POS Stand,,
@@ -18624,9 +18618,13 @@ Week 30,White Mulberry,TVLF1ML,Amazon,B0FHVWHQHR,7.0,3850.0,3850.0,230.0,1610.0,
 Week 30,White Mulberry,TVMF1ML,Amazon,B0FN4DSQ6P,34.0,18123.73,18123.73,179.0,6086.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,,
 Week 30,White Mulberry,VLMS1ML,Amazon,B0DP2Z5DQ9,5.0,11809.32,11809.32,1130.0,5650.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,WM-GD07-CB,Amazon,B0CPFS24ML,32.0,225905.93,225905.93,3269.0,104608.0,FBA79167,MAPPED,Desk,Gaming Desk,,
+Week 30,White Mulberry,WM-GS1M-BK,1p Sales,B0DB5VG39T,51.0,118812.66,118812.66,1341.0,68391.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,WM-GS1M-BK,Amazon,B0DB5VG39T,1.0,2414.41,2414.41,1341.0,1341.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
+Week 30,White Mulberry,WM-GS2M-BK,1p Sales,B0DB5VVPSB,8.0,29145.76,29145.76,2236.0,17888.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,WM-GS2M-BK,Amazon,B0DB5VVPSB,3.0,11183.9,11183.9,2236.0,6708.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
+Week 30,White Mulberry,WM-HA1M-BK,1p Sales,B0DB5W4TCP,4.0,5589.84,5589.84,866.0,3464.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,WM-HA1M-BK,Amazon,B0DB5W4TCP,0.0,0.0,0.0,866.0,0.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
+Week 30,White Mulberry,WM-HA2M-BK,1p Sales,B0DB5YTQZV,29.0,49127.88,49127.88,1380.0,40020.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,2.0,1863.56,1863.56,1380.0,2760.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,5.0,28055.11,28055.11,3943.0,19715.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 30,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,2.0,14062.71,14062.71,3943.0,7886.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
@@ -18636,6 +18634,7 @@ Week 30,White Mulberry,WM-MODL-BK,Amazon,B0DQ51R95T,1.0,10168.64,10168.64,7641.0
 Week 30,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,4.0,50850.85,50850.85,7018.0,28072.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,,
 Week 30,White Mulberry,WM-SE08-WH,Amazon,B0CPT2NY5M,2.0,24252.54,24252.54,7018.0,14036.0,FBA79178,MAPPED,Desk-Adjustable,Motorized,,
 Week 30,White Mulberry,WM-SMD09-WH,Amazon,B0CPT2YJX2,0.0,0.0,0.0,6978.0,0.0,FBA79175,MAPPED,Desk,L-Shaped Desk,,
+Week 30,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,0.0,0.0,0.0,1074.0,0.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 30,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,3.0,8387.29,8387.29,1074.0,3222.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,Audio Array,A3-XLR,Amazon,B0GMPGNXX3,1.0,507.63,507.63,195.60606299999998,195.60606299999998,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 31,Audio Array,A3-XLR,D2C - Audio Array,B0GMPGNXX3,1.0,538.0,538.0,195.60606299999998,195.60606299999998,FBA79956,MAPPED,Microphone Accessories,Accessories,,Tail
@@ -19260,8 +19259,6 @@ Week 31,Fossil,MK9263,Amazon,B0GTC5JGY7,0.0,0.0,0.0,0.0,0.0,FBA80247,MAPPED,Trad
 Week 31,Fossil,MK9270SET,Amazon,B0GTC9239V,0.0,0.0,0.0,0.0,0.0,FBA80248,MAPPED,Traditional Watch,,,
 Week 31,Fossil,MK9272SET,Amazon,B0GTBY2FK6,0.0,0.0,0.0,0.0,0.0,FBA80249,MAPPED,Traditional Watch,,,
 Week 31,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
-Week 31,Nexlev,,B2B,B0D67727VG,1.0,864.0,864.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 31,Nexlev,,Blinkit Sales,B0D67727VG,1.0,1809.0,1809.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
 Week 31,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 31,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
 Week 31,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,3431.0,3431.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -19283,6 +19280,8 @@ Week 31,Nexlev,CR-01,Blinkit Sales,B0D2LHNS9B,0.0,0.0,0.0,533.0,0.0,FBA79265,MAP
 Week 31,Nexlev,DH-01,Amazon,B0GN85NZQN,99.0,453307.63,453307.63,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 31,Nexlev,DH-01,D2C - Nexlev,B0GN85NZQN,1.0,4940.0,4940.0,0.0,0.0,FBA79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 31,Nexlev,EA-01,Amazon,B0D67727VG,21.0,18750.0,18750.0,710.0,14910.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 31,Nexlev,EA-01,B2B,B0D67727VG,1.0,864.0,864.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 31,Nexlev,EA-01,Blinkit Sales,B0D67727VG,1.0,1809.0,1809.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 31,Nexlev,EA-02,Amazon,B0DKK15YNJ,7.0,14909.32,14909.32,1345.0,9415.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 31,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,4.0,8187.0,8187.0,1345.0,5380.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 31,Nexlev,EA-02,D2C - Nexlev,B0DKK15YNJ,1.0,2523.0,2523.0,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -19494,17 +19493,13 @@ Week 31,Tonor,TM20,1p Sales,B08NDB5NWP,10.0,25415.27,25415.27,1695.0,16950.0,FBA
 Week 31,Tonor,TM20,Amazon,B08NDB5NWP,3.0,7624.58,7624.58,1695.0,5085.0,FBA77110,MAPPED,Conference Microphone,Wired,,
 Week 31,Tonor,TM310,1p Sales,B0CSCT63BL,1.0,2033.06,2033.06,965.0,965.0,FBA79577,MAPPED,Conference Microphone,Wired,,
 Week 31,Tonor,TM310,Amazon,B0CSCT63BL,0.0,0.0,0.0,965.0,0.0,FBA79577,MAPPED,Conference Microphone,Wired,,
-Week 31,White Mulberry,,1p Sales,B0DB5VG39T,80.0,186372.8,186372.8,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 31,White Mulberry,,1p Sales,B0DB5VVPSB,6.0,21859.32,21859.32,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 31,White Mulberry,,1p Sales,B0DB5W4TCP,6.0,8384.76,8384.76,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 31,White Mulberry,,1p Sales,B0DB5YTQZV,24.0,40657.6,40657.6,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 31,White Mulberry,,1p Sales,B0DP2VVRND,67.0,113502.4,113502.4,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 31,White Mulberry,,1p Sales,B0DP3194QN,1.0,2965.25,2965.25,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
-Week 31,White Mulberry,,1p Sales,B0DP32F346,27.0,70909.37,70909.37,0.0,0.0,,MAPPED,Monitor Arm,Monitor Arm,,
+Week 31,White Mulberry,HD1ML,1p Sales,B0DP3194QN,1.0,2965.25,2965.25,1566.0,1566.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,HD1ML,Amazon,B0DP3194QN,1.0,3143.22,3143.22,1566.0,1566.0,FBA79616,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,HDGS1ML,Amazon,B0FN81FD8M,0.0,0.0,0.0,3200.0,0.0,FBK79793,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,HDMSP1ML,Amazon,B0FN4JG97R,2.0,4760.17,4760.17,2043.0,4086.0,FBK79792,MAPPED,Monitor Arm,Monitor Arm,,
+Week 31,White Mulberry,HDWF1ML,1p Sales,B0DP32F346,27.0,70909.37,70909.37,1254.0,33858.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,HDWF1ML,Amazon,B0DP32F346,0.0,0.0,0.0,1254.0,0.0,FBA79617,MAPPED,Monitor Arm,Monitor Arm,,
+Week 31,White Mulberry,MS1ML,1p Sales,B0DP2VVRND,67.0,113502.4,113502.4,720.0,48240.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,MS1ML,Amazon,B0DP2VVRND,5.0,8894.07,8894.07,720.0,3600.0,FBA79613,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,POS2M,Amazon,B0FN4FHH5Y,0.0,0.0,0.0,2016.0,0.0,FBK79784,MAPPED,Monitor Arm,POS Stand,,
 Week 31,White Mulberry,POSS-01,Amazon,B0FN4FPJ83,4.0,6776.27,6776.27,589.0,2356.0,FBK79786,MAPPED,Monitor Arm,POS Stand,,
@@ -19515,9 +19510,13 @@ Week 31,White Mulberry,TVLF1ML,Amazon,B0FHVWHQHR,5.0,2750.0,2750.0,230.0,1150.0,
 Week 31,White Mulberry,TVMF1ML,Amazon,B0FN4DSQ6P,36.0,18927.97,18927.97,179.0,6444.0,FBK79789,MAPPED,Monitor Arm,TV Wall Mount,,
 Week 31,White Mulberry,VLMS1ML,Amazon,B0DP2Z5DQ9,2.0,2361.86,2361.86,1130.0,2260.0,FBA79615,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,WM-GD07-CB,Amazon,B0CPFS24ML,31.0,215737.29,215737.29,3269.0,101339.0,FBA79167,MAPPED,Desk,Gaming Desk,,
+Week 31,White Mulberry,WM-GS1M-BK,1p Sales,B0DB5VG39T,80.0,186372.8,186372.8,1341.0,107280.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,WM-GS1M-BK,Amazon,B0DB5VG39T,0.0,0.0,0.0,1341.0,0.0,FBA79476,MAPPED,Monitor Arm,Monitor Arm,,
+Week 31,White Mulberry,WM-GS2M-BK,1p Sales,B0DB5VVPSB,6.0,21859.32,21859.32,2236.0,13416.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,WM-GS2M-BK,Amazon,B0DB5VVPSB,13.0,44735.59,44735.59,2236.0,29068.0,FBA79477,MAPPED,Monitor Arm,Monitor Arm,,
+Week 31,White Mulberry,WM-HA1M-BK,1p Sales,B0DB5W4TCP,6.0,8384.76,8384.76,866.0,5196.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,WM-HA1M-BK,Amazon,B0DB5W4TCP,1.0,1481.36,1481.36,866.0,866.0,FBA79478,MAPPED,Monitor Arm,Monitor Arm,,
+Week 31,White Mulberry,WM-HA2M-BK,1p Sales,B0DB5YTQZV,24.0,40657.6,40657.6,1380.0,33120.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,4.0,7454.24,7454.24,1380.0,5520.0,FBA79479,MAPPED,Monitor Arm,Monitor Arm,,
 Week 31,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,5.0,35156.78,35156.78,3943.0,19715.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 31,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,4.0,28055.11,28055.11,3943.0,15772.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
@@ -19528,9 +19527,6 @@ Week 31,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,1.0,12712.71,12712.71,7018.0
 Week 31,White Mulberry,WM-SE08-WH,Amazon,B0CPT2NY5M,0.0,0.0,0.0,7018.0,0.0,FBA79178,MAPPED,Desk-Adjustable,Motorized,,
 Week 31,White Mulberry,WM-SMD09-WH,Amazon,B0CPT2YJX2,1.0,6438.98,6438.98,6978.0,6978.0,FBA79175,MAPPED,Desk,L-Shaped Desk,,
 Week 31,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,10.0,27957.63,27957.63,1074.0,10740.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
-Week 4,Audio Array,,B2B,,7.0,7311.33,7311.33,0.0,0.0,FBA79350,MAPPED,,,,
-Week 4,Audio Array,,BI Worldwide,,2.0,1548.5714285714284,1548.5714285714284,0.0,0.0,FBA79350,MAPPED,,,,
-Week 4,Audio Array,,Pharmaeasy,,2.0,2964.3142857142857,2964.3142857142857,0.0,0.0,FBA79403,MAPPED,,,,
 Week 4,Audio Array,AA-01,1p Sales,B0B4G8PH2P,9.0,15755.08,15755.08,1224.4990306619115,11020.491275957203,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 4,Audio Array,AA-01,Amazon,B0B4G8PH2P,1.0,2099.0,2099.0,1224.4990306619115,1224.4990306619115,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 4,Audio Array,AA-02,1p Sales,B0B4JRQP22,7.0,14376.29,14376.29,1330.2810372750002,9311.967260925001,FBA75679,MAPPED,Microphone Accessories,Accessories,,Medium
@@ -19564,6 +19560,9 @@ Week 4,Audio Array,AA-25M,Amazon,B0FR5DLXH9,9.0,6542.0,6542.0,299.92929659999993
 Week 4,Audio Array,AA-26,1p Sales,B0DT6T6N6B,53.0,21624.66,21624.66,260.80808399999995,13822.828451999998,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 4,Audio Array,AA-26,Amazon,B0DT6T6N6B,8.0,3603.0,3603.0,260.80808399999995,2086.4646719999996,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 4,Audio Array,AA-26,D2C - Audio Array,B0DT6T6N6B,1.0,448.3050847457627,448.3050847457627,260.80808399999995,260.80808399999995,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
+Week 4,Audio Array,AA-26 Pro,B2B,,7.0,7311.33,7311.33,443.37374279999995,3103.6161995999996,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
+Week 4,Audio Array,AA-26 Pro,BI Worldwide,,2.0,1548.5714285714284,1548.5714285714284,443.37374279999995,886.7474855999999,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
+Week 4,Audio Array,AA-26 Pro,Pharmaeasy,,1.0,1281.0,1281.0,443.37374279999995,443.37374279999995,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
 Week 4,Audio Array,AC-3XL,1p Sales,B0FQJWWDVK,12.0,4379.66,4379.66,130.40404199999998,1564.8485039999996,FBA79820,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 4,Audio Array,AC-3XL,Amazon,B0FQJWWDVK,3.0,1360.0,1360.0,130.40404199999998,391.2121259999999,FBA79820,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 4,Audio Array,AC-6XL,1p Sales,B0CH4VCD6R,0.0,0.0,0.0,169.52525459999998,0.0,FBA77171,MAPPED,Microphone Accessories,Accessories,,Tail
@@ -20083,7 +20082,6 @@ Week 4,Fossil,SKW2694,Amazon,B077SMJP9Z,1.0,9316.95,9316.95,0.0,0.0,FBA69631,MAP
 Week 4,Fossil,SKW3101,Amazon,B0CCHGLV6Y,0.0,0.0,0.0,0.0,0.0,FBA79051,MAPPED,Traditional Watch,,,
 Week 4,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 4,Fossil,SKW6891,Amazon,B0CCHNK41V,0.0,0.0,0.0,0.0,0.0,FBA79044,MAPPED,Traditional Watch,,,
-Week 4,Nexlev,,1p Sales,B0D2LGR3GG,5.0,4158.48,4158.48,0.0,0.0,FBА79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,
 Week 4,Nexlev,AP-01,Amazon,B0DVC9PRSD,1.0,12625.0,12625.0,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 4,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 4,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,4140.0,4140.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -20258,6 +20256,7 @@ Week 4,Nexlev,SS-02 Set of Spares,Amazon,B0F2N31GNX,0.0,0.0,0.0,350.0,0.0,FBA796
 Week 4,Nexlev,ST-01,Amazon,B0DVC7VJP1,29.0,157920.0,157920.0,3423.0,99267.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer,Core
 Week 4,Nexlev,ST-01,D2C - Nexlev,B0DVC7VJP1,1.0,5000.0,5000.0,3423.0,3423.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer,Core
 Week 4,Nexlev,SW-01,Amazon,B0D9KDQCCM,51.0,48235.0,48235.0,409.0,20859.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
+Week 4,Nexlev,T-01,1p Sales,B0D2LGR3GG,5.0,4158.48,4158.48,516.0,2580.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 4,Nexlev,T-01,Amazon,B0D2LGR3GG,0.0,0.0,0.0,516.0,0.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 4,Nexlev,T-01,BI Worldwide,B0D2LGR3GG,3.0,2158.4745762711864,2158.4745762711864,516.0,1548.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 4,Nexlev,T-02,1p Sales,B0D2LD6BYJ,2.0,1978.82,1978.82,606.0,1212.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,Tail
@@ -20393,9 +20392,6 @@ Week 4,White Mulberry,WM-SEH04P-CF,Amazon,B0BMQQQ7YD,0.0,0.0,0.0,0.0,0.0,FBA7676
 Week 4,White Mulberry,WM-USE06-BK,Amazon,B0CPFN27Z2,0.0,0.0,0.0,11345.0,0.0,FBA79164,MAPPED,Desk-Adjustable,USB-Motorized,,
 Week 4,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,35.0,82991.62,82991.62,1074.0,37590.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 4,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,6.0,17298.0,17298.0,1074.0,6444.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
-Week 5,Audio Array,,B2B,,7.0,7311.33,7311.33,0.0,0.0,FBA79350,MAPPED,,,,
-Week 5,Audio Array,,BI Worldwide,,2.0,1548.5714285714284,1548.5714285714284,0.0,0.0,FBA79350,MAPPED,,,,
-Week 5,Audio Array,,Pharmaeasy,,2.0,2964.3142857142857,2964.3142857142857,0.0,0.0,FBA79403,MAPPED,,,,
 Week 5,Audio Array,AA-01,1p Sales,B0B4G8PH2P,5.0,9317.8,9317.8,1224.4990306619115,6122.495153309557,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 5,Audio Array,AA-01,Amazon,B0B4G8PH2P,0.0,0.0,0.0,1224.4990306619115,0.0,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 5,Audio Array,AA-02,1p Sales,B0B4JRQP22,5.0,10589.0,10589.0,1330.2810372750002,6651.405186375001,FBA75679,MAPPED,Microphone Accessories,Accessories,,Medium
@@ -20431,6 +20427,9 @@ Week 5,Audio Array,AA-25M,D2C - Audio Array,B0FR5DLXH9,1.0,762.7118644067797,762
 Week 5,Audio Array,AA-26,1p Sales,B0DT6T6N6B,48.0,22332.14,22332.14,260.80808399999995,12518.788031999997,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 5,Audio Array,AA-26,Amazon,B0DT6T6N6B,9.0,3816.9491525423728,3816.9491525423728,260.80808399999995,2347.2727559999994,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 5,Audio Array,AA-26,D2C - Audio Array,B0DT6T6N6B,6.0,1344.9152542372883,1344.9152542372883,260.80808399999995,1564.8485039999996,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
+Week 5,Audio Array,AA-26 Pro,B2B,,7.0,7311.33,7311.33,443.37374279999995,3103.6161995999996,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
+Week 5,Audio Array,AA-26 Pro,BI Worldwide,,2.0,1548.5714285714284,1548.5714285714284,443.37374279999995,886.7474855999999,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
+Week 5,Audio Array,AA-26 Pro,Pharmaeasy,,1.0,1281.0,1281.0,443.37374279999995,443.37374279999995,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
 Week 5,Audio Array,AC-3XL,1p Sales,B0FQJWWDVK,13.0,4946.58,4946.58,130.40404199999998,1695.2525459999997,FBA79820,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 5,Audio Array,AC-3XL,Amazon,B0FQJWWDVK,0.0,0.0,0.0,130.40404199999998,0.0,FBA79820,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 5,Audio Array,AC-3XL,D2C - Audio Array,B0FQJWWDVK,2.0,806.7796610169491,806.7796610169491,130.40404199999998,260.80808399999995,FBA79820,MAPPED,Microphone Accessories,Accessories,,Tail
@@ -20969,8 +20968,7 @@ Week 5,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Trad
 Week 5,Fossil,SKW3101,Amazon,B0CCHGLV6Y,0.0,0.0,0.0,0.0,0.0,FBA79051,MAPPED,Traditional Watch,,,
 Week 5,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 5,Fossil,SKW6891,Amazon,B0CCHNK41V,0.0,0.0,0.0,0.0,0.0,FBA79044,MAPPED,Traditional Watch,,,
-Week 5,Nexlev,,1p Sales,B0D2LGR3GG,5.0,4158.48,4158.48,0.0,0.0,FBА79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,
-Week 5,Nexlev,,Amazon,B0FM3LBN87,1.0,1694.0677966101696,1694.0677966101696,0.0,0.0,,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,
+Week 5,Nexlev,,Amazon,B0FM3LBN87,1.0,1694.0677966101696,1694.0677966101696,0.0,0.0,,MAPPED,,,,
 Week 5,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 5,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 5,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -21143,6 +21141,7 @@ Week 5,Nexlev,SS-02 Set of Spares,Amazon,B0F2N31GNX,0.0,0.0,0.0,350.0,0.0,FBA796
 Week 5,Nexlev,ST-01,Amazon,B0DVC7VJP1,15.0,73716.10169491525,73716.10169491525,3423.0,51345.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer,Core
 Week 5,Nexlev,ST-01,D2C - Nexlev,B0DVC7VJP1,1.0,5000.0,5000.0,3423.0,3423.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer,Core
 Week 5,Nexlev,SW-01,Amazon,B0D9KDQCCM,48.0,43140.67796610169,43140.67796610169,409.0,19632.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
+Week 5,Nexlev,T-01,1p Sales,B0D2LGR3GG,5.0,4158.48,4158.48,516.0,2580.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 5,Nexlev,T-01,Amazon,B0D2LGR3GG,0.0,0.0,0.0,516.0,0.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 5,Nexlev,T-01,BI Worldwide,B0D2LGR3GG,3.0,2158.4745762711864,2158.4745762711864,516.0,1548.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 5,Nexlev,T-02,1p Sales,B0D2LD6BYJ,2.0,1978.82,1978.82,606.0,1212.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,Tail
@@ -21279,9 +21278,6 @@ Week 5,White Mulberry,WM-USE06-BK,Amazon,B0CPFN27Z2,1.0,19490.67796610169,19490.
 Week 5,White Mulberry,WM-USE06-WH,Amazon,B0CPFPT6DZ,0.0,0.0,0.0,11345.0,0.0,FBA79165,MAPPED,Desk-Adjustable,USB-Motorized,,
 Week 5,White Mulberry,WM1ML,1p Sales,B0DP2WC5VW,0.0,0.0,0.0,1074.0,0.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
 Week 5,White Mulberry,WM1ML,Amazon,B0DP2WC5VW,12.0,30955.93220338983,30955.93220338983,1074.0,12888.0,FBA79612,MAPPED,Monitor Arm,Monitor Arm,,
-Week 6,Audio Array,,BI Worldwide,,1.0,889.5238095238095,889.5238095238095,0.0,0.0,FBA79350,MAPPED,,,,
-Week 6,Audio Array,,CRED_B2C,,1.0,837.2881355932204,837.2881355932204,0.0,0.0,FBA79350,MAPPED,,,,
-Week 6,Audio Array,,Pharmaeasy,,5.0,6263.551412429379,6263.551412429379,0.0,0.0,FBA79347,MAPPED,,,,
 Week 6,Audio Array,AA-01,1p Sales,B0B4G8PH2P,1.0,1821.19,1821.19,1224.4990306619115,1224.4990306619115,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 6,Audio Array,AA-01,Amazon,B0B4G8PH2P,2.0,3642.372881355932,3642.372881355932,1224.4990306619115,2448.998061323823,FBA75678,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 6,Audio Array,AA-02,1p Sales,B0B4JRQP22,6.0,12706.8,12706.8,1330.2810372750002,7981.686223650002,FBA75679,MAPPED,Microphone Accessories,Accessories,,Medium
@@ -21318,6 +21314,9 @@ Week 6,Audio Array,AA-25M,D2C - Audio Array,B0FR5DLXH9,1.0,762.7118644067797,762
 Week 6,Audio Array,AA-26,1p Sales,B0DT6T6N6B,42.0,19540.64,19540.64,260.80808399999995,10953.939527999997,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 6,Audio Array,AA-26,Amazon,B0DT6T6N6B,7.0,2326.271186440678,2326.271186440678,260.80808399999995,1825.6565879999996,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
 Week 6,Audio Array,AA-26,D2C - Audio Array,B0DT6T6N6B,5.0,1344.915254237288,1344.915254237288,260.80808399999995,1304.0404199999998,FBA79694,MAPPED,Microphone Accessories,Accessories,,Medium
+Week 6,Audio Array,AA-26 Pro,BI Worldwide,,1.0,889.5238095238095,889.5238095238095,443.37374279999995,443.37374279999995,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
+Week 6,Audio Array,AA-26 Pro,CRED_B2C,,1.0,837.2881355932204,837.2881355932204,443.37374279999995,443.37374279999995,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
+Week 6,Audio Array,AA-26 Pro,Pharmaeasy,,1.0,547.1864406779661,547.1864406779661,443.37374279999995,443.37374279999995,FBA80124,MAPPED,Microphone Accessories,Microphone Table Top Stand,,Tail
 Week 6,Audio Array,AC-3XL,1p Sales,B0FQJWWDVK,10.0,3805.08,3805.08,130.40404199999998,1304.0404199999998,FBA79820,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 6,Audio Array,AC-3XL,Amazon,B0FQJWWDVK,2.0,761.0169491525425,761.0169491525425,130.40404199999998,260.80808399999995,FBA79820,MAPPED,Microphone Accessories,Accessories,,Tail
 Week 6,Audio Array,AC-6XL,1p Sales,B0CH4VCD6R,7.0,3409.33,3409.33,169.52525459999998,1186.6767822,FBA77171,MAPPED,Microphone Accessories,Accessories,,Tail
@@ -21865,8 +21864,6 @@ Week 6,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Trad
 Week 6,Fossil,SKW3101,Amazon,B0CCHGLV6Y,2.0,11437.29,11437.29,0.0,0.0,FBA79051,MAPPED,Traditional Watch,,,
 Week 6,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 6,Fossil,SKW6891,Amazon,B0CCHNK41V,2.0,11437.29,11437.29,0.0,0.0,FBA79044,MAPPED,Traditional Watch,,,
-Week 6,Nexlev,,1p Sales,B0D2LGR3GG,1.0,846.61,846.61,0.0,0.0,FBА79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,
-Week 6,Nexlev,,Blinkit,B0D67727VG,6.0,6350.847457627119,6350.847457627119,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
 Week 6,Nexlev,AP-01,Amazon,B0DVC9PRSD,3.0,35567.79661016949,35567.79661016949,10158.0,30474.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 6,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 6,Nexlev,AP-03,Amazon,B0DVC58QPZ,4.0,13522.042372881357,13522.042372881357,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -21899,6 +21896,7 @@ Week 6,Nexlev,CR-01,BI Worldwide,B0D2LHNS9B,4.0,2518.64406779661,2518.6440677966
 Week 6,Nexlev,CR-01,D2C - Nexlev,B0D2LHNS9B,18.0,11135.593220338982,11135.593220338982,533.0,9594.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 6,Nexlev,CR-01,Myntra,B0D2LHNS9B,2.0,3098.305084745763,3098.305084745763,533.0,1066.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 6,Nexlev,EA-01,Amazon,B0D67727VG,23.0,21495.76271186441,21495.76271186441,710.0,16330.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 6,Nexlev,EA-01,Blinkit,B0D67727VG,6.0,6350.847457627119,6350.847457627119,710.0,4260.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 6,Nexlev,EA-01,D2C - Nexlev,B0D67727VG,2.0,2219.047619047619,2219.047619047619,710.0,1420.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 6,Nexlev,EA-02,Amazon,B0DKK15YNJ,3.0,7038.1355932203405,7038.1355932203405,1345.0,4035.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 6,Nexlev,EA-02,Blinkit,B0DKK15YNJ,2.0,5083.050847457627,5083.050847457627,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -22043,6 +22041,7 @@ Week 6,Nexlev,SS-02 Set of Spares,Amazon,B0F2N31GNX,0.0,0.0,0.0,350.0,0.0,FBA796
 Week 6,Nexlev,ST-01,Amazon,B0DVC7VJP1,18.0,83594.07627118644,83594.07627118644,3423.0,61614.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer,Core
 Week 6,Nexlev,ST-01,D2C - Nexlev,B0DVC7VJP1,6.0,26817.79661016949,26817.79661016949,3423.0,20538.0,FBA79679,MAPPED,Home & Kitchen,Kitchen Appliances,Stand Mixer,Core
 Week 6,Nexlev,SW-01,Amazon,B0D9KDQCCM,29.0,26301.69491525424,26301.69491525424,409.0,11861.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
+Week 6,Nexlev,T-01,1p Sales,B0D2LGR3GG,1.0,846.61,846.61,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 6,Nexlev,T-01,Amazon,B0D2LGR3GG,0.0,0.0,0.0,516.0,0.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 6,Nexlev,T-01,D2C - Nexlev,B0D2LGR3GG,14.0,8589.830508474575,8589.830508474575,516.0,7224.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 6,Nexlev,T-01,Myntra,B0D2LGR3GG,1.0,1075.4237288135594,1075.4237288135594,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
@@ -22761,12 +22760,6 @@ Week 7,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Trad
 Week 7,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 7,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 7,Fossil,SKW6891,Amazon,B0CCHNK41V,0.0,0.0,0.0,0.0,0.0,FBA79044,MAPPED,Traditional Watch,,,
-Week 7,Nexlev,,1p Sales,B0D2LGR3GG,1.0,846.61,846.61,0.0,0.0,FBА79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,
-Week 7,Nexlev,,BI Worldwide,B0D67727VG,1.0,890.0,890.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 7,Nexlev,,Blinkit Sales,B0D67727VG,3.0,3597.0,3597.0,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 7,Nexlev,,D2C - Nexlev,B0D67727VG,1.0,1109.52381,1109.52381,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 7,Nexlev,,D2C - Nexlev,B0DNJJKBKG,1.0,1877.142857,1877.142857,0.0,0.0,FBA79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 7,Nexlev,,Pharmaeasy,B0DMSHZXG2,1.0,1652.74,1652.74,0.0,0.0,FBK79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro,
 Week 7,Nexlev,AP-01,Amazon,B0DVC9PRSD,3.0,35567.79661016949,35567.79661016949,10158.0,30474.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 7,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 7,Nexlev,AP-03,Amazon,B0DVC58QPZ,9.0,30500.84745762712,30500.84745762712,2005.0,18045.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -22776,6 +22769,7 @@ Week 7,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.372881,3592.372881,2005.0,2
 Week 7,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,2.0,5710.78,5710.78,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
 Week 7,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,3.0,2794.06779661017,2794.06779661017,500.0,1500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 7,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.5932203389832,1685.5932203389832,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
+Week 7,Nexlev,BM-02,D2C - Nexlev,B0DNJJKBKG,1.0,1877.142857,1877.142857,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 7,Nexlev,BM-02,Pharmaeasy,B0DNJJKBKG,1.0,1599.14,1599.14,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 7,Nexlev,BR-01,Amazon,B0DKJXRXKM,29.0,38037.2966101695,38037.2966101695,536.0,15544.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 7,Nexlev,BR-01,BI Worldwide,B0DKJXRXKM,1.0,1116.0,1116.0,536.0,536.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -22801,8 +22795,12 @@ Week 7,Nexlev,CR-01,D2C - Nexlev,B0D2LHNS9B,13.0,8042.372881,8042.372881,533.0,6
 Week 7,Nexlev,CR-01,Myntra,B0D2LHNS9B,1.0,1463.559,1463.559,533.0,533.0,FBA79265,MAPPED,HPC,Skin Care,Callus Remover,Tail
 Week 7,Nexlev,EA-01,Amazon,B0D67727VG,29.0,26133.898305084746,26133.898305084746,710.0,20590.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 7,Nexlev,EA-01,B2B,B0D67727VG,1.0,923.0,923.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 7,Nexlev,EA-01,BI Worldwide,B0D67727VG,1.0,890.0,890.0,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 7,Nexlev,EA-01,Blinkit Sales,B0D67727VG,3.0,3597.0,3597.0,710.0,2130.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 7,Nexlev,EA-01,D2C - Nexlev,B0D67727VG,1.0,1109.52381,1109.52381,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 7,Nexlev,EA-02,Amazon,B0DKK15YNJ,2.0,4744.067796610169,4744.067796610169,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 7,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,0.0,0.0,0.0,1345.0,0.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
+Week 7,Nexlev,EM-02,Pharmaeasy,B0DMSHZXG2,1.0,1652.74,1652.74,1422.0,1422.0,FBA79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro,
 Week 7,Nexlev,ET-01-BK,Amazon,B0D2P5TGWK,23.0,5574.576271186441,5574.576271186441,295.0,6785.0,FBA79373,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 7,Nexlev,ET-01-BK,CRED_B2C,B0CS69T7HF,2.0,468.1269,468.1269,282.0,564.0,FBA79233,MAPPED,HPC,Oral Care,Electric Toothbrush,
 Week 7,Nexlev,ET-01-BK,POP,B0D2P5TGWK,3.0,760.0,760.0,295.0,885.0,FBA79373,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
@@ -22972,6 +22970,7 @@ Week 7,Nexlev,ST-01,D2C - Nexlev,B0DVC7VJP1,5.0,21817.79661,21817.79661,3423.0,1
 Week 7,Nexlev,ST-01 ST-01 Set of Hooks,Amazon,B0FYNT1TW7,0.0,0.0,0.0,550.0,0.0,FBA79915,MAPPED,Home & Kitchen,ST-01 Set of Hooks,Spares,
 Week 7,Nexlev,SW-01,Amazon,B0D9KDQCCM,29.0,25202.54237288136,25202.54237288136,409.0,11861.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
 Week 7,Nexlev,SW-01,Blinkit Sales,B0D9KDQCCM,0.0,0.0,0.0,409.0,0.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
+Week 7,Nexlev,T-01,1p Sales,B0D2LGR3GG,1.0,846.61,846.61,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 7,Nexlev,T-01,Amazon,B0D2LGR3GG,0.0,0.0,0.0,516.0,0.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 7,Nexlev,T-01,BI Worldwide,B0D2LGR3GG,3.0,2158.0,2158.0,516.0,1548.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 7,Nexlev,T-01,Blinkit Sales,B0D2LGR3GG,0.0,0.0,0.0,516.0,0.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
@@ -23714,9 +23713,6 @@ Week 8,Fossil,MK9245SET,Amazon,B0FQ832739,1.0,22877.12,22877.12,0.0,0.0,FBA79950
 Week 8,Fossil,MKO1224,Amazon,B0FTMMHDNH,1.0,20758.47,20758.47,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 8,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 8,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
-Week 8,Nexlev,,Blinkit Sales,B0D67727VG,1.0,983.18,983.18,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 8,Nexlev,,Myntra,B0D2LGR3GG,1.0,1075.0,1075.0,0.0,0.0,FBА79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,
-Week 8,Nexlev,,Pharmaeasy,B0D842173P,2.0,1094.37,1094.37,0.0,0.0,FBA79347,MAPPED,HPC,Oral Care,Electric Toothbrush,
 Week 8,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 8,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 8,Nexlev,AP-03,Amazon,B0DVC58QPZ,3.0,10156.610169491523,10156.610169491523,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -23747,6 +23743,7 @@ Week 8,Nexlev,CR-01,Myntra,B0D2LHNS9B,1.0,1464.0,1464.0,533.0,533.0,FBA79265,MAP
 Week 8,Nexlev,DF-01-BK,Amazon,B0CW1JJP9S,0.0,0.0,0.0,1073.0,0.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser,
 Week 8,Nexlev,DH-01,Amazon,B0GN85NZQN,2.0,6777.966101694916,6777.966101694916,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 8,Nexlev,EA-01,Amazon,B0D67727VG,24.0,19595.76271186441,19595.76271186441,710.0,17040.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 8,Nexlev,EA-01,Blinkit Sales,B0D67727VG,1.0,983.18,983.18,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 8,Nexlev,EA-02,Amazon,B0DKK15YNJ,2.0,4744.067796610169,4744.067796610169,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 8,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,2.0,4918.36,4918.36,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 8,Nexlev,EA-02,D2C - Nexlev,B0DKK15YNJ,1.0,2826.0,2826.0,1345.0,1345.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
@@ -23766,6 +23763,7 @@ Week 8,Nexlev,ETC-04-WH,Blinkit Sales,B0D25LNDSY,5.0,3275.9,3275.9,412.0,2060.0,
 Week 8,Nexlev,ETC-04-WH,CRED_B2C,B0D25LNDSY,2.0,1090.0,1090.0,412.0,824.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 8,Nexlev,ETC-05-PI,Amazon,B0D842173P,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 8,Nexlev,ETC-05-PI,CRED_B2C,B0D842173P,2.0,914.0,914.0,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
+Week 8,Nexlev,ETC-05-PI,Pharmaeasy,B0D842173P,2.0,1094.37,1094.37,413.0,826.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 8,Nexlev,ETC-07-WH,Amazon,B0FJG5PFGQ,18.0,11425.42372881356,11425.42372881356,371.0,6678.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 8,Nexlev,ETC-07-WH,BI Worldwide,B0FJG5PFGQ,2.0,1178.0,1178.0,371.0,742.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 8,Nexlev,ETC-07-WH,Blinkit Sales,B0FJG5PFGQ,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
@@ -23930,6 +23928,7 @@ Week 8,Nexlev,SW-01,D2C - Nexlev,B0D9KDQCCM,1.0,987.0,987.0,409.0,409.0,FBA79349
 Week 8,Nexlev,T-01,Amazon,B0D2LGR3GG,1.0,863.5593220338983,863.5593220338983,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 8,Nexlev,T-01,Blinkit Sales,B0D2LGR3GG,0.0,0.0,0.0,516.0,0.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 8,Nexlev,T-01,D2C - Nexlev,B0D2LGR3GG,8.0,5044.0,5044.0,516.0,4128.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
+Week 8,Nexlev,T-01,Myntra,B0D2LGR3GG,1.0,1075.0,1075.0,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 8,Nexlev,T-02,Amazon,B0D2LD6BYJ,7.0,5926.271186440678,5926.271186440678,606.0,4242.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,Tail
 Week 8,Nexlev,T-02,BI Worldwide,B0D2LD6BYJ,1.0,864.0,864.0,606.0,606.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,Tail
 Week 8,Nexlev,T-02,Blinkit Sales,B0D2LD6BYJ,0.0,0.0,0.0,606.0,0.0,FBA79267,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,Tail
@@ -24634,11 +24633,6 @@ Week 9,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,Tr
 Week 9,Fossil,MKO1224,Amazon,B0FTMMHDNH,1.0,20758.47,20758.47,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 9,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 9,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
-Week 9,Nexlev,,1p Sales,B0D2LGR3GG,2.0,1693.22,1693.22,0.0,0.0,FBА79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,
-Week 9,Nexlev,,Blinkit Sales,B0D67727VG,1.0,983.18,983.18,0.0,0.0,FBA79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,
-Week 9,Nexlev,,D2C - Nexlev,B0DNJJKBKG,2.0,3766.0,3766.0,0.0,0.0,FBA79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
-Week 9,Nexlev,,Pharmaeasy,B0D842173P,1.0,547.0,547.0,0.0,0.0,FBA79347,MAPPED,HPC,Oral Care,Electric Toothbrush,
-Week 9,Nexlev,,Pharmaeasy,B0DNJJKBKG,1.0,1663.0,1663.0,0.0,0.0,FBA79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 9,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 9,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 9,Nexlev,AP-03,Amazon,B0DVC58QPZ,8.0,26400.008474576272,26400.008474576272,2005.0,16040.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
@@ -24647,6 +24641,8 @@ Week 9,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6886.36,6886.36,2005.0,4010.0,F
 Week 9,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.0,3592.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
 Week 9,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,2.0,1862.71186440678,1862.71186440678,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 9,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
+Week 9,Nexlev,BM-02,D2C - Nexlev,B0DNJJKBKG,2.0,3766.0,3766.0,970.0,1940.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
+Week 9,Nexlev,BM-02,Pharmaeasy,B0DNJJKBKG,1.0,1663.0,1663.0,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 9,Nexlev,BR-01,Amazon,B0DKJXRXKM,11.0,14897.661016949154,14897.661016949154,536.0,5896.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 9,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 9,Nexlev,CF-01,Amazon,B0DNJF1BLS,2.0,1270.3389830508474,1270.3389830508474,716.0,1432.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
@@ -24672,6 +24668,7 @@ Week 9,Nexlev,CR-01,D2C - Nexlev,B0D2LHNS9B,7.0,4331.0,4331.0,533.0,3731.0,FBA79
 Week 9,Nexlev,DF-01-BK,Amazon,B0CW1JJP9S,1.0,1386.4406779661017,1386.4406779661017,1073.0,1073.0,FBA79174,MAPPED,HPC,Oral Care,Dental Flosser,
 Week 9,Nexlev,DH-01,Amazon,B0GN85NZQN,2.0,6777.966101694916,6777.966101694916,0.0,0.0,FBM79991,MAPPED,Home & Kitchen,"Heating, Cooling & Air Quality",Dehumidifiers,Core
 Week 9,Nexlev,EA-01,Amazon,B0D67727VG,11.0,10282.203389830509,10282.203389830509,710.0,7810.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
+Week 9,Nexlev,EA-01,Blinkit Sales,B0D67727VG,1.0,983.18,983.18,710.0,710.0,FBP79350,MAPPED,HPC,Hair Care,Hair Oil Applicator,Tail
 Week 9,Nexlev,EA-02,Amazon,B0DKK15YNJ,2.0,4744.067796610169,4744.067796610169,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 9,Nexlev,EA-02,Blinkit Sales,B0DKK15YNJ,2.0,4918.36,4918.36,1345.0,2690.0,FBA79573,MAPPED,HPC,Hair Care,Hair Oil Applicator,Medium
 Week 9,Nexlev,EM-02,Pharmaeasy,B0DMSHZXG2,1.0,1740.0,1740.0,1422.0,1422.0,FBA79595,MAPPED,HPC,Electric Massagers,Eye Massager - Pro,
@@ -24687,6 +24684,7 @@ Week 9,Nexlev,ETC-04-WH,Blinkit Sales,B0D25LNDSY,5.0,3275.9,3275.9,412.0,2060.0,
 Week 9,Nexlev,ETC-04-WH,CRED_B2C,B0D25LNDSY,2.0,1183.9,1183.9,412.0,824.0,FBA79346,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 9,Nexlev,ETC-05-PI,Amazon,B0D842173P,0.0,0.0,0.0,413.0,0.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 9,Nexlev,ETC-05-PI,CRED_B2C,B0D842173P,1.0,494.9,494.9,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
+Week 9,Nexlev,ETC-05-PI,Pharmaeasy,B0D842173P,1.0,547.0,547.0,413.0,413.0,FBK79347,MAPPED,HPC,Oral Care,Electric Toothbrush,Tail
 Week 9,Nexlev,ETC-07-WH,Amazon,B0FJG5PFGQ,11.0,6982.203389830509,6982.203389830509,371.0,4081.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 9,Nexlev,ETC-07-WH,Blinkit Sales,B0FJG5PFGQ,0.0,0.0,0.0,371.0,0.0,FBA79673,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
 Week 9,Nexlev,ETC-08-BL,Amazon,B0FJ1ZB4G9,6.0,3808.474576271187,3808.474576271187,373.0,2238.0,FBA79707,MAPPED,HPC,Oral Care,Electric Toothbrush,Medium
@@ -24851,6 +24849,7 @@ Week 9,Nexlev,ST-01 ST-01 Set of Hooks,Amazon,B0FYNT1TW7,4.0,3813.5593220338974,
 Week 9,Nexlev,SW-01,Amazon,B0D9KDQCCM,26.0,23700.84745762712,23700.84745762712,409.0,10634.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
 Week 9,Nexlev,SW-01,Blinkit Sales,B0D9KDQCCM,0.0,0.0,0.0,409.0,0.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
 Week 9,Nexlev,SW-01,D2C - Nexlev,B0D9KDQCCM,2.0,1975.0,1975.0,409.0,818.0,FBA79349,MAPPED,Home & Kitchen,Fabric Care,Mini Sewing Machine,EOL
+Week 9,Nexlev,T-01,1p Sales,B0D2LGR3GG,2.0,1693.22,1693.22,516.0,1032.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 9,Nexlev,T-01,Amazon,B0D2LGR3GG,1.0,863.5593220338983,863.5593220338983,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 9,Nexlev,T-01,BI Worldwide,B0D2LGR3GG,1.0,719.0,719.0,516.0,516.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL
 Week 9,Nexlev,T-01,Blinkit Sales,B0D2LGR3GG,0.0,0.0,0.0,516.0,0.0,FBA79266,MAPPED,HPC,Trimmers & Body Groomers,Women Trimmer,EOL

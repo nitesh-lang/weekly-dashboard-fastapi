@@ -1,5 +1,5 @@
 # Weekly Brief — Week 31
-*Generated 2026-08-03T12:47:23.819864Z from data through Week 31*
+*Generated 2026-08-03T13:09:40.346653Z from data through Week 31*
 ## This week at a glance
 
 Week 31 closed at **₹85.78L GMV** (+3.2% WoW, +12.0% vs prior 4w) on **3,111 units** (-1.0% WoW). This was a steady week, led by **Audio Array** at 44% of portfolio GMV.

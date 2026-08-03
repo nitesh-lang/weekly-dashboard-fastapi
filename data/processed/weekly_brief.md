@@ -1,5 +1,5 @@
 # Weekly Brief — Week 31
-*Generated 2026-08-03T12:05:23.703489Z from data through Week 31*
+*Generated 2026-08-03T12:47:23.819864Z from data through Week 31*
 ## This week at a glance
 
 Week 31 closed at **₹85.78L GMV** (+3.2% WoW, +12.0% vs prior 4w) on **3,111 units** (-1.0% WoW). This was a steady week, led by **Audio Array** at 44% of portfolio GMV.
@@ -85,9 +85,9 @@ Ad spend **₹8.81L** (-16.1%) — ROAS **4.95x** · ACOS **20.2%** · TACOS **1
 
 ## Brand briefs
 
-**Audio Array** 🟡 — GMV ₹37.50L (-0.4% WoW) on 1,459 units (-4.7%). Top contributor **AI-04 Red** at ₹4.00L. Total stock 86,611 units. Ad spend ₹3.94L → ROAS 5.66x, ACOS 17.7%.
+**Audio Array** 🟡 — GMV ₹37.50L (-0.4% WoW) on 1,459 units (-4.7%). Top contributor **AI-04 Red** at ₹4.00L. Total stock 86,609 units. Ad spend ₹3.94L → ROAS 5.66x, ACOS 17.7%.
 
-**Nexlev** 🟢 — GMV ₹35.98L (+7.2% WoW) on 1,153 units (+1.5%). Top contributor **SP-01** at ₹5.90L. Total stock 80,085 units. Ad spend ₹3.34L → ROAS 4.35x, ACOS 23.0%.
+**Nexlev** 🟢 — GMV ₹35.98L (+7.2% WoW) on 1,153 units (+1.5%). Top contributor **SP-01** at ₹5.90L. Total stock 80,078 units. Ad spend ₹3.34L → ROAS 4.35x, ACOS 23.0%.
 
 **White Mulberry** 🟢 — GMV ₹9.83L (+7.6% WoW) on 375 units (+13.0%). Top contributor **WM-GD07-CB** at ₹2.16L. Total stock 6,491 units. Ad spend ₹1.36L → ROAS 4.12x, ACOS 24.3%.
 
@@ -96,11 +96,11 @@ Ad spend **₹8.81L** (-16.1%) — ROAS **4.95x** · ACOS **20.2%** · TACOS **1
 ## Channel mix
 
 - 🟢 **Amazon** — ₹42.72L (49.8% of portfolio, +5.9% WoW)
-- 🔴 **1p Sales** — ₹34.84L (40.6% of portfolio, -9.1% WoW)
-- · **1P** — ₹4.45L (5.2% of portfolio, — WoW)
+- 🟡 **1p Sales** — ₹39.28L (45.8% of portfolio, +2.5% WoW)
 - 🔴 **Blinkit Sales** — ₹1.51L (1.8% of portfolio, -19.4% WoW)
 - 🔴 **B2B** — ₹1.17L (1.4% of portfolio, -19.2% WoW)
 - 🟡 **D2C - Nexlev** — ₹89.5K (1.0% of portfolio, 0.0% WoW)
+- 🟡 **D2C - Audio Array** — ₹20.1K (0.2% of portfolio, 0.0% WoW)
 
 ## Top categories
 

@@ -33,7 +33,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,AH-40 PRO,0,0,0,0,0,0
 31,AH-40 SL,1382,186,100,1668,0,1668
 31,AH-45 BK,938,193,31,1162,0,1162
-31,AH-50,591,555,182,1328,0,1328
+31,AH-50,591,555,180,1326,0,1326
 31,AH-50 EAR CUSHION,0,0,37,37,0,37
 31,AH-50-DH,0,0,0,0,0,0
 31,AH-53,0,0,0,0,0,0
@@ -142,7 +142,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,AM-W17,27,30,9,66,0,66
 31,AM-W18,1462,224,20,1706,0,1706
 31,AM-W19,209,89,140,438,0,438
-31,AM-W20,118,11,23,152,0,152
+31,AM-W20,118,11,22,151,0,151
 31,AM-W21,19,20,13,52,0,52
 31,AM-W22,899,202,24,1125,0,1125
 31,AM-W23,237,50,17,304,0,304
@@ -159,7 +159,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,AM-W45,251,481,50,782,0,782
 31,AM-W46,10,5,1,16,0,16
 31,AM-W47 WIRED,94,108,37,239,0,239
-31,AM-W47 WIRELESS,104,4,3,111,0,111
+31,AM-W47 WIRELESS,104,4,4,112,0,112
 31,AM-W47 WIRLESS,0,0,0,0,0,0
 31,AM-W48,0,0,0,0,0,0
 31,AM-W48 / AM-S6,0,0,0,0,0,0
@@ -235,7 +235,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,AR11774,0,0,2,2,0,2
 31,AR11783,0,0,4,4,0,4
 31,AR1676,0,0,0,0,0,0
-31,AR1926,0,0,6,6,0,6
+31,AR1926,0,0,7,7,0,7
 31,AR1979,0,0,4,4,0,4
 31,AR2434,0,0,3,3,0,3
 31,AR2502,0,0,3,3,0,3
@@ -257,7 +257,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,AX1962,0,0,2,2,0,2
 31,AX1964,0,0,0,0,0,0
 31,AX1970,0,0,5,5,0,5
-31,AX1971,0,0,3,3,0,3
+31,AX1971,0,0,2,2,0,2
 31,AX1972,0,0,6,6,0,6
 31,AX1973,0,0,5,5,0,5
 31,AX2101,0,0,1,1,0,1
@@ -414,10 +414,10 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,ES5422,0,0,3,3,0,3
 31,ES5434,0,0,3,3,0,3
 31,ES5438,0,0,6,6,0,6
-31,ES5439,0,0,62,62,0,62
+31,ES5439,0,0,61,61,0,61
 31,ES5443,0,0,17,17,0,17
 31,ES5444,0,0,15,15,0,15
-31,ES5451,0,0,17,17,0,17
+31,ES5451,0,0,16,16,0,16
 31,ES5452,0,0,8,8,0,8
 31,ES5455,0,0,6,6,0,6
 31,ES5456,0,0,11,11,0,11
@@ -440,7 +440,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,FS-01,1274,0,202,1476,0,1476
 31,FS4656,0,0,0,0,0,0
 31,FS4735,0,0,0,0,0,0
-31,FS4795,0,0,29,29,0,29
+31,FS4795,0,0,28,28,0,28
 31,FS4812,0,0,0,0,0,0
 31,FS4813,0,0,1,1,0,1
 31,FS4867,0,0,896,896,0,896
@@ -512,7 +512,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,GS-05,12,0,240,252,0,252
 31,HB-01,45,0,0,45,0,45
 31,HD-01,928,0,67,995,0,995
-31,HD-02,562,0,67,629,0,629
+31,HD-02,562,0,66,628,0,628
 31,HD1ML,4,1,0,5,0,5
 31,HDGS1ML,4,0,0,4,0,4
 31,HDMSP1ML,0,0,1,1,0,1
@@ -524,10 +524,10 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,HSB-03,1547,0,42,1589,0,1589
 31,HSB-04,22,0,23,45,0,45
 31,HU-01,52,0,1,53,0,53
-31,HU-02,446,0,251,697,0,697
+31,HU-02,446,0,250,696,0,696
 31,IPL-01,57,0,0,57,0,57
 31,JR1401,0,0,929,929,0,929
-31,JR1487,0,0,269,269,0,269
+31,JR1487,0,0,268,268,0,268
 31,"JT-01, BM 320 PRO",0,0,0,0,0,0
 31,JTG800,21,0,2,23,0,23
 31,K1,496,138,118,752,0,752
@@ -719,7 +719,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,SC-04,54,0,257,311,0,311
 31,SC-04 SET OF 2 MOPS,0,0,1,1,0,1
 31,SC-04 SPARE SET,0,0,9,9,0,9
-31,SC-05,3,0,198,201,0,201
+31,SC-05,3,0,194,197,0,197
 31,SC-05 SC-05 - SET OF SPARES,0,0,0,0,0,0
 31,SC-06,0,0,0,0,0,0
 31,SKW2694,0,0,6,6,0,6
@@ -733,7 +733,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,SS-02,384,0,109,493,0,493
 31,SS-02 SET OF SPARES,0,0,4,4,0,4
 31,ST-01,0,0,10,10,0,10
-31,ST-02,35,0,110,145,0,145
+31,ST-02,35,0,109,144,0,144
 31,ST-03,2,0,29,31,0,31
 31,SW-01,7,0,377,384,0,384
 31,T-01,9,0,0,9,0,9
@@ -776,7 +776,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,TVCF1ML,494,0,93,587,0,587
 31,TVCT1ML,0,0,6,6,0,6
 31,TVFM1ML,610,0,102,712,0,712
-31,TVLF1ML,583,0,135,718,0,718
+31,TVLF1ML,583,0,134,717,0,717
 31,TVMF1ML,16,0,56,72,0,72
 31,"UB-01 (AI-04, AM-S1, AA-21, AM-C2)",0,21,2,23,0,23
 31,UB-02 (AM-S1 + AA-21),0,27,6,33,0,33
@@ -803,7 +803,7 @@ week,Model,inventory_ampm,inventory_1p,inventory_amazon,inventory_total_amazon,p
 31,W3,0,0,0,0,0,0
 31,W5,1,0,2,3,0,3
 31,WF-02-BL,43,0,0,43,0,43
-31,WM-GD07-CB,0,0,68,68,0,68
+31,WM-GD07-CB,0,0,69,69,0,69
 31,WM-GS1M-BK,76,101,20,197,0,197
 31,WM-GS2M-BK,308,2,5,315,0,315
 31,WM-HA1M-BK,573,23,54,650,0,650

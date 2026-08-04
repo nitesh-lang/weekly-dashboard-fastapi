@@ -612,9 +612,9 @@ Week 10,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 10,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 10,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 10,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 10,Nexlev,AP-03,Amazon,B0DVC58QPZ,7.0,21756.77966101695,21756.77966101695,2005.0,14035.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 10,Nexlev,AP-03,B2B,B0DVC58QPZ,1.0,2737.0,2737.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 10,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 10,Nexlev,AP-03,Amazon,B0DVC58QPZ,7.0,21756.77966101695,21756.77966101695,2005.0,14035.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 10,Nexlev,AP-03,B2B,B0DVC58QPZ,1.0,2737.0,2737.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 10,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 10,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,2.0,1862.71186440678,1862.71186440678,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 10,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 10,Nexlev,BM-02,Myntra,B0DNJJKBKG,1.0,3299.0,3299.0,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
@@ -1532,11 +1532,11 @@ Week 11,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Tra
 Week 11,Nexlev,AP-01,Amazon,B0DVC9PRSD,1.0,12110.16949152542,12110.16949152542,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 11,Nexlev,AP-01,B2B,B0DVC9PRSD,1.0,10000.0,10000.0,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 11,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 11,Nexlev,AP-03,Amazon,B0DVC58QPZ,9.0,27450.0,27450.0,2005.0,18045.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 11,Nexlev,AP-03,B2B,B0DVC58QPZ,14.0,39763.0,39763.0,2005.0,28070.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 11,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5185.0,5185.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 11,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6558.36,6558.36,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 11,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,2.0,5838.0,5838.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 11,Nexlev,AP-03,Amazon,B0DVC58QPZ,9.0,27450.0,27450.0,2005.0,18045.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 11,Nexlev,AP-03,B2B,B0DVC58QPZ,14.0,39763.0,39763.0,2005.0,28070.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 11,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5185.0,5185.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 11,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6558.36,6558.36,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 11,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,2.0,5838.0,5838.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 11,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 11,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 11,Nexlev,BR-01,Amazon,B0DKJXRXKM,32.0,41995.779661016946,41995.779661016946,536.0,17152.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -2475,9 +2475,9 @@ Week 12,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 12,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 12,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 12,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 12,Nexlev,AP-03,Amazon,B0DVC58QPZ,4.0,12369.49152542373,12369.49152542373,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 12,Nexlev,AP-03,B2B,B0DVC58QPZ,4.0,11381.0,11381.0,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 12,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,4.0,12132.72,12132.72,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 12,Nexlev,AP-03,Amazon,B0DVC58QPZ,4.0,12369.49152542373,12369.49152542373,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 12,Nexlev,AP-03,B2B,B0DVC58QPZ,4.0,11381.0,11381.0,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 12,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,4.0,12132.72,12132.72,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 12,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 12,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 12,Nexlev,BR-01,Amazon,B0DKJXRXKM,30.0,33871.20338983051,33871.20338983051,536.0,16080.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -3384,10 +3384,10 @@ Week 13,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 13,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 13,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 13,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 13,Nexlev,AP-03,Amazon,B0DVC58QPZ,4.0,12877.96610169492,12877.96610169492,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 13,Nexlev,AP-03,B2B,B0DVC58QPZ,2.0,5475.0,5475.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 13,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5184.746,5184.746,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 13,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,5.0,16097.46,16097.46,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 13,Nexlev,AP-03,Amazon,B0DVC58QPZ,4.0,12877.96610169492,12877.96610169492,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 13,Nexlev,AP-03,B2B,B0DVC58QPZ,2.0,5475.0,5475.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 13,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5184.746,5184.746,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 13,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,5.0,16097.46,16097.46,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 13,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 13,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 13,Nexlev,BM-02,Pharmaeasy,B0DNJJKBKG,2.0,3316.0,3316.0,970.0,1940.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
@@ -4317,10 +4317,10 @@ Week 14,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 14,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 14,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 14,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 14,Nexlev,AP-03,Amazon,B0DVC58QPZ,5.0,15033.898305084751,15033.898305084751,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 14,Nexlev,AP-03,B2B,B0DVC58QPZ,2.0,5475.0,5475.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 14,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,5.0,12962.0,12962.0,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 14,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,4.0,14127.3072,14127.3072,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 14,Nexlev,AP-03,Amazon,B0DVC58QPZ,5.0,15033.898305084751,15033.898305084751,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 14,Nexlev,AP-03,B2B,B0DVC58QPZ,2.0,5475.0,5475.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 14,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,5.0,12962.0,12962.0,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 14,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,4.0,14127.3072,14127.3072,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 14,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 14,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 14,Nexlev,BR-01,Amazon,B0DKJXRXKM,13.0,17607.62711864407,17607.62711864407,536.0,6968.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -5253,11 +5253,11 @@ Week 15,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 15,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 15,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 15,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 15,Nexlev,AP-03,Amazon,B0DVC58QPZ,3.0,9488.98305084746,9488.98305084746,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 15,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,2592.0,2592.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 15,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,2965.0,2965.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 15,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,2.0,7185.0,7185.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 15,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.0,5143.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 15,Nexlev,AP-03,Amazon,B0DVC58QPZ,3.0,9488.98305084746,9488.98305084746,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 15,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,2592.0,2592.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 15,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,2965.0,2965.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 15,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,2.0,7185.0,7185.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 15,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.0,5143.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 15,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,2.0,1862.71186440678,1862.71186440678,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 15,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.593220338983,1685.593220338983,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 15,Nexlev,BM-02,Myntra,B0DNJJKBKG,2.0,5126.0,5126.0,970.0,1940.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
@@ -6191,11 +6191,11 @@ Week 16,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 16,Fossil,SKW3121,Amazon,B0CGSQGH17,1.0,8046.610169491526,8046.610169491526,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 16,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 16,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 16,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 16,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 16,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5184.745763,5184.745763,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 16,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,3.0,10803.0,10803.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 16,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.373,3592.373,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 16,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 16,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 16,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5184.745763,5184.745763,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 16,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,3.0,10803.0,10803.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 16,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.373,3592.373,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 16,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 16,Nexlev,BR-01,Amazon,B0DKJXRXKM,30.0,35531.35593220339,35531.35593220339,536.0,16080.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 16,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,1.0,1354.0,1354.0,536.0,536.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -7094,11 +7094,11 @@ Week 17,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 17,Nexlev,AP-01,Amazon,B0DVC9PRSD,1.0,14398.30508474576,14398.30508474576,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 17,Nexlev,AP-01,D2C - Nexlev,B0DVC9PRSD,1.0,12567.29,12567.29,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 17,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 17,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 17,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 17,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5184.746,5184.746,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 17,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 17,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.22,5143.22,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 17,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 17,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 17,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,2.0,5184.746,5184.746,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 17,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 17,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.22,5143.22,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 17,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 17,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 17,Nexlev,BR-01,Amazon,B0DKJXRXKM,18.0,18366.10169491525,18366.10169491525,536.0,9648.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -7982,11 +7982,11 @@ Week 18,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Tra
 Week 18,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 18,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 18,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 18,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 18,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,3.0,7777.0,7777.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 18,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,7202.0,7202.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 18,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.22,5143.22,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 18,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,1.0,3029.0,3029.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 18,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 18,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,3.0,7777.0,7777.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 18,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,7202.0,7202.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 18,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.22,5143.22,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 18,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,1.0,3029.0,3029.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 18,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,2.0,1853.398305084746,1853.398305084746,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 18,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.593220338983,1685.593220338983,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 18,Nexlev,BR-01,Amazon,B0DKJXRXKM,26.0,30172.8813559322,30172.8813559322,536.0,13936.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -8155,7 +8155,7 @@ Week 18,Nexlev,SC-05,D2C - Nexlev,B0F43P6D23,3.0,7543.0,7543.0,1443.0,4329.0,FBA
 Week 18,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,B0FYNKYJFN,0.0,0.0,0.0,350.0,0.0,FBA79912,MAPPED,Home & Kitchen,SC-05 - Set of Spares,Spares,
 Week 18,Nexlev,SM-01,Amazon,B0D2LJSQXZ,10.0,25142.37288135594,25142.37288135594,2357.0,23570.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 18,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
-Week 18,Nexlev,SP-01,Amazon,B0GGHZWMVW,1.0,8431.35593220339,8431.35593220339,0.0,0.0,FBA79971,MAPPED,,,,
+Week 18,Nexlev,SP-01,Amazon,B0GGHZWMVW,1.0,8431.35593220339,8431.35593220339,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 18,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,5.0,15627.1186440678,15627.1186440678,2775.0,13875.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 18,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,0.0,0.0,0.0,250.0,0.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
 Week 18,Nexlev,SS-01,Amazon,B0DTK4FY1G,1.0,2073.728813559322,2073.728813559322,1227.0,1227.0,FBA79698,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber,
@@ -8868,10 +8868,10 @@ Week 19,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Tra
 Week 19,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 19,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 19,Nexlev,AP-01,Myntra,B0DVC9PRSD,1.0,25058.47,25058.47,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
-Week 19,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 19,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,3059.0,3059.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 19,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,7202.0,7202.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 19,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,1.0,3029.0,3029.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 19,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 19,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,3059.0,3059.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 19,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,7202.0,7202.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 19,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,1.0,3029.0,3029.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 19,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 19,Nexlev,BR-01,Amazon,B0DKJXRXKM,23.0,28908.067796610172,28908.067796610172,536.0,12328.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 19,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,2.0,2708.0,2708.0,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -9025,7 +9025,7 @@ Week 19,Nexlev,SC-05,D2C - Nexlev,B0F43P6D23,1.0,2514.0,2514.0,1443.0,1443.0,FBA
 Week 19,Nexlev,SM-01,Amazon,B0D2LJSQXZ,5.0,15631.355932203393,15631.355932203393,2357.0,11785.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 19,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 19,Nexlev,SM-01 Set of 2 Mops,Amazon,B0F2MZ8CG9,1.0,338.135593220339,338.135593220339,300.0,300.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
-Week 19,Nexlev,SP-01,Amazon,B0GGHZWMVW,1.0,8431.35593220339,8431.35593220339,0.0,0.0,FBA79971,MAPPED,,,,
+Week 19,Nexlev,SP-01,Amazon,B0GGHZWMVW,1.0,8431.35593220339,8431.35593220339,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 19,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,7.0,21956.77966101695,21956.77966101695,2775.0,19425.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 19,Nexlev,SPM-01,BI Worldwide,B0DCK7J87D,1.0,3399.0,3399.0,2775.0,2775.0,FBA79468,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 19,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,0.0,0.0,0.0,250.0,0.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -9764,15 +9764,15 @@ Week 20,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Tra
 Week 20,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 20,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 20,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 20,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 20,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 20,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,5.0,18004.0,18004.0,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 20,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 20,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 20,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,5.0,18004.0,18004.0,2005.0,10025.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 20,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 20,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 20,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 20,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 20,Nexlev,BR-01,Amazon,B0DKJXRXKM,24.0,36589.83050847458,36589.83050847458,536.0,12864.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 20,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,2.0,2708.0,2708.0,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 20,Nexlev,CAP-05,Amazon,B0GN86G345,2.0,3896.610169491526,3896.610169491526,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 20,Nexlev,CAP-05,Amazon,B0GN86G345,2.0,3896.610169491526,3896.610169491526,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 20,Nexlev,CFM-01,Amazon,B0DM6BB3VT,51.0,107002.5508474576,107002.5508474576,1014.0,51714.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 20,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,61.0,149864.0,149864.0,1014.0,61854.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 20,Nexlev,CFM-02,Amazon,B0DVSZ2VVJ,0.0,0.0,0.0,3229.0,0.0,FBA79689,MAPPED,HPC,Electric Massagers,Complete Leg Massager,EOL
@@ -10654,15 +10654,15 @@ Week 21,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Tra
 Week 21,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 21,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 21,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 21,Nexlev,AP-03,Amazon,B0DVC58QPZ,3.0,10056.77966101695,10056.77966101695,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 21,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 21,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,3558.0,3558.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 21,Nexlev,AP-03,Amazon,B0DVC58QPZ,3.0,10056.77966101695,10056.77966101695,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 21,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8136.0,8136.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 21,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,3558.0,3558.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 21,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 21,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 21,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 21,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 21,Nexlev,BR-01,Amazon,B0DKJXRXKM,15.0,19311.01694915254,19311.01694915254,536.0,8040.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 21,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,9.0,12188.0,12188.0,536.0,4824.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 21,Nexlev,CAP-05,Amazon,B0GN86G345,3.0,3896.610169491526,3896.610169491526,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 21,Nexlev,CAP-05,Amazon,B0GN86G345,3.0,3896.610169491526,3896.610169491526,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 21,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 21,Nexlev,CFM-01,Amazon,B0DM6BB3VT,39.0,90439.84745762713,90439.84745762713,1014.0,39546.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 21,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,22.0,54049.0,54049.0,1014.0,22308.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -10802,7 +10802,7 @@ Week 21,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,B0FYNKYJFN,0.0,0.0,0.0,350.0,0
 Week 21,Nexlev,SM-01,Amazon,B0D2LJSQXZ,4.0,12890.677966101695,12890.677966101695,2357.0,9428.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 21,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 21,Nexlev,SM-01 Set of 2 Mops,Amazon,B0F2MZ8CG9,3.0,1014.406779661017,1014.406779661017,300.0,900.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
-Week 21,Nexlev,SP-01,Amazon,B0GGHZWMVW,0.0,0.0,0.0,0.0,0.0,FBA79971,MAPPED,,,,
+Week 21,Nexlev,SP-01,Amazon,B0GGHZWMVW,0.0,0.0,0.0,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 21,Nexlev,SPM-01,Amazon,B0DTYDTKN8,0.0,0.0,0.0,2827.0,0.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 21,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,7.0,19844.91525423729,19844.91525423729,2775.0,19425.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 21,Nexlev,SPM-01,D2C - Nexlev,B0DTYDTKN8,1.0,3592.0,3592.0,2827.0,2827.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
@@ -11553,16 +11553,16 @@ Week 22,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Tra
 Week 22,Fossil,SKW6355,Amazon,B01MZWUN47,0.0,0.0,0.0,0.0,0.0,FBA72029,MAPPED,Traditional Watch,,,
 Week 22,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 22,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 22,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 22,Nexlev,AP-03,B2B,B0DVC58QPZ,4.0,11017.0,11017.0,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 22,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,7117.0,7117.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 22,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 22,Nexlev,AP-03,B2B,B0DVC58QPZ,4.0,11017.0,11017.0,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 22,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,7117.0,7117.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 22,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 22,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 22,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 22,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 22,Nexlev,BM-02,Pharmaeasy,B0DNJJKBKG,1.0,1599.0,1599.0,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 22,Nexlev,BR-01,Amazon,B0DKJXRXKM,17.0,21466.101694915254,21466.101694915254,536.0,9112.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 22,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,2.0,2708.0,2708.0,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 22,Nexlev,CAP-05,Amazon,B0GN86G345,1.0,2033.898305084746,2033.898305084746,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 22,Nexlev,CAP-05,Amazon,B0GN86G345,1.0,2033.898305084746,2033.898305084746,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 22,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 22,Nexlev,CFM-01,Amazon,B0DM6BB3VT,26.0,53626.27118644068,53626.27118644068,1014.0,26364.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 22,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,23.0,63502.0,63502.0,1014.0,23322.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -11693,7 +11693,7 @@ Week 22,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,B0FYNKYJFN,2.0,672.88983050847
 Week 22,Nexlev,SM-01,Amazon,B0D2LJSQXZ,9.0,22536.440677966104,22536.440677966104,2357.0,21213.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 22,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 22,Nexlev,SM-01 Set of 2 Mops,Amazon,B0F2MZ8CG9,0.0,0.0,0.0,300.0,0.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
-Week 22,Nexlev,SP-01,Amazon,B0GGHZWMVW,2.0,16932.20338983051,16932.20338983051,0.0,0.0,FBA79971,MAPPED,,,,
+Week 22,Nexlev,SP-01,Amazon,B0GGHZWMVW,2.0,16932.20338983051,16932.20338983051,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 22,Nexlev,SPM-01,Amazon,B0DTYDTKN8,0.0,0.0,0.0,2827.0,0.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 22,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,3.0,3304.237288135593,3304.237288135593,2775.0,8325.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 22,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,3.0,760.1694915254237,760.1694915254237,250.0,750.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -12515,10 +12515,10 @@ Week 23,Fossil,SKW6355,Amazon,B01MZWUN47,1.0,6353.389830508475,6353.389830508475
 Week 23,Nexlev,,Pharmaeasy,,8.0,4441.0,4441.0,0.0,0.0,,MAPPED,,,,
 Week 23,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 23,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 23,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 23,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,3558.0,3558.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 23,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.474576271187,3558.474576271187,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 23,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,3558.0,3558.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 23,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,3.0,2794.06779661017,2794.06779661017,500.0,1500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 23,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 23,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 23,Nexlev,B0FCRT3ZZN,Amazon,B0FCRT3ZZN,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 23,Nexlev,B0GYD85QWZ,Amazon,B0GYD85QWZ,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 23,Nexlev,B0GYFK8LCY,Amazon,B0GYFK8LCY,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
@@ -12536,7 +12536,7 @@ Week 23,Nexlev,B0H3V14M5J,Amazon,B0H3V14M5J,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 23,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 23,Nexlev,BR-01,Amazon,B0DKJXRXKM,17.0,24515.254237288136,24515.254237288136,536.0,9112.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 23,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,3.0,4063.0,4063.0,536.0,1608.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 23,Nexlev,CAP-05,Amazon,B0GN86G345,7.0,13638.13559322034,13638.13559322034,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 23,Nexlev,CAP-05,Amazon,B0GN86G345,7.0,13638.13559322034,13638.13559322034,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 23,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 23,Nexlev,CFM-01,Amazon,B0DM6BB3VT,29.0,73704.2372881356,73704.2372881356,1014.0,29406.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 23,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,28.0,77307.0,77307.0,1014.0,28392.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -12673,7 +12673,7 @@ Week 23,Nexlev,SM-01,Amazon,B0D2LJSQXZ,13.0,38633.898305084746,38633.89830508474
 Week 23,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 23,Nexlev,SM-01,D2C - Nexlev,B0D2LJSQXZ,1.0,22372.22,22372.22,2357.0,2357.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 23,Nexlev,SM-01 Set of 2 Mops,Amazon,B0F2MZ8CG9,3.0,1014.406779661017,1014.406779661017,300.0,900.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
-Week 23,Nexlev,SP-01,Amazon,B0GGHZWMVW,10.0,84000.0,84000.0,0.0,0.0,FBA79971,MAPPED,,,,
+Week 23,Nexlev,SP-01,Amazon,B0GGHZWMVW,10.0,84000.0,84000.0,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 23,Nexlev,SPM-01,Amazon,B0DTYDTKN8,2.0,7184.745762711865,7184.745762711865,2827.0,5654.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 23,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,4.0,13216.949152542373,13216.949152542373,2775.0,11100.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 23,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,1.0,253.3898305084746,253.3898305084746,250.0,250.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -13444,10 +13444,10 @@ Week 24,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Tra
 Week 24,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 24,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 24,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 24,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 24,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 24,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 24,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 24,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 24,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.389830508475,5253.389830508475,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 24,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.389830508475,5253.389830508475,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 24,Nexlev,B0FCRT3ZZN,Amazon,B0FCRT3ZZN,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 24,Nexlev,B0GYFK8LCY,Amazon,B0GYFK8LCY,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 24,Nexlev,B0GYSMR9G2,Amazon,B0GYSMR9G2,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
@@ -13465,7 +13465,7 @@ Week 24,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC
 Week 24,Nexlev,BR-01,Amazon,B0DKJXRXKM,5.0,7622.881355932203,7622.881355932203,536.0,2680.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 24,Nexlev,BR-01,B2B,B0DKJXRXKM,137.0,150700.0,150700.0,536.0,73432.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 24,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,3.0,3895.0,3895.0,536.0,1608.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 24,Nexlev,CAP-05,Amazon,B0GN86G345,1.0,0.0,0.0,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 24,Nexlev,CAP-05,Amazon,B0GN86G345,1.0,0.0,0.0,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 24,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 24,Nexlev,CFM-01,Amazon,B0DM6BB3VT,27.0,63597.46610169492,63597.46610169492,1014.0,27378.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 24,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,25.0,69024.0,69024.0,1014.0,25350.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -13599,7 +13599,7 @@ Week 24,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,B0FYNKYJFN,0.0,0.0,0.0,350.0,0
 Week 24,Nexlev,SM-01,Amazon,B0D2LJSQXZ,9.0,22536.440677966104,22536.440677966104,2357.0,21213.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 24,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 24,Nexlev,SM-01 Set of 2 Mops,Amazon,B0F2MZ8CG9,0.0,0.0,0.0,300.0,0.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
-Week 24,Nexlev,SP-01,Amazon,B0GGHZWMVW,10.0,84245.84745762713,84245.84745762713,0.0,0.0,FBA79971,MAPPED,,,,
+Week 24,Nexlev,SP-01,Amazon,B0GGHZWMVW,10.0,84245.84745762713,84245.84745762713,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 24,Nexlev,SPM-01,Amazon,B0DTYDTKN8,1.0,3592.3728813559323,3592.3728813559323,2827.0,2827.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 24,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,8.0,23096.6186440678,23096.6186440678,2775.0,22200.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 24,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,0.0,0.0,0.0,250.0,0.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -14411,10 +14411,10 @@ Week 25,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,T
 Week 25,Fossil,MKO1224,Amazon,B0FTMMHDNH,1.0,20758.474576271183,20758.474576271183,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 25,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 25,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
-Week 25,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 25,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 25,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 25,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 25,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 25,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 25,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 25,Nexlev,B0FCRT3ZZN,Amazon,B0FCRT3ZZN,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 25,Nexlev,B0GJ4XJ6YR,Amazon,B0GJ4XJ6YR,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 25,Nexlev,B0GYFK8LCY,Amazon,B0GYFK8LCY,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
@@ -14434,7 +14434,7 @@ Week 25,Nexlev,B0H5WV3HNL,Amazon,B0H5WV3HNL,0.0,0.0,0.0,0.0,0.0,,MAPPED,,,,
 Week 25,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 25,Nexlev,BR-01,Amazon,B0DKJXRXKM,6.0,9147.457627118643,9147.457627118643,536.0,3216.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 25,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,4.0,5081.0,5081.0,536.0,2144.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 25,Nexlev,CAP-05,Amazon,B0GN86G345,3.0,5930.508474576272,5930.508474576272,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 25,Nexlev,CAP-05,Amazon,B0GN86G345,3.0,5930.508474576272,5930.508474576272,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 25,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 25,Nexlev,CFM-01,Amazon,B0DM6BB3VT,37.0,86411.86440677967,86411.86440677967,1014.0,37518.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 25,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,31.0,85590.0,85590.0,1014.0,31434.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -14576,9 +14576,9 @@ Week 25,Nexlev,SM-01,Amazon,B0D2LJSQXZ,9.0,28975.42372881356,28975.42372881356,2
 Week 25,Nexlev,SM-01,B2B,B0D2LJSQXZ,5.0,13347.0,13347.0,2357.0,11785.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 25,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 25,Nexlev,SM-01 Set of 2 Mops,Amazon,B0F2MZ8CG9,0.0,0.0,0.0,300.0,0.0,FBA79716,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
-Week 25,Nexlev,SP-01,Amazon,B0GGHZWMVW,15.0,130458.4745762712,130458.4745762712,0.0,0.0,FBA79971,MAPPED,,,,
-Week 25,Nexlev,SP-01,B2B,B0GGHZWMVW,5.0,44492.0,44492.0,0.0,0.0,FBA79971,MAPPED,,,,
-Week 25,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,2.0,17964.40678,17964.40678,0.0,0.0,FBA79971,MAPPED,,,,
+Week 25,Nexlev,SP-01,Amazon,B0GGHZWMVW,15.0,130458.4745762712,130458.4745762712,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
+Week 25,Nexlev,SP-01,B2B,B0GGHZWMVW,5.0,44492.0,44492.0,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
+Week 25,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,2.0,17964.40678,17964.40678,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 25,Nexlev,SPM-01,Amazon,B0DTYDTKN8,0.0,0.0,0.0,2827.0,0.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 25,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,1.0,3304.237288135593,3304.237288135593,2775.0,2775.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 25,Nexlev,SPM-01,B2B,B0DCK7J87D,5.0,12712.0,12712.0,2775.0,13875.0,FBA79468,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
@@ -15421,15 +15421,15 @@ Week 26,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,T
 Week 26,Fossil,MKO1224,Amazon,B0FTMMHDNH,0.0,0.0,0.0,0.0,0.0,FBA79951,MAPPED,Traditional Watch,,,
 Week 26,Fossil,SKW2694,Amazon,B077SMJP9Z,1.0,6988.14,6988.14,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 26,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
-Week 26,Nexlev,AP-03,Amazon,B0DVC58QPZ,2.0,7116.95,7116.95,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 26,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 26,Nexlev,AP-03,Amazon,B0DVC58QPZ,2.0,7116.95,7116.95,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 26,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 26,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 26,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 26,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 26,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 26,Nexlev,BR-01,Amazon,B0DKJXRXKM,1.0,1524.58,1524.58,536.0,536.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 26,Nexlev,BR-01,B2B,B0DKJXRXKM,20.0,22264.0,22264.0,536.0,10720.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 26,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,1.0,1270.0,1270.0,536.0,536.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 26,Nexlev,CAP-05,Amazon,B0GN86G345,5.0,9911.02,9911.02,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 26,Nexlev,CAP-05,Amazon,B0GN86G345,5.0,9911.02,9911.02,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 26,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 26,Nexlev,CFM-01,Amazon,B0DM6BB3VT,29.0,73678.82,73678.82,1014.0,29406.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 26,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,34.0,95206.0,95206.0,1014.0,34476.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -15566,8 +15566,8 @@ Week 26,Nexlev,SC-05,D2C - Nexlev,B0F43P6D23,5.0,13470.33898,13470.33898,1443.0,
 Week 26,Nexlev,SC-05 SC-05 - Set of Spares,Amazon,B0FYNKYJFN,1.0,338.14,338.14,350.0,350.0,FBA79912,MAPPED,Home & Kitchen,SC-05 - Set of Spares,Spares,
 Week 26,Nexlev,SM-01,Amazon,B0D2LJSQXZ,4.0,9658.47,9658.47,2357.0,9428.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 26,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
-Week 26,Nexlev,SP-01,Amazon,B0GGHZWMVW,18.0,172866.95,172866.95,0.0,0.0,FBA79971,MAPPED,,,,
-Week 26,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,2.0,17964.40678,17964.40678,0.0,0.0,FBA79971,MAPPED,,,,
+Week 26,Nexlev,SP-01,Amazon,B0GGHZWMVW,18.0,172866.95,172866.95,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
+Week 26,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,2.0,17964.40678,17964.40678,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 26,Nexlev,SPM-01,Amazon,B0DTYDTKN8,0.0,0.0,0.0,2827.0,0.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 26,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,6.0,19825.42,19825.42,2775.0,16650.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 26,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,1.0,253.39,253.39,250.0,250.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -16405,15 +16405,15 @@ Week 27,Fossil,MKO1224,Amazon,B0FTMMHDNH,1.0,20758.47,20758.47,0.0,0.0,FBA79951,
 Week 27,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 27,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 27,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 27,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3473.73,3473.73,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 27,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 27,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3473.73,3473.73,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 27,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 27,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,2.0,931.36,931.36,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 27,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.39,5253.39,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 27,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.39,5253.39,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 27,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.59,1685.59,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 27,Nexlev,BR-01,Amazon,B0DKJXRXKM,8.0,12379.66,12379.66,536.0,4288.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 27,Nexlev,BR-01,B2B,B0DKJXRXKM,20.0,22264.0,22264.0,536.0,10720.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 27,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 27,Nexlev,CAP-05,Amazon,B0GN86G345,4.0,7606.78,7606.78,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 27,Nexlev,CAP-05,Amazon,B0GN86G345,4.0,7606.78,7606.78,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 27,Nexlev,CF-01,Amazon,B0DNJF1BLS,3.0,3556.78,3556.78,716.0,2148.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 27,Nexlev,CFM-01,Amazon,B0DM6BB3VT,30.0,75551.7,75551.7,1014.0,30420.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 27,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,24.0,68549.0,68549.0,1014.0,24336.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -16554,8 +16554,8 @@ Week 27,Nexlev,SC-05,Blinkit Sales,B0F43P6D23,12.0,29481.0,29481.0,1443.0,17316.
 Week 27,Nexlev,SM-01,Amazon,B0D2LJSQXZ,9.0,28890.68,28890.68,2357.0,21213.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 27,Nexlev,SM-01,BI Worldwide,B0D2LJSQXZ,1.0,2880.508,2880.508,2357.0,2357.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 27,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
-Week 27,Nexlev,SP-01,Amazon,B0GGHZWMVW,40.0,372902.04000000004,372902.04000000004,0.0,0.0,FBA79971,MAPPED,,,,
-Week 27,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,2.0,17964.41,17964.41,0.0,0.0,FBA79971,MAPPED,,,,
+Week 27,Nexlev,SP-01,Amazon,B0GGHZWMVW,40.0,372902.04000000004,372902.04000000004,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
+Week 27,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,2.0,17964.41,17964.41,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 27,Nexlev,SPM-01,Amazon,B0DTYDTKN8,0.0,0.0,0.0,2827.0,0.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 27,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,4.0,9747.46,9747.46,2775.0,11100.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 27,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,2.0,506.78,506.78,250.0,500.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -17423,15 +17423,15 @@ Week 28,Fossil,MK9245SET,Amazon,B0FQ832739,0.0,0.0,0.0,0.0,0.0,FBA79950,MAPPED,T
 Week 28,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 28,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 28,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 28,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3473.73,3473.73,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 28,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,2592.0,2592.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 28,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6863.0,6863.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 28,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3473.73,3473.73,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 28,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,2592.0,2592.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 28,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6863.0,6863.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 28,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.36,931.36,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 28,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 28,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 28,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 28,Nexlev,BR-01,Amazon,B0DKJXRXKM,3.0,4481.35,4481.35,536.0,1608.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 28,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,2.0,2541.0,2541.0,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 28,Nexlev,CAP-05,Amazon,B0GN86G345,11.0,21068.64,21068.64,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 28,Nexlev,CAP-05,Amazon,B0GN86G345,11.0,21068.64,21068.64,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 28,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 28,Nexlev,CFM-01,Amazon,B0DM6BB3VT,16.0,39633.06,39633.06,1014.0,16224.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 28,Nexlev,CFM-01,B2B,B0DM6BB3VT,12.0,24848.53,24848.53,1014.0,12168.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -17573,8 +17573,8 @@ Week 28,Nexlev,SC-05,D2C - Nexlev,B0F43P6D23,1.0,3082.0,3082.0,1443.0,1443.0,FBA
 Week 28,Nexlev,SM-01,Amazon,B0D2LJSQXZ,6.0,19289.829999999998,19289.829999999998,2357.0,14142.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 28,Nexlev,SM-01,BI Worldwide,B0D2LJSQXZ,1.0,2881.0,2881.0,2357.0,2357.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 28,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
-Week 28,Nexlev,SP-01,Amazon,B0GGHZWMVW,94.0,868761.0299999999,868761.0299999999,0.0,0.0,FBA79971,MAPPED,,,,
-Week 28,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,4.0,39895.0,39895.0,0.0,0.0,FBA79971,MAPPED,,,,
+Week 28,Nexlev,SP-01,Amazon,B0GGHZWMVW,94.0,868761.0299999999,868761.0299999999,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
+Week 28,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,4.0,39895.0,39895.0,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 28,Nexlev,SPM-01,Amazon,B0DTYDTKN8,0.0,0.0,0.0,2827.0,0.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 28,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,4.0,10066.1,10066.1,2775.0,11100.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 28,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,2.0,253.39,253.39,250.0,500.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -18437,17 +18437,17 @@ Week 29,Fossil,MK9272SET,Amazon,B0GTBY2FK6,0.0,0.0,0.0,0.0,0.0,FBA80249,MAPPED,T
 Week 29,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 29,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 29,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 29,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.47,3558.47,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 29,Nexlev,AP-03,B2B,B0DVC58QPZ,1.0,3079.0,3079.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 29,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,3059.0,3059.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 29,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6862.71,6862.71,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 29,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3558.47,3558.47,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 29,Nexlev,AP-03,B2B,B0DVC58QPZ,1.0,3079.0,3079.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 29,Nexlev,AP-03,BI Worldwide,B0DVC58QPZ,1.0,3059.0,3059.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 29,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6862.71,6862.71,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 29,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 29,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.39,5253.39,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 29,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.39,5253.39,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 29,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.59,1685.59,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 29,Nexlev,BM-02,D2C - Nexlev,B0DNJJKBKG,1.0,1882.857,1882.857,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 29,Nexlev,BR-01,Amazon,B0DKJXRXKM,2.0,2910.17,2910.17,536.0,1072.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 29,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 29,Nexlev,CAP-05,Amazon,B0GN86G345,5.0,8261.02,8261.02,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 29,Nexlev,CAP-05,Amazon,B0GN86G345,5.0,8261.02,8261.02,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 29,Nexlev,CF-01,Amazon,B0DNJF1BLS,1.0,1256.78,1256.78,716.0,716.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 29,Nexlev,CFM-01,Amazon,B0DM6BB3VT,8.0,20215.25,20215.25,1014.0,8112.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 29,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,10.0,28561.9,28561.9,1014.0,10140.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -18586,9 +18586,9 @@ Week 29,Nexlev,SC-05,D2C - Nexlev,B0F43P6D23,2.0,6225.424,6225.424,1443.0,2886.0
 Week 29,Nexlev,SM-01,Amazon,B0D2LJSQXZ,5.0,12776.27,12776.27,2357.0,11785.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 29,Nexlev,SM-01,BI Worldwide,B0D2LJSQXZ,1.0,3399.0,3399.0,2357.0,2357.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 29,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
-Week 29,Nexlev,SP-01,Amazon,B0GGHZWMVW,46.0,467757.63,467757.63,0.0,0.0,FBA79971,MAPPED,,,,
-Week 29,Nexlev,SP-01,B2B,B0GGHZWMVW,1.0,6737.29,6737.29,0.0,0.0,FBA79971,MAPPED,,,,
-Week 29,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,1.0,9973.729,9973.729,0.0,0.0,FBA79971,MAPPED,,,,
+Week 29,Nexlev,SP-01,Amazon,B0GGHZWMVW,46.0,467757.63,467757.63,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
+Week 29,Nexlev,SP-01,B2B,B0GGHZWMVW,1.0,6737.29,6737.29,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
+Week 29,Nexlev,SP-01,D2C - Nexlev,B0GGHZWMVW,1.0,9973.729,9973.729,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 29,Nexlev,SPM-01,Amazon,B0DTYDTKN8,1.0,3592.37,3592.37,2827.0,2827.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 29,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,6.0,16521.19,16521.19,2775.0,16650.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 29,Nexlev,SPM-01 Set of 2 Mops,Amazon,B0F2MZ9BJS,1.0,253.39,253.39,250.0,250.0,FBA79717,MAPPED,Home & Kitchen,Set of 2 Mops,Spares,
@@ -19416,13 +19416,13 @@ Week 30,Fossil,MK9270SET,Amazon,B0GTC9239V,0.0,0.0,0.0,0.0,0.0,FBA80248,MAPPED,T
 Week 30,Fossil,MK9272SET,Amazon,B0GTBY2FK6,0.0,0.0,0.0,0.0,0.0,FBA80249,MAPPED,Traditional Watch,,,
 Week 30,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 30,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
-Week 30,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3682.2,3682.2,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 30,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 30,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,3682.2,3682.2,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 30,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 30,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 30,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 30,Nexlev,AP-04,Amazon,B0GN8N96R5,0.0,0.0,0.0,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 30,Nexlev,BR-01,Amazon,B0DKJXRXKM,7.0,10185.59,10185.59,536.0,3752.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 30,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 30,Nexlev,CAP-05,Amazon,B0GN86G345,3.0,6195.76,6195.76,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 30,Nexlev,CAP-05,Amazon,B0GN86G345,3.0,6195.76,6195.76,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 30,Nexlev,CFM-01,Amazon,B0DM6BB3VT,6.0,15083.9,15083.9,1014.0,6084.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 30,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,8.0,22850.0,22850.0,1014.0,8112.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 30,Nexlev,CFM-03,Amazon,B0FPGDVVCX,16.0,74911.02,74911.02,2004.0,32064.0,FBA79849,MAPPED,HPC,Electric Massagers,Calf Massager,Medium
@@ -19544,7 +19544,7 @@ Week 30,Nexlev,SC-05,Blinkit Sales,B0F43P6D23,5.0,12284.0,12284.0,1443.0,7215.0,
 Week 30,Nexlev,SM-01,Amazon,B0D2LJSQXZ,7.0,19266.1,19266.1,2357.0,16499.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 30,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 30,Nexlev,SM-01,D2C - Nexlev,B0D2LJSQXZ,1.0,3413.0,3413.0,2357.0,2357.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
-Week 30,Nexlev,SP-01,Amazon,B0GGHZWMVW,59.0,579612.71,579612.71,0.0,0.0,FBA79971,MAPPED,,,,
+Week 30,Nexlev,SP-01,Amazon,B0GGHZWMVW,59.0,579612.71,579612.71,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 30,Nexlev,SPM-01,Amazon,B0DTYDTKN8,1.0,3592.37,3592.37,2827.0,2827.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 30,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,2.0,6761.86,6761.86,2775.0,5550.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 30,Nexlev,SS-01,Amazon,B0DTK4FY1G,0.0,0.0,0.0,1227.0,0.0,FBA79698,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber,
@@ -20303,13 +20303,13 @@ Week 31,Fossil,MK9272SET,Amazon,B0GTBY2FK6,0.0,0.0,0.0,0.0,0.0,FBA80249,MAPPED,T
 Week 31,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Traditional Watch,,,
 Week 31,Nexlev,,Pharmaeasy,,2.0,1127.0,1127.0,0.0,0.0,,MAPPED,,,,
 Week 31,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
-Week 31,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 31,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,3431.0,3431.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 31,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 31,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,1.0,3431.0,3431.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 31,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,0.0,0.0,0.0,500.0,0.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 31,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.39,5253.39,0.0,0.0,FBA79988,MAPPED,,,,New Launch
+Week 31,Nexlev,AP-04,Amazon,B0GN8N96R5,1.0,5253.39,5253.39,0.0,0.0,FBA79988,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,New Launch
 Week 31,Nexlev,BR-01,Amazon,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 31,Nexlev,BR-01,Blinkit Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
-Week 31,Nexlev,CAP-05,Amazon,B0GN86G345,0.0,0.0,0.0,0.0,0.0,FBA79989,MAPPED,,Car Accessories,,New Launch
+Week 31,Nexlev,CAP-05,Amazon,B0GN86G345,0.0,0.0,0.0,0.0,0.0,FBA79989,MAPPED,HPC,Car Accessories,,New Launch
 Week 31,Nexlev,CF-01,Amazon,B0DNJF1BLS,0.0,0.0,0.0,716.0,0.0,FBA79484,MAPPED,Home & Kitchen,Kitchen Appliances,Drip Coffee Maker,EOL
 Week 31,Nexlev,CFM-01,Amazon,B0DM6BB3VT,1.0,2488.14,2488.14,1014.0,1014.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
 Week 31,Nexlev,CFM-01,Blinkit Sales,B0DM6BB3VT,2.0,5712.0,5712.0,1014.0,2028.0,FBA79590,MAPPED,HPC,Electric Massagers,Calf Massager,Core
@@ -20443,7 +20443,7 @@ Week 31,Nexlev,SC-05,Blinkit Sales,B0F43P6D23,6.0,14741.0,14741.0,1443.0,8658.0,
 Week 31,Nexlev,SM-01,Amazon,B0D2LJSQXZ,4.0,9658.47,9658.47,2357.0,9428.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 31,Nexlev,SM-01,Blinkit Sales,B0D2LJSQXZ,0.0,0.0,0.0,2357.0,0.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
 Week 31,Nexlev,SM-01,D2C - Nexlev,B0D2LJSQXZ,1.0,3413.0,3413.0,2357.0,2357.0,FBA79276,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam Mop,Medium
-Week 31,Nexlev,SP-01,Amazon,B0GGHZWMVW,60.0,589781.36,589781.36,0.0,0.0,FBA79971,MAPPED,,,,
+Week 31,Nexlev,SP-01,Amazon,B0GGHZWMVW,60.0,589781.36,589781.36,0.0,0.0,FBA79971,MAPPED,Home & Kitchen,Cleaning & Vacumming,,
 Week 31,Nexlev,SPM-01,Amazon,B0DTYDTKN8,3.0,7184.75,7184.75,2827.0,8481.0,FBA79699,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,
 Week 31,Nexlev,SPM-01,Amazon,B0GKNGWLJ2,0.0,0.0,0.0,2775.0,0.0,FBK80015,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,Core
 Week 31,Nexlev,SS-01,Amazon,B0DTK4FY1G,2.0,4310.17,4310.17,1227.0,2454.0,FBA79698,MAPPED,Home & Kitchen,Cleaning & Vacumming,Electric Spin Scrubber,
@@ -21130,8 +21130,8 @@ Week 4,Nexlev,,BI Worldwide,,2.0,1548.5714285714284,1548.5714285714284,0.0,0.0,,
 Week 4,Nexlev,,Pharmaeasy,,1.0,1281.0,1281.0,0.0,0.0,,MAPPED,,,,
 Week 4,Nexlev,AP-01,Amazon,B0DVC9PRSD,1.0,12625.0,12625.0,10158.0,10158.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 4,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 4,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,4140.0,4140.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 4,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.220338983051,5143.220338983051,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 4,Nexlev,AP-03,Amazon,B0DVC58QPZ,1.0,4140.0,4140.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 4,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.220338983051,5143.220338983051,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 4,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,0.0,0.0,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 4,Nexlev,BM-03,Amazon,B0DV8XH455,1.0,1859.0,1859.0,975.0,975.0,FBA79674,MAPPED,HPC,Electric Massagers,Back and Shoulder Massager Pro,
 Week 4,Nexlev,BR-01,1p Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -22016,8 +22016,8 @@ Week 5,Nexlev,,BI Worldwide,,2.0,1548.5714285714284,1548.5714285714284,0.0,0.0,,
 Week 5,Nexlev,,Pharmaeasy,,1.0,1281.0,1281.0,0.0,0.0,,MAPPED,,,,
 Week 5,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 5,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 5,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 5,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.220338983051,5143.220338983051,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 5,Nexlev,AP-03,Amazon,B0DVC58QPZ,0.0,0.0,0.0,2005.0,0.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 5,Nexlev,AP-03,Myntra,B0DVC58QPZ,1.0,5143.220338983051,5143.220338983051,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 5,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 5,Nexlev,BR-01,1p Sales,B0DKJXRXKM,0.0,0.0,0.0,536.0,0.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
 Week 5,Nexlev,BR-01,Amazon,B0DKJXRXKM,38.0,45944.91525423729,45944.91525423729,536.0,20368.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -22914,9 +22914,9 @@ Week 6,Nexlev,,CRED_B2C,,1.0,837.2881355932204,837.2881355932204,0.0,0.0,,MAPPED
 Week 6,Nexlev,,Pharmaeasy,,1.0,547.1864406779661,547.1864406779661,0.0,0.0,,MAPPED,,,,
 Week 6,Nexlev,AP-01,Amazon,B0DVC9PRSD,3.0,35567.79661016949,35567.79661016949,10158.0,30474.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 6,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 6,Nexlev,AP-03,Amazon,B0DVC58QPZ,4.0,13522.042372881357,13522.042372881357,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 6,Nexlev,AP-03,B2B,B0DVC58QPZ,10.0,27145.28813559322,27145.28813559322,2005.0,20050.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 6,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,1.0,2919.042372881356,2919.042372881356,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 6,Nexlev,AP-03,Amazon,B0DVC58QPZ,4.0,13522.042372881357,13522.042372881357,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 6,Nexlev,AP-03,B2B,B0DVC58QPZ,10.0,27145.28813559322,27145.28813559322,2005.0,20050.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 6,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,1.0,2919.042372881356,2919.042372881356,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 6,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,1.0,931.35593220339,931.35593220339,500.0,500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 6,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 6,Nexlev,BR-01,Amazon,B0DKJXRXKM,35.0,42107.62711864407,42107.62711864407,536.0,18760.0,FBA79570,MAPPED,HPC,Skin Care,Blackhead Remover,Core
@@ -23812,11 +23812,11 @@ Week 7,Fossil,SKW6891,Amazon,B0CCHNK41V,0.0,0.0,0.0,0.0,0.0,FBA79044,MAPPED,Trad
 Week 7,Nexlev,,D2C - Nexlev,,230.0,302134.1242979999,302134.1242979999,0.0,0.0,,MAPPED,,,,
 Week 7,Nexlev,AP-01,Amazon,B0DVC9PRSD,3.0,35567.79661016949,35567.79661016949,10158.0,30474.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 7,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 7,Nexlev,AP-03,Amazon,B0DVC58QPZ,9.0,30500.84745762712,30500.84745762712,2005.0,18045.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 7,Nexlev,AP-03,B2B,B0DVC58QPZ,6.0,16348.0,16348.0,2005.0,12030.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 7,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,8398.0,8398.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 7,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.372881,3592.372881,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 7,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,2.0,5710.78,5710.78,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 7,Nexlev,AP-03,Amazon,B0DVC58QPZ,9.0,30500.84745762712,30500.84745762712,2005.0,18045.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 7,Nexlev,AP-03,B2B,B0DVC58QPZ,6.0,16348.0,16348.0,2005.0,12030.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 7,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,8398.0,8398.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 7,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.372881,3592.372881,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 7,Nexlev,AP-03,Pharmaeasy,B0DVC58QPZ,2.0,5710.78,5710.78,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 7,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,3.0,2794.06779661017,2794.06779661017,500.0,1500.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 7,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.5932203389832,1685.5932203389832,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 7,Nexlev,BM-02,D2C - Nexlev,B0DNJJKBKG,1.0,1877.142857,1877.142857,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
@@ -24766,10 +24766,10 @@ Week 8,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Trad
 Week 8,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 8,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 8,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 8,Nexlev,AP-03,Amazon,B0DVC58QPZ,3.0,10156.610169491523,10156.610169491523,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 8,Nexlev,AP-03,B2B,B0DVC58QPZ,4.0,10924.0,10924.0,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 8,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6886.36,6886.36,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 8,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,2.0,7185.0,7185.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 8,Nexlev,AP-03,Amazon,B0DVC58QPZ,3.0,10156.610169491523,10156.610169491523,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 8,Nexlev,AP-03,B2B,B0DVC58QPZ,4.0,10924.0,10924.0,2005.0,8020.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 8,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6886.36,6886.36,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 8,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,2.0,7185.0,7185.0,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 8,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,2.0,1862.71186440678,1862.71186440678,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 8,Nexlev,BM-02,Amazon,B0DNJJKBKG,1.0,1685.5932203389832,1685.5932203389832,970.0,970.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 8,Nexlev,BM-02,Pharmaeasy,B0FM3KVSHW,2.0,3366.17,3366.17,970.0,1940.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
@@ -25689,10 +25689,10 @@ Week 9,Fossil,SKW2694,Amazon,B077SMJP9Z,0.0,0.0,0.0,0.0,0.0,FBA69631,MAPPED,Trad
 Week 9,Fossil,SKW3121,Amazon,B0CGSQGH17,0.0,0.0,0.0,0.0,0.0,FBA79122,MAPPED,Traditional Watch,,,
 Week 9,Nexlev,AP-01,Amazon,B0DVC9PRSD,0.0,0.0,0.0,10158.0,0.0,FBA79683,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Tail
 Week 9,Nexlev,AP-01 HEPA,Amazon,B0F6795PDP,0.0,0.0,0.0,2350.0,0.0,FBA79777,MAPPED,Home & Kitchen,HEPA,Spares,
-Week 9,Nexlev,AP-03,Amazon,B0DVC58QPZ,8.0,26400.008474576272,26400.008474576272,2005.0,16040.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 9,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8212.0,8212.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 9,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6886.36,6886.36,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
-Week 9,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.0,3592.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,NexLev Air Purifier Mini,Core
+Week 9,Nexlev,AP-03,Amazon,B0DVC58QPZ,8.0,26400.008474576272,26400.008474576272,2005.0,16040.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 9,Nexlev,AP-03,B2B,B0DVC58QPZ,3.0,8212.0,8212.0,2005.0,6015.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 9,Nexlev,AP-03,Blinkit Sales,B0DVC58QPZ,2.0,6886.36,6886.36,2005.0,4010.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
+Week 9,Nexlev,AP-03,D2C - Nexlev,B0DVC58QPZ,1.0,3592.0,3592.0,2005.0,2005.0,FBA79692,MAPPED,Home & Kitchen,Air Purifier,Air Purifier,Core
 Week 9,Nexlev,AP-03 HEPA,Amazon,B0F67BW7SF,2.0,1862.71186440678,1862.71186440678,500.0,1000.0,FBA79778,MAPPED,Home & Kitchen,HEPA,Spares,
 Week 9,Nexlev,BM-02,Amazon,B0DNJJKBKG,0.0,0.0,0.0,970.0,0.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,
 Week 9,Nexlev,BM-02,D2C - Nexlev,B0DNJJKBKG,2.0,3766.0,3766.0,970.0,1940.0,FBK79598,MAPPED,HPC,Electric Massagers,Back & Shoulder Massager,

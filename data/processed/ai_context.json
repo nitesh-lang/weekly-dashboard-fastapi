@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T11:14:21.010453",
+  "generated_at": "2026-08-04T11:41:09.743612",
   "alerts": [
     {
       "type": "model_sales_drop",
@@ -400,169 +400,169 @@
       "category_l0": "Traditional Watch",
       "units": 2212.0,
       "gmv": 21715276.56,
-      "gmv_share_pct": 37.77
+      "gmv_share_pct": 36.13
     },
     {
       "category_l0": "Home & Kitchen",
-      "units": 3682.0,
-      "gmv": 11189299.9622,
-      "gmv_share_pct": 19.46
+      "units": 3949.0,
+      "gmv": 13762325.4912,
+      "gmv_share_pct": 22.9
     },
     {
       "category_l0": "Monitor Speakers",
       "units": 396.0,
       "gmv": 2728036.23,
-      "gmv_share_pct": 4.74
+      "gmv_share_pct": 4.54
     },
     {
       "category_l0": "Audio Interface",
       "units": 755.0,
       "gmv": 2437650.2401,
-      "gmv_share_pct": 4.24
+      "gmv_share_pct": 4.06
     },
     {
       "category_l0": "Microphone Condenser",
       "units": 1039.0,
       "gmv": 2357280.7768,
-      "gmv_share_pct": 4.1
+      "gmv_share_pct": 3.92
     },
     {
       "category_l0": "Audio Mixer",
       "units": 554.0,
       "gmv": 2318302.0427,
-      "gmv_share_pct": 4.03
+      "gmv_share_pct": 3.86
     },
     {
       "category_l0": "Monitor Arm",
       "units": 1343.0,
       "gmv": 2235088.58,
-      "gmv_share_pct": 3.89
+      "gmv_share_pct": 3.72
+    },
+    {
+      "category_l0": "HPC",
+      "units": 1259.0,
+      "gmv": 1926909.3805,
+      "gmv_share_pct": 3.21
     },
     {
       "category_l0": "Microphone Conference",
       "units": 635.0,
       "gmv": 1910252.5888,
-      "gmv_share_pct": 3.32
-    },
-    {
-      "category_l0": "HPC",
-      "units": 1240.0,
-      "gmv": 1891383.9605,
-      "gmv_share_pct": 3.29
+      "gmv_share_pct": 3.18
     },
     {
       "category_l0": "Desk",
       "units": 241.0,
       "gmv": 1593698.34,
-      "gmv_share_pct": 2.77
+      "gmv_share_pct": 2.65
     },
     {
       "category_l0": "DJ Headphone",
       "units": 730.0,
       "gmv": 1047576.011,
-      "gmv_share_pct": 1.82
+      "gmv_share_pct": 1.74
     },
     {
       "category_l0": "Microphone Accessories",
       "units": 1096.0,
       "gmv": 1022526.7359,
-      "gmv_share_pct": 1.78
+      "gmv_share_pct": 1.7
     },
     {
       "category_l0": "Bundles",
       "units": 172.0,
       "gmv": 881399.74,
-      "gmv_share_pct": 1.53
+      "gmv_share_pct": 1.47
     },
     {
       "category_l0": "Microphone Wireless Handheld",
       "units": 229.0,
       "gmv": 754939.2754,
-      "gmv_share_pct": 1.31
+      "gmv_share_pct": 1.26
     },
     {
       "category_l0": "Monitor Speakers Accessories",
       "units": 160.0,
       "gmv": 501607.38,
-      "gmv_share_pct": 0.87
+      "gmv_share_pct": 0.83
     },
     {
       "category_l0": "Voice Amplifier",
       "units": 334.0,
       "gmv": 430789.14,
-      "gmv_share_pct": 0.75
+      "gmv_share_pct": 0.72
     },
     {
       "category_l0": "Condenser Microphone",
       "units": 211.0,
       "gmv": 418330.6,
-      "gmv_share_pct": 0.73
+      "gmv_share_pct": 0.7
     },
     {
       "category_l0": "Microphone Dynamic",
       "units": 200.0,
       "gmv": 414695.5092,
-      "gmv_share_pct": 0.72
+      "gmv_share_pct": 0.69
     },
     {
       "category_l0": "Dynamic Microphone",
       "units": 217.0,
       "gmv": 347725.08,
-      "gmv_share_pct": 0.6
+      "gmv_share_pct": 0.58
     },
     {
       "category_l0": "Conference Microphone",
       "units": 128.0,
       "gmv": 300978.01,
-      "gmv_share_pct": 0.52
+      "gmv_share_pct": 0.5
     },
     {
       "category_l0": "Microphone Wireless Lapel",
       "units": 137.0,
       "gmv": 234810.1395,
-      "gmv_share_pct": 0.41
+      "gmv_share_pct": 0.39
     },
     {
       "category_l0": "Desk-Adjustable",
       "units": 14.0,
       "gmv": 169169.48,
-      "gmv_share_pct": 0.29
+      "gmv_share_pct": 0.28
     },
     {
       "category_l0": "Sound Bar",
       "units": 141.0,
       "gmv": 146615.04,
-      "gmv_share_pct": 0.25
+      "gmv_share_pct": 0.24
     },
     {
       "category_l0": "Electric Keyboard",
       "units": 38.0,
       "gmv": 145856.731,
-      "gmv_share_pct": 0.25
+      "gmv_share_pct": 0.24
     },
     {
       "category_l0": "Headphone",
       "units": 89.0,
       "gmv": 130750.02,
-      "gmv_share_pct": 0.23
+      "gmv_share_pct": 0.22
     },
     {
       "category_l0": "Speaker Karaoke",
       "units": 58.0,
       "gmv": 68509.59,
-      "gmv_share_pct": 0.12
+      "gmv_share_pct": 0.11
     },
     {
       "category_l0": "Accessories",
       "units": 33.0,
       "gmv": 68065.17,
-      "gmv_share_pct": 0.12
+      "gmv_share_pct": 0.11
     },
     {
       "category_l0": "Instrument Microphone Kit",
       "units": 3.0,
       "gmv": 26353.39,
-      "gmv_share_pct": 0.05
+      "gmv_share_pct": 0.04
     },
     {
       "category_l0": "Wireless Microphone",
@@ -574,7 +574,7 @@
       "category_l0": "Wireless Accessories",
       "units": 1.0,
       "gmv": 2965.25,
-      "gmv_share_pct": 0.01
+      "gmv_share_pct": 0.0
     },
     {
       "category_l0": "Microphone Lapel",
@@ -584,6 +584,19 @@
     }
   ],
   "top_models_latest_week": [
+    {
+      "model": "SP-01",
+      "sku": "FBA79971",
+      "category_l0": "Home & Kitchen",
+      "units": 60.0,
+      "gmv": 589781.36,
+      "nlc": 0.0,
+      "units_prev": 59.0,
+      "gmv_prev": 579612.71,
+      "nlc_prev": 0.0,
+      "gmv_wow_pct": 1.75,
+      "units_wow_pct": 1.69
+    },
     {
       "model": "SC-05",
       "sku": "FBA79652",
@@ -895,22 +908,17 @@
       "nlc_prev": 0.0,
       "gmv_wow_pct": -17.65,
       "units_wow_pct": -22.22
-    },
-    {
-      "model": "ES5452",
-      "sku": "FBA79933",
-      "category_l0": "Traditional Watch",
-      "units": 10.0,
-      "gmv": 114364.41,
-      "nlc": 0.0,
-      "units_prev": 6.0,
-      "gmv_prev": 68618.64,
-      "nlc_prev": 0.0,
-      "gmv_wow_pct": 66.67,
-      "units_wow_pct": 66.67
     }
   ],
   "top_models_last4": [
+    {
+      "model": "SP-01",
+      "sku": "FBA79971",
+      "category_l0": "Home & Kitchen",
+      "units": 265.0,
+      "gmv": 2562518.749,
+      "nlc": 0.0
+    },
     {
       "model": "JR1401",
       "sku": "FBA66974",
@@ -1102,14 +1110,6 @@
       "units": 210.0,
       "gmv": 594058.17,
       "nlc": 290010.0
-    },
-    {
-      "model": "ES3843",
-      "sku": "FBA66964",
-      "category_l0": "Traditional Watch",
-      "units": 89.0,
-      "gmv": 521776.27,
-      "nlc": 0.0
     }
   ],
   "model_weekly_sales": [
@@ -296734,6 +296734,26 @@
   ],
   "asin_ams_performance": [
     {
+      "asin": "B0GGHZWMVW",
+      "child_asin": "B0GGHZWMVW",
+      "model": "SP-01",
+      "brand": "Nexlev",
+      "category_l0": "Home & Kitchen",
+      "category_l1": "Cleaning & Vacumming",
+      "Spend": 204339.3564,
+      "Clicks": 14140.0,
+      "Impressions": 1365999.0,
+      "attributed_sales": 1285697.9668,
+      "ams_orders": 144.0,
+      "gmv": 2505912.73,
+      "units": 259.0,
+      "sessions": 201204.0,
+      "acos": 0.1589,
+      "roas": 6.29,
+      "tacos": 0.0815,
+      "conversion_pct": 0.0013
+    },
+    {
       "asin": "B0F43P6D23",
       "child_asin": "B0F43P6D23",
       "model": "SC-05",
@@ -297112,26 +297132,6 @@
       "roas": 3.24,
       "tacos": 0.1953,
       "conversion_pct": 0.0108
-    },
-    {
-      "asin": "B0CF5TCQKL",
-      "child_asin": "B0CF5TCQKL",
-      "model": "AA-21",
-      "brand": "Audio Array",
-      "category_l0": "Monitor Speakers Accessories",
-      "category_l1": "Monitor Speaker Stand Pair",
-      "Spend": 43509.56,
-      "Clicks": 4817.0,
-      "Impressions": 761887.0,
-      "attributed_sales": 290899.94,
-      "ams_orders": 88.0,
-      "gmv": 424203.14,
-      "units": 135.0,
-      "sessions": 7361.0,
-      "acos": 0.1496,
-      "roas": 6.69,
-      "tacos": 0.1026,
-      "conversion_pct": 0.0183
     }
   ],
   "inventory": [

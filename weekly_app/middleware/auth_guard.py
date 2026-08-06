@@ -43,6 +43,7 @@ JINJA_GUARDED_PREFIXES = (
     "/run-etl",
     "/drilldown/ams",       # the standalone Jinja AMS drilldown
     "/sales-trend/category",
+    "/tools",               # external-tool launcher (Jinja page)
 )
 
 

@@ -28,6 +28,7 @@ from weekly_app.routes.ams_planning import router as ams_planning_router
 from weekly_app.routes.returns import router as returns_router
 from weekly_app.routes.returns_overview import router as returns_overview_router
 from weekly_app.routes.pricing import router as pricing_router
+from weekly_app.routes.tools import router as tools_router
 from fastapi.responses import HTMLResponse
 from starlette.middleware.sessions import SessionMiddleware
 from weekly_app.middleware.auth_guard import AuthGuardMiddleware
@@ -242,6 +243,7 @@ app.include_router(returns_overview_router)
 
 # ✅ PRICING — /api/pricing per-account SP-API selling-price snapshot
 app.include_router(pricing_router)
+app.include_router(tools_router)
 
 print("✅ upload_router mounted")
 print("✅ dashboard_router mounted")

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Tools · Weekly Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2 class="page-title">
+    <i class="ti ti-external-link me-2"></i>External Tools
+  </h2>
+  <div class="text-secondary mt-1">One-click access to every Cambium tool hosted outside this app.</div>
+</div>
+
+{% for sec in sections %}
+<div class="mt-3">
+  <div class="text-uppercase text-secondary fw-bold mb-2" style="font-size:11px;letter-spacing:0.12em;">
+    {{ sec.section }}
+  </div>
+  <div class="row row-cards">
+    {% for t in sec['items'] %}
+    <div class="col-sm-6 col-lg-4">
+      <a href="{{ t.href }}" target="_blank" rel="noopener noreferrer"
+         class="card card-link card-link-pop text-reset text-decoration-none h-100">
+        <div class="card-body d-flex align-items-center justify-content-between">
+          <div class="me-3 flex-fill" style="min-width:0;">
+            <span class="badge bg-{% if t.brand == 'Audio Array' %}purple{% else %}blue{% endif %}-lt text-uppercase"
+                  style="font-size:10px;letter-spacing:0.06em;">
+              {{ t.brand }}
+            </span>
+            <div class="fw-bold mt-2 text-truncate" title="{{ t.label }}">{{ t.label }}</div>
+          </div>
+          <i class="ti ti-external-link text-secondary" style="font-size:18px;"></i>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

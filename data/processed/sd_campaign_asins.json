@@ -2436,6 +2436,47 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "Audio Array_B0B4DPX2J2_Condenser_SD_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4DPX2J2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0G3B152FR_Wireless Amplifeir_SD_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3B152FR"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0BPLZ5CGV_Audio Interface_AI-04_SD_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0BPLZ5CGV"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_Studio Montiors_SDV_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0DXFPM4N2",
+      "B0GN97RFPR"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "SD_SC-02_Lookback": {
     "brand": "Nexlev",
     "asins": [
@@ -2901,6 +2942,36 @@
     "brand": "Nexlev",
     "asins": [
       "B0F43P6D23"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Hot Air Brush - Hair Care - SD - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Foldable Steam Cleanser - Vaccuum - SD": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Room Moisture - Air Quality - SD": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN85NZQN"
     ],
     "ad_types": [
       "productAd"

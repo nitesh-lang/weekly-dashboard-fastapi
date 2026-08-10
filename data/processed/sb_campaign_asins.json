@@ -21,6 +21,16 @@
     ],
     "profile_id": "866679611348308"
   },
+  "Camb-SP-Zshape-B0CPFS24ML- SBV- Phrase": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPFS24ML"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "866679611348308"
+  },
   "White Mulberry Manual Sit Stand Desk SB PT": {
     "brand": "White Mulberry",
     "asins": [
@@ -117,6 +127,16 @@
     ],
     "ad_types": [
       "PRODUCT_COLLECTION"
+    ],
+    "profile_id": "866679611348308"
+  },
+  "Camb- SBV- B0CPFS24ML-Branded": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0CPFS24ML"
+    ],
+    "ad_types": [
+      "VIDEO"
     ],
     "profile_id": "866679611348308"
   },
@@ -506,6 +526,16 @@
     ],
     "ad_types": [
       "MANUAL_COLLECTION"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "WM-SBV-Gas Spring MA- B0DB5VG39T- BM": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "VIDEO"
     ],
     "profile_id": "3563790765020958"
   },
@@ -1607,6 +1637,20 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray_Audio Mixers_SB_Collection": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G53H49BS",
+      "B0GXPBHDRF",
+      "B0G53M9258",
+      "B0GCP1J2HC",
+      "B0GXP97CZG"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Audio Array Condenser Microphone SB Store KT": {
     "brand": "Audio Array",
     "asins": [
@@ -1635,6 +1679,16 @@
     "brand": "Audio Array",
     "asins": [
       "B0CKHVHVQ1"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudioArray_B0BPLZ5CGV_Audio Interface AI04_SB_ KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0BPLZ5CGV"
     ],
     "ad_types": [
       "VIDEO"
@@ -1680,6 +1734,31 @@
     ],
     "ad_types": [
       "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudioArray_UHF Wireless Microphone_SB_Collection": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4G59Y8W",
+      "B0B4G763WS",
+      "B0B4G5JG4P"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudioArray - Conference Mic - SB - AD": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0CKHVHVQ1",
+      "B0B4K87PR4",
+      "B0B4KC7VBM",
+      "B0BPLWW72Y"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "3633693611482083"
   },
@@ -1767,6 +1846,16 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray_B0FFB6YJM1_Soundbar_SBV_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FFB6YJM1"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Audio Array AA-02/07/08 SB KT": {
     "brand": "Audio Array",
     "asins": [
@@ -1849,6 +1938,18 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray - Podcast Mic  SB - KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4DPX2J2",
+      "B0FJS57732",
+      "B0FTVQQVDC"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Nexlev SB_Store_KT_BMC": {
     "brand": "Audio Array",
     "asins": [
@@ -1870,6 +1971,20 @@
     ],
     "ad_types": [
       "PRODUCT_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_SB_Branded_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0BPLZ5CGV",
+      "B0B4DPX2J2",
+      "B0FG88HVQ8",
+      "B0G53H49BS",
+      "B0G3B152FR"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "3633693611482083"
   },
@@ -1930,10 +2045,30 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray - Condenser Mic - SB - KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4DPX2J2"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Audio Array AA-04 SB Video PT": {
     "brand": "Audio Array",
     "asins": [
       "B0B4G7VWXD"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudioArray - Sound Bar - SB - KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FFB6YJM1"
     ],
     "ad_types": [
       "VIDEO"
@@ -1952,10 +2087,40 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray_B0G53H49BS_Audio Mixer_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G53H49BS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudioArray - Voice Amplifier - SB - KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3B152FR"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "AA_Condenser_AM-C47_SBV_KT": {
     "brand": "Audio Array",
     "asins": [
       "B0FF9R3GKK"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudioArray_B0DXFPM4N2_Studio Monitor AM-S1_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0DXFPM4N2"
     ],
     "ad_types": [
       "VIDEO"
@@ -2104,6 +2269,16 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray_B0G3Q59X8C_Wireless Mic_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G3Q59X8C"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "NC - Tonor G11 SB Video PT": {
     "brand": "Audio Array",
     "asins": [
@@ -2172,6 +2347,16 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray_B0GKPXQ8G3_Wireless Mic_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0GKPXQ8G3"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Audio Array Conference Mic SB Store KT": {
     "brand": "Audio Array",
     "asins": [
@@ -2217,6 +2402,16 @@
     ],
     "ad_types": [
       "PRODUCT_COLLECTION"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "AudioArray_B0GN97RFPR_Studio Monitor_SB_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0GN97RFPR"
+    ],
+    "ad_types": [
+      "VIDEO"
     ],
     "profile_id": "3633693611482083"
   },
@@ -3335,6 +3530,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlex - Steam Cleaner - BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexliv-B0DNJS23HS-BM-SBV": {
     "brand": "Nexlev",
     "asins": [
@@ -3405,6 +3610,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlex - Steam Cleaner - SB - KT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0CDPP45BM_Steam Cleaner_SBV_PT": {
     "brand": "Nexlev",
     "asins": [
@@ -3435,6 +3650,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlex - Steam Cleaner - SB - BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0DVC7VJP1-Stand Mixer- SBV- PT04": {
     "brand": "Nexlev",
     "asins": [
@@ -3459,6 +3684,16 @@
     "brand": "Nexlev",
     "asins": [
       "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Cleaner - Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
     ],
     "ad_types": [
       "VIDEO"
@@ -3575,6 +3810,20 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlex - Steam Cleaner - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23",
+      "B0H5BW259F",
+      "B0G6FFBZ9T",
+      "B0CN6R1L7J",
+      "B08126296H"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0CYSLCRQS_Sofa Cleaning Machine_SBV_KT_BM": {
     "brand": "Nexlev",
     "asins": [
@@ -3582,6 +3831,40 @@
     ],
     "ad_types": [
       "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Cleaning - SB - Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Cleaner - Phrase - SB": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Cleaner - SB - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23",
+      "B0H5BW259F",
+      "B0CN6R1L7J",
+      "B08126296H",
+      "B0G6FFBZ9T"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "1122755254933937"
   },

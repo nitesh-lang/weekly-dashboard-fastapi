@@ -4613,7 +4613,7 @@
     ],
     "profile_id": "3563790765020958"
   },
-  "White Mulberry Monitor Arm-B0DB5VG39T-Defense-SP": {
+  "White Mulberry Monitor Arm-B0DB5VVPSB-Defense-SP": {
     "brand": "White Mulberry",
     "asins": [
       "B0DB5VG39T",
@@ -5289,6 +5289,16 @@
     "brand": "White Mulberry",
     "asins": [
       "B0DB5VG39T"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3563790765020958"
+  },
+  "White Mulberry -Fixed TV Bracket-B0FHVWHQHR- SP- AT": {
+    "brand": "White Mulberry",
+    "asins": [
+      "B0FHVWHQHR"
     ],
     "ad_types": [
       "productAd"
@@ -17190,6 +17200,46 @@
     ],
     "profile_id": "3633693611482083"
   },
+  "AudioArray - Recording Interface - SP": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0BPLZ5CGV"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0D3M1B4Z8_Condenser Mic_SP_PT/CT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0D3M1B4Z8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0D3M1B4Z8_Condenser Mic_SP_AT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0D3M1B4Z8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0D3M1B4Z8_Condenser Mic_SP_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0D3M1B4Z8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
   "Nexlev_SP_AT_CM-01/CM-02": {
     "brand": "Nexlev",
     "asins": [
@@ -23757,7 +23807,7 @@
     ],
     "profile_id": "1122755254933937"
   },
-  "Nexlev-Defensive-AT": {
+  "Nexlev-Defensive": {
     "brand": "Nexlev",
     "asins": [
       "B0D8445KJN",
@@ -26322,6 +26372,484 @@
     "profile_id": "1122755254933937"
   },
   "Nexlev-Steam Iron Handheld-B0CDPMX152-SP-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPMX152"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFP4MG_Hair Straightener Brush_SP_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFP4MG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFP4MG_Hair Straightener Brush_SP_Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFP4MG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFP4MG_Hair Straightener Brush_SP_Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFP4MG"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Cleaner - Floor Care - SP - KT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Cleaner - Floor Care - SP -  Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steame Iron - Hand Iron - SP": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPMX152"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Foldable Steam Cleanser - Vaccuum - SP - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DNJS23HS"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steamer - Hand Iron - SP - BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPMX152"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Cleaner - Floor Care  - KT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlex - Steam Iron - SB - CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPMX152"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DQCWRG3H -Air Brush-SP-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DT6Y7KJM-Hot Hair Brush-AT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H",
+      "B0DT6Y7KJM"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DQCWRG3H -Air Brush-SP-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DFCDZWND-Heating Pad-SP-PT(1)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFCDZWND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DFCDZWND-Heating Pad-SP-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DFCDZWND"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Defensive-PT-Steamer": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPP45BM",
+      "B0DNJS23HS",
+      "B0F43P6D23"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Catch All-Lower Products": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D2LJSQXZ",
+      "B0F2N37819",
+      "B0F67BW7SF",
+      "B0D9KFP4MG",
+      "B0D2LKB4BJ",
+      "B0D63FKYZ5",
+      "B0DFCDZWND",
+      "B0D842173P",
+      "B0DDC3GVZW",
+      "B0GN86G345",
+      "B0DFM4JZV9",
+      "B0D2LD6BYJ",
+      "B0DFMRG2K4",
+      "B0DGTGKPJR",
+      "B0D2LHNS9B",
+      "B0DJFH4K8B",
+      "B0D2P7WLJB",
+      "B0DK9LYT4P",
+      "B0DNJF1BLS",
+      "B0DCGHKRXX",
+      "B0DNJJKBKG",
+      "B0GLHC8CB3",
+      "B0DV9CY3XR",
+      "B0DVC91Q7J",
+      "B0DKJXRXKM",
+      "B0F2N1HTBT",
+      "B0FMF1D9NV",
+      "B0GYS6CJD9",
+      "B0CDQ55W2M",
+      "B0F2N4N83Y",
+      "B0CDQ5NBH8",
+      "B0FJG5PFGQ",
+      "B0D86Y2V7V",
+      "B0D9KCNVNM",
+      "B0DVC8NYY2",
+      "B0DFD123P5",
+      "B0DM6BB3VT",
+      "B0DK9NRBWJ",
+      "B0DK9QNKK8",
+      "B0GKNGWLJ2",
+      "B0DNJP9T35",
+      "B0DV931G48",
+      "B0DQ8W1RBV",
+      "B0DVC9PRSD",
+      "B0D9KFZYG8",
+      "B0DVCBR11D",
+      "B0DVCDD5VC",
+      "B0DCK56Q85",
+      "B0DVSZ2VVJ",
+      "B0D845B2DG",
+      "B0F2N11VTN",
+      "B0F2N31GNX",
+      "B0D672NXC8",
+      "B0F6795PDP",
+      "B0DFCG2VGS",
+      "B0FJ8SFNRH",
+      "B0FS7T8151",
+      "B0D83Q7L8W",
+      "B0FYNLPK1B",
+      "B0DTYDTKN8",
+      "B0GJ4XJ6YR",
+      "B0GYSS16FJ",
+      "B0D383WQPB",
+      "B0H2JC7124",
+      "B0DCK4DR1B",
+      "B0H2JJN6R8",
+      "B0H33HN9LH",
+      "B0DJFH6RTL",
+      "B0H3QBK46G",
+      "B0DKJZDY72",
+      "B0H3TFTXWT",
+      "B0H3TMZ87Q",
+      "B0F74DJYG6",
+      "B0H3TT9BJL",
+      "B0FJ1ZB4G9",
+      "B0H3TV13JP",
+      "B0H3V14M5J",
+      "B0D9KFQG8Q",
+      "B0H3VQ8ZM2",
+      "B0DT6Y7KJM",
+      "B0H5WRN8W8",
+      "B0DTK4FY1G",
+      "B0DV94R4QD",
+      "B0F29SZCVF",
+      "B0F678L8YT",
+      "B0CQX9ZZMH",
+      "B0D2LFMY48",
+      "B0D81DLSFT",
+      "B0D86ZC9YT",
+      "B0DFCDKMWR",
+      "B0DVC58QPZ",
+      "B0F2MZ9BJS",
+      "B0F67775SH",
+      "B0FT8R24QM",
+      "B0GN8N96R5",
+      "B0D25LNDSY",
+      "B0D8445KJN",
+      "B0DKJSCLBD",
+      "B0DMT19RWC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-B0DT6Y7KJM-Hot Hair Brush-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DT6Y7KJM",
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Defensive-PT-Vacuum Cleaners": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK7ZH5P",
+      "B0CYSLCRQS",
+      "B0GM1CZC7Y"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFZYG8_Steamer_SP_PT(1)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFZYG8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFZYG8_Steamer_SP_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFZYG8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Defensive-PT-Hot Hair Brush": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D83Q7L8W",
+      "B0DQ8W1RBV",
+      "B0DQCWRG3H",
+      "B0DT6Y7KJM"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Defnsive-Lower Products": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0F2N37819",
+      "B0D2LJSQXZ",
+      "B0F67BW7SF",
+      "B0D9KFP4MG",
+      "B0D2LKB4BJ",
+      "B0DFCDZWND",
+      "B0D63FKYZ5",
+      "B0GN86G345",
+      "B0D842173P",
+      "B0D2LD6BYJ",
+      "B0DDC3GVZW",
+      "B0DFM4JZV9",
+      "B0D2LHNS9B",
+      "B0DFMRG2K4",
+      "B0D2P7WLJB",
+      "B0DGTGKPJR",
+      "B0DCGHKRXX",
+      "B0DJFH4K8B",
+      "B0GLHC8CB3",
+      "B0DK9LYT4P",
+      "B0DKJXRXKM",
+      "B0DNJF1BLS",
+      "B0DNJJKBKG",
+      "B0FMF1D9NV",
+      "B0DV9CY3XR",
+      "B0F2N4N83Y",
+      "B0DVC91Q7J",
+      "B0FJG5PFGQ",
+      "B0F2N1HTBT",
+      "B0DVC8NYY2",
+      "B0GYS6CJD9",
+      "B0DM6BB3VT",
+      "B0CDQ55W2M",
+      "B0CDQ5NBH8",
+      "B0GKNGWLJ2",
+      "B0D86Y2V7V",
+      "B0DQ8W1RBV",
+      "B0D9KCNVNM",
+      "B0D9KFZYG8",
+      "B0DFD123P5",
+      "B0DK9NRBWJ",
+      "B0DCK56Q85",
+      "B0DK9QNKK8",
+      "B0D845B2DG",
+      "B0DNJP9T35",
+      "B0D672NXC8",
+      "B0DV931G48",
+      "B0DFCG2VGS",
+      "B0DVC9PRSD",
+      "B0DVCBR11D",
+      "B0D83Q7L8W",
+      "B0DVCDD5VC",
+      "B0DTYDTKN8",
+      "B0DVSZ2VVJ",
+      "B0D383WQPB",
+      "B0F2N11VTN",
+      "B0DCK4DR1B",
+      "B0F2N31GNX",
+      "B0DJFH6RTL",
+      "B0F6795PDP",
+      "B0FJ8SFNRH",
+      "B0DKJZDY72",
+      "B0FS7T8151",
+      "B0F74DJYG6",
+      "B0FYNLPK1B",
+      "B0FJ1ZB4G9",
+      "B0GJ4XJ6YR",
+      "B0D9KFQG8Q",
+      "B0GYSS16FJ",
+      "B0H2JC7124",
+      "B0DT6Y7KJM",
+      "B0H2JJN6R8",
+      "B0DTK4FY1G",
+      "B0H33HN9LH",
+      "B0DV94R4QD",
+      "B0H3QBK46G",
+      "B0H3TFTXWT",
+      "B0F29SZCVF",
+      "B0H3TMZ87Q",
+      "B0F678L8YT",
+      "B0H3TT9BJL",
+      "B0CQX9ZZMH",
+      "B0H3TV13JP",
+      "B0D2LFMY48",
+      "B0H3V14M5J",
+      "B0H3VQ8ZM2",
+      "B0D81DLSFT",
+      "B0H5WRN8W8",
+      "B0D86ZC9YT",
+      "B0DFCDKMWR",
+      "B0DVC58QPZ",
+      "B0F2MZ9BJS",
+      "B0F67775SH",
+      "B0FT8R24QM",
+      "B0GN8N96R5",
+      "B0D25LNDSY",
+      "B0D8445KJN",
+      "B0DKJSCLBD",
+      "B0DMT19RWC"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Steam Iron Handheld-B0CDPMX152-SP-BM": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0CDPMX152"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Defensive-PT-straightener": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DCK3N2JJ",
+      "B0D9KFP4MG",
+      "B0D2LFMY48",
+      "B0D2LKB4BJ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFZYG8_Steamer_SP_Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFZYG8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Steam Iron Handheld-B0CDPMX152-Exact": {
     "brand": "Nexlev",
     "asins": [
       "B0CDPMX152"

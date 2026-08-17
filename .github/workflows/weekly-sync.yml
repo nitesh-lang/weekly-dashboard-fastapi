@@ -425,8 +425,14 @@ jobs:
         continue-on-error: true
         run: python -m scripts.pipeline_integrity_audit
 
-      - name: Upload audit xlsx on failure
-        if: failure()
+      # MUST be `always()`, not `failure()`.  The audit step above is
+      # `continue-on-error: true`, so the job never registers a failure and
+      # `if: failure()` could NEVER fire — the audit's findings had no way of
+      # reaching anyone.  That is how the W32 channel drop shipped: the audit
+      # correctly flagged B2B + both D2C channels going to zero and nobody
+      # ever saw the file.  2026-08-17.
+      - name: Upload audit xlsx
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pipeline-integrity-audit

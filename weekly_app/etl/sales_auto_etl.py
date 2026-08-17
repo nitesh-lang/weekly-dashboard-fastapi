@@ -59,6 +59,31 @@ def norm(c: str) -> str:
     )
 
 
+def _blank_na(s: pd.Series) -> pd.Series:
+    """Stringify an identifier column, collapsing every missing-value spelling
+    to "".
+
+    A blank Excel cell reads back differently per platform: float NaN ->
+    "nan" on Windows/openpyxl, but pd.NA -> "<NA>" on the Linux CI runner's
+    pyarrow-backed dtypes.  Masking with .notna() FIRST is dtype-agnostic;
+    the .replace() only mops up markers that were already literal strings in
+    the sheet.
+
+    W32 shipped ₹3.71L short because this column missed "<NA>": every
+    D2C/B2B sheet has an ASIN column that is present but entirely empty, so
+    on CI those rows carried asin="<NA>", never matched master, and the
+    whole channel vanished from the snapshot.  Locally they read as "" and
+    were fine — which is why it passed the operator's run and died on cron.
+    Same class as feedback_pandas_na_stringify_crossplatform.
+    """
+    return (
+        s.where(s.notna(), "")
+        .astype(str)
+        .str.strip()
+        .replace({"nan": "", "None": "", "<NA>": "", "NaT": "", "N/A": "", "NA": ""})
+    )
+
+
 def normalize_week(week: str) -> str:
     """
     Normalize ALL formats → Week XX
@@ -374,7 +399,7 @@ def parse_other_channels(file, week, skip_sheets=None):
             continue
 
         if "sku" in df.columns:
-            df["sku"] = df["sku"].astype(str).str.strip().replace({"nan": "", "None": ""})
+            df["sku"] = _blank_na(df["sku"])
         else:
             df["sku"] = ""
         df["qty"] = pd.to_numeric(df["qty"], errors="coerce").fillna(0)
@@ -382,8 +407,11 @@ def parse_other_channels(file, week, skip_sheets=None):
         # Honor file-side ASIN when present (every sheet has one in the
         # current operator workflow); fall back to empty so the downstream
         # master merge can fill it from SKU lookup as a safety net.
+        #
+        # A sheet whose ASIN column EXISTS but is entirely blank must behave
+        # exactly like one with no ASIN column at all.  See _blank_na.
         if "asin" in df.columns:
-            df["asin"] = df["asin"].astype(str).str.strip().replace({"nan": "", "None": ""})
+            df["asin"] = _blank_na(df["asin"])
         else:
             df["asin"] = ""
 

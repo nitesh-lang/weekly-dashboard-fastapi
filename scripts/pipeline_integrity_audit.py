@@ -478,6 +478,51 @@ def check_channel_case_drift() -> pd.DataFrame:
 # ─────────────────────────────────────────────────────────────────────────
 # CHECK 7 — WENT-TO-ZERO WITH HISTORY
 # ─────────────────────────────────────────────────────────────────────────
+def _raw_other_channel_units(week_num: int) -> Dict[tuple, float]:
+    """Units per (brand, channel) read straight from the raw
+    other_channels.xlsx sheets for one week.
+
+    Exists so check 5 can tell a REAL ETL drop (raw has rows, snapshot is
+    zero) apart from a channel that simply had no sales.  In the W32 report
+    both looked identical: B2B and both D2C channels had been silently
+    dropped by the ETL, while Pharmaeasy and BI Worldwide were legitimately
+    zero — same list, nothing marking which was which, so the real signal
+    was read as noise and ₹3.71L shipped short.  2026-08-17.
+    """
+    out: Dict[tuple, float] = {}
+    wdir = ROOT / "data" / "raw" / "sales" / f"Week {week_num}"
+    if not wdir.exists():
+        return out
+    for brand_dir in wdir.iterdir():
+        if not brand_dir.is_dir():
+            continue
+        oc = brand_dir / "other_channels.xlsx"
+        if not oc.exists():
+            continue
+        try:
+            xl = pd.ExcelFile(oc, engine="calamine")
+        except Exception:
+            try:
+                xl = pd.ExcelFile(oc)
+            except Exception:
+                continue
+        for sh in xl.sheet_names:
+            try:
+                d = pd.read_excel(xl, sheet_name=sh)
+            except Exception:
+                continue
+            cols = {str(c).lower().strip(): c for c in d.columns}
+            u = (cols.get("qty") or cols.get("units sold")
+                 or cols.get("units_sold") or cols.get("units"))
+            if not u:
+                continue
+            key = (_norm_brand(brand_dir.name), _norm_chan(sh))
+            out[key] = out.get(key, 0.0) + float(
+                pd.to_numeric(d[u], errors="coerce").fillna(0).sum()
+            )
+    return out
+
+
 def check_went_to_zero(latest_week: int) -> pd.DataFrame:
     """Across sales / inventory / ams_trend, flag any (active brand,
     channel/metric) pair that had positive activity in any of the prior
@@ -491,6 +536,7 @@ def check_went_to_zero(latest_week: int) -> pd.DataFrame:
 
     # ── sales ──
     if SNAP_SALES.exists():
+        raw_oc = _raw_other_channel_units(latest_week)
         s = pd.read_csv(SNAP_SALES)
         s["wn"] = s["week"].astype(str).str.extract(r"(\d+)").astype(float).astype("Int64")
         s["brand_n"] = s["brand"].astype(str).apply(_norm_brand)
@@ -500,6 +546,7 @@ def check_went_to_zero(latest_week: int) -> pd.DataFrame:
             prior  = g[g["wn"].isin(PRIOR)]["units_sold"].sum()
             latest = g[g["wn"] == latest_week]["units_sold"].sum()
             if prior > 0 and latest == 0:
+                raw_u = raw_oc.get((b, ch), 0.0)
                 out.append({
                     "layer": "sales",
                     "brand": b,
@@ -507,6 +554,12 @@ def check_went_to_zero(latest_week: int) -> pd.DataFrame:
                     "metric": "units_sold",
                     "prior_3wk": float(prior),
                     "latest":    float(latest),
+                    "raw_units": raw_u,
+                    # The whole point of this check: raw still has the rows
+                    # but the snapshot lost them = defect.  Raw empty too =
+                    # the channel genuinely had no sales, ignore it.
+                    "verdict": ("ETL DROP — raw has rows, snapshot is zero"
+                                if raw_u > 0 else "no sales (raw empty too)"),
                 })
 
     # ── inventory ──

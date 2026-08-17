@@ -109,7 +109,7 @@ def pull_vendor_sales_window(token: str, start_dt: datetime, end_dt: datetime) -
     rep_id = r.json()["reportId"]
 
     doc_id = None
-    for i in range(90):
+    for i in range(180):
         time.sleep(5)
         rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rep_id}",
                           headers={"x-amz-access-token": token}, timeout=30)

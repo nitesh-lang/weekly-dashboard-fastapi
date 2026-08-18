@@ -782,8 +782,7 @@
       "B0CPFS24ML",
       "B0DQPK7MFH",
       "B0CPT2YJX2",
-      "B0DQPLMQQ7",
-      "B0DQPGLK2T"
+      "B0DQPLMQQ7"
     ],
     "ad_types": [
       "productAd"
@@ -810,8 +809,7 @@
       "B0CPFS24ML",
       "B0DQPK7MFH",
       "B0CPT2YJX2",
-      "B0DQPLMQQ7",
-      "B0DQPGLK2T"
+      "B0DQPLMQQ7"
     ],
     "ad_types": [
       "productAd"
@@ -1240,8 +1238,7 @@
       "B0CPFS24ML",
       "B0DQPK7MFH",
       "B0CPT2YJX2",
-      "B0DQPLMQQ7",
-      "B0DQPGLK2T"
+      "B0DQPLMQQ7"
     ],
     "ad_types": [
       "productAd"
@@ -2007,8 +2004,9 @@
       "B0DQPK7MFH",
       "B0CPT2YJX2",
       "B0DQPLMQQ7",
-      "B0DQPGLK2T",
-      "B0DQPLCZ3G"
+      "B0BFVNS8HS",
+      "B0DQPLCZ3G",
+      "B0DQPGLK2T"
     ],
     "ad_types": [
       "productAd"
@@ -2567,7 +2565,6 @@
       "B0DQPK7MFH",
       "B0CPT2YJX2",
       "B0DQPLMQQ7",
-      "B0DQPGLK2T",
       "B0CPFS24ML"
     ],
     "ad_types": [
@@ -2585,7 +2582,6 @@
       "B0DQPK7MFH",
       "B0CPT2YJX2",
       "B0DQPLMQQ7",
-      "B0DQPGLK2T",
       "B0CPFS24ML"
     ],
     "ad_types": [
@@ -17304,6 +17300,157 @@
     "brand": "Audio Array",
     "asins": [
       "B0D3M1B4Z8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0CM6WH4ZT_Audio Interface_SP_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0CM6WH4ZT"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0CM6WH4ZT_Audio Interface_SP_KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0CM6WH4ZT"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0FQBXS6Y2_DJ Headphones_SP_PT (2)": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FQBXS6Y2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0G39ZHDYP_Wired Amplifier_SP_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G39ZHDYP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0FG88HVQ8_DJ Headphone_SP_KT_BM (2)": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FG88HVQ8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0FQBXS6Y2_DJ Headphones_SP_KT_BM": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FQBXS6Y2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0FG88HVQ8_DJ Headphone_SP_KT_Phrase": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FG88HVQ8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0G39ZHDYP_Wired Amplifier_SP_AT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G39ZHDYP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0G39ZHDYP_Wired Amplifier_SP_KT_Phrase": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0G39ZHDYP"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_DJ Headphones_B0FQBX8J17_B0FQBXS6Y2_SP_AT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0FQBX8J17",
+      "B0FQBXS6Y2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0B4G5JG4P_Dual Metal Microphone AM W-14-SP_KT_Phrase": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4G5JG4P"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0B4DPX2J2_AMC1 Condenser_SP_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4DPX2J2"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_B0B4G5JG4P_Dual Metal Microphone AM W-14_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4G5JG4P"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_UHF Wireless Mic_B0B4G59Y8W_SP_PT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4G59Y8W"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "3633693611482083"
+  },
+  "Audio Array_UHF Wireless Mic_B0B4G59Y8W_SP-KT": {
+    "brand": "Audio Array",
+    "asins": [
+      "B0B4G59Y8W"
     ],
     "ad_types": [
       "productAd"

@@ -1,19 +1,12 @@
 {
-  "generated_at": "2026-08-17T16:47:06.382672",
+  "generated_at": "2026-08-18T12:20:46.917451",
   "alerts": [
     {
       "type": "model_sales_drop",
-      "severity": "medium",
-      "message": "Model AM-S2 GMV dropped 40.4% WoW.",
-      "model": "AM-S2",
-      "value": -40.41
-    },
-    {
-      "type": "model_sales_drop",
       "severity": "high",
-      "message": "Model SC-05 GMV dropped 57.6% WoW.",
+      "message": "Model SC-05 GMV dropped 55.1% WoW.",
       "model": "SC-05",
-      "value": -57.59
+      "value": -55.06
     },
     {
       "type": "model_sales_drop",
@@ -44,7 +37,7 @@
       "value": 1.94
     }
   ],
-  "alert_count": 6,
+  "alert_count": 5,
   "high_alerts": 1,
   "all_weeks": [
     "Week 4",
@@ -87,17 +80,17 @@
   "latest_week": "Week 33",
   "prev_week": "Week 32",
   "latest_week_kpis": {
-    "units": 4502,
-    "gmv": 17247920.56,
-    "nlc": 5356632.9413,
-    "gmv_wow_pct": -0.69,
-    "units_wow_pct": -9.05,
-    "nlc_wow_pct": -16.62
+    "units": 5076,
+    "gmv": 18305828.58,
+    "nlc": 6185197.3404,
+    "gmv_wow_pct": 5.4,
+    "units_wow_pct": 2.55,
+    "nlc_wow_pct": -3.72
   },
   "last4_kpis": {
-    "units": 16559,
-    "gmv": 60061448.6409,
-    "nlc": 20272886.0257
+    "units": 17133,
+    "gmv": 61119356.6609,
+    "nlc": 21101450.4249
   },
   "weekly_sales_trend": [
     {
@@ -363,49 +356,49 @@
     },
     {
       "week": "Week 33",
-      "units": 4502.0,
-      "gmv": 17247920.56,
-      "nlc": 5356632.9413,
-      "gmv_wow_pct": -0.69,
-      "units_wow_pct": -9.05,
-      "nlc_wow_pct": -16.62
+      "units": 5076.0,
+      "gmv": 18305828.58,
+      "nlc": 6185197.3404,
+      "gmv_wow_pct": 5.4,
+      "units_wow_pct": 2.55,
+      "nlc_wow_pct": -3.72
     }
   ],
   "channel_breakdown": [
     {
       "channel": "Amazon",
-      "units": 8092.0,
-      "gmv": 39852708.33,
-      "nlc": 7622824.799,
-      "gmv_share_pct": 66.35
+      "units": 8088.0,
+      "gmv": 39827927.81,
+      "nlc": 7619252.799,
+      "gmv_share_pct": 65.16
     },
     {
       "channel": "1p Sales",
-      "units": 7462.0,
-      "gmv": 18201960.92,
-      "nlc": 11568378.115,
-      "gmv_share_pct": 30.31
-    },
-    {
-      "channel": "B2B",
-      "units": 325.0,
-      "gmv": 834747.5397,
-      "nlc": 384632.8411,
-      "gmv_share_pct": 1.39
+      "units": 7784.0,
+      "gmv": 19023189.12,
+      "nlc": 12103342.1088,
+      "gmv_share_pct": 31.12
     },
     {
       "channel": "Blinkit Sales",
-      "units": 331.0,
-      "gmv": 518662.6981,
-      "nlc": 292988.8461,
-      "gmv_share_pct": 0.86
+      "units": 464.0,
+      "gmv": 748069.6981,
+      "nlc": 402017.3985,
+      "gmv_share_pct": 1.22
+    },
+    {
+      "channel": "B2B",
+      "units": 359.0,
+      "gmv": 721041.2797,
+      "nlc": 490059.7054,
+      "gmv_share_pct": 1.18
     },
     {
       "channel": "D2C - Nexlev",
-      "units": 201.0,
-      "gmv": 327643.5012,
-      "nlc": 198805.0,
-      "gmv_share_pct": 0.55
+      "units": 284.0,
+      "gmv": 459332.4012,
+      "nlc": 271950.0,
+      "gmv_share_pct": 0.75
     },
     {
       "channel": "Flipkart",
@@ -416,10 +409,10 @@
     },
     {
       "channel": "D2C - Audio Array",
-      "units": 39.0,
-      "gmv": 92584.5763,
-      "nlc": 55436.2767,
-      "gmv_share_pct": 0.15
+      "units": 45.0,
+      "gmv": 106655.2763,
+      "nlc": 65008.2652,
+      "gmv_share_pct": 0.17
     },
     {
       "channel": "Pharmaeasy",
@@ -432,141 +425,141 @@
   "category_breakdown": [
     {
       "category_l0": "Traditional Watch",
-      "units": 2169.0,
-      "gmv": 21339268.93,
-      "gmv_share_pct": 35.56
+      "units": 2168.0,
+      "gmv": 21325715.54,
+      "gmv_share_pct": 34.92
     },
     {
       "category_l0": "Home & Kitchen",
-      "units": 3740.0,
-      "gmv": 13205109.5844,
-      "gmv_share_pct": 22.0
+      "units": 3822.0,
+      "gmv": 13204527.3944,
+      "gmv_share_pct": 21.62
     },
     {
       "category_l0": "Audio Mixer",
-      "units": 686.0,
-      "gmv": 2695413.7998,
-      "gmv_share_pct": 4.49
+      "units": 711.0,
+      "gmv": 2813211.2698,
+      "gmv_share_pct": 4.61
     },
     {
       "category_l0": "Monitor Speakers",
-      "units": 405.0,
-      "gmv": 2519256.85,
-      "gmv_share_pct": 4.2
+      "units": 429.0,
+      "gmv": 2674160.11,
+      "gmv_share_pct": 4.38
     },
     {
       "category_l0": "Audio Interface",
-      "units": 781.0,
-      "gmv": 2416468.8625,
-      "gmv_share_pct": 4.03
+      "units": 820.0,
+      "gmv": 2540709.2125,
+      "gmv_share_pct": 4.16
     },
     {
       "category_l0": "Microphone Condenser",
-      "units": 1077.0,
-      "gmv": 2402583.3066,
-      "gmv_share_pct": 4.0
+      "units": 1128.0,
+      "gmv": 2518952.3366,
+      "gmv_share_pct": 4.12
+    },
+    {
+      "category_l0": "Microphone Conference",
+      "units": 708.0,
+      "gmv": 2342941.8922,
+      "gmv_share_pct": 3.84
     },
     {
       "category_l0": "Monitor Arm",
       "units": 1258.0,
-      "gmv": 2296643.78,
-      "gmv_share_pct": 3.83
-    },
-    {
-      "category_l0": "Microphone Conference",
-      "units": 643.0,
-      "gmv": 2090098.7222,
-      "gmv_share_pct": 3.48
+      "gmv": 2285393.66,
+      "gmv_share_pct": 3.74
     },
     {
       "category_l0": "HPC",
-      "units": 1233.0,
-      "gmv": 1925194.7938,
-      "gmv_share_pct": 3.21
+      "units": 1314.0,
+      "gmv": 1897393.0338,
+      "gmv_share_pct": 3.11
     },
     {
       "category_l0": "Desk",
       "units": 226.0,
       "gmv": 1540348.74,
-      "gmv_share_pct": 2.57
+      "gmv_share_pct": 2.52
     },
     {
       "category_l0": "Bundles",
-      "units": 259.0,
-      "gmv": 1153993.34,
-      "gmv_share_pct": 1.92
-    },
-    {
-      "category_l0": "DJ Headphone",
-      "units": 736.0,
-      "gmv": 1028287.4,
-      "gmv_share_pct": 1.71
+      "units": 278.0,
+      "gmv": 1248104.82,
+      "gmv_share_pct": 2.04
     },
     {
       "category_l0": "Microphone Accessories",
-      "units": 1175.0,
-      "gmv": 1024170.3503,
-      "gmv_share_pct": 1.71
+      "units": 1234.0,
+      "gmv": 1074627.1303,
+      "gmv_share_pct": 1.76
+    },
+    {
+      "category_l0": "DJ Headphone",
+      "units": 766.0,
+      "gmv": 1068284.8,
+      "gmv_share_pct": 1.75
     },
     {
       "category_l0": "Microphone Wireless Handheld",
-      "units": 240.0,
-      "gmv": 856575.7819,
-      "gmv_share_pct": 1.43
+      "units": 248.0,
+      "gmv": 881780.8619,
+      "gmv_share_pct": 1.44
     },
     {
       "category_l0": "Voice Amplifier",
-      "units": 427.0,
-      "gmv": 515777.9134,
-      "gmv_share_pct": 0.86
+      "units": 445.0,
+      "gmv": 533135.6134,
+      "gmv_share_pct": 0.87
     },
     {
       "category_l0": "Condenser Microphone",
-      "units": 220.0,
-      "gmv": 434530.5931,
-      "gmv_share_pct": 0.72
+      "units": 227.0,
+      "gmv": 448452.6331,
+      "gmv_share_pct": 0.73
     },
     {
       "category_l0": "Monitor Speakers Accessories",
-      "units": 135.0,
-      "gmv": 418559.21,
+      "units": 138.0,
+      "gmv": 427454.97,
+      "gmv_share_pct": 0.7
+    },
+    {
+      "category_l0": "Dynamic Microphone",
+      "units": 271.0,
+      "gmv": 425009.79,
       "gmv_share_pct": 0.7
     },
     {
       "category_l0": "Microphone Dynamic",
-      "units": 197.0,
-      "gmv": 405892.5014,
+      "units": 205.0,
+      "gmv": 413061.1314,
       "gmv_share_pct": 0.68
     },
     {
-      "category_l0": "Dynamic Microphone",
-      "units": 253.0,
-      "gmv": 399601.36,
-      "gmv_share_pct": 0.67
+      "category_l0": "Microphone Wireless Lapel",
+      "units": 178.0,
+      "gmv": 302915.4463,
+      "gmv_share_pct": 0.5
     },
     {
       "category_l0": "Conference Microphone",
-      "units": 128.0,
-      "gmv": 294951.7,
+      "units": 129.0,
+      "gmv": 297023.73,
       "gmv_share_pct": 0.49
     },
     {
-      "category_l0": "Microphone Wireless Lapel",
-      "units": 156.0,
-      "gmv": 261579.2763,
-      "gmv_share_pct": 0.44
-    },
-    {
       "category_l0": "Electric Keyboard",
-      "units": 59.0,
-      "gmv": 217800.7103,
+      "units": 60.0,
+      "gmv": 220765.9703,
       "gmv_share_pct": 0.36
     },
     {
       "category_l0": "Sound Bar",
-      "units": 178.0,
-      "gmv": 180311.85,
-      "gmv_share_pct": 0.3
+      "units": 185.0,
+      "gmv": 187216.93,
+      "gmv_share_pct": 0.31
     },
     {
       "category_l0": "Desk-Adjustable",
@@ -576,20 +569,20 @@
     },
     {
       "category_l0": "Headphone",
-      "units": 59.0,
-      "gmv": 98089.83,
+      "units": 60.0,
+      "gmv": 99696.61,
       "gmv_share_pct": 0.16
     },
     {
       "category_l0": "Accessories",
-      "units": 22.0,
-      "gmv": 44483.85,
-      "gmv_share_pct": 0.07
+      "units": 23.0,
+      "gmv": 46559.27,
+      "gmv_share_pct": 0.08
     },
     {
       "category_l0": "Speaker Karaoke",
-      "units": 36.0,
-      "gmv": 39443.8649,
+      "units": 41.0,
+      "gmv": 44902.0249,
       "gmv_share_pct": 0.07
     },
     {
@@ -638,19 +631,6 @@
       "units_wow_pct": 94.37
     },
     {
-      "model": "SC-01",
-      "sku": "FBA78981",
-      "category_l0": "Home & Kitchen",
-      "units": 255.0,
-      "gmv": 834117.04,
-      "nlc": 455430.0,
-      "units_prev": 162.0,
-      "gmv_prev": 515852.2053,
-      "nlc_prev": 289332.0,
-      "gmv_wow_pct": 61.7,
-      "units_wow_pct": 57.41
-    },
-    {
       "model": "JR1401",
       "sku": "FBA66974",
       "category_l0": "Traditional Watch",
@@ -662,6 +642,19 @@
       "nlc_prev": 0.0,
       "gmv_wow_pct": 18.3,
       "units_wow_pct": 23.75
+    },
+    {
+      "model": "SC-01",
+      "sku": "FBA78981",
+      "category_l0": "Home & Kitchen",
+      "units": 233.0,
+      "gmv": 782812.1,
+      "nlc": 416138.0,
+      "units_prev": 162.0,
+      "gmv_prev": 515852.2053,
+      "nlc_prev": 289332.0,
+      "gmv_wow_pct": 51.75,
+      "units_wow_pct": 43.83
     },
     {
       "model": "SP-01",
@@ -680,14 +673,27 @@
       "model": "AI-04 Red",
       "sku": "FBA76864",
       "category_l0": "Audio Interface",
-      "units": 149.0,
-      "gmv": 562458.31,
-      "nlc": 322670.5978,
+      "units": 179.0,
+      "gmv": 674799.54,
+      "nlc": 387637.8323,
       "units_prev": 154.0,
       "gmv_prev": 605434.7783,
       "nlc_prev": 333498.4702,
-      "gmv_wow_pct": -7.1,
-      "units_wow_pct": -3.25
+      "gmv_wow_pct": 11.46,
+      "units_wow_pct": 16.23
+    },
+    {
+      "model": "AM-W45",
+      "sku": "FBA79005",
+      "category_l0": "Microphone Conference",
+      "units": 162.0,
+      "gmv": 664795.98,
+      "nlc": 443634.5509,
+      "units_prev": 94.0,
+      "gmv_prev": 414233.8027,
+      "nlc_prev": 257417.5789,
+      "gmv_wow_pct": 60.49,
+      "units_wow_pct": 72.34
     },
     {
       "model": "SC-04",
@@ -701,6 +707,19 @@
       "nlc_prev": 231770.0,
       "gmv_wow_pct": 37.65,
       "units_wow_pct": 39.53
+    },
+    {
+      "model": "AM-C1",
+      "sku": "FBA75673",
+      "category_l0": "Microphone Condenser",
+      "units": 241.0,
+      "gmv": 512835.36,
+      "nlc": 355707.4898,
+      "units_prev": 210.0,
+      "gmv_prev": 466764.5276,
+      "nlc_prev": 309952.5844,
+      "gmv_wow_pct": 9.87,
+      "units_wow_pct": 14.76
     },
     {
       "model": "JR1487",
@@ -729,56 +748,69 @@
       "units_wow_pct": -11.54
     },
     {
-      "model": "AM-C1",
-      "sku": "FBA75673",
-      "category_l0": "Microphone Condenser",
-      "units": 201.0,
-      "gmv": 424403.16,
-      "nlc": 296668.9023,
-      "units_prev": 210.0,
-      "gmv_prev": 466764.5276,
-      "nlc_prev": 309952.5844,
-      "gmv_wow_pct": -9.08,
-      "units_wow_pct": -4.29
-    },
-    {
-      "model": "AM-W45",
-      "sku": "FBA79005",
-      "category_l0": "Microphone Conference",
-      "units": 99.0,
-      "gmv": 414574.85,
-      "nlc": 271110.0033,
-      "units_prev": 94.0,
-      "gmv_prev": 414233.8027,
-      "nlc_prev": 257417.5789,
-      "gmv_wow_pct": 0.08,
-      "units_wow_pct": 5.32
-    },
-    {
       "model": "AM-S2",
       "sku": "FBA79848",
       "category_l0": "Monitor Speakers",
-      "units": 53.0,
-      "gmv": 314648.59,
-      "nlc": 198674.9794,
+      "units": 65.0,
+      "gmv": 385824.91,
+      "nlc": 243657.9936,
       "units_prev": 114.0,
       "gmv_prev": 528032.38,
       "nlc_prev": 427338.635,
-      "gmv_wow_pct": -40.41,
-      "units_wow_pct": -53.51
+      "gmv_wow_pct": -26.93,
+      "units_wow_pct": -42.98
+    },
+    {
+      "model": "AM-S1",
+      "sku": "FBA79482",
+      "category_l0": "Monitor Speakers",
+      "units": 46.0,
+      "gmv": 329087.04,
+      "nlc": 206356.5051,
+      "units_prev": 40.0,
+      "gmv_prev": 298206.76,
+      "nlc_prev": 179440.4392,
+      "gmv_wow_pct": 10.36,
+      "units_wow_pct": 15.0
     },
     {
       "model": "WM-GS1M-BK",
       "sku": "FBA79476",
       "category_l0": "Monitor Arm",
       "units": 117.0,
-      "gmv": 272223.28,
+      "gmv": 260973.16,
       "nlc": 156897.0,
       "units_prev": 115.0,
       "gmv_prev": 260167.26,
       "nlc_prev": 154215.0,
-      "gmv_wow_pct": 4.63,
+      "gmv_wow_pct": 0.31,
       "units_wow_pct": 1.74
+    },
+    {
+      "model": "SC-05",
+      "sku": "FBA79652",
+      "category_l0": "Home & Kitchen",
+      "units": 89.0,
+      "gmv": 257406.02,
+      "nlc": 128427.0,
+      "units_prev": 199.0,
+      "gmv_prev": 572821.1893,
+      "nlc_prev": 287157.0,
+      "gmv_wow_pct": -55.06,
+      "units_wow_pct": -55.28
+    },
+    {
+      "model": "MR-01",
+      "sku": "FBA79263",
+      "category_l0": "Home & Kitchen",
+      "units": 107.0,
+      "gmv": 255948.7,
+      "nlc": 124334.0,
+      "units_prev": 69.0,
+      "gmv_prev": 167847.4497,
+      "nlc_prev": 80178.0,
+      "gmv_wow_pct": 52.49,
+      "units_wow_pct": 55.07
     },
     {
       "model": "FS5151",
@@ -792,45 +824,6 @@
       "nlc_prev": 0.0,
       "gmv_wow_pct": 55.29,
       "units_wow_pct": 66.67
-    },
-    {
-      "model": "MR-01",
-      "sku": "FBA79263",
-      "category_l0": "Home & Kitchen",
-      "units": 104.0,
-      "gmv": 247251.7,
-      "nlc": 120848.0,
-      "units_prev": 69.0,
-      "gmv_prev": 167847.4497,
-      "nlc_prev": 80178.0,
-      "gmv_wow_pct": 47.31,
-      "units_wow_pct": 50.72
-    },
-    {
-      "model": "AM-S1",
-      "sku": "FBA79482",
-      "category_l0": "Monitor Speakers",
-      "units": 34.0,
-      "gmv": 245360.1,
-      "nlc": 152524.3733,
-      "units_prev": 40.0,
-      "gmv_prev": 298206.76,
-      "nlc_prev": 179440.4392,
-      "gmv_wow_pct": -17.72,
-      "units_wow_pct": -15.0
-    },
-    {
-      "model": "SC-05",
-      "sku": "FBA79652",
-      "category_l0": "Home & Kitchen",
-      "units": 84.0,
-      "gmv": 242911.02,
-      "nlc": 121212.0,
-      "units_prev": 199.0,
-      "gmv_prev": 572821.1893,
-      "nlc_prev": 287157.0,
-      "gmv_wow_pct": -57.59,
-      "units_wow_pct": -57.79
     },
     {
       "model": "WM-GD07-CB",
@@ -885,6 +878,19 @@
       "units_wow_pct": 61.54
     },
     {
+      "model": "AI-13",
+      "sku": "FBA79961",
+      "category_l0": "Audio Mixer",
+      "units": 88.0,
+      "gmv": 197002.88,
+      "nlc": 135952.0904,
+      "units_prev": 100.0,
+      "gmv_prev": 232231.69,
+      "nlc_prev": 154491.0118,
+      "gmv_wow_pct": -15.17,
+      "units_wow_pct": -12.0
+    },
+    {
       "model": "DH-01",
       "sku": "FBM79991",
       "category_l0": "Home & Kitchen",
@@ -911,43 +917,30 @@
       "units_wow_pct": -39.13
     },
     {
-      "model": "AI-13",
-      "sku": "FBA79961",
-      "category_l0": "Audio Mixer",
-      "units": 76.0,
-      "gmv": 170185.92,
-      "nlc": 117413.1689,
-      "units_prev": 100.0,
-      "gmv_prev": 232231.69,
-      "nlc_prev": 154491.0118,
-      "gmv_wow_pct": -26.72,
-      "units_wow_pct": -24.0
+      "model": "AH-50",
+      "sku": "FBA79813",
+      "category_l0": "DJ Headphone",
+      "units": 105.0,
+      "gmv": 168038.18,
+      "nlc": 126181.8613,
+      "units_prev": 105.0,
+      "gmv_prev": 173802.62,
+      "nlc_prev": 126181.8613,
+      "gmv_wow_pct": -3.32,
+      "units_wow_pct": 0.0
     },
     {
       "model": "M8",
       "sku": "FBA79972",
       "category_l0": "Audio Mixer",
-      "units": 23.0,
-      "gmv": 153573.76,
-      "nlc": 94754.4872,
+      "units": 24.0,
+      "gmv": 160250.88,
+      "nlc": 98874.2475,
       "units_prev": 26.0,
       "gmv_prev": 177873.77,
       "nlc_prev": 107113.7682,
-      "gmv_wow_pct": -13.66,
-      "units_wow_pct": -11.54
-    },
-    {
-      "model": "ST-02",
-      "sku": "FBA79992",
-      "category_l0": "Home & Kitchen",
-      "units": 17.0,
-      "gmv": 144257.63,
-      "nlc": 0.0,
-      "units_prev": 11.0,
-      "gmv_prev": 100905.93,
-      "nlc_prev": 0.0,
-      "gmv_wow_pct": 42.96,
-      "units_wow_pct": 54.55
+      "gmv_wow_pct": -9.91,
+      "units_wow_pct": -7.69
     }
   ],
   "top_models_last4": [
@@ -960,20 +953,20 @@
       "nlc": 0.0
     },
     {
-      "model": "SC-01",
-      "sku": "FBA78981",
-      "category_l0": "Home & Kitchen",
-      "units": 627.0,
-      "gmv": 2035656.2253,
-      "nlc": 1119822.0
-    },
-    {
       "model": "AI-04 Red",
       "sku": "FBA76864",
       "category_l0": "Audio Interface",
-      "units": 490.0,
-      "gmv": 1918795.9822,
-      "nlc": 1061131.4962
+      "units": 520.0,
+      "gmv": 2031137.2122,
+      "nlc": 1126098.7306
+    },
+    {
+      "model": "SC-01",
+      "sku": "FBA78981",
+      "category_l0": "Home & Kitchen",
+      "units": 605.0,
+      "gmv": 1984351.2853,
+      "nlc": 1080530.0
     },
     {
       "model": "JR1401",
@@ -995,9 +988,17 @@
       "model": "SC-05",
       "sku": "FBA79652",
       "category_l0": "Home & Kitchen",
-      "units": 623.0,
-      "gmv": 1761199.4793,
-      "nlc": 898989.0
+      "units": 628.0,
+      "gmv": 1775694.4793,
+      "nlc": 906204.0
+    },
+    {
+      "model": "AM-W45",
+      "sku": "FBA79005",
+      "category_l0": "Microphone Conference",
+      "units": 407.0,
+      "gmv": 1762719.6727,
+      "nlc": 1114563.347
     },
     {
       "model": "SC-04",
@@ -1011,25 +1012,17 @@
       "model": "AM-C1",
       "sku": "FBA75673",
       "category_l0": "Microphone Condenser",
-      "units": 718.0,
-      "gmv": 1596273.6447,
-      "nlc": 1059742.6459
-    },
-    {
-      "model": "AM-W45",
-      "sku": "FBA79005",
-      "category_l0": "Microphone Conference",
-      "units": 344.0,
-      "gmv": 1512498.5427,
-      "nlc": 942038.7994
+      "units": 758.0,
+      "gmv": 1684705.8447,
+      "nlc": 1118781.2334
     },
     {
       "model": "AM-S2",
       "sku": "FBA79848",
       "category_l0": "Monitor Speakers",
-      "units": 263.0,
-      "gmv": 1447155.05,
-      "nlc": 985877.728
+      "units": 275.0,
+      "gmv": 1518331.37,
+      "nlc": 1030860.7422
     },
     {
       "model": "ES3466",
@@ -1056,6 +1049,14 @@
       "nlc": 0.0
     },
     {
+      "model": "AM-S1",
+      "sku": "FBA79482",
+      "category_l0": "Monitor Speakers",
+      "units": 138.0,
+      "gmv": 1024910.1,
+      "nlc": 619069.5152
+    },
+    {
       "model": "JR1487",
       "sku": "FBA70527",
       "category_l0": "Traditional Watch",
@@ -1072,14 +1073,6 @@
       "nlc": 451122.0
     },
     {
-      "model": "AM-S1",
-      "sku": "FBA79482",
-      "category_l0": "Monitor Speakers",
-      "units": 126.0,
-      "gmv": 941183.16,
-      "nlc": 565237.3834
-    },
-    {
       "model": "FS6131",
       "sku": "FBA79882",
       "category_l0": "Traditional Watch",
@@ -1092,16 +1085,16 @@
       "sku": "FBA79476",
       "category_l0": "Monitor Arm",
       "units": 364.0,
-      "gmv": 839990.41,
+      "gmv": 828740.29,
       "nlc": 488124.0
     },
     {
       "model": "AI-13",
       "sku": "FBA79961",
       "category_l0": "Audio Mixer",
-      "units": 318.0,
-      "gmv": 742998.92,
-      "nlc": 491281.4174
+      "units": 330.0,
+      "gmv": 769815.88,
+      "nlc": 509820.3389
     },
     {
       "model": "V-03",
@@ -1115,9 +1108,17 @@
       "model": "MR-01",
       "sku": "FBA79263",
       "category_l0": "Home & Kitchen",
-      "units": 259.0,
-      "gmv": 626302.5997,
-      "nlc": 300958.0
+      "units": 262.0,
+      "gmv": 634999.5997,
+      "nlc": 304444.0
+    },
+    {
+      "model": "AH-50",
+      "sku": "FBA79813",
+      "category_l0": "DJ Headphone",
+      "units": 357.0,
+      "gmv": 589302.58,
+      "nlc": 429018.3286
     },
     {
       "model": "FS5151",
@@ -1128,20 +1129,12 @@
       "nlc": 0.0
     },
     {
-      "model": "AH-50",
-      "sku": "FBA79813",
-      "category_l0": "DJ Headphone",
-      "units": 341.0,
-      "gmv": 563689.06,
-      "nlc": 409790.6164
-    },
-    {
       "model": "MR-02",
       "sku": "FBA79439",
       "category_l0": "Home & Kitchen",
-      "units": 182.0,
-      "gmv": 511469.48,
-      "nlc": 251342.0
+      "units": 183.0,
+      "gmv": 517205.38,
+      "nlc": 252723.0
     },
     {
       "model": "ES5439",
@@ -1624,11 +1617,11 @@
     {
       "model": "AA-01",
       "week": "Week 33",
-      "units": 4.0,
-      "gmv": 6918.64,
-      "nlc": 4897.9961,
-      "gmv_wow_pct": -22.46,
-      "units_wow_pct": -20.0
+      "units": 8.0,
+      "gmv": 13837.28,
+      "nlc": 9795.9922,
+      "gmv_wow_pct": 55.08,
+      "units_wow_pct": 60.0
     },
     {
       "model": "AA-02",
@@ -1894,11 +1887,11 @@
     {
       "model": "AA-02",
       "week": "Week 33",
-      "units": 8.0,
-      "gmv": 16208.49,
-      "nlc": 10642.2483,
-      "gmv_wow_pct": -29.76,
-      "units_wow_pct": -27.27
+      "units": 9.0,
+      "gmv": 18216.12,
+      "nlc": 11972.5293,
+      "gmv_wow_pct": -21.06,
+      "units_wow_pct": -18.18
     },
     {
       "model": "AA-03",
@@ -2164,11 +2157,11 @@
     {
       "model": "AA-03",
       "week": "Week 33",
-      "units": 15.0,
-      "gmv": 5757.63,
-      "nlc": 2699.4539,
-      "gmv_wow_pct": -6.74,
-      "units_wow_pct": 0.0
+      "units": 18.0,
+      "gmv": 6899.16,
+      "nlc": 3239.3447,
+      "gmv_wow_pct": 11.75,
+      "units_wow_pct": 20.0
     },
     {
       "model": "AA-04",
@@ -2434,11 +2427,11 @@
     {
       "model": "AA-04",
       "week": "Week 33",
-      "units": 13.0,
-      "gmv": 17569.5,
-      "nlc": 11335.3149,
-      "gmv_wow_pct": 36.64,
-      "units_wow_pct": 44.44
+      "units": 17.0,
+      "gmv": 22955.96,
+      "nlc": 14823.1042,
+      "gmv_wow_pct": 78.53,
+      "units_wow_pct": 88.89
     },
     {
       "model": "AA-05",
@@ -2704,11 +2697,11 @@
     {
       "model": "AA-05",
       "week": "Week 33",
-      "units": 39.0,
-      "gmv": 18153.36,
-      "nlc": 10923.2337,
-      "gmv_wow_pct": -15.6,
-      "units_wow_pct": -7.14
+      "units": 44.0,
+      "gmv": 20479.63,
+      "nlc": 12323.6482,
+      "gmv_wow_pct": -4.78,
+      "units_wow_pct": 4.76
     },
     {
       "model": "AA-06",
@@ -2974,11 +2967,11 @@
     {
       "model": "AA-06",
       "week": "Week 33",
-      "units": 14.0,
-      "gmv": 14328.8,
-      "nlc": 8376.2788,
-      "gmv_wow_pct": -11.51,
-      "units_wow_pct": -6.67
+      "units": 16.0,
+      "gmv": 16361.0,
+      "nlc": 9572.89,
+      "gmv_wow_pct": 1.04,
+      "units_wow_pct": 6.67
     },
     {
       "model": "AA-09",
@@ -3343,11 +3336,11 @@
     {
       "model": "AA-19",
       "week": "Week 33",
-      "units": 26.0,
-      "gmv": 80367.72,
-      "nlc": 50966.1767,
-      "gmv_wow_pct": 3.06,
-      "units_wow_pct": 4.0
+      "units": 31.0,
+      "gmv": 95812.62,
+      "nlc": 60767.3645,
+      "gmv_wow_pct": 22.87,
+      "units_wow_pct": 24.0
     },
     {
       "model": "AA-19BL",
@@ -4423,11 +4416,11 @@
     {
       "model": "AA-21",
       "week": "Week 33",
-      "units": 24.0,
-      "gmv": 71131.85,
-      "nlc": 41348.0534,
-      "gmv_wow_pct": -25.3,
-      "units_wow_pct": -22.58
+      "units": 27.0,
+      "gmv": 80027.61,
+      "nlc": 46516.5601,
+      "gmv_wow_pct": -15.96,
+      "units_wow_pct": -12.9
     },
     {
       "model": "AA-22",
@@ -4963,11 +4956,11 @@
     {
       "model": "AA-25",
       "week": "Week 33",
-      "units": 5.0,
-      "gmv": 3404.24,
-      "nlc": 1630.0505,
-      "gmv_wow_pct": -29.63,
-      "units_wow_pct": -28.57
+      "units": 6.0,
+      "gmv": 4081.36,
+      "nlc": 1956.0606,
+      "gmv_wow_pct": -15.63,
+      "units_wow_pct": -14.29
     },
     {
       "model": "AA-25M",
@@ -5476,11 +5469,11 @@
     {
       "model": "AA-26",
       "week": "Week 33",
-      "units": 108.0,
-      "gmv": 44946.56,
-      "nlc": 28167.2731,
-      "gmv_wow_pct": -5.59,
-      "units_wow_pct": 5.88
+      "units": 125.0,
+      "gmv": 51991.43,
+      "nlc": 32601.0105,
+      "gmv_wow_pct": 9.21,
+      "units_wow_pct": 22.55
     },
     {
       "model": "AC-3XL",
@@ -6016,11 +6009,11 @@
     {
       "model": "AC-6XL",
       "week": "Week 33",
-      "units": 59.0,
-      "gmv": 25975.65,
-      "nlc": 10001.99,
-      "gmv_wow_pct": -6.91,
-      "units_wow_pct": -3.28
+      "units": 76.0,
+      "gmv": 33452.81,
+      "nlc": 12883.9193,
+      "gmv_wow_pct": 19.89,
+      "units_wow_pct": 24.59
     },
     {
       "model": "AE831",
@@ -6412,11 +6405,11 @@
     {
       "model": "AH-40 SL",
       "week": "Week 33",
-      "units": 34.0,
-      "gmv": 29720.25,
-      "nlc": 16250.6943,
-      "gmv_wow_pct": -31.27,
-      "units_wow_pct": -19.05
+      "units": 42.0,
+      "gmv": 36669.37,
+      "nlc": 20074.387,
+      "gmv_wow_pct": -15.2,
+      "units_wow_pct": 0.0
     },
     {
       "model": "AH-45 BK",
@@ -6682,11 +6675,11 @@
     {
       "model": "AH-45 BK",
       "week": "Week 33",
-      "units": 75.0,
-      "gmv": 87818.36,
-      "nlc": 46089.1539,
-      "gmv_wow_pct": -0.09,
-      "units_wow_pct": 4.17
+      "units": 81.0,
+      "gmv": 95253.12,
+      "nlc": 49776.2862,
+      "gmv_wow_pct": 8.37,
+      "units_wow_pct": 12.5
     },
     {
       "model": "AH-50",
@@ -6952,11 +6945,11 @@
     {
       "model": "AH-50",
       "week": "Week 33",
-      "units": 89.0,
-      "gmv": 142424.66,
-      "nlc": 106954.1491,
-      "gmv_wow_pct": -18.05,
-      "units_wow_pct": -15.24
+      "units": 105.0,
+      "gmv": 168038.18,
+      "nlc": 126181.8613,
+      "gmv_wow_pct": -3.32,
+      "units_wow_pct": 0.0
     },
     {
       "model": "AH-50 Ear Cushion",
@@ -7330,11 +7323,11 @@
     {
       "model": "AH-60-BL",
       "week": "Week 33",
-      "units": 7.0,
-      "gmv": 11291.52,
-      "nlc": 7647.3855,
-      "gmv_wow_pct": -54.7,
-      "units_wow_pct": -53.33
+      "units": 8.0,
+      "gmv": 12898.3,
+      "nlc": 8739.8692,
+      "gmv_wow_pct": -48.26,
+      "units_wow_pct": -46.67
     },
     {
       "model": "AH-60-RD",
@@ -8212,11 +8205,11 @@
     {
       "model": "AI-04 Red",
       "week": "Week 33",
-      "units": 149.0,
-      "gmv": 562458.31,
-      "nlc": 322670.5978,
-      "gmv_wow_pct": -7.1,
-      "units_wow_pct": -3.25
+      "units": 179.0,
+      "gmv": 674799.54,
+      "nlc": 387637.8323,
+      "gmv_wow_pct": 11.46,
+      "units_wow_pct": 16.23
     },
     {
       "model": "AI-06",
@@ -8752,11 +8745,11 @@
     {
       "model": "AI-10",
       "week": "Week 33",
-      "units": 14.0,
-      "gmv": 33348.29,
-      "nlc": 20995.0508,
-      "gmv_wow_pct": -29.87,
-      "units_wow_pct": -26.32
+      "units": 15.0,
+      "gmv": 35720.32,
+      "nlc": 22494.6972,
+      "gmv_wow_pct": -24.88,
+      "units_wow_pct": -21.05
     },
     {
       "model": "AI-11",
@@ -9022,11 +9015,11 @@
     {
       "model": "AI-11",
       "week": "Week 33",
-      "units": 33.0,
-      "gmv": 40384.73,
-      "nlc": 27971.667,
-      "gmv_wow_pct": 1.76,
-      "units_wow_pct": 6.45
+      "units": 38.0,
+      "gmv": 46685.56,
+      "nlc": 32209.7984,
+      "gmv_wow_pct": 17.64,
+      "units_wow_pct": 22.58
     },
     {
       "model": "AI-12",
@@ -9292,11 +9285,11 @@
     {
       "model": "AI-12",
       "week": "Week 33",
-      "units": 23.0,
-      "gmv": 24600.39,
-      "nlc": 15596.3234,
-      "gmv_wow_pct": -9.85,
-      "units_wow_pct": -4.17
+      "units": 26.0,
+      "gmv": 27826.65,
+      "nlc": 17630.6265,
+      "gmv_wow_pct": 1.97,
+      "units_wow_pct": 8.33
     },
     {
       "model": "AI-13",
@@ -9553,11 +9546,11 @@
     {
       "model": "AI-13",
       "week": "Week 33",
-      "units": 76.0,
-      "gmv": 170185.92,
-      "nlc": 117413.1689,
-      "gmv_wow_pct": -26.72,
-      "units_wow_pct": -24.0
+      "units": 88.0,
+      "gmv": 197002.88,
+      "nlc": 135952.0904,
+      "gmv_wow_pct": -15.17,
+      "units_wow_pct": -12.0
     },
     {
       "model": "AI-14",
@@ -9787,11 +9780,11 @@
     {
       "model": "AI-14",
       "week": "Week 33",
-      "units": 21.0,
-      "gmv": 106631.32,
-      "nlc": 64367.1351,
-      "gmv_wow_pct": -26.53,
-      "units_wow_pct": -27.59
+      "units": 23.0,
+      "gmv": 116748.26,
+      "nlc": 70497.3385,
+      "gmv_wow_pct": -19.56,
+      "units_wow_pct": -20.69
     },
     {
       "model": "AK-37-B",
@@ -10156,11 +10149,11 @@
     {
       "model": "AK-37-W",
       "week": "Week 33",
-      "units": 5.0,
-      "gmv": 14826.25,
-      "nlc": 11679.277,
-      "gmv_wow_pct": -29.25,
-      "units_wow_pct": -28.57
+      "units": 6.0,
+      "gmv": 17791.51,
+      "nlc": 14015.1324,
+      "gmv_wow_pct": -15.1,
+      "units_wow_pct": -14.29
     },
     {
       "model": "AK-61 Neo",
@@ -10795,11 +10788,11 @@
     {
       "model": "AM-C1",
       "week": "Week 33",
-      "units": 201.0,
-      "gmv": 424403.16,
-      "nlc": 296668.9023,
-      "gmv_wow_pct": -9.08,
-      "units_wow_pct": -4.29
+      "units": 241.0,
+      "gmv": 512835.36,
+      "nlc": 355707.4898,
+      "gmv_wow_pct": 9.87,
+      "units_wow_pct": 14.76
     },
     {
       "model": "AM-C10",
@@ -12784,11 +12777,11 @@
     {
       "model": "AM-C2",
       "week": "Week 33",
-      "units": 14.0,
-      "gmv": 42529.92,
-      "nlc": 29678.2378,
-      "gmv_wow_pct": -36.55,
-      "units_wow_pct": -36.36
+      "units": 16.0,
+      "gmv": 48619.76,
+      "nlc": 33917.986,
+      "gmv_wow_pct": -27.47,
+      "units_wow_pct": -27.27
     },
     {
       "model": "AM-C20",
@@ -13603,11 +13596,11 @@
     {
       "model": "AM-C28",
       "week": "Week 33",
-      "units": 41.0,
-      "gmv": 49663.02,
-      "nlc": 35843.9902,
-      "gmv_wow_pct": -11.83,
-      "units_wow_pct": -2.38
+      "units": 43.0,
+      "gmv": 52285.06,
+      "nlc": 37592.4775,
+      "gmv_wow_pct": -7.17,
+      "units_wow_pct": 2.38
     },
     {
       "model": "AM-C29",
@@ -14134,11 +14127,11 @@
     {
       "model": "AM-C3",
       "week": "Week 33",
-      "units": 17.0,
-      "gmv": 13086.86,
-      "nlc": 11215.0672,
-      "gmv_wow_pct": 72.95,
-      "units_wow_pct": 88.89
+      "units": 23.0,
+      "gmv": 17834.3,
+      "nlc": 15173.3263,
+      "gmv_wow_pct": 135.69,
+      "units_wow_pct": 155.56
     },
     {
       "model": "AM-C30",
@@ -15646,11 +15639,11 @@
     {
       "model": "AM-C39",
       "week": "Week 33",
-      "units": 12.0,
-      "gmv": 15282.21,
-      "nlc": 8809.4681,
-      "gmv_wow_pct": 60.99,
-      "units_wow_pct": 33.33
+      "units": 13.0,
+      "gmv": 16552.55,
+      "nlc": 9543.5904,
+      "gmv_wow_pct": 74.38,
+      "units_wow_pct": 44.44
     },
     {
       "model": "AM-C3a",
@@ -15916,11 +15909,11 @@
     {
       "model": "AM-C3a",
       "week": "Week 33",
-      "units": 3.0,
-      "gmv": 1999.16,
-      "nlc": 1564.8485,
-      "gmv_wow_pct": 0.51,
-      "units_wow_pct": -25.0
+      "units": 4.0,
+      "gmv": 2633.9,
+      "nlc": 2086.4647,
+      "gmv_wow_pct": 32.42,
+      "units_wow_pct": 0.0
     },
     {
       "model": "AM-C4",
@@ -17221,11 +17214,11 @@
     {
       "model": "AM-C43",
       "week": "Week 33",
-      "units": 17.0,
-      "gmv": 34057.57,
-      "nlc": 22168.6871,
-      "gmv_wow_pct": 10.57,
-      "units_wow_pct": 13.33
+      "units": 20.0,
+      "gmv": 38064.34,
+      "nlc": 26080.8084,
+      "gmv_wow_pct": 23.58,
+      "units_wow_pct": 33.33
     },
     {
       "model": "AM-C44",
@@ -18301,11 +18294,11 @@
     {
       "model": "AM-C45 Pro",
       "week": "Week 33",
-      "units": 3.0,
-      "gmv": 9889.83,
-      "nlc": 7374.2646,
-      "gmv_wow_pct": 47.93,
-      "units_wow_pct": 50.0
+      "units": 2.0,
+      "gmv": 6593.22,
+      "nlc": 4916.1764,
+      "gmv_wow_pct": -1.38,
+      "units_wow_pct": 0.0
     },
     {
       "model": "AM-C46",
@@ -18571,11 +18564,11 @@
     {
       "model": "AM-C46",
       "week": "Week 33",
-      "units": 15.0,
-      "gmv": 41063.55,
-      "nlc": 30318.9398,
-      "gmv_wow_pct": 20.42,
-      "units_wow_pct": 25.0
+      "units": 20.0,
+      "gmv": 57633.43,
+      "nlc": 40425.253,
+      "gmv_wow_pct": 69.01,
+      "units_wow_pct": 66.67
     },
     {
       "model": "AM-C47",
@@ -19111,11 +19104,11 @@
     {
       "model": "AM-C48",
       "week": "Week 33",
-      "units": 6.0,
-      "gmv": 15299.18,
-      "nlc": 11736.3638,
-      "gmv_wow_pct": -42.23,
-      "units_wow_pct": -40.0
+      "units": 8.0,
+      "gmv": 20382.24,
+      "nlc": 15648.485,
+      "gmv_wow_pct": -23.03,
+      "units_wow_pct": -20.0
     },
     {
       "model": "AM-C49",
@@ -20893,11 +20886,11 @@
     {
       "model": "AM-Mix10",
       "week": "Week 33",
-      "units": 10.0,
-      "gmv": 83842.38,
-      "nlc": 58088.6204,
-      "gmv_wow_pct": -44.48,
-      "units_wow_pct": -47.37
+      "units": 16.0,
+      "gmv": 133922.04,
+      "nlc": 92941.7927,
+      "gmv_wow_pct": -11.31,
+      "units_wow_pct": -15.79
     },
     {
       "model": "AM-Mix6",
@@ -21901,11 +21894,11 @@
     {
       "model": "AM-S1",
       "week": "Week 33",
-      "units": 37.0,
-      "gmv": 266967.73,
-      "nlc": 165982.4062,
-      "gmv_wow_pct": -20.32,
-      "units_wow_pct": -17.78
+      "units": 49.0,
+      "gmv": 350694.67,
+      "nlc": 219814.538,
+      "gmv_wow_pct": 4.66,
+      "units_wow_pct": 8.89
     },
     {
       "model": "AM-S2",
@@ -22072,11 +22065,11 @@
     {
       "model": "AM-S2",
       "week": "Week 33",
-      "units": 54.0,
-      "gmv": 320579.95,
-      "nlc": 202423.5639,
-      "gmv_wow_pct": -40.01,
-      "units_wow_pct": -53.04
+      "units": 66.0,
+      "gmv": 391756.27,
+      "nlc": 247406.5781,
+      "gmv_wow_pct": -26.69,
+      "units_wow_pct": -42.61
     },
     {
       "model": "AM-W10",
@@ -22918,11 +22911,11 @@
     {
       "model": "AM-W13",
       "week": "Week 33",
-      "units": 15.0,
-      "gmv": 22530.5,
-      "nlc": 19581.8985,
-      "gmv_wow_pct": -20.29,
-      "units_wow_pct": -16.67
+      "units": 16.0,
+      "gmv": 24139.82,
+      "nlc": 20887.3584,
+      "gmv_wow_pct": -14.6,
+      "units_wow_pct": -11.11
     },
     {
       "model": "AM-W14",
@@ -23285,6 +23278,15 @@
       "units_wow_pct": -100.0
     },
     {
+      "model": "AM-W15",
+      "week": "Week 33",
+      "units": 0.0,
+      "gmv": 0.0,
+      "nlc": 0.0,
+      "gmv_wow_pct": null,
+      "units_wow_pct": null
+    },
+    {
       "model": "AM-W16",
       "week": "Week 4",
       "units": 7.0,
@@ -23548,11 +23550,11 @@
     {
       "model": "AM-W16",
       "week": "Week 33",
-      "units": 1.0,
-      "gmv": 931.36,
-      "nlc": 756.3434,
-      "gmv_wow_pct": -93.73,
-      "units_wow_pct": -92.31
+      "units": 2.0,
+      "gmv": 2330.36,
+      "nlc": 1512.6869,
+      "gmv_wow_pct": -84.32,
+      "units_wow_pct": -84.62
     },
     {
       "model": "AM-W17",
@@ -23818,11 +23820,11 @@
     {
       "model": "AM-W17",
       "week": "Week 33",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": -100.0,
-      "units_wow_pct": -100.0
+      "units": 5.0,
+      "gmv": 11245.0,
+      "nlc": 5216.1617,
+      "gmv_wow_pct": -48.58,
+      "units_wow_pct": -64.29
     },
     {
       "model": "AM-W18",
@@ -24088,11 +24090,11 @@
     {
       "model": "AM-W18",
       "week": "Week 33",
-      "units": 4.0,
-      "gmv": 3943.2,
-      "nlc": 2451.596,
-      "gmv_wow_pct": -72.19,
-      "units_wow_pct": -71.43
+      "units": 9.0,
+      "gmv": 9401.36,
+      "nlc": 5516.091,
+      "gmv_wow_pct": -33.71,
+      "units_wow_pct": -35.71
     },
     {
       "model": "AM-W19",
@@ -25168,11 +25170,11 @@
     {
       "model": "AM-W22",
       "week": "Week 33",
-      "units": 7.0,
-      "gmv": 24207.49,
-      "nlc": 11757.2122,
-      "gmv_wow_pct": -15.2,
-      "units_wow_pct": -50.0
+      "units": 19.0,
+      "gmv": 46598.28,
+      "nlc": 31912.4609,
+      "gmv_wow_pct": 63.24,
+      "units_wow_pct": 35.71
     },
     {
       "model": "AM-W23",
@@ -25690,11 +25692,11 @@
     {
       "model": "AM-W24",
       "week": "Week 33",
-      "units": 11.0,
-      "gmv": 13973.74,
-      "nlc": 9955.0446,
-      "gmv_wow_pct": -25.82,
-      "units_wow_pct": -15.38
+      "units": 15.0,
+      "gmv": 20275.12,
+      "nlc": 13575.0608,
+      "gmv_wow_pct": 7.63,
+      "units_wow_pct": 15.38
     },
     {
       "model": "AM-W32",
@@ -25951,11 +25953,11 @@
     {
       "model": "AM-W32",
       "week": "Week 33",
-      "units": 7.0,
-      "gmv": 21641.53,
-      "nlc": 15171.2062,
-      "gmv_wow_pct": 243.42,
-      "units_wow_pct": 250.0
+      "units": 9.0,
+      "gmv": 27741.53,
+      "nlc": 19505.8366,
+      "gmv_wow_pct": 340.22,
+      "units_wow_pct": 350.0
     },
     {
       "model": "AM-W32 Pro",
@@ -26347,11 +26349,11 @@
     {
       "model": "AM-W33",
       "week": "Week 33",
-      "units": 3.0,
-      "gmv": 3218.64,
-      "nlc": 3583.5031,
-      "gmv_wow_pct": -66.34,
-      "units_wow_pct": -50.0
+      "units": 4.0,
+      "gmv": 4827.96,
+      "nlc": 4778.0041,
+      "gmv_wow_pct": -49.51,
+      "units_wow_pct": -33.33
     },
     {
       "model": "AM-W33 Pro",
@@ -26743,11 +26745,11 @@
     {
       "model": "AM-W34",
       "week": "Week 33",
-      "units": 4.0,
-      "gmv": 12791.53,
-      "nlc": 9441.2526,
-      "gmv_wow_pct": -2.99,
-      "units_wow_pct": 0.0
+      "units": 7.0,
+      "gmv": 22322.89,
+      "nlc": 16522.1921,
+      "gmv_wow_pct": 69.29,
+      "units_wow_pct": 75.0
     },
     {
       "model": "AM-W35",
@@ -27409,11 +27411,11 @@
     {
       "model": "AM-W36 Pro",
       "week": "Week 33",
-      "units": 3.0,
-      "gmv": 19065.24,
-      "nlc": 14083.6365,
-      "gmv_wow_pct": -68.62,
-      "units_wow_pct": -81.25
+      "units": 4.0,
+      "gmv": 25420.32,
+      "nlc": 18778.182,
+      "gmv_wow_pct": -58.15,
+      "units_wow_pct": -75.0
     },
     {
       "model": "AM-W45",
@@ -27679,11 +27681,11 @@
     {
       "model": "AM-W45",
       "week": "Week 33",
-      "units": 99.0,
-      "gmv": 414574.85,
-      "nlc": 271110.0033,
-      "gmv_wow_pct": 0.08,
-      "units_wow_pct": 5.32
+      "units": 162.0,
+      "gmv": 664795.98,
+      "nlc": 443634.5509,
+      "gmv_wow_pct": 60.49,
+      "units_wow_pct": 72.34
     },
     {
       "model": "AM-W46",
@@ -28210,11 +28212,11 @@
     {
       "model": "AM-W47 Wired",
       "week": "Week 33",
-      "units": 92.0,
-      "gmv": 85893.56,
-      "nlc": 46309.0834,
-      "gmv_wow_pct": 18.66,
-      "units_wow_pct": 22.67
+      "units": 109.0,
+      "gmv": 101726.68,
+      "nlc": 54866.1966,
+      "gmv_wow_pct": 40.53,
+      "units_wow_pct": 45.33
     },
     {
       "model": "AM-W47 Wireless",
@@ -28471,11 +28473,11 @@
     {
       "model": "AM-W47 Wireless",
       "week": "Week 33",
-      "units": 14.0,
-      "gmv": 21344.09,
-      "nlc": 12889.1355,
-      "gmv_wow_pct": -78.76,
-      "units_wow_pct": -78.46
+      "units": 15.0,
+      "gmv": 22868.67,
+      "nlc": 13809.788,
+      "gmv_wow_pct": -77.25,
+      "units_wow_pct": -76.92
     },
     {
       "model": "AM-W48 / AM-S6",
@@ -29281,11 +29283,11 @@
     {
       "model": "AP-03",
       "week": "Week 33",
-      "units": 1.0,
-      "gmv": 3472.88,
-      "nlc": 2005.0,
-      "gmv_wow_pct": 12.78,
-      "units_wow_pct": 0.0
+      "units": 2.0,
+      "gmv": 7521.88,
+      "nlc": 4010.0,
+      "gmv_wow_pct": 144.26,
+      "units_wow_pct": 100.0
     },
     {
       "model": "AP-03 HEPA",
@@ -63319,11 +63321,11 @@
     {
       "model": "CFM-01",
       "week": "Week 33",
-      "units": 7.0,
-      "gmv": 80645.63,
-      "nlc": 7098.0,
-      "gmv_wow_pct": 67.14,
-      "units_wow_pct": -66.67
+      "units": 11.0,
+      "gmv": 27413.63,
+      "nlc": 11154.0,
+      "gmv_wow_pct": -43.18,
+      "units_wow_pct": -47.62
     },
     {
       "model": "CFM-02",
@@ -64795,11 +64797,11 @@
     {
       "model": "CM-02-PR",
       "week": "Week 33",
-      "units": 3.0,
-      "gmv": 3300.0,
-      "nlc": 1680.0,
-      "gmv_wow_pct": -42.45,
-      "units_wow_pct": -40.0
+      "units": 4.0,
+      "gmv": 4584.7,
+      "nlc": 2240.0,
+      "gmv_wow_pct": -20.04,
+      "units_wow_pct": -20.0
     },
     {
       "model": "CR-01",
@@ -72616,11 +72618,11 @@
     {
       "model": "EA-01",
       "week": "Week 33",
-      "units": 12.0,
-      "gmv": 10733.9,
-      "nlc": 8520.0,
-      "gmv_wow_pct": -53.37,
-      "units_wow_pct": -50.0
+      "units": 17.0,
+      "gmv": 20228.9,
+      "nlc": 12070.0,
+      "gmv_wow_pct": -12.12,
+      "units_wow_pct": -29.17
     },
     {
       "model": "EA-02",
@@ -86872,11 +86874,11 @@
     {
       "model": "ETC-04-WH",
       "week": "Week 33",
-      "units": 4.0,
-      "gmv": 2705.08,
-      "nlc": 1648.0,
-      "gmv_wow_pct": -74.41,
-      "units_wow_pct": -78.95
+      "units": 16.0,
+      "gmv": 10493.08,
+      "nlc": 6592.0,
+      "gmv_wow_pct": -0.75,
+      "units_wow_pct": -15.79
     },
     {
       "model": "ETC-05-PI",
@@ -88222,11 +88224,11 @@
     {
       "model": "FS-01",
       "week": "Week 33",
-      "units": 6.0,
-      "gmv": 8453.39,
-      "nlc": 5376.0,
-      "gmv_wow_pct": -28.61,
-      "units_wow_pct": -25.0
+      "units": 16.0,
+      "gmv": 26243.39,
+      "nlc": 14336.0,
+      "gmv_wow_pct": 121.64,
+      "units_wow_pct": 100.0
     },
     {
       "model": "FS4656",
@@ -96835,11 +96837,11 @@
     {
       "model": "FS6106",
       "week": "Week 33",
-      "units": 6.0,
-      "gmv": 81320.34,
+      "units": 5.0,
+      "gmv": 67766.95,
       "nlc": 0.0,
-      "gmv_wow_pct": 100.0,
-      "units_wow_pct": 100.0
+      "gmv_wow_pct": 66.66,
+      "units_wow_pct": 66.67
     },
     {
       "model": "FS6107",
@@ -102820,11 +102822,11 @@
     {
       "model": "G11",
       "week": "Week 33",
-      "units": 15.0,
-      "gmv": 31990.67,
-      "nlc": 16620.0,
-      "gmv_wow_pct": -23.78,
-      "units_wow_pct": -21.05
+      "units": 16.0,
+      "gmv": 34062.7,
+      "nlc": 17728.0,
+      "gmv_wow_pct": -18.84,
+      "units_wow_pct": -15.79
     },
     {
       "model": "GB-01 (AM-C43 +AI-10)",
@@ -103360,11 +103362,11 @@
     {
       "model": "GB-02 (AM-C43 + AI-11)",
       "week": "Week 33",
-      "units": 6.0,
-      "gmv": 18503.4,
-      "nlc": 11901.48,
-      "gmv_wow_pct": 14.37,
-      "units_wow_pct": 20.0
+      "units": 9.0,
+      "gmv": 27117.25,
+      "nlc": 17852.22,
+      "gmv_wow_pct": 67.61,
+      "units_wow_pct": 80.0
     },
     {
       "model": "GB-03 (AI-12 + AM-C43)",
@@ -103630,11 +103632,11 @@
     {
       "model": "GB-03 (AI-12 + AM-C43)",
       "week": "Week 33",
-      "units": 57.0,
-      "gmv": 140338.77,
-      "nlc": 104211.9714,
-      "gmv_wow_pct": 41.5,
-      "units_wow_pct": 50.0
+      "units": 63.0,
+      "gmv": 155109.93,
+      "nlc": 115181.6526,
+      "gmv_wow_pct": 56.39,
+      "units_wow_pct": 65.79
     },
     {
       "model": "GB-04 (AM-C45 + AI-06)",
@@ -104449,11 +104451,11 @@
     {
       "model": "GS-02",
       "week": "Week 33",
-      "units": 39.0,
-      "gmv": 69738.14,
-      "nlc": 49140.0,
-      "gmv_wow_pct": -6.62,
-      "units_wow_pct": -17.02
+      "units": 61.0,
+      "gmv": 112925.52,
+      "nlc": 76860.0,
+      "gmv_wow_pct": 51.21,
+      "units_wow_pct": 29.79
     },
     {
       "model": "GS-04",
@@ -104989,11 +104991,11 @@
     {
       "model": "GS-05",
       "week": "Week 33",
-      "units": 5.0,
-      "gmv": 8136.44,
-      "nlc": 4935.0,
-      "gmv_wow_pct": -65.42,
-      "units_wow_pct": -64.29
+      "units": 9.0,
+      "gmv": 16132.44,
+      "nlc": 8883.0,
+      "gmv_wow_pct": -31.44,
+      "units_wow_pct": -35.71
     },
     {
       "model": "HB-01",
@@ -105422,9 +105424,9 @@
       "model": "HD-01",
       "week": "Week 33",
       "units": 8.0,
-      "gmv": 22017.14,
+      "gmv": 9188.18,
       "nlc": 6152.0,
-      "gmv_wow_pct": 1757.06,
+      "gmv_wow_pct": 674.99,
       "units_wow_pct": 700.0
     },
     {
@@ -105673,11 +105675,11 @@
     {
       "model": "HD-02",
       "week": "Week 33",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": -100.0,
-      "units_wow_pct": -100.0
+      "units": 23.0,
+      "gmv": 26427.0,
+      "nlc": 10304.0,
+      "gmv_wow_pct": 171.4,
+      "units_wow_pct": 130.0
     },
     {
       "model": "HD1ML",
@@ -106690,11 +106692,11 @@
     {
       "model": "HM-01",
       "week": "Week 33",
-      "units": 8.0,
-      "gmv": 29686.04,
-      "nlc": 3920.0,
-      "gmv_wow_pct": 149.26,
-      "units_wow_pct": -38.46
+      "units": 10.0,
+      "gmv": 8081.44,
+      "nlc": 4900.0,
+      "gmv_wow_pct": -32.14,
+      "units_wow_pct": -23.08
     },
     {
       "model": "HM-02",
@@ -106956,6 +106958,15 @@
       "nlc": 0.0,
       "gmv_wow_pct": null,
       "units_wow_pct": null
+    },
+    {
+      "model": "HM-02",
+      "week": "Week 33",
+      "units": 1.0,
+      "gmv": 1999.0,
+      "nlc": 714.0,
+      "gmv_wow_pct": Infinity,
+      "units_wow_pct": Infinity
     },
     {
       "model": "HS-01",
@@ -107221,11 +107232,11 @@
     {
       "model": "HS-01",
       "week": "Week 33",
-      "units": 1.0,
-      "gmv": 672.88,
-      "nlc": 378.0,
-      "gmv_wow_pct": -50.25,
-      "units_wow_pct": -50.0
+      "units": 4.0,
+      "gmv": 3078.88,
+      "nlc": 1512.0,
+      "gmv_wow_pct": 127.64,
+      "units_wow_pct": 100.0
     },
     {
       "model": "HS-02",
@@ -107491,11 +107502,11 @@
     {
       "model": "HS-02",
       "week": "Week 33",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": -100.0,
-      "units_wow_pct": -100.0
+      "units": 1.0,
+      "gmv": 802.0,
+      "nlc": 389.0,
+      "gmv_wow_pct": -60.67,
+      "units_wow_pct": -66.67
     },
     {
       "model": "HSB-03",
@@ -108031,11 +108042,11 @@
     {
       "model": "HSB-04",
       "week": "Week 33",
-      "units": 11.0,
-      "gmv": 23538.13,
-      "nlc": 10571.0,
-      "gmv_wow_pct": 32.11,
-      "units_wow_pct": 22.22
+      "units": 12.0,
+      "gmv": 26037.13,
+      "nlc": 11532.0,
+      "gmv_wow_pct": 46.14,
+      "units_wow_pct": 33.33
     },
     {
       "model": "HU-01",
@@ -109696,11 +109707,11 @@
     {
       "model": "K1",
       "week": "Week 33",
-      "units": 49.0,
-      "gmv": 67585.39,
-      "nlc": 41552.0,
-      "gmv_wow_pct": -6.45,
-      "units_wow_pct": 0.0
+      "units": 62.0,
+      "gmv": 85201.43,
+      "nlc": 52576.0,
+      "gmv_wow_pct": 17.93,
+      "units_wow_pct": 26.53
     },
     {
       "model": "KB-01 (AM-W32 + AI-12)",
@@ -110237,9 +110248,9 @@
       "model": "KE-01",
       "week": "Week 33",
       "units": 8.0,
-      "gmv": 36385.99,
+      "gmv": 10732.79,
       "nlc": 7872.0,
-      "gmv_wow_pct": 488.08,
+      "gmv_wow_pct": 73.47,
       "units_wow_pct": 60.0
     },
     {
@@ -111892,9 +111903,9 @@
     {
       "model": "LE-04",
       "week": "Week 33",
-      "units": 2.0,
-      "gmv": 1693.22,
-      "nlc": 1188.0,
+      "units": 3.0,
+      "gmv": 2596.32,
+      "nlc": 1782.0,
       "gmv_wow_pct": Infinity,
       "units_wow_pct": Infinity
     },
@@ -112189,11 +112200,11 @@
     {
       "model": "LR-01",
       "week": "Week 33",
-      "units": 1.0,
-      "gmv": 719.49,
-      "nlc": 444.0,
-      "gmv_wow_pct": -95.88,
-      "units_wow_pct": -95.65
+      "units": 16.0,
+      "gmv": 14204.49,
+      "nlc": 7104.0,
+      "gmv_wow_pct": -18.76,
+      "units_wow_pct": -30.43
     },
     {
       "model": "LR-01 Set of 2 blades",
@@ -113260,11 +113271,11 @@
     {
       "model": "LR-03",
       "week": "Week 33",
-      "units": 2.0,
-      "gmv": 1283.84,
-      "nlc": 290.0,
-      "gmv_wow_pct": -71.97,
-      "units_wow_pct": -81.82
+      "units": 25.0,
+      "gmv": 12118.92,
+      "nlc": 3625.0,
+      "gmv_wow_pct": 164.58,
+      "units_wow_pct": 127.27
     },
     {
       "model": "M5",
@@ -113467,11 +113478,11 @@
     {
       "model": "M6",
       "week": "Week 33",
-      "units": 19.0,
-      "gmv": 107395.8,
-      "nlc": 75973.227,
-      "gmv_wow_pct": -9.59,
-      "units_wow_pct": -45.71
+      "units": 22.0,
+      "gmv": 124300.05,
+      "nlc": 87968.9996,
+      "gmv_wow_pct": 4.64,
+      "units_wow_pct": -37.14
     },
     {
       "model": "M8",
@@ -113710,11 +113721,11 @@
     {
       "model": "M8",
       "week": "Week 33",
-      "units": 23.0,
-      "gmv": 153573.76,
-      "nlc": 94754.4872,
-      "gmv_wow_pct": -13.66,
-      "units_wow_pct": -11.54
+      "units": 24.0,
+      "gmv": 160250.88,
+      "nlc": 98874.2475,
+      "gmv_wow_pct": -9.91,
+      "units_wow_pct": -7.69
     },
     {
       "model": "MC-01",
@@ -113981,9 +113992,9 @@
       "model": "MC-01",
       "week": "Week 33",
       "units": 20.0,
-      "gmv": 18921.75,
+      "gmv": 9316.55,
       "nlc": 5940.0,
-      "gmv_wow_pct": 241.98,
+      "gmv_wow_pct": 68.38,
       "units_wow_pct": 66.67
     },
     {
@@ -138541,11 +138552,11 @@
     {
       "model": "MR-01",
       "week": "Week 33",
-      "units": 104.0,
-      "gmv": 247251.7,
-      "nlc": 120848.0,
-      "gmv_wow_pct": 47.31,
-      "units_wow_pct": 50.72
+      "units": 107.0,
+      "gmv": 255948.7,
+      "nlc": 124334.0,
+      "gmv_wow_pct": 52.49,
+      "units_wow_pct": 55.07
     },
     {
       "model": "MR-01 HEPA Filter",
@@ -138955,11 +138966,11 @@
     {
       "model": "MR-02",
       "week": "Week 33",
-      "units": 48.0,
-      "gmv": 132536.44,
-      "nlc": 66288.0,
-      "gmv_wow_pct": 10.6,
-      "units_wow_pct": 11.63
+      "units": 49.0,
+      "gmv": 138272.34,
+      "nlc": 67669.0,
+      "gmv_wow_pct": 15.38,
+      "units_wow_pct": 13.95
     },
     {
       "model": "MR-02 HEPA Filter",
@@ -139279,11 +139290,11 @@
     {
       "model": "MR-03",
       "week": "Week 33",
-      "units": 19.0,
-      "gmv": 79294.07,
+      "units": 18.0,
+      "gmv": 74633.9,
       "nlc": 0.0,
-      "gmv_wow_pct": -14.2,
-      "units_wow_pct": -9.52
+      "gmv_wow_pct": -19.24,
+      "units_wow_pct": -14.29
     },
     {
       "model": "MS1ML",
@@ -139837,11 +139848,11 @@
     {
       "model": "MT-12",
       "week": "Week 33",
-      "units": 3.0,
-      "gmv": 21607.62,
-      "nlc": 12359.2809,
-      "gmv_wow_pct": 75.89,
-      "units_wow_pct": -25.0
+      "units": 4.0,
+      "gmv": 28810.16,
+      "nlc": 16479.0413,
+      "gmv_wow_pct": 134.52,
+      "units_wow_pct": 0.0
     },
     {
       "model": "NP-01",
@@ -143248,11 +143259,11 @@
     {
       "model": "PB-06 (AA-05 + AM-C44 + AI-04)",
       "week": "Week 33",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": -100.0,
-      "units_wow_pct": -100.0
+      "units": 1.0,
+      "gmv": 7626.27,
+      "nlc": 4841.8232,
+      "gmv_wow_pct": -3.77,
+      "units_wow_pct": 0.0
     },
     {
       "model": "PB-07 (AA-05 + AM-C45 + AI-04)",
@@ -143959,11 +143970,11 @@
     {
       "model": "PB-09 (AM-C45 + AI-06 + AA-05)",
       "week": "Week 33",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": null,
-      "units_wow_pct": null
+      "units": 1.0,
+      "gmv": 3551.07,
+      "nlc": 4889.153,
+      "gmv_wow_pct": Infinity,
+      "units_wow_pct": Infinity
     },
     {
       "model": "PB-10 (AM-C2+AI-04+AH-60-BL)",
@@ -144229,11 +144240,11 @@
     {
       "model": "PB-10 (AM-C2+AI-04+AH-60-BL)",
       "week": "Week 33",
-      "units": 6.0,
-      "gmv": 48035.57,
-      "nlc": 29918.8056,
-      "gmv_wow_pct": -54.88,
-      "units_wow_pct": -53.85
+      "units": 13.0,
+      "gmv": 104077.08,
+      "nlc": 64824.0788,
+      "gmv_wow_pct": -2.24,
+      "units_wow_pct": 0.0
     },
     {
       "model": "PB-11 (AM-C44+AA-05+AH-45-BK)",
@@ -145039,11 +145050,11 @@
     {
       "model": "PB-14 (AM-C43+AH-40-SL+AI-12)",
       "week": "Week 33",
-      "units": 4.0,
-      "gmv": 14030.51,
-      "nlc": 9122.0136,
-      "gmv_wow_pct": 259.99,
-      "units_wow_pct": 300.0
+      "units": 5.0,
+      "gmv": 17538.13,
+      "nlc": 11402.517,
+      "gmv_wow_pct": 349.99,
+      "units_wow_pct": 400.0
     },
     {
       "model": "PB-15 (AH-50+AM-C2+AI-04)",
@@ -146650,11 +146661,11 @@
     {
       "model": "S20",
       "week": "Week 33",
-      "units": 1.0,
-      "gmv": 2075.42,
-      "nlc": 1174.0,
-      "gmv_wow_pct": 0.0,
-      "units_wow_pct": 0.0
+      "units": 2.0,
+      "gmv": 4150.84,
+      "nlc": 2348.0,
+      "gmv_wow_pct": 100.0,
+      "units_wow_pct": 100.0
     },
     {
       "model": "SB-01",
@@ -146920,11 +146931,11 @@
     {
       "model": "SB-01",
       "week": "Week 33",
-      "units": 33.0,
-      "gmv": 32591.5,
-      "nlc": 23364.0,
-      "gmv_wow_pct": -50.2,
-      "units_wow_pct": -49.23
+      "units": 40.0,
+      "gmv": 39496.58,
+      "nlc": 28320.0,
+      "gmv_wow_pct": -39.65,
+      "units_wow_pct": -38.46
     },
     {
       "model": "SC-01",
@@ -147190,11 +147201,11 @@
     {
       "model": "SC-01",
       "week": "Week 33",
-      "units": 255.0,
-      "gmv": 834117.04,
-      "nlc": 455430.0,
-      "gmv_wow_pct": 61.7,
-      "units_wow_pct": 57.41
+      "units": 233.0,
+      "gmv": 782812.1,
+      "nlc": 416138.0,
+      "gmv_wow_pct": 51.75,
+      "units_wow_pct": 43.83
     },
     {
       "model": "SC-01 Set of Spares",
@@ -149017,11 +149028,11 @@
     {
       "model": "SC-05",
       "week": "Week 33",
-      "units": 84.0,
-      "gmv": 242911.02,
-      "nlc": 121212.0,
-      "gmv_wow_pct": -57.59,
-      "units_wow_pct": -57.79
+      "units": 89.0,
+      "gmv": 257406.02,
+      "nlc": 128427.0,
+      "gmv_wow_pct": -55.06,
+      "units_wow_pct": -55.28
     },
     {
       "model": "SC-05 SC-05 - Set of Spares",
@@ -152633,6 +152644,15 @@
       "units_wow_pct": Infinity
     },
     {
+      "model": "T-01",
+      "week": "Week 33",
+      "units": 2.0,
+      "gmv": 1998.0,
+      "nlc": 1032.0,
+      "gmv_wow_pct": 136.0,
+      "units_wow_pct": 100.0
+    },
+    {
       "model": "T-02",
       "week": "Week 4",
       "units": 8.0,
@@ -154408,11 +154428,11 @@
     {
       "model": "TC-777 PRO",
       "week": "Week 33",
-      "units": 9.0,
-      "gmv": 15205.92,
-      "nlc": 9774.0,
-      "gmv_wow_pct": -53.93,
-      "units_wow_pct": -52.63
+      "units": 11.0,
+      "gmv": 18587.28,
+      "nlc": 11946.0,
+      "gmv_wow_pct": -43.68,
+      "units_wow_pct": -42.11
     },
     {
       "model": "TC20",
@@ -154768,11 +154788,11 @@
     {
       "model": "TC30",
       "week": "Week 33",
-      "units": 14.0,
-      "gmv": 24756.82,
-      "nlc": 18578.0,
-      "gmv_wow_pct": -12.61,
-      "units_wow_pct": -6.67
+      "units": 15.0,
+      "gmv": 26517.84,
+      "nlc": 19905.0,
+      "gmv_wow_pct": -6.39,
+      "units_wow_pct": 0.0
     },
     {
       "model": "TC30+",
@@ -155380,11 +155400,11 @@
     {
       "model": "TC30S+",
       "week": "Week 33",
-      "units": 2.0,
-      "gmv": 4506.78,
-      "nlc": 3498.0,
-      "gmv_wow_pct": 90.0,
-      "units_wow_pct": 100.0
+      "units": 4.0,
+      "gmv": 9013.55,
+      "nlc": 6996.0,
+      "gmv_wow_pct": 279.99,
+      "units_wow_pct": 300.0
     },
     {
       "model": "TC310",
@@ -155650,11 +155670,11 @@
     {
       "model": "TC310",
       "week": "Week 33",
-      "units": 1.0,
-      "gmv": 1948.31,
-      "nlc": 1206.0,
-      "gmv_wow_pct": -80.51,
-      "units_wow_pct": -80.0
+      "units": 2.0,
+      "gmv": 3896.62,
+      "nlc": 2412.0,
+      "gmv_wow_pct": -61.02,
+      "units_wow_pct": -60.0
     },
     {
       "model": "TC310+",
@@ -155920,11 +155940,11 @@
     {
       "model": "TC310+",
       "week": "Week 33",
-      "units": 10.0,
-      "gmv": 23510.2,
-      "nlc": 16890.0,
-      "gmv_wow_pct": -4.09,
-      "units_wow_pct": 0.0
+      "units": 11.0,
+      "gmv": 25834.78,
+      "nlc": 18579.0,
+      "gmv_wow_pct": 5.39,
+      "units_wow_pct": 10.0
     },
     {
       "model": "TC40",
@@ -156676,11 +156696,11 @@
     {
       "model": "TD310",
       "week": "Week 33",
-      "units": 16.0,
-      "gmv": 24393.28,
-      "nlc": 12640.0,
-      "gmv_wow_pct": -24.38,
-      "units_wow_pct": -20.0
+      "units": 20.0,
+      "gmv": 30491.6,
+      "nlc": 15800.0,
+      "gmv_wow_pct": -5.48,
+      "units_wow_pct": 0.0
     },
     {
       "model": "TD310+",
@@ -156946,11 +156966,11 @@
     {
       "model": "TD310+",
       "week": "Week 33",
-      "units": 15.0,
-      "gmv": 23752.55,
-      "nlc": 13905.0,
-      "gmv_wow_pct": 68.92,
-      "units_wow_pct": 87.5
+      "units": 16.0,
+      "gmv": 25446.62,
+      "nlc": 14832.0,
+      "gmv_wow_pct": 80.97,
+      "units_wow_pct": 100.0
     },
     {
       "model": "TD510",
@@ -157738,11 +157758,11 @@
     {
       "model": "TI-02",
       "week": "Week 33",
-      "units": 2.0,
-      "gmv": 2710.17,
-      "nlc": 1730.0,
-      "gmv_wow_pct": -70.1,
-      "units_wow_pct": -66.67
+      "units": 4.0,
+      "gmv": 6308.17,
+      "nlc": 3460.0,
+      "gmv_wow_pct": -30.39,
+      "units_wow_pct": -33.33
     },
     {
       "model": "TIC-03",
@@ -158485,11 +158505,11 @@
     {
       "model": "TM-01",
       "week": "Week 33",
-      "units": 1.0,
-      "gmv": 846.61,
-      "nlc": 483.0,
-      "gmv_wow_pct": -84.12,
-      "units_wow_pct": -90.91
+      "units": 7.0,
+      "gmv": 4440.61,
+      "nlc": 3381.0,
+      "gmv_wow_pct": -16.68,
+      "units_wow_pct": -36.36
     },
     {
       "model": "TM-02",
@@ -159026,9 +159046,9 @@
       "model": "TM-03",
       "week": "Week 33",
       "units": 6.0,
-      "gmv": 38015.76,
+      "gmv": 6335.96,
       "nlc": 3564.0,
-      "gmv_wow_pct": 608.0,
+      "gmv_wow_pct": 18.0,
       "units_wow_pct": 0.0
     },
     {
@@ -162805,9 +162825,9 @@
     {
       "model": "V-01",
       "week": "Week 33",
-      "units": 4.0,
-      "gmv": 4485.59,
-      "nlc": 2912.0,
+      "units": 5.0,
+      "gmv": 5770.29,
+      "nlc": 3640.0,
       "gmv_wow_pct": Infinity,
       "units_wow_pct": Infinity
     },
@@ -163075,11 +163095,11 @@
     {
       "model": "V-01 RG",
       "week": "Week 33",
-      "units": 7.0,
-      "gmv": 8434.74,
-      "nlc": 4641.0,
-      "gmv_wow_pct": -10.62,
-      "units_wow_pct": 0.0
+      "units": 15.0,
+      "gmv": 21707.84,
+      "nlc": 9945.0,
+      "gmv_wow_pct": 130.04,
+      "units_wow_pct": 114.29
     },
     {
       "model": "V-02",
@@ -163885,11 +163905,11 @@
     {
       "model": "VC-01",
       "week": "Week 33",
-      "units": 36.0,
-      "gmv": 60173.73,
-      "nlc": 39168.0,
-      "gmv_wow_pct": -44.61,
-      "units_wow_pct": -47.83
+      "units": 57.0,
+      "gmv": 96642.73,
+      "nlc": 62016.0,
+      "gmv_wow_pct": -11.04,
+      "units_wow_pct": -17.39
     },
     {
       "model": "VC-01 HEPA",
@@ -164084,9 +164104,9 @@
       "model": "VC-01 HEPA",
       "week": "Week 33",
       "units": 15.0,
-      "gmv": 2941.53,
+      "gmv": 3151.69,
       "nlc": 675.0,
-      "gmv_wow_pct": 366.53,
+      "gmv_wow_pct": 399.86,
       "units_wow_pct": 400.0
     },
     {
@@ -164344,11 +164364,11 @@
     {
       "model": "VC-02",
       "week": "Week 33",
-      "units": 2.0,
-      "gmv": 2117.8,
-      "nlc": 2582.0,
-      "gmv_wow_pct": -72.06,
-      "units_wow_pct": -50.0
+      "units": 3.0,
+      "gmv": 4186.8,
+      "nlc": 3873.0,
+      "gmv_wow_pct": -44.76,
+      "units_wow_pct": -25.0
     },
     {
       "model": "VC-02 HEPA",
@@ -164641,11 +164661,11 @@
     {
       "model": "VC-03",
       "week": "Week 33",
-      "units": 0.0,
-      "gmv": 0.0,
-      "nlc": 0.0,
-      "gmv_wow_pct": -100.0,
-      "units_wow_pct": -100.0
+      "units": 2.0,
+      "gmv": 2698.0,
+      "nlc": 1606.0,
+      "gmv_wow_pct": -52.8,
+      "units_wow_pct": -60.0
     },
     {
       "model": "VC-03 HEPA",
@@ -164956,11 +164976,11 @@
     {
       "model": "VC-04",
       "week": "Week 33",
-      "units": 2.0,
-      "gmv": 2405.08,
-      "nlc": 2224.0,
-      "gmv_wow_pct": -65.03,
-      "units_wow_pct": -60.0
+      "units": 3.0,
+      "gmv": 4138.32,
+      "nlc": 3336.0,
+      "gmv_wow_pct": -39.83,
+      "units_wow_pct": -40.0
     },
     {
       "model": "VC-04 HEPA",
@@ -165289,11 +165309,11 @@
     {
       "model": "VC-05",
       "week": "Week 33",
-      "units": 11.0,
-      "gmv": 90854.71,
-      "nlc": 11693.0,
-      "gmv_wow_pct": 1277.82,
-      "units_wow_pct": 175.0
+      "units": 15.0,
+      "gmv": 26238.27,
+      "nlc": 15945.0,
+      "gmv_wow_pct": 297.91,
+      "units_wow_pct": 275.0
     },
     {
       "model": "VC-05 VC-05 -Set of Spares(Crevice, Brush & Hose)",
@@ -166811,9 +166831,9 @@
       "model": "WM-GS1M-BK",
       "week": "Week 33",
       "units": 117.0,
-      "gmv": 272223.28,
+      "gmv": 260973.16,
       "nlc": 156897.0,
-      "gmv_wow_pct": 4.63,
+      "gmv_wow_pct": 0.31,
       "units_wow_pct": 1.74
     },
     {
@@ -170946,38 +170966,38 @@
     33
   ],
   "ams_latest_week_kpis": {
-    "spend": 1003647.1,
-    "attributed_sales": 6116098.43,
-    "ams_orders": 2217.0,
-    "gmv": 16798798.56,
-    "units": 4400.0,
-    "clicks": 107929.0,
-    "impressions": 14291905.0,
+    "spend": 1003626.84,
+    "attributed_sales": 6201157.88,
+    "ams_orders": 2248.0,
+    "gmv": 17595246.24,
+    "units": 4718.0,
+    "clicks": 107923.0,
+    "impressions": 14291870.0,
     "sessions": 768156.0,
-    "acos": 0.1923,
-    "roas": 11.5887,
-    "tacos": 0.1082,
+    "acos": 0.1893,
+    "roas": 11.5401,
+    "tacos": 0.1012,
     "buy_box_pct": 0.0,
-    "conversion_pct": 0.0096,
-    "cac": 429.8794,
+    "conversion_pct": 0.0102,
+    "cac": 425.1043,
     "spend_wow_pct": -8.18,
-    "gmv_wow_pct": 0.09
+    "gmv_wow_pct": 4.83
   },
   "ams_last4_kpis": {
-    "spend": 4159265.06,
-    "attributed_sales": 22745348.88,
-    "ams_orders": 7958.0,
-    "gmv": 58054669.25,
-    "units": 15554.0,
-    "clicks": 428305.0,
-    "impressions": 58841862.0,
+    "spend": 4159244.8,
+    "attributed_sales": 22830408.33,
+    "ams_orders": 7989.0,
+    "gmv": 58851116.93,
+    "units": 15872.0,
+    "clicks": 428299.0,
+    "impressions": 58841827.0,
     "sessions": 2864066.0,
-    "acos": 0.1922,
-    "roas": 9.6064,
-    "tacos": 0.1048,
+    "acos": 0.1914,
+    "roas": 9.5935,
+    "tacos": 0.103,
     "buy_box_pct": 0.0,
-    "conversion_pct": 0.0095,
-    "cac": 512.9914
+    "conversion_pct": 0.0096,
+    "cac": 511.6944
   },
   "ams_weekly_trend": [
     {
@@ -171202,23 +171222,23 @@
     },
     {
       "week": 33,
-      "Spend": 1003647.0971,
-      "Clicks": 107929.0,
-      "Impressions": 14291905.0,
-      "attributed_sales": 6116098.4297,
-      "ams_orders": 2217.0,
-      "gmv": 16798798.56,
-      "units": 4400.0,
+      "Spend": 1003626.8371,
+      "Clicks": 107923.0,
+      "Impressions": 14291870.0,
+      "attributed_sales": 6201157.8797,
+      "ams_orders": 2248.0,
+      "gmv": 17595246.24,
+      "units": 4718.0,
       "sessions": 768156.0,
       "buy_box_pct": 0.0,
-      "conversion_pct": 0.0096,
-      "acos": 0.1923,
-      "roas": 11.5887,
-      "tacos": 0.1082,
-      "cac": 429.8794,
+      "conversion_pct": 0.0102,
+      "acos": 0.1893,
+      "roas": 11.5401,
+      "tacos": 0.1012,
+      "cac": 425.1043,
       "Spend_wow_pct": -8.18,
-      "gmv_wow_pct": 0.09,
-      "attributed_sales_wow_pct": -10.24
+      "gmv_wow_pct": 4.83,
+      "attributed_sales_wow_pct": -8.99
     }
   ],
   "model_ams_performance": [
@@ -171233,17 +171253,17 @@
       "Spend": 212243.5529,
       "Clicks": 17632.0,
       "Impressions": 1070367.0,
-      "attributed_sales": 1232976.0714,
-      "ams_orders": 354.0,
-      "gmv": 1814012.71,
-      "units": 547.0,
+      "attributed_sales": 1247767.1142,
+      "ams_orders": 358.0,
+      "gmv": 1807235.59,
+      "units": 545.0,
       "sessions": 81884.0,
       "buy_box_pct": 0.0,
       "conversion_pct": 0.0067,
-      "acos": 0.1721,
-      "roas": 5.81,
-      "tacos": 0.117,
-      "cac": 665.3066
+      "acos": 0.1701,
+      "roas": 5.88,
+      "tacos": 0.1174,
+      "cac": 662.3004
     },
     {
       "model": "SC-05",
@@ -171256,17 +171276,17 @@
       "Spend": 298358.9284,
       "Clicks": 19387.0,
       "Impressions": 1444225.0,
-      "attributed_sales": 1255406.7376,
-      "ams_orders": 396.0,
+      "attributed_sales": 1258557.0887,
+      "ams_orders": 397.0,
       "gmv": 1706044.92,
       "units": 601.0,
       "sessions": 100215.0,
       "buy_box_pct": 0.0,
       "conversion_pct": 0.006,
-      "acos": 0.2377,
-      "roas": 4.21,
+      "acos": 0.2371,
+      "roas": 4.22,
       "tacos": 0.1749,
-      "cac": 759.2551
+      "cac": 754.6258
     },
     {
       "model": "SC-04",
@@ -171279,17 +171299,17 @@
       "Spend": 184983.9177,
       "Clicks": 11724.0,
       "Impressions": 968009.0,
-      "attributed_sales": 1124442.1276,
-      "ams_orders": 278.0,
+      "attributed_sales": 1126597.1802,
+      "ams_orders": 279.0,
       "gmv": 1672341.53,
       "units": 363.0,
       "sessions": 58114.0,
       "buy_box_pct": 0.0,
       "conversion_pct": 0.0062,
-      "acos": 0.1645,
-      "roas": 6.08,
+      "acos": 0.1642,
+      "roas": 6.09,
       "tacos": 0.1106,
-      "cac": 695.5228
+      "cac": 694.215
     },
     {
       "model": "DH-01",
@@ -171325,17 +171345,17 @@
       "Spend": 139613.94,
       "Clicks": 13090.0,
       "Impressions": 1720038.0,
-      "attributed_sales": 476050.93,
-      "ams_orders": 294.0,
+      "attributed_sales": 477745.0,
+      "ams_orders": 296.0,
       "gmv": 730278.81,
       "units": 450.0,
       "sessions": 37812.0,
       "buy_box_pct": 0.0,
       "conversion_pct": 0.0119,
-      "acos": 0.2933,
-      "roas": 3.41,
+      "acos": 0.2922,
+      "roas": 3.42,
       "tacos": 0.1912,
-      "cac": 475.275
+      "cac": 472.9672
     },
     {
       "model": "MR-01",
@@ -171393,7 +171413,7 @@
       "category_l2": "Stand Mixer",
       "Spend": 26671.76,
       "Clicks": 2002.0,
-      "Impressions": 716098.0,
+      "Impressions": 716096.0,
       "attributed_sales": 131006.79,
       "ams_orders": 13.0,
       "gmv": 423715.26,
@@ -171442,14 +171462,14 @@
       "Impressions": 186165.0,
       "attributed_sales": 111487.29,
       "ams_orders": 27.0,
-      "gmv": 263894.93,
-      "units": 60.0,
+      "gmv": 259234.76,
+      "units": 59.0,
       "sessions": 9994.0,
       "buy_box_pct": 0.0,
-      "conversion_pct": 0.006,
+      "conversion_pct": 0.0059,
       "acos": 0.266,
       "roas": 3.76,
-      "tacos": 0.1124,
+      "tacos": 0.1144,
       "cac": 1641.8416
     },
     {
@@ -171463,17 +171483,17 @@
       "Spend": 43832.44,
       "Clicks": 4432.0,
       "Impressions": 686631.0,
-      "attributed_sales": 138025.38,
-      "ams_orders": 69.0,
+      "attributed_sales": 139804.19,
+      "ams_orders": 70.0,
       "gmv": 221356.45,
       "units": 133.0,
       "sessions": 15523.0,
       "buy_box_pct": 0.0,
       "conversion_pct": 0.0086,
-      "acos": 0.3176,
-      "roas": 3.15,
+      "acos": 0.3135,
+      "roas": 3.19,
       "tacos": 0.198,
-      "cac": 645.6963
+      "cac": 634.602
     },
     {
       "model": "ST-01",
@@ -171531,18 +171551,18 @@
       "category_l2": "Garment steamer",
       "Spend": 24380.58,
       "Clicks": 2120.0,
-      "Impressions": 1133895.0,
-      "attributed_sales": 72209.94,
-      "ams_orders": 40.0,
+      "Impressions": 1133893.0,
+      "attributed_sales": 73997.23,
+      "ams_orders": 41.0,
       "gmv": 148197.47,
       "units": 84.0,
       "sessions": 7454.0,
       "buy_box_pct": 0.0,
       "conversion_pct": 0.0113,
-      "acos": 0.3376,
-      "roas": 2.96,
+      "acos": 0.3295,
+      "roas": 3.04,
       "tacos": 0.1645,
-      "cac": 754.1627
+      "cac": 747.8142
     },
     {
       "model": "HSB-04",
@@ -171623,7 +171643,7 @@
       "category_l2": "Hair Straightener Brush - Corded",
       "Spend": 13588.9,
       "Clicks": 1726.0,
-      "Impressions": 414591.0,
+      "Impressions": 414590.0,
       "attributed_sales": 47475.49,
       "ams_orders": 30.0,
       "gmv": 64019.5,
@@ -171648,7 +171668,7 @@
       "Clicks": 561.0,
       "Impressions": 69762.0,
       "attributed_sales": 15531.46,
-      "ams_orders": 15.0,
+      "ams_orders": 16.0,
       "gmv": 58272.88,
       "units": 65.0,
       "sessions": 3982.0,
@@ -171657,7 +171677,7 @@
       "acos": 0.2856,
       "roas": 3.5,
       "tacos": 0.0761,
-      "cac": 343.4884
+      "cac": 334.3376
     },
     {
       "model": "LR-02",
@@ -171761,7 +171781,7 @@
       "category_l2": "Electric Spin Scrubber",
       "Spend": 2790.8,
       "Clicks": 327.0,
-      "Impressions": 98945.0,
+      "Impressions": 98944.0,
       "attributed_sales": 9649.03,
       "ams_orders": 5.0,
       "gmv": 24121.18,
@@ -171899,7 +171919,7 @@
       "category_l2": "Hair Therapy Comb",
       "Spend": 2309.4955,
       "Clicks": 282.0,
-      "Impressions": 90653.0,
+      "Impressions": 90651.0,
       "attributed_sales": 3167.79,
       "ams_orders": 2.0,
       "gmv": 19596.6,
@@ -172359,15 +172379,15 @@
       "Impressions": 4243.0,
       "attributed_sales": 3459.32,
       "ams_orders": 2.0,
-      "gmv": 6918.64,
-      "units": 4.0,
+      "gmv": 13837.28,
+      "units": 8.0,
       "sessions": 129.0,
       "acos": 0.0163,
       "roas": 61.51,
-      "tacos": 0.0081,
-      "conversion_pct": 0.031,
+      "tacos": 0.0041,
+      "conversion_pct": 0.062,
       "Spend_wow_pct": -3.75,
-      "gmv_wow_pct": -22.46,
+      "gmv_wow_pct": 55.08,
       "attributed_sales_wow_pct": -2.58
     },
     {
@@ -172587,15 +172607,15 @@
       "Impressions": 0.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 14112.73,
-      "units": 7.0,
+      "gmv": 16120.36,
+      "units": 8.0,
       "sessions": 431.0,
       "acos": null,
       "roas": null,
       "tacos": 0.0,
-      "conversion_pct": 0.0162,
+      "conversion_pct": 0.0186,
       "Spend_wow_pct": -100.0,
-      "gmv_wow_pct": -38.84,
+      "gmv_wow_pct": -30.14,
       "attributed_sales_wow_pct": null
     },
     {
@@ -172815,15 +172835,15 @@
       "Impressions": 34962.0,
       "attributed_sales": 2697.47,
       "ams_orders": 7.0,
-      "gmv": 5327.12,
-      "units": 14.0,
+      "gmv": 6468.65,
+      "units": 17.0,
       "sessions": 562.0,
       "acos": 0.2864,
       "roas": 3.49,
-      "tacos": 0.145,
-      "conversion_pct": 0.0249,
+      "tacos": 0.1194,
+      "conversion_pct": 0.0302,
       "Spend_wow_pct": 37.93,
-      "gmv_wow_pct": -13.71,
+      "gmv_wow_pct": 4.78,
       "attributed_sales_wow_pct": -73.45
     },
     {
@@ -173043,15 +173063,15 @@
       "Impressions": 16563.0,
       "attributed_sales": 16592.38,
       "ams_orders": 12.0,
-      "gmv": 17569.5,
-      "units": 13.0,
+      "gmv": 22955.96,
+      "units": 17.0,
       "sessions": 255.0,
       "acos": 0.0632,
       "roas": 15.83,
-      "tacos": 0.0597,
-      "conversion_pct": 0.051,
+      "tacos": 0.0457,
+      "conversion_pct": 0.0667,
       "Spend_wow_pct": 2.51,
-      "gmv_wow_pct": 55.04,
+      "gmv_wow_pct": 102.57,
       "attributed_sales_wow_pct": 292.6
     },
     {
@@ -173269,18 +173289,18 @@
       "Spend": 2193.87,
       "Clicks": 324.0,
       "Impressions": 54652.0,
-      "attributed_sales": 16581.29,
-      "ams_orders": 23.0,
-      "gmv": 18153.36,
-      "units": 39.0,
+      "attributed_sales": 17131.29,
+      "ams_orders": 24.0,
+      "gmv": 20479.63,
+      "units": 44.0,
       "sessions": 660.0,
-      "acos": 0.1323,
-      "roas": 7.56,
-      "tacos": 0.1209,
-      "conversion_pct": 0.0591,
+      "acos": 0.1281,
+      "roas": 7.81,
+      "tacos": 0.1071,
+      "conversion_pct": 0.0667,
       "Spend_wow_pct": -5.2,
-      "gmv_wow_pct": -10.87,
-      "attributed_sales_wow_pct": 5.45
+      "gmv_wow_pct": 0.55,
+      "attributed_sales_wow_pct": 8.95
     },
     {
       "model": "AA-06",
@@ -173499,15 +173519,15 @@
       "Impressions": 26878.0,
       "attributed_sales": 13839.81,
       "ams_orders": 12.0,
-      "gmv": 14328.8,
-      "units": 14.0,
+      "gmv": 16361.0,
+      "units": 16.0,
       "sessions": 294.0,
       "acos": 0.1043,
       "roas": 9.59,
-      "tacos": 0.1007,
-      "conversion_pct": 0.0476,
+      "tacos": 0.0882,
+      "conversion_pct": 0.0544,
       "Spend_wow_pct": -12.95,
-      "gmv_wow_pct": -11.51,
+      "gmv_wow_pct": 1.04,
       "attributed_sales_wow_pct": 63.34
     },
     {
@@ -173877,18 +173897,18 @@
       "Spend": 5774.0,
       "Clicks": 553.0,
       "Impressions": 169876.0,
-      "attributed_sales": 52185.55,
-      "ams_orders": 21.0,
-      "gmv": 80367.72,
-      "units": 26.0,
+      "attributed_sales": 74048.27,
+      "ams_orders": 23.0,
+      "gmv": 95812.62,
+      "units": 31.0,
       "sessions": 836.0,
-      "acos": 0.1106,
-      "roas": 9.04,
-      "tacos": 0.0718,
-      "conversion_pct": 0.0311,
+      "acos": 0.078,
+      "roas": 12.82,
+      "tacos": 0.0603,
+      "conversion_pct": 0.0371,
       "Spend_wow_pct": -5.93,
-      "gmv_wow_pct": 3.06,
-      "attributed_sales_wow_pct": 8.41
+      "gmv_wow_pct": 22.87,
+      "attributed_sales_wow_pct": 53.82
     },
     {
       "model": "AA-19BL",
@@ -174791,15 +174811,15 @@
       "Impressions": 110099.0,
       "attributed_sales": 51681.29,
       "ams_orders": 16.0,
-      "gmv": 71131.85,
-      "units": 24.0,
+      "gmv": 80027.61,
+      "units": 27.0,
       "sessions": 1645.0,
       "acos": 0.2086,
       "roas": 4.79,
-      "tacos": 0.1515,
-      "conversion_pct": 0.0146,
+      "tacos": 0.1347,
+      "conversion_pct": 0.0164,
       "Spend_wow_pct": 6.4,
-      "gmv_wow_pct": -25.3,
+      "gmv_wow_pct": -15.96,
       "attributed_sales_wow_pct": -51.82
     },
     {
@@ -175247,15 +175267,15 @@
       "Impressions": 25794.0,
       "attributed_sales": 4970.33,
       "ams_orders": 7.0,
-      "gmv": 3404.24,
-      "units": 5.0,
+      "gmv": 4081.36,
+      "units": 6.0,
       "sessions": 559.0,
       "acos": 0.1682,
       "roas": 5.95,
-      "tacos": 0.2455,
-      "conversion_pct": 0.0089,
+      "tacos": 0.2048,
+      "conversion_pct": 0.0107,
       "Spend_wow_pct": -3.33,
-      "gmv_wow_pct": -29.63,
+      "gmv_wow_pct": -15.63,
       "attributed_sales_wow_pct": -65.88
     },
     {
@@ -175646,15 +175666,15 @@
       "Impressions": 107005.0,
       "attributed_sales": 37297.55,
       "ams_orders": 66.0,
-      "gmv": 44946.56,
-      "units": 108.0,
+      "gmv": 51991.43,
+      "units": 125.0,
       "sessions": 2097.0,
       "acos": 0.1597,
       "roas": 6.26,
-      "tacos": 0.1325,
-      "conversion_pct": 0.0515,
+      "tacos": 0.1146,
+      "conversion_pct": 0.0596,
       "Spend_wow_pct": 28.39,
-      "gmv_wow_pct": -5.59,
+      "gmv_wow_pct": 9.21,
       "attributed_sales_wow_pct": 0.23
     },
     {
@@ -176102,15 +176122,15 @@
       "Impressions": 73427.0,
       "attributed_sales": 16074.6,
       "ams_orders": 34.0,
-      "gmv": 25975.65,
-      "units": 59.0,
+      "gmv": 33452.81,
+      "units": 76.0,
       "sessions": 934.0,
       "acos": 0.2246,
       "roas": 4.45,
-      "tacos": 0.139,
-      "conversion_pct": 0.0632,
+      "tacos": 0.1079,
+      "conversion_pct": 0.0814,
       "Spend_wow_pct": 13.92,
-      "gmv_wow_pct": -5.12,
+      "gmv_wow_pct": 22.19,
       "attributed_sales_wow_pct": -7.48
     },
     {
@@ -176558,15 +176578,15 @@
       "Impressions": 60749.0,
       "attributed_sales": 26226.16,
       "ams_orders": 24.0,
-      "gmv": 29720.25,
-      "units": 34.0,
+      "gmv": 36669.37,
+      "units": 42.0,
       "sessions": 1011.0,
       "acos": 0.2046,
       "roas": 4.89,
-      "tacos": 0.1806,
-      "conversion_pct": 0.0336,
+      "tacos": 0.1464,
+      "conversion_pct": 0.0415,
       "Spend_wow_pct": 34.32,
-      "gmv_wow_pct": -31.27,
+      "gmv_wow_pct": -15.2,
       "attributed_sales_wow_pct": -2.09
     },
     {
@@ -176786,15 +176806,15 @@
       "Impressions": 114568.0,
       "attributed_sales": 55331.25,
       "ams_orders": 40.0,
-      "gmv": 87818.36,
-      "units": 75.0,
+      "gmv": 92492.92,
+      "units": 79.0,
       "sessions": 1507.0,
       "acos": 0.1791,
       "roas": 5.58,
-      "tacos": 0.1128,
-      "conversion_pct": 0.0498,
+      "tacos": 0.1071,
+      "conversion_pct": 0.0524,
       "Spend_wow_pct": -13.43,
-      "gmv_wow_pct": -0.09,
+      "gmv_wow_pct": 5.23,
       "attributed_sales_wow_pct": -12.34
     },
     {
@@ -177014,15 +177034,15 @@
       "Impressions": 314239.0,
       "attributed_sales": 105421.73,
       "ams_orders": 65.0,
-      "gmv": 142424.66,
-      "units": 89.0,
+      "gmv": 168038.18,
+      "units": 105.0,
       "sessions": 3289.0,
       "acos": 0.1695,
       "roas": 5.9,
-      "tacos": 0.1255,
-      "conversion_pct": 0.0271,
+      "tacos": 0.1063,
+      "conversion_pct": 0.0319,
       "Spend_wow_pct": -6.54,
-      "gmv_wow_pct": -18.05,
+      "gmv_wow_pct": -3.32,
       "attributed_sales_wow_pct": -24.24
     },
     {
@@ -177470,15 +177490,15 @@
       "Impressions": 74840.0,
       "attributed_sales": 3213.56,
       "ams_orders": 2.0,
-      "gmv": 11291.52,
-      "units": 7.0,
+      "gmv": 12898.3,
+      "units": 8.0,
       "sessions": 244.0,
       "acos": 0.4729,
       "roas": 2.11,
-      "tacos": 0.1346,
-      "conversion_pct": 0.0287,
+      "tacos": 0.1178,
+      "conversion_pct": 0.0328,
       "Spend_wow_pct": 141.32,
-      "gmv_wow_pct": -54.7,
+      "gmv_wow_pct": -48.26,
       "attributed_sales_wow_pct": -76.62
     },
     {
@@ -178149,21 +178169,21 @@
     {
       "model": "AI-04 RED",
       "week": 33,
-      "Spend": 67820.3519,
-      "Clicks": 6635.0,
+      "Spend": 67819.4519,
+      "Clicks": 6634.0,
       "Impressions": 821747.0,
-      "attributed_sales": 438847.7959,
-      "ams_orders": 125.0,
-      "gmv": 554465.94,
-      "units": 147.0,
+      "attributed_sales": 442914.7459,
+      "ams_orders": 127.0,
+      "gmv": 657409.17,
+      "units": 175.0,
       "sessions": 9484.0,
-      "acos": 0.1545,
-      "roas": 6.47,
-      "tacos": 0.1223,
-      "conversion_pct": 0.0155,
+      "acos": 0.1531,
+      "roas": 6.53,
+      "tacos": 0.1032,
+      "conversion_pct": 0.0185,
       "Spend_wow_pct": 14.35,
-      "gmv_wow_pct": -5.1,
-      "attributed_sales_wow_pct": 1.15
+      "gmv_wow_pct": 12.52,
+      "attributed_sales_wow_pct": 2.09
     },
     {
       "model": "AI-06",
@@ -178610,15 +178630,15 @@
       "Impressions": 72069.0,
       "attributed_sales": 14232.18,
       "ams_orders": 8.0,
-      "gmv": 33348.29,
-      "units": 14.0,
+      "gmv": 35720.32,
+      "units": 15.0,
       "sessions": 1341.0,
       "acos": 0.338,
       "roas": 2.96,
-      "tacos": 0.1443,
-      "conversion_pct": 0.0104,
+      "tacos": 0.1347,
+      "conversion_pct": 0.0112,
       "Spend_wow_pct": 11.18,
-      "gmv_wow_pct": -29.87,
+      "gmv_wow_pct": -24.88,
       "attributed_sales_wow_pct": -59.47
     },
     {
@@ -178838,15 +178858,15 @@
       "Impressions": 53876.0,
       "attributed_sales": 29438.71,
       "ams_orders": 22.0,
-      "gmv": 40384.73,
-      "units": 33.0,
+      "gmv": 46685.56,
+      "units": 38.0,
       "sessions": 1641.0,
       "acos": 0.1477,
       "roas": 6.77,
-      "tacos": 0.1077,
-      "conversion_pct": 0.0201,
+      "tacos": 0.0931,
+      "conversion_pct": 0.0232,
       "Spend_wow_pct": 0.05,
-      "gmv_wow_pct": 1.76,
+      "gmv_wow_pct": 17.64,
       "attributed_sales_wow_pct": -44.54
     },
     {
@@ -179065,16 +179085,16 @@
       "Clicks": 1850.0,
       "Impressions": 231006.0,
       "attributed_sales": 38787.85,
-      "ams_orders": 22.0,
-      "gmv": 24600.39,
-      "units": 23.0,
+      "ams_orders": 23.0,
+      "gmv": 27826.65,
+      "units": 26.0,
       "sessions": 2264.0,
       "acos": 0.1303,
       "roas": 7.67,
-      "tacos": 0.2055,
-      "conversion_pct": 0.0102,
+      "tacos": 0.1817,
+      "conversion_pct": 0.0115,
       "Spend_wow_pct": 17.81,
-      "gmv_wow_pct": -9.85,
+      "gmv_wow_pct": 1.97,
       "attributed_sales_wow_pct": 123.18
     },
     {
@@ -179292,18 +179312,18 @@
       "Spend": 31688.2847,
       "Clicks": 4016.0,
       "Impressions": 296214.0,
-      "attributed_sales": 122552.7744,
-      "ams_orders": 45.0,
-      "gmv": 170185.92,
-      "units": 76.0,
+      "attributed_sales": 130430.7244,
+      "ams_orders": 50.0,
+      "gmv": 197002.88,
+      "units": 88.0,
       "sessions": 7265.0,
-      "acos": 0.2586,
-      "roas": 3.87,
-      "tacos": 0.1862,
-      "conversion_pct": 0.0105,
+      "acos": 0.243,
+      "roas": 4.12,
+      "tacos": 0.1609,
+      "conversion_pct": 0.0121,
       "Spend_wow_pct": 5.59,
-      "gmv_wow_pct": -26.72,
-      "attributed_sales_wow_pct": -32.42
+      "gmv_wow_pct": -15.17,
+      "attributed_sales_wow_pct": -28.08
     },
     {
       "model": "AI-14",
@@ -179517,21 +179537,21 @@
     {
       "model": "AI-14",
       "week": 33,
-      "Spend": 13775.31,
-      "Clicks": 2927.0,
+      "Spend": 13772.27,
+      "Clicks": 2925.0,
       "Impressions": 277357.0,
-      "attributed_sales": 127317.78,
-      "ams_orders": 32.0,
-      "gmv": 106631.32,
-      "units": 21.0,
+      "attributed_sales": 132401.68,
+      "ams_orders": 33.0,
+      "gmv": 116748.26,
+      "units": 23.0,
       "sessions": 6019.0,
-      "acos": 0.1082,
-      "roas": 9.24,
-      "tacos": 0.1292,
-      "conversion_pct": 0.0035,
-      "Spend_wow_pct": 2.23,
-      "gmv_wow_pct": -26.53,
-      "attributed_sales_wow_pct": 18.78
+      "acos": 0.104,
+      "roas": 9.61,
+      "tacos": 0.118,
+      "conversion_pct": 0.0038,
+      "Spend_wow_pct": 2.21,
+      "gmv_wow_pct": -19.56,
+      "attributed_sales_wow_pct": 23.52
     },
     {
       "model": "AK-37-B",
@@ -179978,15 +179998,15 @@
       "Impressions": 38332.0,
       "attributed_sales": 8895.75,
       "ams_orders": 3.0,
-      "gmv": 14826.25,
-      "units": 5.0,
+      "gmv": 17791.51,
+      "units": 6.0,
       "sessions": 622.0,
       "acos": 0.1883,
       "roas": 5.31,
-      "tacos": 0.113,
-      "conversion_pct": 0.008,
+      "tacos": 0.0941,
+      "conversion_pct": 0.0096,
       "Spend_wow_pct": -31.54,
-      "gmv_wow_pct": -16.77,
+      "gmv_wow_pct": -0.12,
       "attributed_sales_wow_pct": -69.05
     },
     {
@@ -180203,7 +180223,7 @@
       "week": 33,
       "Spend": 2780.85,
       "Clicks": 688.0,
-      "Impressions": 61048.0,
+      "Impressions": 61047.0,
       "attributed_sales": 8030.5,
       "ams_orders": 2.0,
       "gmv": 20076.25,
@@ -180657,21 +180677,21 @@
     {
       "model": "AM-C1",
       "week": 33,
-      "Spend": 63630.5018,
-      "Clicks": 5104.0,
-      "Impressions": 575010.0,
-      "attributed_sales": 329413.4978,
-      "ams_orders": 153.0,
-      "gmv": 422277.74,
-      "units": 200.0,
+      "Spend": 63872.9957,
+      "Clicks": 5127.0,
+      "Impressions": 576541.0,
+      "attributed_sales": 331064.6164,
+      "ams_orders": 154.0,
+      "gmv": 492165.14,
+      "units": 233.0,
       "sessions": 13912.0,
-      "acos": 0.1932,
+      "acos": 0.1929,
       "roas": 5.18,
-      "tacos": 0.1507,
-      "conversion_pct": 0.0144,
-      "Spend_wow_pct": 16.71,
-      "gmv_wow_pct": -2.89,
-      "attributed_sales_wow_pct": 6.93
+      "tacos": 0.1298,
+      "conversion_pct": 0.0167,
+      "Spend_wow_pct": 17.15,
+      "gmv_wow_pct": 13.18,
+      "attributed_sales_wow_pct": 7.46
     },
     {
       "model": "AM-C10",
@@ -182068,15 +182088,15 @@
       "Impressions": 21588.0,
       "attributed_sales": 3404.8018,
       "ams_orders": 1.0,
-      "gmv": 42529.92,
-      "units": 14.0,
+      "gmv": 48619.76,
+      "units": 16.0,
       "sessions": 441.0,
       "acos": 0.3012,
       "roas": 3.32,
-      "tacos": 0.0241,
-      "conversion_pct": 0.0317,
+      "tacos": 0.0211,
+      "conversion_pct": 0.0363,
       "Spend_wow_pct": -62.24,
-      "gmv_wow_pct": -28.64,
+      "gmv_wow_pct": -18.42,
       "attributed_sales_wow_pct": -82.1
     },
     {
@@ -182712,18 +182732,18 @@
       "Spend": 3387.6893,
       "Clicks": 403.0,
       "Impressions": 52909.0,
-      "attributed_sales": 23027.3801,
+      "attributed_sales": 23154.2877,
       "ams_orders": 10.0,
-      "gmv": 42479.97,
-      "units": 35.0,
+      "gmv": 45102.01,
+      "units": 37.0,
       "sessions": 1331.0,
-      "acos": 0.1471,
-      "roas": 6.8,
-      "tacos": 0.0797,
-      "conversion_pct": 0.0263,
+      "acos": 0.1463,
+      "roas": 6.83,
+      "tacos": 0.0751,
+      "conversion_pct": 0.0278,
       "Spend_wow_pct": -13.02,
-      "gmv_wow_pct": -22.9,
-      "attributed_sales_wow_pct": -10.0
+      "gmv_wow_pct": -18.15,
+      "attributed_sales_wow_pct": -9.5
     },
     {
       "model": "AM-C29",
@@ -183170,15 +183190,15 @@
       "Impressions": 41073.0,
       "attributed_sales": 8635.56,
       "ams_orders": 10.0,
-      "gmv": 11401.27,
-      "units": 15.0,
+      "gmv": 14448.71,
+      "units": 19.0,
       "sessions": 251.0,
       "acos": 0.0785,
       "roas": 12.75,
-      "tacos": 0.0594,
-      "conversion_pct": 0.0598,
+      "tacos": 0.0469,
+      "conversion_pct": 0.0757,
       "Spend_wow_pct": 12.64,
-      "gmv_wow_pct": 70.92,
+      "gmv_wow_pct": 116.61,
       "attributed_sales_wow_pct": -11.83
     },
     {
@@ -183854,15 +183874,15 @@
       "Impressions": 9580.0,
       "attributed_sales": 9287.29,
       "ams_orders": 6.0,
-      "gmv": 15282.21,
-      "units": 12.0,
+      "gmv": 16552.55,
+      "units": 13.0,
       "sessions": 826.0,
       "acos": 0.035,
       "roas": 28.58,
-      "tacos": 0.0213,
-      "conversion_pct": 0.0145,
+      "tacos": 0.0196,
+      "conversion_pct": 0.0157,
       "Spend_wow_pct": -10.36,
-      "gmv_wow_pct": 60.99,
+      "gmv_wow_pct": 74.38,
       "attributed_sales_wow_pct": 253.74
     },
     {
@@ -184082,15 +184102,15 @@
       "Impressions": 0.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 1269.5,
-      "units": 2.0,
+      "gmv": 1904.24,
+      "units": 3.0,
       "sessions": 194.0,
       "acos": null,
       "roas": null,
       "tacos": 0.0,
-      "conversion_pct": 0.0103,
+      "conversion_pct": 0.0155,
       "Spend_wow_pct": null,
-      "gmv_wow_pct": -36.17,
+      "gmv_wow_pct": -4.26,
       "attributed_sales_wow_pct": null
     },
     {
@@ -184994,15 +185014,15 @@
       "Impressions": 103413.0,
       "attributed_sales": 24011.87,
       "ams_orders": 12.0,
-      "gmv": 34057.57,
-      "units": 17.0,
+      "gmv": 38064.34,
+      "units": 20.0,
       "sessions": 936.0,
       "acos": 0.203,
       "roas": 4.92,
-      "tacos": 0.1432,
-      "conversion_pct": 0.0182,
+      "tacos": 0.1281,
+      "conversion_pct": 0.0214,
       "Spend_wow_pct": -43.21,
-      "gmv_wow_pct": 34.37,
+      "gmv_wow_pct": 50.18,
       "attributed_sales_wow_pct": -55.59
     },
     {
@@ -185906,15 +185926,15 @@
       "Impressions": 18658.0,
       "attributed_sales": 2372.03,
       "ams_orders": 1.0,
-      "gmv": 9889.83,
-      "units": 3.0,
+      "gmv": 6593.22,
+      "units": 2.0,
       "sessions": 302.0,
       "acos": 0.6145,
       "roas": 1.63,
-      "tacos": 0.1474,
-      "conversion_pct": 0.0099,
+      "tacos": 0.2211,
+      "conversion_pct": 0.0066,
       "Spend_wow_pct": 74.01,
-      "gmv_wow_pct": 47.93,
+      "gmv_wow_pct": -1.38,
       "attributed_sales_wow_pct": Infinity
     },
     {
@@ -186131,18 +186151,18 @@
       "week": 33,
       "Spend": 3210.03,
       "Clicks": 369.0,
-      "Impressions": 213458.0,
+      "Impressions": 213457.0,
       "attributed_sales": 21527.11,
       "ams_orders": 8.0,
-      "gmv": 41063.55,
-      "units": 15.0,
+      "gmv": 46536.43,
+      "units": 17.0,
       "sessions": 3404.0,
       "acos": 0.1491,
       "roas": 6.71,
-      "tacos": 0.0782,
-      "conversion_pct": 0.0044,
+      "tacos": 0.069,
+      "conversion_pct": 0.005,
       "Spend_wow_pct": 231.45,
-      "gmv_wow_pct": 47.54,
+      "gmv_wow_pct": 67.21,
       "attributed_sales_wow_pct": -10.3
     },
     {
@@ -186357,21 +186377,21 @@
     {
       "model": "AM-C47",
       "week": 33,
-      "Spend": 4477.6338,
-      "Clicks": 437.0,
-      "Impressions": 65992.0,
-      "attributed_sales": 20110.0953,
-      "ams_orders": 9.0,
+      "Spend": 4329.7219,
+      "Clicks": 423.0,
+      "Impressions": 65109.0,
+      "attributed_sales": 19160.8345,
+      "ams_orders": 8.0,
       "gmv": 66500.88,
       "units": 29.0,
       "sessions": 1347.0,
-      "acos": 0.2227,
-      "roas": 4.49,
-      "tacos": 0.0673,
+      "acos": 0.226,
+      "roas": 4.43,
+      "tacos": 0.0651,
       "conversion_pct": 0.0215,
-      "Spend_wow_pct": 45.79,
+      "Spend_wow_pct": 40.98,
       "gmv_wow_pct": -2.41,
-      "attributed_sales_wow_pct": -23.44
+      "attributed_sales_wow_pct": -27.05
     },
     {
       "model": "AM-C48",
@@ -186588,18 +186608,18 @@
       "Spend": 3229.85,
       "Clicks": 244.0,
       "Impressions": 26190.0,
-      "attributed_sales": 15299.18,
-      "ams_orders": 6.0,
-      "gmv": 15299.18,
-      "units": 6.0,
+      "attributed_sales": 17586.47,
+      "ams_orders": 7.0,
+      "gmv": 20382.24,
+      "units": 8.0,
       "sessions": 424.0,
-      "acos": 0.2111,
-      "roas": 4.74,
-      "tacos": 0.2111,
-      "conversion_pct": 0.0142,
+      "acos": 0.1837,
+      "roas": 5.44,
+      "tacos": 0.1585,
+      "conversion_pct": 0.0189,
       "Spend_wow_pct": -25.93,
-      "gmv_wow_pct": -42.23,
-      "attributed_sales_wow_pct": -27.65
+      "gmv_wow_pct": -23.03,
+      "attributed_sales_wow_pct": -16.83
     },
     {
       "model": "AM-C49",
@@ -187044,18 +187064,18 @@
       "Spend": 1563.62,
       "Clicks": 101.0,
       "Impressions": 11494.0,
-      "attributed_sales": 2990.68,
-      "ams_orders": 1.0,
+      "attributed_sales": 7566.1,
+      "ams_orders": 2.0,
       "gmv": 17685.58,
       "units": 9.0,
       "sessions": 1128.0,
-      "acos": 0.5228,
-      "roas": 1.91,
+      "acos": 0.2067,
+      "roas": 4.84,
       "tacos": 0.0884,
       "conversion_pct": 0.008,
       "Spend_wow_pct": -9.28,
       "gmv_wow_pct": -32.14,
-      "attributed_sales_wow_pct": -78.02
+      "attributed_sales_wow_pct": -44.41
     },
     {
       "model": "AM-C5 WHITE",
@@ -188300,15 +188320,15 @@
       "Impressions": 80638.0,
       "attributed_sales": 57282.2,
       "ams_orders": 6.0,
-      "gmv": 83842.38,
-      "units": 10.0,
+      "gmv": 133922.04,
+      "units": 16.0,
       "sessions": 3771.0,
       "acos": 0.0406,
       "roas": 24.65,
-      "tacos": 0.0277,
-      "conversion_pct": 0.0027,
+      "tacos": 0.0174,
+      "conversion_pct": 0.0042,
       "Spend_wow_pct": -45.55,
-      "gmv_wow_pct": -44.48,
+      "gmv_wow_pct": -11.31,
       "attributed_sales_wow_pct": 68.58
     },
     {
@@ -188979,21 +188999,21 @@
     {
       "model": "AM-S1",
       "week": 33,
-      "Spend": 37782.35,
-      "Clicks": 4020.0,
+      "Spend": 37781.48,
+      "Clicks": 4019.0,
       "Impressions": 586201.0,
-      "attributed_sales": 342986.35,
-      "ams_orders": 52.0,
-      "gmv": 266967.73,
-      "units": 37.0,
+      "attributed_sales": 349341.43,
+      "ams_orders": 53.0,
+      "gmv": 346195.67,
+      "units": 48.0,
       "sessions": 6603.0,
-      "acos": 0.1102,
-      "roas": 9.08,
-      "tacos": 0.1415,
-      "conversion_pct": 0.0056,
+      "acos": 0.1082,
+      "roas": 9.25,
+      "tacos": 0.1091,
+      "conversion_pct": 0.0073,
       "Spend_wow_pct": 20.38,
-      "gmv_wow_pct": -20.32,
-      "attributed_sales_wow_pct": 58.2
+      "gmv_wow_pct": 3.32,
+      "attributed_sales_wow_pct": 61.13
     },
     {
       "model": "AM-S2",
@@ -189207,21 +189227,21 @@
     {
       "model": "AM-S2",
       "week": 33,
-      "Spend": 45019.29,
-      "Clicks": 6553.0,
-      "Impressions": 925783.0,
-      "attributed_sales": 284064.54,
-      "ams_orders": 48.0,
-      "gmv": 320579.95,
-      "units": 54.0,
+      "Spend": 45018.62,
+      "Clicks": 6552.0,
+      "Impressions": 925782.0,
+      "attributed_sales": 289572.16,
+      "ams_orders": 49.0,
+      "gmv": 391756.27,
+      "units": 66.0,
       "sessions": 10982.0,
-      "acos": 0.1585,
-      "roas": 6.31,
-      "tacos": 0.1404,
-      "conversion_pct": 0.0049,
+      "acos": 0.1555,
+      "roas": 6.43,
+      "tacos": 0.1149,
+      "conversion_pct": 0.006,
       "Spend_wow_pct": -3.08,
-      "gmv_wow_pct": -40.01,
-      "attributed_sales_wow_pct": -7.35
+      "gmv_wow_pct": -26.69,
+      "attributed_sales_wow_pct": -5.55
     },
     {
       "model": "AM-W11",
@@ -189820,15 +189840,15 @@
       "Impressions": 144404.0,
       "attributed_sales": 20244.05,
       "ams_orders": 13.0,
-      "gmv": 22530.5,
-      "units": 15.0,
+      "gmv": 24139.82,
+      "units": 16.0,
       "sessions": 911.0,
       "acos": 0.3339,
       "roas": 2.99,
-      "tacos": 0.3001,
-      "conversion_pct": 0.0165,
+      "tacos": 0.2801,
+      "conversion_pct": 0.0176,
       "Spend_wow_pct": 5.17,
-      "gmv_wow_pct": -14.88,
+      "gmv_wow_pct": -8.8,
       "attributed_sales_wow_pct": 5.01
     },
     {
@@ -190045,7 +190065,7 @@
       "week": 33,
       "Spend": 9731.7233,
       "Clicks": 1389.0,
-      "Impressions": 170154.0,
+      "Impressions": 170153.0,
       "attributed_sales": 81161.03,
       "ams_orders": 16.0,
       "gmv": 69869.52,
@@ -190058,6 +190078,63 @@
       "Spend_wow_pct": 35.44,
       "gmv_wow_pct": -22.75,
       "attributed_sales_wow_pct": 16.22
+    },
+    {
+      "model": "AM-W15",
+      "week": 31,
+      "Spend": 0.0,
+      "Clicks": 0.0,
+      "Impressions": 0.0,
+      "attributed_sales": 0.0,
+      "ams_orders": 0.0,
+      "gmv": 4483.05,
+      "units": 1.0,
+      "sessions": 0.0,
+      "acos": null,
+      "roas": null,
+      "tacos": 0.0,
+      "conversion_pct": null,
+      "Spend_wow_pct": null,
+      "gmv_wow_pct": null,
+      "attributed_sales_wow_pct": null
+    },
+    {
+      "model": "AM-W15",
+      "week": 32,
+      "Spend": 0.0,
+      "Clicks": 0.0,
+      "Impressions": 0.0,
+      "attributed_sales": 0.0,
+      "ams_orders": 0.0,
+      "gmv": 0.0,
+      "units": 0.0,
+      "sessions": 0.0,
+      "acos": null,
+      "roas": null,
+      "tacos": null,
+      "conversion_pct": null,
+      "Spend_wow_pct": null,
+      "gmv_wow_pct": -100.0,
+      "attributed_sales_wow_pct": null
+    },
+    {
+      "model": "AM-W15",
+      "week": 33,
+      "Spend": 0.0,
+      "Clicks": 0.0,
+      "Impressions": 0.0,
+      "attributed_sales": 0.0,
+      "ams_orders": 0.0,
+      "gmv": 0.0,
+      "units": 0.0,
+      "sessions": 0.0,
+      "acos": null,
+      "roas": null,
+      "tacos": null,
+      "conversion_pct": null,
+      "Spend_wow_pct": null,
+      "gmv_wow_pct": null,
+      "attributed_sales_wow_pct": null
     },
     {
       "model": "AM-W16",
@@ -190732,15 +190809,15 @@
       "Impressions": 17122.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 2860.15,
-      "units": 3.0,
+      "gmv": 5720.31,
+      "units": 6.0,
       "sessions": 265.0,
       "acos": null,
       "roas": 0.0,
-      "tacos": 0.0266,
-      "conversion_pct": 0.0113,
+      "tacos": 0.0133,
+      "conversion_pct": 0.0226,
       "Spend_wow_pct": -78.39,
-      "gmv_wow_pct": -76.12,
+      "gmv_wow_pct": -52.25,
       "attributed_sales_wow_pct": -100.0
     },
     {
@@ -191644,15 +191721,15 @@
       "Impressions": 37612.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 12690.69,
-      "units": 5.0,
+      "gmv": 17739.85,
+      "units": 7.0,
       "sessions": 688.0,
       "acos": null,
       "roas": 0.0,
-      "tacos": 0.1622,
-      "conversion_pct": 0.0073,
+      "tacos": 0.116,
+      "conversion_pct": 0.0102,
       "Spend_wow_pct": 110.8,
-      "gmv_wow_pct": -55.54,
+      "gmv_wow_pct": -37.85,
       "attributed_sales_wow_pct": -100.0
     },
     {
@@ -192100,15 +192177,15 @@
       "Impressions": 33987.0,
       "attributed_sales": 16273.75,
       "ams_orders": 13.0,
-      "gmv": 13973.74,
-      "units": 11.0,
+      "gmv": 16514.42,
+      "units": 13.0,
       "sessions": 585.0,
       "acos": 0.2489,
       "roas": 4.02,
-      "tacos": 0.2899,
-      "conversion_pct": 0.0188,
+      "tacos": 0.2453,
+      "conversion_pct": 0.0222,
       "Spend_wow_pct": 27.6,
-      "gmv_wow_pct": -9.48,
+      "gmv_wow_pct": 6.97,
       "attributed_sales_wow_pct": 2.95
     },
     {
@@ -192328,15 +192405,15 @@
       "Impressions": 6798.0,
       "attributed_sales": 3050.0,
       "ams_orders": 1.0,
-      "gmv": 12200.0,
-      "units": 4.0,
+      "gmv": 18300.0,
+      "units": 6.0,
       "sessions": 460.0,
       "acos": 0.0852,
       "roas": 11.74,
-      "tacos": 0.0213,
-      "conversion_pct": 0.0087,
+      "tacos": 0.0142,
+      "conversion_pct": 0.013,
       "Spend_wow_pct": 35.74,
-      "gmv_wow_pct": 300.0,
+      "gmv_wow_pct": 500.0,
       "attributed_sales_wow_pct": 80.04
     },
     {
@@ -192784,15 +192861,15 @@
       "Impressions": 912.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 3218.64,
-      "units": 3.0,
+      "gmv": 4827.96,
+      "units": 4.0,
       "sessions": 191.0,
       "acos": null,
       "roas": 0.0,
-      "tacos": 0.0181,
-      "conversion_pct": 0.0157,
+      "tacos": 0.012,
+      "conversion_pct": 0.0209,
       "Spend_wow_pct": -45.15,
-      "gmv_wow_pct": -58.65,
+      "gmv_wow_pct": -37.98,
       "attributed_sales_wow_pct": null
     },
     {
@@ -193237,18 +193314,18 @@
       "week": 33,
       "Spend": 4431.96,
       "Clicks": 401.0,
-      "Impressions": 50859.0,
+      "Impressions": 50858.0,
       "attributed_sales": 18044.08,
       "ams_orders": 6.0,
-      "gmv": 9531.36,
-      "units": 3.0,
+      "gmv": 19062.72,
+      "units": 6.0,
       "sessions": 530.0,
       "acos": 0.2456,
       "roas": 4.07,
-      "tacos": 0.465,
-      "conversion_pct": 0.0057,
+      "tacos": 0.2325,
+      "conversion_pct": 0.0113,
       "Spend_wow_pct": -8.2,
-      "gmv_wow_pct": -27.72,
+      "gmv_wow_pct": 44.56,
       "attributed_sales_wow_pct": 40.56
     },
     {
@@ -193905,15 +193982,15 @@
       "Impressions": 4844.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 19065.24,
-      "units": 3.0,
+      "gmv": 25420.32,
+      "units": 4.0,
       "sessions": 359.0,
       "acos": null,
       "roas": 0.0,
-      "tacos": 0.0151,
-      "conversion_pct": 0.0084,
+      "tacos": 0.0113,
+      "conversion_pct": 0.0111,
       "Spend_wow_pct": -24.73,
-      "gmv_wow_pct": -68.62,
+      "gmv_wow_pct": -58.15,
       "attributed_sales_wow_pct": -100.0
     },
     {
@@ -194131,18 +194208,18 @@
       "Spend": 25413.6337,
       "Clicks": 2334.0,
       "Impressions": 412971.0,
-      "attributed_sales": 219414.4199,
-      "ams_orders": 52.0,
-      "gmv": 414574.85,
-      "units": 99.0,
+      "attributed_sales": 228438.3523,
+      "ams_orders": 54.0,
+      "gmv": 464801.98,
+      "units": 111.0,
       "sessions": 3324.0,
-      "acos": 0.1158,
-      "roas": 8.63,
-      "tacos": 0.0613,
-      "conversion_pct": 0.0298,
+      "acos": 0.1112,
+      "roas": 8.99,
+      "tacos": 0.0547,
+      "conversion_pct": 0.0334,
       "Spend_wow_pct": 7.42,
-      "gmv_wow_pct": 4.35,
-      "attributed_sales_wow_pct": -2.33
+      "gmv_wow_pct": 16.99,
+      "attributed_sales_wow_pct": 1.69
     },
     {
       "model": "AM-W46",
@@ -194586,19 +194663,19 @@
       "week": 33,
       "Spend": 13339.9,
       "Clicks": 1422.0,
-      "Impressions": 197054.0,
-      "attributed_sales": 63129.92,
-      "ams_orders": 67.0,
-      "gmv": 85893.56,
-      "units": 92.0,
+      "Impressions": 197053.0,
+      "attributed_sales": 67194.32,
+      "ams_orders": 69.0,
+      "gmv": 101726.68,
+      "units": 109.0,
       "sessions": 2179.0,
-      "acos": 0.2113,
-      "roas": 4.73,
-      "tacos": 0.1553,
-      "conversion_pct": 0.0422,
+      "acos": 0.1985,
+      "roas": 5.04,
+      "tacos": 0.1311,
+      "conversion_pct": 0.05,
       "Spend_wow_pct": 3.17,
-      "gmv_wow_pct": 18.66,
-      "attributed_sales_wow_pct": 4.77
+      "gmv_wow_pct": 40.53,
+      "attributed_sales_wow_pct": 11.51
     },
     {
       "model": "AM-W47 WIRELESS",
@@ -194814,18 +194891,18 @@
       "week": 33,
       "Spend": 5274.2379,
       "Clicks": 481.0,
-      "Impressions": 76792.0,
+      "Impressions": 76790.0,
       "attributed_sales": 17968.4749,
       "ams_orders": 12.0,
-      "gmv": 21344.09,
-      "units": 14.0,
+      "gmv": 22868.67,
+      "units": 15.0,
       "sessions": 469.0,
       "acos": 0.2935,
       "roas": 3.41,
-      "tacos": 0.2471,
-      "conversion_pct": 0.0299,
+      "tacos": 0.2306,
+      "conversion_pct": 0.032,
       "Spend_wow_pct": -68.38,
-      "gmv_wow_pct": -77.43,
+      "gmv_wow_pct": -75.82,
       "attributed_sales_wow_pct": -69.05
     },
     {
@@ -220750,18 +220827,18 @@
       "Spend": 5109.44,
       "Clicks": 1373.0,
       "Impressions": 90886.0,
-      "attributed_sales": 40288.99,
-      "ams_orders": 15.0,
+      "attributed_sales": 40458.48,
+      "ams_orders": 16.0,
       "gmv": 85422.04,
       "units": 29.0,
       "sessions": 2844.0,
-      "acos": 0.1268,
-      "roas": 7.89,
+      "acos": 0.1263,
+      "roas": 7.92,
       "tacos": 0.0598,
       "conversion_pct": 0.0102,
       "Spend_wow_pct": 29.66,
       "gmv_wow_pct": 81.16,
-      "attributed_sales_wow_pct": -18.79
+      "attributed_sales_wow_pct": -18.45
     },
     {
       "model": "BE-4T",
@@ -229472,7 +229549,7 @@
       "Clicks": 114.0,
       "Impressions": 9876.0,
       "attributed_sales": 3969.53,
-      "ams_orders": 4.0,
+      "ams_orders": 5.0,
       "gmv": 10733.9,
       "units": 12.0,
       "sessions": 828.0,
@@ -249499,15 +249576,15 @@
       "Impressions": 0.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 81320.34,
-      "units": 6.0,
+      "gmv": 67766.95,
+      "units": 5.0,
       "sessions": 1364.0,
       "acos": null,
       "roas": null,
       "tacos": 0.0,
-      "conversion_pct": 0.0044,
+      "conversion_pct": 0.0037,
       "Spend_wow_pct": null,
-      "gmv_wow_pct": 100.0,
+      "gmv_wow_pct": 66.66,
       "attributed_sales_wow_pct": null
     },
     {
@@ -254475,18 +254552,18 @@
       "Spend": 3742.57,
       "Clicks": 365.0,
       "Impressions": 102956.0,
-      "attributed_sales": 17300.0,
-      "ams_orders": 8.0,
-      "gmv": 31990.67,
-      "units": 15.0,
+      "attributed_sales": 19841.53,
+      "ams_orders": 9.0,
+      "gmv": 34062.7,
+      "units": 16.0,
       "sessions": 773.0,
-      "acos": 0.2163,
-      "roas": 4.62,
-      "tacos": 0.117,
-      "conversion_pct": 0.0194,
+      "acos": 0.1886,
+      "roas": 5.3,
+      "tacos": 0.1099,
+      "conversion_pct": 0.0207,
       "Spend_wow_pct": 51.66,
-      "gmv_wow_pct": -23.78,
-      "attributed_sales_wow_pct": 9.36
+      "gmv_wow_pct": -18.84,
+      "attributed_sales_wow_pct": 25.43
     },
     {
       "model": "GB-01 (AM-C43 +AI-10)",
@@ -254933,15 +255010,15 @@
       "Impressions": 22915.0,
       "attributed_sales": 20599.14,
       "ams_orders": 9.0,
-      "gmv": 18503.4,
-      "units": 6.0,
+      "gmv": 21587.3,
+      "units": 7.0,
       "sessions": 880.0,
       "acos": 0.0248,
       "roas": 40.37,
-      "tacos": 0.0276,
-      "conversion_pct": 0.0068,
+      "tacos": 0.0236,
+      "conversion_pct": 0.008,
       "Spend_wow_pct": 2.15,
-      "gmv_wow_pct": 14.37,
+      "gmv_wow_pct": 33.43,
       "attributed_sales_wow_pct": 128.64
     },
     {
@@ -255161,15 +255238,15 @@
       "Impressions": 72145.0,
       "attributed_sales": 72935.7794,
       "ams_orders": 28.0,
-      "gmv": 140338.77,
-      "units": 57.0,
+      "gmv": 155109.93,
+      "units": 63.0,
       "sessions": 3015.0,
       "acos": 0.1146,
       "roas": 8.72,
-      "tacos": 0.0596,
-      "conversion_pct": 0.0189,
+      "tacos": 0.0539,
+      "conversion_pct": 0.0209,
       "Spend_wow_pct": 183.41,
-      "gmv_wow_pct": 41.5,
+      "gmv_wow_pct": 56.39,
       "attributed_sales_wow_pct": 73.89
     },
     {
@@ -255842,19 +255919,19 @@
       "week": 33,
       "Spend": 7770.56,
       "Clicks": 618.0,
-      "Impressions": 326467.0,
-      "attributed_sales": 28786.46,
-      "ams_orders": 17.0,
+      "Impressions": 326465.0,
+      "attributed_sales": 30573.75,
+      "ams_orders": 18.0,
       "gmv": 69738.14,
       "units": 39.0,
       "sessions": 2032.0,
-      "acos": 0.2699,
-      "roas": 3.7,
+      "acos": 0.2542,
+      "roas": 3.93,
       "tacos": 0.1114,
       "conversion_pct": 0.0192,
       "Spend_wow_pct": 0.84,
       "gmv_wow_pct": 122.05,
-      "attributed_sales_wow_pct": 43.03
+      "attributed_sales_wow_pct": 51.91
     },
     {
       "model": "GS-04",
@@ -257856,7 +257933,7 @@
       "week": 33,
       "Spend": 5713.72,
       "Clicks": 632.0,
-      "Impressions": 191838.0,
+      "Impressions": 191837.0,
       "attributed_sales": 13477.13,
       "ams_orders": 9.0,
       "gmv": 19483.9,
@@ -259224,19 +259301,19 @@
       "week": 33,
       "Spend": 8785.17,
       "Clicks": 1153.0,
-      "Impressions": 158395.0,
-      "attributed_sales": 59709.18,
-      "ams_orders": 43.0,
-      "gmv": 67585.39,
-      "units": 49.0,
+      "Impressions": 158394.0,
+      "attributed_sales": 58354.1,
+      "ams_orders": 42.0,
+      "gmv": 85201.43,
+      "units": 62.0,
       "sessions": 1634.0,
-      "acos": 0.1471,
-      "roas": 6.8,
-      "tacos": 0.13,
-      "conversion_pct": 0.03,
+      "acos": 0.1505,
+      "roas": 6.64,
+      "tacos": 0.1031,
+      "conversion_pct": 0.0379,
       "Spend_wow_pct": 22.93,
-      "gmv_wow_pct": -6.45,
-      "attributed_sales_wow_pct": 65.1
+      "gmv_wow_pct": 17.93,
+      "attributed_sales_wow_pct": 61.35
     },
     {
       "model": "KB-01 (AM-W32 + AI-12)",
@@ -259680,7 +259757,7 @@
       "week": 33,
       "Spend": 322.14,
       "Clicks": 137.0,
-      "Impressions": 13100.0,
+      "Impressions": 13098.0,
       "attributed_sales": 1355.08,
       "ams_orders": 1.0,
       "gmv": 4319.49,
@@ -260364,7 +260441,7 @@
       "week": 33,
       "Spend": 404.98,
       "Clicks": 73.0,
-      "Impressions": 35326.0,
+      "Impressions": 35324.0,
       "attributed_sales": 1558.47,
       "ams_orders": 1.0,
       "gmv": 6335.59,
@@ -262360,18 +262437,18 @@
       "Spend": 8177.3853,
       "Clicks": 1780.0,
       "Impressions": 155707.0,
-      "attributed_sales": 98996.5256,
-      "ams_orders": 20.0,
-      "gmv": 107395.8,
-      "units": 19.0,
+      "attributed_sales": 102216.0156,
+      "ams_orders": 21.0,
+      "gmv": 124300.05,
+      "units": 22.0,
       "sessions": 3609.0,
-      "acos": 0.0826,
-      "roas": 12.11,
-      "tacos": 0.0761,
-      "conversion_pct": 0.0053,
+      "acos": 0.08,
+      "roas": 12.5,
+      "tacos": 0.0658,
+      "conversion_pct": 0.0061,
       "Spend_wow_pct": 95.22,
-      "gmv_wow_pct": -4.53,
-      "attributed_sales_wow_pct": 84.32
+      "gmv_wow_pct": 10.49,
+      "attributed_sales_wow_pct": 90.32
     },
     {
       "model": "M8",
@@ -262590,15 +262667,15 @@
       "Impressions": 145089.0,
       "attributed_sales": 70989.26,
       "ams_orders": 13.0,
-      "gmv": 153573.76,
-      "units": 23.0,
+      "gmv": 160250.88,
+      "units": 24.0,
       "sessions": 0.0,
       "acos": 0.0811,
       "roas": 12.33,
-      "tacos": 0.0375,
+      "tacos": 0.0359,
       "conversion_pct": null,
       "Spend_wow_pct": -27.96,
-      "gmv_wow_pct": -13.66,
+      "gmv_wow_pct": -9.91,
       "attributed_sales_wow_pct": -30.38
     },
     {
@@ -283813,15 +283890,15 @@
       "Impressions": 56706.0,
       "attributed_sales": 24783.9,
       "ams_orders": 5.0,
-      "gmv": 79294.07,
-      "units": 19.0,
+      "gmv": 74633.9,
+      "units": 18.0,
       "sessions": 2508.0,
       "acos": 0.3077,
       "roas": 3.25,
-      "tacos": 0.0962,
-      "conversion_pct": 0.0076,
+      "tacos": 0.1022,
+      "conversion_pct": 0.0072,
       "Spend_wow_pct": 1.15,
-      "gmv_wow_pct": -14.2,
+      "gmv_wow_pct": -19.24,
       "attributed_sales_wow_pct": -43.24
     },
     {
@@ -284038,19 +284115,19 @@
       "week": 33,
       "Spend": 10789.0776,
       "Clicks": 604.0,
-      "Impressions": 115375.0,
-      "attributed_sales": 26690.07,
-      "ams_orders": 15.0,
+      "Impressions": 115374.0,
+      "attributed_sales": 24826.51,
+      "ams_orders": 14.0,
       "gmv": 64129.72,
       "units": 38.0,
       "sessions": 1323.0,
-      "acos": 0.4042,
-      "roas": 2.47,
+      "acos": 0.4346,
+      "roas": 2.3,
       "tacos": 0.1682,
       "conversion_pct": 0.0287,
       "Spend_wow_pct": -57.35,
       "gmv_wow_pct": -56.08,
-      "attributed_sales_wow_pct": -67.47
+      "attributed_sales_wow_pct": -69.74
     },
     {
       "model": "MT-12",
@@ -284267,18 +284344,18 @@
       "Spend": 4770.8,
       "Clicks": 509.0,
       "Impressions": 40973.0,
-      "attributed_sales": 32368.64,
-      "ams_orders": 5.0,
-      "gmv": 21607.62,
-      "units": 3.0,
+      "attributed_sales": 27284.74,
+      "ams_orders": 4.0,
+      "gmv": 28810.16,
+      "units": 4.0,
       "sessions": 1456.0,
-      "acos": 0.1474,
-      "roas": 6.78,
-      "tacos": 0.2208,
-      "conversion_pct": 0.0021,
+      "acos": 0.1749,
+      "roas": 5.72,
+      "tacos": 0.1656,
+      "conversion_pct": 0.0027,
       "Spend_wow_pct": 10.82,
-      "gmv_wow_pct": 75.89,
-      "attributed_sales_wow_pct": 8.03
+      "gmv_wow_pct": 134.52,
+      "attributed_sales_wow_pct": -8.94
     },
     {
       "model": "NP-02",
@@ -286834,15 +286911,15 @@
       "Impressions": 0.0,
       "attributed_sales": 0.0,
       "ams_orders": 0.0,
-      "gmv": 0.0,
-      "units": 0.0,
+      "gmv": 7626.27,
+      "units": 1.0,
       "sessions": 17.0,
       "acos": null,
       "roas": null,
-      "tacos": null,
-      "conversion_pct": 0.0,
+      "tacos": 0.0,
+      "conversion_pct": 0.0588,
       "Spend_wow_pct": null,
-      "gmv_wow_pct": -100.0,
+      "gmv_wow_pct": -3.77,
       "attributed_sales_wow_pct": null
     },
     {
@@ -287290,15 +287367,15 @@
       "Impressions": 18312.0,
       "attributed_sales": 3551.07,
       "ams_orders": 1.0,
-      "gmv": 0.0,
-      "units": 0.0,
+      "gmv": 3551.07,
+      "units": 1.0,
       "sessions": 138.0,
       "acos": 0.108,
       "roas": 9.26,
-      "tacos": null,
-      "conversion_pct": 0.0,
+      "tacos": 0.108,
+      "conversion_pct": 0.0072,
       "Spend_wow_pct": -25.53,
-      "gmv_wow_pct": null,
+      "gmv_wow_pct": Infinity,
       "attributed_sales_wow_pct": -46.54
     },
     {
@@ -287516,18 +287593,18 @@
       "Spend": 4298.38,
       "Clicks": 897.0,
       "Impressions": 97407.0,
-      "attributed_sales": 133839.82,
-      "ams_orders": 24.0,
-      "gmv": 48035.57,
-      "units": 6.0,
+      "attributed_sales": 125322.02,
+      "ams_orders": 23.0,
+      "gmv": 104077.08,
+      "units": 13.0,
       "sessions": 10172.0,
-      "acos": 0.0321,
-      "roas": 31.14,
-      "tacos": 0.0895,
-      "conversion_pct": 0.0006,
+      "acos": 0.0343,
+      "roas": 29.16,
+      "tacos": 0.0413,
+      "conversion_pct": 0.0013,
       "Spend_wow_pct": -1.24,
-      "gmv_wow_pct": -54.88,
-      "attributed_sales_wow_pct": 55.51
+      "gmv_wow_pct": -2.24,
+      "attributed_sales_wow_pct": 45.61
     },
     {
       "model": "PB-11 (AM-C44+AA-05+AH-45-BK)",
@@ -288292,21 +288369,21 @@
     {
       "model": "PB-14 (AM-C43+AH-40-SL+AI-12)",
       "week": 33,
-      "Spend": 1809.9209,
-      "Clicks": 220.0,
-      "Impressions": 20202.0,
-      "attributed_sales": 14792.1049,
+      "Spend": 1700.5589,
+      "Clicks": 210.0,
+      "Impressions": 19549.0,
+      "attributed_sales": 14090.2471,
       "ams_orders": 6.0,
-      "gmv": 14030.51,
-      "units": 4.0,
+      "gmv": 17538.13,
+      "units": 5.0,
       "sessions": 2351.0,
-      "acos": 0.1224,
-      "roas": 8.17,
-      "tacos": 0.129,
-      "conversion_pct": 0.0017,
-      "Spend_wow_pct": 47.29,
-      "gmv_wow_pct": 259.99,
-      "attributed_sales_wow_pct": 60.33
+      "acos": 0.1207,
+      "roas": 8.29,
+      "tacos": 0.097,
+      "conversion_pct": 0.0021,
+      "Spend_wow_pct": 38.39,
+      "gmv_wow_pct": 349.99,
+      "attributed_sales_wow_pct": 52.72
     },
     {
       "model": "PB-15 (AH-50+AM-C2+AI-04)",
@@ -289760,15 +289837,15 @@
       "Impressions": 2472.0,
       "attributed_sales": 2075.42,
       "ams_orders": 1.0,
-      "gmv": 2075.42,
-      "units": 1.0,
+      "gmv": 4150.84,
+      "units": 2.0,
       "sessions": 147.0,
       "acos": 0.1291,
       "roas": 7.75,
-      "tacos": 0.1291,
-      "conversion_pct": 0.0068,
+      "tacos": 0.0646,
+      "conversion_pct": 0.0136,
       "Spend_wow_pct": 62.77,
-      "gmv_wow_pct": 0.0,
+      "gmv_wow_pct": 100.0,
       "attributed_sales_wow_pct": Infinity
     },
     {
@@ -289985,18 +290062,18 @@
       "week": 33,
       "Spend": 9615.81,
       "Clicks": 2078.0,
-      "Impressions": 366724.0,
+      "Impressions": 366723.0,
       "attributed_sales": 28888.12,
       "ams_orders": 29.0,
-      "gmv": 32591.5,
-      "units": 33.0,
+      "gmv": 39496.58,
+      "units": 40.0,
       "sessions": 4523.0,
       "acos": 0.3329,
       "roas": 3.0,
-      "tacos": 0.295,
-      "conversion_pct": 0.0073,
+      "tacos": 0.2435,
+      "conversion_pct": 0.0088,
       "Spend_wow_pct": -44.22,
-      "gmv_wow_pct": -50.2,
+      "gmv_wow_pct": -39.65,
       "attributed_sales_wow_pct": -55.87
     },
     {
@@ -290214,18 +290291,18 @@
       "Spend": 72212.6598,
       "Clicks": 6710.0,
       "Impressions": 356005.0,
-      "attributed_sales": 545164.9353,
-      "ams_orders": 153.0,
-      "gmv": 752786.44,
-      "units": 225.0,
+      "attributed_sales": 559955.9781,
+      "ams_orders": 157.0,
+      "gmv": 746009.32,
+      "units": 223.0,
       "sessions": 28974.0,
-      "acos": 0.1325,
-      "roas": 7.55,
-      "tacos": 0.0959,
-      "conversion_pct": 0.0078,
+      "acos": 0.129,
+      "roas": 7.75,
+      "tacos": 0.0968,
+      "conversion_pct": 0.0077,
       "Spend_wow_pct": 54.16,
-      "gmv_wow_pct": 79.05,
-      "attributed_sales_wow_pct": 101.68
+      "gmv_wow_pct": 77.44,
+      "attributed_sales_wow_pct": 107.15
     },
     {
       "model": "SC-01 SET OF SPARES",
@@ -290841,18 +290918,18 @@
       "Spend": 45731.2589,
       "Clicks": 3226.0,
       "Impressions": 233633.0,
-      "attributed_sales": 365530.345,
-      "ams_orders": 93.0,
+      "attributed_sales": 367685.3976,
+      "ams_orders": 94.0,
       "gmv": 542829.66,
       "units": 120.0,
       "sessions": 14586.0,
-      "acos": 0.1251,
-      "roas": 7.99,
+      "acos": 0.1244,
+      "roas": 8.04,
       "tacos": 0.0842,
       "conversion_pct": 0.0082,
       "Spend_wow_pct": 9.05,
       "gmv_wow_pct": 37.65,
-      "attributed_sales_wow_pct": 26.87
+      "attributed_sales_wow_pct": 27.62
     },
     {
       "model": "SC-04 SET OF 2 MOPS",
@@ -290936,18 +291013,18 @@
       "Spend": 40.6005,
       "Clicks": 5.0,
       "Impressions": 369.0,
-      "attributed_sales": 847.4312,
+      "attributed_sales": 863.7047,
       "ams_orders": 1.0,
       "gmv": 1520.34,
       "units": 6.0,
       "sessions": 77.0,
-      "acos": 0.0479,
-      "roas": 20.87,
+      "acos": 0.047,
+      "roas": 21.27,
       "tacos": 0.0267,
       "conversion_pct": 0.0779,
       "Spend_wow_pct": -12.03,
       "gmv_wow_pct": 100.0,
-      "attributed_sales_wow_pct": 178.59
+      "attributed_sales_wow_pct": 183.94
     },
     {
       "model": "SC-04 SPARE SET",
@@ -291392,18 +291469,18 @@
       "Spend": 27442.7279,
       "Clicks": 2008.0,
       "Impressions": 120691.0,
-      "attributed_sales": 128762.3282,
-      "ams_orders": 38.0,
+      "attributed_sales": 131912.6793,
+      "ams_orders": 39.0,
       "gmv": 242911.02,
       "units": 84.0,
       "sessions": 9963.0,
-      "acos": 0.2131,
-      "roas": 4.69,
+      "acos": 0.208,
+      "roas": 4.81,
       "tacos": 0.113,
       "conversion_pct": 0.0084,
       "Spend_wow_pct": -67.77,
       "gmv_wow_pct": -55.77,
-      "attributed_sales_wow_pct": -70.67
+      "attributed_sales_wow_pct": -69.96
     },
     {
       "model": "SKW2694",
@@ -292721,7 +292798,7 @@
       "week": 33,
       "Spend": 59.48,
       "Clicks": 21.0,
-      "Impressions": 7053.0,
+      "Impressions": 7052.0,
       "attributed_sales": 10168.64,
       "ams_orders": 1.0,
       "gmv": 0.0,
@@ -292949,7 +293026,7 @@
       "week": 33,
       "Spend": 577.66,
       "Clicks": 79.0,
-      "Impressions": 36422.0,
+      "Impressions": 36421.0,
       "attributed_sales": 2894.08,
       "ams_orders": 2.0,
       "gmv": 9733.05,
@@ -293861,7 +293938,7 @@
       "week": 33,
       "Spend": 5520.04,
       "Clicks": 401.0,
-      "Impressions": 120274.0,
+      "Impressions": 120272.0,
       "attributed_sales": 32505.94,
       "ams_orders": 3.0,
       "gmv": 93213.56,
@@ -295611,16 +295688,16 @@
       "Clicks": 382.0,
       "Impressions": 66638.0,
       "attributed_sales": 8926.28,
-      "ams_orders": 5.0,
-      "gmv": 15205.92,
-      "units": 9.0,
+      "ams_orders": 6.0,
+      "gmv": 18587.28,
+      "units": 11.0,
       "sessions": 704.0,
       "acos": 0.3502,
       "roas": 2.86,
-      "tacos": 0.2056,
-      "conversion_pct": 0.0128,
+      "tacos": 0.1682,
+      "conversion_pct": 0.0156,
       "Spend_wow_pct": 3.19,
-      "gmv_wow_pct": -53.93,
+      "gmv_wow_pct": -43.68,
       "attributed_sales_wow_pct": -49.16
     },
     {
@@ -296028,18 +296105,18 @@
       "Spend": 571.29,
       "Clicks": 146.0,
       "Impressions": 23522.0,
-      "attributed_sales": 15469.51,
-      "ams_orders": 8.0,
-      "gmv": 24756.82,
-      "units": 14.0,
+      "attributed_sales": 17248.32,
+      "ams_orders": 9.0,
+      "gmv": 26517.84,
+      "units": 15.0,
       "sessions": 999.0,
-      "acos": 0.0369,
-      "roas": 27.08,
-      "tacos": 0.0231,
-      "conversion_pct": 0.014,
+      "acos": 0.0331,
+      "roas": 30.19,
+      "tacos": 0.0215,
+      "conversion_pct": 0.015,
       "Spend_wow_pct": 13.24,
-      "gmv_wow_pct": -12.61,
-      "attributed_sales_wow_pct": 60.25
+      "gmv_wow_pct": -6.39,
+      "attributed_sales_wow_pct": 78.68
     },
     {
       "model": "TC30+",
@@ -296581,15 +296658,15 @@
       "Impressions": 7387.0,
       "attributed_sales": 1729.21,
       "ams_orders": 1.0,
-      "gmv": 4506.78,
-      "units": 2.0,
+      "gmv": 9013.55,
+      "units": 4.0,
       "sessions": 69.0,
       "acos": 0.0507,
       "roas": 19.74,
-      "tacos": 0.0194,
-      "conversion_pct": 0.029,
+      "tacos": 0.0097,
+      "conversion_pct": 0.058,
       "Spend_wow_pct": -31.36,
-      "gmv_wow_pct": 90.0,
+      "gmv_wow_pct": 279.99,
       "attributed_sales_wow_pct": Infinity
     },
     {
@@ -296809,15 +296886,15 @@
       "Impressions": 10178.0,
       "attributed_sales": 1688.98,
       "ams_orders": 1.0,
-      "gmv": 1948.31,
-      "units": 1.0,
+      "gmv": 3896.62,
+      "units": 2.0,
       "sessions": 132.0,
       "acos": 0.0864,
       "roas": 11.58,
-      "tacos": 0.0749,
-      "conversion_pct": 0.0076,
+      "tacos": 0.0374,
+      "conversion_pct": 0.0152,
       "Spend_wow_pct": -42.45,
-      "gmv_wow_pct": -80.51,
+      "gmv_wow_pct": -61.02,
       "attributed_sales_wow_pct": -58.46
     },
     {
@@ -297037,15 +297114,15 @@
       "Impressions": 15784.0,
       "attributed_sales": 11887.3,
       "ams_orders": 5.0,
-      "gmv": 23510.2,
-      "units": 10.0,
+      "gmv": 25834.78,
+      "units": 11.0,
       "sessions": 429.0,
       "acos": 0.0308,
       "roas": 32.47,
-      "tacos": 0.0156,
-      "conversion_pct": 0.0233,
+      "tacos": 0.0142,
+      "conversion_pct": 0.0256,
       "Spend_wow_pct": -8.1,
-      "gmv_wow_pct": -4.09,
+      "gmv_wow_pct": 5.39,
       "attributed_sales_wow_pct": 411.37
     },
     {
@@ -297721,15 +297798,15 @@
       "Impressions": 42185.0,
       "attributed_sales": 11222.9,
       "ams_orders": 8.0,
-      "gmv": 24393.28,
-      "units": 16.0,
+      "gmv": 30491.6,
+      "units": 20.0,
       "sessions": 818.0,
       "acos": 0.1167,
       "roas": 8.57,
-      "tacos": 0.0537,
-      "conversion_pct": 0.0196,
+      "tacos": 0.0429,
+      "conversion_pct": 0.0244,
       "Spend_wow_pct": 12.81,
-      "gmv_wow_pct": -24.38,
+      "gmv_wow_pct": -5.48,
       "attributed_sales_wow_pct": -29.68
     },
     {
@@ -297947,18 +298024,18 @@
       "Spend": 123.4,
       "Clicks": 33.0,
       "Impressions": 4507.0,
-      "attributed_sales": 11767.8,
-      "ams_orders": 7.0,
-      "gmv": 23752.55,
-      "units": 15.0,
+      "attributed_sales": 8505.94,
+      "ams_orders": 6.0,
+      "gmv": 25446.62,
+      "units": 16.0,
       "sessions": 371.0,
-      "acos": 0.0105,
-      "roas": 95.36,
-      "tacos": 0.0052,
-      "conversion_pct": 0.0404,
+      "acos": 0.0145,
+      "roas": 68.93,
+      "tacos": 0.0048,
+      "conversion_pct": 0.0431,
       "Spend_wow_pct": -5.36,
-      "gmv_wow_pct": 68.92,
-      "attributed_sales_wow_pct": 531.47
+      "gmv_wow_pct": 80.97,
+      "attributed_sales_wow_pct": 356.43
     },
     {
       "model": "TD510",
@@ -301575,7 +301652,7 @@
       "week": 33,
       "Spend": 4338.59,
       "Clicks": 1360.0,
-      "Impressions": 143439.0,
+      "Impressions": 143438.0,
       "attributed_sales": 25776.26,
       "ams_orders": 4.0,
       "gmv": 45758.46,
@@ -302868,18 +302945,18 @@
       "Spend": 46151.53,
       "Clicks": 4086.0,
       "Impressions": 517505.0,
-      "attributed_sales": 156127.0,
-      "ams_orders": 99.0,
+      "attributed_sales": 157821.07,
+      "ams_orders": 101.0,
       "gmv": 240034.75,
       "units": 154.0,
       "sessions": 11996.0,
-      "acos": 0.2956,
-      "roas": 3.38,
+      "acos": 0.2924,
+      "roas": 3.42,
       "tacos": 0.1923,
       "conversion_pct": 0.0128,
       "Spend_wow_pct": 21.95,
       "gmv_wow_pct": 21.74,
-      "attributed_sales_wow_pct": 22.37
+      "attributed_sales_wow_pct": 23.7
     },
     {
       "model": "VC-01",
@@ -303096,18 +303173,18 @@
       "Spend": 9319.28,
       "Clicks": 982.0,
       "Impressions": 173034.0,
-      "attributed_sales": 35157.64,
-      "ams_orders": 14.0,
+      "attributed_sales": 36936.45,
+      "ams_orders": 15.0,
       "gmv": 60173.73,
       "units": 36.0,
       "sessions": 4354.0,
-      "acos": 0.2651,
-      "roas": 3.77,
+      "acos": 0.2523,
+      "roas": 3.96,
       "tacos": 0.1549,
       "conversion_pct": 0.0083,
       "Spend_wow_pct": -0.47,
       "gmv_wow_pct": -4.25,
-      "attributed_sales_wow_pct": -0.07
+      "attributed_sales_wow_pct": 4.98
     },
     {
       "model": "VC-01 HEPA",
@@ -303324,17 +303401,17 @@
       "Spend": 110.21,
       "Clicks": 17.0,
       "Impressions": 9862.0,
-      "attributed_sales": 840.65,
-      "ams_orders": 4.0,
-      "gmv": 2941.53,
+      "attributed_sales": 1050.82,
+      "ams_orders": 5.0,
+      "gmv": 3151.69,
       "units": 15.0,
       "sessions": 97.0,
-      "acos": 0.1311,
-      "roas": 7.63,
-      "tacos": 0.0375,
+      "acos": 0.1049,
+      "roas": 9.53,
+      "tacos": 0.035,
       "conversion_pct": 0.1546,
       "Spend_wow_pct": 352.79,
-      "gmv_wow_pct": 366.53,
+      "gmv_wow_pct": 399.86,
       "attributed_sales_wow_pct": Infinity
     },
     {
@@ -305183,21 +305260,21 @@
     {
       "model": "WM-GD07-CB",
       "week": 33,
-      "Spend": 26730.28,
-      "Clicks": 2296.0,
-      "Impressions": 370470.0,
-      "attributed_sales": 92631.39,
-      "ams_orders": 13.0,
+      "Spend": 26426.655,
+      "Clicks": 2184.0,
+      "Impressions": 367580.0,
+      "attributed_sales": 82208.925,
+      "ams_orders": 11.0,
       "gmv": 240098.33,
       "units": 35.0,
       "sessions": 6118.0,
-      "acos": 0.2886,
-      "roas": 3.47,
-      "tacos": 0.1113,
+      "acos": 0.3215,
+      "roas": 3.11,
+      "tacos": 0.1101,
       "conversion_pct": 0.0057,
-      "Spend_wow_pct": 13.04,
+      "Spend_wow_pct": 11.75,
       "gmv_wow_pct": -12.87,
-      "attributed_sales_wow_pct": -47.92
+      "attributed_sales_wow_pct": -53.78
     },
     {
       "model": "WM-GS1M-BK",
@@ -305413,19 +305490,19 @@
       "week": 33,
       "Spend": 38770.3153,
       "Clicks": 1940.0,
-      "Impressions": 335497.0,
-      "attributed_sales": 207442.2581,
-      "ams_orders": 88.0,
+      "Impressions": 335493.0,
+      "attributed_sales": 214857.6681,
+      "ams_orders": 89.0,
       "gmv": 255348.1,
       "units": 114.0,
       "sessions": 5535.0,
-      "acos": 0.1869,
-      "roas": 5.35,
+      "acos": 0.1804,
+      "roas": 5.54,
       "tacos": 0.1518,
       "conversion_pct": 0.0206,
       "Spend_wow_pct": 6.21,
       "gmv_wow_pct": -0.64,
-      "attributed_sales_wow_pct": 25.34
+      "attributed_sales_wow_pct": 29.82
     },
     {
       "model": "WM-GS2M-BK",
@@ -307007,21 +307084,21 @@
     {
       "model": "WM-LOD-WH",
       "week": 33,
-      "Spend": 10964.9475,
-      "Clicks": 650.0,
-      "Impressions": 130982.0,
-      "attributed_sales": 40767.56,
+      "Spend": 11268.5725,
+      "Clicks": 762.0,
+      "Impressions": 133869.0,
+      "attributed_sales": 44241.715,
       "ams_orders": 6.0,
       "gmv": 54136.2,
       "units": 9.0,
       "sessions": 1605.0,
-      "acos": 0.269,
-      "roas": 3.72,
-      "tacos": 0.2025,
+      "acos": 0.2547,
+      "roas": 3.93,
+      "tacos": 0.2082,
       "conversion_pct": 0.0056,
-      "Spend_wow_pct": -8.49,
+      "Spend_wow_pct": -5.96,
       "gmv_wow_pct": -61.29,
-      "attributed_sales_wow_pct": -55.2
+      "attributed_sales_wow_pct": -51.38
     },
     {
       "model": "WM-MH05P-BK",
@@ -307926,18 +308003,18 @@
       "brand": "Audio Array",
       "category_l0": "Audio Interface",
       "category_l1": "Audio Interface",
-      "Spend": 237981.5521,
-      "Clicks": 24617.0,
+      "Spend": 237980.6521,
+      "Clicks": 24616.0,
       "Impressions": 3520176.0,
-      "attributed_sales": 1334080.1508,
-      "ams_orders": 364.0,
-      "gmv": 1853515.68,
-      "units": 474.0,
+      "attributed_sales": 1338147.1008,
+      "ams_orders": 366.0,
+      "gmv": 1956458.91,
+      "units": 502.0,
       "sessions": 35138.0,
-      "acos": 0.1784,
-      "roas": 5.61,
-      "tacos": 0.1284,
-      "conversion_pct": 0.0135
+      "acos": 0.1778,
+      "roas": 5.62,
+      "tacos": 0.1216,
+      "conversion_pct": 0.0143
     },
     {
       "asin": "B0CDPP45BM",
@@ -307949,14 +308026,14 @@
       "Spend": 212243.5529,
       "Clicks": 17632.0,
       "Impressions": 1070367.0,
-      "attributed_sales": 1232976.0714,
-      "ams_orders": 354.0,
-      "gmv": 1814012.71,
-      "units": 547.0,
+      "attributed_sales": 1247767.1142,
+      "ams_orders": 358.0,
+      "gmv": 1807235.59,
+      "units": 545.0,
       "sessions": 81884.0,
-      "acos": 0.1721,
-      "roas": 5.81,
-      "tacos": 0.117,
+      "acos": 0.1701,
+      "roas": 5.88,
+      "tacos": 0.1174,
       "conversion_pct": 0.0067
     },
     {
@@ -307969,13 +308046,13 @@
       "Spend": 298358.9284,
       "Clicks": 19387.0,
       "Impressions": 1444225.0,
-      "attributed_sales": 1255406.7376,
-      "ams_orders": 396.0,
+      "attributed_sales": 1258557.0887,
+      "ams_orders": 397.0,
       "gmv": 1706044.92,
       "units": 601.0,
       "sessions": 100215.0,
-      "acos": 0.2377,
-      "roas": 4.21,
+      "acos": 0.2371,
+      "roas": 4.22,
       "tacos": 0.1749,
       "conversion_pct": 0.006
     },
@@ -307989,13 +308066,13 @@
       "Spend": 184983.9177,
       "Clicks": 11724.0,
       "Impressions": 968009.0,
-      "attributed_sales": 1124442.1276,
-      "ams_orders": 278.0,
+      "attributed_sales": 1126597.1802,
+      "ams_orders": 279.0,
       "gmv": 1672341.53,
       "units": 363.0,
       "sessions": 58114.0,
-      "acos": 0.1645,
-      "roas": 6.08,
+      "acos": 0.1642,
+      "roas": 6.09,
       "tacos": 0.1106,
       "conversion_pct": 0.0062
     },
@@ -308006,18 +308083,38 @@
       "brand": "Audio Array",
       "category_l0": "Microphone Condenser",
       "category_l1": "USB Microphone Kit - Boomarm",
-      "Spend": 218752.0705,
-      "Clicks": 17799.0,
-      "Impressions": 2060721.0,
-      "attributed_sales": 1093074.9694,
-      "ams_orders": 481.0,
-      "gmv": 1489711.14,
-      "units": 672.0,
+      "Spend": 218994.5644,
+      "Clicks": 17822.0,
+      "Impressions": 2062252.0,
+      "attributed_sales": 1094726.088,
+      "ams_orders": 482.0,
+      "gmv": 1559598.54,
+      "units": 705.0,
       "sessions": 47694.0,
-      "acos": 0.2001,
+      "acos": 0.2,
       "roas": 5.0,
-      "tacos": 0.1468,
-      "conversion_pct": 0.0141
+      "tacos": 0.1404,
+      "conversion_pct": 0.0148
+    },
+    {
+      "asin": "B0GN97RFPR",
+      "child_asin": "B0GN97RFPR",
+      "model": "AM-S2",
+      "brand": "Audio Array",
+      "category_l0": "Monitor Speakers",
+      "category_l1": "Studio Monitor Speaker",
+      "Spend": 161102.69,
+      "Clicks": 27658.0,
+      "Impressions": 4183917.0,
+      "attributed_sales": 978721.39,
+      "ams_orders": 163.0,
+      "gmv": 1518331.37,
+      "units": 275.0,
+      "sessions": 73301.0,
+      "acos": 0.1646,
+      "roas": 6.08,
+      "tacos": 0.1061,
+      "conversion_pct": 0.0038
     },
     {
       "asin": "B0CKHVHVQ1",
@@ -308029,35 +308126,15 @@
       "Spend": 94823.0476,
       "Clicks": 9263.0,
       "Impressions": 1699271.0,
-      "attributed_sales": 787219.1218,
-      "ams_orders": 186.0,
-      "gmv": 1449883.78,
-      "units": 329.0,
+      "attributed_sales": 796243.0541,
+      "ams_orders": 188.0,
+      "gmv": 1500110.91,
+      "units": 341.0,
       "sessions": 12549.0,
-      "acos": 0.1205,
-      "roas": 8.3,
-      "tacos": 0.0654,
-      "conversion_pct": 0.0262
-    },
-    {
-      "asin": "B0GN97RFPR",
-      "child_asin": "B0GN97RFPR",
-      "model": "AM-S2",
-      "brand": "Audio Array",
-      "category_l0": "Monitor Speakers",
-      "category_l1": "Studio Monitor Speaker",
-      "Spend": 161103.36,
-      "Clicks": 27659.0,
-      "Impressions": 4183918.0,
-      "attributed_sales": 973213.77,
-      "ams_orders": 162.0,
-      "gmv": 1447155.05,
-      "units": 263.0,
-      "sessions": 73301.0,
-      "acos": 0.1655,
-      "roas": 6.04,
-      "tacos": 0.1113,
-      "conversion_pct": 0.0036
+      "acos": 0.1191,
+      "roas": 8.4,
+      "tacos": 0.0632,
+      "conversion_pct": 0.0272
     },
     {
       "asin": "B0GN85NZQN",
@@ -308080,44 +308157,44 @@
       "conversion_pct": 0.0115
     },
     {
-      "asin": "B0CPFS24ML",
-      "child_asin": "B0CPFS24ML",
-      "model": "WM-GD07-CB",
-      "brand": "White Mulberry",
-      "category_l0": "Desk",
-      "category_l1": "Gaming Desk",
-      "Spend": 101196.1266,
-      "Clicks": 8585.0,
-      "Impressions": 1032639.0,
-      "attributed_sales": 480033.6031,
-      "ams_orders": 70.0,
-      "gmv": 957310.2,
-      "units": 138.0,
-      "sessions": 22247.0,
-      "acos": 0.2108,
-      "roas": 4.74,
-      "tacos": 0.1057,
-      "conversion_pct": 0.0062
-    },
-    {
       "asin": "B0DXFPM4N2",
       "child_asin": "B0DXFPM4N2",
       "model": "AM-S1",
       "brand": "Audio Array",
       "category_l0": "Monitor Speakers",
       "category_l1": "Studio Monitor Speaker",
-      "Spend": 117189.48,
-      "Clicks": 13985.0,
+      "Spend": 117188.61,
+      "Clicks": 13984.0,
       "Impressions": 2151098.0,
       "attributed_sales": 776358.32,
       "ams_orders": 117.0,
-      "gmv": 925015.16,
-      "units": 124.0,
+      "gmv": 1004243.1,
+      "units": 135.0,
       "sessions": 22407.0,
       "acos": 0.1509,
       "roas": 6.62,
-      "tacos": 0.1267,
-      "conversion_pct": 0.0055
+      "tacos": 0.1167,
+      "conversion_pct": 0.006
+    },
+    {
+      "asin": "B0CPFS24ML",
+      "child_asin": "B0CPFS24ML",
+      "model": "WM-GD07-CB",
+      "brand": "White Mulberry",
+      "category_l0": "Desk",
+      "category_l1": "Gaming Desk",
+      "Spend": 100892.5016,
+      "Clicks": 8473.0,
+      "Impressions": 1029749.0,
+      "attributed_sales": 469611.1381,
+      "ams_orders": 68.0,
+      "gmv": 957310.2,
+      "units": 138.0,
+      "sessions": 22247.0,
+      "acos": 0.2148,
+      "roas": 4.65,
+      "tacos": 0.1054,
+      "conversion_pct": 0.0062
     },
     {
       "asin": "B0DB5VG39T",
@@ -308128,14 +308205,14 @@
       "category_l1": "Monitor Arm",
       "Spend": 139377.3379,
       "Clicks": 7333.0,
-      "Impressions": 1067148.0,
-      "attributed_sales": 648380.9832,
-      "ams_orders": 266.0,
+      "Impressions": 1067144.0,
+      "attributed_sales": 655796.3932,
+      "ams_orders": 267.0,
       "gmv": 819937.23,
       "units": 359.0,
       "sessions": 14186.0,
-      "acos": 0.215,
-      "roas": 4.65,
+      "acos": 0.2125,
+      "roas": 4.71,
       "tacos": 0.17,
       "conversion_pct": 0.0253
     },
@@ -308149,15 +308226,15 @@
       "Spend": 111378.4047,
       "Clicks": 14233.0,
       "Impressions": 1184610.0,
-      "attributed_sales": 513337.9444,
-      "ams_orders": 205.0,
-      "gmv": 742998.92,
-      "units": 318.0,
+      "attributed_sales": 521215.8944,
+      "ams_orders": 210.0,
+      "gmv": 769815.88,
+      "units": 330.0,
       "sessions": 24831.0,
-      "acos": 0.217,
-      "roas": 4.61,
-      "tacos": 0.1499,
-      "conversion_pct": 0.0128
+      "acos": 0.2137,
+      "roas": 4.68,
+      "tacos": 0.1447,
+      "conversion_pct": 0.0133
     },
     {
       "asin": "B0DQCWRG3H",
@@ -308169,13 +308246,13 @@
       "Spend": 139613.94,
       "Clicks": 13090.0,
       "Impressions": 1720038.0,
-      "attributed_sales": 476050.93,
-      "ams_orders": 294.0,
+      "attributed_sales": 477745.0,
+      "ams_orders": 296.0,
       "gmv": 730278.81,
       "units": 450.0,
       "sessions": 37812.0,
-      "acos": 0.2933,
-      "roas": 3.41,
+      "acos": 0.2922,
+      "roas": 3.42,
       "tacos": 0.1912,
       "conversion_pct": 0.0119
     },
@@ -308211,13 +308288,13 @@
       "Impressions": 1305594.0,
       "attributed_sales": 403991.46,
       "ams_orders": 246.0,
-      "gmv": 563689.06,
-      "units": 341.0,
+      "gmv": 589302.58,
+      "units": 357.0,
       "sessions": 12474.0,
       "acos": 0.1777,
       "roas": 5.63,
-      "tacos": 0.1274,
-      "conversion_pct": 0.0273
+      "tacos": 0.1218,
+      "conversion_pct": 0.0286
     },
     {
       "asin": "B0DCK7ZH5P",
@@ -308251,13 +308328,13 @@
       "Impressions": 948499.0,
       "attributed_sales": 273082.53,
       "ams_orders": 47.0,
-      "gmv": 488246.84,
-      "units": 71.0,
+      "gmv": 494923.96,
+      "units": 72.0,
       "sessions": 11993.0,
       "acos": 0.1154,
       "roas": 8.67,
-      "tacos": 0.0645,
-      "conversion_pct": 0.0059
+      "tacos": 0.0637,
+      "conversion_pct": 0.006
     },
     {
       "asin": "B0DP2VVRND",
@@ -308268,14 +308345,14 @@
       "category_l1": "Monitor Arm",
       "Spend": 79720.7376,
       "Clicks": 4605.0,
-      "Impressions": 852295.0,
-      "attributed_sales": 280477.36,
-      "ams_orders": 153.0,
+      "Impressions": 852294.0,
+      "attributed_sales": 278613.8,
+      "ams_orders": 152.0,
       "gmv": 452739.17,
       "units": 269.0,
       "sessions": 7404.0,
-      "acos": 0.2842,
-      "roas": 3.52,
+      "acos": 0.2861,
+      "roas": 3.49,
       "tacos": 0.1761,
       "conversion_pct": 0.0363
     },
@@ -308286,18 +308363,18 @@
       "brand": "Audio Array",
       "category_l0": "Audio Mixer",
       "category_l1": "8 channels Mixer",
-      "Spend": 50049.634,
-      "Clicks": 10967.0,
+      "Spend": 50046.594,
+      "Clicks": 10965.0,
       "Impressions": 1105147.0,
-      "attributed_sales": 364587.26,
-      "ams_orders": 84.0,
-      "gmv": 424799.16,
-      "units": 84.0,
+      "attributed_sales": 369671.16,
+      "ams_orders": 85.0,
+      "gmv": 434916.1,
+      "units": 86.0,
       "sessions": 23054.0,
-      "acos": 0.1373,
-      "roas": 7.28,
-      "tacos": 0.1178,
-      "conversion_pct": 0.0036
+      "acos": 0.1354,
+      "roas": 7.39,
+      "tacos": 0.1151,
+      "conversion_pct": 0.0037
     }
   ],
   "inventory": [

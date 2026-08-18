@@ -81,6 +81,15 @@ LEFT JOIN sku_master sm ON sm.id = oi.sku_id
 WHERE (o.order_date AT TIME ZONE 'Asia/Kolkata')::date BETWEEN %s AND %s
   AND o.status NOT IN ('cancelled', 'returned')
   AND o.channel::text NOT IN ('amazon', 'other')
+  -- BLINKIT ONLY: "Fulfilled by Blinkit" is our sell-out and counts as sales;
+  -- anything shipped FROM one of our warehouses is stock sent TO Blinkit, which
+  -- is a transfer, not a sale — counting it would inflate the channel and then
+  -- double-count against the eventual sell-out.  `warehouse_id IS NULL` is the
+  -- test because _resolve_is_fba now asks only "does Fulfilled by name one of
+  -- OUR warehouses" — Blinkit/FBA/MCF all leave it NULL, AMPM/ANDH/GOR set it.
+  -- No other channel splits this way: B2B and D2C ship from our warehouses and
+  -- are still genuine sales, so the filter is scoped to blinkit alone.
+  AND (o.channel::text <> 'blinkit' OR o.warehouse_id IS NULL)
 GROUP BY 1, 2, 3, 4, 5
 HAVING SUM(oi.qty) > 0
 ORDER BY 1, 2, 3

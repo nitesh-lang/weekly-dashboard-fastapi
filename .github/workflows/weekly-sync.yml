@@ -508,6 +508,14 @@ jobs:
           SANITY_GATE_ALLOW: ${{ inputs.allow_gate_bypass == 'true' && '1' || secrets.SANITY_GATE_ALLOW }}
         run: python scripts/snapshot_sanity_gate.py
 
+      # Mirror the refreshed snapshots into Neon Postgres.  READ MIRROR only
+      # — files stay the source of truth, so `|| true`: a dead DB must never
+      # block the weekly data push.
+      - name: Sync snapshots to Postgres mirror
+        env:
+          WEEKLY_DATABASE_URL: ${{ secrets.WEEKLY_DATABASE_URL }}
+        run: python scripts/sync_snapshots_to_pg.py || true
+
       - name: Commit + push refreshed data
         run: |
           set -e

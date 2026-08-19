@@ -167,6 +167,51 @@ def _read_error_doc(token: str, doc_id: str) -> str:
     return raw.decode("utf-8", errors="replace")
 
 
+def _reuse_done_report(token: str, report_type: str,
+                       start_date: str, end_date: str) -> str | None:
+    """Most recent DONE report of this type+window, but only if created in
+    the last 24h.  Ported from sp_fba_shipments_pull with one addition: the
+    age cap.  Vendor report CONTENT matures as Amazon publishes late data —
+    reusing a same-window report from days ago would silently freeze stale
+    numbers, which is the exact class of bug this repo keeps fighting."""
+    try:
+        r = requests.get(
+            f"{SPAPI_HOST}/reports/2021-06-30/reports",
+            params={"reportTypes": report_type, "marketplaceIds": MARKETPLACE_ID,
+                    "processingStatuses": "DONE", "pageSize": 10},
+            headers={"x-amz-access-token": token}, timeout=30)
+        if r.status_code != 200:
+            return None
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+        for rpt in (r.json().get("reports") or []):
+            if (rpt.get("dataStartTime") or "")[:10] != start_date:
+                continue
+            if (rpt.get("dataEndTime") or "")[:10] != end_date:
+                continue
+            created = rpt.get("createdTime") or ""
+            try:
+                if datetime.fromisoformat(created.replace("Z", "+00:00")) < cutoff:
+                    continue
+            except ValueError:
+                continue
+            return rpt.get("reportDocumentId")
+    except requests.RequestException:
+        pass
+    return None
+
+
+def _adaptive_polls(budget_seconds: int):
+    """Yield (waited_so_far, delay_just_slept).  2s doubling to a 30s cap —
+    fast reports return in seconds instead of eating flat 5s ticks, slow
+    ones still get the full budget."""
+    delay, waited = 2.0, 0.0
+    while waited < budget_seconds:
+        time.sleep(delay)
+        waited += delay
+        yield waited, delay
+        delay = min(delay * 2, 30.0)
+
+
 def pull_vendor_sales(token: str, start_iso: str, end_iso: str) -> list[dict]:
     """Submit + poll + download the Vendor Sales Report for [start, end]
     inclusive of the Saturday end-date.  Returns the salesAggregate /
@@ -185,37 +230,40 @@ def pull_vendor_sales(token: str, start_iso: str, end_iso: str) -> list[dict]:
             "sellingProgram": "RETAIL",
         },
     }
-    print(f"  create report: {body['dataStartTime']} -> {body['dataEndTime']}")
-    r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=headers, timeout=30)
-    if r.status_code != 202:
-        raise SystemExit(f"create report failed: HTTP {r.status_code} {r.text[:300]}")
-    rep_id = r.json()["reportId"]
-    print(f"  reportId: {rep_id}")
+    doc_id = _reuse_done_report(token, "GET_VENDOR_SALES_REPORT",
+                                body["dataStartTime"][:10], body["dataEndTime"][:10])
+    if doc_id:
+        print(f"  reusing DONE report from last 24h (doc={doc_id[:12]}…)")
+    else:
+        print(f"  create report: {body['dataStartTime']} -> {body['dataEndTime']}")
+        r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=headers, timeout=30)
+        if r.status_code != 202:
+            raise SystemExit(f"create report failed: HTTP {r.status_code} {r.text[:300]}")
+        rep_id = r.json()["reportId"]
+        print(f"  reportId: {rep_id}")
 
-    doc_id = None
-    # 180 polls × 5s = 15 min.  Vendor reports occasionally take that long
-    # under Amazon-side queue load.
-    for i in range(180):
-        time.sleep(5)
-        rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rep_id}",
-                          headers={"x-amz-access-token": token}, timeout=30)
-        if rr.status_code != 200:
-            continue
-        j = rr.json()
-        status = j.get("processingStatus")
-        print(f"  poll[{i}]: {status}")
-        if status == "DONE":
-            doc_id = j.get("reportDocumentId")
-            break
-        if status in ("FATAL", "CANCELLED"):
-            doc_id = j.get("reportDocumentId")
-            err_text = _read_error_doc(token, doc_id) if doc_id else ""
-            if "not yet available" in err_text.lower():
-                raise DataNotAvailable(err_text.strip())
-            print(f"  FATAL body: {err_text[:600]}")
-            raise SystemExit(f"report {status}")
-    if not doc_id:
-        raise SystemExit("timed out waiting for report")
+        # 15-min budget, adaptive 2s→30s.  Vendor reports occasionally need
+        # all of it under Amazon-side queue load.
+        for waited, _ in _adaptive_polls(900):
+            rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rep_id}",
+                              headers={"x-amz-access-token": token}, timeout=30)
+            if rr.status_code != 200:
+                continue
+            j = rr.json()
+            status = j.get("processingStatus")
+            print(f"  poll[{int(waited)}s]: {status}")
+            if status == "DONE":
+                doc_id = j.get("reportDocumentId")
+                break
+            if status in ("FATAL", "CANCELLED"):
+                doc_id = j.get("reportDocumentId")
+                err_text = _read_error_doc(token, doc_id) if doc_id else ""
+                if "not yet available" in err_text.lower():
+                    raise DataNotAvailable(err_text.strip())
+                print(f"  FATAL body: {err_text[:600]}")
+                raise SystemExit(f"report {status}")
+        if not doc_id:
+            raise SystemExit("timed out waiting for report")
 
     rd = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/documents/{doc_id}",
                       headers={"x-amz-access-token": token}, timeout=30)

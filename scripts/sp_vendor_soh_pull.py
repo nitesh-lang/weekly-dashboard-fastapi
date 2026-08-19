@@ -140,6 +140,48 @@ class DataNotAvailable(Exception):
     pass
 
 
+def _reuse_done_report(token: str, report_type: str,
+                       start_date: str, end_date: str) -> str | None:
+    """Most recent DONE report of this type+window, created in the last 24h.
+    Same rationale as sp_vendor_sales_pull: skip Amazon's queue on same-day
+    re-runs, but never reuse older documents — vendor content matures and a
+    stale doc would freeze old numbers."""
+    try:
+        r = requests.get(
+            f"{SPAPI_HOST}/reports/2021-06-30/reports",
+            params={"reportTypes": report_type, "marketplaceIds": MARKETPLACE_ID,
+                    "processingStatuses": "DONE", "pageSize": 10},
+            headers={"x-amz-access-token": token}, timeout=30)
+        if r.status_code != 200:
+            return None
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+        for rpt in (r.json().get("reports") or []):
+            if (rpt.get("dataStartTime") or "")[:10] != start_date:
+                continue
+            if (rpt.get("dataEndTime") or "")[:10] != end_date:
+                continue
+            created = rpt.get("createdTime") or ""
+            try:
+                if datetime.fromisoformat(created.replace("Z", "+00:00")) < cutoff:
+                    continue
+            except ValueError:
+                continue
+            return rpt.get("reportDocumentId")
+    except requests.RequestException:
+        pass
+    return None
+
+
+def _adaptive_polls(budget_seconds: int):
+    """Yield (waited, delay): 2s doubling to a 30s cap within the budget."""
+    delay, waited = 2.0, 0.0
+    while waited < budget_seconds:
+        time.sleep(delay)
+        waited += delay
+        yield waited, delay
+        delay = min(delay * 2, 30.0)
+
+
 def pull_vendor_inventory(token: str, snapshot_date: str) -> list[dict]:
     headers = {"x-amz-access-token": token, "Content-Type": "application/json"}
     end_dt = datetime.fromisoformat(snapshot_date).replace(tzinfo=timezone.utc, hour=23, minute=59, second=59)
@@ -156,26 +198,28 @@ def pull_vendor_inventory(token: str, snapshot_date: str) -> list[dict]:
             "sellingProgram": "RETAIL",
         },
     }
-    print(f"  create report: {start} -> {end}")
-    r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=headers, timeout=30)
-    if r.status_code != 202:
-        raise SystemExit(f"create report failed: HTTP {r.status_code} {r.text[:300]}")
-    rep_id = r.json()["reportId"]
-    print(f"  reportId: {rep_id}")
+    doc_id = _reuse_done_report(token, "GET_VENDOR_INVENTORY_REPORT", start[:10], end[:10])
+    if doc_id:
+        print(f"  reusing DONE report from last 24h (doc={doc_id[:12]}…)")
+    else:
+        print(f"  create report: {start} -> {end}")
+        r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=headers, timeout=30)
+        if r.status_code != 202:
+            raise SystemExit(f"create report failed: HTTP {r.status_code} {r.text[:300]}")
+        rep_id = r.json()["reportId"]
+        print(f"  reportId: {rep_id}")
 
-    doc_id = None
-    # 180 polls × 5s = 15 min.  Vendor reports occasionally take that long
-    # under Amazon-side queue load (observed on WM 1P first run after the
-    # new SP-API role was added — IN_PROGRESS for 5+ min before DONE).
-    for i in range(180):
-        time.sleep(5)
+    # 15-min budget, adaptive 2s→30s (was 180 flat 5s polls).  Vendor
+    # reports occasionally take the full budget under Amazon queue load
+    # (observed on WM 1P first run — IN_PROGRESS 5+ min before DONE).
+    for waited, _ in ([] if doc_id else _adaptive_polls(900)):
         rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rep_id}",
                           headers={"x-amz-access-token": token}, timeout=30)
         if rr.status_code != 200:
             continue
         j = rr.json()
         status = j.get("processingStatus")
-        print(f"  poll[{i}]: {status}")
+        print(f"  poll[{int(waited)}s]: {status}")
         if status == "DONE":
             doc_id = j.get("reportDocumentId")
             break

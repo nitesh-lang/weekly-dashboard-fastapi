@@ -523,6 +523,45 @@ def _raw_other_channel_units(week_num: int) -> Dict[tuple, float]:
     return out
 
 
+def check_vendor_week_complete(latest_week: int) -> pd.DataFrame:
+    """FAIL-LOUD: the 1P vendor sales pull silently falls back to an earlier
+    end-date when Amazon hasn't published Saturday yet ("partial 6-day
+    pull") and exits 0.  W33 shipped ₹8.2L short exactly this way — the
+    check existed only as a memory note.  Now the publish path refuses to
+    look clean while any brand's vendor window stops before the week's
+    Saturday.  WM is exempt (its vendor file is 0 rows by design — 1P
+    arrives via the OMS Clicktech channel)."""
+    from datetime import date, timedelta
+    # Sun-Sat anchor: W33 Saturday = 2026-08-15.
+    saturday = date(2026, 8, 15) + timedelta(weeks=latest_week - 33)
+    out: List[Dict[str, Any]] = []
+    for brand in ("Audio_Array", "Tonor"):
+        f = ROOT / "data" / "raw" / "sales" / f"Week {latest_week}" / brand / "Vendor Sales (SP-API).xlsx"
+        if not f.exists():
+            out.append({"brand": brand, "issue": "vendor sales file MISSING",
+                        "window_end": None, "expected_saturday": str(saturday)})
+            continue
+        try:
+            d = pd.read_excel(f)
+        except Exception as e:
+            out.append({"brand": brand, "issue": f"unreadable: {e}"[:120],
+                        "window_end": None, "expected_saturday": str(saturday)})
+            continue
+        if d.empty or "WindowEnd" not in d.columns:
+            out.append({"brand": brand, "issue": "no rows / no WindowEnd column",
+                        "window_end": None, "expected_saturday": str(saturday)})
+            continue
+        wend = pd.to_datetime(d["WindowEnd"], errors="coerce").max()
+        if pd.isna(wend) or wend.date() < saturday:
+            out.append({
+                "brand": brand,
+                "issue": "SHORT WEEK — re-pull vendor sales (publication lag)",
+                "window_end": str(wend.date()) if not pd.isna(wend) else None,
+                "expected_saturday": str(saturday),
+            })
+    return pd.DataFrame(out)
+
+
 def check_went_to_zero(latest_week: int) -> pd.DataFrame:
     """Across sales / inventory / ams_trend, flag any (active brand,
     channel/metric) pair that had positive activity in any of the prior
@@ -2382,6 +2421,8 @@ def main() -> int:
         # that only appear in ams_weekly_fact.
         ("29_unit_price_sanity", "Unit price (sales/units) deviates >10x from 4w median (latest week)",
                                   check_unit_price_sanity(latest_week),                         True),
+        ("30_vendor_week_complete", "1P vendor sales window stops before the week's Saturday (short pull)",
+                                  check_vendor_week_complete(latest_week),                      True),
     ]
 
     print()

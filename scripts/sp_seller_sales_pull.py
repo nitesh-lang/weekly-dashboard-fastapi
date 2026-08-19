@@ -166,6 +166,47 @@ def get_access_token(account: str) -> str | None:
     return r.json()["access_token"]
 
 
+def _reuse_done_report(tok: str, report_type: str,
+                       start_date: str, end_date: str) -> str | None:
+    """Most recent DONE report of this type+window created in the last 24h.
+    Skips Amazon's queue entirely on same-day re-runs; the age cap keeps a
+    matured re-pull (e.g. Tuesday's) from reusing Monday's stale document."""
+    try:
+        r = requests.get(
+            f"{SPAPI_HOST}/reports/2021-06-30/reports",
+            params={"reportTypes": report_type, "marketplaceIds": IN_MKT,
+                    "processingStatuses": "DONE", "pageSize": 10},
+            headers={"x-amz-access-token": tok}, timeout=30)
+        if r.status_code != 200:
+            return None
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+        for rpt in (r.json().get("reports") or []):
+            if (rpt.get("dataStartTime") or "")[:10] != start_date:
+                continue
+            if (rpt.get("dataEndTime") or "")[:10] != end_date:
+                continue
+            created = rpt.get("createdTime") or ""
+            try:
+                if datetime.fromisoformat(created.replace("Z", "+00:00")) < cutoff:
+                    continue
+            except ValueError:
+                continue
+            return rpt.get("reportDocumentId")
+    except requests.RequestException:
+        pass
+    return None
+
+
+def _adaptive_polls(budget_seconds: int):
+    """Yield (waited, delay): 2s doubling to a 30s cap within the budget."""
+    delay, waited = 2.0, 0.0
+    while waited < budget_seconds:
+        time.sleep(delay)
+        waited += delay
+        yield waited, delay
+        delay = min(delay * 2, 30.0)
+
+
 def pull_sales_and_traffic(account: str, start_iso: str, end_iso: str) -> list[dict]:
     """Submit + poll + download GET_SALES_AND_TRAFFIC_REPORT for the
     given seller account & window.  Returns the `salesAndTrafficByAsin`
@@ -185,29 +226,33 @@ def pull_sales_and_traffic(account: str, start_iso: str, end_iso: str) -> list[d
             "dateGranularity": "WEEK",
         },
     }
-    print(f"  [{account}] create report: {start_iso} → {end_iso}")
-    r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=H, timeout=30)
-    if r.status_code != 202:
-        print(f"  [{account}] create failed: HTTP {r.status_code} {r.text[:200]}")
-        return []
-    rid = r.json()["reportId"]
-
-    for i in range(60):
-        time.sleep(5)
-        rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rid}",
-                          headers={"x-amz-access-token": tok}, timeout=30)
-        if rr.status_code != 200:
-            continue
-        st = rr.json().get("processingStatus")
-        if st == "DONE":
-            doc_id = rr.json().get("reportDocumentId")
-            break
-        if st in ("FATAL", "CANCELLED"):
-            print(f"  [{account}] report {st} (id={rid})")
-            return []
+    doc_id = _reuse_done_report(tok, "GET_SALES_AND_TRAFFIC_REPORT", start_iso, end_iso)
+    if doc_id:
+        print(f"  [{account}] reusing DONE report from last 24h (doc={doc_id[:12]}…)")
     else:
-        print(f"  [{account}] timed out waiting for report")
-        return []
+        print(f"  [{account}] create report: {start_iso} → {end_iso}")
+        r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=H, timeout=30)
+        if r.status_code != 202:
+            print(f"  [{account}] create failed: HTTP {r.status_code} {r.text[:200]}")
+            return []
+        rid = r.json()["reportId"]
+
+        # 5-min budget, adaptive 2s→30s (was 60 flat 5s polls).
+        for waited, _ in _adaptive_polls(300):
+            rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rid}",
+                              headers={"x-amz-access-token": tok}, timeout=30)
+            if rr.status_code != 200:
+                continue
+            st = rr.json().get("processingStatus")
+            if st == "DONE":
+                doc_id = rr.json().get("reportDocumentId")
+                break
+            if st in ("FATAL", "CANCELLED"):
+                print(f"  [{account}] report {st} (id={rid})")
+                return []
+        else:
+            print(f"  [{account}] timed out waiting for report")
+            return []
 
     rd = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/documents/{doc_id}",
                       headers={"x-amz-access-token": tok}, timeout=30)

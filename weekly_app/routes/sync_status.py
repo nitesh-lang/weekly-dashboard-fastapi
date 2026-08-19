@@ -50,6 +50,15 @@ def _file_info(path: Path) -> dict:
     }
 
 
+@router.get("/api/pg-status")
+def pg_status():
+    """Postgres mirror visibility: enabled?, engine up?, per-table sync
+    freshness, and per-(route, table) counters of pg-vs-fallback serves.
+    The operator's proof of which source answered every request."""
+    from weekly_app.core import pg_query
+    return pg_query.status()
+
+
 @router.get("/api/sync-status")
 def sync_status():
     snapshots = {name: _file_info(p) for name, p in SNAPSHOTS.items()}

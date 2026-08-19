@@ -422,8 +422,19 @@ def build_ai_context():
     inventory_ctx = build_inventory_context()
     alerts        = detect_anomalies(sales_ctx, ams_ctx, inventory_ctx)
 
+    # Ranked ₹-impact key points — same engine as the weekly brief's top
+    # section, so the AI chat and the insights page tell one story.
+    # Never fatal: an empty list beats a crashed context build.
+    try:
+        from weekly_app.core.key_points import compute_key_points
+        key_points = compute_key_points()
+    except Exception as e:
+        print(f"⚠ key_points skipped: {e}")
+        key_points = []
+
     context = {
         "generated_at": datetime.now().isoformat(),
+        "key_points":    key_points,
         "alerts":        alerts,
         "alert_count":   len(alerts),
         "high_alerts":   sum(1 for a in alerts if a.get("severity") == "high"),

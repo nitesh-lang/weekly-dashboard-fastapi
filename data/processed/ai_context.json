@@ -1,5 +1,31 @@
 {
-  "generated_at": "2026-08-18T12:20:46.917451",
+  "generated_at": "2026-08-19T16:30:31.456418",
+  "key_points": [
+    {
+      "icon": "\ud83d\udd34",
+      "kind": "top_drainer",
+      "text": "Nexlev SC-05 lost \u20b93.2 L WoW \u2192 \u20b92.6 L",
+      "impact_inr": -315415.0
+    },
+    {
+      "icon": "\ud83d\udd34",
+      "kind": "gmv_wow",
+      "text": "GMV \u20b91.12 Cr (-2.6% WoW, \u20b9-3.0 L); largest driver: Amazon \u20b9-3.7 L",
+      "impact_inr": -296636.0
+    },
+    {
+      "icon": "\ud83d\udfe2",
+      "kind": "top_gainer",
+      "text": "Nexlev SC-01 added \u20b92.7 L WoW \u2192 \u20b97.8 L",
+      "impact_inr": 266960.0
+    },
+    {
+      "icon": "\u23f3",
+      "kind": "stock_risk",
+      "text": "Audio Array GB-03 (AI-12 + AM-C43) has 2.3 wks cover (147 u vs 63 u/wk) while doing \u20b91.6 L/wk \u2014 restock or lose it",
+      "impact_inr": -155110.0
+    }
+  ],
   "alerts": [
     {
       "type": "model_sales_drop",

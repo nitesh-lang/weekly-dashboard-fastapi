@@ -141,6 +141,37 @@ def headline_section(s: pd.DataFrame, a: pd.DataFrame, latest_wn: int) -> str:
         if roas_cur is not None else f"Ad spend **{fmt_inr(spend_cur)}** this week."
     )
     lines.append("")
+
+    # Realised margin — snapshot carries sales_nlc (landed cost of sold
+    # units), so contribution margin is computable, not estimated.  Only
+    # rendered when cost coverage is meaningful (>60% of GMV has NLC).
+    if "sales_nlc" in cur.columns:
+        nlc_cur, nlc_prv = float(cur["sales_nlc"].sum()), float(prv["sales_nlc"].sum())
+        cov = cur[cur["sales_nlc"] > 0]["gmv"].sum() / max(gmv_cur, 1)
+        if nlc_cur > 0 and cov > 0.6:
+            mg_c = (gmv_cur - nlc_cur) / gmv_cur * 100
+            mg_p = (gmv_prv - nlc_prv) / gmv_prv * 100 if gmv_prv > 0 and nlc_prv > 0 else None
+            lines.append(
+                f"Realised margin **{mg_c:.1f}%** ({fmt_inr(gmv_cur - nlc_cur)} over landed cost)"
+                + (f" vs {mg_p:.1f}% last week"
+                   f" ({'+' if mg_c >= mg_p else ''}{mg_c - mg_p:.1f} pt)." if mg_p is not None else ".")
+            )
+            lines.append("")
+
+    # Channel pulse — the single best and worst ₹ movers, so the glance
+    # answers "where did the week happen" without opening the tables.
+    ch_d = (cur.groupby("channel")["gmv"].sum()
+            .sub(prv.groupby("channel")["gmv"].sum(), fill_value=0))
+    if len(ch_d) >= 2:
+        best, worst = ch_d.idxmax(), ch_d.idxmin()
+        if ch_d[best] > 0 or ch_d[worst] < 0:
+            bits = []
+            if ch_d[best] > 0:
+                bits.append(f"**{best}** {fmt_inr(ch_d[best])} up")
+            if ch_d[worst] < 0 and worst != best:
+                bits.append(f"**{worst}** {fmt_inr(abs(ch_d[worst]))} down")
+            lines.append("Channel pulse: " + " · ".join(bits) + " WoW.")
+            lines.append("")
     return "\n".join(lines)
 
 
@@ -188,6 +219,63 @@ def movers_sections(s: pd.DataFrame, latest_wn: int) -> str:
                 f"GMV {fmt_inr(r['gmv'])} ({fmt_pct(r['wow_gmv'])})."
             )
     out.append("")
+
+    # ── Momentum streaks — ≥3 consecutive weeks moving the same way.
+    # A streak is a stronger signal than any single WoW: it separates a
+    # trend from noise using only real weekly totals.
+    wk_model = (s[s["wn"].between(latest_wn - 5, latest_wn)]
+                .groupby(["brand", "model", "wn"])["gmv"].sum().reset_index())
+    streaks_up, streaks_dn = [], []
+    for (b, mo), g in wk_model.groupby(["brand", "model"]):
+        g = g.sort_values("wn")
+        if len(g) < 4 or g["gmv"].iloc[-1] < 20_000:
+            continue
+        diffs = g["gmv"].diff().dropna()
+        run = 0
+        for d in reversed(diffs.tolist()):
+            if run >= 0 and d > 0:
+                run = run + 1 if run >= 0 else run
+            elif run <= 0 and d < 0:
+                run = run - 1
+            else:
+                break
+        cum = g["gmv"].iloc[-1] - g["gmv"].iloc[max(-1 - abs(run), -len(g))]
+        if run >= 3:
+            streaks_up.append((b, mo, run, cum, g["gmv"].iloc[-1]))
+        elif run <= -3:
+            streaks_dn.append((b, mo, run, cum, g["gmv"].iloc[-1]))
+    if streaks_up or streaks_dn:
+        out.append("### Momentum (3+ week streaks)")
+        out.append("")
+        for b, mo, run, cum, now in sorted(streaks_up, key=lambda x: -x[3])[:4]:
+            out.append(f"- 📈 **{b} / {mo}** — up {run} weeks straight, "
+                       f"{fmt_inr(cum)} added over the run → {fmt_inr(now)}/wk.")
+        for b, mo, run, cum, now in sorted(streaks_dn, key=lambda x: x[3])[:4]:
+            out.append(f"- 📉 **{b} / {mo}** — down {abs(run)} weeks straight, "
+                       f"{fmt_inr(abs(cum))} lost over the run → {fmt_inr(now)}/wk.")
+        out.append("")
+
+    # ── Price realisation — ASP (gmv/units) moves ≥7% WoW on material
+    # models.  Catches silent discounting (or price recovery) that a pure
+    # GMV view hides: units up + GMV flat = you paid for the growth.
+    pr = m[(m["units"] >= 10) & (m["prev_units"] >= 10) & (m["gmv"] > 20_000)].copy()
+    if not pr.empty:
+        pr["asp"] = pr["gmv"] / pr["units"]
+        pr["prev_asp"] = pr["prev_gmv"] / pr["prev_units"]
+        pr["asp_pct"] = (pr["asp"] - pr["prev_asp"]) / pr["prev_asp"] * 100
+        moved = pr[abs(pr["asp_pct"]) >= 7].sort_values("asp_pct")
+        if not moved.empty:
+            out.append("### Price realisation")
+            out.append("")
+            for _, r in moved.head(5).iterrows():
+                icon = "🏷️" if r["asp_pct"] < 0 else "💎"
+                out.append(
+                    f"- {icon} **{r['brand']} / {r['model']}** — ASP "
+                    f"{fmt_inr(r['asp'])} vs {fmt_inr(r['prev_asp'])} last week "
+                    f"({fmt_pct(r['asp_pct'])}); units {fmt_int(r['units'])} "
+                    f"({fmt_pct(r['wow_units'])})."
+                )
+            out.append("")
     return "\n".join(out)
 
 
@@ -391,10 +479,19 @@ def suggested_actions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, lates
     burn4 = (s4.groupby(["brand","_mk"])["units_sold"].sum() / 4.0).reset_index().rename(columns={"units_sold":"avg_w"})
     j = inv_l.merge(burn4, on=["brand","_mk"], how="left").fillna({"avg_w":0})
     j["cover"] = j.apply(lambda r: r["inventory_units"]/r["avg_w"] if r["avg_w"]>0 else None, axis=1)
-    crit = j[(j["avg_w"]>=5) & (j["cover"].notna()) & (j["cover"]<=2.0)].sort_values("cover").head(3)
+    # ₹/week at risk ranks the reorders by money, and the suggested qty
+    # (6-week target cover minus on-hand) turns "reorder" into a number
+    # the operator can act on without opening another tab.
+    gmv4 = (s4.groupby(["brand","_mk"])["gmv"].sum() / 4.0).reset_index().rename(columns={"gmv":"gmv_w"})
+    j = j.merge(gmv4, on=["brand","_mk"], how="left").fillna({"gmv_w":0})
+    crit = j[(j["avg_w"]>=5) & (j["cover"].notna()) & (j["cover"]<=2.0)] \
+             .sort_values("gmv_w", ascending=False).head(3)
     for _, r in crit.iterrows():
+        need = max(int(round(6*r["avg_w"] - r["inventory_units"])), 0)
         actions.append(
-            f"**Reorder {r['brand']} / {r['model']}** — only {r['cover']:.1f} weeks of cover left at current burn."
+            f"**Reorder {r['brand']} / {r['model']}** — {r['cover']:.1f} wks cover at "
+            f"{r['avg_w']:.0f} u/wk ({fmt_inr(r['gmv_w'])}/wk at risk); "
+            f"~{need} u brings it to 6 wks."
         )
 
     # 2) High ROAS low spend → bid up
@@ -470,6 +567,15 @@ def build_brief() -> str:
     parts.append(f"# Weekly Brief — Week {latest_wn}")
     parts.append(f"*Generated {gen_ts} from data through Week {latest_wn}*")
     parts.append("")
+    # Ranked ₹-impact key points first — the "so what" before the tables.
+    # Shared engine with ai_context.json so both surfaces tell one story.
+    try:
+        from weekly_app.core.key_points import compute_key_points, render_md
+        kp_md = render_md(compute_key_points())
+        if kp_md:
+            parts.append(kp_md)
+    except Exception as e:
+        print(f"⚠ key points skipped: {e}")
     parts.append(headline_section(s, a, latest_wn))
     parts.append(movers_sections(s, latest_wn))
     parts.append(inventory_section(inv, s, latest_wn))

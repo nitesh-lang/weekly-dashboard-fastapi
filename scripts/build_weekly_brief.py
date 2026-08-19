@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -464,6 +465,161 @@ def channel_category_section(s: pd.DataFrame, latest_wn: int) -> str:
     return "\n".join(out)
 
 
+def expert_directions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, latest_wn: int) -> str:
+    """Cross-signal directives — each joins ≥2 of {sales trend, inventory
+    cover, ads efficiency, ASIN type, category} and states the ₹
+    consequence.  This is the "what would a good Amazon operator actually
+    do" layer; single-signal observations stay in the sections above.
+    Every play is guarded: no qualifying data → the play is skipped."""
+    out: list[str] = []
+
+    # Shared frames ------------------------------------------------------
+    cur  = s[s["wn"] == latest_wn]
+    s4   = s[s["wn"].between(latest_wn - 3, latest_wn)]
+    if cur.empty:
+        return ""
+    gmv_now = cur.groupby(["brand", "model"])["gmv"].sum()
+
+    # Weekly GMV per model for streaks
+    wkm = (s[s["wn"].between(latest_wn - 3, latest_wn)]
+           .groupby(["brand", "model", "wn"])["gmv"].sum().unstack("wn"))
+
+    # Inventory cover at current burn
+    inv_l = inv[inv["wn"] == inv["wn"].max()] if not inv.empty else pd.DataFrame()
+    cover = pd.Series(dtype=float)
+    if not inv_l.empty:
+        onh = inv_l.groupby(["brand", "model"])["inventory_units"].sum()
+        burn = s4.groupby(["brand", "model"])["units_sold"].sum() / 4.0
+        cover = (onh / burn.replace(0, np.nan)).dropna()
+
+    # Ads at model grain, this week + portfolio baselines
+    A = pd.DataFrame()
+    port_roas = port_tacos = None
+    if not a.empty and "week" in a.columns:
+        ac = a[pd.to_numeric(a["week"], errors="coerce") == latest_wn].copy()
+        if not ac.empty and {"Spend", "attributed_sales"}.issubset(ac.columns):
+            A = ac.groupby(["brand", "model"]).agg(
+                spend=("Spend", "sum"), attr=("attributed_sales", "sum"),
+                agmv=("gmv", "sum")).reset_index()
+            tsp, tat, tg = A["spend"].sum(), A["attr"].sum(), A["agmv"].sum()
+            port_roas  = tat / tsp if tsp > 0 else None
+            port_tacos = tsp / tg if tg > 0 else None
+            A = A.set_index(["brand", "model"])
+
+    # Play 1 — scale into strength: rising 3wk + stock to absorb + ROAS
+    # above portfolio.  The trifecta almost nobody checks together.
+    if not wkm.empty and not A.empty and port_roas:
+        for key in wkm.index:
+            row = wkm.loc[key].dropna()
+            if len(row) < 3 or not row.is_monotonic_increasing:
+                continue
+            if key not in A.index or key not in cover.index:
+                continue
+            sp, at = A.loc[key, "spend"], A.loc[key, "attr"]
+            cv = cover.loc[key]
+            g = gmv_now.get(key, 0)
+            if sp < 500 or at / sp < port_roas * 1.3 or cv < 5 or g < 50_000:
+                continue
+            b, m = key
+            out.append(
+                f"- 🚀 **Scale {b} / {m}** — GMV up 3 straight wks to {fmt_inr(g)}, "
+                f"ROAS {at/sp:.1f}x vs portfolio {port_roas:.1f}x, and {cv:.0f} wks of "
+                f"stock to absorb growth. Lift spend {fmt_inr(sp)} → {fmt_inr(sp*1.5)}; "
+                f"the constraint is budget, not demand or supply."
+            )
+            if sum(1 for l in out if l.startswith("- 🚀")) >= 3:
+                break
+
+    # Play 2 — cut ads before OOS: advertising a model you cannot ship is
+    # paying to crash your own rank twice.
+    if not A.empty and not cover.empty:
+        risky = [(k, A.loc[k, "spend"], cover.loc[k])
+                 for k in A.index.intersection(cover.index)
+                 if A.loc[k, "spend"] > 2000 and cover.loc[k] <= 2.0]
+        for (b, m), sp, cv in sorted(risky, key=lambda x: -x[1])[:3]:
+            burn_w = s4[(s4.brand == b) & (s4.model == m)]["units_sold"].sum() / 4.0
+            need = int(round(6 * burn_w))
+            out.append(
+                f"- ✂️ **Cut ads on {b} / {m} until restocked** — {fmt_inr(sp)}/wk spend "
+                f"against {cv:.1f} wks cover. OOS mid-campaign burns the spend AND the "
+                f"organic rank it bought; pause, order ~{need} u, resume at arrival."
+            )
+
+    # Play 3 — harvest Core, it should not need subsidy: Core-type models
+    # whose TACoS runs ≥2x the portfolio while GMV is flat/down.
+    if not A.empty and port_tacos and "asin_type" in cur.columns:
+        core_models = set(
+            map(tuple, cur[cur["asin_type"].astype(str).str.strip().str.lower() == "core"]
+                [["brand", "model"]].drop_duplicates().itertuples(index=False, name=None)))
+        prev_g = s[s["wn"] == latest_wn - 1].groupby(["brand", "model"])["gmv"].sum()
+        picks = []
+        for k in A.index:
+            if k not in core_models:
+                continue
+            sp, ag = A.loc[k, "spend"], A.loc[k, "agmv"]
+            if sp < 2000 or ag <= 0:
+                continue
+            t = sp / ag
+            if t >= port_tacos * 2 and gmv_now.get(k, 0) <= prev_g.get(k, 1e18):
+                picks.append((k, sp, t))
+        for (b, m), sp, t in sorted(picks, key=lambda x: -x[1])[:3]:
+            save = sp * 0.3
+            out.append(
+                f"- 🌾 **Harvest {b} / {m}** — a Core ASIN running TACoS {t*100:.0f}% vs "
+                f"portfolio {port_tacos*100:.0f}% with GMV flat WoW. Mature listings keep "
+                f"rank on organic momentum; trim ~30% ({fmt_inr(save)}/wk) and watch rank, "
+                f"not ROAS."
+            )
+
+    # Play 4 — pricing didn't buy demand: ASP cut ≥7% that moved units ≤5%.
+    # Give the discount back, GMV barely notices.
+    curm = cur.groupby(["brand", "model"]).agg(u=("units_sold", "sum"), g=("gmv", "sum"))
+    prvm = s[s["wn"] == latest_wn - 1].groupby(["brand", "model"]).agg(
+        pu=("units_sold", "sum"), pg=("gmv", "sum"))
+    pj = curm.join(prvm, how="inner")
+    pj = pj[(pj.u >= 10) & (pj.pu >= 10) & (pj.g > 30_000)]
+    if not pj.empty:
+        pj["asp"], pj["pasp"] = pj.g / pj.u, pj.pg / pj.pu
+        pj["dp"] = (pj.asp - pj.pasp) / pj.pasp * 100
+        pj["du"] = (pj.u - pj.pu) / pj.pu * 100
+        bad = pj[(pj.dp <= -7) & (pj.du <= 5)].sort_values("dp")
+        for (b, m), r in bad.head(2).iterrows():
+            back = (r.pasp - r.asp) * r.u
+            out.append(
+                f"- 💰 **Restore price on {b} / {m}** — ASP cut {abs(r.dp):.0f}% "
+                f"({fmt_inr(r.pasp)} → {fmt_inr(r.asp)}) bought only {r.du:+.0f}% units. "
+                f"The discount isn't converting; reverting recovers ~{fmt_inr(back)}/wk "
+                f"margin at current volume."
+            )
+
+    # Play 5 — category tilt: put money where the category is moving.
+    if "category_l0" in s.columns and not A.empty:
+        cg = s4.groupby(["category_l0", "wn"])["gmv"].sum().unstack("wn")
+        if cg.shape[1] >= 4:
+            growth = (cg.iloc[:, -1] - cg.iloc[:, 0]) / cg.iloc[:, 0].replace(0, np.nan) * 100
+            cat_of = cur.drop_duplicates(["brand", "model"]).set_index(["brand", "model"])["category_l0"]
+            Asp = A.join(cat_of, how="left")
+            cat_spend = Asp.groupby("category_l0")["spend"].sum()
+            cat_gmv = cur.groupby("category_l0")["gmv"].sum()
+            tot_sp, tot_g = cat_spend.sum(), cat_gmv.sum()
+            if tot_sp > 0 and tot_g > 0:
+                for cat in growth.dropna().sort_values(ascending=False).head(2).index:
+                    gr = growth[cat]
+                    sh_g = cat_gmv.get(cat, 0) / tot_g * 100
+                    sh_s = cat_spend.get(cat, 0) / tot_sp * 100
+                    if gr > 20 and sh_g - sh_s > 8 and cat_gmv.get(cat, 0) > 200_000:
+                        out.append(
+                            f"- 🧭 **Tilt budget toward {cat}** — category GMV {gr:+.0f}% over "
+                            f"4 wks, now {sh_g:.0f}% of sales but only {sh_s:.0f}% of ad spend. "
+                            f"The market is moving there faster than your budget is."
+                        )
+
+    if not out:
+        return ""
+    return "\n".join(["## Operator playbook (cross-signal)", "",
+                      *out[:7], ""])
+
+
 def suggested_actions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, latest_wn: int) -> str:
     """Synthesise 3-7 concrete operator moves from the same signals."""
     actions = []
@@ -544,7 +700,13 @@ def _drop_excluded(df: pd.DataFrame) -> pd.DataFrame:
     return df[~bn.isin(EXCLUDED_BRANDS)].copy()
 
 
-def build_brief() -> str:
+def build_brief(week: Optional[int] = None,
+                brand: Optional[str] = None,
+                asin_type: Optional[str] = None) -> str:
+    """Build the brief for a slice.  EVERY section recomputes on the
+    filtered frames — week-wise / brand-wise / ASIN-type-wise briefs are
+    genuinely different documents, not the global one with lines hidden.
+    No args = the canonical all-brands latest-week brief the cron stores."""
     s = pd.read_csv(SALES_CSV)
     s["wn"] = _wn(s["week"])
     s = s.dropna(subset=["wn"])
@@ -560,18 +722,51 @@ def build_brief() -> str:
     a = pd.read_csv(AMS_CSV) if AMS_CSV.exists() else pd.DataFrame()
     a = _drop_excluded(a)
 
-    latest_wn = int(s["wn"].max())
+    scope_bits = []
+    if brand and brand.strip().lower() != "all":
+        bl = brand.strip().lower()
+        s = s[s["brand"].astype(str).str.strip().str.lower() == bl]
+        if "brand" in inv.columns:
+            inv = inv[inv["brand"].astype(str).str.strip().str.lower() == bl]
+        if not a.empty and "brand" in a.columns:
+            a = a[a["brand"].astype(str).str.strip().str.lower() == bl]
+        scope_bits.append(brand.strip())
+
+    if asin_type and asin_type.strip().lower() != "all":
+        tl = asin_type.strip().lower()
+        if "asin_type" in s.columns:
+            s = s[s["asin_type"].astype(str).str.strip().str.lower() == tl]
+            # inv + ads don't carry asin_type — scope them through the
+            # (brand, model) pairs that sales says belong to this type.
+            pairs = set(zip(s["brand"].astype(str).str.strip().str.lower(),
+                            s["model"].astype(str).str.strip().str.upper()))
+            def _in_pairs(df: pd.DataFrame) -> pd.DataFrame:
+                if df.empty or not {"brand", "model"}.issubset(df.columns):
+                    return df
+                k = list(zip(df["brand"].astype(str).str.strip().str.lower(),
+                             df["model"].astype(str).str.strip().str.upper()))
+                return df[[p in pairs for p in k]]
+            inv, a = _in_pairs(inv), _in_pairs(a)
+            scope_bits.append(f"{asin_type.strip()} ASINs")
+
+    if s.empty:
+        return (f"# Weekly Brief\n\nNo sales rows match this slice"
+                f" ({' · '.join(scope_bits) or 'all'}) — nothing to report.")
+
+    latest_wn = int(week) if week and (s["wn"] == int(week)).any() else int(s["wn"].max())
     gen_ts = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
+    title_scope = f" — {' · '.join(scope_bits)}" if scope_bits else ""
     parts = []
-    parts.append(f"# Weekly Brief — Week {latest_wn}")
-    parts.append(f"*Generated {gen_ts} from data through Week {latest_wn}*")
+    parts.append(f"# Weekly Brief — Week {latest_wn}{title_scope}")
+    parts.append(f"*Generated {gen_ts} from data through Week {int(s['wn'].max())}*")
     parts.append("")
     # Ranked ₹-impact key points first — the "so what" before the tables.
-    # Shared engine with ai_context.json so both surfaces tell one story.
+    # Shared engine with ai_context.json; recomputed on this exact slice.
     try:
         from weekly_app.core.key_points import compute_key_points, render_md
-        kp_md = render_md(compute_key_points())
+        kp_md = render_md(compute_key_points(week=latest_wn, brand=brand,
+                                             asin_type=asin_type))
         if kp_md:
             parts.append(kp_md)
     except Exception as e:
@@ -580,6 +775,7 @@ def build_brief() -> str:
     parts.append(movers_sections(s, latest_wn))
     parts.append(inventory_section(inv, s, latest_wn))
     parts.append(ads_efficiency_section(a, latest_wn) if not a.empty else "")
+    parts.append(expert_directions(s, inv, a, latest_wn))
     parts.append(suggested_actions(s, inv, a, latest_wn))
     parts.append(brand_briefs_section(s, inv, a, latest_wn))
     parts.append(channel_category_section(s, latest_wn))

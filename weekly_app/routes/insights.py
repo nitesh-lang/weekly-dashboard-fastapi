@@ -73,11 +73,56 @@ def _regenerate_if_possible() -> bool:
         return False
 
 
+def _brief_module():
+    import importlib.util
+    script_path = Path(__file__).resolve().parent.parent.parent / "scripts" / "build_weekly_brief.py"
+    spec = importlib.util.spec_from_file_location("_build_weekly_brief", script_path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+# (params, snapshot mtime) -> md.  A sliced brief takes ~1-2s to compute;
+# the cache makes flipping between filters instant within a data refresh.
+_slice_cache: dict = {}
+
+
 @router.get("/brief")
 def get_brief(
-    brand: Optional[str] = Query(None, description="Restrict the brand-briefs section to one brand"),
+    brand: Optional[str] = Query(None, description="Recompute the WHOLE brief for one brand"),
+    week: Optional[int] = Query(None, description="Brief for a specific week number"),
+    asin_type: Optional[str] = Query(None, description="Core / Medium / Tail / EOL / New …"),
     force: bool = Query(False, description="Regenerate from snapshots before serving"),
 ):
+    filtered = any([
+        brand and brand.strip().lower() != "all",
+        week is not None,
+        asin_type and asin_type.strip().lower() != "all",
+    ])
+
+    if filtered:
+        # Sliced briefs are computed in memory and NEVER written to
+        # weekly_brief.md — the stored file stays the canonical
+        # all-brands latest-week document the cron owns.
+        sales_csv = Path("data/processed/weekly_sales_snapshot.csv")
+        mtime = int(sales_csv.stat().st_mtime) if sales_csv.exists() else 0
+        key = (brand or "all", week, asin_type or "all", mtime)
+        if not force and key in _slice_cache:
+            md = _slice_cache[key]
+        else:
+            try:
+                md = _brief_module().build_brief(week=week, brand=brand,
+                                                 asin_type=asin_type)
+                _slice_cache.clear() if len(_slice_cache) > 40 else None
+                _slice_cache[key] = md
+            except Exception as e:
+                raise HTTPException(500, f"sliced brief failed: {e}")
+        now = int(time.time())
+        return {"markdown": md, "cached": key in _slice_cache and not force,
+                "generated_at": now, "context_mtime": mtime,
+                "brand": brand or "all", "week": week,
+                "asin_type": asin_type or "all"}
+
     if force:
         _regenerate_if_possible()
 
@@ -96,15 +141,41 @@ def get_brief(
     except Exception as e:
         raise HTTPException(500, f"weekly_brief.md unreadable: {e}")
 
-    md = _filter_by_brand(md, brand or "")
     mtime = int(BRIEF_MD.stat().st_mtime)
     return {
         "markdown":      md,
         "cached":        not force,
         "generated_at":  mtime,
         "context_mtime": mtime,
-        "brand":         brand or "all",
+        "brand":         "all",
+        "week":          None,
+        "asin_type":     "all",
     }
+
+
+@router.get("/meta")
+def get_meta():
+    """Filter options for the insights page, straight from the snapshot —
+    weeks (desc), brands (Fossil-excluded like the brief itself), and the
+    ASIN types actually present.  One source of truth: the data."""
+    import pandas as pd
+    p = Path("data/processed/weekly_sales_snapshot.csv")
+    if not p.exists():
+        return {"weeks": [], "brands": [], "asin_types": []}
+    try:
+        df = pd.read_csv(p, usecols=lambda c: c in ("week", "brand", "asin_type"))
+    except Exception:
+        return {"weeks": [], "brands": [], "asin_types": []}
+    wn = pd.to_numeric(df["week"].astype(str).str.extract(r"(\d+)", expand=False),
+                       errors="coerce").dropna().astype(int)
+    brands = sorted(b for b in df["brand"].dropna().astype(str).str.strip().unique()
+                    if b and b.lower() != "fossil")
+    types = []
+    if "asin_type" in df.columns:
+        types = sorted(t for t in df["asin_type"].dropna().astype(str).str.strip().unique()
+                       if t and t.lower() not in ("nan", "none", ""))
+    return {"weeks": sorted(wn.unique().tolist(), reverse=True),
+            "brands": brands, "asin_types": types}
 
 
 @router.get("/brands")

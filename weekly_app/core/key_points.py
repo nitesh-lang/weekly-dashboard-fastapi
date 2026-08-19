@@ -69,14 +69,32 @@ def _load(path: Path) -> pd.DataFrame:
     return df
 
 
-def compute_key_points() -> List[Dict[str, Any]]:
+def compute_key_points(week: Optional[int] = None,
+                       brand: Optional[str] = None,
+                       asin_type: Optional[str] = None) -> List[Dict[str, Any]]:
     """Returns points sorted by |₹ impact| desc, capped at MAX_POINTS.
-    Each: {icon, kind, text, impact_inr}.  Empty list when snapshots are
-    missing — callers render nothing rather than something invented."""
+    Each: {icon, kind, text, impact_inr}.  Filters recompute the WHOLE
+    engine on the slice — a brand's key points are its own gainers,
+    drainers and risks, not the portfolio's with lines hidden.  Empty
+    list when snapshots (or the slice) are empty — callers render
+    nothing rather than something invented."""
     s = _load(SALES_CSV)
     if s.empty or "wn" not in s.columns:
         return []
-    latest = int(s["wn"].max())
+
+    pair_scope: Optional[set] = None
+    if brand and str(brand).strip().lower() != "all":
+        bl = str(brand).strip().lower()
+        s = s[s["brand"].astype(str).str.strip().str.lower() == bl]
+    if asin_type and str(asin_type).strip().lower() != "all" and "asin_type" in s.columns:
+        tl = str(asin_type).strip().lower()
+        s = s[s["asin_type"].astype(str).str.strip().str.lower() == tl]
+        pair_scope = set(zip(s["brand"].astype(str).str.strip().str.lower(),
+                             s["model"].astype(str).str.strip().str.upper()))
+    if s.empty:
+        return []
+
+    latest = int(week) if week and (s["wn"] == int(week)).any() else int(s["wn"].max())
     prev = latest - 1
     cur, prv = s[s.wn == latest], s[s.wn == prev]
     if cur.empty or prv.empty:
@@ -133,8 +151,22 @@ def compute_key_points() -> List[Dict[str, Any]]:
             f"{ch} is ZERO this week (was {_inr(val)} in W{prev}) — "
             f"real drop or missing upload?", -val)
 
+    def _scope(df: pd.DataFrame) -> pd.DataFrame:
+        """Apply the brand / asin-type slice to frames that don't carry
+        asin_type themselves (ads, inventory) via (brand, model) pairs."""
+        if df.empty:
+            return df
+        if brand and str(brand).strip().lower() != "all" and "brand" in df.columns:
+            bl = str(brand).strip().lower()
+            df = df[df["brand"].astype(str).str.strip().str.lower() == bl]
+        if pair_scope is not None and {"brand", "model"}.issubset(df.columns):
+            k = list(zip(df["brand"].astype(str).str.strip().str.lower(),
+                         df["model"].astype(str).str.strip().str.upper()))
+            df = df[[p in pair_scope for p in k]]
+        return df
+
     # 5 — ads efficiency: TACoS move + wasted spend
-    a = _load(AMS_CSV)
+    a = _scope(_load(AMS_CSV))
     if not a.empty and {"spend", "wn"}.issubset(a.columns):
         sp_c, sp_p = a[a.wn == latest]["spend"].sum(), a[a.wn == prev]["spend"].sum()
         if sp_c > 0 and g_c > 0 and sp_p > 0 and g_p > 0:
@@ -155,7 +187,7 @@ def compute_key_points() -> List[Dict[str, Any]]:
                     -wsum)
 
     # 6 — stock-out risk on a top seller: cover < 3 weeks
-    inv = _load(INV_CSV)
+    inv = _scope(_load(INV_CSV))
     if not inv.empty and {"inventory_units", "model", "wn"}.issubset(inv.columns):
         vel = cur.groupby(["brand", "model"]).agg(u=("units_sold", "sum"),
                                                   g=("gmv", "sum"))

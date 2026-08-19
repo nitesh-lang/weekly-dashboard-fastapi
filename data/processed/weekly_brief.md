@@ -1,5 +1,5 @@
 # Weekly Brief — Week 33
-*Generated 2026-08-19T11:00:04.695385Z from data through Week 33*
+*Generated 2026-08-19T11:13:50.611659Z from data through Week 33*
 ## ⚡ Key Points
 
 - 🔴 Nexlev SC-05 lost ₹3.2 L WoW → ₹2.6 L
@@ -97,6 +97,14 @@ Channel pulse: **B2B** ₹1.31L up · **Amazon** ₹3.73L down WoW.
 - 🔴 **White Mulberry / WM-HA1M-BK** — ₹462 spend, 0 attributed sales. Pause.
 - 🔴 **Audio Array / AM-W36 PRO** — ₹288 spend, 0 attributed sales. Pause.
 - 🔴 **Tonor / T20LP** — ₹238 spend, 0 attributed sales. Pause.
+
+## Operator playbook (cross-signal)
+
+- 🚀 **Scale Audio Array / AM-S1** — GMV up 3 straight wks to ₹3.51L, ROAS 9.2x vs portfolio 6.2x, and 39 wks of stock to absorb growth. Lift spend ₹37.8K → ₹56.7K; the constraint is budget, not demand or supply.
+- ✂️ **Cut ads on Tonor / TM20 until restocked** — ₹2.3K/wk spend against 1.6 wks cover. OOS mid-campaign burns the spend AND the organic rank it bought; pause, order ~72 u, resume at arrival.
+- 🌾 **Harvest Audio Array / AM-W13** — a Core ASIN running TACoS 28% vs portfolio 10% with GMV flat WoW. Mature listings keep rank on organic momentum; trim ~30% (₹2.0K/wk) and watch rank, not ROAS.
+- 💰 **Restore price on Audio Array / AH-40 SL** — ASP cut 15% (₹1.0K → ₹873) bought only +0% units. The discount isn't converting; reverting recovers ~₹6.6K/wk margin at current volume.
+- 💰 **Restore price on Audio Array / AM-C28** — ASP cut 9% (₹1.3K → ₹1.2K) bought only +2% units. The discount isn't converting; reverting recovers ~₹5.4K/wk margin at current volume.
 
 ## Suggested actions
 

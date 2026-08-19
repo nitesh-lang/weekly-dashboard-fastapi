@@ -17,22 +17,36 @@ interface BriefResponse {
     brand:          string;
 }
 
-interface BrandsResponse { brands: string[]; }
+interface MetaResponse { weeks: number[]; brands: string[]; asin_types: string[]; }
 
 export default function Insights() {
     const qc = useQueryClient();
-    const [brand, setBrand] = useState<string>("all");
-    const [busy,  setBusy]  = useState(false);
+    const [brand,    setBrand]    = useState<string>("all");
+    const [week,     setWeek]     = useState<string>("latest");
+    const [asinType, setAsinType] = useState<string>("all");
+    const [busy,     setBusy]     = useState(false);
 
-    const brands = useQuery<BrandsResponse>({
-        queryKey: ["insights-brands"],
-        queryFn:  () => api.get("/api/insights/brands"),
+    const meta = useQuery<MetaResponse>({
+        queryKey: ["insights-meta"],
+        queryFn:  () => api.get("/api/insights/meta"),
         staleTime: 60 * 60_000,
     });
 
+    // Any non-default filter recomputes the WHOLE brief server-side for
+    // that slice — week-wise / brand-wise / ASIN-type briefs are different
+    // documents, not the global one with sections hidden.
+    function briefUrl(extra = "") {
+        const p = new URLSearchParams();
+        if (brand && brand !== "all") p.set("brand", brand);
+        if (week && week !== "latest") p.set("week", week);
+        if (asinType && asinType !== "all") p.set("asin_type", asinType);
+        const qs = p.toString();
+        return `/api/insights/brief${qs || extra ? "?" : ""}${qs}${qs && extra ? "&" : ""}${extra}`;
+    }
+
     const brief = useQuery<BriefResponse>({
-        queryKey: ["insights-brief", brand],
-        queryFn:  () => api.get(`/api/insights/brief${brand && brand !== "all" ? `?brand=${encodeURIComponent(brand)}` : ""}`),
+        queryKey: ["insights-brief", brand, week, asinType],
+        queryFn:  () => api.get(briefUrl()),
         staleTime: 30 * 60_000,
         retry: false,
     });
@@ -40,14 +54,16 @@ export default function Insights() {
     async function regenerate() {
         setBusy(true);
         try {
-            await api.get(`/api/insights/brief?force=true${brand && brand !== "all" ? `&brand=${encodeURIComponent(brand)}` : ""}`);
-            await qc.invalidateQueries({ queryKey: ["insights-brief", brand] });
+            await api.get(briefUrl("force=true"));
+            await qc.invalidateQueries({ queryKey: ["insights-brief", brand, week, asinType] });
         } finally {
             setBusy(false);
         }
     }
 
-    const brandOptions = ["all", ...(brands.data?.brands ?? [])];
+    const brandOptions = ["all", ...(meta.data?.brands ?? [])];
+    const weekOptions  = ["latest", ...(meta.data?.weeks ?? []).map(String)];
+    const typeOptions  = ["all", ...(meta.data?.asin_types ?? [])];
 
     return (
         <AppLayout>
@@ -65,6 +81,18 @@ export default function Insights() {
                 </div>
                 <div className="flex-1" />
                 <div>
+                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Week</label>
+                    <select
+                        value={week}
+                        onChange={(e) => setWeek(e.target.value)}
+                        className="h-8 text-sm rounded-md border bg-background px-2"
+                    >
+                        {weekOptions.map((w) => (
+                            <option key={w} value={w}>{w === "latest" ? "Latest week" : `Week ${w}`}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
                     <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Brand</label>
                     <select
                         value={brand}
@@ -73,6 +101,18 @@ export default function Insights() {
                     >
                         {brandOptions.map((b) => (
                             <option key={b} value={b}>{b === "all" ? "All brands" : b}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">ASIN Type</label>
+                    <select
+                        value={asinType}
+                        onChange={(e) => setAsinType(e.target.value)}
+                        className="h-8 text-sm rounded-md border bg-background px-2"
+                    >
+                        {typeOptions.map((t) => (
+                            <option key={t} value={t}>{t === "all" ? "All types" : t}</option>
                         ))}
                     </select>
                 </div>

@@ -31,6 +31,26 @@ COL_BRAND        = "Brand"
 COL_RATING       = "Reviews: Rating"
 COL_RATING_COUNT = "Reviews: Rating Count"
 
+# lowercased filename stem -> canonical brand string.  The snapshot's brand
+# values MUST match the rest of the pipeline exactly; a case variant forks
+# the brand in every groupby.  Windows is case-insensitive, so the file on
+# disk is `White mulberry.csv` while git tracks `White Mulberry.csv` — the
+# stem alone is not trustworthy either.
+CANONICAL_BRANDS = {
+    "audio array":    "Audio Array",
+    "nexlev":         "Nexlev",
+    "tonor":          "Tonor",
+    "white mulberry": "White Mulberry",
+    "fossil":         "Fossil",
+}
+
+
+def _canonical_brand(stem: str) -> str:
+    """Map a filename stem onto the canonical brand.  Unknown stems pass
+    through title-cased rather than being dropped — a new brand file
+    should show up in the snapshot, not vanish silently."""
+    return CANONICAL_BRANDS.get(stem.strip().lower(), stem.strip().title())
+
 
 def _read_one(path: Path) -> pd.DataFrame:
     """Read one brand's Helium-10 export.  Handles the UTF-8 BOM the
@@ -47,7 +67,24 @@ def _read_one(path: Path) -> pd.DataFrame:
 
     # Normalise
     out["asin"]  = out["asin"].astype(str).str.strip()
-    out["brand"] = out["brand"].astype(str).str.strip()
+
+    # BRAND COMES FROM THE FILENAME, NOT THE COLUMN.
+    #
+    # This module's contract is one CSV per brand, so `White Mulberry.csv`
+    # IS White Mulberry — the filename is operator-controlled and stable.
+    # The Brand column is whatever Helium-10 happens to emit, and it is
+    # NOT stable: exports on 2026-08-18 and again on 2026-08-24 both wrote
+    # `nexlev` and `TONOR` (lowercase / uppercase) where every prior week
+    # had `Nexlev` and `Tonor`.  Trusting that column split both brands in
+    # two against ~20 weeks of history — the same class as the BIW channel
+    # split — and nothing catches it: check 7 (brand_name_consistency)
+    # covers the sales and inventory snapshots, not reviews.
+    #
+    # It also folds strays back where they belong: `White Mulberry.csv`
+    # carries one `Coleshome` ASIN (6,748 ratings) which had always been
+    # counted as White Mulberry until Helium-10 started labelling it
+    # separately.  Filename-sourcing keeps that continuity.
+    out["brand"] = _canonical_brand(path.stem)
     out = out[(out["asin"] != "") & (out["asin"].str.lower() != "nan")]
 
     # Numeric coercion — Helium-10 exports use "-" for missing values

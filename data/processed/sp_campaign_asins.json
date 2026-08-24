@@ -27285,5 +27285,69 @@
       "productAd"
     ],
     "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFZYG8_Steamers_SP_PT(1)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFZYG8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFZYG8_Steamer_SP_CT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFZYG8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-AT-Air Purifier": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DVC58QPZ",
+      "B0GN86G345"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Phrase-Air Purifier": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DVC58QPZ",
+      "B0GN86G345"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-CT-Air Purifier": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN86G345",
+      "B0DVC58QPZ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev-Exact-Air Purifier": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GN86G345",
+      "B0DVC58QPZ"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
   }
 }

@@ -2995,5 +2995,25 @@
       "productAd"
     ],
     "profile_id": "1122755254933937"
+  },
+  "Nexlev-SD-Steamer-PT-B0D9KFZYG8": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFZYG8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev_B0D9KFZYG8_Steame_PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0D9KFZYG8"
+    ],
+    "ad_types": [
+      "productAd"
+    ],
+    "profile_id": "1122755254933937"
   }
 }

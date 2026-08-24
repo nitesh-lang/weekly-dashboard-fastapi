@@ -209,6 +209,44 @@ def run_inventory_etl():
               f"{sorted(sp_api_one_p_owns)}")
 
     # --------------------------------------------------------
+    # ORDERPILOT OWNS IMPORTS (Pipeline / Open Order) — W34 onward
+    # --------------------------------------------------------
+    # Exactly the `sp_api_one_p_owns` pattern, for a second source.
+    # When `Imports (OrderPilot).xlsx` exists for a (Week, Brand) and
+    # carries non-zero import qty, it becomes AUTHORITATIVE for the
+    # Pipeline + Open Order channels and those rows are dropped from
+    # every other file in the same folder — the operator's manual
+    # `Inventory Snapshot.xlsx` has historically carried them too, and
+    # without this guard the same units land twice.
+    #
+    # Same safety net as 1P: an empty / unreadable / all-zero OrderPilot
+    # file does NOT claim ownership, so a bad extract can never silently
+    # zero out the dashboard's in-transit numbers.
+    IMPORT_CHANNELS = {"Pipeline", "Open Order"}
+    op_imports_own: set[tuple[str, str]] = set()
+    for op_file in RAW_INV_DIR.rglob("Imports (OrderPilot).xlsx"):
+        try:
+            _df = read_excel_safe(op_file)
+            _df.columns = [c.strip().lower() for c in _df.columns]
+            if "channel" not in _df.columns or "qty" not in _df.columns:
+                continue
+            chan_n = _df["channel"].astype(str).str.strip().str.lower()
+            imp_qty = pd.to_numeric(
+                _df.loc[chan_n.isin({"pipeline", "open order"}), "qty"], errors="coerce"
+            ).fillna(0).sum()
+            if imp_qty <= 0:
+                continue
+        except Exception:
+            continue
+        week_label   = extract_week(op_file.parent.parent.name)
+        brand_folder = op_file.parent.name
+        if week_label and brand_folder:
+            op_imports_own.add((week_label, brand_folder))
+    if op_imports_own:
+        print(f"   📦 OrderPilot imports canonical source for: "
+              f"{sorted(op_imports_own)}")
+
+    # --------------------------------------------------------
     # SCAN ALL XLSX FILES
     # --------------------------------------------------------
     for file in RAW_INV_DIR.rglob("*.xlsx"):
@@ -367,6 +405,23 @@ def run_inventory_etl():
                 if dropped:
                     print(f"   🔇 dropped {dropped} 1P row(s) from {file.relative_to(RAW_INV_DIR)} "
                           f"(SP-API owns 1P for {brand_folder} {week_label})")
+
+        # ── OrderPilot imports preference (W34 onward) ──
+        # Mirror of the 1P rule above: any file that is NOT the
+        # OrderPilot imports file loses its Pipeline / Open Order rows
+        # when OrderPilot owns imports for that brand+week.
+        is_op_imports_file = (file.name == "Imports (OrderPilot).xlsx")
+        if not is_op_imports_file:
+            brand_folder = file.parent.name
+            week_label   = df["week"].dropna().iloc[0] if not df["week"].dropna().empty else None
+            if week_label and (week_label, brand_folder) in op_imports_own:
+                before = len(df)
+                df = df[~df["channel"].isin(IMPORT_CHANNELS)]
+                dropped = before - len(df)
+                if dropped:
+                    print(f"   🔇 dropped {dropped} Pipeline/Open Order row(s) from "
+                          f"{file.relative_to(RAW_INV_DIR)} "
+                          f"(OrderPilot owns imports for {brand_folder} {week_label})")
 
         # ── Master alignment: ASIN → SKU → Model ──
         # Operator rule: ASIN is truth → SKU/Model/Brand come from master.

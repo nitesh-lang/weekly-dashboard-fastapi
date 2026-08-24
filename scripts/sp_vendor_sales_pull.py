@@ -230,11 +230,12 @@ def pull_vendor_sales(token: str, start_iso: str, end_iso: str) -> list[dict]:
             "sellingProgram": "RETAIL",
         },
     }
-    doc_id = _reuse_done_report(token, "GET_VENDOR_SALES_REPORT",
-                                body["dataStartTime"][:10], body["dataEndTime"][:10])
-    if doc_id:
-        print(f"  reusing DONE report from last 24h (doc={doc_id[:12]}…)")
-    else:
+    # Report reuse REMOVED 2026-08-24 — the LIST endpoint hides
+    # reportOptions, so a same-window report with different
+    # reportPeriod/distributorView is indistinguishable.  It silently
+    # corrupted W34 seller sales; vendor carries the same risk.
+    doc_id = None
+    if True:
         print(f"  create report: {body['dataStartTime']} -> {body['dataEndTime']}")
         r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=headers, timeout=30)
         if r.status_code != 202:

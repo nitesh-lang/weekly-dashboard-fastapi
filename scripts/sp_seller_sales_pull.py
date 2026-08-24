@@ -168,9 +168,25 @@ def get_access_token(account: str) -> str | None:
 
 def _reuse_done_report(tok: str, report_type: str,
                        start_date: str, end_date: str) -> str | None:
-    """Most recent DONE report of this type+window created in the last 24h.
-    Skips Amazon's queue entirely on same-day re-runs; the age cap keeps a
-    matured re-pull (e.g. Tuesday's) from reusing Monday's stale document."""
+    """DEAD CODE — kept only as a warning. DO NOT RE-ENABLE.
+
+    Reusing a same-window DONE report looked like free speed, and it
+    corrupted W34: Audio Array came back 12 rows / 2 units / Rs4,786
+    against 152 rows / Rs5.58L the week before.
+
+    Why it cannot work for these report types: the LIST endpoint returns
+    `reportOptions: {}` for every report, so there is NO WAY to tell a
+    CHILD/WEEK Sales-and-Traffic report from a PARENT/DAY one with the
+    same window.  Another process on this account creates same-window S&T
+    reports (daily pulls, an 01->22 Aug range) and this function happily
+    matched one of those; the payload parsed to almost nothing.
+
+    Vendor reports carry reportOptions too (reportPeriod / distributorView
+    / sellingProgram) and are exposed to the identical failure — they only
+    escaped because nothing else creates vendor reports for these windows.
+
+    The speed win was never here anyway: adaptive polling is what took
+    8-12 min off the run.  Removed 2026-08-24."""
     try:
         r = requests.get(
             f"{SPAPI_HOST}/reports/2021-06-30/reports",
@@ -226,33 +242,30 @@ def pull_sales_and_traffic(account: str, start_iso: str, end_iso: str) -> list[d
             "dateGranularity": "WEEK",
         },
     }
-    doc_id = _reuse_done_report(tok, "GET_SALES_AND_TRAFFIC_REPORT", start_iso, end_iso)
-    if doc_id:
-        print(f"  [{account}] reusing DONE report from last 24h (doc={doc_id[:12]}…)")
-    else:
-        print(f"  [{account}] create report: {start_iso} → {end_iso}")
-        r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=H, timeout=30)
-        if r.status_code != 202:
-            print(f"  [{account}] create failed: HTTP {r.status_code} {r.text[:200]}")
-            return []
-        rid = r.json()["reportId"]
+    doc_id = None
+    print(f"  [{account}] create report: {start_iso} → {end_iso}")
+    r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=H, timeout=30)
+    if r.status_code != 202:
+        print(f"  [{account}] create failed: HTTP {r.status_code} {r.text[:200]}")
+        return []
+    rid = r.json()["reportId"]
 
-        # 5-min budget, adaptive 2s→30s (was 60 flat 5s polls).
-        for waited, _ in _adaptive_polls(300):
-            rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rid}",
-                              headers={"x-amz-access-token": tok}, timeout=30)
-            if rr.status_code != 200:
-                continue
-            st = rr.json().get("processingStatus")
-            if st == "DONE":
-                doc_id = rr.json().get("reportDocumentId")
-                break
-            if st in ("FATAL", "CANCELLED"):
-                print(f"  [{account}] report {st} (id={rid})")
-                return []
-        else:
-            print(f"  [{account}] timed out waiting for report")
+    # 5-min budget, adaptive 2s→30s (was 60 flat 5s polls).
+    for waited, _ in _adaptive_polls(300):
+        rr = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rid}",
+                          headers={"x-amz-access-token": tok}, timeout=30)
+        if rr.status_code != 200:
+            continue
+        st = rr.json().get("processingStatus")
+        if st == "DONE":
+            doc_id = rr.json().get("reportDocumentId")
+            break
+        if st in ("FATAL", "CANCELLED"):
+            print(f"  [{account}] report {st} (id={rid})")
             return []
+    else:
+        print(f"  [{account}] timed out waiting for report")
+        return []
 
     rd = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/documents/{doc_id}",
                       headers={"x-amz-access-token": tok}, timeout=30)

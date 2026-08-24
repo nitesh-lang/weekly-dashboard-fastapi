@@ -198,10 +198,11 @@ def pull_vendor_inventory(token: str, snapshot_date: str) -> list[dict]:
             "sellingProgram": "RETAIL",
         },
     }
-    doc_id = _reuse_done_report(token, "GET_VENDOR_INVENTORY_REPORT", start[:10], end[:10])
-    if doc_id:
-        print(f"  reusing DONE report from last 24h (doc={doc_id[:12]}…)")
-    else:
+    # Report reuse REMOVED 2026-08-24 — see sp_seller_sales_pull's
+    # _reuse_done_report docstring.  The LIST endpoint hides reportOptions,
+    # so same-window reports of different granularity are indistinguishable.
+    doc_id = None
+    if True:
         print(f"  create report: {start} -> {end}")
         r = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports", json=body, headers=headers, timeout=30)
         if r.status_code != 202:

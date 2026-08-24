@@ -1,5 +1,5 @@
 # Weekly Brief — Week 34
-*Generated 2026-08-24T11:37:45.775015Z from data through Week 34*
+*Generated 2026-08-24T11:52:13.931570Z from data through Week 34*
 ## This week at a glance
 
 Week 34 closed at **₹82.27L GMV** (-28.6% WoW, -0.3% vs prior 4w) on **3,189 units** (-28.1% WoW). This was a soft week, led by **Audio Array** at 54% of portfolio GMV.

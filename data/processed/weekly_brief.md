@@ -1,12 +1,12 @@
 # Weekly Brief — Week 34
-*Generated 2026-08-24T11:52:13.931570Z from data through Week 34*
+*Generated 2026-08-25T05:16:23.634989Z from data through Week 34*
 ## This week at a glance
 
-Week 34 closed at **₹82.27L GMV** (-28.6% WoW, -0.3% vs prior 4w) on **3,189 units** (-28.1% WoW). This was a soft week, led by **Audio Array** at 54% of portfolio GMV.
+Week 34 closed at **₹82.27L GMV** (-28.6% WoW, -0.3% vs prior 4w) on **3,188 units** (-28.1% WoW). This was a soft week, led by **Audio Array** at 54% of portfolio GMV.
 
-Ad spend **₹8.11L** (-19.2%) — ROAS **5.57x** · ACOS **18.0%** · TACOS **11.1%**.
+Ad spend **₹8.11L** (-19.2%) — ROAS **5.65x** · ACOS **17.7%** · TACOS **11.1%**.
 
-Realised margin **44.8%** (₹36.88L over landed cost) vs 44.4% last week (+0.5 pt).
+Realised margin **44.8%** (₹36.89L over landed cost) vs 44.4% last week (+0.5 pt).
 
 Channel pulse: **Blinkit Sales** ₹2.77L up · **Amazon** ₹16.70L down WoW.
 
@@ -48,8 +48,8 @@ Channel pulse: **Blinkit Sales** ₹2.77L up · **Amazon** ₹16.70L down WoW.
 **Low cover (≤ 2 weeks at current burn):**
 - 🔴 **Nexlev / VC-01 HEPA** — 2 units on hand, ~5.2 u/week burn (0.4 weeks cover). Reorder.
 - 🔴 **Tonor / TM20** — 7 units on hand, ~13.0 u/week burn (0.5 weeks cover). Reorder.
-- 🔴 **Audio Array / GB-03 (AI-12 + AM-C43)** — 56 units on hand, ~44.0 u/week burn (1.3 weeks cover). Reorder.
-- 🔴 **Audio Array / AA-25M** — 9 units on hand, ~7.0 u/week burn (1.3 weeks cover). Reorder.
+- 🔴 **Audio Array / AA-25M** — 8 units on hand, ~7.0 u/week burn (1.1 weeks cover). Reorder.
+- 🔴 **Audio Array / GB-03 (AI-12 + AM-C43)** — 62 units on hand, ~44.0 u/week burn (1.4 weeks cover). Reorder.
 
 **Dead stock (no sales last 4w, ≥30 units):**
 - 🟡 **Nexlev / KE-03** — 1,342 units sitting idle.
@@ -71,7 +71,7 @@ Channel pulse: **Blinkit Sales** ₹2.77L up · **Amazon** ₹16.70L down WoW.
 - 🟢 **Nexlev / BR-01** — ROAS 42.39x on only ₹34 spend. Consider raising bid / budget.
 
 **ROAS below threshold (< 2x):**
-- 🔴 **White Mulberry / WM-GS2M-BK** — ROAS 1.73x on ₹9.1K spend. Investigate bids / negatives.
+- 🔴 **White Mulberry / WM-GS2M-BK** — ROAS 1.59x on ₹8.2K spend. Investigate bids / negatives.
 - 🔴 **Nexlev / FS-01** — ROAS 1.48x on ₹6.7K spend. Investigate bids / negatives.
 - 🔴 **Audio Array / AI-03** — ROAS 1.42x on ₹4.7K spend. Investigate bids / negatives.
 - 🔴 **Nexlev / ST-02** — ROAS 0.00x on ₹3.8K spend. Investigate bids / negatives.
@@ -84,7 +84,7 @@ Channel pulse: **Blinkit Sales** ₹2.77L up · **Amazon** ₹16.70L down WoW.
 - 🔴 **Audio Array / AK-61 NEO** — ACOS 86.7% on ₹2.6K spend.
 - 🔴 **Audio Array / AM-W22** — ACOS 84.3% on ₹2.4K spend.
 - 🔴 **Audio Array / AI-03** — ACOS 70.4% on ₹4.7K spend.
-- 🔴 **Nexlev / EA-01** — ACOS 68.8% on ₹655 spend.
+- 🔴 **Nexlev / FS-01** — ACOS 67.6% on ₹6.7K spend.
 
 **Spending with no attribution:**
 - 🔴 **Nexlev / ST-02** — ₹3.8K spend, 0 attributed sales. Pause.
@@ -96,16 +96,16 @@ Channel pulse: **Blinkit Sales** ₹2.77L up · **Amazon** ₹16.70L down WoW.
 
 ## Operator playbook (cross-signal)
 
-- 🚀 **Scale Nexlev / GS-02** — GMV up 3 straight wks to ₹1.82L, ROAS 7.9x vs portfolio 5.6x, and 33 wks of stock to absorb growth. Lift spend ₹8.4K → ₹12.7K; the constraint is budget, not demand or supply.
-- ✂️ **Cut ads on Audio Array / GB-03 (AI-12 + AM-C43) until restocked** — ₹7.2K/wk spend against 1.3 wks cover. OOS mid-campaign burns the spend AND the organic rank it bought; pause, order ~264 u, resume at arrival.
+- 🚀 **Scale Nexlev / GS-02** — GMV up 3 straight wks to ₹1.82L, ROAS 7.9x vs portfolio 5.7x, and 33 wks of stock to absorb growth. Lift spend ₹8.4K → ₹12.7K; the constraint is budget, not demand or supply.
+- ✂️ **Cut ads on Audio Array / GB-03 (AI-12 + AM-C43) until restocked** — ₹7.2K/wk spend against 1.4 wks cover. OOS mid-campaign burns the spend AND the organic rank it bought; pause, order ~264 u, resume at arrival.
 - 🌾 **Harvest Audio Array / AM-W12** — a Core ASIN running TACoS 23% vs portfolio 11% with GMV flat WoW. Mature listings keep rank on organic momentum; trim ~30% (₹1.5K/wk) and watch rank, not ROAS.
 - 💰 **Restore price on Audio Array / AM-C47** — ASP cut 9% (₹2.3K → ₹2.1K) bought only -48% units. The discount isn't converting; reverting recovers ~₹3.1K/wk margin at current volume.
 
 ## Suggested actions
 
-- **Reorder Audio Array / GB-03 (AI-12 + AM-C43)** — 1.3 wks cover at 44 u/wk (₹1.12L/wk at risk); ~208 u brings it to 6 wks.
+- **Reorder Audio Array / GB-03 (AI-12 + AM-C43)** — 1.4 wks cover at 44 u/wk (₹1.12L/wk at risk); ~202 u brings it to 6 wks.
 - **Reorder Tonor / TM20** — 0.5 wks cover at 13 u/wk (₹32.6K/wk at risk); ~71 u brings it to 6 wks.
-- **Reorder Audio Array / AA-25M** — 1.3 wks cover at 7 u/wk (₹5.0K/wk at risk); ~33 u brings it to 6 wks.
+- **Reorder Audio Array / AA-25M** — 1.1 wks cover at 7 u/wk (₹5.0K/wk at risk); ~34 u brings it to 6 wks.
 - **Bid up Nexlev / LE-03** — ROAS 63.33x on only ₹19 spend; room to scale.
 - **Bid up Audio Array / AM-W17** — ROAS 51.55x on only ₹28 spend; room to scale.
 - **Pause Nexlev / ST-02** ad spend — ₹3.8K this week with no attributed sales.
@@ -113,13 +113,13 @@ Channel pulse: **Blinkit Sales** ₹2.77L up · **Amazon** ₹16.70L down WoW.
 
 ## Brand briefs
 
-**Audio Array** 🔴 — GMV ₹44.67L (-25.0% WoW) on 1,688 units (-28.3%). Top contributor **AM-C1** at ₹5.27L. Total stock 84,198 units. Ad spend ₹4.45L → ROAS 6.17x, ACOS 16.2%.
+**Audio Array** 🔴 — GMV ₹44.67L (-25.0% WoW) on 1,688 units (-28.3%). Top contributor **AM-C1** at ₹5.27L. Total stock 84,199 units. Ad spend ₹4.45L → ROAS 6.24x, ACOS 16.0%.
 
-**Nexlev** 🔴 — GMV ₹28.48L (-34.5% WoW) on 1,119 units (-28.3%). Top contributor **SC-01** at ₹6.96L. Total stock 81,770 units. Ad spend ₹2.46L → ROAS 5.08x, ACOS 19.7%.
+**Nexlev** 🔴 — GMV ₹28.48L (-34.5% WoW) on 1,119 units (-28.3%). Top contributor **SC-01** at ₹6.96L. Total stock 84,209 units. Ad spend ₹2.46L → ROAS 5.18x, ACOS 19.3%.
 
-**White Mulberry** 🔴 — GMV ₹6.20L (-30.8% WoW) on 231 units (-30.8%). Top contributor **WM-GD07-CB** at ₹1.89L. Total stock 11,426 units. Ad spend ₹98.5K → ROAS 3.68x, ACOS 27.2%.
+**White Mulberry** 🔴 — GMV ₹6.20L (-30.8% WoW) on 230 units (-31.1%). Top contributor **WM-GD07-CB** at ₹1.89L. Total stock 11,360 units. Ad spend ₹98.5K → ROAS 3.68x, ACOS 27.2%.
 
-**Tonor** 🔴 — GMV ₹2.92L (-9.3% WoW) on 151 units (-18.8%). Top contributor **K1** at ₹56.3K. Total stock 2,615 units. Ad spend ₹20.7K → ROAS 7.29x, ACOS 13.7%.
+**Tonor** 🔴 — GMV ₹2.92L (-9.3% WoW) on 151 units (-18.8%). Top contributor **K1** at ₹56.3K. Total stock 2,611 units. Ad spend ₹20.7K → ROAS 7.93x, ACOS 12.6%.
 
 ## Channel mix
 

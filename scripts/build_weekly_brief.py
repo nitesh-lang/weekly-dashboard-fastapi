@@ -280,9 +280,13 @@ def movers_sections(s: pd.DataFrame, latest_wn: int) -> str:
     return "\n".join(out)
 
 
-def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, latest_wn: int) -> str:
+def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, a: pd.DataFrame,
+                      latest_wn: int) -> str:
     """Low-stock and dead-stock signals from the inventory snapshot
-    against last-4w burn from the sales snapshot."""
+    against last-4w burn from the sales snapshot.  Ads-aware: a low-cover
+    model that is also being advertised gets an explicit pause / scale-down
+    directive — restocking advice alone hides that spend is accelerating
+    the stock-out."""
     inv_l = inv[inv["wn"] == latest_wn].copy()
     # Normalised model key — sales has "AI-04 Red", inventory has
     # "AI-04 RED"; a strict-string merge would orphan the rows and
@@ -302,9 +306,29 @@ def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, latest_wn: int) -> str
         lambda r: (r["stock"] / r["avg_weekly"]) if r["avg_weekly"] > 0 else None, axis=1
     )
 
+    # This week's ad spend per model — powers the pause / scale-down calls.
+    spend = {}
+    if not a.empty and {"week", "brand", "model", "Spend"}.issubset(a.columns):
+        ac = a[pd.to_numeric(a["week"], errors="coerce") == latest_wn]
+        if not ac.empty:
+            sp = ac.groupby(["brand", "model"])["Spend"].sum()
+            spend = {(str(b).strip().lower(), str(m).strip().upper()): v
+                     for (b, m), v in sp.items() if v > 0}
+
+    def _spend_of(r) -> float:
+        return spend.get((str(r["brand"]).strip().lower(), r["_mk"]), 0.0)
+
     # Low cover — has stock < 2 weeks AND moves at least 5 units/week
     low = j[(j["avg_weekly"] >= 5) & (j["cover_weeks"].notna()) & (j["cover_weeks"] <= 2.0)] \
             .sort_values("cover_weeks").head(8)
+
+    # Watch band — 2-4 weeks cover WITH active ad spend: not yet a crisis,
+    # but full-throttle ads will turn it into one before the reorder lands.
+    watch = j[(j["avg_weekly"] >= 5) & (j["cover_weeks"].notna())
+              & (j["cover_weeks"] > 2.0) & (j["cover_weeks"] <= 4.0)].copy()
+    if not watch.empty:
+        watch["_sp"] = watch.apply(_spend_of, axis=1)
+        watch = watch[watch["_sp"] >= 500].sort_values("cover_weeks").head(6)
 
     # Dead stock — stock > 0, no sales in last 4w
     dead = j[(j["stock"] >= 30) & (j["avg_weekly"] == 0)] \
@@ -315,9 +339,22 @@ def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, latest_wn: int) -> str
         out.append("**Low cover (≤ 2 weeks at current burn):**")
         for _, r in low.iterrows():
             cov = r["cover_weeks"]
+            sp = _spend_of(r)
+            ads = (f" **Ads: PAUSE** ({fmt_inr(sp)}/wk running — spend on a model "
+                   f"you can't ship burns the budget and the rank it bought)."
+                   if sp >= 500 else "")
             out.append(
                 f"- 🔴 **{r['brand']} / {r['model']}** — {fmt_int(r['stock'])} units on hand, "
-                f"~{r['avg_weekly']:.1f} u/week burn ({cov:.1f} weeks cover). Reorder."
+                f"~{r['avg_weekly']:.1f} u/week burn ({cov:.1f} weeks cover). Reorder.{ads}"
+            )
+        out.append("")
+    if not watch.empty:
+        out.append("**Scale ads down (2-4 weeks cover, ads still running):**")
+        for _, r in watch.iterrows():
+            out.append(
+                f"- 🟠 **{r['brand']} / {r['model']}** — {r['cover_weeks']:.1f} weeks cover with "
+                f"{fmt_inr(r['_sp'])}/wk ad spend. Halve spend until the reorder lands, "
+                f"or stock runs out mid-campaign."
             )
         out.append("")
     if not dead.empty:
@@ -327,7 +364,7 @@ def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, latest_wn: int) -> str
                 f"- 🟡 **{r['brand']} / {r['model']}** — {fmt_int(r['stock'])} units sitting idle."
             )
         out.append("")
-    if low.empty and dead.empty:
+    if low.empty and watch.empty and dead.empty:
         out.append("- Inventory levels look healthy across the portfolio this week.")
         out.append("")
     return "\n".join(out)
@@ -702,10 +739,13 @@ def _drop_excluded(df: pd.DataFrame) -> pd.DataFrame:
 
 def build_brief(week: Optional[int] = None,
                 brand: Optional[str] = None,
-                asin_type: Optional[str] = None) -> str:
+                asin_type: Optional[str] = None,
+                category: Optional[str] = None,
+                subcategory: Optional[str] = None,
+                model: Optional[str] = None) -> str:
     """Build the brief for a slice.  EVERY section recomputes on the
-    filtered frames — week-wise / brand-wise / ASIN-type-wise briefs are
-    genuinely different documents, not the global one with lines hidden.
+    filtered frames — week / brand / ASIN-type / category / model briefs
+    are genuinely different documents, not the global one with lines hidden.
     No args = the canonical all-brands latest-week brief the cron stores."""
     s = pd.read_csv(SALES_CSV)
     s["wn"] = _wn(s["week"])
@@ -732,22 +772,47 @@ def build_brief(week: Optional[int] = None,
             a = a[a["brand"].astype(str).str.strip().str.lower() == bl]
         scope_bits.append(brand.strip())
 
+    pair_scoped = False   # any filter sales carries but inv/ads don't
     if asin_type and asin_type.strip().lower() != "all":
         tl = asin_type.strip().lower()
         if "asin_type" in s.columns:
             s = s[s["asin_type"].astype(str).str.strip().str.lower() == tl]
-            # inv + ads don't carry asin_type — scope them through the
-            # (brand, model) pairs that sales says belong to this type.
-            pairs = set(zip(s["brand"].astype(str).str.strip().str.lower(),
-                            s["model"].astype(str).str.strip().str.upper()))
-            def _in_pairs(df: pd.DataFrame) -> pd.DataFrame:
-                if df.empty or not {"brand", "model"}.issubset(df.columns):
-                    return df
-                k = list(zip(df["brand"].astype(str).str.strip().str.lower(),
-                             df["model"].astype(str).str.strip().str.upper()))
-                return df[[p in pairs for p in k]]
-            inv, a = _in_pairs(inv), _in_pairs(a)
+            pair_scoped = True
             scope_bits.append(f"{asin_type.strip()} ASINs")
+
+    if category and category.strip().lower() != "all":
+        cl = category.strip().lower()
+        if "category_l0" in s.columns:
+            s = s[s["category_l0"].astype(str).str.strip().str.lower() == cl]
+            pair_scoped = True
+            scope_bits.append(category.strip())
+
+    if subcategory and subcategory.strip().lower() != "all":
+        cl = subcategory.strip().lower()
+        if "category_l1" in s.columns:
+            s = s[s["category_l1"].astype(str).str.strip().str.lower() == cl]
+            pair_scoped = True
+            scope_bits.append(subcategory.strip())
+
+    if model and model.strip().lower() != "all":
+        ml = model.strip().upper()
+        if "model" in s.columns:
+            s = s[s["model"].astype(str).str.strip().str.upper() == ml]
+            pair_scoped = True
+            scope_bits.append(model.strip())
+
+    if pair_scoped:
+        # inv + ads don't carry asin_type / category — scope them through
+        # the (brand, model) pairs that sales says belong to this slice.
+        pairs = set(zip(s["brand"].astype(str).str.strip().str.lower(),
+                        s["model"].astype(str).str.strip().str.upper()))
+        def _in_pairs(df: pd.DataFrame) -> pd.DataFrame:
+            if df.empty or not {"brand", "model"}.issubset(df.columns):
+                return df
+            k = list(zip(df["brand"].astype(str).str.strip().str.lower(),
+                         df["model"].astype(str).str.strip().str.upper()))
+            return df[[p in pairs for p in k]]
+        inv, a = _in_pairs(inv), _in_pairs(a)
 
     if s.empty:
         return (f"# Weekly Brief\n\nNo sales rows match this slice"
@@ -766,14 +831,16 @@ def build_brief(week: Optional[int] = None,
     try:
         from weekly_app.core.key_points import compute_key_points, render_md
         kp_md = render_md(compute_key_points(week=latest_wn, brand=brand,
-                                             asin_type=asin_type))
+                                             asin_type=asin_type,
+                                             category=category,
+                                             subcategory=subcategory, model=model))
         if kp_md:
             parts.append(kp_md)
     except Exception as e:
         print(f"⚠ key points skipped: {e}")
     parts.append(headline_section(s, a, latest_wn))
     parts.append(movers_sections(s, latest_wn))
-    parts.append(inventory_section(inv, s, latest_wn))
+    parts.append(inventory_section(inv, s, a, latest_wn))
     parts.append(ads_efficiency_section(a, latest_wn) if not a.empty else "")
     parts.append(expert_directions(s, inv, a, latest_wn))
     parts.append(suggested_actions(s, inv, a, latest_wn))

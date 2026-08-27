@@ -71,7 +71,10 @@ def _load(path: Path) -> pd.DataFrame:
 
 def compute_key_points(week: Optional[int] = None,
                        brand: Optional[str] = None,
-                       asin_type: Optional[str] = None) -> List[Dict[str, Any]]:
+                       asin_type: Optional[str] = None,
+                       category: Optional[str] = None,
+                       subcategory: Optional[str] = None,
+                       model: Optional[str] = None) -> List[Dict[str, Any]]:
     """Returns points sorted by |₹ impact| desc, capped at MAX_POINTS.
     Each: {icon, kind, text, impact_inr}.  Filters recompute the WHOLE
     engine on the slice — a brand's key points are its own gainers,
@@ -82,13 +85,28 @@ def compute_key_points(week: Optional[int] = None,
     if s.empty or "wn" not in s.columns:
         return []
 
+    def _active(v: Optional[str]) -> bool:
+        return bool(v) and str(v).strip().lower() != "all"
+
     pair_scope: Optional[set] = None
-    if brand and str(brand).strip().lower() != "all":
+    if _active(brand):
         bl = str(brand).strip().lower()
         s = s[s["brand"].astype(str).str.strip().str.lower() == bl]
-    if asin_type and str(asin_type).strip().lower() != "all" and "asin_type" in s.columns:
+    if _active(asin_type) and "asin_type" in s.columns:
         tl = str(asin_type).strip().lower()
         s = s[s["asin_type"].astype(str).str.strip().str.lower() == tl]
+    if _active(category) and "category_l0" in s.columns:
+        cl = str(category).strip().lower()
+        s = s[s["category_l0"].astype(str).str.strip().str.lower() == cl]
+    if _active(subcategory) and "category_l1" in s.columns:
+        cl = str(subcategory).strip().lower()
+        s = s[s["category_l1"].astype(str).str.strip().str.lower() == cl]
+    if _active(model) and "model" in s.columns:
+        ml = str(model).strip().upper()
+        s = s[s["model"].astype(str).str.strip().str.upper() == ml]
+    if _active(asin_type) or _active(category) or _active(subcategory) or _active(model):
+        # inv + ads don't carry asin_type / category — scope them through
+        # the (brand, model) pairs sales says belong to this slice.
         pair_scope = set(zip(s["brand"].astype(str).str.strip().str.lower(),
                              s["model"].astype(str).str.strip().str.upper()))
     if s.empty:

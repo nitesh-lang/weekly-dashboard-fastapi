@@ -17,13 +17,22 @@ interface BriefResponse {
     brand:          string;
 }
 
-interface MetaResponse { weeks: number[]; brands: string[]; asin_types: string[]; }
+interface MetaResponse {
+    weeks: number[]; brands: string[]; asin_types: string[];
+    /** unique [brand, category_l0, category_l1, model] rows — drives the
+     *  dependent Category / Sub-category / Model pickers (category fields
+     *  may be "" for unclassified SKUs). */
+    model_index: [string, string, string, string][];
+}
 
 export default function Insights() {
     const qc = useQueryClient();
     const [brand,    setBrand]    = useState<string>("all");
     const [week,     setWeek]     = useState<string>("latest");
     const [asinType, setAsinType] = useState<string>("all");
+    const [category, setCategory] = useState<string>("all");
+    const [subCat,   setSubCat]   = useState<string>("all");
+    const [model,    setModel]    = useState<string>("all");
     const [busy,     setBusy]     = useState(false);
 
     const meta = useQuery<MetaResponse>({
@@ -40,12 +49,15 @@ export default function Insights() {
         if (brand && brand !== "all") p.set("brand", brand);
         if (week && week !== "latest") p.set("week", week);
         if (asinType && asinType !== "all") p.set("asin_type", asinType);
+        if (category && category !== "all") p.set("category", category);
+        if (subCat && subCat !== "all") p.set("subcategory", subCat);
+        if (model && model !== "all") p.set("model", model);
         const qs = p.toString();
         return `/api/insights/brief${qs || extra ? "?" : ""}${qs}${qs && extra ? "&" : ""}${extra}`;
     }
 
     const brief = useQuery<BriefResponse>({
-        queryKey: ["insights-brief", brand, week, asinType],
+        queryKey: ["insights-brief", brand, week, asinType, category, subCat, model],
         queryFn:  () => api.get(briefUrl()),
         staleTime: 30 * 60_000,
         retry: false,
@@ -55,7 +67,7 @@ export default function Insights() {
         setBusy(true);
         try {
             await api.get(briefUrl("force=true"));
-            await qc.invalidateQueries({ queryKey: ["insights-brief", brand, week, asinType] });
+            await qc.invalidateQueries({ queryKey: ["insights-brief", brand, week, asinType, category, subCat, model] });
         } finally {
             setBusy(false);
         }
@@ -64,6 +76,22 @@ export default function Insights() {
     const brandOptions = ["all", ...(meta.data?.brands ?? [])];
     const weekOptions  = ["latest", ...(meta.data?.weeks ?? []).map(String)];
     const typeOptions  = ["all", ...(meta.data?.asin_types ?? [])];
+
+    // Category → Sub-category → Model narrow through the (brand, l0, l1,
+    // model) index — never an 800-entry flat list.
+    const idx = meta.data?.model_index ?? [];
+    const inBrand = brand === "all" ? idx : idx.filter(([b]) => b === brand);
+    const catOptions = ["all", ...Array.from(new Set(inBrand.map(([, c]) => c).filter(Boolean))).sort()];
+    const inCat = category === "all" ? inBrand : inBrand.filter(([, c]) => c === category);
+    const subOptions = ["all", ...Array.from(new Set(inCat.map(([, , sc]) => sc).filter(Boolean))).sort()];
+    const inSub = subCat === "all" ? inCat : inCat.filter(([, , sc]) => sc === subCat);
+    const modelOptions = ["all", ...Array.from(new Set(inSub.map(([, , , m]) => m))).sort()];
+
+    // A stale narrower pick (brand switched, category gone) resets to "all"
+    // rather than silently filtering to an empty slice.
+    if (category !== "all" && !catOptions.includes(category)) setCategory("all");
+    if (subCat !== "all" && !subOptions.includes(subCat)) setSubCat("all");
+    if (model !== "all" && !modelOptions.includes(model)) setModel("all");
 
     return (
         <AppLayout>
@@ -113,6 +141,42 @@ export default function Insights() {
                     >
                         {typeOptions.map((t) => (
                             <option key={t} value={t}>{t === "all" ? "All types" : t}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Category</label>
+                    <select
+                        value={category}
+                        onChange={(e) => { setCategory(e.target.value); setSubCat("all"); setModel("all"); }}
+                        className="h-8 text-sm rounded-md border bg-background px-2 max-w-[180px]"
+                    >
+                        {catOptions.map((c) => (
+                            <option key={c} value={c}>{c === "all" ? "All categories" : c}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Sub-category</label>
+                    <select
+                        value={subCat}
+                        onChange={(e) => { setSubCat(e.target.value); setModel("all"); }}
+                        className="h-8 text-sm rounded-md border bg-background px-2 max-w-[180px]"
+                    >
+                        {subOptions.map((c) => (
+                            <option key={c} value={c}>{c === "all" ? "All sub-categories" : c}</option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Model</label>
+                    <select
+                        value={model}
+                        onChange={(e) => setModel(e.target.value)}
+                        className="h-8 text-sm rounded-md border bg-background px-2 max-w-[180px]"
+                    >
+                        {modelOptions.map((m) => (
+                            <option key={m} value={m}>{m === "all" ? "All models" : m}</option>
                         ))}
                     </select>
                 </div>

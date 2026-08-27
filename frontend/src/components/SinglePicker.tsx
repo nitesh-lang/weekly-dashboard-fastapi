@@ -82,10 +82,15 @@ export function SinglePicker({
 
     const showSearch = total > 10;
 
-    function Row({ opt }: { opt: PickerOption }) {
+    // Plain render helper, NOT a nested component: a component type defined
+    // inside the render body is new every render, so React would unmount and
+    // remount every option row per keystroke in the search box — destroying
+    // keyboard focus and redoing full mount work on long model lists.
+    const row = (opt: PickerOption) => {
         const isSel = opt.value === value;
         return (
             <button
+                key={opt.value}
                 type="button"
                 onClick={() => pick(opt.value)}
                 className={cn(
@@ -97,7 +102,7 @@ export function SinglePicker({
                 <span className="truncate">{opt.label}</span>
             </button>
         );
-    }
+    };
 
     return (
         <div className={cn("flex flex-col gap-1", className)}>
@@ -132,9 +137,7 @@ export function SinglePicker({
                             </div>
                         )}
                         <div className="max-h-72 overflow-y-auto p-1">
-                            {!search && (
-                                <Row opt={{ value: allValue, label: allLabel }} />
-                            )}
+                            {!search && row({ value: allValue, label: allLabel })}
                             {visible.length === 0 ? (
                                 <div className="px-3 py-4 text-xs text-center" style={{ color: "#9ca3af" }}>
                                     No matches
@@ -146,7 +149,7 @@ export function SinglePicker({
                                             {g.label}
                                         </div>
                                     )}
-                                    {g.options.map((opt) => <Row key={opt.value} opt={opt} />)}
+                                    {g.options.map(row)}
                                 </div>
                             ))}
                         </div>

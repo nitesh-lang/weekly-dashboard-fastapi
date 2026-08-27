@@ -863,16 +863,22 @@ def build_brief(week: Optional[int] = None,
         parts.append(window_md)
     # Ranked ₹-impact key points first — the "so what" before the tables.
     # Shared engine with ai_context.json; recomputed on this exact slice.
-    try:
-        from weekly_app.core.key_points import compute_key_points, render_md
-        kp_md = render_md(compute_key_points(week=latest_wn, brand=brand,
-                                             asin_type=asin_type,
-                                             category=category,
-                                             subcategory=subcategory, model=model))
-        if kp_md:
-            parts.append(kp_md)
-    except Exception as e:
-        print(f"⚠ key points skipped: {e}")
+    # SKIPPED in window mode: the engine is single-week WoW at the anchor
+    # week, so its bullets would contradict the window summary above them
+    # ("+30% over 8 wks" vs "-12% WoW"). Until the engine grows a window
+    # concept, absence beats self-contradiction; the Window section leads.
+    if not last_n:
+        try:
+            from weekly_app.core.key_points import compute_key_points, render_md
+            kp_md = render_md(compute_key_points(week=latest_wn, brand=brand,
+                                                 asin_type=asin_type,
+                                                 category=category,
+                                                 subcategory=subcategory,
+                                                 model=model))
+            if kp_md:
+                parts.append(kp_md)
+        except Exception as e:
+            print(f"⚠ key points skipped: {e}")
     parts.append(headline_section(s, a, latest_wn))
     parts.append(movers_sections(s, latest_wn))
     parts.append(inventory_section(inv, s, a, latest_wn))

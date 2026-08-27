@@ -89,22 +89,30 @@ def compute_key_points(week: Optional[int] = None,
         return bool(v) and str(v).strip().lower() != "all"
 
     pair_scope: Optional[set] = None
-    if _active(brand):
+    pair_scoped = False   # set ONLY when a filter actually applied — mirrors
+    # build_weekly_brief.py: a filter whose column is missing must neither
+    # KeyError on the pair build below nor pair-scope inv/ads for a slice
+    # that never narrowed sales (an unfiltered brief labeled as a slice).
+    if _active(brand) and "brand" in s.columns:
         bl = str(brand).strip().lower()
         s = s[s["brand"].astype(str).str.strip().str.lower() == bl]
     if _active(asin_type) and "asin_type" in s.columns:
         tl = str(asin_type).strip().lower()
         s = s[s["asin_type"].astype(str).str.strip().str.lower() == tl]
+        pair_scoped = True
     if _active(category) and "category_l0" in s.columns:
         cl = str(category).strip().lower()
         s = s[s["category_l0"].astype(str).str.strip().str.lower() == cl]
+        pair_scoped = True
     if _active(subcategory) and "category_l1" in s.columns:
         cl = str(subcategory).strip().lower()
         s = s[s["category_l1"].astype(str).str.strip().str.lower() == cl]
+        pair_scoped = True
     if _active(model) and "model" in s.columns:
         ml = str(model).strip().upper()
         s = s[s["model"].astype(str).str.strip().str.upper() == ml]
-    if _active(asin_type) or _active(category) or _active(subcategory) or _active(model):
+        pair_scoped = True
+    if pair_scoped and {"brand", "model"}.issubset(s.columns):
         # inv + ads don't carry asin_type / category — scope them through
         # the (brand, model) pairs sales says belong to this slice.
         pair_scope = set(zip(s["brand"].astype(str).str.strip().str.lower(),

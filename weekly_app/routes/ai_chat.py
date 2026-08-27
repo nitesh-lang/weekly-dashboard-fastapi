@@ -118,7 +118,9 @@ def _build_model_dossier(model: str) -> Dict[str, Any]:
                     "total_latest":      int(latest["inventory_units"].sum()),
                     "total_prev":        int(prev["inventory_units"].sum()) if not prev.empty else None,
                     "brand": (latest["brand"].iloc[0] if "brand" in latest.columns and not latest.empty else None),
-                    "asins": sorted({a for a in latest["asin"].astype(str).str.strip().unique() if a and a.lower() != "nan"})[:5],
+                    # fillna BEFORE astype(str): newer pandas keeps NaN through
+                    # astype(str); a float NaN here makes a.lower() AttributeError.
+                    "asins": sorted({a for a in latest["asin"].fillna("").astype(str).str.strip().unique() if a and a.lower() != "nan"})[:5],
                 }
         except Exception as e:
             out["inventory_error"] = str(e)

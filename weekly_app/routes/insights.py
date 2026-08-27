@@ -116,7 +116,8 @@ def get_brief(
         mtime = int(sales_csv.stat().st_mtime) if sales_csv.exists() else 0
         key = (brand or "all", week, asin_type or "all", category or "all",
                subcategory or "all", model or "all", last_n, mtime)
-        if not force and key in _slice_cache:
+        was_cached = not force and key in _slice_cache
+        if was_cached:
             md = _slice_cache[key]
         else:
             try:
@@ -125,12 +126,15 @@ def get_brief(
                                                  category=category,
                                                  subcategory=subcategory,
                                                  model=model, last_n=last_n)
-                _slice_cache.clear() if len(_slice_cache) > 40 else None
+                # Evict oldest, never wipe — a drill-down session crosses 40
+                # slices easily and a full clear() re-buys every hot entry.
+                while len(_slice_cache) > 40:
+                    _slice_cache.pop(next(iter(_slice_cache)))
                 _slice_cache[key] = md
             except Exception as e:
                 raise HTTPException(500, f"sliced brief failed: {e}")
         now = int(time.time())
-        return {"markdown": md, "cached": key in _slice_cache and not force,
+        return {"markdown": md, "cached": was_cached,
                 "generated_at": now, "context_mtime": mtime,
                 "brand": brand or "all", "week": week, "last_n": last_n,
                 "asin_type": asin_type or "all", "category": category or "all",
@@ -184,6 +188,11 @@ def get_meta():
                           "category_l0", "category_l1", "model"))
     except Exception:
         return empty
+    # Callable usecols never raises on missing columns — a renamed header
+    # would sail past the try/except and KeyError below. Degrade to the
+    # empty payload the frontend already handles.
+    if not {"week", "brand"}.issubset(df.columns):
+        return empty
     wn = pd.to_numeric(df["week"].astype(str).str.extract(r"(\d+)", expand=False),
                        errors="coerce").dropna().astype(int)
     # fillna BEFORE astype(str): on newer pandas astype(str) PRESERVES NaN
@@ -202,15 +211,17 @@ def get_meta():
         def _clean(col):
             v = df[col].fillna("").astype(str).str.strip()
             return v.where(~v.str.lower().isin(("nan", "none", "")), "")
+        # b != '' too: a blank-brand row (unmapped SKU) would offer categories
+        # and models the brand picker can never reach — the render guard then
+        # silently resets the pick, a filter that vanishes with no explanation.
         quad = (pd.DataFrame({"b": df["brand"], "c": _clean("category_l0"),
                               "s": _clean("category_l1"), "m": _clean("model")})
-                .query("m != ''").drop_duplicates()
+                .query("m != '' and b != ''").drop_duplicates()
                 .sort_values(["b", "c", "s", "m"]))
-        # Belt and braces: nothing non-string may reach the JSON encoder.
-        index = [[x if isinstance(x, str) else "" for x in row]
-                 for row in quad.values.tolist()]
-    return {"weeks": sorted(wn.unique().tolist(), reverse=True),
-            "brands": brands, "asin_types": types, "model_index": index}
+        index = quad.values.tolist()
+    from weekly_app.core.json_utils import clean_nan
+    return clean_nan({"weeks": sorted(wn.unique().tolist(), reverse=True),
+                      "brands": brands, "asin_types": types, "model_index": index})
 
 
 @router.get("/brands")

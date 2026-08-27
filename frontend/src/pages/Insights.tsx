@@ -89,8 +89,10 @@ export default function Insights() {
     const inSub = subCat === "all" ? inCat : inCat.filter(([, , sc]) => sc === subCat);
     const modelOptions = ["all", ...Array.from(new Set(inSub.map(([, , , m]) => m))).sort()];
 
-    // A stale narrower pick (brand switched, category gone) resets to "all"
-    // rather than silently filtering to an empty slice.
+    // Backstop only: pickers cascade their own resets in onChange (Brand
+    // clears Category/Sub/Model, etc.), so these fire solely when a META
+    // refresh removes a previously valid option. Kept because a stale pick
+    // silently filtering to an empty slice is worse than a discarded render.
     if (category !== "all" && !catOptions.includes(category)) setCategory("all");
     if (subCat !== "all" && !subOptions.includes(subCat)) setSubCat("all");
     if (model !== "all" && !modelOptions.includes(model)) setModel("all");
@@ -143,7 +145,8 @@ export default function Insights() {
                 />
                 <SinglePicker
                     label="Brand" groups={flat(brandVals)}
-                    value={brand} onChange={setBrand}
+                    value={brand}
+                    onChange={(v) => { setBrand(v); setCategory("all"); setSubCat("all"); setModel("all"); }}
                     allLabel="All brands"
                 />
                 <SinglePicker

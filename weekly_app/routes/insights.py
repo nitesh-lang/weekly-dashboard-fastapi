@@ -95,6 +95,8 @@ def get_brief(
     category: Optional[str] = Query(None, description="category_l0 slice"),
     subcategory: Optional[str] = Query(None, description="category_l1 slice"),
     model: Optional[str] = Query(None, description="Single-model brief (model code)"),
+    last_n: Optional[int] = Query(None, ge=1, le=52,
+                                  description="Window mode: brief over the last N weeks"),
     force: bool = Query(False, description="Regenerate from snapshots before serving"),
 ):
     def _active(v: Optional[str]) -> bool:
@@ -103,6 +105,7 @@ def get_brief(
     filtered = any([
         _active(brand), week is not None, _active(asin_type),
         _active(category), _active(subcategory), _active(model),
+        last_n is not None,
     ])
 
     if filtered:
@@ -112,7 +115,7 @@ def get_brief(
         sales_csv = Path("data/processed/weekly_sales_snapshot.csv")
         mtime = int(sales_csv.stat().st_mtime) if sales_csv.exists() else 0
         key = (brand or "all", week, asin_type or "all", category or "all",
-               subcategory or "all", model or "all", mtime)
+               subcategory or "all", model or "all", last_n, mtime)
         if not force and key in _slice_cache:
             md = _slice_cache[key]
         else:
@@ -121,7 +124,7 @@ def get_brief(
                                                  asin_type=asin_type,
                                                  category=category,
                                                  subcategory=subcategory,
-                                                 model=model)
+                                                 model=model, last_n=last_n)
                 _slice_cache.clear() if len(_slice_cache) > 40 else None
                 _slice_cache[key] = md
             except Exception as e:
@@ -129,7 +132,7 @@ def get_brief(
         now = int(time.time())
         return {"markdown": md, "cached": key in _slice_cache and not force,
                 "generated_at": now, "context_mtime": mtime,
-                "brand": brand or "all", "week": week,
+                "brand": brand or "all", "week": week, "last_n": last_n,
                 "asin_type": asin_type or "all", "category": category or "all",
                 "subcategory": subcategory or "all", "model": model or "all"}
 

@@ -742,7 +742,8 @@ def build_brief(week: Optional[int] = None,
                 asin_type: Optional[str] = None,
                 category: Optional[str] = None,
                 subcategory: Optional[str] = None,
-                model: Optional[str] = None) -> str:
+                model: Optional[str] = None,
+                last_n: Optional[int] = None) -> str:
     """Build the brief for a slice.  EVERY section recomputes on the
     filtered frames — week / brand / ASIN-type / category / model briefs
     are genuinely different documents, not the global one with lines hidden.
@@ -819,6 +820,38 @@ def build_brief(week: Optional[int] = None,
                 f" ({' · '.join(scope_bits) or 'all'}) — nothing to report.")
 
     latest_wn = int(week) if week and (s["wn"] == int(week)).any() else int(s["wn"].max())
+
+    # Window mode — "last N weeks": every section computes on the window
+    # (anchored at the selected/latest week), and a window summary compares
+    # it to the preceding N weeks under the SAME brand/category/model slice.
+    window_md = ""
+    if last_n and int(last_n) > 0:
+        n = int(last_n)
+        lo = latest_wn - n + 1
+        cur_w = s[s["wn"].between(lo, latest_wn)]
+        prv_w = s[s["wn"].between(lo - n, lo - 1)]
+        if cur_w.empty:
+            return (f"# Weekly Brief\n\nNo sales rows in W{lo}-W{latest_wn}"
+                    f" for this slice ({' · '.join(scope_bits) or 'all'}).")
+        g1, u1 = cur_w["gmv"].sum(), cur_w["units_sold"].sum()
+        g0 = prv_w["gmv"].sum()
+        ww = wow_pct(g1, g0)
+        wk_avg = g1 / max(cur_w["wn"].nunique(), 1)
+        window_md = (
+            f"## Window — last {n} weeks (W{lo}-W{latest_wn})\n\n"
+            f"- **GMV {fmt_inr(g1)}** over {cur_w['wn'].nunique()} wks · "
+            f"{fmt_int(u1)} units · avg {fmt_inr(wk_avg)}/wk\n"
+            + (f"- vs preceding {n} wks (W{lo-n}-W{lo-1}): {fmt_inr(g0)} "
+               f"({fmt_pct(ww)}) {trend_arrow(ww)}\n" if g0 > 0 else
+               f"- no sales in the preceding {n}-wk window to compare against\n")
+        )
+        s = cur_w
+        if "wn" in inv.columns:
+            inv = inv[inv["wn"].between(lo, latest_wn)]
+        if not a.empty and "week" in a.columns:
+            a = a[pd.to_numeric(a["week"], errors="coerce").between(lo, latest_wn)]
+        scope_bits.append(f"Last {n} wks")
+
     gen_ts = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     title_scope = f" — {' · '.join(scope_bits)}" if scope_bits else ""
@@ -826,6 +859,8 @@ def build_brief(week: Optional[int] = None,
     parts.append(f"# Weekly Brief — Week {latest_wn}{title_scope}")
     parts.append(f"*Generated {gen_ts} from data through Week {int(s['wn'].max())}*")
     parts.append("")
+    if window_md:
+        parts.append(window_md)
     # Ranked ₹-impact key points first — the "so what" before the tables.
     # Shared engine with ai_context.json; recomputed on this exact slice.
     try:

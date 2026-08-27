@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import AppLayout from "@/components/AppLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,9 @@ export default function Insights() {
     function briefUrl(extra = "") {
         const p = new URLSearchParams();
         if (brand && brand !== "all") p.set("brand", brand);
-        if (week && week !== "latest") p.set("week", week);
+        // "lastN" week values are window mode, not a specific week.
+        if (week.startsWith("last")) p.set("last_n", week.slice(4));
+        else if (week && week !== "latest") p.set("week", week);
         if (asinType && asinType !== "all") p.set("asin_type", asinType);
         if (category && category !== "all") p.set("category", category);
         if (subCat && subCat !== "all") p.set("subcategory", subCat);
@@ -115,9 +117,17 @@ export default function Insights() {
                         onChange={(e) => setWeek(e.target.value)}
                         className="h-8 text-sm rounded-md border bg-background px-2"
                     >
-                        {weekOptions.map((w) => (
-                            <option key={w} value={w}>{w === "latest" ? "Latest week" : `Week ${w}`}</option>
-                        ))}
+                        <option value="latest">Latest week</option>
+                        <optgroup label="Quick ranges">
+                            {[2, 4, 6, 8, 10, 12].map((n) => (
+                                <option key={n} value={`last${n}`}>Last {n} weeks</option>
+                            ))}
+                        </optgroup>
+                        <optgroup label="Specific week">
+                            {weekOptions.filter((w) => w !== "latest").map((w) => (
+                                <option key={w} value={w}>Week {w}</option>
+                            ))}
+                        </optgroup>
                     </select>
                 </div>
                 <div>
@@ -144,42 +154,21 @@ export default function Insights() {
                         ))}
                     </select>
                 </div>
-                <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Category</label>
-                    <select
-                        value={category}
-                        onChange={(e) => { setCategory(e.target.value); setSubCat("all"); setModel("all"); }}
-                        className="h-8 text-sm rounded-md border bg-background px-2 max-w-[180px]"
-                    >
-                        {catOptions.map((c) => (
-                            <option key={c} value={c}>{c === "all" ? "All categories" : c}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Sub-category</label>
-                    <select
-                        value={subCat}
-                        onChange={(e) => { setSubCat(e.target.value); setModel("all"); }}
-                        className="h-8 text-sm rounded-md border bg-background px-2 max-w-[180px]"
-                    >
-                        {subOptions.map((c) => (
-                            <option key={c} value={c}>{c === "all" ? "All sub-categories" : c}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Model</label>
-                    <select
-                        value={model}
-                        onChange={(e) => setModel(e.target.value)}
-                        className="h-8 text-sm rounded-md border bg-background px-2 max-w-[180px]"
-                    >
-                        {modelOptions.map((m) => (
-                            <option key={m} value={m}>{m === "all" ? "All models" : m}</option>
-                        ))}
-                    </select>
-                </div>
+                <SearchSelect
+                    label="Category" placeholder="All categories"
+                    value={category} options={catOptions.filter((c) => c !== "all")}
+                    onPick={(v) => { setCategory(v); setSubCat("all"); setModel("all"); }}
+                />
+                <SearchSelect
+                    label="Sub-category" placeholder="All sub-categories"
+                    value={subCat} options={subOptions.filter((c) => c !== "all")}
+                    onPick={(v) => { setSubCat(v); setModel("all"); }}
+                />
+                <SearchSelect
+                    label="Model" placeholder="All models"
+                    value={model} options={modelOptions.filter((m) => m !== "all")}
+                    onPick={setModel}
+                />
                 <Button onClick={regenerate} disabled={busy || brief.isFetching} variant="outline" size="sm">
                     <RefreshCw className={"h-3.5 w-3.5 " + ((busy || brief.isFetching) ? "animate-spin" : "")} />
                     Regenerate
@@ -225,6 +214,42 @@ export default function Insights() {
                 </>
             )}
         </AppLayout>
+    );
+}
+
+/** Type-to-search single picker over a native <datalist> — no dropdown lib.
+ *  Commits when the text exactly matches an option (case-insensitive) or on
+ *  clear; junk text just never commits, so the active filter stays valid.
+ *  Datalist UX: click shows all options, typing narrows them. */
+function SearchSelect({ label, placeholder, value, options, onPick }: {
+    label: string; placeholder: string; value: string;
+    options: string[]; onPick: (v: string) => void;
+}) {
+    const [text, setText] = useState(value === "all" ? "" : value);
+    // External resets (brand switch wiping the pick) must clear the box too.
+    useEffect(() => { setText(value === "all" ? "" : value); }, [value]);
+    const listId = `ss-${label.toLowerCase().replace(/[^a-z]/g, "")}`;
+    function commit(raw: string) {
+        const v = raw.trim();
+        if (!v) { onPick("all"); return; }
+        const hit = options.find((o) => o.toLowerCase() === v.toLowerCase());
+        if (hit) onPick(hit);
+    }
+    return (
+        <div>
+            <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">{label}</label>
+            <input
+                list={listId}
+                value={text}
+                placeholder={placeholder}
+                onChange={(e) => { setText(e.target.value); commit(e.target.value); }}
+                onBlur={(e) => { if (!e.target.value.trim()) onPick("all"); }}
+                className="h-8 text-sm rounded-md border bg-background px-2 w-[170px]"
+            />
+            <datalist id={listId}>
+                {options.map((o) => <option key={o} value={o} />)}
+            </datalist>
+        </div>
     );
 }
 

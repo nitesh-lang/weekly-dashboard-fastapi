@@ -183,23 +183,29 @@ def get_meta():
         return empty
     wn = pd.to_numeric(df["week"].astype(str).str.extract(r"(\d+)", expand=False),
                        errors="coerce").dropna().astype(int)
-    df["brand"] = df["brand"].astype(str).str.strip()
+    # fillna BEFORE astype(str): on newer pandas astype(str) PRESERVES NaN
+    # instead of stringifying it, and a NaN reaching the JSON encoder 500s
+    # the whole endpoint ("Out of range float values are not JSON
+    # compliant") — see feedback_pd_na_breaks_json_response.
+    df["brand"] = df["brand"].fillna("").astype(str).str.strip()
     df = df[df["brand"].str.lower() != "fossil"]          # brief excludes Fossil by rule
-    brands = sorted(b for b in df["brand"].dropna().unique() if b)
+    brands = sorted(b for b in df["brand"].unique() if b and b.lower() != "nan")
     types = []
     if "asin_type" in df.columns:
-        types = sorted(t for t in df["asin_type"].dropna().astype(str).str.strip().unique()
+        types = sorted(t for t in df["asin_type"].fillna("").astype(str).str.strip().unique()
                        if t and t.lower() not in ("nan", "none", ""))
     index: list = []
     if {"category_l0", "category_l1", "model"}.issubset(df.columns):
         def _clean(col):
-            v = df[col].astype(str).str.strip()
+            v = df[col].fillna("").astype(str).str.strip()
             return v.where(~v.str.lower().isin(("nan", "none", "")), "")
         quad = (pd.DataFrame({"b": df["brand"], "c": _clean("category_l0"),
                               "s": _clean("category_l1"), "m": _clean("model")})
                 .query("m != ''").drop_duplicates()
                 .sort_values(["b", "c", "s", "m"]))
-        index = quad.values.tolist()
+        # Belt and braces: nothing non-string may reach the JSON encoder.
+        index = [[x if isinstance(x, str) else "" for x in row]
+                 for row in quad.values.tolist()]
     return {"weeks": sorted(wn.unique().tolist(), reverse=True),
             "brands": brands, "asin_types": types, "model_index": index}
 

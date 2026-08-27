@@ -267,8 +267,10 @@ function Brief({ markdown }: { markdown: string }) {
 }
 
 type Block =
+    | { kind: "h1";   text: string }
     | { kind: "h2";   text: string }
     | { kind: "h3";   text: string }
+    | { kind: "meta"; text: string }
     | { kind: "ul";   items: string[] }
     | { kind: "p";    text: string };
 
@@ -280,7 +282,15 @@ function splitBlocks(md: string): Block[] {
     for (const raw of lines) {
         const line = raw.trim();
         if (!line) { pIdx = -1; ulIdx = -1; continue; }
-        if (line.startsWith("## ")) {
+        if (line.startsWith("# ")) {
+            // Document title — "Weekly Brief — Week 34 — GS-02"
+            blocks.push({ kind: "h1", text: line.slice(2) });
+            pIdx = -1; ulIdx = -1;
+        } else if (/^\*[^*].*\*$/.test(line)) {
+            // Full-line *italic* — the "Generated … from data through …" byline
+            blocks.push({ kind: "meta", text: line.slice(1, -1) });
+            pIdx = -1; ulIdx = -1;
+        } else if (line.startsWith("## ")) {
             blocks.push({ kind: "h2", text: line.slice(3) });
             pIdx = -1; ulIdx = -1;
         } else if (line.startsWith("### ")) {
@@ -301,6 +311,20 @@ function splitBlocks(md: string): Block[] {
 }
 
 function renderBlock(b: Block, i: number): ReactNode {
+    if (b.kind === "h1") {
+        return (
+            <h1 key={i} className="text-[20px] font-semibold tracking-tight mb-0.5" style={{ color: "#0a0a0a" }}>
+                {inlineMd(b.text)}
+            </h1>
+        );
+    }
+    if (b.kind === "meta") {
+        return (
+            <p key={i} className="text-[12px] mb-4" style={{ color: "#9ca3af" }}>
+                {inlineMd(b.text)}
+            </p>
+        );
+    }
     if (b.kind === "h2") {
         return (
             <h2

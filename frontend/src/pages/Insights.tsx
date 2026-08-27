@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import AppLayout from "@/components/AppLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { LoadingSkeleton, ErrorBlock } from "@/components/StateBlocks";
 import { api } from "@/lib/api";
-import { MultiPicker } from "@/components/MultiPicker";
+import { SinglePicker, type PickerGroup } from "@/components/SinglePicker";
+import { FilterChipStrip, type FilterChipGroup } from "@/components/FilterChipStrip";
 import { Sparkles, RefreshCw, Clock, AlertTriangle } from "lucide-react";
 import { ApiError } from "@/lib/api";
 
@@ -75,9 +76,8 @@ export default function Insights() {
         }
     }
 
-    const brandOptions = ["all", ...(meta.data?.brands ?? [])];
-    const weekOptions  = ["latest", ...(meta.data?.weeks ?? []).map(String)];
-    const typeOptions  = ["all", ...(meta.data?.asin_types ?? [])];
+    const brandVals = meta.data?.brands ?? [];
+    const typeVals  = meta.data?.asin_types ?? [];
 
     // Category → Sub-category → Model narrow through the (brand, l0, l1,
     // model) index — never an 800-entry flat list.
@@ -95,6 +95,25 @@ export default function Insights() {
     if (subCat !== "all" && !subOptions.includes(subCat)) setSubCat("all");
     if (model !== "all" && !modelOptions.includes(model)) setModel("all");
 
+    const flat = (vals: string[]): PickerGroup[] => [{ options: vals.map((v) => ({ value: v, label: v })) }];
+    const weekGroups: PickerGroup[] = [
+        { label: "Quick ranges", options: [2, 4, 6, 8, 10, 12].map((n) => ({ value: `last${n}`, label: `Last ${n} weeks` })) },
+        { label: "Specific week", options: (meta.data?.weeks ?? []).map((w) => ({ value: String(w), label: `Week ${w}` })) },
+    ];
+    const weekLabel = week.startsWith("last") ? `Last ${week.slice(4)} weeks`
+        : week !== "latest" ? `Week ${week}` : "";
+
+    // One chip per active filter — single-value groups; X resets that filter
+    // (children of a cleared parent reset via the option guards above).
+    const chips: FilterChipGroup[] = [
+        { label: "Week", values: weekLabel ? [weekLabel] : [], onRemove: () => setWeek("latest"), onClear: () => setWeek("latest") },
+        { label: "Brand", values: brand !== "all" ? [brand] : [], onRemove: () => setBrand("all"), onClear: () => setBrand("all") },
+        { label: "ASIN Type", values: asinType !== "all" ? [asinType] : [], onRemove: () => setAsinType("all"), onClear: () => setAsinType("all") },
+        { label: "Category", values: category !== "all" ? [category] : [], onRemove: () => { setCategory("all"); setSubCat("all"); setModel("all"); }, onClear: () => { setCategory("all"); setSubCat("all"); setModel("all"); } },
+        { label: "Sub-category", values: subCat !== "all" ? [subCat] : [], onRemove: () => { setSubCat("all"); setModel("all"); }, onClear: () => { setSubCat("all"); setModel("all"); } },
+        { label: "Model", values: model !== "all" ? [model] : [], onRemove: () => setModel("all"), onClear: () => setModel("all") },
+    ];
+
     return (
         <AppLayout>
             <div className="flex flex-wrap items-end gap-4">
@@ -110,70 +129,48 @@ export default function Insights() {
                     </p>
                 </div>
                 <div className="flex-1" />
-                <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Week</label>
-                    <select
-                        value={week}
-                        onChange={(e) => setWeek(e.target.value)}
-                        className="h-8 text-sm rounded-md border bg-background px-2"
-                    >
-                        <option value="latest">Latest week</option>
-                        <optgroup label="Quick ranges">
-                            {[2, 4, 6, 8, 10, 12].map((n) => (
-                                <option key={n} value={`last${n}`}>Last {n} weeks</option>
-                            ))}
-                        </optgroup>
-                        <optgroup label="Specific week">
-                            {weekOptions.filter((w) => w !== "latest").map((w) => (
-                                <option key={w} value={w}>Week {w}</option>
-                            ))}
-                        </optgroup>
-                    </select>
-                </div>
-                <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">Brand</label>
-                    <select
-                        value={brand}
-                        onChange={(e) => setBrand(e.target.value)}
-                        className="h-8 text-sm rounded-md border bg-background px-2"
-                    >
-                        {brandOptions.map((b) => (
-                            <option key={b} value={b}>{b === "all" ? "All brands" : b}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">ASIN Type</label>
-                    <select
-                        value={asinType}
-                        onChange={(e) => setAsinType(e.target.value)}
-                        className="h-8 text-sm rounded-md border bg-background px-2"
-                    >
-                        {typeOptions.map((t) => (
-                            <option key={t} value={t}>{t === "all" ? "All types" : t}</option>
-                        ))}
-                    </select>
-                </div>
-                <SearchSelect
-                    label="Category" placeholder="All categories"
-                    value={category} options={catOptions.filter((c) => c !== "all")}
-                    onPick={(v) => { setCategory(v); setSubCat("all"); setModel("all"); }}
-                />
-                <SearchSelect
-                    label="Sub-category" placeholder="All sub-categories"
-                    value={subCat} options={subOptions.filter((c) => c !== "all")}
-                    onPick={(v) => { setSubCat(v); setModel("all"); }}
-                />
-                <SearchSelect
-                    label="Model" placeholder="All models"
-                    value={model} options={modelOptions.filter((m) => m !== "all")}
-                    onPick={setModel}
-                />
                 <Button onClick={regenerate} disabled={busy || brief.isFetching} variant="outline" size="sm">
                     <RefreshCw className={"h-3.5 w-3.5 " + ((busy || brief.isFetching) ? "animate-spin" : "")} />
                     Regenerate
                 </Button>
             </div>
+
+            <div className="flex flex-wrap items-end gap-3">
+                <SinglePicker
+                    label="Week" groups={weekGroups}
+                    value={week} onChange={setWeek}
+                    allValue="latest" allLabel="Latest week"
+                />
+                <SinglePicker
+                    label="Brand" groups={flat(brandVals)}
+                    value={brand} onChange={setBrand}
+                    allLabel="All brands"
+                />
+                <SinglePicker
+                    label="ASIN Type" groups={flat(typeVals)}
+                    value={asinType} onChange={setAsinType}
+                    allLabel="All types"
+                />
+                <SinglePicker
+                    label="Category" groups={flat(catOptions.filter((c) => c !== "all"))}
+                    value={category}
+                    onChange={(v) => { setCategory(v); setSubCat("all"); setModel("all"); }}
+                    allLabel="All categories"
+                />
+                <SinglePicker
+                    label="Sub-category" groups={flat(subOptions.filter((c) => c !== "all"))}
+                    value={subCat}
+                    onChange={(v) => { setSubCat(v); setModel("all"); }}
+                    allLabel="All sub-categories"
+                />
+                <SinglePicker
+                    label="Model" groups={flat(modelOptions.filter((m) => m !== "all"))}
+                    value={model} onChange={setModel}
+                    allLabel="All models"
+                />
+            </div>
+
+            <FilterChipStrip filters={chips} />
 
             {brief.isLoading && (
                 <Card className="p-6">
@@ -214,42 +211,6 @@ export default function Insights() {
                 </>
             )}
         </AppLayout>
-    );
-}
-
-/** Type-to-search single picker over a native <datalist> — no dropdown lib.
- *  Commits when the text exactly matches an option (case-insensitive) or on
- *  clear; junk text just never commits, so the active filter stays valid.
- *  Datalist UX: click shows all options, typing narrows them. */
-function SearchSelect({ label, placeholder, value, options, onPick }: {
-    label: string; placeholder: string; value: string;
-    options: string[]; onPick: (v: string) => void;
-}) {
-    const [text, setText] = useState(value === "all" ? "" : value);
-    // External resets (brand switch wiping the pick) must clear the box too.
-    useEffect(() => { setText(value === "all" ? "" : value); }, [value]);
-    const listId = `ss-${label.toLowerCase().replace(/[^a-z]/g, "")}`;
-    function commit(raw: string) {
-        const v = raw.trim();
-        if (!v) { onPick("all"); return; }
-        const hit = options.find((o) => o.toLowerCase() === v.toLowerCase());
-        if (hit) onPick(hit);
-    }
-    return (
-        <div>
-            <label className="text-[10px] uppercase tracking-wider text-muted-foreground block mb-1">{label}</label>
-            <input
-                list={listId}
-                value={text}
-                placeholder={placeholder}
-                onChange={(e) => { setText(e.target.value); commit(e.target.value); }}
-                onBlur={(e) => { if (!e.target.value.trim()) onPick("all"); }}
-                className="h-8 text-sm rounded-md border bg-background px-2 w-[170px]"
-            />
-            <datalist id={listId}>
-                {options.map((o) => <option key={o} value={o} />)}
-            </datalist>
-        </div>
     );
 }
 

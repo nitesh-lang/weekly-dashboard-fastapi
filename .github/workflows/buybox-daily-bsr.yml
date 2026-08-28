@@ -1,0 +1,110 @@
+﻿# Buybox — Daily BSR fetch (moved from nitesh-lang/Buybox_report 2026-08-28;
+# the buybox app now lives in this repo under buybox_src/).
+#
+# Commits fresh Keepa BSR CSVs + regenerated src/*.json snapshots; each
+# commit triggers a Render deploy, which rebuilds the /buybox bundle with
+# the new data ([skip ci] stops this repo's OTHER Actions, not Render).
+#
+# Required repo secret: KEEPA_API_KEY  (VITE_OPENROUTER_API_KEY optional —
+# without it the in-dashboard AI assistant stays disabled, build still OK).
+
+name: Buybox Daily BSR
+
+on:
+  schedule:
+    - cron: "30 2 * * *"
+    - cron: "30 4 * * *"
+    - cron: "30 6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: buybox-bsr-daily
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: buybox_src
+
+jobs:
+  bsr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Check if today already fetched
+        id: guard
+        run: |
+          TODAY=$(date +%y-%m-%d)
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "run=yes" >> "$GITHUB_OUTPUT"
+          elif [ -f "data/BSR/Nexlev/${TODAY}.csv" ]; then
+            echo "run=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Set up Python
+        if: steps.guard.outputs.run == 'yes'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Node
+        if: steps.guard.outputs.run == 'yes'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Python deps
+        if: steps.guard.outputs.run == 'yes'
+        run: pip install -r requirements.txt
+      - name: Install Node deps
+        if: steps.guard.outputs.run == 'yes'
+        run: npm ci || npm install
+      - name: Fetch Keepa BSR
+        if: steps.guard.outputs.run == 'yes'
+        env:
+          KEEPA_API_KEY: ${{ secrets.KEEPA_API_KEY }}
+        run: python Scripts/fetch_keepa_bsr.py
+      - name: Build BSR snapshots
+        if: steps.guard.outputs.run == 'yes'
+        run: python Scripts/build_bsr_snapshots.py
+      - name: Build site (compile check only)
+        if: steps.guard.outputs.run == 'yes'
+        env:
+          VITE_OPENROUTER_API_KEY: ${{ secrets.VITE_OPENROUTER_API_KEY }}
+          # Throwaway — this build only catches compile errors; its output is
+          # discarded. The real BUYBOX_PASSWORD lives ONLY in Render's env.
+          BUYBOX_PASSWORD: ci-compile-check-not-a-real-password
+        run: npm run build
+      - name: Commit and push
+        if: steps.guard.outputs.run == 'yes'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Pathspec "." scopes staging to buybox_src/ — from a subdirectory a
+          # bare `git add -A` would stage the WHOLE repo, including any
+          # unrelated drift elsewhere in the weekly tree.
+          git add -A .
+          git add -f data/BSR
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "data(buybox): BSR snapshot $(date +%Y-%m-%d) [skip ci]"
+            pushed=no
+            for i in 1 2 3 4 5; do
+              echo "Push attempt $i/5..."
+              if git pull --rebase origin main && git push; then
+                echo "Pushed successfully on attempt $i."
+                pushed=yes
+                break
+              fi
+              echo "Attempt $i failed (remote moved?); syncing and retrying in 5s..."
+              sleep 5
+            done
+            if [ "$pushed" != "yes" ]; then
+              echo "ERROR: git push failed after 5 attempts."
+              exit 1
+            fi
+          fi

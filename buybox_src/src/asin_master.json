@@ -1,0 +1,386 @@
+{
+  "B0CYSLCRQS": {
+    "fbaSku": "FBA79263",
+    "model": "MR-01",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 908.87,
+    "nlc": 1072.47
+  },
+  "B0CYSMBCB8": {
+    "fbaSku": "FBA79262",
+    "model": "SC-02",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 1088.32,
+    "nlc": 1284.22
+  },
+  "B0CDPP45BM": {
+    "fbaSku": "FBA78981",
+    "model": "SC-01",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 1439.27,
+    "nlc": 1698.34
+  },
+  "B0D2LGR3GG": {
+    "fbaSku": "FBA79266",
+    "model": "T-01",
+    "category": "Trimmers & Body Groomers",
+    "mainCat": "HPC",
+    "dp": 416.4,
+    "nlc": 491.35
+  },
+  "B0D63DTKQB": {
+    "fbaSku": "FBA79333",
+    "model": "HM-02",
+    "category": "Hair Care",
+    "mainCat": "HPC",
+    "dp": 544.84,
+    "nlc": 642.91
+  },
+  "B0DTK4FY1G": {
+    "fbaSku": "FBA79451",
+    "model": "SS-01",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 1219.76,
+    "nlc": 1439.32
+  },
+  "B0D2LD6BYJ": {
+    "fbaSku": "FBA79267",
+    "model": "T-02",
+    "category": "Trimmers & Body Groomers",
+    "mainCat": "HPC",
+    "dp": 488.96,
+    "nlc": 576.97
+  },
+  "B0DCK7ZH5P": {
+    "fbaSku": "FBA79439",
+    "model": "MR-02",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 999.76,
+    "nlc": 1179.72
+  },
+  "B0D67727VG": {
+    "fbaSku": "FBA79350",
+    "model": "EA-01",
+    "category": "Hair Care",
+    "mainCat": "HPC",
+    "dp": 574.03,
+    "nlc": 677.35
+  },
+  "B0DCGHVN81": {
+    "fbaSku": "FBA79452",
+    "model": "VC-01",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 832.34,
+    "nlc": 982.16
+  },
+  "B0CDPMX152": {
+    "fbaSku": "FBA78980",
+    "model": "GS-02",
+    "category": "Fabric Care",
+    "mainCat": "Home & Kitchen",
+    "dp": 1001.17,
+    "nlc": 1181.38
+  },
+  "B0D8445KJN": {
+    "fbaSku": "FBA79279",
+    "model": "LR-01",
+    "category": "Fabric Care",
+    "mainCat": "Home & Kitchen",
+    "dp": 362.77,
+    "nlc": 428.07
+  },
+  "B0D9KDQCCM": {
+    "fbaSku": "FBA79349",
+    "model": "SW-01",
+    "category": "Fabric Care",
+    "mainCat": "Home & Kitchen",
+    "dp": 308.74,
+    "nlc": 364.31
+  },
+  "B0D845B2DG": {
+    "fbaSku": "FBA79280",
+    "model": "LR-02",
+    "category": "Fabric Care",
+    "mainCat": "Home & Kitchen",
+    "dp": 521.19,
+    "nlc": 614.8
+  },
+  "B0D383WQPB": {
+    "fbaSku": "FBA79281",
+    "model": "GS-05",
+    "category": "Fabric Care",
+    "mainCat": "Home & Kitchen",
+    "dp": 1017.5,
+    "nlc": 1200.65
+  },
+  "B0D2LJSQXZ": {
+    "fbaSku": "FBA79282",
+    "model": "SM-01",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 1320.34,
+    "nlc": 1558
+  },
+  "B0DKJXRXKM": {
+    "fbaSku": "FBA79283",
+    "model": "BR-01",
+    "category": "Beauty & Skincare",
+    "mainCat": "HPC",
+    "dp": 535.44,
+    "nlc": 631.82
+  },
+  "B0DFCDKMWR": {
+    "fbaSku": "FBA79284",
+    "model": "CM-01",
+    "category": "Health & Wellness",
+    "mainCat": "HPC",
+    "dp": 459.66,
+    "nlc": 542.4
+  },
+  "B0DFCDZWND": {
+    "fbaSku": "FBA79285",
+    "model": "CM-02",
+    "category": "Health & Wellness",
+    "mainCat": "HPC",
+    "dp": 459.66,
+    "nlc": 542.4
+  },
+  "B0D9KFZYG8": {
+    "fbaSku": "FBA79286",
+    "model": "FS-01",
+    "category": "Health & Wellness",
+    "mainCat": "Home & Kitchen",
+    "dp": 627.12,
+    "nlc": 740
+  },
+  "B0DNJS23HS": {
+    "fbaSku": "FBA79287",
+    "model": "SC-04",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 2074.58,
+    "nlc": 2447.99
+  },
+  "B0DQCWRG3H": {
+    "fbaSku": "FBA79288",
+    "model": "V-03",
+    "category": "Hair Care",
+    "mainCat": "HPC",
+    "dp": 727.5,
+    "nlc": 858.45
+  },
+  "B0DCK3N2JJ": {
+    "fbaSku": "FBA79289",
+    "model": "HSB-04",
+    "category": "Hair Care",
+    "mainCat": "HPC",
+    "dp": 762.71,
+    "nlc": 900
+  },
+  "B0D9KFP4MG": {
+    "fbaSku": "FBA79290",
+    "model": "HSB-03",
+    "category": "Hair Care",
+    "mainCat": "HPC",
+    "dp": 543.22,
+    "nlc": 641
+  },
+  "B0DVC7VJP1": {
+    "fbaSku": "FBA79291",
+    "model": "ST-01",
+    "category": "Kitchen Appliances",
+    "mainCat": "Home & Kitchen",
+    "dp": 1728.81,
+    "nlc": 2040
+  },
+  "B0DM6BB3VT": {
+    "fbaSku": "FBA79292",
+    "model": "CFM-01",
+    "category": "Health & Wellness",
+    "mainCat": "HPC",
+    "dp": 1000,
+    "nlc": 1180
+  },
+  "B0FT8R24QM": {
+    "fbaSku": "FBA79293",
+    "model": "LR-03",
+    "category": "Fabric Care",
+    "mainCat": "Home & Kitchen",
+    "dp": 237.29,
+    "nlc": 279.99
+  },
+  "B0DFCG2VGS": {
+    "fbaSku": "FBA79294",
+    "model": "KE-01",
+    "category": "Kitchen Appliances",
+    "mainCat": "Home & Kitchen",
+    "dp": 465.3,
+    "nlc": 549.05
+  },
+  "B0DFD123P5": {
+    "fbaSku": "FBA79295",
+    "model": "KE-02",
+    "category": "Kitchen Appliances",
+    "mainCat": "Home & Kitchen",
+    "dp": 413.56,
+    "nlc": 488
+  },
+  "B0F43P6D23": {
+    "fbaSku": "FBA79296",
+    "model": "SC-05",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 848.64,
+    "nlc": 1001.38
+  },
+  "B0DVC9PRSD": {
+    "fbaSku": "FBA79297",
+    "model": "A6",
+    "category": "Air Purifiers",
+    "mainCat": "Home & Kitchen",
+    "dp": 4250.85,
+    "nlc": 5016
+  },
+  "B0DVC58QPZ": {
+    "fbaSku": "FBA79298",
+    "model": "AP220",
+    "category": "Air Purifiers",
+    "mainCat": "Home & Kitchen",
+    "dp": 1271.19,
+    "nlc": 1500
+  },
+  "B0FS6TB7CP": {
+    "fbaSku": "FBA79299",
+    "model": "PB-01",
+    "category": "Kitchen Appliances",
+    "mainCat": "Home & Kitchen",
+    "dp": 632.2,
+    "nlc": 746
+  },
+  "B0DKJSCLBD": {
+    "fbaSku": "FBA79300",
+    "model": "VC-05",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 664.41,
+    "nlc": 784
+  },
+  "B0DM66B2DW": {
+    "fbaSku": "FBA79301",
+    "model": "KM-01",
+    "category": "Health & Wellness",
+    "mainCat": "HPC",
+    "dp": 830.59,
+    "nlc": 980
+  },
+  "B0DNJP9T35": {
+    "fbaSku": "FBA79302",
+    "model": "SS-02",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 627.54,
+    "nlc": 740.5
+  },
+  "B0DVC968P1": {
+    "fbaSku": "FBA79303",
+    "model": "HU-01",
+    "category": "Home Environment",
+    "mainCat": "Home & Kitchen",
+    "dp": 373.05,
+    "nlc": 440.4
+  },
+  "B0DVC8NYY2": {
+    "fbaSku": "FBA79304",
+    "model": "HU-02",
+    "category": "Home Environment",
+    "mainCat": "Home & Kitchen",
+    "dp": 287.29,
+    "nlc": 339
+  },
+  "B0DCGHKRXX": {
+    "fbaSku": "FBA79305",
+    "model": "LE-02",
+    "category": "Beauty & Skincare",
+    "mainCat": "HPC",
+    "dp": 576.69,
+    "nlc": 680.5
+  },
+  "B0DCK4DR1B": {
+    "fbaSku": "FBA79306",
+    "model": "LE-04",
+    "category": "Beauty & Skincare",
+    "mainCat": "HPC",
+    "dp": 440.68,
+    "nlc": 520
+  },
+  "B0DKJZDY72": {
+    "fbaSku": "FBA79307",
+    "model": "VC-04",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 745.76,
+    "nlc": 880
+  },
+  "B0DVSZ2VVJ": {
+    "fbaSku": "FBA79308",
+    "model": "CFM-02",
+    "category": "Health & Wellness",
+    "mainCat": "HPC",
+    "dp": 1525.42,
+    "nlc": 1800
+  },
+  "B0DDC3GVZW": {
+    "fbaSku": "FBA79309",
+    "model": "VC-03",
+    "category": "Cleaning & Vacuuming",
+    "mainCat": "Home & Kitchen",
+    "dp": 576.69,
+    "nlc": 680.5
+  },
+  "B0D9KFQG8Q": {
+    "fbaSku": "FBA79310",
+    "model": "LE-03",
+    "category": "Beauty & Skincare",
+    "mainCat": "HPC",
+    "dp": 508.47,
+    "nlc": 600
+  },
+  "B0DNJJKBKG": {
+    "fbaSku": "FBA79311",
+    "model": "BM-02",
+    "category": "Health & Wellness",
+    "mainCat": "HPC",
+    "dp": 559.32,
+    "nlc": 660
+  },
+  "B0DFMRG2K4": {
+    "fbaSku": "FBA79312",
+    "model": "TM-02",
+    "category": "Trimmers & Body Groomers",
+    "mainCat": "HPC",
+    "dp": 610.17,
+    "nlc": 720
+  },
+  "B0DK9NRBWJ": {
+    "fbaSku": "FBA79313",
+    "model": "TM-03",
+    "category": "Trimmers & Body Groomers",
+    "mainCat": "HPC",
+    "dp": 559.32,
+    "nlc": 660
+  },
+  "B0FPGDVVCX": {
+    "fbaSku": "FBA79314",
+    "model": "CFM-03",
+    "category": "Health & Wellness",
+    "mainCat": "HPC",
+    "dp": 2161.02,
+    "nlc": 2550
+  }
+}

@@ -1,0 +1,27 @@
+campaignId,campaignName,brand,asin,sku,model,category_l0,category_l1,category_l2,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method
+7564033701824,WM-SB-Monitor Arms-Defensive,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,125.03,688,11,1129.8,0,0,L0_ads_api
+7564033701824,WM-SB-Monitor Arms-Defensive,White Mulberry,B0DB5VVPSB,FBA79477,WM-GS2M-BK,Monitor Arm,Monitor Arm,,125.03,688,11,1129.8,0,0,L0_ads_api
+7564033701824,WM-SB-Monitor Arms-Defensive,White Mulberry,B0DB5W4TCP,FBA79478,WM-HA1M-BK,Monitor Arm,Monitor Arm,,125.03,688,11,1129.8,0,0,L0_ads_api
+7564033701824,WM-SB-Monitor Arms-Defensive,White Mulberry,B0DB5YTQZV,FBA79479,WM-HA2M-BK,Monitor Arm,Monitor Arm,,125.03,688,11,1129.8,0,0,L0_ads_api
+7564033701824,WM-SB-Monitor Arms-Defensive,White Mulberry,B0DP32F346,FBA79617,HDWF1ML,Monitor Arm,Monitor Arm,,125.03,688,11,1129.8,0,0,L0_ads_api
+7564033701824,WM-SB-Monitor Arms-Defensive,White Mulberry,B0DP2Z5DQ9,FBA79615,VLMS1ML,Monitor Arm,Monitor Arm,,125.03,688,11,1129.8,0,0,L0_ads_api
+138135826216410,Camb-SB-Branded-Phrase,White Mulberry,B0BFVMDJ2K,FBA76417,WM-LOD-WH,Desk,L-Shaped Desk,,1.34,15,0,0.0,0,0,L0_ads_api
+138135826216410,Camb-SB-Branded-Phrase,White Mulberry,B0BFVNS8HS,FBA76418,WM-LOD-IN,Desk,L-Shaped Desk,,1.34,15,0,0.0,0,0,L0_ads_api
+138135826216410,Camb-SB-Branded-Phrase,White Mulberry,B0BFW59TRG,FBA76416,WM-LOD-BK,Desk,L-Shaped Desk,,1.34,15,0,0.0,0,0,L0_ads_api
+138135826216410,Camb-SB-Branded-Phrase,White Mulberry,B0BFWD6SNF,FBA76415,WM-LOD-CF,Desk,L-Shaped Desk,,1.34,15,0,0.0,0,0,L0_ads_api
+138135826216410,Camb-SB-Branded-Phrase,White Mulberry,B0CPT3Q25C,FBA79179,WM-SE08-CF,Desk-Adjustable,Motorized,,1.34,15,0,0.0,0,0,L0_ads_api
+138135826216410,Camb-SB-Branded-Phrase,White Mulberry,B0DQ4YWSMC,FBA79662,WM-MODL-WH,Desk-Adjustable,Motorized,,1.34,15,0,0.0,0,0,L0_ads_api
+234098539008622,Camb-SB-Defensive,White Mulberry,B0BFVMDJ2K,FBA76417,WM-LOD-WH,Desk,L-Shaped Desk,,188.7383,917,21,0.0,0,0,L0_ads_api
+234098539008622,Camb-SB-Defensive,White Mulberry,B0BFVNS8HS,FBA76418,WM-LOD-IN,Desk,L-Shaped Desk,,188.7383,917,21,0.0,0,0,L0_ads_api
+234098539008622,Camb-SB-Defensive,White Mulberry,B0BFW59TRG,FBA76416,WM-LOD-BK,Desk,L-Shaped Desk,,188.7383,917,21,0.0,0,0,L0_ads_api
+234098539008622,Camb-SB-Defensive,White Mulberry,B0BFWD6SNF,FBA76415,WM-LOD-CF,Desk,L-Shaped Desk,,188.7383,917,21,0.0,0,0,L0_ads_api
+234098539008622,Camb-SB-Defensive,White Mulberry,B0CPT3Q25C,FBA79179,WM-SE08-CF,Desk-Adjustable,Motorized,,188.7383,917,21,0.0,0,0,L0_ads_api
+234098539008622,Camb-SB-Defensive,White Mulberry,B0DQ4YWSMC,FBA79662,WM-MODL-WH,Desk-Adjustable,Motorized,,188.7383,917,21,0.0,0,0,L0_ads_api
+294882590177639,WM- SBV-Wall Mounted Stand- B0DP2WC5VW- Phrase & exact,White Mulberry,B0DP2WC5VW,FBA79612,WM1ML,Monitor Arm,Monitor Arm,,9172.87,57072,615,41427.12,16,14,L0_ads_api
+324360739426689,Camb-SB-Multiple Asin- product collection- Reach,White Mulberry,B0CPT3Q25C,FBA79179,WM-SE08-CF,Desk-Adjustable,Motorized,,2115.3633,17080,287,41993.21,5,5,L0_ads_api
+324360739426689,Camb-SB-Multiple Asin- product collection- Reach,White Mulberry,B0DQ4YWSMC,FBA79662,WM-MODL-WH,Desk-Adjustable,Motorized,,2115.3633,17080,287,41993.21,5,5,L0_ads_api
+324360739426689,Camb-SB-Multiple Asin- product collection- Reach,White Mulberry,B0DQ1NV8D2,FBA79659,WM-MDL-BK,Desk-Adjustable,Manual,,2115.3633,17080,287,41993.21,5,5,L0_ads_api
+333757065487521,WM-SBV-Gas Spring MA- B0DB5VG39T- Phrase,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,11403.66,80690,685,36556.76,16,16,L0_ads_api
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0CPFS24ML,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,2396.58,26551,1072,92816.51,15,15,L0_ads_api
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0BFVMDJ2K,FBA76417,WM-LOD-WH,Desk,L-Shaped Desk,,2396.58,26551,1072,92816.51,15,15,L0_ads_api
+479490273450627,WM- SBV- Wooden Arm- B0DP32F346- Phrase,White Mulberry,B0DP32F346,FBA79617,HDWF1ML,Monitor Arm,Monitor Arm,,3660.61,31519,312,11848.32,4,4,L0_ads_api

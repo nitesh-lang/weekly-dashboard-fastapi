@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuyBox Ads Report</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231D4ED8'/><text x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' font-size='17'>📈</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #0A0C10; --surface: #0F1117; --surface2: #131720;
+        --border: #1C1F27; --border2: #2D3139;
+        --text: #E5E7EB; --muted: #6B7280; --muted2: #4B5563;
+        --blue: #60A5FA; --green: #34D399; --yellow: #FBBF24; --red: #F87171;
+      }
+      html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif; font-size: 13px; -webkit-font-smoothing: antialiased; line-height: 1.5; }
+      #root { min-height: 100vh; display: flex; flex-direction: column; }
+      ::-webkit-scrollbar { width: 5px; height: 5px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
+      .table-scroll { overflow-x: auto; }
+      .table-scroll::-webkit-scrollbar { height: 5px; }
+      .table-scroll::-webkit-scrollbar-track { background: var(--surface); }
+      .table-scroll::-webkit-scrollbar-thumb { background: #1C1F27; border-radius: 4px; }
+      .table-scroll::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+      .kpi-row::-webkit-scrollbar { display: none; }
+      .kpi-row { -ms-overflow-style: none; scrollbar-width: none; }
+      .th-btn { cursor: pointer !important; transition: color 0.15s, background 0.15s; }
+      .th-btn:hover { color: #F9FAFB !important; background: rgba(255,255,255,0.04) !important; }
+      .row-hover { transition: background 0.08s; }
+      .row-hover:hover td { background: rgba(255,255,255,0.025) !important; }
+      ::placeholder { color: var(--muted2); }
+      input:focus, select:focus { outline: none !important; border-color: var(--border2) !important; box-shadow: 0 0 0 3px rgba(96,165,250,0.07); }
+      select option { background: var(--surface2); color: var(--text); }
+      .badge { display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; padding: 2px 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.3px; font-family: 'DM Mono', monospace; }
+      .pg-btn { transition: all 0.15s; font-family: 'DM Mono', monospace; }
+      .pg-btn:hover:not(:disabled) { background: var(--surface2) !important; border-color: var(--border2) !important; color: #F9FAFB !important; }
+      .pg-btn:disabled { opacity: 0.25; cursor: not-allowed !important; }
+      #root:empty::after { content: 'Loading…'; display: flex; align-items: center; justify-content: center; height: 100vh; font-size: 13px; color: var(--muted2); font-family: 'DM Mono', monospace; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

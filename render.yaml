@@ -19,6 +19,19 @@ services:
     buildCommand: |
       npm --prefix frontend ci
       npm --prefix frontend run build
+      # ── Sales Dashboard SPA (source: sales_dash_frontend/) ──
+      # tsc gate + vite build; served by the /sales mount from sales_dash_dist.
+      npm --prefix sales_dash_frontend ci
+      VITE_BASE=/sales/ VITE_API_BASE=/sales-app npm --prefix sales_dash_frontend run build
+      rm -rf sales_dash_dist && cp -r sales_dash_frontend/dist sales_dash_dist
+      # ── Buybox Report (source: buybox_src/) ──
+      # encrypt_data.js needs BUYBOX_PASSWORD from this service's env; the
+      # committed src/*.json data files are refreshed by the BSR/monthly
+      # workflows, so the bundle is as fresh as the last data commit.
+      npm --prefix buybox_src ci
+      node buybox_src/Scripts/encrypt_data.js
+      cd buybox_src && VITE_BASE=/buybox/ npx vite build && cd ..
+      rm -rf buybox_dist && cp -r buybox_src/dist buybox_dist
       pip install -r requirements.txt
     # 2 workers so concurrent /api/* fanout from the SPA's first paint
     # doesn't queue behind a single uvicorn process.  Each worker has

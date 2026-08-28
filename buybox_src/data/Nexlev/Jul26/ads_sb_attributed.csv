@@ -1,0 +1,74 @@
+campaignId,campaignName,brand,asin,sku,model,category_l0,category_l1,category_l2,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method
+6156815411547,Nexlev-B0GGHZWMVW-Vacuum-Exact- SBV,Nexlev,B0GGHZWMVW,FBA79971,SP-01,Home & Kitchen,Cleaning & Vacumming,Spot Cleaner,673.4,17102,32,0.0,0,0,L1_asin
+7555447901223,Nexlev -Catch All- Scalp Massager-SB-KT-Exact/Phrase,Nexlev,B0D67727VG,FBP79350,EA-01,HPC,Hair Care,Hair Oil Applicator,2111.1867,29010,210,6799.06,6,6,L0_ads_api
+7555447901223,Nexlev -Catch All- Scalp Massager-SB-KT-Exact/Phrase,Nexlev,B0DKK15YNJ,FBA79573,EA-02,HPC,Hair Care,Hair Oil Applicator,2111.1867,29010,210,6799.06,6,6,L0_ads_api
+7555447901223,Nexlev -Catch All- Scalp Massager-SB-KT-Exact/Phrase,Nexlev,B0DCGHKRXX,FBA79440,LE-02,HPC,Hair Care,Hair Therapy Comb,2111.1867,29010,210,6799.06,6,6,L0_ads_api
+7909844391885,Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Phrase(Video),Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,22885.01,112254,1925,42533.06,15,15,L0_ads_api
+13253790294975,Nexlev-B0DNJS23HS-Steam Cleaner-SBV- PT,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,16501.86,136915,1262,55608.48,12,12,L1_asin
+25608586162083,Nexlev - B0DVC7VJP1 - Stand Mixer - SB - BM,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,12877.52,4862,193,26268.64,3,3,L1_asin
+37655237452289,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,556.44,3045,46,0.0,0,0,L3_category:Steam cleaner
+37655237452289,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,556.44,3045,46,0.0,0,0,L3_category:Steam cleaner
+37655237452289,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,556.44,3045,46,0.0,0,0,L3_category:Steam cleaner
+37655237452289,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,556.44,3045,46,0.0,0,0,L3_category:Steam cleaner
+37826701862520,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_BM,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,6075.985,14954,441,22371.18,8,8,L3_category:Steam cleaner
+37826701862520,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_BM,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,6075.985,14954,441,22371.18,8,8,L3_category:Steam cleaner
+37826701862520,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_BM,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,6075.985,14954,441,22371.18,8,8,L3_category:Steam cleaner
+37826701862520,Nexlev_B0F43P6D23_Steam Cleaner_SBV_KT_BM,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,6075.985,14954,441,22371.18,8,8,L3_category:Steam cleaner
+40896637686308,Nexllev-Vacuum Cleaner-B0DCK7ZH5P-SBV- phrase-01,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,8564.81,23338,528,27551.69,9,9,L1_asin
+41312525646790,Nexlev-B0CDPP45BM-Steam Cleaner-SBV- BM,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,5515.31,21934,521,53515.23,13,13,L1_asin
+54525144494251,Nexliv-B0DNJS23HS-BM-SBV,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2193.7,9358,134,10167.8,2,2,L1_asin
+82787918854039,Nexlev_B0GN8WW6BC_Stand Mixer_SBV_PT,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,2604.9833,24265,250,3107.06,0,0,L3_category:Stand Mixer
+82787918854039,Nexlev_B0GN8WW6BC_Stand Mixer_SBV_PT,Nexlev,B0GN8WW6BC,FBA79993,ST-03,Home & Kitchen,Kitchen Appliances,Stand Mixer,2604.9833,24265,250,3107.06,0,0,L3_category:Stand Mixer
+82787918854039,Nexlev_B0GN8WW6BC_Stand Mixer_SBV_PT,Nexlev,B0GN94YDY2,FBA79992,ST-02,Home & Kitchen,Kitchen Appliances,Stand Mixer,2604.9833,24265,250,3107.06,0,0,L3_category:Stand Mixer
+83619105537722,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_BM,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2287.34,8414,179,13072.87,4,4,L3_category:Steam cleaner
+83619105537722,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_BM,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2287.34,8414,179,13072.87,4,4,L3_category:Steam cleaner
+83619105537722,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_BM,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2287.34,8414,179,13072.87,4,4,L3_category:Steam cleaner
+83619105537722,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_BM,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2287.34,8414,179,13072.87,4,4,L3_category:Steam cleaner
+102510383906016,NexLev_B0GN8WW6BC_Stand Mixer_SBV_KT_BM,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,353.8533,1942,19,0.0,0,0,L3_category:Stand Mixer
+102510383906016,NexLev_B0GN8WW6BC_Stand Mixer_SBV_KT_BM,Nexlev,B0GN8WW6BC,FBA79993,ST-03,Home & Kitchen,Kitchen Appliances,Stand Mixer,353.8533,1942,19,0.0,0,0,L3_category:Stand Mixer
+102510383906016,NexLev_B0GN8WW6BC_Stand Mixer_SBV_KT_BM,Nexlev,B0GN94YDY2,FBA79992,ST-02,Home & Kitchen,Kitchen Appliances,Stand Mixer,353.8533,1942,19,0.0,0,0,L3_category:Stand Mixer
+102824164917887,Nexlev - B0DVC7VJP1 - Stand Mixer - SB - Exact,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,1955.39,5648,57,5083.9,1,1,L1_asin
+106508293362179,Nexlev-B0GGHZWMVW-Vacuum-SBV-PT01,Nexlev,B0GGHZWMVW,FBA79971,SP-01,Home & Kitchen,Cleaning & Vacumming,Spot Cleaner,4570.0,17895,183,0.0,0,0,L1_asin
+106830006815020,Nexlev-Steamer-PT(SEAHELTON)-SB,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,33889.1433,64133,3241,397504.87,117,117,L0_ads_api
+106830006815020,Nexlev-Steamer-PT(SEAHELTON)-SB,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,33889.1433,64133,3241,397504.87,117,117,L0_ads_api
+106830006815020,Nexlev-Steamer-PT(SEAHELTON)-SB,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,33889.1433,64133,3241,397504.87,117,117,L0_ads_api
+122892830713271,Nexlev-Steam Cleaner-B0CDPP45BM-SBV-BM2,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,408.36,752,54,0.0,0,0,L1_asin
+126714089355197,Nexlev-B0DNJS23HS-SBV-Phrase-Mop Cleaner,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,5536.24,32305,395,33053.4,7,7,L1_asin
+148995698214573,Nexlev -Catch All-  Calf Massager -SB-KT-Exact/Phrase,Nexlev,B0DM6BB3VT,FBA79590,CFM-01,HPC,Electric Massagers,Calf Massager,2874.29,39468,259,6365.32,2,2,L0_ads_api
+148995698214573,Nexlev -Catch All-  Calf Massager -SB-KT-Exact/Phrase,Nexlev,B0FPGDVVCX,FBA79849,CFM-03,HPC,Electric Massagers,Calf Massager,2874.29,39468,259,6365.32,2,2,L0_ads_api
+148995698214573,Nexlev -Catch All-  Calf Massager -SB-KT-Exact/Phrase,Nexlev,B0DVSZ2VVJ,FBA79689,CFM-02,HPC,Electric Massagers,Complete Leg Massager,2874.29,39468,259,6365.32,2,2,L0_ads_api
+172571108338972,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,938.7725,6776,70,0.0,0,0,L3_category:Steam cleaner
+172571108338972,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,938.7725,6776,70,0.0,0,0,L3_category:Steam cleaner
+172571108338972,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,938.7725,6776,70,0.0,0,0,L3_category:Steam cleaner
+172571108338972,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_Phrase,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,938.7725,6776,70,0.0,0,0,L3_category:Steam cleaner
+174770383059266,Nexlev-B0CDPP45BM-Steam Cleaner-SBV- Exact,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,10114.15,23086,832,73798.3,23,23,L1_asin
+182296927451956,Nexlev - B0DVC7VJP1 - Stand Mixers - SB - Exact,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,2776.82,5267,113,5295.76,1,1,L1_asin
+184863692138348,Nexlev-B0DVC7VJP1-Stand Mixer- SBV- PT01,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,610.99,4287,41,0.0,0,0,L1_asin
+185602157052032,Nexlev-Spot Cleaner Machine-B0GGHZWMVW-SBV-PT,Nexlev,B0GGHZWMVW,FBA79971,SP-01,Home & Kitchen,Cleaning & Vacumming,Spot Cleaner,542.2,3549,49,0.0,0,0,L1_asin
+199205715156973,Nexlev-Foldable Steam Cleaner-B0DNJS23HS-SBV-PT2,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,809.17,5225,83,10167.8,2,2,L1_asin
+199245016658876,Nexlev-Steam Cleaner-B0CDPP45BM-SBV-BM,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,669.84,1279,87,3388.98,1,1,L1_asin
+203666439219543,Nexlev-B0DNJS23HS-Steam Cleaner-SBV- Exact,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,2891.77,22838,287,14387.28,3,3,L1_asin
+205786256643315,Nexlev - B0DCK7ZH5P - Carpet & Car Seat Vacuum Cleaner - SBV- BM,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,12392.59,23207,713,70742.33,25,25,L1_asin
+208313780397674,Nexlev-B0GGHZWMVW-Vacuum-Phrase- SBV,Nexlev,B0GGHZWMVW,FBA79971,SP-01,Home & Kitchen,Cleaning & Vacumming,Spot Cleaner,4627.96,44886,294,0.0,0,0,L1_asin
+220379715612749,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_PT,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3088.335,16378,273,13310.16,4,4,L3_category:Steam cleaner
+220379715612749,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_PT,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3088.335,16378,273,13310.16,4,4,L3_category:Steam cleaner
+220379715612749,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_PT,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3088.335,16378,273,13310.16,4,4,L3_category:Steam cleaner
+220379715612749,Nexlev_B0CDPP45BM_Steam Cleaner_SBV_PT,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3088.335,16378,273,13310.16,4,4,L3_category:Steam cleaner
+225649771471005,Nexlev-B0CYSLCRQS-Vacuum Cleaner - SBV-Phrase,Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,16362.5,75866,1395,86922.07,32,32,L1_asin
+228731365584847,Nexllev-Vacuum Cleaner-B0DCK7ZH5P-SBV- phrase-02,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,1412.22,3522,92,0.0,0,0,L1_asin
+231826382423714,Nexllev-Vacuum Cleaner-B0DCK7ZH5P-SBV- phrase -,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,25924.15,144509,1789,54358.45,19,19,L1_asin
+235185755657538,Nexlev-B0GGHZWMVW-Vacuum-PT01-SBV,Nexlev,B0GGHZWMVW,FBA79971,SP-01,Home & Kitchen,Cleaning & Vacumming,Spot Cleaner,5561.68,25623,364,10168.64,1,1,L1_asin
+244156806222903,Nexlev_B0F43P6D23_Steam Cleaner_SBV_PT,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3465.8325,17278,269,14702.74,5,5,L3_category:Steam cleaner
+244156806222903,Nexlev_B0F43P6D23_Steam Cleaner_SBV_PT,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3465.8325,17278,269,14702.74,5,5,L3_category:Steam cleaner
+244156806222903,Nexlev_B0F43P6D23_Steam Cleaner_SBV_PT,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3465.8325,17278,269,14702.74,5,5,L3_category:Steam cleaner
+244156806222903,Nexlev_B0F43P6D23_Steam Cleaner_SBV_PT,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3465.8325,17278,269,14702.74,5,5,L3_category:Steam cleaner
+244546209949992,Nexlev-B0DNJS23HS-Steam Cleaner-SBV- Phrase,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,952.67,12862,98,0.0,0,0,L1_asin
+273806905723734,Nexlev-Spot Cleaner Machine-B0GGHZWMVW-SBV-PT2,Nexlev,B0GGHZWMVW,FBA79971,SP-01,Home & Kitchen,Cleaning & Vacumming,Spot Cleaner,170.89,1786,18,0.0,0,0,L1_asin
+277426149401748,Nexlev-B0DNJS23HS-Steam Cleaner-SBV- Exact 01,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1029.66,5996,96,0.0,0,0,L1_asin
+279875006220763,Nexlev-Foldable Steam Cleaner-B0DNJS23HS-SBV-PT,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,994.7,8555,92,0.0,0,0,L1_asin
+307956672795825,Nexlev-B0DKK15YNJ- Oil Applicator-SBV-KT-Exact/Phrase,Nexlev,B0DKK15YNJ,FBA79573,EA-02,HPC,Hair Care,Hair Oil Applicator,16.1,88,1,0.0,0,0,L0_ads_api
+307956672795825,Nexlev-B0DKK15YNJ- Oil Applicator-SBV-KT-Exact/Phrase,Nexlev,B0D67727VG,FBP79350,EA-01,HPC,Hair Care,Hair Oil Applicator,16.1,88,1,0.0,0,0,L0_ads_api
+369262096373955,Nexlev-Catch All-Steam Cleaner -SB-KT-Exact/Phrase,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,6010.57,102476,571,68021.75,16,16,L0_ads_api
+369262096373955,Nexlev-Catch All-Steam Cleaner -SB-KT-Exact/Phrase,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,6010.57,102476,571,68021.75,16,16,L0_ads_api
+369262096373955,Nexlev-Catch All-Steam Cleaner -SB-KT-Exact/Phrase,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,6010.57,102476,571,68021.75,16,16,L0_ads_api
+479030960060920,Nexlev-B0DNJS23HS-Steam Cleaner - SBV-KT-Exact,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,28729.1,9705,529,62105.92,15,15,L0_ads_api

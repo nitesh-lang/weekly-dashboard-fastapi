@@ -1,0 +1,14 @@
+campaignId,campaignName,brand,asin,sku,model,category_l0,category_l1,category_l2,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method
+95519167036,White Mulberry Monitor Arm-B0DB5VG39T-KT-SBV,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,5163.87,38407,381,14571.18,6,6,L1_asin
+167873176461914,White Mulberry 10-Step Height Adjustable-B0DP2Z5DQ9-PT-KT-SBVV,White Mulberry,B0DP2Z5DQ9,FBA79615,VLMS1ML,Monitor Arm,Monitor Arm,,2121.29,27928,144,2372.03,1,1,L1_asin
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,19.74,52,2,1164.83,0,0,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VVPSB,FBA79477,WM-GS2M-BK,Monitor Arm,Monitor Arm,,19.74,52,2,1164.83,0,0,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5W4TCP,FBA79478,WM-HA1M-BK,Monitor Arm,Monitor Arm,,19.74,52,2,1164.83,0,0,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5YTQZV,FBA79479,WM-HA2M-BK,Monitor Arm,Monitor Arm,,19.74,52,2,1164.83,0,0,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP32F346,FBA79617,HDWF1ML,Monitor Arm,Monitor Arm,,19.74,52,2,1164.83,0,0,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP2Z5DQ9,FBA79615,VLMS1ML,Monitor Arm,Monitor Arm,,19.74,52,2,1164.83,0,0,L0_ads_api
+218472650348824,White Mulberry Monitor Arm-B0DB5VG39T-CT-SBV,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,4229.89,36974,406,10716.1,5,5,L1_asin
+270153481495876,WM-SB-Monitor Arms-B0DB5VG39T - CT,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,3691.43,29706,314,6089.83,2,2,L1_asin
+294882590177639,WM- SBV-Wall Mounted Stand- B0DP2WC5VW- Phrase & exact,White Mulberry,B0DP2WC5VW,FBA79612,WM1ML,Monitor Arm,Monitor Arm,,7513.58,37913,620,14082.2,5,4,L0_ads_api
+333757065487521,WM-SBV-Gas Spring MA- B0DB5VG39T- Phrase,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,8813.51,53391,489,36285.6,15,15,L0_ads_api
+479490273450627,WM- SBV- Wooden Arm- B0DP32F346- Phrase,White Mulberry,B0DP32F346,FBA79617,HDWF1ML,Monitor Arm,Monitor Arm,,2878.15,23371,253,5252.55,2,2,L0_ads_api

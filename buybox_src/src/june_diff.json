@@ -1,0 +1,470 @@
+{
+  "months": {
+    "Jun": {
+      "month": "Jun",
+      "firstPull": {
+        "label": "First cron · Jul 3",
+        "date": "2026-07-03"
+      },
+      "latest": {
+        "label": "Latest refresh · 2026-08-04",
+        "date": "2026-08-04"
+      },
+      "metrics": [
+        {
+          "key": "units_3p",
+          "label": "Units Ordered (3P)",
+          "fmt": "int",
+          "note": "Δ = post-close cancellations / returns"
+        },
+        {
+          "key": "rev_3p",
+          "label": "Sales · 3P (₹)",
+          "fmt": "money",
+          "note": "Δ = order-value adjustments after month close"
+        },
+        {
+          "key": "units_1p",
+          "label": "Units Ordered (1P)",
+          "fmt": "int",
+          "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary"
+        },
+        {
+          "key": "rev_1p",
+          "label": "Sales · 1P (₹)",
+          "fmt": "money",
+          "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary"
+        },
+        {
+          "key": "spend",
+          "label": "Ad Spend (₹)",
+          "fmt": "money",
+          "note": "Locked at month-end; drift = report consolidation"
+        },
+        {
+          "key": "impr",
+          "label": "Impressions",
+          "fmt": "int",
+          "note": "Drift = SD/SB report consolidation"
+        },
+        {
+          "key": "clicks",
+          "label": "Clicks",
+          "fmt": "int",
+          "note": "Drift = SD/SB report consolidation"
+        },
+        {
+          "key": "ads_sales",
+          "label": "Ads Attributed Sales (₹)",
+          "fmt": "money",
+          "note": "Δ = 14-day SP attribution maturing after month close"
+        },
+        {
+          "key": "orders",
+          "label": "AMS Orders",
+          "fmt": "int",
+          "note": "Δ = attributed orders after month close"
+        }
+      ],
+      "brands": {
+        "Audio Array": {
+          "brand": "Audio Array",
+          "asinCount": {
+            "first": 165,
+            "latest": 165
+          },
+          "metrics": [
+            {
+              "key": "units_3p",
+              "label": "Units Ordered (3P)",
+              "fmt": "int",
+              "note": "Δ = post-close cancellations / returns",
+              "first": 754,
+              "latest": 753,
+              "delta": -1,
+              "pct": -0.13
+            },
+            {
+              "key": "rev_3p",
+              "label": "Sales · 3P (₹)",
+              "fmt": "money",
+              "note": "Δ = order-value adjustments after month close",
+              "first": 1840575.27,
+              "latest": 1838315.5,
+              "delta": -2259.77,
+              "pct": -0.12
+            },
+            {
+              "key": "units_1p",
+              "label": "Units Ordered (1P)",
+              "fmt": "int",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 5509,
+              "latest": 5509,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "rev_1p",
+              "label": "Sales · 1P (₹)",
+              "fmt": "money",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 14864236.62,
+              "latest": 14864236.62,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "spend",
+              "label": "Ad Spend (₹)",
+              "fmt": "money",
+              "note": "Locked at month-end; drift = report consolidation",
+              "first": 1878287.7,
+              "latest": 1833852.69,
+              "delta": -44435.01,
+              "pct": -2.37
+            },
+            {
+              "key": "impr",
+              "label": "Impressions",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 39195759,
+              "latest": 37581435,
+              "delta": -1614324,
+              "pct": -4.12
+            },
+            {
+              "key": "clicks",
+              "label": "Clicks",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 251261,
+              "latest": 243915,
+              "delta": -7346,
+              "pct": -2.92
+            },
+            {
+              "key": "ads_sales",
+              "label": "Ads Attributed Sales (₹)",
+              "fmt": "money",
+              "note": "Δ = 14-day SP attribution maturing after month close",
+              "first": 10543766.3,
+              "latest": 10528226.26,
+              "delta": -15540.04,
+              "pct": -0.15
+            },
+            {
+              "key": "orders",
+              "label": "AMS Orders",
+              "fmt": "int",
+              "note": "Δ = attributed orders after month close",
+              "first": 3802,
+              "latest": 3812,
+              "delta": 10,
+              "pct": 0.26
+            }
+          ]
+        },
+        "Nexlev": {
+          "brand": "Nexlev",
+          "asinCount": {
+            "first": 132,
+            "latest": 132
+          },
+          "metrics": [
+            {
+              "key": "units_3p",
+              "label": "Units Ordered (3P)",
+              "fmt": "int",
+              "note": "Δ = post-close cancellations / returns",
+              "first": 3042,
+              "latest": 3040,
+              "delta": -2,
+              "pct": -0.07
+            },
+            {
+              "key": "rev_3p",
+              "label": "Sales · 3P (₹)",
+              "fmt": "money",
+              "note": "Δ = order-value adjustments after month close",
+              "first": 8121623.65,
+              "latest": 8121623.64,
+              "delta": -0.01,
+              "pct": 0
+            },
+            {
+              "key": "units_1p",
+              "label": "Units Ordered (1P)",
+              "fmt": "int",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 10,
+              "latest": 10,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "rev_1p",
+              "label": "Sales · 1P (₹)",
+              "fmt": "money",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 11799.19,
+              "latest": 11799.19,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "spend",
+              "label": "Ad Spend (₹)",
+              "fmt": "money",
+              "note": "Locked at month-end; drift = report consolidation",
+              "first": 1274198.32,
+              "latest": 1243245.77,
+              "delta": -30952.55,
+              "pct": -2.43
+            },
+            {
+              "key": "impr",
+              "label": "Impressions",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 14342479,
+              "latest": 14161178,
+              "delta": -181301,
+              "pct": -1.26
+            },
+            {
+              "key": "clicks",
+              "label": "Clicks",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 97284,
+              "latest": 95208,
+              "delta": -2076,
+              "pct": -2.13
+            },
+            {
+              "key": "ads_sales",
+              "label": "Ads Attributed Sales (₹)",
+              "fmt": "money",
+              "note": "Δ = 14-day SP attribution maturing after month close",
+              "first": 4149569.43,
+              "latest": 4299666.16,
+              "delta": 150096.73,
+              "pct": 3.62
+            },
+            {
+              "key": "orders",
+              "label": "AMS Orders",
+              "fmt": "int",
+              "note": "Δ = attributed orders after month close",
+              "first": 1305,
+              "latest": 1344,
+              "delta": 39,
+              "pct": 2.99
+            }
+          ]
+        },
+        "Tonor": {
+          "brand": "Tonor",
+          "asinCount": {
+            "first": 29,
+            "latest": 29
+          },
+          "metrics": [
+            {
+              "key": "units_3p",
+              "label": "Units Ordered (3P)",
+              "fmt": "int",
+              "note": "Δ = post-close cancellations / returns",
+              "first": 49,
+              "latest": 49,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "rev_3p",
+              "label": "Sales · 3P (₹)",
+              "fmt": "money",
+              "note": "Δ = order-value adjustments after month close",
+              "first": 97749.99,
+              "latest": 97749.99,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "units_1p",
+              "label": "Units Ordered (1P)",
+              "fmt": "int",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 351,
+              "latest": 351,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "rev_1p",
+              "label": "Sales · 1P (₹)",
+              "fmt": "money",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 676741.46,
+              "latest": 676741.46,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "spend",
+              "label": "Ad Spend (₹)",
+              "fmt": "money",
+              "note": "Locked at month-end; drift = report consolidation",
+              "first": 40606.62,
+              "latest": 40591.75,
+              "delta": -14.87,
+              "pct": -0.04
+            },
+            {
+              "key": "impr",
+              "label": "Impressions",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 1618726,
+              "latest": 1618433,
+              "delta": -293,
+              "pct": -0.02
+            },
+            {
+              "key": "clicks",
+              "label": "Clicks",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 7728,
+              "latest": 7722,
+              "delta": -6,
+              "pct": -0.08
+            },
+            {
+              "key": "ads_sales",
+              "label": "Ads Attributed Sales (₹)",
+              "fmt": "money",
+              "note": "Δ = 14-day SP attribution maturing after month close",
+              "first": 361282.69,
+              "latest": 362637.77,
+              "delta": 1355.08,
+              "pct": 0.38
+            },
+            {
+              "key": "orders",
+              "label": "AMS Orders",
+              "fmt": "int",
+              "note": "Δ = attributed orders after month close",
+              "first": 195,
+              "latest": 197,
+              "delta": 2,
+              "pct": 1.03
+            }
+          ]
+        },
+        "White Mulberry": {
+          "brand": "White Mulberry",
+          "asinCount": {
+            "first": 30,
+            "latest": 30
+          },
+          "metrics": [
+            {
+              "key": "units_3p",
+              "label": "Units Ordered (3P)",
+              "fmt": "int",
+              "note": "Δ = post-close cancellations / returns",
+              "first": 881,
+              "latest": 880,
+              "delta": -1,
+              "pct": -0.11
+            },
+            {
+              "key": "rev_3p",
+              "label": "Sales · 3P (₹)",
+              "fmt": "money",
+              "note": "Δ = order-value adjustments after month close",
+              "first": 3048410.39,
+              "latest": 3035697.68,
+              "delta": -12712.71,
+              "pct": -0.42
+            },
+            {
+              "key": "units_1p",
+              "label": "Units Ordered (1P)",
+              "fmt": "int",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 367,
+              "latest": 367,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "rev_1p",
+              "label": "Sales · 1P (₹)",
+              "fmt": "money",
+              "note": "AA + Tonor only via API; Nexlev/WM 1P sources vary",
+              "first": 824512.18,
+              "latest": 824512.18,
+              "delta": 0,
+              "pct": 0
+            },
+            {
+              "key": "spend",
+              "label": "Ad Spend (₹)",
+              "fmt": "money",
+              "note": "Locked at month-end; drift = report consolidation",
+              "first": 486136.49,
+              "latest": 466345.65,
+              "delta": -19790.84,
+              "pct": -4.07
+            },
+            {
+              "key": "impr",
+              "label": "Impressions",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 4910759,
+              "latest": 4685382,
+              "delta": -225377,
+              "pct": -4.59
+            },
+            {
+              "key": "clicks",
+              "label": "Clicks",
+              "fmt": "int",
+              "note": "Drift = SD/SB report consolidation",
+              "first": 29417,
+              "latest": 25995,
+              "delta": -3422,
+              "pct": -11.63
+            },
+            {
+              "key": "ads_sales",
+              "label": "Ads Attributed Sales (₹)",
+              "fmt": "money",
+              "note": "Δ = 14-day SP attribution maturing after month close",
+              "first": 1913286.56,
+              "latest": 1654352.71,
+              "delta": -258933.85,
+              "pct": -13.53
+            },
+            {
+              "key": "orders",
+              "label": "AMS Orders",
+              "fmt": "int",
+              "note": "Δ = attributed orders after month close",
+              "first": 551,
+              "latest": 522,
+              "delta": -29,
+              "pct": -5.26
+            }
+          ]
+        }
+      },
+      "generatedAt": "2026-08-04T07:25:19.069Z"
+    }
+  }
+}

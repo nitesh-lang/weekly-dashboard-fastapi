@@ -50,3 +50,10 @@ data/raw/inventory/**/_seller_sp_api/
 # (workflow uploads them as run artifacts instead).
 scripts/_audit/
 local.db
+
+# Vendored sub-project build state — Render builds these on every deploy
+sales_dash_frontend/node_modules/
+sales_dash_frontend/dist/
+buybox_src/node_modules/
+buybox_src/dist/
+buybox_src/public/data.enc

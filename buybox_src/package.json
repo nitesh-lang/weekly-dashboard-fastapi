@@ -1,0 +1,27 @@
+{
+  "name": "buybox",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "node Scripts/generate_raw_data.js && node Scripts/generate_june_diff.js && node Scripts/encrypt_data.js && vite build",
+    "preview": "vite preview",
+    "encrypt": "node Scripts/encrypt_data.js",
+    "build-raw": "node Scripts/generate_raw_data.js",
+    "build-bsr": "python scripts/build_bsr_snapshots.py",
+    "build-bsr:py": "py scripts/build_bsr_snapshots.py"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.2.0"
+  }
+}

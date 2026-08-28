@@ -1,0 +1,70 @@
+campaignId,campaignName,brand,asin,sku,model,category_l0,category_l1,category_l2,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method
+2018103931581,Nexlev-B0F43P6D23-Steam Cleaner-SB-KT-Phrase,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,303.07,5989,30,1185.59,1,1,L0_ads_api
+2018103931581,Nexlev-B0F43P6D23-Steam Cleaner-SB-KT-Phrase,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,303.07,5989,30,1185.59,1,1,L0_ads_api
+2018103931581,Nexlev-B0F43P6D23-Steam Cleaner-SB-KT-Phrase,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,303.07,5989,30,1185.59,1,1,L0_ads_api
+7555447901223,Nexlev -Catch All- Scalp Massager-SB-KT-Exact/Phrase,Nexlev,B0D67727VG,FBP79350,EA-01,HPC,Hair Care,Hair Oil Applicator,4442.3733,46158,303,13685.73,11,11,L0_ads_api
+7555447901223,Nexlev -Catch All- Scalp Massager-SB-KT-Exact/Phrase,Nexlev,B0DKK15YNJ,FBA79573,EA-02,HPC,Hair Care,Hair Oil Applicator,4442.3733,46158,303,13685.73,11,11,L0_ads_api
+7555447901223,Nexlev -Catch All- Scalp Massager-SB-KT-Exact/Phrase,Nexlev,B0DCGHKRXX,FBA79440,LE-02,HPC,Hair Care,Hair Therapy Comb,4442.3733,46158,303,13685.73,11,11,L0_ads_api
+10079137456070,Nexlev-Vacuum Cleaner-Branded,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,79.18,1964,6,0.0,0,0,L0_ads_api
+10079137456070,Nexlev-Vacuum Cleaner-Branded,Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,79.18,1964,6,0.0,0,0,L0_ads_api
+10079137456070,Nexlev-Vacuum Cleaner-Branded,Nexlev,B0DKJSCLBD,FBA79566,VC-05,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,79.18,1964,6,0.0,0,0,L0_ads_api
+10586586169014,Nexlev-B0CDPP45BM-Cleaning Machine-SB-PT,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,224.4233,5612,20,0.0,0,0,L0_ads_api
+10586586169014,Nexlev-B0CDPP45BM-Cleaning Machine-SB-PT,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,224.4233,5612,20,0.0,0,0,L0_ads_api
+10586586169014,Nexlev-B0CDPP45BM-Cleaning Machine-SB-PT,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,224.4233,5612,20,0.0,0,0,L0_ads_api
+26720646641055,Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Phrase(Video),Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,757.4,2896,63,2541.52,1,1,L0_ads_api
+31984641326753,Nex_HPC_SB_KT_Banner_Volumizer,Nexlev,B0DQ8W1RBV,FBK79271,V-01 RG,HPC,Hair Care,Volumizer,582.9067,12662,26,0.0,0,0,L0_ads_api
+31984641326753,Nex_HPC_SB_KT_Banner_Volumizer,Nexlev,B0D83Q7L8W,FBA79271,V-01,HPC,Hair Care,Volumizer,582.9067,12662,26,0.0,0,0,L0_ads_api
+31984641326753,Nex_HPC_SB_KT_Banner_Volumizer,Nexlev,B0DT6Y7KJM,FBA79492,V-02,HPC,Hair Care,Volumizer,582.9067,12662,26,0.0,0,0,L0_ads_api
+42048735734003,Nex_HnK_SBV_KT_GS-02/05_B0CDPMX152_B0D383WQPB,Nexlev,B0CDPMX152,FBA78980,GS-02,Home & Kitchen,Fabric Care,Garment steamer,501.765,2002,34,0.0,0,0,L0_ads_api
+42048735734003,Nex_HnK_SBV_KT_GS-02/05_B0CDPMX152_B0D383WQPB,Nexlev,B0D383WQPB,FBA79268,GS-05,Home & Kitchen,Fabric Care,Garment steamer,501.765,2002,34,0.0,0,0,L0_ads_api
+43136784087869,Nex_HnK_SBV_KT_GS-05_BCG_Phrase & Exact_Reel,Nexlev,B0D383WQPB,FBA79268,GS-05,Home & Kitchen,Fabric Care,Garment steamer,151.82,726,7,0.0,0,0,L0_ads_api
+54163637845982,HnK_SB_KT_PB-01 - SBV - Reel,Nexlev,B0FS6TB7CP,FBA79812,PB-01,Home & Kitchen,Kitchen Appliances,Portable Blender,2034.97,11724,69,0.0,0,0,L0_ads_api
+62048851860885,Nexlev-B0CDPP45BM-Steam Cleaner-SBV-KT-Exact/Phrase,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,3035.36,19806,690,80657.44,25,22,L0_ads_api
+106830006815020,Nexlev-Steamer-PT(SEAHELTON)-SB,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1568.2467,2031,98,13392.37,4,4,L0_ads_api
+106830006815020,Nexlev-Steamer-PT(SEAHELTON)-SB,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1568.2467,2031,98,13392.37,4,4,L0_ads_api
+106830006815020,Nexlev-Steamer-PT(SEAHELTON)-SB,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1568.2467,2031,98,13392.37,4,4,L0_ads_api
+134652091915035,Nexlev-Steamers-Branded,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,31.9,29,2,0.0,0,0,L0_ads_api
+134652091915035,Nexlev-Steamers-Branded,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,31.9,29,2,0.0,0,0,L0_ads_api
+134652091915035,Nexlev-Steamers-Branded,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,31.9,29,2,0.0,0,0,L0_ads_api
+148995698214573,Nexlev -Catch All-  Calf Massager -SB-KT-Exact/Phrase,Nexlev,B0DM6BB3VT,FBA79590,CFM-01,HPC,Electric Massagers,Calf Massager,4818.86,70031,305,11364.61,5,5,L0_ads_api
+148995698214573,Nexlev -Catch All-  Calf Massager -SB-KT-Exact/Phrase,Nexlev,B0FPGDVVCX,FBA79849,CFM-03,HPC,Electric Massagers,Calf Massager,4818.86,70031,305,11364.61,5,5,L0_ads_api
+148995698214573,Nexlev -Catch All-  Calf Massager -SB-KT-Exact/Phrase,Nexlev,B0DVSZ2VVJ,FBA79689,CFM-02,HPC,Electric Massagers,Complete Leg Massager,4818.86,70031,305,11364.61,5,5,L0_ads_api
+219456576601824,Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Exact,Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,185.0,839,21,0.0,0,0,L0_ads_api
+219456576601824,Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Exact,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,185.0,839,21,0.0,0,0,L0_ads_api
+219456576601824,Nexlev-B0CYSLCRQS-Vacuum Cleaner -SB-KT-Exact,Nexlev,B0D672NXC8,FBA79277,SC-03,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,185.0,839,21,0.0,0,0,L0_ads_api
+243292239678110,Nex_HnK_SB_KT_SC-04_B0DNJS23HS_Phrase & Exact,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,1567.3,127021,137,2541.53,1,1,L0_ads_api
+275586284851328,Nexlev-B0DNJS23HS-Steam Mop-SB-KT-BM,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,80.26,461,7,1694.63,0,0,L0_ads_api
+275586284851328,Nexlev-B0DNJS23HS-Steam Mop-SB-KT-BM,Nexlev,B0D2LJSQXZ,FBA79276,SM-01,Home & Kitchen,Cleaning & Vacumming,Steam Mop,80.26,461,7,1694.63,0,0,L0_ads_api
+275586284851328,Nexlev-B0DNJS23HS-Steam Mop-SB-KT-BM,Nexlev,B0GKNGWLJ2,FBK80015,SPM-01,Home & Kitchen,Cleaning & Vacumming,Electric Spin Mop Swipe,80.26,461,7,1694.63,0,0,L0_ads_api
+278044313554537,Nexlev-Catch All-Vacuum Cleaner-SB-KT-Exact/Phrase,Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,3979.605,104268,306,10058.06,4,4,L0_ads_api
+278044313554537,Nexlev-Catch All-Vacuum Cleaner-SB-KT-Exact/Phrase,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,3979.605,104268,306,10058.06,4,4,L0_ads_api
+307956672795825,Nexlev-B0DKK15YNJ- Oil Applicator-SBV-KT-Exact/Phrase,Nexlev,B0DKK15YNJ,FBA79573,EA-02,HPC,Hair Care,Hair Oil Applicator,1141.65,4253,104,5259.51,2,2,L0_ads_api
+307956672795825,Nexlev-B0DKK15YNJ- Oil Applicator-SBV-KT-Exact/Phrase,Nexlev,B0D67727VG,FBP79350,EA-01,HPC,Hair Care,Hair Oil Applicator,1141.65,4253,104,5259.51,2,2,L0_ads_api
+323872249568860,Nexlev-B0CDPMX152- Garment Steamer-SBV-KT-Phrase,Nexlev,B0CDPMX152,FBA78980,GS-02,Home & Kitchen,Fabric Care,Garment steamer,7450.66,19924,572,12417.38,7,7,L0_ads_api
+323872249568860,Nexlev-B0CDPMX152- Garment Steamer-SBV-KT-Phrase,Nexlev,B0D383WQPB,FBA79268,GS-05,Home & Kitchen,Fabric Care,Garment steamer,7450.66,19924,572,12417.38,7,7,L0_ads_api
+347684817824203,Nex_HnK_SBV_KT_MR-01_B0CYSLCRQS_Phrase & Exact,Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,1664.01,2338,66,2770.34,1,1,L0_ads_api
+361478049633715,Nexlev-B0CDPP45BM-Steam Cleaner-SBV-KT-Exact/Phrase,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,32559.25,105851,1752,132199.07,41,41,L0_ads_api
+363426323382341,Nex_HPC_SBV_KT_HSB-04_B0DCK3N2JJ_Phrase & Exact,Nexlev,B0DCK3N2JJ,FBA79406,HSB-04,HPC,Hair Care,Hair Straightener Brush - Cordless,3103.4,40170,234,2287.28,1,1,L0_ads_api
+369262096373955,Nexlev-Catch All-Steam Cleaner -SB-KT-Exact/Phrase,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,4840.0633,38726,329,30166.94,9,9,L0_ads_api
+369262096373955,Nexlev-Catch All-Steam Cleaner -SB-KT-Exact/Phrase,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,4840.0633,38726,329,30166.94,9,9,L0_ads_api
+369262096373955,Nexlev-Catch All-Steam Cleaner -SB-KT-Exact/Phrase,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,4840.0633,38726,329,30166.94,9,9,L0_ads_api
+380594459198365,Nex_Hnk_SBV_KT_ST-01_B0DVC7VJP1_Phrase & Exact,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,829.98,1918,53,0.0,0,0,L0_ads_api
+436116947575941,Nexlev -B0DM6BB3VT-Calf Massager-SBV -KT-Exact/Phrase,Nexlev,B0DM6BB3VT,FBA79590,CFM-01,HPC,Electric Massagers,Calf Massager,13708.025,33490,1298,75945.37,27,26,L0_ads_api
+436116947575941,Nexlev -B0DM6BB3VT-Calf Massager-SBV -KT-Exact/Phrase,Nexlev,B0FPGDVVCX,FBA79849,CFM-03,HPC,Electric Massagers,Calf Massager,13708.025,33490,1298,75945.37,27,26,L0_ads_api
+447319075342492,Nex_HnK_SBV_KT_ST-01_B0DVC7VJP1,Nexlev,B0DVC7VJP1,FBA79679,ST-01,Home & Kitchen,Kitchen Appliances,Stand Mixer,3599.71,19296,171,5012.71,1,1,L0_ads_api
+448609631675420,Nex_HnK_SB_KT_GS-02/05_B0CDPMX152_B0D383WQPB,Nexlev,B0CDPMX152,FBA78980,GS-02,Home & Kitchen,Fabric Care,Garment steamer,1409.3333,69992,76,1626.13,1,1,L0_ads_api
+448609631675420,Nex_HnK_SB_KT_GS-02/05_B0CDPMX152_B0D383WQPB,Nexlev,B0D383WQPB,FBA79268,GS-05,Home & Kitchen,Fabric Care,Garment steamer,1409.3333,69992,76,1626.13,1,1,L0_ads_api
+448609631675420,Nex_HnK_SB_KT_GS-02/05_B0CDPMX152_B0D383WQPB,Nexlev,B0D845B2DG,FBA79280,LR-02,Home & Kitchen,Fabric Care,Lint Remover,1409.3333,69992,76,1626.13,1,1,L0_ads_api
+479030960060920,Nexlev-B0DNJS23HS-Steam Cleaner - SBV-KT-Exact,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,40513.75,74847,2122,144673.73,42,42,L0_ads_api
+501679035619530,Nex_HnK_SBV_KT_MR-01_B0CYSLCRQS_BCG_Phrase & Exact_Reel,Nexlev,B0CYSLCRQS,FBA79263,MR-01,Home & Kitchen,Cleaning & Vacumming,Mite Remover,5066.42,7639,227,9560.18,4,4,L0_ads_api
+501739215232081,Nexlev - Steam Cleaner - SB - KT - Phrase/Exact,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,18172.1033,55516,580,58970.63,20,20,L0_ads_api
+501739215232081,Nexlev - Steam Cleaner - SB - KT - Phrase/Exact,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,18172.1033,55516,580,58970.63,20,20,L0_ads_api
+501739215232081,Nexlev - Steam Cleaner - SB - KT - Phrase/Exact,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,18172.1033,55516,580,58970.63,20,20,L0_ads_api
+511630710016582,Nex_HnK_SBV_KT_SC-05_B0F43P6D23_BCG_Phrase & Exact_Reel,Nexlev,B0F43P6D23,FBA79652,SC-05,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,118.8233,247,7,0.0,0,0,L0_ads_api
+511630710016582,Nex_HnK_SBV_KT_SC-05_B0F43P6D23_BCG_Phrase & Exact_Reel,Nexlev,B0CDPP45BM,FBA78981,SC-01,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,118.8233,247,7,0.0,0,0,L0_ads_api
+511630710016582,Nex_HnK_SBV_KT_SC-05_B0F43P6D23_BCG_Phrase & Exact_Reel,Nexlev,B0DNJS23HS,FBA79567,SC-04,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,118.8233,247,7,0.0,0,0,L0_ads_api
+552176938393382,Nex_HPC_SBV_KT_LE-02_B0DCGHKRXX_Reel,Nexlev,B0DCGHKRXX,FBA79440,LE-02,HPC,Hair Care,Hair Therapy Comb,1126.62,5181,67,3201.69,2,2,L0_ads_api
+557689309176842,Nex_HnK_SBV_KT_MR-02_B0DCK7ZH5P_BCG_Phrase & Exact - Reel,Nexlev,B0DCK7ZH5P,FBA79439,MR-02,Home & Kitchen,Cleaning & Vacumming,Mite Remover,2385.38,3268,115,5227.12,2,2,L0_ads_api
+558140801131199,Nex_HnK_SB_KT_VC-01/VC-02/VC-05_BCG_Phrase & Exact,Nexlev,B0DKJSCLBD,FBA79566,VC-05,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,1306.3233,32255,114,3977.97,2,1,L0_ads_api
+558140801131199,Nex_HnK_SB_KT_VC-01/VC-02/VC-05_BCG_Phrase & Exact,Nexlev,B0DCGHVN81,FBA79452,VC-01,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,1306.3233,32255,114,3977.97,2,1,L0_ads_api
+558140801131199,Nex_HnK_SB_KT_VC-01/VC-02/VC-05_BCG_Phrase & Exact,Nexlev,B0DCK56Q85,FBA79463,VC-02,Home & Kitchen,Cleaning & Vacumming,Vacuum Cleaner,1306.3233,32255,114,3977.97,2,1,L0_ads_api

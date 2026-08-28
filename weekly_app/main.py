@@ -539,6 +539,27 @@ try:
 except Exception as _se:  # noqa: BLE001 — isolation by design
     print(f"⚠ sales dashboard mount SKIPPED ({_se!r}) — Weekly unaffected")
 
+# =====================================================
+# BUYBOX REPORT — EMBEDDED STATIC BUILD
+# Built dist/ from nitesh-lang Buybox_report (React, hash-routed, data baked
+# into the bundle at build time — no API, no DB). The Buybox repo, pullers
+# and its monthly GH-Actions cron stay fully independent; Weekly only hosts
+# the artifact so the team uses it on THIS domain. Refresh flow: rebuild in
+# C:\Users\Admin\Buybox_report with VITE_BASE=/buybox/ (PowerShell!), copy
+# dist/* into buybox_dist/, commit. Auth: /buybox is in the auth guard's
+# guarded prefixes — weekly login first, then Buybox's own login.
+# =====================================================
+try:
+    _BUYBOX_DIST = Path(__file__).resolve().parent.parent / "buybox_dist"
+    if (_BUYBOX_DIST / "index.html").exists():
+        app.mount("/buybox", StaticFiles(directory=_BUYBOX_DIST, html=True),
+                  name="buybox")
+        print("✅ buybox report mounted at /buybox")
+    else:
+        print("⚠ buybox_dist missing — /buybox not mounted")
+except Exception as _be:  # noqa: BLE001 — isolation by design
+    print(f"⚠ buybox mount SKIPPED ({_be!r}) — Weekly unaffected")
+
 
 # =====================================================
 # REACT SPA CATCH-ALL  (MUST BE LAST)

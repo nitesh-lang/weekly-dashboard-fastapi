@@ -34,8 +34,10 @@ TOOLS = [
              "href": "https://orderpilot-web.onrender.com/login"},
             {"brand": "Cambium", "label": "AM Replenishment Tool",
              "href": "https://am-replenishment-1.onrender.com/"},
+            # Migrated 2026-08-28: embedded in THIS service at /buybox —
+            # standalone Render static site suspended.
             {"brand": "Cambium", "label": "Buybox Report",
-             "href": "https://buybox-report.onrender.com/"},
+             "href": "/buybox/"},
             {"brand": "Cambium", "label": "Hygiene Validator",
              "href": "https://hygiene-validator.onrender.com/"},
             {"brand": "Cambium", "label": "Ops Trackers (Shipments + Vendor)",

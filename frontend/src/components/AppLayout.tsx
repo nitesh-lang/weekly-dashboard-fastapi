@@ -9,7 +9,7 @@ import {
     LayoutDashboard, TrendingUp, ShoppingCart, Tag, Package, Megaphone,
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
-    ExternalLink,
+    ExternalLink, Layers,
     ShieldCheck, Sparkles,
 } from "lucide-react";
 
@@ -25,6 +25,7 @@ import {
 const CHUNK_LOADERS: Record<string, () => Promise<unknown>> = {
     "/dashboard":            () => import("@/pages/Dashboard"),
     "/insights":             () => import("@/pages/Insights"),
+    "/variation-performance": () => import("@/pages/VariationPerformance"),
     "/sales-trend":          () => import("@/pages/SalesTrend"),
     "/amazon-sales-trend":   () => import("@/pages/AmazonSalesTrend"),
     "/category-sales":       () => import("@/pages/CategorySales"),
@@ -95,6 +96,7 @@ const NAV_GROUPS = [
         items: [
             { to: "/ams-trend",           label: "AMS Trend",       icon: Megaphone },
             { to: "/ams-planning",        label: "AMS Planning",    icon: ClipboardList },
+            { to: "/variation-performance", label: "Variation Performance", icon: Layers },
             { to: "/ams-poor-performers", label: "Ad Underperformers", icon: AlertTriangle },
         ],
     },

@@ -76,6 +76,7 @@ KNOWN_TABS = (
     "/inventory-dashboard",
     "/ams-trend",
     "/ams-planning",
+    "/variation-performance",
     "/ams-poor-performers",
     "/no-sales-last-week",
     "/dead-stock",

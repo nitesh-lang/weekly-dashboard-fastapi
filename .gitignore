@@ -49,3 +49,4 @@ data/raw/inventory/**/_seller_sp_api/
 # Ads change-history probe artifacts — investigation output, never commit
 # (workflow uploads them as run artifacts instead).
 scripts/_audit/
+local.db

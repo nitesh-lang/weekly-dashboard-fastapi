@@ -9,7 +9,7 @@ import {
     LayoutDashboard, TrendingUp, ShoppingCart, Tag, Package, Megaphone,
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
-    ExternalLink, Layers,
+    ExternalLink, Layers, Gauge,
     ShieldCheck, Sparkles,
 } from "lucide-react";
 
@@ -276,6 +276,15 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                             >
                                 <TrendingUp className="h-4 w-4 shrink-0" />
                                 <span className="flex-1">Sales Dashboard</span>
+                            </a>
+                            {/* Buybox Report — embedded static app at /buybox
+                                (own login), plain <a> like Sales Dashboard. */}
+                            <a
+                                href="/buybox/"
+                                className="group relative inline-flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium text-foreground hover:bg-accent transition-all"
+                            >
+                                <Gauge className="h-4 w-4 shrink-0" />
+                                <span className="flex-1">Buybox Report</span>
                             </a>
                             <a
                                 href="/tools"

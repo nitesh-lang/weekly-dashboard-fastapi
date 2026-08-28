@@ -60,34 +60,73 @@ def _load_families() -> list[dict]:
         return _cache[1]
 
     k = pd.read_csv(KEEPA_CSV, low_memory=False)
-    seen: dict[frozenset, dict] = {}
+
+    # Keepa gives every variation its OWN row, and the sibling lists are
+    # per-row snapshots that drift out of sync (row A lists {A,B}, row B
+    # lists {A,B,C}).  Exact-set dedupe therefore splits one real family
+    # into several rows and multi-counts the shared members' revenue.
+    # Merge by CONNECTED COMPONENTS instead: any two rows that share a
+    # member are the same family (union-find over member ASINs).
+    parent_of: dict[str, str] = {}
+
+    def find(x: str) -> str:
+        while parent_of.get(x, x) != x:
+            parent_of[x] = parent_of.get(parent_of[x], parent_of[x])
+            x = parent_of[x]
+        return x
+
+    def union(a: str, b: str) -> None:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent_of[rb] = ra
+
+    entries: dict[str, dict] = {}   # per row-ASIN identity metadata
     for _, r in k.iterrows():
-        parent = str(r.get("ASIN") or "").strip().upper()
-        if not _ASIN_RE.match(parent):
+        asin = str(r.get("ASIN") or "").strip().upper()
+        if not _ASIN_RE.match(asin):
             continue
         kids = [x.strip().upper() for x in
                 re.split(r"[,;\s]+", str(r.get("Variation ASINs") or ""))]
         kids = [x for x in kids if _ASIN_RE.match(x)]
-        members = frozenset(kids) | {parent}
-        key = frozenset(members)
-        # Every member usually has its own row with the same set — keep the
-        # first row's identity per unique family; prefer a row that HAS
-        # children listed (a true parent row) over a bare child row.
-        if key in seen and seen[key]["has_kids"]:
-            continue
+        parent_of.setdefault(asin, asin)
+        for c in kids:
+            parent_of.setdefault(c, c)
+            union(asin, c)
         brand_raw = str(r.get("Brand") or "").strip()
-        seen[key] = {
-            "parent": parent,
+        entries[asin] = {
             "title": str(r.get("Title") or "")[:120],
             "brand": _BRAND_CANON.get(brand_raw.lower(), brand_raw),
             "rank": r.get("Sales Rank: Current"),
-            "rank_30d": r.get("Sales Rank: 30 days avg."),
             "rating": r.get("Reviews: Rating"),
             "rating_count": r.get("Reviews: Rating Count"),
-            "members": sorted(members),
             "has_kids": bool(kids),
         }
-    fams = list(seen.values())
+
+    groups: dict[str, set] = {}
+    for m in parent_of:
+        groups.setdefault(find(m), set()).add(m)
+
+    fams = []
+    for members in groups.values():
+        fam_entries = {m: entries[m] for m in members if m in entries}
+        if not fam_entries:
+            continue
+        # Representative identity: the row with children listed and the most
+        # reviews (the canonical listing).  Request-time may still prefer the
+        # top-selling member's title for display.
+        rep = max(fam_entries.items(),
+                  key=lambda kv: (kv[1]["has_kids"],
+                                  float(kv[1].get("rating_count") or 0)))
+        fams.append({
+            "parent": rep[0],
+            "title": rep[1]["title"],
+            "brand": rep[1]["brand"],
+            "rank": rep[1]["rank"],
+            "rating": rep[1]["rating"],
+            "rating_count": rep[1]["rating_count"],
+            "members": sorted(members),
+            "entries": fam_entries,
+        })
     _cache = (mtime, fams)
     return fams
 
@@ -155,6 +194,9 @@ def variation_performance(
             ams = float(ad.get("ams_sales", 0) or 0)
             rows.append({
                 "asin": m,
+                # In a union-merged family almost every member's own Keepa
+                # row listed children — badging them all says nothing.  The
+                # badge marks only the family's canonical listing.
                 "is_parent": m == f["parent"],
                 "model": model_by_asin.get(m, ""),
                 "gmv": round(gmv), "units": int(sa.get("units", 0) or 0),

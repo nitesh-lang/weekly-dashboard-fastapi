@@ -210,10 +210,21 @@ def variation_performance(
         if not include_inactive and gmv_t == 0 and spend_t == 0:
             continue
         rows.sort(key=lambda r: (-r["gmv"], -r["spend"]))
+        # The family's face is its TOP-SELLING member's own listing — the one
+        # the operator recognizes — not the most-reviewed parent row (which in
+        # a merged family can be a zero-sale sibling). Canonical row is the
+        # fallback when the top seller has no sales or no Keepa row.
+        face = f
+        if rows and rows[0]["gmv"] > 0:
+            e = f["entries"].get(rows[0]["asin"])
+            if e and e.get("title"):
+                face = {"title": e["title"], "rank": e.get("rank"),
+                        "rating": e.get("rating"),
+                        "rating_count": e.get("rating_count")}
         out.append({
-            "parent_asin": f["parent"], "title": f["title"], "brand": f["brand"],
-            "rank": f["rank"], "rating": f["rating"],
-            "rating_count": f["rating_count"],
+            "parent_asin": f["parent"], "title": face["title"], "brand": f["brand"],
+            "rank": face["rank"], "rating": face["rating"],
+            "rating_count": face["rating_count"],
             "member_count": len(rows),
             "active_members": sum(1 for r in rows if r["gmv"] > 0),
             "gmv": gmv_t, "units": sum(r["units"] for r in rows),

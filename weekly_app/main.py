@@ -485,6 +485,60 @@ async def bootstrap_etl_if_needed():
 
 
 # =====================================================
+# SALES DASHBOARD (MULTI-BRAND) — MOUNTED SUB-APP
+# Vendored verbatim from nitesh-lang/sales-dashboard-multi so the team uses
+# it at THIS domain (/sales) and the standalone Render services can be
+# suspended.  Registered BEFORE the SPA catch-all so /sales* wins routing.
+#
+# Isolation guarantees (the "don't touch Weekly" contract):
+#   * whole block is try/except — ANY sales-side failure (missing env, Neon
+#     down, import error) logs and leaves Weekly exactly as before
+#   * sales keeps its OWN auth + Neon DB + session cookie (sales_session);
+#     Weekly's auth guard passes /sales* through untouched (not /api/*)
+#   * sys.path gets sales_dash APPENDED (never prepended) — its `app`
+#     package name cannot shadow anything Weekly imports
+# =====================================================
+try:
+    import importlib.util as _silu
+    import sys as _ssys
+
+    _SALES_DIR = Path(__file__).resolve().parent.parent / "sales_dash"
+    _SALES_DIST = Path(__file__).resolve().parent.parent / "sales_dash_dist"
+    if str(_SALES_DIR) not in _ssys.path:
+        _ssys.path.append(str(_SALES_DIR))
+
+    _sspec = _silu.spec_from_file_location("sales_dash_main", _SALES_DIR / "main.py")
+    _smod = _silu.module_from_spec(_sspec)
+    _sspec.loader.exec_module(_smod)
+
+    # API first (mounts are matched in registration order, so /sales-app
+    # must be registered before the /sales SPA routes below).
+    app.mount("/sales-app", _smod.app)
+    app.mount("/sales/assets", StaticFiles(directory=_SALES_DIST / "assets"),
+              name="sales_assets")
+
+    _SALES_INDEX = _SALES_DIST / "index.html"
+
+    @app.get("/sales", include_in_schema=False)
+    @app.get("/sales/{rest:path}", include_in_schema=False)
+    async def sales_spa(rest: str = ""):
+        from fastapi.responses import FileResponse as _FR, PlainTextResponse as _PTR
+        # Real files in dist (favicon etc.) serve directly; client routes
+        # fall back to the SPA shell, same pattern as Weekly's own catch-all.
+        cand = (_SALES_DIST / rest).resolve() if rest else _SALES_INDEX
+        if rest and _SALES_DIST.resolve() in cand.parents and cand.is_file():
+            return _FR(cand)
+        if not _SALES_INDEX.exists():
+            return _PTR("Sales dashboard bundle missing.", status_code=503)
+        return _FR(_SALES_INDEX,
+                   headers={"Cache-Control": "no-cache, must-revalidate"})
+
+    print("✅ sales dashboard mounted at /sales (api: /sales-app)")
+except Exception as _se:  # noqa: BLE001 — isolation by design
+    print(f"⚠ sales dashboard mount SKIPPED ({_se!r}) — Weekly unaffected")
+
+
+# =====================================================
 # REACT SPA CATCH-ALL  (MUST BE LAST)
 # Any GET that didn't match an /api/* route, a /static/* file, a health
 # endpoint, or one of the legacy Jinja viewers falls through here and

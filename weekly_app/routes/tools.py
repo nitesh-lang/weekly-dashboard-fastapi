@@ -12,8 +12,10 @@ TOOLS = [
         "items": [
             {"brand": "Cambium", "label": "Ad Pilot Dashboard",
              "href": "https://adpilot-by-cambium.onrender.com/"},
+            # Migrated 2026-08-28: now mounted in THIS service at /sales —
+            # no cross-domain hop; the standalone Render services are suspended.
             {"brand": "Cambium", "label": "Sales Dashboard",
-             "href": "https://sales-dashboard-web-vfy3.onrender.com/login"},
+             "href": "/sales/login"},
         ],
     },
     {

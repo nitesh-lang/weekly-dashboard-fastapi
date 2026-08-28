@@ -266,6 +266,15 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                     {/* ── Tools launcher ── full-page nav to /tools (Jinja) */}
                     <div className="mb-5">
                         <div className="flex flex-col gap-0.5">
+                            {/* Sales Dashboard is a separate SPA mounted at /sales
+                                (own router + auth) — plain <a>, not a Router link. */}
+                            <a
+                                href="/sales"
+                                className="group relative inline-flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium text-foreground hover:bg-accent transition-all"
+                            >
+                                <TrendingUp className="h-4 w-4 shrink-0" />
+                                <span className="flex-1">Sales Dashboard</span>
+                            </a>
                             <a
                                 href="/tools"
                                 className="group relative inline-flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium text-foreground hover:bg-accent transition-all"

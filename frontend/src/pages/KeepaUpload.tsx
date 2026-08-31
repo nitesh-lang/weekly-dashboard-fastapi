@@ -4,7 +4,7 @@ import AppLayout from "@/components/AppLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { api, ApiError } from "@/lib/api";
-import { UploadCloud, CheckCircle2, AlertTriangle, FileUp, Layers } from "lucide-react";
+import { UploadCloud, CheckCircle2, AlertTriangle, FileUp, Layers, X, FilePlus2 } from "lucide-react";
 
 interface StatusData {
     bsr_latest: Record<string, string | null>;
@@ -14,15 +14,19 @@ interface StatusData {
 }
 interface UploadResult { ok: boolean; commit: string | null; note: string; brands?: string[]; date?: string; }
 
-async function postFiles(url: string, files: FileList, fieldName: string): Promise<UploadResult> {
+async function postFiles(url: string, files: File[], fieldName: string): Promise<UploadResult> {
     const fd = new FormData();
-    for (const f of Array.from(files)) fd.append(fieldName, f);
+    for (const f of files) fd.append(fieldName, f);
     const res = await fetch(url, { method: "POST", body: fd, credentials: "include" });
     const body = await res.json().catch(() => ({}));
     if (!res.ok) throw new ApiError(res.status, `Upload failed (${res.status})`, body);
     return body as UploadResult;
 }
 
+/** Staged upload: files accumulate across picker sessions (so all four
+ *  brands can be gathered even one at a time), then ONE explicit upload
+ *  sends everything in a single request → a single commit → a single
+ *  rebuild. */
 function UploadCard({
     title, subtitle, accept, multiple, endpoint, fieldName, onDone,
 }: {
@@ -30,23 +34,37 @@ function UploadCard({
     endpoint: string; fieldName: string; onDone: () => void;
 }) {
     const inputRef = useRef<HTMLInputElement>(null);
+    const [staged, setStaged] = useState<File[]>([]);
     const [busy, setBusy] = useState(false);
     const [result, setResult] = useState<UploadResult | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    async function handle(files: FileList | null) {
-        if (!files || files.length === 0) return;
+    function addFiles(list: FileList | null) {
+        if (!list) return;
+        setResult(null); setError(null);
+        setStaged((prev) => {
+            const next = multiple ? [...prev] : [];
+            for (const f of Array.from(list)) {
+                if (!next.some((x) => x.name === f.name)) next.push(f);
+            }
+            return multiple ? next : next.slice(-1);
+        });
+        if (inputRef.current) inputRef.current.value = "";
+    }
+
+    async function uploadAll() {
+        if (staged.length === 0) return;
         setBusy(true); setError(null); setResult(null);
         try {
-            const r = await postFiles(endpoint, files, fieldName);
+            const r = await postFiles(endpoint, staged, fieldName);
             setResult(r);
+            setStaged([]);
             onDone();
         } catch (e) {
             const body = (e instanceof ApiError ? e.body : null) as { detail?: string } | null;
             setError(body?.detail || (e as Error).message || "Upload failed");
         } finally {
             setBusy(false);
-            if (inputRef.current) inputRef.current.value = "";
         }
     }
 
@@ -56,12 +74,34 @@ function UploadCard({
             <p className="text-[12.5px] text-muted-foreground mb-4">{subtitle}</p>
             <input
                 ref={inputRef} type="file" accept={accept} multiple={multiple}
-                className="hidden" onChange={(e) => handle(e.target.files)}
+                className="hidden" onChange={(e) => addFiles(e.target.files)}
             />
-            <Button onClick={() => inputRef.current?.click()} disabled={busy} size="sm">
-                <UploadCloud className={"h-4 w-4 " + (busy ? "animate-pulse" : "")} />
-                {busy ? "Uploading & committing…" : "Choose file" + (multiple ? "(s)" : "")}
-            </Button>
+            <div className="flex items-center gap-2">
+                <Button onClick={() => inputRef.current?.click()} disabled={busy} size="sm" variant="outline">
+                    <FilePlus2 className="h-4 w-4" />
+                    Add file{multiple ? "s" : ""}
+                </Button>
+                <Button onClick={uploadAll} disabled={busy || staged.length === 0} size="sm">
+                    <UploadCloud className={"h-4 w-4 " + (busy ? "animate-pulse" : "")} />
+                    {busy ? "Uploading & committing…"
+                          : staged.length === 0 ? "Upload"
+                          : `Upload ${staged.length} file${staged.length > 1 ? "s" : ""} — one commit`}
+                </Button>
+            </div>
+            {staged.length > 0 && (
+                <ul className="mt-3 space-y-1">
+                    {staged.map((f) => (
+                        <li key={f.name} className="flex items-center gap-2 text-[12.5px] rounded border px-2 py-1 bg-muted/40">
+                            <span className="flex-1 truncate">{f.name}</span>
+                            <span className="text-muted-foreground">{(f.size / 1024).toFixed(0)} KB</span>
+                            <button type="button" onClick={() => setStaged((p) => p.filter((x) => x.name !== f.name))}
+                                    className="opacity-60 hover:opacity-100" aria-label={`Remove ${f.name}`}>
+                                <X className="h-3.5 w-3.5" />
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
             {result && (
                 <div className="mt-4 flex items-start gap-2 text-[13px] rounded-md border p-3"
                      style={{ background: "#f0fdf4", borderColor: "#bbf7d0", color: "#166534" }}>
@@ -117,7 +157,7 @@ export default function KeepaUpload() {
             <div className="flex flex-wrap gap-4">
                 <UploadCard
                     title="Buybox — BSR export"
-                    subtitle={"Per-brand Keepa CSVs (Nexlev / Audio array / Tonor / White Mulberry) or one ZIP of them. Filed under today's date" + (status.data ? ` (${status.data.today})` : "") + " and /buybox rebuilds with the new BSR data."}
+                    subtitle={"Add all four brand CSVs (Nexlev / Tonor / Audio Array / White Mulberry) or one ZIP, then upload once — one commit covers all brands. Filed under today's date" + (status.data ? ` (${status.data.today})` : "") + "; /buybox rebuilds with the new BSR data."}
                     accept=".csv,.zip"
                     multiple
                     endpoint="/api/keepa-upload/bsr"

@@ -45,6 +45,16 @@ app's lane. Violating any boundary below is a bug, even if it "works".**
 10. **Verification.** Any change touching a boundary (main.py mounts,
     auth_guard prefixes, render.yaml build, env) must verify all three after
     deploy: `/health`, `/sales-app/healthz`, `/buybox/` (expect 303 anon).
+11. **Nested session middlewares clobber each other.** A mounted sub-app with
+    its own SessionMiddleware shares `scope["session"]` with the host's —
+    weekly's layer once DELETED the operator's login whenever a sales request
+    carried an empty sales session ("login doesn't survive much", fixed by
+    `WeeklySessionMiddleware` path-skipping `/sales-app`). Any future mount
+    that manages sessions MUST be path-excluded from weekly's session layer.
+12. **No heavy work in request handlers.** The web instance is 512MB shared
+    by three apps — an in-request snapshot rebuild once OOM-killed it mid-
+    upload. Derivations run in the Render build step or GitHub Actions;
+    request handlers validate, commit, and return.
 
 Frozen upstream repos (history only, never develop there):
 `nitesh-lang/sales-dashboard-multi`, `nitesh-lang/Buybox_report`.

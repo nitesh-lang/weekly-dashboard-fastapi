@@ -23,6 +23,14 @@ import pandas as pd
 
 ROOT     = Path(__file__).resolve().parent.parent.parent
 RAW_DIR  = ROOT / "data" / "raw" / "reviews"
+# Primary source since 2026-08-31 (operator: "take ratings and review from
+# keepa uploaded files — that's the file I used to upload"): the dated
+# per-brand Keepa exports the operator uploads via Data → Keepa Upload.
+# Same schema as the Helium-10 exports (ASIN / Brand / Reviews: Rating /
+# Reviews: Rating Count), but refreshed weekly through the dashboard and
+# with the brand guaranteed by the FOLDER name. RAW_DIR remains the
+# fallback for any brand without a Keepa folder.
+KEEPA_BSR_DIR = ROOT / "buybox_src" / "data" / "BSR"
 OUT_FILE = ROOT / "data" / "processed" / "reviews_snapshot.csv"
 
 # Source column names (Helium-10 default headers — quoted with colons).
@@ -93,21 +101,43 @@ def _read_one(path: Path) -> pd.DataFrame:
     return out
 
 
-def run_reviews_etl() -> int:
-    if not RAW_DIR.exists():
-        print(f"⚠ Reviews raw folder not found at {RAW_DIR}")
-        return 0
+def _keepa_sources() -> dict[str, Path]:
+    """{canonical brand: newest dated Keepa CSV} from the upload store."""
+    out: dict[str, Path] = {}
+    if not KEEPA_BSR_DIR.exists():
+        return out
+    for d in sorted(KEEPA_BSR_DIR.iterdir()):
+        if not d.is_dir():
+            continue
+        dated = sorted(d.glob("*.csv"))          # yy-mm-dd names sort by date
+        if dated:
+            out[_canonical_brand(d.name)] = dated[-1]
+    return out
 
-    files = sorted([p for p in RAW_DIR.glob("*.csv") if not p.name.startswith("~")])
-    if not files:
-        print(f"⚠ {RAW_DIR} has no CSVs — skipping")
+
+def run_reviews_etl() -> int:
+    keepa = _keepa_sources()
+
+    # One source file per brand: Keepa upload wins; Helium-10 file only for
+    # brands the Keepa store doesn't cover — so nothing ever drops out.
+    per_brand: dict[str, Path] = {}
+    if RAW_DIR.exists():
+        for p in sorted(RAW_DIR.glob("*.csv")):
+            if not p.name.startswith("~"):
+                per_brand[_canonical_brand(p.stem)] = p
+    per_brand.update(keepa)
+
+    if not per_brand:
+        print(f"⚠ No review sources in {KEEPA_BSR_DIR} or {RAW_DIR} — skipping")
         return 0
 
     frames = []
-    for f in files:
-        print(f"📥 Reading {f.name}…")
+    for brand, f in sorted(per_brand.items()):
+        src = "keepa" if brand in keepa else "helium10"
+        print(f"📥 {brand}: {f.name} [{src}]")
         d = _read_one(f)
         if not d.empty:
+            d["brand"] = brand      # folder/filename is the brand authority
             frames.append(d)
 
     if not frames:

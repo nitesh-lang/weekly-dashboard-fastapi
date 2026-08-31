@@ -24,11 +24,8 @@ from __future__ import annotations
 
 import base64
 import io
-import json
 import os
 import re
-import subprocess
-import sys
 import zipfile
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -44,14 +41,19 @@ router = APIRouter(prefix="/api/keepa-upload", tags=["keepa-upload"])
 ROOT = Path(__file__).resolve().parent.parent.parent
 BSR_DIR = ROOT / "buybox_src" / "data" / "BSR"
 VARIATIONS_CSV = ROOT / "data" / "master" / "keepa_variations.csv"
-SNAPSHOT_SCRIPT = ROOT / "buybox_src" / "Scripts" / "build_bsr_snapshots.py"
-SNAPSHOT_JSON = ROOT / "buybox_src" / "src" / "bsr_snapshots.json"
 
 REPO = "nitesh-lang/weekly-dashboard-fastapi"
 IST = timezone(timedelta(hours=5, minutes=30))
 
-# Keepa export filename → BSR brand folder. Matching is fuzzy on purpose —
-# the operator's zips have arrived as "Audio array.csv", "Nexlev.csv" etc.
+# Keepa export filename → BSR brand folder. The operator's system names —
+# "Nexlev", "Tonor", "Audio Array", "White Mulberry" — match EXACTLY first
+# (case-insensitive); the fuzzy keys below catch variants like "Audio array".
+EXACT_BRANDS = {
+    "nexlev": "Nexlev",
+    "tonor": "Tonor",
+    "audio array": "Audio Array",
+    "white mulberry": "White Mulberry",
+}
 BRAND_FOLDERS = {
     "nexlev": "Nexlev",
     "audio": "Audio Array",
@@ -120,7 +122,9 @@ def commit_files(files: dict[str, bytes], message: str, author_email: str) -> Op
 # ── validation helpers ────────────────────────────────────────────────────
 
 def _brand_for(filename: str) -> Optional[str]:
-    low = Path(filename).stem.lower()
+    low = Path(filename).stem.strip().lower()
+    if low in EXACT_BRANDS:
+        return EXACT_BRANDS[low]
     for key, folder in BRAND_FOLDERS.items():
         if key in low:
             return folder
@@ -194,22 +198,16 @@ def upload_bsr(request: Request,
 
     per_brand = _collect_csvs(files)
 
-    # Write locally so the snapshot script sees the new files, then rebuild.
-    for brand, blob in per_brand.items():
-        target = BSR_DIR / brand / f"{day}.csv"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(blob)
-    proc = subprocess.run([sys.executable, str(SNAPSHOT_SCRIPT)],
-                          capture_output=True, text=True, cwd=str(ROOT),
-                          timeout=300)
-    if proc.returncode != 0:
-        raise HTTPException(500, f"snapshot rebuild failed: {proc.stderr[-400:]}")
-
+    # DELIBERATELY no snapshot regeneration here: running
+    # build_bsr_snapshots.py in-request read the whole 78MB BSR store and
+    # OOM-killed the 512MB instance (server_failed 2026-08-31 08:01 → the
+    # operator's 502). The commit below triggers a Render deploy, and the
+    # BUILD step regenerates bsr_snapshots.json from ALL committed CSVs
+    # (see render.yaml) with the build container's own resources.
     commit_payload = {
         f"buybox_src/data/BSR/{brand}/{day}.csv": blob
         for brand, blob in per_brand.items()
     }
-    commit_payload["buybox_src/src/bsr_snapshots.json"] = SNAPSHOT_JSON.read_bytes()
 
     sha = commit_files(commit_payload,
                        f"data(buybox): BSR upload {day} via dashboard "

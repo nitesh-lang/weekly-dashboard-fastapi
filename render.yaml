@@ -25,9 +25,11 @@ services:
       VITE_BASE=/sales/ VITE_API_BASE=/sales-app npm --prefix sales_dash_frontend run build
       rm -rf sales_dash_dist && cp -r sales_dash_frontend/dist sales_dash_dist
       # ── Buybox Report (source: buybox_src/) ──
-      # encrypt_data.js needs BUYBOX_PASSWORD from this service's env; the
-      # committed src/*.json data files are refreshed by the BSR/monthly
-      # workflows, so the bundle is as fresh as the last data commit.
+      # Snapshots are DERIVED HERE from all committed BSR CSVs — the upload
+      # endpoint only commits raw CSVs (regenerating in-request OOM'd the
+      # 512MB web instance; the build container has its own resources).
+      python buybox_src/Scripts/build_bsr_snapshots.py
+      # encrypt_data.js needs BUYBOX_PASSWORD from this service's env.
       npm --prefix buybox_src ci
       node buybox_src/Scripts/encrypt_data.js
       cd buybox_src && VITE_BASE=/buybox/ npx vite build && cd ..

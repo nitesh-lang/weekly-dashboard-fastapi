@@ -114,9 +114,18 @@ class CacheHeadersMiddleware:
         async def send_wrapper(message):
             if message["type"] == "http.response.start":
                 cache_value = None
-                if path.startswith("/static/spa/assets/"):
+                if path.startswith("/static/spa/assets/") or path.startswith("/buybox/assets/") \
+                        or path.startswith("/sales/assets/"):
+                    # Hash-named bundles — safe to cache forever.
                     cache_value = b"public, max-age=31536000, immutable"
                 elif path == "/static/spa/index.html":
+                    cache_value = b"no-cache, must-revalidate"
+                elif path in ("/buybox", "/buybox/", "/buybox/index.html",
+                              "/buybox/data.enc"):
+                    # The buybox shell + its encrypted data blob change every
+                    # deploy under the SAME URLs — without no-cache, browsers
+                    # heuristically reuse them and freshly uploaded BSR data
+                    # is "not visible" until a hard refresh (2026-08-31).
                     cache_value = b"no-cache, must-revalidate"
                 if cache_value:
                     headers = [

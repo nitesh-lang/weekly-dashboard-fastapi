@@ -214,8 +214,10 @@ def upload_bsr(request: Request,
                        f"({', '.join(sorted(per_brand))}) [skip ci]", email)
     return {"ok": True, "date": day, "brands": sorted(per_brand),
             "commit": sha,
-            "note": ("No change — these files were already up to date." if sha is None
-                     else "Committed. Render is rebuilding /buybox — live in ~5 minutes.")}
+            "note": ("✓ Already up to date — this exact data is in the system; nothing to do."
+                     if sha is None else
+                     "Committed. Rebuilding now — after ~5 minutes RELOAD the Buybox tab "
+                     "(close & reopen, or Ctrl+Shift+R) to see the new data.")}
 
 
 @router.post("/variations")

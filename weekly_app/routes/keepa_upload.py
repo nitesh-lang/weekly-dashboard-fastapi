@@ -41,6 +41,14 @@ router = APIRouter(prefix="/api/keepa-upload", tags=["keepa-upload"])
 ROOT = Path(__file__).resolve().parent.parent.parent
 BSR_DIR = ROOT / "buybox_src" / "data" / "BSR"
 VARIATIONS_CSV = ROOT / "data" / "master" / "keepa_variations.csv"
+PLANNING_DIR = ROOT / "sales_dash" / "data" / "planning"
+
+# Sales-dashboard planning brands (folder names). Tonor rolls up into
+# Audio Array; WM has no planning file — two brands by design.
+PLANNING_BRANDS = {"nexlev": "nexlev", "audio_array": "audio_array"}
+_PLANNING_NAME_RE = re.compile(
+    r"^ASIN Planning file - (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4})\.xlsx$")
+_ASIN_RE = re.compile(r"^[A-Z0-9]{10}$")
 
 REPO = "nitesh-lang/weekly-dashboard-fastapi"
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -182,7 +190,21 @@ def status(request: Request):
     variations = None
     if VARIATIONS_CSV.exists():
         variations = {"rows": max(sum(1 for _ in VARIATIONS_CSV.open(encoding="utf-8", errors="replace")) - 1, 0)}
-    return {"bsr_latest": brands, "variations": variations,
+    planning = {}
+    if PLANNING_DIR.exists():
+        for bkey, folder in PLANNING_BRANDS.items():
+            months = []
+            d = PLANNING_DIR / folder
+            if d.exists():
+                for p in d.glob("ASIN Planning file - *.xlsx"):
+                    mm = _PLANNING_NAME_RE.match(p.name)
+                    if mm:
+                        months.append((int(mm.group(2)),
+                                       ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug",
+                                        "Sep","Oct","Nov","Dec"].index(mm.group(1)) + 1,
+                                       f"{mm.group(1)} {mm.group(2)}"))
+            planning[bkey] = sorted(months)[-1][2] if months else None
+    return {"bsr_latest": brands, "variations": variations, "planning_latest": planning,
             "github_configured": bool(os.environ.get("GITHUB_TOKEN", "").strip()),
             "today": datetime.now(IST).strftime("%y-%m-%d")}
 
@@ -220,6 +242,96 @@ def upload_bsr(request: Request,
                      "(close & reopen, or Ctrl+Shift+R) to see the new data.")}
 
 
+@router.post("/planning")
+def upload_planning(request: Request,
+                    brand: str = Query(..., description="nexlev | audio_array"),
+                    file: UploadFile = File(...)):
+    """Monthly ASIN planning workbook for the Sales Dashboard.
+
+    HIGH-STAKES FILE: the sales app's plan-aware STRICT ingest drops every
+    sales row of a month whose planning file is missing or wrong, so this
+    endpoint validates hard before committing and reports exactly what it
+    is replacing.
+    """
+    email = require_uploader(request)
+    bkey = brand.strip().lower()
+    if bkey not in PLANNING_BRANDS:
+        raise HTTPException(422, "brand must be 'nexlev' or 'audio_array'")
+
+    fname = (file.filename or "").strip()
+    m = _PLANNING_NAME_RE.match(fname)
+    if not m:
+        raise HTTPException(422, "Filename must be exactly "
+                                 "'ASIN Planning file - <Mon> <YYYY>.xlsx' "
+                                 "(e.g. 'ASIN Planning file - Sep 2026.xlsx') — "
+                                 f"got {fname!r}. The sales app matches the month "
+                                 "by this exact name.")
+    month_label = f"{m.group(1)} {m.group(2)}"
+
+    raw = file.file.read()
+    if raw[:4] != b"PK\x03\x04":
+        raise HTTPException(422, "Not an .xlsx file.")
+
+    # Structural validation mirroring what the sales app's loader needs.
+    import openpyxl
+    try:
+        wb = openpyxl.load_workbook(io.BytesIO(raw), read_only=True)
+    except Exception as e:
+        raise HTTPException(422, f"Workbook unreadable: {e}")
+    if "Main" not in wb.sheetnames:
+        raise HTTPException(422, f"Missing 'Main' sheet (found {wb.sheetnames}). "
+                                 "The sales app reads the plan from 'Main'.")
+    ws = wb["Main"]
+    header = [str(c.value or "").strip().lower() for c in next(ws.iter_rows(max_row=1))]
+    if "asin" not in header:
+        raise HTTPException(422, f"'Main' sheet has no ASIN column (headers: {header[:6]}).")
+    ai = header.index("asin")
+    asins = [str(r[ai].value).strip().upper() for r in ws.iter_rows(min_row=2)
+             if r[ai].value]
+    valid = [a for a in asins if _ASIN_RE.match(a)]
+    if len(valid) < 5:
+        raise HTTPException(422, f"Only {len(valid)} valid ASINs in 'Main' — refusing: "
+                                 "a near-empty plan would drop the month's sales at ingest.")
+    warnings = []
+    if "Category" not in wb.sheetnames:
+        warnings.append("No 'Category' sheet — category targets will be empty for this month.")
+
+    rel = f"sales_dash/data/planning/{PLANNING_BRANDS[bkey]}/{fname}"
+    existing = ROOT / rel
+    replaces = None
+    if existing.exists():
+        old = existing.read_bytes()
+        if old == raw:
+            return {"ok": True, "commit": None, "brand": bkey, "month": month_label,
+                    "asins": len(valid), "warnings": warnings,
+                    "note": "✓ Already up to date — this exact plan is in the system."}
+        try:
+            owb = openpyxl.load_workbook(io.BytesIO(old), read_only=True)
+            ows = owb["Main"]
+            oh = [str(c.value or "").strip().lower() for c in next(ows.iter_rows(max_row=1))]
+            oai = oh.index("asin")
+            old_n = sum(1 for r in ows.iter_rows(min_row=2) if r[oai].value)
+        except Exception:
+            old_n = "?"
+        replaces = f"replaces existing plan ({old_n} → {len(valid)} ASINs)"
+
+    # Commit FIRST; only mirror to local disk after the commit succeeds —
+    # a failed commit must leave no half-applied state (a locally-written
+    # plan with no commit would show in /status but never deploy).
+    sha = commit_files({rel: raw},
+                       f"data(planning): {bkey} {month_label} via dashboard"
+                       + (f" — {replaces}" if replaces else "")
+                       + " [skip ci]", email)
+    existing.parent.mkdir(parents=True, exist_ok=True)
+    existing.write_bytes(raw)
+    return {"ok": True, "commit": sha, "brand": bkey, "month": month_label,
+            "asins": len(valid), "replaced": bool(replaces), "warnings": warnings,
+            "note": ((replaces + ". " if replaces else "")
+                     + f"Committed {len(valid)} planned ASINs for {month_label}. "
+                       "Live after the rebuild (~6 min). Sales for a month only land "
+                       "if its plan is in BEFORE the pull — done for " + month_label + ".")}
+
+
 @router.post("/variations")
 def upload_variations(request: Request, file: UploadFile = File(...)):
     email = require_uploader(request)
@@ -228,11 +340,12 @@ def upload_variations(request: Request, file: UploadFile = File(...)):
     if "ASIN" not in head or "Variation ASINs" not in head:
         raise HTTPException(422, "Doesn't look like the variation export "
                                  "(needs ASIN + 'Variation ASINs' columns).")
-    VARIATIONS_CSV.parent.mkdir(parents=True, exist_ok=True)
-    VARIATIONS_CSV.write_bytes(raw)
     sha = commit_files({"data/master/keepa_variations.csv": raw},
                        "data(master): keepa variations upload via dashboard [skip ci]",
                        email)
+    # Local mirror only after the commit succeeded.
+    VARIATIONS_CSV.parent.mkdir(parents=True, exist_ok=True)
+    VARIATIONS_CSV.write_bytes(raw)
     return {"ok": True, "commit": sha,
             "note": ("No change — identical to the current file." if sha is None
                      else "Committed. Variation Performance refreshes with the next "

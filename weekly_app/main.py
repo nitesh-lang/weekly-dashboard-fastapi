@@ -150,9 +150,31 @@ if not SESSION_SECRET:
     SESSION_SECRET = "dev-insecure-secret-do-not-use-in-prod"
     print("⚠ SESSION_SECRET not set — using insecure dev default. Set in env for production!")
 
+class WeeklySessionMiddleware(SessionMiddleware):
+    """SessionMiddleware that IGNORES the sales sub-app's traffic.
+
+    The mounted sales app runs its OWN SessionMiddleware (cookie
+    `sales_session`). Nested session middlewares share `scope["session"]`,
+    so on /sales-app requests the inner app replaces the dict this outer
+    layer loaded from `weekly_session` — and when the sales session is
+    empty (its cookie is browser-session-scoped), this outer layer saw
+    "session emptied" on the way out and DELETED the weekly cookie.
+    Result: any background sales-API ping silently logged the operator out
+    of Weekly ("login doesn't survive much", 2026-08-31). Weekly sessions
+    simply have no business on /sales-app paths — skip them entirely
+    (auth_guard already tolerates the absent scope key).
+    """
+
+    async def __call__(self, scope, receive, send):
+        if scope.get("type") == "http" and scope.get("path", "").startswith("/sales-app"):
+            await self.app(scope, receive, send)
+            return
+        await super().__call__(scope, receive, send)
+
+
 app.add_middleware(AuthGuardMiddleware)
 app.add_middleware(
-    SessionMiddleware,
+    WeeklySessionMiddleware,
     secret_key=SESSION_SECRET,
     session_cookie="weekly_session",
     https_only=os.environ.get("COOKIE_SECURE", "0") == "1",

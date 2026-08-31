@@ -77,6 +77,7 @@ KNOWN_TABS = (
     "/ams-trend",
     "/ams-planning",
     "/variation-performance",
+    "/keepa-upload",
     "/ams-poor-performers",
     "/no-sales-last-week",
     "/dead-stock",

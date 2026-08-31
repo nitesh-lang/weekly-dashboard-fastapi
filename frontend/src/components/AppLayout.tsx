@@ -9,7 +9,7 @@ import {
     LayoutDashboard, TrendingUp, ShoppingCart, Tag, Package, Megaphone,
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
-    ExternalLink, Layers, Gauge,
+    ExternalLink, Layers, Gauge, UploadCloud,
     ShieldCheck, Sparkles,
 } from "lucide-react";
 
@@ -26,6 +26,7 @@ const CHUNK_LOADERS: Record<string, () => Promise<unknown>> = {
     "/dashboard":            () => import("@/pages/Dashboard"),
     "/insights":             () => import("@/pages/Insights"),
     "/variation-performance": () => import("@/pages/VariationPerformance"),
+    "/keepa-upload":         () => import("@/pages/KeepaUpload"),
     "/sales-trend":          () => import("@/pages/SalesTrend"),
     "/amazon-sales-trend":   () => import("@/pages/AmazonSalesTrend"),
     "/category-sales":       () => import("@/pages/CategorySales"),
@@ -106,6 +107,12 @@ const NAV_GROUPS = [
             { to: "/no-sales-last-week",  label: "No Sales Last Week", icon: AlertCircle },
             { to: "/dead-stock",          label: "Dead Stock",         icon: Archive },
             { to: "/returns",             label: "Returns",            icon: RotateCcw },
+        ],
+    },
+    {
+        label: "Data",
+        items: [
+            { to: "/keepa-upload", label: "Keepa Upload", icon: UploadCloud },
         ],
     },
 ];

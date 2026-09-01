@@ -23681,7 +23681,7 @@ Week 35,Fossil,AX4180,Amazon,B0D84YY632,0.0,0.0,0.0,0.0,0.0,FBA79512,MAPPED,Trad
 Week 35,Fossil,AX4181,Amazon,B0D853Y52R,1.0,13554.24,13554.24,0.0,0.0,FBA79513,MAPPED,Traditional Watch,,,
 Week 35,Fossil,AX4182,Amazon,B0D854LDQM,1.0,13555.08,13555.08,0.0,0.0,FBA79514,MAPPED,Traditional Watch,,,
 Week 35,Fossil,AX4183,Amazon,B0D8572WTJ,1.0,13555.08,13555.08,0.0,0.0,FBA79515,MAPPED,Traditional Watch,,,
-Week 35,Fossil,AX4184,Amazon,B0DKJHSD8R,13.0,162650.85,162650.85,0.0,0.0,FBA79627,MAPPED,Traditional Watch,,,
+Week 35,Fossil,AX4184,Amazon,B0DKJHSD8R,12.0,149096.61,149096.61,0.0,0.0,FBA79627,MAPPED,Traditional Watch,,,
 Week 35,Fossil,AX4186,Amazon,B0DSBS17RY,2.0,24567.8,24567.8,0.0,0.0,FBA79733,MAPPED,Traditional Watch,,,
 Week 35,Fossil,AX4199,Amazon,B0FRV4KDN4,0.0,0.0,0.0,0.0,0.0,FBA79924,MAPPED,Traditional Watch,,,
 Week 35,Fossil,AX4300,Amazon,B0GTC9238R,0.0,0.0,0.0,0.0,0.0,FBA80224,MAPPED,Traditional Watch,,,
@@ -23784,7 +23784,7 @@ Week 35,Fossil,ES5456,Amazon,B0GF715X4M,0.0,0.0,0.0,0.0,0.0,FBA80042,MAPPED,Trad
 Week 35,Fossil,ES5472,Amazon,B0GF78NM4J,0.0,0.0,0.0,0.0,0.0,FBA80043,MAPPED,Traditional Watch,,,
 Week 35,Fossil,ES5477,Amazon,B0GTC3BMTN,0.0,0.0,0.0,0.0,0.0,FBA80231,MAPPED,Traditional Watch,,,
 Week 35,Fossil,ES5478,Amazon,B0GTC7QS9P,0.0,0.0,0.0,0.0,0.0,FBA80232,MAPPED,Traditional Watch,,,
-Week 35,Fossil,FS4735,Amazon,B00AMWDOEK,2.0,15416.95,15416.95,0.0,0.0,FBA74721,MAPPED,Traditional Watch,,,
+Week 35,Fossil,FS4735,Amazon,B00AMWDOEK,1.0,7708.47,7708.47,0.0,0.0,FBA74721,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS4795,Amazon,B00AG37H8Y,7.0,85981.36,85981.36,0.0,0.0,FBA66963,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS4812,Amazon,B00AFTTQQ0,0.0,0.0,0.0,0.0,0.0,FBA66648,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS4867,Amazon,B00H2ZDX00,22.0,180565.25,180565.25,0.0,0.0,FBA80093,MAPPED,Traditional Watch,,,
@@ -23794,6 +23794,7 @@ Week 35,Fossil,FS5308,Amazon,B06VV5QB6Q,5.0,40233.05,40233.05,0.0,0.0,FBA67811,M
 Week 35,Fossil,FS5452,Amazon,B079DC27J5,3.0,33038.14,33038.14,0.0,0.0,FBA75146,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS5512,Amazon,B07MM5MH6F,3.0,33035.59,33035.59,0.0,0.0,FBA70827,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS5525,Amazon,B07MFZ6S2Q,2.0,24566.1,24566.1,0.0,0.0,FBA70774,MAPPED,Traditional Watch,,,
+Week 35,Fossil,FS5661,Amazon,B07WGWGMBM,5.0,31763.56,31763.56,0.0,0.0,FBA80118,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS5665,Amazon,B07WQ9WRJ9,2.0,11010.17,11010.17,0.0,0.0,FBA80096,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS5699,Amazon,B084CG2ZVZ,0.0,0.0,0.0,0.0,0.0,FBA74245,MAPPED,Traditional Watch,,,
 Week 35,Fossil,FS5708SET,Amazon,B08HGVDKFH,0.0,0.0,0.0,0.0,0.0,FBA76490,MAPPED,Traditional Watch,,,
@@ -24012,7 +24013,7 @@ Week 35,Nexlev,NP-02,Amazon,B0CDQ55W2M,0.0,0.0,0.0,418.0,0.0,FBA78995,MAPPED,Hom
 Week 35,Nexlev,NP-06,Amazon,B0DVCBR11D,0.0,0.0,0.0,501.0,0.0,FBA79677,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow,EOL
 Week 35,Nexlev,NP-06,Blinkit Sales,B0DVCBR11D,2.0,2998.0,2998.0,501.0,1002.0,FBA79677,MAPPED,Home & Kitchen,Travel Accessories,Donut Travel Pillow,EOL
 Week 35,Nexlev,PB-01,Amazon,B0FS6TB7CP,16.0,29816.95,29816.95,1307.0,20912.0,FBA79812,MAPPED,Home & Kitchen,Kitchen Appliances,Portable Blender,Core
-Week 35,Nexlev,SC-01,Amazon,B0CDPP45BM,132.0,433686.44,433686.44,1786.0,235752.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,Core
+Week 35,Nexlev,SC-01,Amazon,B0CDPP45BM,131.0,430298.31,430298.31,1786.0,233966.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,Core
 Week 35,Nexlev,SC-01,B2B,B0CDPP45BM,3.0,8575.28,8575.28,1786.0,5358.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,Core
 Week 35,Nexlev,SC-01,Blinkit Sales,B0CDPP45BM,1.0,3549.0,3549.0,1786.0,1786.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,Core
 Week 35,Nexlev,SC-01,D2C - Nexlev,B0CDPP45BM,1.0,4451.0,4451.0,1786.0,1786.0,FBA78981,MAPPED,Home & Kitchen,Cleaning & Vacumming,Steam cleaner,Core
@@ -24132,7 +24133,7 @@ Week 35,White Mulberry,WM-HA2M-BK,Amazon,B0DB5YTQZV,1.0,1778.81,1778.81,1380.0,1
 Week 35,White Mulberry,WM-LOD-BK,Amazon,B0BFW59TRG,0.0,0.0,0.0,3943.0,0.0,FBA76416,MAPPED,Desk,L-Shaped Desk,,
 Week 35,White Mulberry,WM-LOD-CF,Amazon,B0BFWD6SNF,11.0,77293.23,77293.23,3943.0,43373.0,FBA76415,MAPPED,Desk,L-Shaped Desk,,
 Week 35,White Mulberry,WM-LOD-IN,Amazon,B0BFVNS8HS,1.0,7033.05,7033.05,3943.0,3943.0,FBA76418,MAPPED,Desk,L-Shaped Desk,,
-Week 35,White Mulberry,WM-LOD-WH,Amazon,B0BFVMDJ2K,3.0,21099.15,21099.15,3943.0,11829.0,FBA76417,MAPPED,Desk,L-Shaped Desk,,
+Week 35,White Mulberry,WM-LOD-WH,Amazon,B0BFVMDJ2K,2.0,14066.1,14066.1,3943.0,7886.0,FBA76417,MAPPED,Desk,L-Shaped Desk,,
 Week 35,White Mulberry,WM-MH05P-BK,Amazon,B0BF4T7SWK,0.0,0.0,0.0,7852.0,0.0,FBA76382,MAPPED,Desk-Adjustable,Manual,,
 Week 35,White Mulberry,WM-SE08-CF,Amazon,B0CPT3Q25C,0.0,0.0,0.0,7018.0,0.0,FBA79179,MAPPED,Desk-Adjustable,Motorized,,
 Week 35,White Mulberry,WM-SE08-WH,Amazon,B0CPT2NY5M,1.0,11524.58,11524.58,7018.0,7018.0,FBA79178,MAPPED,Desk-Adjustable,Motorized,,

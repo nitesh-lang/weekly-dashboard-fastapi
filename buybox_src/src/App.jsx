@@ -374,10 +374,29 @@ export default function App() {
     // The old gate stored a plain "authenticated" flag; it grants nothing now.
     window.localStorage.removeItem(LEGACY_AUTH_KEY);
 
+    // Single sign-on: the server only serves /buybox to a logged-in Weekly
+    // user, and /api/buybox-sso returns the unlock credentials to that same
+    // session — so normally nobody ever sees the login form.  Any failure
+    // (endpoint missing, password mismatch, network) falls back to it.
+    const trySso = async () => {
+      try {
+        const r = await fetch("/api/buybox-sso", { credentials: "same-origin" });
+        if (!r.ok) throw new UnlockError("no sso");
+        const { password } = await r.json();
+        const { keyBytes } = await unlockWithPassword(password);
+        writeStoredKey(bytesToBase64(keyBytes));
+        if (!cancelled) setStatus("unlocked");
+      } catch {
+        if (!cancelled) setStatus("locked");
+      }
+    };
+
     const stored = readStoredKey();
     if (!stored) {
-      setStatus("locked");
-      return undefined;
+      trySso();
+      return () => {
+        cancelled = true;
+      };
     }
 
     (async () => {
@@ -388,7 +407,7 @@ export default function App() {
         if (!cancelled) setStatus("unlocked");
       } catch {
         clearStoredKey();
-        if (!cancelled) setStatus("locked");
+        await trySso();
       }
     })();
 

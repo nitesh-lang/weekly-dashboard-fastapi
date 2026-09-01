@@ -28,6 +28,15 @@ app's lane. Violating any boundary below is a bug, even if it "works".**
    (Render env changes apply at the NEXT DEPLOY, not on restart.)
 5. **Cookies.** `weekly_session` (weekly) vs `sales_session` (sales). Never
    rename either to the other or to bare `session`.
+   **Sanctioned SSO (2026-09-01, operator request):** the weekly login is the
+   master. `sales_dash/app/auth.py` VERIFIES `weekly_session` with the shared
+   `SESSION_SECRET` (no import of weekly_app) and adopts the login iff the
+   email is an active row in the sales users table — sales roles still come
+   from sales' own table. `/api/buybox-sso` (weekly, session-gated) hands the
+   BUYBOX_PASSWORD to authenticated users so /buybox auto-unlocks; the buybox
+   login form and the sales login page remain as fallbacks. Changing either
+   cookie name, the shared secret, or weekly's session payload key
+   (`user_email`) silently breaks SSO — grep all three apps first.
 6. **Failure isolation.** Both mounts in `weekly_app/main.py` are wrapped in
    try/except so a broken sales/buybox can never stop Weekly from booting.
    Never "clean up" those guards.

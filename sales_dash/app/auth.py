@@ -66,11 +66,56 @@ def current_user_email(request: Request) -> str | None:
         return None
 
 
+# ── Same-domain SSO from the Weekly dashboard ──────────────────────────────
+# Both apps run on one domain and deliberately share SESSION_SECRET by value
+# (see repo-root CLAUDE.md boundary #4), so the host Weekly dashboard's
+# session cookie can be VERIFIED here without importing anything from
+# weekly_app.  A valid weekly login whose email also exists (active) in this
+# app's users table is adopted as a sales login — no second sign-in.  Sales
+# roles/grants still come from THIS app's users table; a weekly login never
+# raises anyone's sales role, and emails absent or deactivated here still
+# see the sales login page.
+WEEKLY_SSO_COOKIE = "weekly_session"
+WEEKLY_SSO_MAX_AGE = 14 * 24 * 60 * 60  # must not exceed weekly's own max_age
+
+
+def _weekly_sso_email(request: Request) -> str | None:
+    cookie = request.cookies.get(WEEKLY_SSO_COOKIE)
+    if not cookie:
+        return None
+    try:
+        import base64
+        import json
+
+        import itsdangerous
+
+        signer = itsdangerous.TimestampSigner(SESSION_SECRET)
+        data = signer.unsign(cookie.encode("utf-8"), max_age=WEEKLY_SSO_MAX_AGE)
+        payload = json.loads(base64.b64decode(data))
+        email = str(payload.get("user_email") or "").strip().lower()
+        return email or None
+    except Exception:
+        # Bad/expired/foreign cookie → not an error, just not an SSO login.
+        return None
+
+
 def current_user(request: Request) -> dict | None:
     email = current_user_email(request)
-    if not email:
+    if email:
+        return get_user_by_email(email)
+
+    sso_email = _weekly_sso_email(request)
+    if not sso_email:
         return None
-    return get_user_by_email(email)
+    u = get_user_by_email(sso_email)
+    if not u or not u["is_active"]:
+        return None
+    try:
+        # Persist the adoption so later requests are a native sales session.
+        request.session["user"] = u["email"]
+    except AssertionError:
+        pass
+    return u
 
 
 def require_user(request: Request) -> dict:

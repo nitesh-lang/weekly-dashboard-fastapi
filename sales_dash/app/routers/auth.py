@@ -51,6 +51,10 @@ def login(payload: LoginIn, request: Request):
     if not u:
         return {"ok": False, "error": "Invalid email or password."}
     request.session["user"] = u["email"]
+    # Explicit sign-in beats the weekly-SSO takeover (see auth.current_user):
+    # without this flag a stale-looking session would be dropped whenever the
+    # weekly cookie names a different user.
+    request.session["manual_login"] = True
     activity.log(u["email"], "login", session_id=payload.session_id,
                  detail={"role": u["role"]})
     return {"ok": True, **_shape(u)}
@@ -61,6 +65,7 @@ def logout(request: Request, session_id: str | None = None):
     email = request.session.get("user")
     activity.log(email, "logout", session_id=session_id)
     request.session.pop("user", None)
+    request.session.pop("manual_login", None)
     return {"ok": True}
 
 

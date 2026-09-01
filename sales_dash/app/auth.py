@@ -101,10 +101,27 @@ def _weekly_sso_email(request: Request) -> str | None:
 
 def current_user(request: Request) -> dict | None:
     email = current_user_email(request)
+    sso_email = _weekly_sso_email(request)
+
+    # Weekly is MASTER: if the weekly login and the sales session disagree,
+    # the sales session is stale — typically the old shared info@ cookie from
+    # the pre-SSO era still sitting in a teammate's browser (seen live
+    # 2026-09-01: Hazique logged into Weekly, sales showed info@).  Drop it
+    # and resolve from the weekly identity instead.  The one exception is a
+    # session created by an explicit POST /login in THIS app (marked
+    # "manual_login"): that is a deliberate act and stays honored, so the
+    # sales login page still works as a fallback for people who need it.
+    if sso_email and email and email.strip().lower() != sso_email:
+        try:
+            if not request.session.get("manual_login"):
+                request.session.pop("user", None)
+                email = None
+        except AssertionError:
+            email = None
+
     if email:
         return get_user_by_email(email)
 
-    sso_email = _weekly_sso_email(request)
     if not sso_email:
         return None
     u = get_user_by_email(sso_email)
@@ -113,6 +130,7 @@ def current_user(request: Request) -> dict | None:
     try:
         # Persist the adoption so later requests are a native sales session.
         request.session["user"] = u["email"]
+        request.session.pop("manual_login", None)
     except AssertionError:
         pass
     return u

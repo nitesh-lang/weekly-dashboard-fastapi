@@ -155,8 +155,19 @@ function PlanningCard({ latest, onDone }: {
             setStaged(null);
             onDone();
         } catch (e) {
-            const body = (e instanceof ApiError ? e.body : null) as { detail?: string } | null;
-            setError(body?.detail || (e as Error).message || "Upload failed");
+            const st = e instanceof ApiError ? e.status : 0;
+            if (st === 502 || st === 504) {
+                // The commit very likely landed and only the response was lost
+                // (seen live on 01/09/2026). Refresh status so the brand chip
+                // tells the truth instead of leaving a scary dead-end error.
+                onDone();
+                setError("Server hiccup (502) — the upload may still have gone through. " +
+                         "Check the brand chip above: if it shows your month, it's committed. " +
+                         "Re-uploading the same file is always safe (it just says 'already up to date').");
+            } else {
+                const body = (e instanceof ApiError ? e.body : null) as { detail?: string } | null;
+                setError(body?.detail || (e as Error).message || "Upload failed");
+            }
         } finally {
             setBusy(false);
         }

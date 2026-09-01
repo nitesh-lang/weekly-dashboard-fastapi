@@ -151,6 +151,18 @@ export function AppLayout() {
           ))}
         </nav>
 
+        {/* Back to the Weekly dashboard — plain anchor: leaves the SPA */}
+        <div className="px-2 pb-1">
+          <a
+            href="/"
+            className="flex items-center gap-2.5 h-9 px-2.5 rounded-md text-[13px] font-semibold text-[hsl(var(--ink-2))] hover:bg-[hsl(var(--canvas))] hover:text-[hsl(var(--ink))] transition-colors"
+            title="Back to the Weekly dashboard"
+          >
+            <span aria-hidden>←</span>
+            <span className="flex-1">Weekly Dashboard</span>
+          </a>
+        </div>
+
         {/* Workspace / user */}
         <div className="p-3 border-t hairline">
           <div className="rounded-md p-2.5 flex items-center gap-2 bg-[hsl(var(--canvas))] border hairline">

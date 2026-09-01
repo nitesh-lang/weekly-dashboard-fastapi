@@ -5717,6 +5717,24 @@ export default function Dashboard({ onLogout }) {
       </div>
       <div style={{ background: THEME.shellBg, borderBottom: `1px solid ${THEME.border}`, padding: "0 24px 12px" }}>
         <div style={{ display:"flex", gap:10, alignItems:"center", flexWrap:"wrap" }}>
+          <a
+            href="/"
+            title="Back to the Weekly dashboard"
+            style={{
+              padding:"7px 14px",
+              border:"none",
+              borderBottom:"2px solid transparent",
+              background:THEME.surface,
+              color:THEME.textMuted,
+              fontSize:11,
+              fontWeight:700,
+              cursor:"pointer",
+              textDecoration:"none",
+              whiteSpace:"nowrap",
+            }}
+          >
+            ← Weekly
+          </a>
           <button
             onClick={() => openSmartViewPage()}
             style={{

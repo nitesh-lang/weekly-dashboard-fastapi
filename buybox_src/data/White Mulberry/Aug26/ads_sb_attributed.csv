@@ -1,0 +1,15 @@
+campaignId,campaignName,brand,asin,sku,model,category_l0,category_l1,category_l2,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method
+73308450213812,Camb- SBV- B0CPFS24ML-Branded,White Mulberry,B0CPFS24ML,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,879.32,55463,62,0.0,0,0,L1_asin
+140364686425448,Camb-SP-Zshape-B0CPFS24ML- SBV- Phrase,White Mulberry,B0CPFS24ML,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,6226.63,179792,639,28810.18,4,4,L1_asin
+170478157935449,WM-SBV-Gas Spring MA- B0DB5VG39T- BM,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,1330.69,7316,81,0.0,0,0,L1_asin
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VVPSB,FBA79477,WM-GS2M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5W4TCP,FBA79478,WM-HA1M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5YTQZV,FBA79479,WM-HA2M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP32F346,FBA79617,HDWF1ML,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP2Z5DQ9,FBA79615,VLMS1ML,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api
+218472650348824,White Mulberry Monitor Arm-B0DB5VG39T-CT-SBV,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,3917.75,29536,420,11840.82,6,6,L1_asin
+333757065487521,WM-SBV-Gas Spring MA- B0DB5VG39T- Phrase,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,10502.51,76667,757,23042.37,10,10,L0_ads_api
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0CPFS24ML,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,681.6767,6255,229,17031.65,3,3,L0_ads_api
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0DQ51R95T,FBA79661,WM-MODL-BK,Desk-Adjustable,Motorized,,681.6767,6255,229,17031.65,3,3,L0_ads_api
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0BFVMDJ2K,FBA76417,WM-LOD-WH,Desk,L-Shaped Desk,,681.6767,6255,229,17031.65,3,3,L0_ads_api

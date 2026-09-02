@@ -119,8 +119,23 @@ def current_user(request: Request) -> dict | None:
         except AssertionError:
             email = None
 
+    def _sso_shape(u: dict) -> dict:
+        # An SSO session authenticates via the WEEKLY login; the sales
+        # bootstrap password is irrelevant to it, so never force the
+        # password-reset screen (which demands a current password the
+        # teammate may not have — Hazique, 2026-09-02).  Manual sales
+        # logins keep the forced reset: they DID use the sales password.
+        try:
+            manual = bool(request.session.get("manual_login"))
+        except AssertionError:
+            manual = False
+        if not manual and sso_email and u["email"].strip().lower() == sso_email:
+            return {**u, "must_reset_password": False}
+        return u
+
     if email:
-        return get_user_by_email(email)
+        u = get_user_by_email(email)
+        return _sso_shape(u) if u else None
 
     if not sso_email:
         return None
@@ -133,7 +148,7 @@ def current_user(request: Request) -> dict | None:
         request.session.pop("manual_login", None)
     except AssertionError:
         pass
-    return u
+    return _sso_shape(u)
 
 
 def require_user(request: Request) -> dict:

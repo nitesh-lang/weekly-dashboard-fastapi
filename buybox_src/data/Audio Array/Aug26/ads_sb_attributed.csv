@@ -1,41 +1,59 @@
-campaignId,campaignName,brand,asin,sku,model,category_l0,category_l1,category_l2,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4JRQP22,FBA75679,AA-02,Microphone Accessories,Accessories,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKHVCDX,FBA76734,AA-07,Microphone Accessories,Accessories,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKGPL4X,FBA76735,AA-08,Microphone Accessories,Accessories,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLJVJ2GN,FBA76414,AA-05,Microphone Accessories,Accessories,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CF5TCQKL,FBA78975,AA-21,Monitor Speakers Accessories,Monitor Speaker Stand Pair,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DT6T6N6B,FBA79694,AA-26,Microphone Accessories,Accessories,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CF5R3V95,FBA78973,AA-19,Microphone Accessories,Accessories,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CF5RRTDJ,FBA78974,AA-20,Microphone Accessories,Accessories,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G2C2RCXN,FBA79967,AM-W19,Microphone Wireless Lapel,Wireless Lapel Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G3Q517Y2,FBA79957,AM-W23,Microphone Wireless Lapel,Wireless Lapel Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G3Q59X8C,FBA79958,AM-W24,Microphone Wireless Lapel,Wireless Lapel Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0C539RBGL,FBA78205,AM-C32,Microphone Condenser,RGB USB Microphone Kit - Tripod,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0C4YTNJG7,FBA78203,AM-C30,Microphone Condenser,RGB USB Microphone Kit - Tripod,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0C4YT43Z3,FBA78204,AM-C31,Microphone Condenser,USB Microphone Kit - Tripod,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4DPX2J2,FBA75673,AM-C1,Microphone Condenser,USB Microphone Kit - Boomarm,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4DS678Q,FBA75676,AM-C4,Microphone Condenser,USB Microphone Kit - Tripod,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4G1PXWV,FBA75680,AM-C6,Microphone Condenser,USB Microphone Kit - Tripod,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLNC5D8L,FBA76724,AM-C21,Microphone Condenser,USB Microphone Kit - Tripod,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CKHVHVQ1,FBA79005,AM-W45,Microphone Conference,Wireless Conference Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4K87PR4,FBA75690,AM-C10,Microphone Conference,Conference Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4KC7VBM,FBA75677,AM-C5,Microphone Conference,Conference Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0D3M1B4Z8,FBA79380,AM-C46,Microphone Condenser,Condenser Mic with Boom Arm,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4G19R58,FBA75674,AM-C2,Microphone Condenser,XLR Microphone Kit - Boomarm,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DFMMTWLY,FBA79446,AM-W33,Microphone Wireless Handheld,Wireless Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DFMLS8JG,FBA79445,AM-W32,Microphone Wireless Handheld,Wireless Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DFMNGFTD,FBA79449,AM-W36,Microphone Wireless Handheld,Wireless Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLK31PYH,FBA76715,AM-C12,Microphone Lapel,Lavalier Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKCXQRT,FBA76719,AM-C16,Microphone Lapel,Lavalier Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLK8DNPD,FBA76716,AM-C13,Microphone Lapel,Lavalier Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G4DNF8RZ,FBA79842,AM-C48,Microphone Dynamic,Microphone Dynamic,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0FF9R3GKK,FBA79783,AM-C47,Microphone Condenser,USB Microphone Kit - Boomarm,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKB55BM,FBA76721,AM-C18,Microphone dynamic,Mobile Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLK6P24G,FBA76717,AM-C14,Microphone dynamic,Video Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4G89VQJ,FBA75686,AM-W10,Microphone Wireless Lapel,Wireless Microphone,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BPLZ5CGV,FBA76864,AI-04 Red,Audio Interface,Audio Interface,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CM6NTWBP,FBA79103,AI-10,Audio Interface,Audio Interface,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CH4RT4P8,FBA79008,AI-06,Audio Interface,Audio Interface,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLNCP74M,FBA76728,AM-C25,Microphone Condenser,USB Microphone Kit - Boomarm,,901.2871,15218,81,4239.85,1,1,L0_ads_api
-90176226680822,Audio Array-B0CKHVHVQ1-AM W45 Wireless-SBV-PT,Audio Array,B0CKHVHVQ1,FBA79005,AM-W45,Microphone Conference,Wireless Conference Microphone,,1122.63,34090,228,5591.52,3,3,L1_asin
-447303007193336,Audio Array-B0CKHVHVQ1-AM W45 Wireless-SBV-KT-Phrase,Audio Array,B0CKHVHVQ1,FBA79005,AM-W45,Microphone Conference,Wireless Conference Microphone,,12771.6,317940,785,38449.98,9,9,L0_ads_api
+campaignId,campaignName,brand,asin,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method,sku,model,category_l0,category_l1,category_l2,ad_account
+34904507653695,Audio Array_B0B4DPX2J2_Condenser AMC1_SBV_PT,Audio Array,,1161.04,20643,187,0.0,0,0,L5_campaign_kw,,,,,,AudioArray
+54319636929214,AudioArray_UHF Wireless Microphone_SB_Collection,Audio Array,,1479.1599999999999,13089,70,1609.32,1,1,L5_campaign_kw,,,,,,AudioArray
+55271127552358,AudioArray - Conference Mic - SB - AD,Audio Array,,6695.31,154141,668,135127.87,36,36,L5_campaign_kw,,,,,,AudioArray
+74919874519423,AudioArray_B0GN97RFPR_Studio Monitor_SB_KT,Audio Array,,6331.12,139772,1308,11862.72,2,2,L5_campaign_kw,,,,,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4JRQP22,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75679,AA-02,Microphone Accessories,Accessories,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKHVCDX,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76734,AA-07,Microphone Accessories,Accessories,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKGPL4X,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76735,AA-08,Microphone Accessories,Accessories,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLJVJ2GN,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76414,AA-05,Microphone Accessories,Accessories,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CF5TCQKL,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA78975,AA-21,Monitor Speakers Accessories,Monitor Speaker Stand Pair,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DT6T6N6B,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79694,AA-26,Microphone Accessories,Accessories,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CF5R3V95,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA78973,AA-19,Microphone Accessories,Accessories,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CF5RRTDJ,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA78974,AA-20,Microphone Accessories,Accessories,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G2C2RCXN,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79967,AM-W19,Microphone Wireless Lapel,Wireless Lapel Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G3Q517Y2,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79957,AM-W23,Microphone Wireless Lapel,Wireless Lapel Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G3Q59X8C,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79958,AM-W24,Microphone Wireless Lapel,Wireless Lapel Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0C539RBGL,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA78205,AM-C32,Microphone Condenser,RGB USB Microphone Kit - Tripod,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0C4YTNJG7,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA78203,AM-C30,Microphone Condenser,RGB USB Microphone Kit - Tripod,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0C4YT43Z3,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA78204,AM-C31,Microphone Condenser,USB Microphone Kit - Tripod,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4DPX2J2,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75673,AM-C1,Microphone Condenser,USB Microphone Kit - Boomarm,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4DS678Q,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75676,AM-C4,Microphone Condenser,USB Microphone Kit - Tripod,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4G1PXWV,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75680,AM-C6,Microphone Condenser,USB Microphone Kit - Tripod,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLNC5D8L,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76724,AM-C21,Microphone Condenser,USB Microphone Kit - Tripod,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CKHVHVQ1,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79005,AM-W45,Microphone Conference,Wireless Conference Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4K87PR4,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75690,AM-C10,Microphone Conference,Conference Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4KC7VBM,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75677,AM-C5,Microphone Conference,Conference Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0D3M1B4Z8,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79380,AM-C46,Microphone Condenser,Condenser Mic with Boom Arm,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4G19R58,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75674,AM-C2,Microphone Condenser,XLR Microphone Kit - Boomarm,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DFMMTWLY,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79446,AM-W33,Microphone Wireless Handheld,Wireless Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DFMLS8JG,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79445,AM-W32,Microphone Wireless Handheld,Wireless Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0DFMNGFTD,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79449,AM-W36,Microphone Wireless Handheld,Wireless Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLK31PYH,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76715,AM-C12,Microphone Lapel,Lavalier Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKCXQRT,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76719,AM-C16,Microphone Lapel,Lavalier Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLK8DNPD,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76716,AM-C13,Microphone Lapel,Lavalier Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0G4DNF8RZ,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79842,AM-C48,Microphone Dynamic,Microphone Dynamic,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0FF9R3GKK,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79783,AM-C47,Microphone Condenser,USB Microphone Kit - Boomarm,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLKB55BM,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76721,AM-C18,Microphone dynamic,Mobile Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLK6P24G,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76717,AM-C14,Microphone dynamic,Video Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0B4G89VQJ,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA75686,AM-W10,Microphone Wireless Lapel,Wireless Microphone,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BPLZ5CGV,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76864,AI-04 Red,Audio Interface,Audio Interface,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CM6NTWBP,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79103,AI-10,Audio Interface,Audio Interface,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0CH4RT4P8,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA79008,AI-06,Audio Interface,Audio Interface,,AudioArray
+77695356589822,Audio Array-Multiple Ad Group-SB-PT,Audio Array,B0BLNCP74M,901.2871,15218,81,4239.85,1,1,L0_ads_api,FBA76728,AM-C25,Microphone Condenser,USB Microphone Kit - Boomarm,,AudioArray
+83417228174085,AudioArray_B0BPLZ5CGV_Audio Interface AI04_SB_ KT,Audio Array,,10927.33,171183,1405,43057.61,12,12,L5_campaign_kw,,,,,,AudioArray
+87899746485078,Audio Array_SB_Branded_KT,Audio Array,,4732.59,23487,812,143603.38,49,47,L5_campaign_kw,,,,,,AudioArray
+90176226680822,Audio Array-B0CKHVHVQ1-AM W45 Wireless-SBV-PT,Audio Array,B0CKHVHVQ1,1122.63,34090,228,5591.52,3,3,L1_asin,FBA79005,AM-W45,Microphone Conference,Wireless Conference Microphone,,AudioArray
+103779623174154,AudioArray - Podcast Mic  SB - KT,Audio Array,,9084.31,71113,906,71578.0,33,33,L5_campaign_kw,,,,,,AudioArray
+112991218993601,AudioArray_B0G3Q59X8C_Wireless Mic_SB_KT,Audio Array,,2166.0,36397,304,3472.04,3,3,L5_campaign_kw,,,,,,AudioArray
+118647730761660,AudioArray_B0G53H49BS_Audio Mixer_SB_KT,Audio Array,,1910.04,37572,352,2234.75,1,1,L5_campaign_kw,,,,,,AudioArray
+161720467489899,AudioArray_Audio Mixers_SB_Collection,Audio Array,,12174.87,100286,2534,126015.27,29,29,L5_campaign_kw,,,,,,AudioArray
+166648223700785,AudioArray_B0GKPXQ8G3_Wireless Mic_SB_KT,Audio Array,,4453.99,83204,619,5422.040000000001,2,2,L5_campaign_kw,,,,,,AudioArray
+174192976117633,AudioArray - Condenser Mic - SB - KT,Audio Array,,1748.77,33778,209,0.0,0,0,L5_campaign_kw,,,,,,AudioArray
+200277470908661,Audio Array_B0DXFPM4N2_Studio Monitor_SB Video,Audio Array,,1593.02,35266,266,0.0,0,0,L5_campaign_kw,,,,,,AudioArray
+203726823054391,AudioArray - Sound Bar - SB - KT,Audio Array,,613.9,9067,93,0.0,0,0,L5_campaign_kw,,,,,,AudioArray
+225136459321108,AudioArray - Voice Amplifier - SB - KT,Audio Array,,2841.29,76650,472,7453.379999999999,5,5,L5_campaign_kw,,,,,,AudioArray
+266432955663886,Audio Array_Studio Headphones_SB_KT_Phrase,Audio Array,,5524.26,239674,528,18466.96,12,12,L5_campaign_kw,,,,,,AudioArray
+266529834752329,AudioArray_B0DXFPM4N2_Studio Monitor AM-S1_SB_KT,Audio Array,,2015.26,32218,383,0.0,0,0,L5_campaign_kw,,,,,,AudioArray
+274936509860927,AudioArray_B0FFB6YJM1_Soundbar_SBV_KT,Audio Array,,1503.24,15946,211,986.44,2,2,L5_campaign_kw,,,,,,AudioArray
+447303007193336,Audio Array-B0CKHVHVQ1-AM W45 Wireless-SBV-KT-Phrase,Audio Array,B0CKHVHVQ1,12750.17,317939,784,38449.98,9,9,L0_ads_api,FBA79005,AM-W45,Microphone Conference,Wireless Conference Microphone,,AudioArray

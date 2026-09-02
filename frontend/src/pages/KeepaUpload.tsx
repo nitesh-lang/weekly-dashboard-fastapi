@@ -10,6 +10,8 @@ interface StatusData {
     bsr_latest: Record<string, string | null>;
     variations: { rows: number } | null;
     planning_latest: Record<string, string | null>;
+    wm_1p_latest: string | null;
+    wm_1p_months: string[];
     github_configured: boolean;
     today: string;
 }
@@ -255,6 +257,114 @@ function PlanningCard({ latest, onDone }: {
     );
 }
 
+/** Monthly WM 1P vendor-sales export for the Buybox report.  The monthly
+ *  sync pulls everything else via SP-API; WM 1P is the one manual file. */
+function Wm1pCard({ months, latest, onDone }: {
+    months: string[] | undefined; latest: string | null | undefined; onDone: () => void;
+}) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const opts = months && months.length ? months : [];
+    const [month, setMonth] = useState<string>("");
+    const active = month || opts[0] || "";
+    const [staged, setStaged] = useState<File | null>(null);
+    const [busy, setBusy] = useState(false);
+    const [result, setResult] = useState<UploadResult | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    async function upload() {
+        if (!staged || !active) return;
+        setBusy(true); setError(null); setResult(null);
+        try {
+            const r = await postFiles(`/api/keepa-upload/buybox-1p?month=${active}`, [staged], "file");
+            setResult(r);
+            setStaged(null);
+            onDone();
+        } catch (e) {
+            const body = (e instanceof ApiError ? e.body : null) as { detail?: string } | null;
+            setError(body?.detail || (e as Error).message || "Upload failed");
+        } finally {
+            setBusy(false);
+        }
+    }
+
+    return (
+        <Card className="p-5 flex-1 min-w-[320px]">
+            <div className="text-[15px] font-semibold mb-1">Buybox — WM 1P monthly sales</div>
+            <p className="text-[12.5px] text-muted-foreground mb-3">
+                The Vendor Central Retail Analytics export (1Psales.csv) for White Mulberry —
+                the one file the monthly sync can't pull. The export's own date range is checked
+                against the month you pick.
+                {latest && <> Latest on record: <b>{latest}</b>.</>}
+            </p>
+            <div className="flex items-center gap-1.5 mb-3" role="radiogroup" aria-label="Month">
+                {opts.map((m) => (
+                    <button
+                        key={m} type="button" role="radio" aria-checked={active === m}
+                        onClick={() => { setMonth(m); setResult(null); setError(null); }}
+                        className={"px-3 py-1.5 rounded-full text-[12.5px] font-medium border transition-colors " +
+                            (active === m
+                                ? "bg-foreground text-background border-foreground"
+                                : "bg-background text-muted-foreground hover:text-foreground")}>
+                        {m}
+                    </button>
+                ))}
+            </div>
+            <input
+                ref={inputRef} type="file" accept=".csv" className="hidden"
+                onChange={(e) => {
+                    const f = e.target.files?.[0] ?? null;
+                    setStaged(f); setResult(null); setError(null);
+                    if (inputRef.current) inputRef.current.value = "";
+                }}
+            />
+            <div className="flex items-center gap-2">
+                <Button onClick={() => inputRef.current?.click()} disabled={busy} size="sm" variant="outline">
+                    <FilePlus2 className="h-4 w-4" />
+                    Choose export
+                </Button>
+                <Button onClick={upload} disabled={busy || !staged || !active} size="sm">
+                    <UploadCloud className={"h-4 w-4 " + (busy ? "animate-pulse" : "")} />
+                    {busy ? "Validating & committing…" : `Upload for ${active || "…"}`}
+                </Button>
+            </div>
+            {staged && (
+                <ul className="mt-3 space-y-1">
+                    <li className="flex items-center gap-2 text-[12.5px] rounded border px-2 py-1 bg-muted/40">
+                        <span className="flex-1 truncate">{staged.name}</span>
+                        <span className="text-muted-foreground">{(staged.size / 1024).toFixed(0)} KB</span>
+                        <button type="button" onClick={() => setStaged(null)}
+                                className="opacity-60 hover:opacity-100" aria-label={`Remove ${staged.name}`}>
+                            <X className="h-3.5 w-3.5" />
+                        </button>
+                    </li>
+                </ul>
+            )}
+            {result && (
+                <div className="mt-4 flex items-start gap-2 text-[13px] rounded-md border p-3"
+                     style={{ background: "#f0fdf4", borderColor: "#bbf7d0", color: "#166534" }}>
+                    <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
+                    <div>
+                        {result.note}
+                        {result.warnings && result.warnings.length > 0 && (
+                            <div className="mt-1 text-[12px]" style={{ color: "#92400e" }}>
+                                {result.warnings.join(" ")}
+                            </div>
+                        )}
+                        {result.commit && <div className="mt-1 font-mono text-[11px] opacity-70">{result.commit.slice(0, 10)}</div>}
+                    </div>
+                </div>
+            )}
+            {error && (
+                <div className="mt-4 flex items-start gap-2 text-[13px] rounded-md border p-3"
+                     style={{ background: "#fef2f2", borderColor: "#fecaca", color: "#991b1b" }}>
+                    <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                    <div>{error}</div>
+                </div>
+            )}
+        </Card>
+    );
+}
+
 export default function KeepaUpload() {
     const qc = useQueryClient();
     const status = useQuery<StatusData>({
@@ -305,6 +415,7 @@ export default function KeepaUpload() {
                     onDone={refresh}
                 />
                 <PlanningCard latest={status.data?.planning_latest} onDone={refresh} />
+                <Wm1pCard months={status.data?.wm_1p_months} latest={status.data?.wm_1p_latest} onDone={refresh} />
             </div>
 
             {status.data && (
@@ -325,11 +436,15 @@ export default function KeepaUpload() {
                                 <td className="py-1.5 text-right font-medium">{status.data.variations?.rows ?? "—"}</td>
                             </tr>
                             {PLANNING_BRANDS.map((b) => (
-                                <tr key={b.key} className="border-b last:border-0">
+                                <tr key={b.key} className="border-b">
                                     <td className="py-1.5">{b.label} — latest ASIN plan</td>
                                     <td className="py-1.5 text-right font-medium">{status.data.planning_latest?.[b.key] ?? "—"}</td>
                                 </tr>
                             ))}
+                            <tr>
+                                <td className="py-1.5">White Mulberry — latest 1P monthly</td>
+                                <td className="py-1.5 text-right font-medium">{status.data.wm_1p_latest ?? "—"}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </Card>

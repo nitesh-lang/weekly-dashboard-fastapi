@@ -31,6 +31,11 @@ services:
       python buybox_src/Scripts/build_bsr_snapshots.py
       # encrypt_data.js needs BUYBOX_PASSWORD from this service's env.
       npm --prefix buybox_src ci
+      # raw_data.json is likewise DERIVED HERE from the committed monthly
+      # CSVs (data/<Brand>/<MonYY>/) — the monthly-sync workflow and the
+      # WM 1P upload endpoint only commit CSVs (added 2026-09-02 for the
+      # Aug monthly refresh).
+      node buybox_src/Scripts/generate_raw_data.js
       node buybox_src/Scripts/encrypt_data.js
       cd buybox_src && VITE_BASE=/buybox/ npx vite build && cd ..
       rm -rf buybox_dist && cp -r buybox_src/dist buybox_dist

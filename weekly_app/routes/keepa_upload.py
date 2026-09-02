@@ -204,7 +204,16 @@ def status(request: Request):
                                         "Sep","Oct","Nov","Dec"].index(mm.group(1)) + 1,
                                        f"{mm.group(1)} {mm.group(2)}"))
             planning[bkey] = sorted(months)[-1][2] if months else None
+    wm_1p = []
+    wm_dir = BUYBOX_DATA_DIR / "White Mulberry"
+    if wm_dir.exists():
+        for d in wm_dir.iterdir():
+            m = _MONTH_KEY_RE.match(d.name)
+            if m and (d / "1Psales.csv").exists():
+                wm_1p.append((int(m.group(2)), _MONTH_ABBR.index(m.group(1)) + 1, d.name))
     return {"bsr_latest": brands, "variations": variations, "planning_latest": planning,
+            "wm_1p_latest": sorted(wm_1p)[-1][2] if wm_1p else None,
+            "wm_1p_months": _recent_month_keys(3),
             "github_configured": bool(os.environ.get("GITHUB_TOKEN", "").strip()),
             "today": datetime.now(IST).strftime("%y-%m-%d")}
 
@@ -330,6 +339,97 @@ def upload_planning(request: Request,
                      + f"Committed {len(valid)} planned ASINs for {month_label}. "
                        "Live after the rebuild (~6 min). Sales for a month only land "
                        "if its plan is in BEFORE the pull — done for " + month_label + ".")}
+
+
+# ── Buybox monthly — White Mulberry 1P vendor sales (manual by design) ────
+# The monthly-sync workflow pulls ads + 3P for all brands and 1P for
+# AA/Tonor, but the WM vendor pull is dormant — the operator downloads the
+# Vendor Central "Retail Analytics" export and files it as
+# buybox_src/data/White Mulberry/<MonYY>/1Psales.csv.  The Render build then
+# derives raw_data.json from the committed CSVs.
+BUYBOX_DATA_DIR = ROOT / "buybox_src" / "data"
+_MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+_MONTH_KEY_RE = re.compile(r"^([A-Z][a-z]{2})(\d{2})$")
+_VIEWING_RE = re.compile(r"Viewing Range=\[(\d{2})/(\d{2})/(\d{2})\s*-\s*\d{2}/\d{2}/\d{2}\]")
+
+
+def _recent_month_keys(n: int) -> list[str]:
+    """Last n month keys as %b%y (newest first), previous month first —
+    matches the pull scripts' folder naming exactly."""
+    today = datetime.now(IST)
+    y, m = today.year, today.month
+    out = []
+    for _ in range(n):
+        m -= 1
+        if m == 0:
+            y, m = y - 1, 12
+        out.append(f"{_MONTH_ABBR[m - 1]}{y % 100:02d}")
+    return out
+
+
+@router.post("/buybox-1p")
+def upload_buybox_1p(request: Request,
+                     month: str = Query(..., description="Month key, e.g. Aug26"),
+                     file: UploadFile = File(...)):
+    """White Mulberry 1P monthly sales for the Buybox report."""
+    email = require_uploader(request)
+    mk = month.strip()
+    allowed = _recent_month_keys(6)
+    if mk not in allowed:
+        raise HTTPException(422, f"month must be one of {allowed} — got {mk!r}")
+
+    raw = file.file.read()
+    head = raw[:8192].decode("utf-8-sig", "replace")
+    lines = head.splitlines()
+    header_line = ""
+    for ln in lines[:3]:
+        if "ASIN" in ln and "Ordered Revenue" in ln:
+            header_line = ln
+            break
+    if not header_line:
+        raise HTTPException(422, "Doesn't look like the Vendor Central sales export "
+                                 "(no ASIN + 'Ordered Revenue' header in the first rows). "
+                                 "Upload the Retail Analytics CSV as downloaded.")
+
+    warnings = []
+    vm = _VIEWING_RE.search(head)
+    if vm:
+        # Banner dates are dd/mm/yy — the export's own claim of its window.
+        exp_month = _MONTH_ABBR.index(mk[:3]) + 1
+        exp_year = 2000 + int(mk[3:])
+        got_month, got_year = int(vm.group(2)), 2000 + int(vm.group(3))
+        if (got_year, got_month) != (exp_year, exp_month):
+            raise HTTPException(422, f"This export's Viewing Range is "
+                                     f"{vm.group(1)}/{vm.group(2)}/{vm.group(3)} — that's "
+                                     f"{_MONTH_ABBR[got_month-1]} {got_year}, not {mk}. "
+                                     "Pick the matching month or re-download the export.")
+    else:
+        warnings.append("Couldn't read the export's Viewing Range banner — "
+                        "make sure this really is the " + mk + " export.")
+
+    data_rows = max(sum(1 for ln in raw.decode("utf-8-sig", "replace").splitlines()
+                        if ln.strip()) - (2 if lines and "ASIN" not in lines[0] else 1), 0)
+    if data_rows < 1:
+        raise HTTPException(422, "No data rows found in the export.")
+
+    rel = f"buybox_src/data/White Mulberry/{mk}/1Psales.csv"
+    existing = ROOT / rel
+    if existing.exists() and existing.read_bytes() == raw:
+        return {"ok": True, "commit": None, "month": mk, "rows": data_rows,
+                "warnings": warnings,
+                "note": "✓ Already up to date — this exact export is in the system."}
+
+    replaced = existing.exists()
+    sha = commit_files({rel: raw},
+                       f"data(buybox): WM 1P sales {mk} via dashboard [skip ci]", email)
+    existing.parent.mkdir(parents=True, exist_ok=True)
+    existing.write_bytes(raw)
+    return {"ok": True, "commit": sha, "month": mk, "rows": data_rows,
+            "replaced": replaced, "warnings": warnings,
+            "note": (("Replaced the existing " if replaced else "Filed ") + mk +
+                     f" export ({data_rows} rows). The Buybox monthly view picks it up "
+                     "after the rebuild (~6 min).")}
 
 
 @router.post("/variations")

@@ -149,6 +149,10 @@ jobs:
 
           # Paths are relative to buybox_src (working-directory) — staging
           # stays scoped to this sub-project.
+          # ⚠ The pull scripts name month folders "Aug26" (%b%y), NOT
+          # "2026-08" — the yyyy-mm globs alone staged NOTHING (caught
+          # 2026-09-02, the day before the first scheduled run). Both forms
+          # are staged so either convention lands.
           git add 'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sp.csv'              \
                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sd.csv'              \
                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sb.csv'              \
@@ -156,6 +160,13 @@ jobs:
                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/sales_seller.csv'        \
                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/sales_vendor.csv'        \
                   'data/_audit/[0-9][0-9][0-9][0-9]-[0-9][0-9]/*.csv'              \
+                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sp.csv'                    \
+                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sd.csv'                    \
+                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sb.csv'                    \
+                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sb_attributed.csv'         \
+                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_seller.csv'              \
+                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_vendor.csv'              \
+                  'data/_audit/[A-Z][a-z][a-z][0-9][0-9]/*.csv'                    \
                   2>/dev/null || true
 
           if git diff --cached --quiet; then

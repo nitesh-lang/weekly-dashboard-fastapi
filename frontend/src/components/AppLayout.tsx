@@ -10,7 +10,7 @@ import {
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
     ExternalLink, Layers, Gauge, UploadCloud,
-    ShieldCheck, Sparkles,
+    ShieldCheck, Sparkles, Calculator,
 } from "lucide-react";
 
 // ── Hover prefetch ──────────────────────────────────────────────────────
@@ -292,6 +292,15 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                             >
                                 <Gauge className="h-4 w-4 shrink-0" />
                                 <span className="flex-1">Buybox Report</span>
+                            </a>
+                            {/* Margin Calculator — merged Jinja app at /margin
+                                (weekly session is its auth), plain <a>. */}
+                            <a
+                                href="/margin"
+                                className="group relative inline-flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium text-foreground hover:bg-accent transition-all"
+                            >
+                                <Calculator className="h-4 w-4 shrink-0" />
+                                <span className="flex-1">Margin Calculator</span>
                             </a>
                             <a
                                 href="/tools"

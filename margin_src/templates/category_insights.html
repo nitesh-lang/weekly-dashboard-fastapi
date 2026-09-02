@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Category Margin Insights</title>
+
+<style>
+body{
+  font-family:Inter,Arial;
+  background:#f6f7f9;
+  padding:20px
+}
+.card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  padding:16px;
+  margin-bottom:18px
+}
+h1,h3{margin:0 0 12px}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px
+}
+th,td{
+  border-bottom:1px solid #e5e7eb;
+  padding:8px 10px;
+  text-align:right
+}
+th{
+  background:#f9fafb;
+  text-align:right;
+  font-weight:600
+}
+th:first-child,td:first-child{
+  text-align:left
+}
+.bad{
+  color:#b91c1c;
+  font-weight:600
+}
+.good{
+  color:#047857;
+  font-weight:600
+}
+.sub{
+  margin-top:10px;
+  margin-left:20px
+}
+details summary{
+  cursor:pointer;
+  font-weight:600;
+  padding:6px 0
+}
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px
+}
+.metric{
+  background:#fafafa;
+  border:1px solid #e5e7eb;
+  border-radius:6px;
+  padding:10px;
+  text-align:center
+}
+.metric b{font-size:16px}
+</style>
+</head>
+
+<body>
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px;">
+  <h1 style="margin:0;">📊 Category Margin Insights</h1>
+  <div style="display:flex;align-items:center;gap:6px;font-size:12px;">
+    <a href="/margin" style="color:#3d3587;text-decoration:none;font-weight:600;">← Calculator</a>
+    <a href="/" style="color:#3d3587;text-decoration:none;font-weight:600;">← Weekly</a>
+    <span style="color:#6b7280;font-family:monospace;font-size:11px;">{{ request.session.get('user_email') }}</span>
+  </div>
+</div>
+
+<div class="card">
+<form method="post" enctype="multipart/form-data">
+  <label><b>Upload Master Sheet</b></label><br><br>
+  <input type="file" name="file" required>
+  <br><br>
+  <button type="submit">Upload & View</button>
+</form>
+</div>
+
+{% if summary %}
+<div class="card">
+  <h3>📌 Overall Category Summary</h3>
+  <div class="metric-grid">
+    <div class="metric">Total SP<br><b>{{ summary.total_sp }}</b></div>
+    <div class="metric">Gross Margin<br><b>{{ summary.gross_margin }}</b></div>
+    <div class="metric">Gross %<br><b>{{ summary.gross_pct }}%</b></div>
+    <div class="metric {% if summary.net_pct < 0 %}bad{% endif %}">
+      Net Margin<br><b>{{ summary.net_margin }}</b>
+    </div>
+    <div class="metric {% if summary.net_pct < 0 %}bad{% endif %}">
+      Net %<br><b>{{ summary.net_pct }}%</b>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if data %}
+<div class="card">
+<h3>📂 Category L1 Performance</h3>
+
+<table>
+<thead>
+<tr>
+  <th>Category</th>
+  <th>Total SP</th>
+  <th>Gross Margin</th>
+  <th>Gross %</th>
+  <th>Net Margin</th>
+  <th>Net %</th>
+  <th>SKUs</th>
+</tr>
+</thead>
+
+<tbody>
+{% for c in data %}
+<tr>
+  <td><b>{{ c.name }}</b></td>
+  <td>{{ c.total_sp }}</td>
+  <td>{{ c.gross_margin }}</td>
+  <td class="{% if c.gross_pct < 0 %}bad{% else %}good{% endif %}">
+    {{ c.gross_pct }}%
+  </td>
+  <td class="{% if c.net_pct < 0 %}bad{% endif %}">
+    {{ c.net_margin }}
+  </td>
+  <td class="{% if c.net_pct < 0 %}bad{% else %}good{% endif %}">
+    {{ c.net_pct }}%
+  </td>
+  <td>{{ c.sku_count }}</td>
+</tr>
+
+<tr>
+<td colspan="7">
+  <details>
+    <summary>View Category L2 Breakdown</summary>
+    <div class="sub">
+      <table>
+      <thead>
+        <tr>
+          <th>Category L2</th>
+          <th>Total SP</th>
+          <th>Gross %</th>
+          <th>Net %</th>
+          <th>SKUs</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for l2 in c.l1 %}
+        <tr>
+          <td>{{ l2.name }}</td>
+          <td>{{ l2.total_sp }}</td>
+          <td>{{ l2.gross_pct }}%</td>
+          <td class="{% if l2.net_pct < 0 %}bad{% endif %}">
+            {{ l2.net_pct }}%
+          </td>
+          <td>{{ l2.sku_count }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+      </table>
+    </div>
+  </details>
+</td>
+</tr>
+
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+</body>
+</html>

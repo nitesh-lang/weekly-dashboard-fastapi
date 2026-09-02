@@ -245,6 +245,18 @@ app.include_router(keepa_upload_router)
 # ✅ BUYBOX SSO — /api/buybox-sso hands the buybox unlock credentials to an
 # authenticated weekly user so /buybox auto-unlocks (no second login).
 app.include_router(buybox_sso_router)
+
+# ✅ MARGIN CALCULATOR — merged from nitesh-lang/nexlev-margin-calculator
+# (2026-09-02). Self-contained under margin_src/ (own templates + brand
+# master sheets); ALL its routes live under /margin, which is a guarded
+# prefix in auth_guard, so the weekly login is the only login. Guarded
+# import: a broken margin_src must never stop Weekly from booting.
+try:
+    from margin_src.router import router as margin_router
+    app.include_router(margin_router)
+    print("✅ Margin Calculator mounted at /margin")
+except Exception as _margin_err:
+    print(f"⚠ Margin Calculator failed to mount (weekly unaffected): {_margin_err}")
 app.include_router(upload_router)
 app.include_router(dashboard_router)
 app.include_router(export_router)

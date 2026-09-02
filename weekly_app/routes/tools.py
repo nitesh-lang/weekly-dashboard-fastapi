@@ -21,8 +21,11 @@ TOOLS = [
     {
         "section": "Calculators",
         "items": [
+            # Migrated 2026-09-02: now served by THIS app at /margin (weekly
+            # login only). Old Render service stays up until the operator
+            # confirms the merged copy — do not suspend it yet.
             {"brand": "Cambium", "label": "Margin Calculator",
-             "href": "https://nexlev-margin-calculator.onrender.com"},
+             "href": "/margin"},
             {"brand": "Audio Array", "label": "CB Margin Calculator",
              "href": "https://cb-margin-calculator-python.onrender.com/cb/margin"},
         ],

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>NexLev · Margin Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #f5f6fa;
+  --bg2:       #ffffff;
+  --bg3:       #f8f9fc;
+  --surface:   #ffffff;
+  --surface2:  #f1f3f8;
+  --border:    #e8eaf0;
+  --border2:   #d5d9e6;
+  --text:      #111827;
+  --text2:     #1f2937;
+  --text3:     #374151;
+  --blue:      #4f6ef7;
+  --blue-dim:  #eef0fe;
+  --purple:    #7c5cbf;
+  --purple-dim:#f3eeff;
+  --green:     #0f9b6e;
+  --green-dim: #ecfdf6;
+  --amber:     #b45309;
+  --amber-dim: #fef3e2;
+  --red:       #dc2626;
+  --header-bg: #3d3587;
+  --radius:    8px;
+  --mono:      'IBM Plex Mono', monospace;
+  --sans:      'IBM Plex Sans', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:var(--blue);}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:256px 1fr;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  background:var(--bg2);border-right:1px solid var(--border);
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--border2) transparent;
+  display:flex;flex-direction:column;
+}
+.sidebar-top{
+  background:var(--header-bg);padding:14px 16px;
+  display:flex;align-items:center;gap:10px;
+}
+.sidebar-icon{
+  width:28px;height:28px;border-radius:6px;
+  background:rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.sidebar-top-text .t1{font-size:13px;font-weight:700;color:#fff;letter-spacing:0.2px;}
+.sidebar-top-text .t2{font-size:10px;color:rgba(255,255,255,0.55);font-family:var(--mono);}
+
+.sidebar-body{padding:14px 14px;flex:1;}
+.s-section{margin-bottom:18px;}
+.s-section-title{
+  font-size:9px;font-weight:700;letter-spacing:0.9px;text-transform:uppercase;
+  color:#9ca3af;margin-bottom:10px;padding:0 2px;
+}
+.s-row{margin-bottom:7px;}
+.s-row label{
+  display:block;font-size:10px;font-weight:600;color:var(--text3);
+  letter-spacing:0.3px;margin-bottom:3px;
+}
+.s-row input{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:5px;color:var(--text);font-family:var(--mono);font-size:11px;
+  padding:5px 9px;outline:none;transition:border-color 0.15s;
+}
+.s-row input:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(79,110,247,0.12);}
+.s-check{
+  display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text3);
+  cursor:pointer;margin-bottom:9px;padding:0 2px;
+}
+.s-check input[type="checkbox"]{accent-color:var(--header-bg);cursor:pointer;width:12px;height:12px;}
+
+.sidebar-btn{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:5px;color:var(--text2);font-family:var(--sans);font-size:11px;
+  font-weight:600;padding:7px 12px;cursor:pointer;margin-top:2px;
+  transition:all 0.15s;outline:none;display:flex;align-items:center;gap:5px;justify-content:center;
+}
+.sidebar-btn:hover{background:var(--header-bg);border-color:var(--header-bg);color:#fff;}
+
+/* ── MAIN ── */
+.main{display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── HEADER ── */
+.site-header{position:sticky;top:0;z-index:200;background:var(--bg2);border-bottom:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.header-title{
+  padding:11px 22px;display:flex;align-items:center;justify-content:space-between;
+  background:var(--header-bg);
+}
+.header-title h1{font-size:15px;font-weight:700;color:#fff;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;}
+.header-subtitle{font-size:10px;color:rgba(255,255,255,0.55);font-family:var(--mono);}
+.header-actions{display:flex;align-items:center;gap:8px;}
+
+.btn-hdr{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 13px;border-radius:5px;font-size:11px;font-weight:600;
+  cursor:pointer;transition:all 0.15s;outline:none;border:none;
+  font-family:var(--sans);text-decoration:none;
+}
+.btn-hdr-outline{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);}
+.btn-hdr-outline:hover{background:rgba(255,255,255,0.22);color:#fff;text-decoration:none;}
+.btn-hdr-green{background:#059669;color:#fff;}
+.btn-hdr-green:hover{background:#047857;}
+
+/* --- account + admin tabs --- */
+.hdr-user{
+  display:flex;align-items:center;gap:7px;padding-left:10px;margin-left:2px;
+  border-left:1px solid rgba(255,255,255,0.22);
+}
+.hdr-avatar{
+  width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,0.2);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;flex:none;
+}
+.hdr-mail{font-size:10px;font-family:var(--mono);color:rgba(255,255,255,0.72);max-width:190px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hdr-role{
+  font-size:8.5px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;
+  background:rgba(255,255,255,0.22);color:#fff;padding:1px 6px;border-radius:20px;
+}
+
+/* ── CONTENT ── */
+.content{padding:18px 22px 48px;display:flex;flex-direction:column;gap:14px;}
+
+/* ── CARD ── */
+.card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+}
+.card-head{
+  padding:11px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-title{
+  font-size:11px;font-weight:700;color:var(--text);letter-spacing:0.4px;
+  text-transform:uppercase;display:flex;align-items:center;gap:7px;
+}
+.card-title-dot{
+  width:8px;height:8px;border-radius:2px;
+  background:var(--blue);display:inline-block;flex-shrink:0;
+}
+.card-body{padding:14px 16px;}
+
+/* ── KPI BAR ── */
+.kpi-bar{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  display:grid;grid-template-columns:repeat(5,1fr);
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);overflow:hidden;
+}
+.kpi-cell{
+  padding:14px 18px;border-right:1px solid var(--border);
+  position:relative;
+}
+.kpi-cell:last-child{border-right:none;}
+.kpi-cell::before{
+  content:'';position:absolute;left:0;top:18%;bottom:18%;
+  width:3px;border-radius:0 2px 2px 0;
+}
+.kpi-cell:nth-child(1)::before{background:var(--blue);}
+.kpi-cell:nth-child(2)::before{background:var(--green);}
+.kpi-cell:nth-child(3)::before{background:var(--green);}
+.kpi-cell:nth-child(4)::before{background:var(--purple);}
+.kpi-cell:nth-child(5)::before{background:var(--purple);}
+.kpi-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:5px;}
+.kpi-val{
+  font-family:var(--mono);font-size:22px;font-weight:600;
+  letter-spacing:-0.5px;color:var(--text);
+}
+.kpi-cell:nth-child(1) .kpi-val{color:#3d3587;}
+.kpi-cell:nth-child(2) .kpi-val{color:#0f7a57;}
+.kpi-cell:nth-child(3) .kpi-val{color:#0f7a57;}
+.kpi-cell:nth-child(4) .kpi-val{color:#6040a8;}
+.kpi-cell:nth-child(5) .kpi-val{color:#6040a8;}
+
+/* ── PRICING STRIP ── */
+.price-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.price-cell{
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  padding:10px 12px;
+}
+.price-cell-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:4px;}
+.price-cell-val{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--text);}
+
+/* ── DP CARD ── */
+.dp-box{
+  display:inline-flex;align-items:baseline;gap:6px;
+  background:var(--blue-dim);border:1px solid #c7cefc;
+  border-radius:6px;padding:10px 18px;
+}
+.dp-num{font-family:var(--mono);font-size:26px;font-weight:600;color:#3d3587;letter-spacing:-0.5px;}
+.dp-unit{font-size:11px;color:var(--blue);font-weight:600;}
+
+/* ── UPLOAD ── */
+.upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.upload-slot{
+  background:var(--bg3);border:1px dashed var(--border2);border-radius:6px;
+  padding:12px 14px;transition:border-color 0.15s,background 0.15s;
+}
+.upload-slot:hover{border-color:var(--blue);border-style:solid;background:#fafbff;}
+.upload-slot-name{font-size:11px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.upload-slot input[type="file"]{width:100%;font-size:10px;color:var(--text3);cursor:pointer;}
+.upload-slot input[type="file"]::file-selector-button{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:4px;
+  color:var(--text2);font-family:var(--sans);font-size:10px;font-weight:600;
+  padding:3px 9px;cursor:pointer;margin-right:7px;transition:all 0.12s;
+}
+.upload-slot input[type="file"]::file-selector-button:hover{background:var(--header-bg);color:#fff;border-color:var(--header-bg);}
+.upload-status{font-size:10px;margin-top:5px;font-weight:600;}
+.brand-row{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);}
+.brand-row label{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;}
+
+/* ── INPUTS (GRIDS) ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+
+.field label{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:4px;}
+.field input,.field select{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:5px;color:var(--text);font-family:var(--sans);font-size:12px;
+  padding:6px 9px;outline:none;transition:border-color 0.15s;
+}
+.field input:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(79,110,247,0.1);}
+.field input:disabled{background:var(--bg3);color:#9ca3af;cursor:default;}
+.field input.mono-val{font-family:var(--mono);}
+
+/* Search inputs */
+.search-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:5px;color:var(--text);font-family:var(--sans);font-size:12px;
+  padding:6px 9px;outline:none;margin-bottom:5px;transition:border-color 0.15s;
+}
+.search-input::placeholder{color:#9ca3af;}
+.search-input:focus{border-color:var(--blue);}
+
+select.full{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:5px;color:var(--text);font-family:var(--sans);font-size:12px;
+  padding:6px 9px;outline:none;appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236b7280' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;
+  background-size:8px;padding-right:24px;
+  transition:border-color 0.15s;
+}
+select.full:focus{border-color:var(--blue);}
+
+/* ── RESET BTN ── */
+.reset-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--bg3);border:1px solid var(--border2);border-radius:5px;
+  color:var(--text2);font-family:var(--sans);font-size:11px;font-weight:600;
+  padding:5px 12px;cursor:pointer;margin-bottom:12px;transition:all 0.15s;outline:none;
+}
+.reset-btn:hover{background:var(--amber-dim);border-color:var(--amber);color:var(--amber);}
+
+/* ── COST TABLE ── */
+.cost-table{width:100%;border-collapse:collapse;}
+.cost-table thead tr{background:var(--bg3);border-bottom:2px solid var(--border2);}
+.cost-table th{
+  padding:9px 14px;text-align:left;font-size:9px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);
+}
+.cost-table td{
+  padding:9px 14px;border-bottom:1px solid var(--border);
+  font-size:12px;color:var(--text2);
+}
+.cost-table td.mono{font-family:var(--mono);}
+.cost-table tr:hover td{background:#fafbff;}
+.cost-table tr:last-child td{
+  font-weight:700;color:var(--text);background:var(--blue-dim);
+  border-top:1px solid #c7cefc;border-bottom:none;
+}
+.pct-pill{
+  display:inline-block;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:20px;padding:2px 8px;font-size:10px;font-family:var(--mono);color:var(--text3);
+}
+
+/* ── CB CENTER ── */
+.cb-center-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.cb-center-row{display:flex;flex-direction:column;gap:3px;}
+.cb-center-row label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text3);}
+.cb-center-row input{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:5px;
+  color:var(--text);font-family:var(--mono);font-size:11px;padding:5px 9px;
+  outline:none;width:100%;
+}
+.cb-center-row input:disabled{color:#9ca3af;}
+
+/* ── SCROLL ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px;}
+
+.hidden{display:none!important;}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+  <!-- ══ SIDEBAR (CAMBIUM) ══ -->
+  <div class="sidebar" id="cambium_sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-icon">N</div>
+      <div class="sidebar-top-text">
+        <div class="t1">NexLev</div>
+        <div class="t2">margin-calculator</div>
+      </div>
+    </div>
+    <div class="sidebar-body">
+      <div class="s-section">
+        <div class="s-section-title">Global Parameters</div>
+        <div class="s-row"><label>Dollar Rate (₹ / USD)</label><input id="usd_rate" value="95"></div>
+        <div class="s-row"><label>Surcharge %</label><input id="surcharge_pct" value="10"></div>
+        <div class="s-row"><label>GST %</label><input id="gst_default_pct" value="18"></div>
+        <label class="s-check"><input type="checkbox" id="gst_override"> Override Excel GST</label>
+        <div class="s-row"><label>SMM %</label><input id="smm_pct" value="2"></div>
+        <label class="s-check"><input type="checkbox" id="smm_override"> Override Excel SMM</label>
+        <div class="s-row"><label>Business Overhead %</label><input id="overhead_pct" value="5"></div>
+        <div class="s-row"><label>Cost of Finance %</label><input id="finance_pct" value="3"></div>
+      </div>
+      <button class="sidebar-btn" id="reset_globals">↺ Reset Parameters</button>
+    </div>
+  </div>
+
+  <!-- ══ SIDEBAR (CB PER-SKU) ══ -->
+  <div class="sidebar hidden" id="cb_sidebar">
+    <div class="sidebar-top" style="background:#5b4ab5;">
+      <div class="sidebar-icon" style="background:rgba(255,255,255,0.2);">CB</div>
+      <div class="sidebar-top-text">
+        <div class="t1">CB Parameters</div>
+        <div class="t2">per-sku overrides</div>
+      </div>
+    </div>
+    <div class="sidebar-body">
+      <div class="s-section">
+        <div class="s-section-title">CB Inputs</div>
+        <div class="s-row"><label>CCB SP (₹)</label><input id="cb_side_ccb_sp"></div>
+        <div class="s-row"><label>Fee Structure %</label><input id="cb_side_fee_structure"></div>
+        <div class="s-row"><label>Promo Waiver on Fee %</label><input id="cb_side_promo_waiver"></div>
+        <div class="s-row"><label>AMS %</label><input id="cb_side_ams"></div>
+        <div class="s-row"><label>Business Overhead %</label><input id="cb_side_overhead"></div>
+        <div class="s-row"><label>Finance Cost %</label><input id="cb_side_finance"></div>
+        <div class="s-row"><label>Coupon %</label><input id="cb_side_coupon"></div>
+      </div>
+      <button class="sidebar-btn" id="cb_reset">↺ Reset CB Parameters</button>
+    </div>
+  </div>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="site-header">
+      <div class="header-title">
+        <h1>📦 NexLev Margin Calculator</h1>
+        <div class="header-actions">
+          <a id="category_link" href="/margin/category-insights" class="btn-hdr btn-hdr-outline">📊 Category Insights</a>
+          <button id="export_margin" class="btn-hdr btn-hdr-green">⬇ Export Margin (Excel)</button>
+          <div class="hdr-user">
+            <div class="hdr-avatar">{{ (request.session.get('user_email') or '?')[:2]|upper }}</div>
+            <div>
+              <div class="hdr-mail">{{ request.session.get('user_email') }}</div>
+            </div>
+          </div>
+          <a href="/" class="btn-hdr btn-hdr-outline">← Weekly</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden radios for JS compat -->
+    <div style="display:none;">
+      <input type="radio" name="calc_mode_ui" value="cambium" checked>
+      <input type="radio" name="calc_mode_ui" value="audio_array_ccb">
+    </div>
+
+    <div class="content">
+
+      <!-- UPLOAD -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot" style="background:var(--green);"></span>Upload Master Sheets</div>
+        </div>
+        <div class="card-body">
+          <div class="upload-grid">
+            <div class="upload-slot">
+              <div class="upload-slot-name">🎵 Audio Array</div>
+              <input type="file" id="file_audio_array" accept=".xlsx,.xls">
+              <div class="upload-status" id="status_audio_array" style="color:#9ca3af;">—</div>
+            </div>
+            <div class="upload-slot">
+              <div class="upload-slot-name">⚡ NexLev</div>
+              <input type="file" id="file_nexlev" accept=".xlsx,.xls">
+              <div class="upload-status" id="status_nexlev" style="color:#9ca3af;">—</div>
+            </div>
+            <div class="upload-slot">
+              <div class="upload-slot-name">🌿 White Mulberry</div>
+              <input type="file" id="file_white_mulberry" accept=".xlsx,.xls">
+              <div class="upload-status" id="status_white_mulberry" style="color:#9ca3af;">—</div>
+            </div>
+          </div>
+          <div class="brand-row">
+            <label>Active Brand</label>
+            <select id="active_brand" class="full" style="max-width:200px;">
+              <option value="audio_array">Audio Array</option>
+              <option value="nexlev">NexLev</option>
+              <option value="white_mulberry">White Mulberry</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI BAR -->
+      <div class="kpi-bar">
+        <div class="kpi-cell"><div class="kpi-label">DP</div><div class="kpi-val" id="m_dp">—</div></div>
+        <div class="kpi-cell"><div class="kpi-label">Gross Margin</div><div class="kpi-val" id="m_gross">—</div></div>
+        <div class="kpi-cell"><div class="kpi-label">Gross %</div><div class="kpi-val" id="m_gross_pct">—</div></div>
+        <div class="kpi-cell"><div class="kpi-label">Net Margin</div><div class="kpi-val" id="m_net">—</div></div>
+        <div class="kpi-cell"><div class="kpi-label">Net %</div><div class="kpi-val" id="m_net_pct">—</div></div>
+      </div>
+
+      <!-- PRICING REFERENCE -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot" style="background:var(--amber);"></span>Pricing Reference</div>
+        </div>
+        <div class="card-body">
+          <div class="price-strip">
+            <div class="price-cell"><div class="price-cell-label">BAU SP / MOP</div><div class="price-cell-val" id="pr_bau">—</div></div>
+            <div class="price-cell"><div class="price-cell-label">Deals</div><div class="price-cell-val" id="pr_deals">—</div></div>
+            <div class="price-cell"><div class="price-cell-label">Art Deals</div><div class="price-cell-val" id="pr_art">—</div></div>
+            <div class="price-cell"><div class="price-cell-label">MOP B2B</div><div class="price-cell-val" id="pr_b2b">—</div></div>
+            <div class="price-cell"><div class="price-cell-label">MOP D2C</div><div class="price-cell-val" id="pr_d2c">—</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DP WITHOUT TAX -->
+      <div class="card" id="dp_without_tax_card">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot"></span>DP (Without Tax)</div>
+        </div>
+        <div class="card-body">
+          <div class="dp-box">
+            <span class="dp-num" id="dp_value">—</span>
+            <span class="dp-unit">₹</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT SELECTION -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot" style="background:var(--purple);"></span>Product Selection</div>
+        </div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div>
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:5px;">Model</div>
+              <input class="search-input" id="model_search" placeholder="Search model…">
+              <select class="full" id="model"></select>
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:5px;">SKU</div>
+              <input class="search-input" id="sku_search" placeholder="Search SKU…">
+              <select class="full" id="sku"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT INFORMATION -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot" style="background:var(--green);"></span>Product Information</div>
+        </div>
+        <div class="card-body">
+          <div class="grid-4">
+            <div class="field"><label>Category</label><input id="category" disabled class="mono-val"></div>
+            <div class="field"><label>Category L2</label><input id="category_l2" disabled class="mono-val"></div>
+            <div class="field"><label>Model No</label><input id="model_no" disabled class="mono-val"></div>
+            <div class="field"><label>Product Name</label><input id="product_name" disabled></div>
+          </div>
+          <div class="grid-4" style="margin-top:8px;">
+            <div class="field"><label>L (cm)</label><input id="l" disabled class="mono-val"></div>
+            <div class="field"><label>B (cm)</label><input id="b" disabled class="mono-val"></div>
+            <div class="field"><label>H (cm)</label><input id="h" disabled class="mono-val"></div>
+            <div class="field"><label>HSN</label><input id="hsn" disabled class="mono-val"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SKU INPUTS -->
+      <div class="card" id="cambium_sku_inputs">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot" style="background:var(--amber);"></span>SKU Inputs</div>
+        </div>
+        <div class="card-body">
+          <button class="reset-btn" id="reset_btn">↺ Reset to Excel Values</button>
+          <div class="grid-3">
+            <div class="field"><label>Latest FOB (USD)</label><input id="fob" class="mono-val"></div>
+            <div class="field"><label>Freight + Clearance (USD)</label><input id="freight" class="mono-val"></div>
+            <div class="field"><label>CBM per unit</label><input id="cbm" class="mono-val"></div>
+            <div class="field"><label>Import Duty %</label><input id="import_duty" class="mono-val"></div>
+            <div class="field"><label>BAU Deal SP (₹)</label><input id="bau_sp" class="mono-val"></div>
+            <div class="field"><label>MRP (₹)</label><input id="mrp" class="mono-val"></div>
+            <div class="field"><label>Fixed Closing Fee (₹)</label><input id="fixed_closing" class="mono-val"></div>
+            <div class="field"><label>Referral Fee %</label><input id="referral_pct" class="mono-val"></div>
+            <div class="field"><label>AMS %</label><input id="ams_pct" class="mono-val"></div>
+            <div class="field"><label>Coupon %</label><input id="coupon_pct" class="mono-val"></div>
+            <div class="field"><label>Coupon Flat (₹)</label><input id="coupon_flat" class="mono-val"></div>
+            <div class="field"><label>Returns Loss %</label><input id="returns_pct" class="mono-val"></div>
+            <div class="field"><label>Fulfillment Fees (₹)</label><input id="fulfillment_fee" class="mono-val"></div>
+            <div class="field"><label>Additional Cost (₹)</label><input id="additional_cost" class="mono-val"></div>
+          </div>
+          <!-- CB inputs hidden -->
+          <div id="cb_inputs_card" class="hidden" style="margin-top:14px;padding:14px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:10px;">CB Calculator Inputs</div>
+            <div class="grid-3">
+              <div class="field"><label>CCB SP (₹)</label><input id="cb_ccb_sp" class="mono-val"></div>
+              <div class="field"><label>Fee Structure %</label><input id="cb_fee_structure" class="mono-val"></div>
+              <div class="field"><label>Promo Waiver %</label><input id="cb_promo_waiver" class="mono-val"></div>
+              <div class="field"><label>Cambium DP (₹)</label><input id="cb_cambium_dp" class="mono-val"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CB CENTER DYNAMIC -->
+      <div class="card hidden" id="cb_center_dynamic">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot"></span>Product Details (From Excel)</div>
+        </div>
+        <div class="card-body">
+          <div id="cb_center_grid" class="cb-center-grid"></div>
+        </div>
+      </div>
+
+      <!-- COST BREAKUP -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><span class="card-title-dot" style="background:var(--purple);"></span>Cost Breakup (Bucketed)</div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="cost-table">
+            <thead>
+              <tr>
+                <th>Bucket</th>
+                <th>Consists Of</th>
+                <th>Total (₹)</th>
+                <th>% of Total</th>
+              </tr>
+            </thead>
+            <tbody id="cost_rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+// ── ALL ORIGINAL JS LOGIC PRESERVED ────────────────────────────────────────
+
+window.cbMap={
+  cb_side_ccb_sp:"CCB SP",cb_side_fee_structure:"Fee Structure %",
+  cb_side_promo_waiver:"Promotional Waiver on Fee Structure",cb_side_ams:"AMS %",
+  cb_side_overhead:"Business Overhead %",cb_side_finance:"Finance Cost %",cb_side_coupon:"Coupon %",
+  cb_ccb_sp:"CCB SP",cb_fee_structure:"Fee Structure %",
+  cb_promo_waiver:"Promotional Waiver on Fee Structure",cb_cambium_dp:"Cambium DP"
+};
+const cbMap=window.cbMap;
+
+async function backendCalculate(){
+  if(!SESSION_ID||!STATE.row)return;
+  try{
+    const sku=document.getElementById('sku')?.value;if(!sku)return;
+    const r=await fetch(`/margin/calculate?session_id=${SESSION_ID}&sku=${encodeURIComponent(sku)}`,{method:'POST'});
+    const j=await r.json();
+    if(j&&typeof j==='object'){
+      set('m_dp',j.dp??0);set('dp_value',j.dp??0);set('m_gross',j.gross_margin??0);
+      set('m_gross_pct',j.gross_margin_pct??0);set('m_net',j.net_margin??0);set('m_net_pct',j.net_margin_pct??0);
+    }
+  }catch(e){console.warn("Backend calculate failed",e);}
+}
+
+let SESSION_ID=null,STATE={df:[],row:null},ORIGINAL_GLOBALS={},ORIGINAL_ROW=null,ALL_MODELS=[],ALL_SKUS=[];
+
+function filterSelect(inputId,selectId,allValues){
+  const q=document.getElementById(inputId).value.toLowerCase();
+  const sel=document.getElementById(selectId);
+  const filtered=allValues.filter(v=>v.toLowerCase().includes(q));
+  sel.innerHTML=filtered.map(x=>`<option>${x}</option>`).join('');
+  if(filtered.length)sel.value=filtered[0];
+  sel.dispatchEvent(new Event('change'));
+}
+const num=id=>parseFloat(document.getElementById(id).value||0);
+const set=(id,v)=>document.getElementById(id).innerText=(typeof v==="number")?v.toLocaleString(undefined,{maximumFractionDigits:2}):v;
+
+function setStatus(brand,msg,color='#9ca3af'){
+  const el=document.getElementById(`status_${brand}`);
+  if(el){el.innerText=msg;el.style.color=color;}
+}
+['audio_array','nexlev','white_mulberry'].forEach(brand=>{
+  document.getElementById(`file_${brand}`)?.addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file)return;
+    setStatus(brand,'⏳ Uploading…','#b45309');
+    const fd=new FormData();fd.append('file',file);fd.append('brand',brand);
+    const r=await fetch(`/margin/upload-brand?brand=${brand}`,{method:'POST',body:fd});
+    const j=await r.json();
+    if(j.saved){
+      setStatus(brand,'✓ Saved to cloud','#0f9b6e');
+      if(document.getElementById('active_brand').value===brand)await loadBrand(brand);
+    }else{setStatus(brand,'✗ Upload failed','#dc2626');}
+  });
+});
+document.getElementById('active_brand')?.addEventListener('change',async e=>{await loadBrand(e.target.value);});
+
+async function loadBrand(brand){
+  setStatus(brand,'⏳ Loading…','#b45309');
+  try{
+    const res=await fetch(`/margin/load-brand?brand=${brand}`,{method:'POST'});
+    const j=await res.json();
+    if(j.session_id){
+      SESSION_ID=j.session_id;STATE.df=j.rows;window.CALC_MODE='cambium';
+      const radio=document.querySelector('input[name="calc_mode_ui"][value="cambium"]');
+      if(radio)radio.checked=true;
+      try{
+        // Only Dollar Rate is sourced from the Excel Edit Parameters sheet.
+        // Surcharge / GST / SMM / Overhead / Finance are policy-level defaults
+        // held in the sidebar (10 / 18 / 2 / 5 / 3) and kept consistent across brands.
+        const p=await fetch(`/margin/params?session_id=${SESSION_ID}`).then(r=>r.json());
+        const el=document.getElementById('usd_rate');
+        if(el&&p&&p.usd_rate!==undefined&&p.usd_rate!==null){el.value=p.usd_rate;ORIGINAL_GLOBALS['usd_rate']=String(p.usd_rate);}
+      }catch(e){console.warn('USD rate hydration failed',e);}
+      populateModels();
+      setStatus(brand,`✓ ${j.rows.length} SKUs loaded`,'#0f9b6e');
+      const link=document.getElementById('category_link');
+      if(link)link.href=`/margin/category-insights?session_id=${SESSION_ID}`;
+    }else{setStatus(brand,j.error||'⚠ Not uploaded yet','#b45309');}
+  }catch(e){setStatus(brand,'✗ Load failed','#dc2626');}
+}
+
+document.addEventListener('DOMContentLoaded',async()=>{
+  try{
+    const status=await fetch('/margin/master-status').then(r=>r.json());
+    const activeBrand=document.getElementById('active_brand').value;
+    for(const brand of['audio_array','nexlev','white_mulberry']){
+      if(!status[brand]){setStatus(brand,'— not uploaded yet','#9ca3af');continue;}
+      if(brand===activeBrand){setStatus(brand,'⏳ Auto-loading…','#b45309');await loadBrand(brand);}
+      else{setStatus(brand,'✓ Available','#0f9b6e');}
+    }
+  }catch(e){console.warn('Auto-load failed',e);}
+});
+
+function populateModels(){
+  ALL_MODELS=[...new Set(STATE.df.map(r=>r.Model))].sort();
+  const sel=document.getElementById('model');
+  sel.innerHTML=ALL_MODELS.map(x=>`<option>${x}</option>`).join('');
+  sel.onchange=populateSkus;
+  document.getElementById('model_search').oninput=()=>filterSelect('model_search','model',ALL_MODELS);
+  populateSkus();
+}
+function populateSkus(){
+  const model=document.getElementById('model').value;
+  ALL_SKUS=STATE.df.filter(r=>r.Model===model).map(r=>r.SKU).sort();
+  const sel=document.getElementById('sku');
+  sel.innerHTML=ALL_SKUS.map(x=>`<option>${x}</option>`).join('');
+  sel.onchange=()=>{loadRow();};
+  document.getElementById('sku_search').value='';
+  document.getElementById('sku_search').oninput=()=>filterSelect('sku_search','sku',ALL_SKUS);
+  loadRow();
+}
+function hydrateCBParamsFromBackend(){
+  try{
+    if(!SESSION_ID||window.CALC_MODE!=='audio_array_ccb')return;
+    const sku=document.getElementById('sku')?.value;if(!sku)return;
+    fetch(`/margin/params?session_id=${SESSION_ID}&sku=${encodeURIComponent(sku)}`).then(r=>r.json()).then(j=>{
+      if(!j||typeof j!=='object')return;
+      Object.keys(window.cbMap).forEach(id=>{
+        const el=document.getElementById(id);if(!el)return;
+        const key=id.replace('cb_side_','').replace('cb_','');
+        if(j[key]!==undefined)el.value=j[key];
+      });
+    });
+  }catch(e){console.warn("CB param hydration failed",e);}
+}
+function loadRow(){
+  const m=document.getElementById('model').value,s=document.getElementById('sku').value;
+  STATE.row=STATE.df.find(r=>r.Model===m&&r.SKU===s);if(!STATE.row)return;
+  if(window.CALC_MODE==='audio_array_ccb')hydrateCBParamsFromBackend();
+  const PI_MAP={'Category':'category','Category L2':'category_l2','Model No':'model_no','Model':'model_no','Product Name':'product_name','L (cm)':'l','B (cm)':'b','H (cm)':'h','HSN':'hsn'};
+  Object.keys(PI_MAP).forEach(col=>{const el=document.getElementById(PI_MAP[col]);if(!el)return;const val=STATE.row[col];if(val!==null&&val!==undefined&&val!=='')el.value=val;});
+  mapInput('fob','Latest FOB');mapInput('freight','Freight+Clearance');mapInput('cbm','CBM per unit');
+  mapInput('import_duty','Import Duty %');mapInput('bau_sp','BAU Deal SP');mapInput('mrp','MRP');
+  mapInput('fixed_closing','Fixed Closing Fee');mapInput('referral_pct','Referral Fee %');
+  mapInput('ams_pct','AMS %');mapInput('coupon_pct','Coupon %');mapInput('coupon_flat','Coupon Flat');
+  mapInput('returns_pct','Returns Loss %');mapInput('fulfillment_fee','Fulfillment Fees');mapInput('additional_cost','Additional Cost');
+  set('pr_bau',STATE.row['BAU SP/MOP(MP)']||0);set('pr_deals',STATE.row['Deals']||0);
+  set('pr_art',STATE.row['Art deals']||0);set('pr_b2b',STATE.row['MOP(B2B)']||0);set('pr_d2c',STATE.row['MOP(D2C)']||0);
+  document.getElementById('smm_override').checked=false;
+  if(STATE.row['GST Slab']!==null&&STATE.row['GST Slab']!==undefined&&STATE.row['GST Slab']!=='')
+    document.getElementById('gst_default_pct').value=STATE.row['GST Slab'];
+  ORIGINAL_ROW=JSON.parse(JSON.stringify({fob:num('fob'),freight:num('freight'),cbm:num('cbm'),import_duty:num('import_duty'),bau_sp:num('bau_sp'),mrp:num('mrp'),fixed_closing:num('fixed_closing'),referral_pct:num('referral_pct'),ams_pct:num('ams_pct'),coupon_pct:num('coupon_pct'),coupon_flat:num('coupon_flat'),returns_pct:num('returns_pct'),fulfillment_fee:num('fulfillment_fee'),additional_cost:num('additional_cost'),smm_pct:document.getElementById('smm_pct').value,gst_default_pct:document.getElementById('gst_default_pct').value}));
+  if(window.CALC_MODE==='audio_array_ccb'){
+    Object.keys(window.cbMap).forEach(id=>{const el=document.getElementById(id);if(el&&el.dataset.bound!=="1"){el.value=STATE.row[window.cbMap[id]]??0;el.dataset.bound="1";}});
+    renderCBCenterDynamic();applyCBUIDifferences();
+    Object.keys(window.cbMap).forEach(id=>{const el=document.getElementById(id);if(el)el.value=STATE.row[window.cbMap[id]]??0;});
+    backendCalculate();triggerAfterParamUpdate();
+  }else{recalc();}
+}
+function mapInput(id,col){
+  const el=document.getElementById(id);el.value=STATE.row[col]??0;
+  el.oninput=()=>{if(window.CALC_MODE==='audio_array_ccb'){renderCBCenterDynamic();applyCBUIDifferences();backendCalculate();triggerAfterParamUpdate();}else{recalc();}};
+}
+function recalc(){
+  const usd=num('usd_rate'),fob=num('fob')*usd,fr=num('freight')*usd;
+  const duty=(fob+fr)*num('import_duty')/100,surcharge=duty*num('surcharge_pct')/100;
+  const dp=fob+fr+duty+surcharge+num('additional_cost');set('dp_value',dp);
+  const sp=num('bau_sp');
+  const sidebarGST=num('gst_default_pct'),rawGST=STATE.row['GST Slab'],overrideGST=document.getElementById('gst_override').checked;
+  let gstp;if(overrideGST){gstp=sidebarGST;}else if(rawGST!==null&&rawGST!==undefined&&rawGST!==''){gstp=parseFloat(rawGST);}else{gstp=sidebarGST;}
+  const gst=gstp>0?sp-(sp/(1+gstp/100)):0;
+  const referral=sp*num('referral_pct')/100,ams=sp*num('ams_pct')/100;
+  const coup=Math.max(sp*num('coupon_pct')/100,num('coupon_flat')),returns=sp*num('returns_pct')/100;
+  let rawSMM=STATE.row['SMM %']!==undefined?STATE.row['SMM %']:STATE.row['SMM']!==undefined?STATE.row['SMM']:null;
+  const override=document.getElementById('smm_override').checked;
+  let smmPct;if(override){smmPct=num('smm_pct');}else if(rawSMM===null||rawSMM===""){smmPct=num('smm_pct');}else{smmPct=parseFloat(rawSMM);}
+  const smm=sp*smmPct/100;
+  const nlc=STATE.row['NLC']||STATE.row['Cambium NLC']||STATE.row['Landed Cost']||0;
+  const bo=nlc*num('overhead_pct')/100,fc=nlc*num('finance_pct')/100;
+  const total=dp+referral+num('fixed_closing')+num('fulfillment_fee')+ams+coup+returns+smm+bo+fc+gst;
+  const gross=(sp-gst)-dp,net=sp-total;
+  set('m_dp',dp);set('m_gross',gross);set('m_gross_pct',(gross/sp)*100);set('m_net',net);set('m_net_pct',(net/sp)*100);
+  const rows=[
+    ['Procurement Fee','DP (FOB + Freight + Duty + Surcharge + Additional)',dp],
+    ['Marketplace Fee','Referral + Fixed Closing + Fulfillment + AMS',referral+num('fixed_closing')+num('fulfillment_fee')+ams],
+    ['Opex','Coupon + SMM + Returns',coup+smm+returns],
+    ['Statutory Taxes','GST',gst],
+    ['Operating Overhead & Capital','BO + Finance',bo+fc],
+    ['Grand Total','All above',total]
+  ];
+  const grandTotal=rows[rows.length-1][2]||0;
+  document.getElementById('cost_rows').innerHTML=rows.map(r=>{
+    const pct=grandTotal>0?(r[2]/grandTotal*100):0;
+    return`<tr><td>${r[0]}</td><td style="color:var(--text3);">${r[1]}</td><td class="mono">${r[2].toLocaleString(undefined,{maximumFractionDigits:2})}</td><td><span class="pct-pill">${pct.toFixed(1)}%</span></td></tr>`;
+  }).join('');
+}
+["usd_rate","surcharge_pct","gst_default_pct","smm_pct","overhead_pct","finance_pct"].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.addEventListener("input",()=>{if(window.CALC_MODE==='audio_array_ccb'){renderCBCenterDynamic();applyCBUIDifferences();backendCalculate();triggerAfterParamUpdate();}else if(STATE.row){recalc();}});
+});
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('reset_btn')?.addEventListener('click',()=>{
+    if(!ORIGINAL_ROW)return;
+    Object.keys(ORIGINAL_ROW).forEach(id=>{const el=document.getElementById(id);if(el)el.value=ORIGINAL_ROW[id];});
+    const smmOv=document.getElementById('smm_override');if(smmOv)smmOv.checked=false;
+    const gstOv=document.getElementById('gst_override');if(gstOv)gstOv.checked=false;
+    if(window.CALC_MODE==='audio_array_ccb'){renderCBCenterDynamic();applyCBUIDifferences();backendCalculate();triggerAfterParamUpdate();}else{recalc();}
+  });
+});
+document.addEventListener('DOMContentLoaded',()=>{
+  ['usd_rate','surcharge_pct','gst_default_pct','smm_pct','overhead_pct','finance_pct'].forEach(id=>{const el=document.getElementById(id);if(el)ORIGINAL_GLOBALS[id]=el.value;});
+  document.getElementById('reset_globals')?.addEventListener('click',()=>{
+    Object.keys(ORIGINAL_GLOBALS).forEach(id=>{const el=document.getElementById(id);if(el)el.value=ORIGINAL_GLOBALS[id];});
+    const smmOv=document.getElementById('smm_override');if(smmOv)smmOv.checked=false;
+    const gstOv=document.getElementById('gst_override');if(gstOv)gstOv.checked=false;
+    if(STATE.row){if(window.CALC_MODE==='audio_array_ccb'){renderCBCenterDynamic();applyCBUIDifferences();backendCalculate();triggerAfterParamUpdate();}else{recalc();}}
+  });
+});
+document.getElementById('export_margin')?.addEventListener('click',()=>{
+  if(!SESSION_ID){alert("Please upload a master file first");return;}
+  window.location.href=`/margin/export?session_id=${SESSION_ID}`;
+});
+function applyCalculatorModeUI(){
+  const mode=document.querySelector('input[name="calc_mode_ui"]:checked')?.value||'cambium';
+  const skuCard=document.getElementById('cambium_sku_inputs'),cbCard=document.getElementById('cb_inputs_card');
+  if(mode==='audio_array_ccb'){if(skuCard)skuCard.style.display='none';if(cbCard)cbCard.classList.remove('hidden');}
+  else{if(skuCard)skuCard.style.display='block';if(cbCard)cbCard.classList.add('hidden');}
+}
+document.querySelectorAll('input[name="calc_mode_ui"]').forEach(r=>r.addEventListener('change',applyCalculatorModeUI));
+document.addEventListener('DOMContentLoaded',()=>{applyCalculatorModeUI();applyCBUIDifferences();});
+function toggleSidebarByMode(){
+  const mode=document.querySelector('input[name="calc_mode_ui"]:checked')?.value||'cambium';
+  const cambium=document.getElementById('cambium_sidebar'),cb=document.getElementById('cb_sidebar');
+  if(mode==='audio_array_ccb'){if(cambium)cambium.classList.add('hidden');if(cb)cb.classList.remove('hidden');}
+  else{if(cambium)cambium.classList.remove('hidden');if(cb)cb.classList.add('hidden');}
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('input[name="calc_mode_ui"]').forEach(r=>r.addEventListener('change',toggleSidebarByMode));
+  toggleSidebarByMode();
+});
+async function triggerAfterParamUpdate(){
+  try{if(window.CALC_MODE==='audio_array_ccb'){renderCBCenterDynamic();applyCBUIDifferences();await backendCalculate();}else if(STATE&&STATE.row){recalc();}}
+  catch(e){console.warn("Post-update trigger failed",e);}
+}
+async function updateCBParam(key,value){
+  if(!SESSION_ID)return;
+  try{const sku=document.getElementById('sku')?.value;if(!sku)return;
+    await fetch(`/margin/params/update?session_id=${SESSION_ID}&sku=${encodeURIComponent(sku)}&key=${key}&value=${encodeURIComponent(value)}`,{method:'POST'});
+  }catch(e){console.warn("CB param update failed",e);}
+}
+function bindCBSideInputs(){
+  const map={cb_side_ccb_sp:'CCB SP',cb_side_fee_structure:'Fee Structure %',cb_side_promo_waiver:'Promotional Waiver on Fee Structure',cb_side_ams:'AMS %',cb_side_overhead:'Business Overhead %',cb_side_finance:'Finance Cost %',cb_side_coupon:'Coupon %'};
+  Object.keys(map).forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.oninput=()=>{
+      if(!STATE.row)return;if(window.CALC_MODE==='audio_array_ccb')hydrateCBParamsFromBackend();
+      const v=parseFloat(el.value||0);if(map[id])STATE.row[map[id]]=v;
+      const KEY_MAP={'CCB SP':'ccb_sp','Fee Structure':'fee_structure_pct','Promotional Waiver on Fee Structure':'promo_waiver_pct','AMS %':'ams_pct','Business Overhead %':'business_overhead_pct','Cost of Finance %':'finance_cost_pct','Coupon %':'coupon_pct'};
+      updateCBParam(KEY_MAP[map[id]],v);backendCalculate();triggerAfterParamUpdate();
+    };
+  });
+}
+document.addEventListener('DOMContentLoaded',bindCBSideInputs);
+const CB_EXCLUDE_HEADERS=["CCB SP","Fee Structure %","Fee Structure","Promotional Waiver on Fee Structure","AMS","AMS %","Business Overhead","Business Overhead %","Finance Cost","Cost of Finance %","Coupon","Coupon %"];
+const CB_KPI_HEADERS=["DP","Gross Margin","Gross Margin %","Net Margin","Net Margin %"];
+function renderCBCenterDynamic(){
+  if(!STATE||!STATE.row)return;
+  const card=document.getElementById("cb_center_dynamic"),grid=document.getElementById("cb_center_grid");
+  if(!card||!grid)return;grid.innerHTML="";
+  Object.keys(STATE.row).forEach(key=>{
+    if(CB_EXCLUDE_HEADERS.includes(key)||CB_KPI_HEADERS.includes(key))return;
+    const row=document.createElement("div");row.className="cb-center-row";
+    row.innerHTML=`<label>${key}</label><input value="${STATE.row[key]??''}" disabled />`;grid.appendChild(row);
+  });
+}
+function applyCBUIDifferences(){
+  const isCB=document.querySelector('input[name="calc_mode_ui"]:checked')?.value==='audio_array_ccb';
+  const dpCard=document.getElementById('dp_without_tax_card'),cbCenter=document.getElementById('cb_center_dynamic');
+  if(isCB){if(dpCard)dpCard.classList.add('hidden');if(cbCenter)cbCenter.classList.remove('hidden');}
+  else{if(dpCard)dpCard.classList.remove('hidden');if(cbCenter)cbCenter.classList.add('hidden');}
+}
+</script>
+</body>
+</html>

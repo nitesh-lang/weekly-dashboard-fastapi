@@ -1,14 +1,21 @@
-# Weekly Dashboard — monorepo of THREE independent apps
+# Weekly Dashboard — monorepo of FOUR independent apps
 
-This repo develops, builds and serves three apps on one Render service.
-**STRICT RULE: the three must never collide. Every change stays inside its
+This repo develops, builds and serves four apps on one Render service.
+**STRICT RULE: the apps must never collide. Every change stays inside its
 app's lane. Violating any boundary below is a bug, even if it "works".**
 
 | App | Code lives in | URL space | Data |
 |---|---|---|---|
-| Weekly Dashboard | `weekly_app/`, `frontend/`, `scripts/`, `data/` | everything EXCEPT /sales* and /buybox* | files in `data/` + Neon mirror (`WEEKLY_DATABASE_URL`) |
+| Weekly Dashboard | `weekly_app/`, `frontend/`, `scripts/`, `data/` | everything EXCEPT /sales*, /buybox*, /margin* | files in `data/` + Neon mirror (`WEEKLY_DATABASE_URL`) |
 | Sales Dashboard | `sales_dash/` (FastAPI) + `sales_dash_frontend/` (SPA) | `/sales`, `/sales-app` | its own Neon (`DATABASE_URL`) |
 | Buybox Report | `buybox_src/` (app + pullers + `data/` store) | `/buybox` | committed files under `buybox_src/data/`, encrypted into the bundle at build |
+| Margin Calculator | `margin_src/` (router + templates, merged 2026-09-02) | `/margin` | brand master xlsx under `margin_src/input/`, persisted by committing to THIS repo `[skip ci]` |
+
+Margin is the lightest lane: an APIRouter included by weekly_app.main
+(guarded try/except), no DB, no own auth — the weekly session IS its auth
+(`/margin` is a guarded prefix in auth_guard). Its old standalone repo
+`nitesh-lang/nexlev-margin-calculator` + Render service stay untouched
+until the operator confirms the merged copy, then suspend (never delete).
 
 ## Boundaries — check before every change
 

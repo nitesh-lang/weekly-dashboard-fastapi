@@ -45,6 +45,9 @@ JINJA_GUARDED_PREFIXES = (
     "/sales-trend/category",
     "/tools",               # external-tool launcher (Jinja page)
     "/buybox",              # embedded Buybox Report static build
+    "/margin",              # merged Margin Calculator (margin_src/) — weekly
+                            # session is its ONLY auth, so the whole prefix
+                            # must 303 anonymous visitors to /login
 )
 
 

@@ -626,13 +626,22 @@ def write_output(state: dict, start: dt.date) -> None:
         data/<Brand>/<YYYY-MM>/ads_sb_attributed.csv
     """
     by_brand_rtype: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    # campaignId -> ad account (profile label): provenance for every row, so
+    # per-account totals can always be reconciled against the ads console
+    # (found 2026-09-02: WM = "White Mulberry" vendor + "Cambium Retail
+    # Private Limited" seller profiles merged with no trace of the split).
+    camp_to_account: dict[str, str] = {}
     for j in state.get("jobs", []):
         if j.get("status") != "COMPLETED":
             continue
         brand = j.get("brand", "(unmapped)")
         rtype = j["rtype"]
+        label = j.get("label") or brand
         for r in (j.get("rows") or []):
             by_brand_rtype[(brand, rtype)].append(r)
+            cid = r.get("campaignId")
+            if cid is not None:
+                camp_to_account.setdefault(str(cid), label)
 
     if not by_brand_rtype:
         print("⚠ no completed rows — check state file for failures.")
@@ -662,6 +671,8 @@ def write_output(state: dict, start: dt.date) -> None:
         df["brand"] = df["brand"].astype(str).str.strip().replace(
             {"": "(unmapped)", "nan": "(unmapped)", "None": "(unmapped)"}
         )
+        if "campaignId" in df.columns:
+            df["ad_account"] = df["campaignId"].astype(str).map(camp_to_account).fillna("")
         for brand_out in sorted(df["brand"].dropna().unique()):
             sub = df[df["brand"] == brand_out]
             if sub.empty:
@@ -685,9 +696,56 @@ def write_output(state: dict, start: dt.date) -> None:
         attributed = attribute_sb(all_sb_ad, all_sb_purch, start.year, start.month)
         if attributed:
             df_attr = pd.DataFrame(attributed)
-            # Split by the brand the cascade returned; unmapped goes to
-            # data/(unmapped)/<month>/ so it stays visible without
-            # polluting any brand folder.
+
+            # ── Truthful residue re-homing (2026-09-02) ──
+            # The L0-L4 cascade is a byte-for-byte port of the weekly's and
+            # stays UNTOUCHED (an earlier deviation broke cross-project
+            # reconciliation). But its residue used to land in (unmapped),
+            # which made every brand's SB total read LOW vs the ads console
+            # (Aug 2026: ₹1.9L spend / ₹12L sales parked invisibly). A
+            # campaign whose brand the cascade can't pin to ASINs is still
+            # truthfully the ACCOUNT's money, so the residue is re-homed at
+            # BRAND level only (asin stays blank — no fake ASIN data):
+            #   L5_campaign_kw — brand keyword in the campaign name
+            #                    ("tonor" checked before "audio";
+            #                     "nexle" catches the Nexlex typos)
+            #   L6_account     — the ad account's own brand
+            # Only rows with neither trace remain in (unmapped).
+            if "campaignId" in df_attr.columns:
+                df_attr["ad_account"] = (
+                    df_attr["campaignId"].astype(str).map(camp_to_account).fillna("")
+                )
+            else:
+                df_attr["ad_account"] = ""
+
+            def _kw_brand(name: str) -> str:
+                n = str(name or "").lower()
+                if "tonor" in n:
+                    return "Tonor"
+                if "audio" in n or n.startswith("aa-") or n.startswith("aa "):
+                    return "Audio Array"
+                if "nexle" in n:            # nexlev + the live "Nexlex" typos
+                    return "Nexlev"
+                if "mulberry" in n or n.startswith("wm-") or n.startswith("wm "):
+                    return "White Mulberry"
+                return ""
+
+            def _account_brand(label: str) -> str:
+                return _brand_for_profile_name(label)
+
+            unm = df_attr["brand"].fillna("").astype(str).str.strip().str.lower().isin(
+                ["", "(unmapped)", "nan", "none"])
+            if unm.any():
+                kw = df_attr.loc[unm, "campaignName"].map(_kw_brand)
+                acct = df_attr.loc[unm, "ad_account"].map(_account_brand)
+                resolved = kw.where(kw != "", acct)
+                method = pd.Series("L5_campaign_kw", index=kw.index).where(
+                    kw != "", "L6_account")
+                still = resolved.isin(["", "(unmapped)"])
+                df_attr.loc[unm, "brand"] = resolved.where(~still, "(unmapped)")
+                df_attr.loc[unm & ~still.reindex(df_attr.index, fill_value=True),
+                            "method"] = method[~still]
+
             for brand_out in sorted(df_attr["brand"].dropna().unique()):
                 sub = df_attr[df_attr["brand"] == brand_out]
                 if sub.empty:

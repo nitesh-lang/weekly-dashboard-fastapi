@@ -286,9 +286,18 @@ function readAdsApi(dir) {
     const imprCol   = col(headers, "impressions");
     const clickCol  = col(headers, "clicks");
     const ordersCol = col(headers, "14 day total units", "ams_orders", "orders");
+    const isSbAttr = csvPath.toLowerCase().includes("sb_attributed");
     rows.forEach((row) => {
-      const asin = cleanText(row[asinCol]).toUpperCase();
-      if (!asin) return;
+      let asin = cleanText(row[asinCol]).toUpperCase();
+      if (!asin) {
+        // SB residue the L0-L4 cascade could pin to a BRAND but not an
+        // ASIN (L5_campaign_kw / L6_account rows, added 2026-09-02).
+        // Dropping these made every brand's ad totals read LOW vs the
+        // ads console; folding them into one visible synthetic row per
+        // brand keeps totals truthful without inventing ASIN data.
+        if (!isSbAttr) return;
+        asin = "SB-UNATTRIBUTED";
+      }
       const current = map.get(asin) || { spend: 0, sales: 0, impressions: 0, clicks: 0, orders: 0 };
       current.spend       += safeFloat(row[spendCol]);
       current.sales       += safeFloat(row[salesCol]);

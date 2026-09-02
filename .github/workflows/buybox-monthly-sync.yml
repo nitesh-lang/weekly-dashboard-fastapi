@@ -149,25 +149,33 @@ jobs:
 
           # Paths are relative to buybox_src (working-directory) — staging
           # stays scoped to this sub-project.
-          # ⚠ The pull scripts name month folders "Aug26" (%b%y), NOT
-          # "2026-08" — the yyyy-mm globs alone staged NOTHING (caught
-          # 2026-09-02, the day before the first scheduled run). Both forms
-          # are staged so either convention lands.
-          git add 'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sp.csv'              \
-                  'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sd.csv'              \
-                  'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sb.csv'              \
-                  'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sb_attributed.csv'   \
-                  'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/sales_seller.csv'        \
-                  'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/sales_vendor.csv'        \
-                  'data/_audit/[0-9][0-9][0-9][0-9]-[0-9][0-9]/*.csv'              \
-                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sp.csv'                    \
-                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sd.csv'                    \
-                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sb.csv'                    \
-                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sb_attributed.csv'         \
-                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_seller.csv'              \
-                  'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_vendor.csv'              \
-                  'data/_audit/[A-Z][a-z][a-z][0-9][0-9]/*.csv'                    \
-                  2>/dev/null || true
+          # ⚠ TWO traps caught on 2026-09-02 (the day before the first
+          # scheduled run), both of which made this step silently stage
+          # NOTHING while the workflow stayed green:
+          #   1. The pull scripts name month folders "Aug26" (%b%y), not
+          #      "2026-08" — the original yyyy-mm globs matched no files.
+          #   2. `git add p1 p2 …` REFUSES THE WHOLE COMMAND when any one
+          #      pathspec matches nothing, and `|| true` swallowed that —
+          #      so even after adding the %b%y globs, one dead pattern
+          #      unstaged everything. Each pattern is now added on its own.
+          for p in 'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sp.csv'             \
+                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sd.csv'             \
+                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sb.csv'             \
+                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/ads_sb_attributed.csv'  \
+                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/sales_seller.csv'       \
+                   'data/*/[0-9][0-9][0-9][0-9]-[0-9][0-9]/sales_vendor.csv'       \
+                   'data/_audit/[0-9][0-9][0-9][0-9]-[0-9][0-9]/*.csv'             \
+                   'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sp.csv'                   \
+                   'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sd.csv'                   \
+                   'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sb.csv'                   \
+                   'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sb_attributed.csv'        \
+                   'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_seller.csv'             \
+                   'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_vendor.csv'             \
+                   'data/_audit/[A-Z][a-z][a-z][0-9][0-9]/*.csv'; do
+            git add "$p" 2>/dev/null || true
+          done
+          echo "Staged files:"
+          git diff --cached --name-only | head -40
 
           if git diff --cached --quiet; then
             echo "No data changes — skipping commit."

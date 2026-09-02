@@ -510,6 +510,8 @@ def update_param(request: Request, session_id: str, key: str, value: float, sku:
         r = df[df["SKU"] == sku].iloc[0]
         out = calculator.calculate_single(r, r.to_dict() if session["calc_mode"] == "audio_array_ccb" else session["params"])
 
+        SESSION_STORE[session_id] = session  # persist across workers
+
         return {
             "status": "updated",
             "summary": {
@@ -577,6 +579,7 @@ def update_param(request: Request, session_id: str, key: str, value: float, sku:
             "net_margin_pct": round(out0.get("net_margin_pct", 0), 2),
         }
 
+    SESSION_STORE[session_id] = session  # persist across workers
     return {"status": "updated", "summary": summary}
 
 
@@ -585,12 +588,18 @@ def update_param(request: Request, session_id: str, key: str, value: float, sku:
 # ==================================================
 @router.get("/margin/models")
 def get_models(session_id: str):
-    df = SESSION_STORE[session_id]["df"]
+    session = SESSION_STORE.get(session_id)
+    if not session:
+        return {"error": "Invalid session"}
+    df = session["df"]
     return sorted(df["Model"].dropna().unique().tolist())
 
 @router.get("/margin/skus")
 def get_skus(session_id: str, model: str):
-    df = SESSION_STORE[session_id]["df"]
+    session = SESSION_STORE.get(session_id)
+    if not session:
+        return {"error": "Invalid session"}
+    df = session["df"]
     return (
         df[df["Model"] == model]["SKU"]
         .dropna()
@@ -675,6 +684,8 @@ def update_sku_field(session_id: str, sku: str, field: str, value: float):
     calculator = get_calculator(session["calc_mode"])
     r = df[df["SKU"] == sku].iloc[0]
     out = calculator.calculate_single(r, r.to_dict() if session["calc_mode"] == "audio_array_ccb" else session["params"])
+
+    SESSION_STORE[session_id] = session  # persist across workers
 
     return {
         "status": "updated",

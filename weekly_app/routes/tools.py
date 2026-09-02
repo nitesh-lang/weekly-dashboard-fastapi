@@ -42,6 +42,10 @@ TOOLS = [
              "href": "https://hygiene-validator.onrender.com/"},
             {"brand": "Cambium", "label": "Ops Trackers (Shipments + Vendor)",
              "href": "https://cambium-trackers.onrender.com/"},
+            # AM Ops runs on the office machine (FastAPI+SQLite, start.bat,
+            # port 8737) — reachable on the office LAN only, by design.
+            {"brand": "Cambium", "label": "AM Ops (office network)",
+             "href": "http://192.168.1.34:8737"},
         ],
     },
     {

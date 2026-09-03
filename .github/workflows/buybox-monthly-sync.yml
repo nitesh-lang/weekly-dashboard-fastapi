@@ -88,6 +88,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Weekly repo's data/master/sku_master.xlsx is the source of truth
+      # (operator, 2026-09-03); buybox keeps historical-only rows appended.
+      - name: Sync sku_master from the weekly master
+        run: python Scripts/sync_sku_master.py
+
       - name: Verify credentials present
         run: |
           missing=()
@@ -171,7 +176,8 @@ jobs:
                    'data/*/[A-Z][a-z][a-z][0-9][0-9]/ads_sb_attributed.csv'        \
                    'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_seller.csv'             \
                    'data/*/[A-Z][a-z][a-z][0-9][0-9]/sales_vendor.csv'             \
-                   'data/_audit/[A-Z][a-z][a-z][0-9][0-9]/*.csv'; do
+                   'data/_audit/[A-Z][a-z][a-z][0-9][0-9]/*.csv'                   \
+                   'data/master/sku_master.xlsx'; do
             git add "$p" 2>/dev/null || true
           done
           echo "Staged files:"

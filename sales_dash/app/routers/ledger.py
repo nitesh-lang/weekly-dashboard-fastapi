@@ -224,6 +224,18 @@ def download_ledger(
             # return an empty CSV silently.
             pass
 
+    # Brand column (operator request 2026-09-03): the product's brand from
+    # sku_master, per ASIN — enriched at export time so it covers all
+    # historical rows without a migration or re-ingest.
+    if not ledger.empty and "ASIN" in ledger.columns:
+        from .. import sku_master
+        lut = sku_master.lookup_map()
+        ledger = ledger.copy()
+        ledger["brand"] = (
+            ledger["ASIN"].astype(str).str.strip().str.upper()
+            .map(lambda a: (lut.get(a) or {}).get("brand", ""))
+        )
+
     csv_bytes = ledger.to_csv(index=False).encode("utf-8")
     return Response(
         content=csv_bytes,

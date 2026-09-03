@@ -6,12 +6,13 @@ const ROOT = path.resolve(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const OUT = path.join(ROOT, "src", "raw_data.json");
 
-// The pull scripts store 3P sales NET of GST (monthly_seller_sales_pull.py
-// divides gross by 1+GST_RATE). The report displays GROSS so numbers are
-// directly comparable to Seller Central and the sales dashboard (operator
-// decision 2026-09-03). 1P vendor revenue is untouched — its basis already
-// matches Vendor Central on both sides.
-const GST_RATE = 0.18;
+// 3P sales are NET of GST everywhere in this report — the manual-era
+// process divided console gross by 1.18 and monthly_seller_sales_pull.py
+// does the same, so the whole trendline is ex-GST BY DESIGN (operator,
+// 2026-09-03: "3p sales from sp-api should be minus 1.18, when we were
+// doing manually we were minusing 1.18"). Do NOT gross these up; the
+// console reads ~18% higher than this report and that is expected.
+const GST_RATE = 0.18; // used only for the informational RevB2B field basis note
 
 // Brands the report covers.  Fossil deliberately omitted — not a
 // buybox-report brand (it is in sku_master.xlsx but not on the dashboard).
@@ -496,8 +497,7 @@ function build() {
         const p = p1.get(asin) || {};
         const adSpend = ad.spend || 0;
         const adSales = ad.sales || 0;
-        // Stored 3P revenue is NET of GST — display GROSS (see GST_RATE above).
-        const rev3p = (biz.rev3p || 0) * (1 + GST_RATE);
+        const rev3p = biz.rev3p || 0; // net of GST by design — see GST note at top
         const rev1p = p.rev1p || 0;
         const units3p = biz.units3p || 0;
         const units1p = p.units1p || 0;
@@ -531,7 +531,7 @@ function build() {
           Units1P: units1p,
           Units3P: units3p,
           UnitsB2B: biz.unitsB2b || 0,
-          RevB2B: Number(((biz.revB2b || 0) * (1 + GST_RATE)).toFixed(2)),
+          RevB2B: Number((biz.revB2b || 0).toFixed(2)),  // net basis, same as Rev3P
           TotalNetSalesValue: Number(netSales.toFixed(2)),
           Rev1P: Number(rev1p.toFixed(2)),
           Rev3P: Number(rev3p.toFixed(2)),

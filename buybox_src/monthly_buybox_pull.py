@@ -759,6 +759,17 @@ def write_output(state: dict, start: dt.date) -> None:
                 layer_str = " · ".join(f"{k}={v}" for k, v in sorted(layer_counts.items()))
                 print(f"  · {folder:<20} {out.relative_to(ROOT)}  ({len(sub):,} rows; {layer_str})")
 
+            # A run whose residue all re-homed must still OVERWRITE the
+            # month's (unmapped) file — otherwise a previous run's committed
+            # residue survives in git as a stale duplicate (caught
+            # 2026-09-02: 41 re-homed campaign-rows lingered in (unmapped)
+            # alongside their fresh L5/L6 copies in the brand files).
+            if not (df_attr["brand"] == "(unmapped)").any():
+                stale = DATA_DIR / "(unmapped)" / mlabel / "ads_sb_attributed.csv"
+                if stale.exists():
+                    pd.DataFrame(columns=df_attr.columns).to_csv(stale, index=False)
+                    print(f"  · (unmapped)           {stale.relative_to(ROOT)}  cleared (0 residue this run)")
+
 
 # ─────────────────────────────────────────────────────────────────────────
 # CLI

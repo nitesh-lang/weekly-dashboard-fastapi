@@ -4703,7 +4703,7 @@ export default function Dashboard({ onLogout }) {
           <div style={{display:"grid",gap:12}}>
             {allMonthRows.map(row => (
               <div key={row.Month} style={{background:THEME.surface,border:`1px solid ${THEME.border}`,borderRadius:16,padding:"16px"}}>
-                <div style={{fontWeight:800,fontSize:15,color:THEME.text,marginBottom:12}}>{row.Month} 2026</div>
+                <div style={{fontWeight:800,fontSize:15,color:THEME.text,marginBottom:12}}>{row.Month}</div>
                 <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,fontSize:12}}>
                   {[
                     ["Net Sales", inr(row.TotalNetSalesValue||0)],
@@ -5223,7 +5223,7 @@ export default function Dashboard({ onLogout }) {
                 <tbody>
                   {filteredByMonth.map((r, i) => (
                     <tr key={r.Month} style={{ background: i%2===0 ? "#fff" : "#F8FAFC", borderBottom:"1px solid #F1F5F9" }}>
-                      <td style={{ padding:"8px 12px", fontWeight:700, fontFamily:"'DM Mono',monospace", fontSize:12, color:"#1E293B" }}>{r.Month} 2026</td>
+                      <td style={{ padding:"8px 12px", fontWeight:700, fontFamily:"'DM Mono',monospace", fontSize:12, color:"#1E293B" }}>{r.Month}</td>
                       <td style={{ padding:"8px 12px", textAlign:"left", color:"#64748B" }}>{r.asinCount}</td>
                       <td style={{ padding:"8px 12px", textAlign:"right" }}>{r.Sessions.toLocaleString("en-IN")}</td>
                       <td style={{ padding:"8px 12px", textAlign:"right", fontWeight:700 }}>{r.NetUnits.toLocaleString("en-IN")}</td>
@@ -5489,7 +5489,7 @@ export default function Dashboard({ onLogout }) {
               {detailRows.map((row) => (
                 <div key={row.Month} style={{ padding:"14px", borderRadius:18, background:"#FFFFFF", border:"1px solid #D8E1EC", boxShadow:"0 12px 28px rgba(15,23,42,0.05)" }}>
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
-                    <div style={{ fontSize:14, fontWeight:700, color:"#0F172A" }}>{row.Month} 2026</div>
+                    <div style={{ fontSize:14, fontWeight:700, color:"#0F172A" }}>{row.Month}</div>
                     <span style={{ padding:"4px 8px", borderRadius:999, background:"#EEF2FF", color:"#4338CA", fontSize:11, fontWeight:700 }}>{row.Brand}</span>
                   </div>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(2, minmax(0, 1fr))", gap:8, color:"#334155", fontSize:12 }}>

@@ -6,6 +6,13 @@ const ROOT = path.resolve(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const OUT = path.join(ROOT, "src", "raw_data.json");
 
+// The pull scripts store 3P sales NET of GST (monthly_seller_sales_pull.py
+// divides gross by 1+GST_RATE). The report displays GROSS so numbers are
+// directly comparable to Seller Central and the sales dashboard (operator
+// decision 2026-09-03). 1P vendor revenue is untouched — its basis already
+// matches Vendor Central on both sides.
+const GST_RATE = 0.18;
+
 // Brands the report covers.  Fossil deliberately omitted — not a
 // buybox-report brand (it is in sku_master.xlsx but not on the dashboard).
 const BRANDS = ["Nexlev", "Audio Array", "Tonor", "White Mulberry"];
@@ -239,8 +246,10 @@ function readBusiness(filePath) {
   const asinCol = col(headers, "child) asin", "child asin", "asin");
   const sessCol = col(headers, "sessions - total");
   const unitsCol = col(headers, "units ordered");
+  const unitsB2bCol = col(headers, "units ordered - b2b");
   const bbCol = col(headers, "featured offer percentage");
   const revCol = col(headers, "ordered product sales");
+  const revB2bCol = col(headers, "ordered product sales - b2b");
   const titleCol = col(headers, "title");
   const map = new Map();
 
@@ -249,8 +258,8 @@ function readBusiness(filePath) {
     if (!asin || asin === "(CHILD) ASIN") return;
     const current = map.get(asin) || { sessions: 0, units3p: 0, rev3p: 0, bbPct: 0, title: "" };
     current.sessions += safeFloat(row[sessCol]);
-    current.units3p += safeFloat(row[unitsCol]);
-    current.rev3p += safeFloat(row[revCol]);
+    current.units3p += safeFloat(row[unitsCol]) + (unitsB2bCol ? safeFloat(row[unitsB2bCol]) : 0);
+    current.rev3p += safeFloat(row[revCol]) + (revB2bCol ? safeFloat(row[revB2bCol]) : 0);
     current.bbPct = Math.max(current.bbPct, normalisePct(row[bbCol]));
     current.title ||= cleanText(row[titleCol]);
     map.set(asin, current);
@@ -327,7 +336,9 @@ function readBusinessApi(dir) {
   const headers = Object.keys(rows[0]);
   const asinCol  = col(headers, "(child) asin", "child asin", "asin");
   const unitsCol = col(headers, "units ordered");
+  const unitsB2bCol = col(headers, "units ordered b2b");
   const revCol   = col(headers, "ordered product sales");
+  const revB2bCol = col(headers, "ordered product sales b2b");
   const sessCol  = col(headers, "sessions");
   const bbCol    = col(headers, "buy box percentage", "featured offer percentage");
   const map = new Map();
@@ -336,8 +347,8 @@ function readBusinessApi(dir) {
     if (!asin) return;
     const current = map.get(asin) || { sessions: 0, units3p: 0, rev3p: 0, bbPct: 0, title: "" };
     current.sessions += safeFloat(row[sessCol]);
-    current.units3p  += safeFloat(row[unitsCol]);
-    current.rev3p    += safeFloat(row[revCol]);
+    current.units3p  += safeFloat(row[unitsCol]) + (unitsB2bCol ? safeFloat(row[unitsB2bCol]) : 0);
+    current.rev3p    += safeFloat(row[revCol]) + (revB2bCol ? safeFloat(row[revB2bCol]) : 0);
     // SP-API reports buyBoxPercentage on a 0..100 scale (71.43 = 71.43%);
     // normalisePct() brings it onto the 0..1 scale the UI expects.
     current.bbPct     = Math.max(current.bbPct, normalisePct(row[bbCol]));
@@ -478,7 +489,8 @@ function build() {
         const p = p1.get(asin) || {};
         const adSpend = ad.spend || 0;
         const adSales = ad.sales || 0;
-        const rev3p = biz.rev3p || 0;
+        // Stored 3P revenue is NET of GST — display GROSS (see GST_RATE above).
+        const rev3p = (biz.rev3p || 0) * (1 + GST_RATE);
         const rev1p = p.rev1p || 0;
         const units3p = biz.units3p || 0;
         const units1p = p.units1p || 0;

@@ -71,7 +71,8 @@ SKU_MASTER = ROOT / "data" / "master" / "sku_master.xlsx"
 
 OUTPUT_COLS = [
     "SKU", "(Child) ASIN", "(Parent) ASIN", "Brand", "Model",
-    "Units Ordered", "Ordered Product Sales",
+    "Units Ordered", "Units Ordered B2B",
+    "Ordered Product Sales", "Ordered Product Sales B2B",
     "Sessions", "Page Views", "Buy Box Percentage",
     "Seller Account", "Month", "WindowStart", "WindowEnd",
 ]
@@ -267,7 +268,11 @@ def merge_and_split(rows: list[dict], master: pd.DataFrame,
             "Brand":                 brand_df["brand"],
             "Model":                 brand_df["model"],
             "Units Ordered":         brand_df["units"].astype(int),
+            # B2B kept separate so the report can show console-comparable
+            # (B2B-inclusive) totals; same net-of-GST basis as the main col.
+            "Units Ordered B2B":     brand_df["units_b2b"].astype(int),
             "Ordered Product Sales": brand_df["net_sales"],
+            "Ordered Product Sales B2B": brand_df["net_sales_b2b"],
             "Sessions":              brand_df["sessions"].astype(int),
             "Page Views":            brand_df["page_views"].astype(int),
             "Buy Box Percentage":    brand_df["buy_box_pct"].round(4),

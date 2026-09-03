@@ -258,8 +258,12 @@ function readBusiness(filePath) {
     if (!asin || asin === "(CHILD) ASIN") return;
     const current = map.get(asin) || { sessions: 0, units3p: 0, rev3p: 0, bbPct: 0, title: "" };
     current.sessions += safeFloat(row[sessCol]);
-    current.units3p += safeFloat(row[unitsCol]) + (unitsB2bCol ? safeFloat(row[unitsB2bCol]) : 0);
-    current.rev3p += safeFloat(row[revCol]) + (revB2bCol ? safeFloat(row[revB2bCol]) : 0);
+    current.units3p += safeFloat(row[unitsCol]);
+    current.rev3p += safeFloat(row[revCol]);
+    // B2B recorded separately — NEVER added into the 3P totals (operator
+    // rule 2026-09-03: "3p sales is only ordered sales, not adding b2b").
+    current.unitsB2b = (current.unitsB2b || 0) + (unitsB2bCol ? safeFloat(row[unitsB2bCol]) : 0);
+    current.revB2b = (current.revB2b || 0) + (revB2bCol ? safeFloat(row[revB2bCol]) : 0);
     current.bbPct = Math.max(current.bbPct, normalisePct(row[bbCol]));
     current.title ||= cleanText(row[titleCol]);
     map.set(asin, current);
@@ -347,8 +351,11 @@ function readBusinessApi(dir) {
     if (!asin) return;
     const current = map.get(asin) || { sessions: 0, units3p: 0, rev3p: 0, bbPct: 0, title: "" };
     current.sessions += safeFloat(row[sessCol]);
-    current.units3p  += safeFloat(row[unitsCol]) + (unitsB2bCol ? safeFloat(row[unitsB2bCol]) : 0);
-    current.rev3p    += safeFloat(row[revCol]) + (revB2bCol ? safeFloat(row[revB2bCol]) : 0);
+    current.units3p  += safeFloat(row[unitsCol]);
+    current.rev3p    += safeFloat(row[revCol]);
+    // B2B recorded separately — never added into the 3P totals.
+    current.unitsB2b = (current.unitsB2b || 0) + (unitsB2bCol ? safeFloat(row[unitsB2bCol]) : 0);
+    current.revB2b   = (current.revB2b || 0) + (revB2bCol ? safeFloat(row[revB2bCol]) : 0);
     // SP-API reports buyBoxPercentage on a 0..100 scale (71.43 = 71.43%);
     // normalisePct() brings it onto the 0..1 scale the UI expects.
     current.bbPct     = Math.max(current.bbPct, normalisePct(row[bbCol]));
@@ -523,6 +530,8 @@ function build() {
           NetUnits: units3p + units1p,
           Units1P: units1p,
           Units3P: units3p,
+          UnitsB2B: biz.unitsB2b || 0,
+          RevB2B: Number(((biz.revB2b || 0) * (1 + GST_RATE)).toFixed(2)),
           TotalNetSalesValue: Number(netSales.toFixed(2)),
           Rev1P: Number(rev1p.toFixed(2)),
           Rev3P: Number(rev3p.toFixed(2)),

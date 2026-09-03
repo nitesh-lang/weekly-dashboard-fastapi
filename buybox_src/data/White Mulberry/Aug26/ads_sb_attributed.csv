@@ -1,17 +1,17 @@
-campaignId,campaignName,brand,asin,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method,sku,model,category_l0,category_l1,category_l2,ad_account
-73308450213812,Camb- SBV- B0CPFS24ML-Branded,White Mulberry,B0CPFS24ML,879.32,55463,62,0.0,0,0,L1_asin,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,Cambium Retail Private Limited
-140364686425448,Camb-SP-Zshape-B0CPFS24ML- SBV- Phrase,White Mulberry,B0CPFS24ML,6226.63,179792,639,28810.18,4,4,L1_asin,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,Cambium Retail Private Limited
-163877499751390,SB-L shape-Multi Asin- KT- phrase,White Mulberry,,7601.46,168813,813,55794.11,8,8,L6_account,,,,,,Cambium Retail Private Limited
-170478157935449,WM-SBV-Gas Spring MA- B0DB5VG39T- BM,White Mulberry,B0DB5VG39T,1330.69,7316,81,0.0,0,0,L1_asin,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,White Mulberry
-173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VG39T,42.2017,142,5,2135.08,1,1,L0_ads_api,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,White Mulberry
-173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VVPSB,42.2017,142,5,2135.08,1,1,L0_ads_api,FBA79477,WM-GS2M-BK,Monitor Arm,Monitor Arm,,White Mulberry
-173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5W4TCP,42.2017,142,5,2135.08,1,1,L0_ads_api,FBA79478,WM-HA1M-BK,Monitor Arm,Monitor Arm,,White Mulberry
-173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5YTQZV,42.2017,142,5,2135.08,1,1,L0_ads_api,FBA79479,WM-HA2M-BK,Monitor Arm,Monitor Arm,,White Mulberry
-173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP32F346,42.2017,142,5,2135.08,1,1,L0_ads_api,FBA79617,HDWF1ML,Monitor Arm,Monitor Arm,,White Mulberry
-173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP2Z5DQ9,42.2017,142,5,2135.08,1,1,L0_ads_api,FBA79615,VLMS1ML,Monitor Arm,Monitor Arm,,White Mulberry
-204133330911082,WM- SBV- Monitor Arm- Product Collection- Phrase,White Mulberry,,13618.1,164195,695,52765.18,22,21,L5_campaign_kw,,,,,,White Mulberry
-218472650348824,White Mulberry Monitor Arm-B0DB5VG39T-CT-SBV,White Mulberry,B0DB5VG39T,3917.75,29536,420,11840.82,6,6,L1_asin,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,White Mulberry
-333757065487521,WM-SBV-Gas Spring MA- B0DB5VG39T- Phrase,White Mulberry,B0DB5VG39T,10502.51,76667,757,23042.37,10,10,L0_ads_api,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,White Mulberry
-375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0CPFS24ML,681.6767,6255,229,17031.65,3,3,L0_ads_api,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,Cambium Retail Private Limited
-375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0DQ51R95T,681.6767,6255,229,17031.65,3,3,L0_ads_api,FBA79661,WM-MODL-BK,Desk-Adjustable,Motorized,,Cambium Retail Private Limited
-375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0BFVMDJ2K,681.6767,6255,229,17031.65,3,3,L0_ads_api,FBA76417,WM-LOD-WH,Desk,L-Shaped Desk,,Cambium Retail Private Limited
+campaignId,campaignName,brand,asin,sku,model,category_l0,category_l1,category_l2,spend,impressions,clicks,attributed_sales,units_sold,ams_orders,method,ad_account
+73308450213812,Camb- SBV- B0CPFS24ML-Branded,White Mulberry,B0CPFS24ML,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,879.32,55463,62,0.0,0,0,L1_asin,Cambium Retail Private Limited
+140364686425448,Camb-SP-Zshape-B0CPFS24ML- SBV- Phrase,White Mulberry,B0CPFS24ML,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,6226.63,179792,639,28810.18,4,4,L1_asin,Cambium Retail Private Limited
+163877499751390,SB-L shape-Multi Asin- KT- phrase,White Mulberry,,,,,,,7601.46,168813,813,55794.11,8,8,L6_account,Cambium Retail Private Limited
+170478157935449,WM-SBV-Gas Spring MA- B0DB5VG39T- BM,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,1330.69,7316,81,0.0,0,0,L1_asin,White Mulberry
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api,White Mulberry
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5VVPSB,FBA79477,WM-GS2M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api,White Mulberry
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5W4TCP,FBA79478,WM-HA1M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api,White Mulberry
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DB5YTQZV,FBA79479,WM-HA2M-BK,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api,White Mulberry
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP32F346,FBA79617,HDWF1ML,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api,White Mulberry
+173044652570154,WM-SB-Monitor Arms-Branded,White Mulberry,B0DP2Z5DQ9,FBA79615,VLMS1ML,Monitor Arm,Monitor Arm,,42.2017,142,5,2135.08,1,1,L0_ads_api,White Mulberry
+204133330911082,WM- SBV- Monitor Arm- Product Collection- Phrase,White Mulberry,,,,,,,13618.1,164195,695,52765.18,22,21,L5_campaign_kw,White Mulberry
+218472650348824,White Mulberry Monitor Arm-B0DB5VG39T-CT-SBV,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,3917.75,29536,420,11840.82,6,6,L1_asin,White Mulberry
+333757065487521,WM-SBV-Gas Spring MA- B0DB5VG39T- Phrase,White Mulberry,B0DB5VG39T,FBA79476,WM-GS1M-BK,Monitor Arm,Monitor Arm,,10502.51,76667,757,23042.37,10,10,L0_ads_api,White Mulberry
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0CPFS24ML,FBA79167,WM-GD07-CB,Desk,Gaming Desk,,681.6767,6255,229,17031.65,3,3,L0_ads_api,Cambium Retail Private Limited
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0DQ51R95T,FBA79661,WM-MODL-BK,Desk-Adjustable,Motorized,,681.6767,6255,229,17031.65,3,3,L0_ads_api,Cambium Retail Private Limited
+375170166706435,Camb-SB-Multiple Asin- Product collection- exact /Reach,White Mulberry,B0BFVMDJ2K,FBA76417,WM-LOD-WH,Desk,L-Shaped Desk,,681.6767,6255,229,17031.65,3,3,L0_ads_api,Cambium Retail Private Limited

@@ -7,7 +7,7 @@ B0B4G1HPL5,FBA75692,Audio Array,AM-C11,Microphone Dynamic,USB/XLR Dynamic Mic,,5
 B0B4G59Y8W,FBA75689,Audio Array,AM-W13,Microphone Wireless Handheld,Wireless Microphone,,26,43750.0,26,0.0,7,1p Sales,Aug26,2026-08-01,2026-08-31
 B0B4G5JG4P,FBA75691,Audio Array,AM-W14,Microphone Wireless Handheld,Wireless Microphone,,59,295756.08,61,0.0,7,1p Sales,Aug26,2026-08-01,2026-08-31
 B0B4G5ZLTB,FBA75687,Audio Array,AM-W11,Microphone Wireless Lapel,Wireless Microphone,,0,0.0,1,0.0,1,1p Sales,Aug26,2026-08-01,2026-08-31
-B0B4G763WS,FBA75688,Audio Array,AM-W12,Microphone Wireless Handheld,Wireless Microphone,,39,125543.21,37,0.0,6,1p Sales,Aug26,2026-08-01,2026-08-31
+B0B4G763WS,FBA75688,Audio Array,AM-W12,Microphone Wireless Handheld,Wireless Microphone,,39,125543.21,37,0.0,7,1p Sales,Aug26,2026-08-01,2026-08-31
 B0B4G7VWXD,FBA75684,Audio Array,AA-04,Microphone Accessories,Accessories,,50,70307.74,50,0.0,5,1p Sales,Aug26,2026-08-01,2026-08-31
 B0B4G8PH2P,FBA75678,Audio Array,AA-01,Microphone Accessories,Accessories,,18,31866.1,18,0.0,3,1p Sales,Aug26,2026-08-01,2026-08-31
 B0B4G8ZB64,FBA75675,Audio Array,AM-C3,Microphone Dynamic,Vocal Microphone,,47,38374.6,47,0.0,5,1p Sales,Aug26,2026-08-01,2026-08-31
@@ -42,7 +42,7 @@ B0CJR76Y7G,FBA79064,Audio Array,AA-25,Microphone Accessories,Accessories,,23,161
 B0CKHVHVQ1,FBA79005,Audio Array,AM-W45,Microphone Conference,Wireless Conference Microphone,,354,1562530.97,356,0.0,33,1p Sales,Aug26,2026-08-01,2026-08-31
 B0CM6NTWBP,FBA79103,Audio Array,AI-10,Audio Interface,Audio Interface,,55,138967.8,56,0.0,18,1p Sales,Aug26,2026-08-01,2026-08-31
 B0CM6NVLT9,FBA79104,Audio Array,AI-11,Audio Interface,Audio Interface,,139,184046.98,138,0.0,30,1p Sales,Aug26,2026-08-01,2026-08-31
-B0CM6WH4ZT,FBA79105,Audio Array,AI-12,Audio Interface,Audio Interface,,82,93633.79,80,0.0,34,1p Sales,Aug26,2026-08-01,2026-08-31
+B0CM6WH4ZT,FBA79105,Audio Array,AI-12,Audio Interface,Audio Interface,,82,93633.79,80,0.0,35,1p Sales,Aug26,2026-08-01,2026-08-31
 B0CM9HYVDM,FBA79109,Audio Array,AM-W18,Speaker Karaoke,Microphone with Speaker,,42,41899.91,42,0.0,6,1p Sales,Aug26,2026-08-01,2026-08-31
 B0CM9KJZWQ,FBA79106,Audio Array,AM-C44,Microphone Dynamic,Dynamic Microphone,,11,44351.66,11,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
 B0CM9L1QZG,FBA79108,Audio Array,AM-W16,Microphone Wireless Lapel,Wireless Lapel Microphone,,13,14438.14,13,0.0,7,1p Sales,Aug26,2026-08-01,2026-08-31
@@ -83,13 +83,13 @@ B0FLYHJ6DK,FBK79009,Audio Array,AM-C41,Microphone Condenser,USB Microphone Kit -
 B0FLYJFC22,FBK79010,Audio Array,AM-C42,Microphone Condenser,USB Microphone Kit - Boomarm,,1,1863.56,1,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FN7B3KWS,FBA79845,Audio Array,UB-02 (AM-S1 + AA-21),Bundles,UB-02,,9,87704.23,9,0.0,3,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FN7C25VS,FBA79846,Audio Array,AM-C11X Pro,Microphone Dynamic,Microphone Dynamic,,1,3211.02,1,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
-B0FN7FYZM3,FBA79847,Audio Array,PB-09 (AM-C45 + AI-06 + AA-05),Bundles,PB-09,,3,9942.99,3,0.0,1,1p Sales,Aug26,2026-08-01,2026-08-31
+B0FN7FYZM3,FBA79847,Audio Array,PB-09 (AM-C45 + AI-06 + AA-05),Bundles,PB-09,,3,9942.99,3,0.0,2,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FPR7VFCH,FBA79815,Audio Array,AM-W19,Microphone Wireless Lapel,Wireless Lapel Microphone,,3,4912.71,2,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FPR962YS,FBA79816,Audio Array,AM-W22,Microphone Wireless Lapel,Wireless Lapel Microphone,,11,29939.82,10,0.0,1,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FQBTRM28,FBA79841,Audio Array,AH-60-BL,Headphone,Headphone,,42,70040.66,41,0.0,10,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FQBWV1ST,FBA79840,Audio Array,AH-60-RD,Headphone,Headphone,,20,33016.95,21,0.0,2,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FQBX8J17,FBA79838,Audio Array,AH-40 SL,DJ Headphone,DJ Headphone,,105,105567.08,101,0.0,14,1p Sales,Aug26,2026-08-01,2026-08-31
-B0FQBXS6Y2,FBA79839,Audio Array,AH-45 BK,DJ Headphone,DJ Headphone,,297,366373.97,302,0.0,41,1p Sales,Aug26,2026-08-01,2026-08-31
+B0FQBXS6Y2,FBA79839,Audio Array,AH-45 BK,DJ Headphone,DJ Headphone,,297,366373.97,302,0.0,42,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FQJWWDVK,FBA79820,Audio Array,AC-3XL,Microphone Accessories,Accessories,,19,7100.03,19,0.0,6,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FTVQQVDC,FBA79904,Audio Array,PB-10 (AM-C2+AI-04+AH-60-BL),Bundles,PB-10,,41,340962.66,41,0.0,3,1p Sales,Aug26,2026-08-01,2026-08-31
 B0FTVS34SD,FBA79907,Audio Array,PB-13 (AM-C43+AH-40-SL+AI-11),Bundles,PB-13,,4,17115.26,3,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
@@ -105,7 +105,7 @@ B0G3Q517Y2,FBA79957,Audio Array,AM-W23,Microphone Wireless Lapel,Wireless Lapel 
 B0G3Q59X8C,FBA79958,Audio Array,AM-W24,Microphone Wireless Lapel,Wireless Lapel Microphone,,30,42157.48,30,0.0,12,1p Sales,Aug26,2026-08-01,2026-08-31
 B0G4DNF8RZ,FBA79842,Audio Array,AM-C48,Microphone Dynamic,Microphone Dynamic,,34,92025.41,34,0.0,1,1p Sales,Aug26,2026-08-01,2026-08-31
 B0G53CB72D,FBA79963,Audio Array,AM-Pro8,Audio Mixer,8 channels Mixer,,3,35514.57,3,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
-B0G53H49BS,FBA79961,Audio Array,AI-13,Audio Mixer,4 channels Mixer,,325,755667.05,316,0.0,78,1p Sales,Aug26,2026-08-01,2026-08-31
+B0G53H49BS,FBA79961,Audio Array,AI-13,Audio Mixer,4 channels Mixer,,325,755667.05,316,0.0,80,1p Sales,Aug26,2026-08-01,2026-08-31
 B0G53KWRVW,FBA79966,Audio Array,AM-Mix10,Audio Mixer,10 channels mixer,,45,369836.47,43,0.0,11,1p Sales,Aug26,2026-08-01,2026-08-31
 B0G53KWRWH,FBA79964,Audio Array,AM-Pro12,Audio Mixer,12 channels Mixer,,1,19490.68,1,0.0,2,1p Sales,Aug26,2026-08-01,2026-08-31
 B0G53LZNY3,FBA79962,Audio Array,BE-4T,Audio Mixer,4 channels mixer with OTG,,16,70611.03,15,0.0,3,1p Sales,Aug26,2026-08-01,2026-08-31
@@ -127,4 +127,4 @@ B0GW92316G,FBA80004,Audio Array,AM-W36 Pro,Microphone Wireless Handheld,Dual UHF
 B0GW92TTMS,FBA80003,Audio Array,AM-W32 Pro,Microphone Wireless Handheld,Dual UHF Wireless Microphone With Receiver,,2,8896.6,2,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
 B0GW96SHSK,FBA80002,Audio Array,AM-W33 Pro,Microphone Wireless Handheld,Single UHF Wireless Microphone With Receiver,,3,7624.58,3,0.0,0,1p Sales,Aug26,2026-08-01,2026-08-31
 B0GXP97CZG,FBA80084,Audio Array,BE-4,Audio Mixer,04 channels Mixer,,62,195316.94,57,0.0,17,1p Sales,Aug26,2026-08-01,2026-08-31
-B0GXPBHDRF,FBA80085,Audio Array,M6,Audio Mixer,06 channels Mixer,,89,438220.5,89,0.0,25,1p Sales,Aug26,2026-08-01,2026-08-31
+B0GXPBHDRF,FBA80085,Audio Array,M6,Audio Mixer,06 channels Mixer,,89,438220.5,89,0.0,26,1p Sales,Aug26,2026-08-01,2026-08-31

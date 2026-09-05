@@ -302,6 +302,74 @@ select.full:focus{border-color:var(--blue);}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px;}
 
 .hidden{display:none!important;}
+
+/* === v3 design layer (from margin-calculator-v3.html, 2026-09-05) ======
+   Additive restyle: every legacy id/handler stays, this only changes the
+   look and lays the page out as inputs-left / sticky-results-right.    */
+:root{
+  --v3-bg:#f7f7f8; --v3-surface:#fff; --v3-line:#e7e8ea; --v3-line2:#cfd2d6;
+  --v3-ink:#17181c; --v3-ink2:#5c606a; --v3-ink3:#8f939c;
+  --v3-navy:#1f3a5f; --v3-navy2:#eaf0f8; --v3-green:#1f7a45;
+  --v3-amber:#9a6b00; --v3-red:#b3261e;
+}
+body{background:var(--v3-bg);color:var(--v3-ink);
+     font-family:'Inter','IBM Plex Sans',system-ui,sans-serif;font-size:13.5px;
+     font-feature-settings:"tnum" 1;}
+.header-title,.sidebar-top{background:var(--v3-navy);}
+.card{border:1px solid var(--v3-line);border-radius:10px;box-shadow:none;}
+.card-title{font-size:12px;letter-spacing:.2px;color:var(--v3-ink);}
+.card-title-dot{background:var(--v3-navy)!important;width:6px;height:6px;border-radius:50%;}
+.s-row input,.pi-input,select.full,.search-input{border:1px solid var(--v3-line2);border-radius:6px;}
+.s-row input:focus,.pi-input:focus,select.full:focus,.search-input:focus{
+  outline:2px solid var(--v3-navy);outline-offset:1px;border-color:var(--v3-navy);box-shadow:none;}
+.sidebar-btn:hover{background:var(--v3-navy);border-color:var(--v3-navy);}
+
+.mc-grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start;}
+.mc-left{display:flex;flex-direction:column;gap:9px;min-width:0;}
+@media (max-width:1200px){.mc-grid{grid-template-columns:minmax(0,1fr);}}
+
+.mc-res{position:sticky;top:14px;background:var(--v3-surface);
+        border:1px solid var(--v3-line);border-radius:10px;padding:16px 18px;}
+.mc-res small{display:block;color:var(--v3-ink2);font-size:12px;}
+.res-big{font-size:38px;line-height:1;font-weight:500;letter-spacing:-.03em;
+         margin:5px 0 3px;color:var(--v3-green);font-variant-numeric:tabular-nums;}
+.res-big em{font-style:normal;font-size:15px;font-weight:400;color:var(--v3-ink3);
+            margin-left:8px;letter-spacing:0;}
+.res-big.neg{color:var(--v3-red);}
+.res-move{font-size:12.5px;color:var(--v3-ink2);margin-bottom:13px;display:flex;
+          gap:10px;align-items:center;flex-wrap:wrap;}
+.res-move b{color:var(--v3-ink);font-weight:500;}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--v3-green);}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+.pill.amber{color:var(--v3-amber);} .pill.red{color:var(--v3-red);}
+
+.scn{display:flex;gap:4px;border:1px solid var(--v3-line2);border-radius:6px;
+     padding:3px;margin-bottom:14px;}
+.scn button{flex:1;border:0;background:none;padding:5px 0;border-radius:4px;font-size:11.5px;
+  color:var(--v3-ink2);cursor:pointer;display:flex;flex-direction:column;align-items:center;
+  gap:1px;font-family:inherit;}
+.scn button b{font-weight:500;color:var(--v3-ink);font-variant-numeric:tabular-nums;font-size:12px;}
+.scn button.on{background:var(--v3-navy2);color:var(--v3-navy);}
+.scn button.on b{color:var(--v3-navy);}
+.scn button.na{cursor:not-allowed;} .scn button.na b{color:var(--v3-ink3);font-weight:400;}
+
+.wf{margin:0;padding:0;list-style:none;border-top:1px solid var(--v3-line);
+    font-variant-numeric:tabular-nums;}
+.wf li{display:grid;grid-template-columns:1fr 82px;align-items:center;padding:6px 0;
+       border-bottom:1px solid var(--v3-line);font-size:12.5px;color:var(--v3-ink2);}
+.wf li .lab{display:flex;flex-direction:column;gap:3px;}
+.wf li .lab span:not(.bar){font-size:11px;color:var(--v3-ink3);}
+.wf li .bar{height:4px;border-radius:2px;background:var(--v3-line2);width:0;}
+.wf li .v{text-align:right;color:var(--v3-ink);}
+.wf li.tot{color:var(--v3-ink);font-weight:500;} .wf li.tot .v{font-weight:500;}
+.wf li.neg .v::before{content:"\2013";margin-right:2px;color:var(--v3-ink3);}
+.wf li.gm .v{color:var(--v3-green);} .wf li.gm .bar{background:var(--v3-green);}
+.wf li.gm.negv .v{color:var(--v3-red);} .wf li.gm.negv .bar{background:var(--v3-red);}
+.wf li .bar.c1{background:#5c606a}.wf li .bar.c2{background:#8f939c}
+.wf li .bar.c3{background:#b5b8bf}.wf li .bar.c4{background:#cfd2d6}
+.res-ft{display:flex;justify-content:space-between;margin-top:11px;font-size:12px;color:var(--v3-ink3);}
+.res-ft b{color:var(--v3-ink2);font-weight:500;}
+
 </style>
 </head>
 
@@ -385,6 +453,8 @@ select.full:focus{border-color:var(--blue);}
     </div>
 
     <div class="content">
+      <div class="mc-grid">
+      <div class="mc-left">
 
       <!-- UPLOAD -->
       <div class="card">
@@ -416,31 +486,6 @@ select.full:focus{border-color:var(--blue);}
               <option value="nexlev">NexLev</option>
               <option value="white_mulberry">White Mulberry</option>
             </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- KPI BAR -->
-      <div class="kpi-bar">
-        <div class="kpi-cell"><div class="kpi-label">DP</div><div class="kpi-val" id="m_dp">—</div></div>
-        <div class="kpi-cell"><div class="kpi-label">Gross Margin</div><div class="kpi-val" id="m_gross">—</div></div>
-        <div class="kpi-cell"><div class="kpi-label">Gross %</div><div class="kpi-val" id="m_gross_pct">—</div></div>
-        <div class="kpi-cell"><div class="kpi-label">Net Margin</div><div class="kpi-val" id="m_net">—</div></div>
-        <div class="kpi-cell"><div class="kpi-label">Net %</div><div class="kpi-val" id="m_net_pct">—</div></div>
-      </div>
-
-      <!-- PRICING REFERENCE -->
-      <div class="card">
-        <div class="card-head">
-          <div class="card-title"><span class="card-title-dot" style="background:var(--amber);"></span>Pricing Reference</div>
-        </div>
-        <div class="card-body">
-          <div class="price-strip">
-            <div class="price-cell"><div class="price-cell-label">BAU SP / MOP</div><div class="price-cell-val" id="pr_bau">—</div></div>
-            <div class="price-cell"><div class="price-cell-label">Deals</div><div class="price-cell-val" id="pr_deals">—</div></div>
-            <div class="price-cell"><div class="price-cell-label">Art Deals</div><div class="price-cell-val" id="pr_art">—</div></div>
-            <div class="price-cell"><div class="price-cell-label">MOP B2B</div><div class="price-cell-val" id="pr_b2b">—</div></div>
-            <div class="price-cell"><div class="price-cell-label">MOP D2C</div><div class="price-cell-val" id="pr_d2c">—</div></div>
           </div>
         </div>
       </div>
@@ -600,6 +645,39 @@ select.full:focus{border-color:var(--blue);}
         </div>
       </div>
 
+      </div><!-- /mc-left -->
+
+      <aside class="mc-res">
+        <small>Net margin per unit <span id="res_at"></span></small>
+        <div class="res-big"><span id="m_net">—</span><em id="m_net_pct">—</em></div>
+        <div class="res-move">
+          <span class="pill" id="res_pill">—</span>
+          <span>Gross <b id="m_gross">—</b> · <b id="m_gross_pct">—</b></span>
+        </div>
+
+        <!-- Scenario prices from the master sheet — click one to price at it -->
+        <div class="scn" id="scn">
+          <button type="button" data-t="BAU"><span>BAU</span><b id="pr_bau">—</b></button>
+          <button type="button" data-t="Deal"><span>Deal</span><b id="pr_deals">—</b></button>
+          <button type="button" data-t="ART"><span>ART</span><b id="pr_art">—</b></button>
+          <button type="button" data-t="B2B"><span>B2B</span><b id="pr_b2b">—</b></button>
+          <button type="button" data-t="D2C"><span>D2C</span><b id="pr_d2c">—</b></button>
+        </div>
+
+        <ul class="wf">
+          <li class="tot"><div class="lab">Selling price</div><div class="v" id="wf_sp">—</div></li>
+          <li class="neg"><div class="lab">GST<span id="wf_gst_lab"></span><span class="bar" id="wf_gst_bar"></span></div><div class="v" id="wf_gst">—</div></li>
+          <li class="tot"><div class="lab">Net of tax</div><div class="v" id="wf_nettax">—</div></li>
+          <li class="neg"><div class="lab">Procurement<span>FOB, freight, duty, surcharge</span><span class="bar c1" id="wf_dp_bar"></span></div><div class="v" id="wf_dp">—</div></li>
+          <li class="gm"><div class="lab">Gross margin<span class="bar" id="wf_gm_bar"></span></div><div class="v" id="wf_gm">—</div></li>
+          <li class="neg"><div class="lab">Marketplace<span>referral, closing, fulfilment, AMS</span><span class="bar c2" id="wf_mp_bar"></span></div><div class="v" id="wf_mp">—</div></li>
+          <li class="neg"><div class="lab">Marketing &amp; returns<span>coupon, SMM, returns loss</span><span class="bar c3" id="wf_ox_bar"></span></div><div class="v" id="wf_ox">—</div></li>
+          <li class="neg"><div class="lab">Overhead &amp; finance<span id="wf_oh_lab"></span><span class="bar c4" id="wf_oh_bar"></span></div><div class="v" id="wf_oh">—</div></li>
+          <li class="tot gm"><div class="lab">Net margin</div><div class="v" id="wf_net">—</div></li>
+        </ul>
+        <div class="res-ft"><span>Break-even selling price <b id="wf_be">—</b></span><span>DP <b id="m_dp">—</b></span></div>
+      </aside>
+      </div><!-- /mc-grid -->
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /layout -->
@@ -635,6 +713,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const b=document.getElementById('live_btn');if(b)b.onclick=pullLive;
   const a=document.getElementById('live_apply');if(a)a.onclick=applyLive;
   const t=document.getElementById('tacos_apply');if(t)t.onclick=applyTacos;
+  bindScenarios();
 });
 function filterSelect(inputId,selectId,allValues){
   const q=document.getElementById(inputId).value.toLowerCase();
@@ -879,6 +958,58 @@ function mapInput(id,col){
   const el=document.getElementById(id);el.value=r2(STATE.row[col]??0);
   el.oninput=()=>{if(window.CALC_MODE==='audio_array_ccb'){renderCBCenterDynamic();applyCBUIDifferences();backendCalculate();triggerAfterParamUpdate();}else{recalc();}};
 }
+
+// -- v3 results panel: waterfall + scenario chips -------------------------
+// Fed by recalc()'s own numbers, so the panel can never disagree with the
+// KPIs it sits next to.
+function renderWaterfall(d){
+  const money=v=>Number(v||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const put=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=money(v);};
+  const bar=(id,val,base)=>{const el=document.getElementById(id);
+    if(el)el.style.width=Math.max(0,Math.min(100,base>0?Math.abs(val)/base*100:0)).toFixed(1)+'%';};
+  put('wf_sp',d.sp);put('wf_gst',d.gst);put('wf_nettax',d.sp-d.gst);put('wf_dp',d.dp);
+  put('wf_gm',d.gross);put('wf_mp',d.marketplace);put('wf_ox',d.opex);
+  put('wf_oh',d.overhead);put('wf_net',d.net);
+  const g=document.getElementById('wf_gst_lab');if(g)g.textContent='at '+(d.gstPct||0).toFixed(0)+'%';
+  const o=document.getElementById('wf_oh_lab');if(o)o.textContent='overhead + finance on NLC';
+  bar('wf_gst_bar',d.gst,d.sp);bar('wf_dp_bar',d.dp,d.sp);bar('wf_gm_bar',d.gross,d.sp);
+  bar('wf_mp_bar',d.marketplace,d.sp);bar('wf_ox_bar',d.opex,d.sp);bar('wf_oh_bar',d.overhead,d.sp);
+  const gmLi=document.getElementById('wf_gm');
+  if(gmLi&&gmLi.closest('li'))gmLi.closest('li').classList.toggle('negv',d.gross<0);
+  const netLi=document.getElementById('wf_net');
+  if(netLi&&netLi.closest('li'))netLi.closest('li').classList.toggle('negv',d.net<0);
+  const big=document.querySelector('.res-big');if(big)big.classList.toggle('neg',d.net<0);
+  const at=document.getElementById('res_at');
+  if(at)at.textContent=d.sp?('at \u20b9'+money(d.sp)):'';
+  const pill=document.getElementById('res_pill');
+  if(pill){const pct=d.sp?d.net/d.sp*100:0;
+    pill.className='pill'+(pct>=15?'':(pct>=0?' amber':' red'));
+    pill.textContent=(pct>=15?'Healthy':(pct>=0?'Thin':'Loss-making'))+' \u00b7 '+pct.toFixed(1)+'% net';}
+  const be=document.getElementById('wf_be');
+  if(be)be.textContent=(d.rateSum<1&&d.fixed>=0)?('\u20b9'+money(d.fixed/(1-d.rateSum))):'\u2014';
+}
+function bindScenarios(){
+  const box=document.getElementById('scn');if(!box||box.dataset.bound==='1')return;
+  box.dataset.bound='1';
+  box.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{
+    const b=btn.querySelector('b');
+    const v=parseFloat(String(b&&b.textContent||'').replace(/[^0-9.]/g,''));
+    if(!(v>0))return;                       // no price for this scenario in the master
+    document.getElementById('bau_sp').value=v.toFixed(2);
+    box.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+    btn.classList.add('on');
+    if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}
+    else{recalc();}
+    refreshFees();                          // fees follow the new price
+  }));
+}
+function markScenarioAvailability(){
+  document.querySelectorAll('#scn button').forEach(btn=>{
+    const b=btn.querySelector('b');
+    const v=parseFloat(String(b&&b.textContent||'').replace(/[^0-9.]/g,''));
+    btn.classList.toggle('na',!(v>0));
+  });
+}
 function recalc(){
   const usd=num('usd_rate'),fob=num('fob')*usd,fr=num('freight')*usd;
   const duty=(fob+fr)*num('import_duty')/100,surcharge=duty*num('surcharge_pct')/100;
@@ -907,6 +1038,16 @@ function recalc(){
     ['Grand Total','All above',total]
   ];
   const grandTotal=rows[rows.length-1][2]||0;
+  // v3 panel — reuses the numbers computed immediately above
+  const _marketplace=referral+num('fixed_closing')+num('fulfillment_fee')+ams;
+  const _opex=coup+smm+returns;
+  // break-even: rates that scale with SP vs costs that do not
+  const _rateSum=(gstp>0?1-1/(1+gstp/100):0)+num('referral_pct')/100+num('ams_pct')/100
+                 +num('coupon_pct')/100+num('returns_pct')/100+smmPct/100;
+  const _fixed=dp+num('fixed_closing')+num('fulfillment_fee')+bo+fc+num('coupon_flat');
+  renderWaterfall({sp,gst,gstPct:gstp,dp,gross,marketplace:_marketplace,opex:_opex,
+                   overhead:bo+fc,net,rateSum:_rateSum,fixed:_fixed});
+  markScenarioAvailability();
   document.getElementById('cost_rows').innerHTML=rows.map(r=>{
     const pct=grandTotal>0?(r[2]/grandTotal*100):0;
     return`<tr><td>${r[0]}</td><td style="color:var(--text3);">${r[1]}</td><td class="mono">${r[2].toLocaleString(undefined,{maximumFractionDigits:2})}</td><td><span class="pct-pill">${pct.toFixed(1)}%</span></td></tr>`;

@@ -30,6 +30,15 @@ until the operator confirms the merged copy, then suspend (never delete).
    `data/ams_weekly_data/processed_ads/business_ads_joined.csv` to quote the
    same actual TACOS the AMS Trend page shows — a second derivation would
    drift from it. Never write to it from margin.
+   Sanctioned in the OTHER direction (2026-09-05, operator: "weekly should
+   take margin data from margin tool directly"): the weekly ETL
+   `weekly_app/etl/margin_snapshot.py` imports the margin tool's calculator
+   engine (`margin_src.services.calculator_factory`) and reads its brand
+   masters under `margin_src/input/` to build margin_snapshot.csv — ETL-time
+   only, never at request time. The engine is the single source of margin
+   math; a parallel derivation in weekly is what this replaced (314/334 SKUs
+   had drifted in the old manually-exported snapshot). Legacy
+   `data/raw/margin/*.xlsx` is fallback only.
 3. **Python namespace.** `sales_dash` ships a package named `app`, reachable
    because `sales_dash/` is APPENDED to sys.path. Never create a top-level
    `app/` module or package in this repo, and never prepend to sys.path.

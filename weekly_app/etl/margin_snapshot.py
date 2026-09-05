@@ -77,6 +77,89 @@ RENAME = {
 }
 
 
+# ── PRIMARY SOURCE since 2026-09-05: the MARGIN TOOL (operator: "weekly
+# should take margin data from margin tool directly", refreshed weekly).
+# The brand master sheets under margin_src/input/ are the live, edited-in-
+# browser masters, and margins are RECOMPUTED here through the margin
+# tool's own calculator engine — so this snapshot always equals what
+# /margin shows, instead of a manually exported xlsx going stale in
+# data/raw/margin/. That folder remains the FALLBACK if margin_src is
+# unavailable (never below yesterday's behaviour). Cross-lane import is
+# sanctioned in CLAUDE.md #2 (single source of margin truth).
+MARGIN_TOOL_MASTERS = {
+    "Audio Array":    ROOT / "margin_src" / "input" / "Audio Array" / "Audio Array Master Sheet.xlsx",
+    "Nexlev":         ROOT / "margin_src" / "input" / "Nexlev" / "NexLev Master Sheet.xlsx",
+    "White Mulberry": ROOT / "margin_src" / "input" / "White Mulberry" / "WM Master Sheet.xlsx",
+}
+
+
+def _global_params(xls: pd.ExcelFile) -> dict:
+    """Exactly load_brand()'s Edit-Parameters parsing (margin_src/router.py)."""
+    raw = pd.read_excel(xls, sheet_name="Edit Parameters", header=None)
+    p = raw.iloc[:, :2].copy()
+    p.columns = ["parameter", "value"]
+    p["parameter"] = p["parameter"].astype(str).str.strip()
+    p["value"] = pd.to_numeric(
+        p["value"].astype(str)
+        .str.replace("₹", "", regex=False).str.replace("%", "", regex=False)
+        .str.replace(",", "", regex=False).str.strip(), errors="coerce")
+
+    def _pct(name, default):
+        v = p.loc[p["parameter"] == name, "value"]
+        if v.empty:
+            return default
+        x = float(v.iloc[0])
+        return x * 100 if x <= 1 else x
+
+    def _val(name, default):
+        v = p.loc[p["parameter"] == name, "value"]
+        return float(v.iloc[0]) if not v.empty else default
+
+    return {
+        "usd_rate": _val("Dollar Conversion Rate", 88.0),
+        "surcharge_pct": _pct("Surcharge", 10.0),
+        "gst_default_pct": _pct("GST %", 18.0),
+        "smm_pct": 0.0,
+        "overhead_pct": _pct("Business Overhead %", 5.0),
+        "finance_pct": _pct("Cost of Finance %", 3.0),
+    }
+
+
+def _read_from_margin_tool(brand: str, path: Path) -> pd.DataFrame:
+    """One brand's rows, margins recomputed through the margin tool engine."""
+    from margin_src.services.calculator_factory import get_calculator
+
+    xls = pd.ExcelFile(path)
+    df = pd.read_excel(xls, sheet_name="Master")
+    gp = _global_params(xls)
+    df.columns = df.columns.str.strip()
+    df["SKU"] = df["SKU"].astype(str).str.strip()
+    df["Model"] = df["Model"].astype(str).str.strip()
+    if "SMM" in df.columns and "BAU Deal SP" in df.columns:
+        df["SMM"] = df["SMM"].fillna(0)
+        df["SMM Cost"] = (df["SMM"] / 100) * df["BAU Deal SP"]
+    else:
+        df["SMM"] = 0
+        df["SMM Cost"] = 0
+
+    calc = get_calculator("cambium")
+    rows = [calc.calculate_single(r, gp) for _, r in df.iterrows()]
+    cd = pd.DataFrame(rows)
+    df["DP"] = cd["dp"]
+    df["Gross Margin"] = cd["gross_margin"]
+    df["Gross Margin %"] = cd["gross_margin_pct"]
+    df["Net Margin"] = cd["net_margin"]
+    df["Net Margin %"] = cd["net_margin_pct"]
+
+    available = [c for c in KEEP_COLS if c in df.columns]
+    out = df[available].copy()
+    for c in set(KEEP_COLS) - set(available):
+        out[c] = None
+    out = out[KEEP_COLS].rename(columns=RENAME)
+    out["brand"] = brand
+    return out
+
+
 def _read_one(path: Path) -> pd.DataFrame:
     df = read_excel_safe(path, sheet_name=SHEET_NAME)
     available = [c for c in KEEP_COLS if c in df.columns]
@@ -133,27 +216,34 @@ def _build_inbound_lookup() -> tuple[dict, dict]:
 
 
 def run_margin_etl() -> int:
-    if not RAW_DIR.exists():
-        print(f"⚠ No margin folder at {RAW_DIR} — skipping")
-        return 0
-
-    files = sorted(RAW_DIR.glob("*.xlsx"))
-    if not files:
-        print(f"⚠ {RAW_DIR} is empty — skipping")
-        return 0
-
     frames = []
-    for f in files:
-        if f.name.startswith("~$"):           # Excel lock files
+
+    # PRIMARY: margin tool masters + engine (live, browser-edited source)
+    for brand, path in MARGIN_TOOL_MASTERS.items():
+        if not path.exists():
+            print(f"  ⚠ margin tool master missing for {brand}: {path.name}")
             continue
-        print(f"📥 Reading {f.name}…")
+        print(f"📥 {brand}: margin tool master ({path.name}) — engine recompute")
         try:
-            frames.append(_read_one(f))
+            frames.append(_read_from_margin_tool(brand, path))
         except Exception as exc:
-            print(f"  ❌ {f.name} failed: {exc}")
+            print(f"  ❌ {brand} via margin tool failed: {exc}")
+
+    # FALLBACK: the legacy manually-exported xlsx drops, only for brands the
+    # margin tool didn't cover this run.
+    covered = {f["brand"].iloc[0] for f in frames if len(f)}
+    if RAW_DIR.exists():
+        for f in sorted(RAW_DIR.glob("*.xlsx")):
+            if f.name.startswith("~$") or f.stem in covered:
+                continue
+            print(f"📥 Reading legacy export {f.name}…")
+            try:
+                frames.append(_read_one(f))
+            except Exception as exc:
+                print(f"  ❌ {f.name} failed: {exc}")
 
     if not frames:
-        print("⚠ No usable files — exiting")
+        print("⚠ No usable margin sources — exiting")
         return 0
 
     out = pd.concat(frames, ignore_index=True)

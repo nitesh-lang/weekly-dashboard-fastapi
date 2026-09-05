@@ -750,12 +750,12 @@ function loadRow(){
   set('pr_art',STATE.row['Art deals']||0);set('pr_b2b',STATE.row['MOP(B2B)']||0);set('pr_d2c',STATE.row['MOP(D2C)']||0);
   document.getElementById('smm_override').checked=false;
   if(STATE.row['GST Slab']!==null&&STATE.row['GST Slab']!==undefined&&STATE.row['GST Slab']!=='')
-    document.getElementById('gst_default_pct').value=STATE.row['GST Slab'];
+    document.getElementById('gst_default_pct').value=r2(STATE.row['GST Slab']);
   ORIGINAL_ROW=JSON.parse(JSON.stringify({fob:num('fob'),freight:num('freight'),cbm:num('cbm'),import_duty:num('import_duty'),bau_sp:num('bau_sp'),mrp:num('mrp'),fixed_closing:num('fixed_closing'),referral_pct:num('referral_pct'),ams_pct:num('ams_pct'),coupon_pct:num('coupon_pct'),coupon_flat:num('coupon_flat'),returns_pct:num('returns_pct'),fulfillment_fee:num('fulfillment_fee'),additional_cost:num('additional_cost'),smm_pct:document.getElementById('smm_pct').value,gst_default_pct:document.getElementById('gst_default_pct').value}));
   if(window.CALC_MODE==='audio_array_ccb'){
-    Object.keys(window.cbMap).forEach(id=>{const el=document.getElementById(id);if(el&&el.dataset.bound!=="1"){el.value=STATE.row[window.cbMap[id]]??0;el.dataset.bound="1";}});
+    Object.keys(window.cbMap).forEach(id=>{const el=document.getElementById(id);if(el&&el.dataset.bound!=="1"){el.value=r2(STATE.row[window.cbMap[id]]??0);el.dataset.bound="1";}});
     renderCBCenterDynamic();applyCBUIDifferences();
-    Object.keys(window.cbMap).forEach(id=>{const el=document.getElementById(id);if(el)el.value=STATE.row[window.cbMap[id]]??0;});
+    Object.keys(window.cbMap).forEach(id=>{const el=document.getElementById(id);if(el)el.value=r2(STATE.row[window.cbMap[id]]??0);});
     backendCalculate();triggerAfterParamUpdate();
   }else{recalc();}
   loadTacos();
@@ -868,8 +868,15 @@ function applyLive(){
   if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}
   note.textContent=done.length?`Applied: ${done.join(", ")} — margin recalculated.`:"Nothing to apply.";
 }
+// Sheet values carry float noise (9513.975, 443.37374279999995). Inputs are
+// read by the operator AND fed back into recalc(), so round at 2dp on the
+// way in — displays were already 2dp, the boxes were not (operator, 2026-09-05).
+function r2(v){
+  const n=typeof v==='number'?v:parseFloat(v);
+  return (isFinite(n))?Number(n.toFixed(2)):v;
+}
 function mapInput(id,col){
-  const el=document.getElementById(id);el.value=STATE.row[col]??0;
+  const el=document.getElementById(id);el.value=r2(STATE.row[col]??0);
   el.oninput=()=>{if(window.CALC_MODE==='audio_array_ccb'){renderCBCenterDynamic();applyCBUIDifferences();backendCalculate();triggerAfterParamUpdate();}else{recalc();}};
 }
 function recalc(){

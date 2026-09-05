@@ -45,6 +45,13 @@ _token_cache: tuple[float, str] | None = None
 _lock = threading.Lock()
 
 
+def _prune_cache(max_entries: int = 500) -> None:
+    """Caller holds _lock. Entries are tiny dicts, but nothing on this 512MB
+    box is allowed to grow unbounded (see the AMS-Trend 502 incident)."""
+    while len(_cache) > max_entries:
+        _cache.pop(min(_cache, key=lambda k: _cache[k][0]), None)
+
+
 class LivePriceError(RuntimeError):
     """Anything the operator should see verbatim in the UI."""
 
@@ -254,6 +261,7 @@ def fees_only(asin: str, price: float) -> dict:
     }
     with _lock:
         _cache[ck] = (time.time(), out)
+        _prune_cache()
     return out
 
 
@@ -293,4 +301,5 @@ def lookup(asin: str, price_override: float | None = None) -> dict:
     }
     with _lock:
         _cache[ck] = (time.time(), result)
+        _prune_cache()
     return result

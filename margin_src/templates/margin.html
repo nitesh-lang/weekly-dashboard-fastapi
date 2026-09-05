@@ -367,6 +367,13 @@ body{background:var(--v3-bg);color:var(--v3-ink);
 .wf li.gm.negv .v{color:var(--v3-red);} .wf li.gm.negv .bar{background:var(--v3-red);}
 .wf li .bar.c1{background:#5c606a}.wf li .bar.c2{background:#8f939c}
 .wf li .bar.c3{background:#b5b8bf}.wf li .bar.c4{background:#cfd2d6}
+/* buttons that sit ON CARDS (btn-hdr-outline was white-on-white there) */
+.btn-card{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;
+  border:1px solid var(--v3-line2);background:var(--v3-surface);border-radius:6px;
+  cursor:pointer;font-weight:500;font-size:11.5px;color:var(--v3-ink);font-family:inherit;}
+.btn-card:hover{border-color:var(--v3-navy);color:var(--v3-navy);}
+.btn-card.p{background:var(--v3-navy);border-color:var(--v3-navy);color:#fff;}
+.btn-card.p:hover{background:#17304f;color:#fff;}
 .res-ft{display:flex;justify-content:space-between;margin-top:11px;font-size:12px;color:var(--v3-ink3);}
 .res-ft b{color:var(--v3-ink2);font-weight:500;}
 
@@ -523,7 +530,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
           </div>
           <!-- Live Amazon price + fees (SP-API competitiveSummary + feesEstimate) -->
           <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
-            <button id="live_btn" type="button" class="btn-hdr btn-hdr-outline" style="font-size:11px;">
+            <button id="live_btn" type="button" class="btn-card p">
               ⚡ Pull live price &amp; fees
             </button>
             <span id="live_note" style="font-size:11px;color:var(--text3);"></span>
@@ -538,7 +545,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
               <div><b id="lv_ful">—</b><div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">Fulfilment</div></div>
               <div><b id="lv_clo">—</b><div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">Closing</div></div>
               <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-                <button id="live_apply" type="button" class="btn-hdr btn-hdr-green" style="font-size:11px;">Apply to calculator</button>
+                <button id="live_apply" type="button" class="btn-card p">Apply to calculator</button>
               </div>
             </div>
             <div id="lv_meta" style="font-size:10px;color:#94A3B8;margin-top:6px;"></div>
@@ -550,7 +557,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
               <div id="tc_months" style="display:flex;gap:16px;flex-wrap:wrap;"></div>
               <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
                 <span id="tc_window" style="font-family:var(--mono);font-size:12px;font-weight:700;color:#6D28D9;"></span>
-                <button id="tacos_apply" type="button" class="btn-hdr btn-hdr-outline" style="font-size:11px;background:#7C3AED;border-color:#7C3AED;">Use as AMS %</button>
+                <button id="tacos_apply" type="button" class="btn-card" style="background:#7C3AED;border-color:#7C3AED;color:#fff;">Use as AMS %</button>
               </div>
             </div>
             <div id="tc_meta" style="font-size:10px;color:#94A3B8;margin-top:6px;"></div>

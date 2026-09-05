@@ -376,6 +376,12 @@ body{background:var(--v3-bg);color:var(--v3-ink);
 .btn-card.p:hover{background:#17304f;color:#fff;}
 .res-ft{display:flex;justify-content:space-between;margin-top:11px;font-size:12px;color:var(--v3-ink3);}
 .res-ft b{color:var(--v3-ink2);font-weight:500;}
+/* DP card as a slim strip (was a full-height hero number) */
+#dp_without_tax_card .card-body{padding:6px 14px;}
+#dp_without_tax_card .dp-box{padding:0;background:none;border:none;box-shadow:none;display:flex;align-items:baseline;gap:6px;}
+#dp_without_tax_card .dp-num{font-size:18px!important;font-weight:600;}
+#dp_without_tax_card .dp-unit{font-size:12px;}
+#dp_without_tax_card .card-head{padding:6px 14px;}
 
 </style>
 </head>
@@ -463,8 +469,9 @@ body{background:var(--v3-bg);color:var(--v3-ink);
       <div class="mc-grid">
       <div class="mc-left">
 
-      <!-- UPLOAD -->
-      <div class="card">
+      <!-- UPLOAD — hidden 2026-09-05 (operator): masters ship with the repo;
+           elements kept in DOM so the status/upload JS never null-crashes -->
+      <div class="card" style="display:none;">
         <div class="card-head">
           <div class="card-title"><span class="card-title-dot" style="background:var(--green);"></span>Upload Master Sheets</div>
         </div>
@@ -485,14 +492,6 @@ body{background:var(--v3-bg);color:var(--v3-ink);
               <input type="file" id="file_white_mulberry" accept=".xlsx,.xls">
               <div class="upload-status" id="status_white_mulberry" style="color:#9ca3af;">—</div>
             </div>
-          </div>
-          <div class="brand-row">
-            <label>Active Brand</label>
-            <select id="active_brand" class="full" style="max-width:200px;">
-              <option value="audio_array">Audio Array</option>
-              <option value="nexlev">NexLev</option>
-              <option value="white_mulberry">White Mulberry</option>
-            </select>
           </div>
         </div>
       </div>
@@ -516,6 +515,14 @@ body{background:var(--v3-bg);color:var(--v3-ink);
           <div class="card-title"><span class="card-title-dot" style="background:var(--purple);"></span>Product Selection</div>
         </div>
         <div class="card-body">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);">Brand</div>
+            <select id="active_brand" class="full" style="max-width:190px;">
+              <option value="audio_array">Audio Array</option>
+              <option value="nexlev">NexLev</option>
+              <option value="white_mulberry">White Mulberry</option>
+            </select>
+          </div>
           <div class="grid-2">
             <div>
               <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:5px;">Model</div>

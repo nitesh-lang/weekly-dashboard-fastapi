@@ -58,13 +58,13 @@ a{text-decoration:none;color:var(--blue);}
 .sidebar-top-text .t1{font-size:13px;font-weight:700;color:#fff;letter-spacing:0.2px;}
 .sidebar-top-text .t2{font-size:10px;color:rgba(255,255,255,0.55);font-family:var(--mono);}
 
-.sidebar-body{padding:14px 14px;flex:1;}
-.s-section{margin-bottom:18px;}
+.sidebar-body{padding:10px 12px;flex:1;}
+.s-section{margin-bottom:12px;}
 .s-section-title{
   font-size:9px;font-weight:700;letter-spacing:0.9px;text-transform:uppercase;
   color:#9ca3af;margin-bottom:10px;padding:0 2px;
 }
-.s-row{margin-bottom:7px;}
+.s-row{margin-bottom:5px;}
 .s-row label{
   display:block;font-size:10px;font-weight:600;color:var(--text3);
   letter-spacing:0.3px;margin-bottom:3px;
@@ -95,7 +95,7 @@ a{text-decoration:none;color:var(--blue);}
 /* ── HEADER ── */
 .site-header{position:sticky;top:0;z-index:200;background:var(--bg2);border-bottom:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,0.07);}
 .header-title{
-  padding:11px 22px;display:flex;align-items:center;justify-content:space-between;
+  padding:8px 18px;display:flex;align-items:center;justify-content:space-between;
   background:var(--header-bg);
 }
 .header-title h1{font-size:15px;font-weight:700;color:#fff;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;}
@@ -130,7 +130,7 @@ a{text-decoration:none;color:var(--blue);}
 }
 
 /* ── CONTENT ── */
-.content{padding:18px 22px 48px;display:flex;flex-direction:column;gap:14px;}
+.content{padding:12px 16px 26px;display:flex;flex-direction:column;gap:9px;}
 
 /* ── CARD ── */
 .card{
@@ -138,7 +138,7 @@ a{text-decoration:none;color:var(--blue);}
   box-shadow:0 1px 3px rgba(0,0,0,0.04);
 }
 .card-head{
-  padding:11px 16px;border-bottom:1px solid var(--border);
+  padding:8px 14px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
 .card-title{
@@ -149,7 +149,7 @@ a{text-decoration:none;color:var(--blue);}
   width:8px;height:8px;border-radius:2px;
   background:var(--blue);display:inline-block;flex-shrink:0;
 }
-.card-body{padding:14px 16px;}
+.card-body{padding:10px 14px;}
 
 /* ── KPI BAR ── */
 .kpi-bar{
@@ -158,7 +158,7 @@ a{text-decoration:none;color:var(--blue);}
   box-shadow:0 1px 3px rgba(0,0,0,0.04);overflow:hidden;
 }
 .kpi-cell{
-  padding:14px 18px;border-right:1px solid var(--border);
+  padding:10px 14px;border-right:1px solid var(--border);
   position:relative;
 }
 .kpi-cell:last-child{border-right:none;}
@@ -173,7 +173,7 @@ a{text-decoration:none;color:var(--blue);}
 .kpi-cell:nth-child(5)::before{background:var(--purple);}
 .kpi-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text3);margin-bottom:5px;}
 .kpi-val{
-  font-family:var(--mono);font-size:22px;font-weight:600;
+  font-family:var(--mono);font-size:19px;font-weight:600;
   letter-spacing:-0.5px;color:var(--text);
 }
 .kpi-cell:nth-child(1) .kpi-val{color:#3d3587;}
@@ -186,7 +186,7 @@ a{text-decoration:none;color:var(--blue);}
 .price-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
 .price-cell{
   background:var(--bg3);border:1px solid var(--border);border-radius:6px;
-  padding:10px 12px;
+  padding:7px 10px;
 }
 .price-cell-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:4px;}
 .price-cell-val{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--text);}
@@ -477,13 +477,14 @@ select.full:focus{border-color:var(--blue);}
             </div>
           </div>
           <!-- Live Amazon price + fees (SP-API competitiveSummary + feesEstimate) -->
-          <div style="display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
             <button id="live_btn" type="button" class="btn-hdr btn-hdr-outline" style="font-size:11px;">
               ⚡ Pull live price &amp; fees
             </button>
             <span id="live_note" style="font-size:11px;color:var(--text3);"></span>
           </div>
-          <div id="live_panel" style="display:none;margin-top:10px;padding:10px 12px;border:1px solid #D8E1EC;border-radius:10px;background:#F8FAFC;">
+          <div id="fees_note" style="font-size:11px;color:#0f7a57;margin-top:6px;"></div>
+          <div id="live_panel" style="display:none;margin-top:7px;padding:7px 10px;border:1px solid #D8E1EC;border-radius:10px;background:#F8FAFC;">
             <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:#0F172A;">
               <div><b id="lv_bb">—</b><div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">Buy box <span id="lv_bb_who"></span></div></div>
               <div><b id="lv_our">—</b><div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">Our 3P</div></div>
@@ -498,7 +499,7 @@ select.full:focus{border-color:var(--blue);}
             <div id="lv_meta" style="font-size:10px;color:#94A3B8;margin-top:6px;"></div>
           </div>
           <!-- Actual TACOS (weekly AMS trend) — reference; AMS % stays editable -->
-          <div id="tacos_panel" style="display:none;margin-top:8px;padding:10px 12px;border:1px solid #E9D5FF;border-radius:10px;background:#FAF5FF;">
+          <div id="tacos_panel" style="display:none;margin-top:6px;padding:7px 10px;border:1px solid #E9D5FF;border-radius:10px;background:#FAF5FF;">
             <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:#0F172A;">
               <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#7C3AED;">Actual TACOS</div>
               <div id="tc_months" style="display:flex;gap:16px;flex-wrap:wrap;"></div>
@@ -758,6 +759,34 @@ function loadRow(){
     backendCalculate();triggerAfterParamUpdate();
   }else{recalc();}
   loadTacos();
+  refreshFees();
+}
+// ── Amazon fees: REFRESHED automatically on SKU select ──────────────────
+// Fees are facts (referral %, FBA fulfilment, closing), so they refresh
+// themselves against the calculator's own selling price — no pricing-API
+// call, so clicking through SKUs can never hit the ~0.1 r/s throttle.
+// TACOS and the live market price stay explicit "apply" actions because
+// they are decisions, not facts.
+async function refreshFees(){
+  const note=document.getElementById('fees_note');
+  if(!STATE.row||!note)return;
+  const asin=(STATE.row['ASIN']||'').toString().trim();
+  const price=parseFloat(document.getElementById('bau_sp').value||0);
+  if(asin.length!==10||!(price>0)){note.textContent='';return;}
+  note.textContent='Refreshing Amazon fees…';
+  try{
+    const r=await fetch(`/margin/fees?asin=${encodeURIComponent(asin)}&price=${price}`);
+    const j=await r.json();
+    if(!r.ok)throw new Error(j.detail||`HTTP ${r.status}`);
+    const set=(id,v)=>{if(v===null||v===undefined)return null;const el=document.getElementById(id);if(!el)return null;const old=el.value;el.value=Number(v).toFixed(2);return old;};
+    const parts=[];
+    if(j.referral_pct!=null){const o=set('referral_pct',j.referral_pct);parts.push(`referral ${j.referral_pct}%${o&&Math.abs(o-j.referral_pct)>0.01?` (was ${o})`:''}`);}
+    if(j.fulfilment_fee!=null){const o=set('fulfillment_fee',j.fulfilment_fee);parts.push(`FBA ₹${j.fulfilment_fee}${o&&Math.abs(o-j.fulfilment_fee)>0.01?` (was ${o})`:''}`);}
+    if(j.closing_fee!=null){const o=set('fixed_closing',j.closing_fee);parts.push(`closing ₹${j.closing_fee}${o&&Math.abs(o-j.closing_fee)>0.01?` (was ${o})`:''}`);}
+    if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}
+    note.textContent=parts.length?`✓ Fees refreshed from Amazon at ₹${j.fee_basis_price}: ${parts.join(' · ')}`:
+      (j.fee_error?`Fees unavailable: ${j.fee_error}`:'No fee data returned.');
+  }catch(e){note.textContent=`Fees not refreshed (${String(e.message||e).slice(0,90)}) — sheet values kept.`;}
 }
 // ── Actual TACOS from the weekly AMS trend (reference, never auto-applied) ──
 let TACOS = null;

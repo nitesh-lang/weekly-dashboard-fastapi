@@ -214,6 +214,49 @@ def _fees(token: str, asin: str, price: float) -> dict:
     return out
 
 
+def fees_only(asin: str, price: float) -> dict:
+    """Referral / fulfilment / closing at a GIVEN price — no competitiveSummary.
+
+    Used for the automatic refresh when a SKU is selected: it prices the fees
+    off the calculator's own selling price, and skips the heavily throttled
+    pricing API (~0.1 r/s) so clicking through SKUs can't 429. Referral % and
+    the FBA fulfilment fee are what actually matter here, and neither needs a
+    live market price to be correct.
+    """
+    asin = (asin or "").strip().upper()
+    if len(asin) != 10:
+        raise LivePriceError(f"{asin or '(blank)'} is not a valid ASIN.")
+    if not price or float(price) <= 0:
+        raise LivePriceError("Need a selling price to estimate fees against.")
+    price = round(float(price), 2)
+    ck = f"fees:{asin}:{price}"
+    with _lock:
+        hit = _cache.get(ck)
+        if hit and time.time() - hit[0] < _CACHE_TTL:
+            return {**hit[1], "cached": True}
+    # Amazon's fees endpoint intermittently answers 200 with
+    # "There is an internal service failure." and no estimate — retry that
+    # rather than showing the operator an empty fee row.
+    tok = _token()
+    fees = _fees(tok, asin, price)
+    if fees.get("total_fees") is None and fees.get("fee_error"):
+        time.sleep(2)
+        retry = _fees(tok, asin, price)
+        if retry.get("total_fees") is not None:
+            fees = retry
+    out = {
+        "asin": asin, **fees,
+        "fee_basis_price": price,
+        "referral_pct": (round(100 * fees["referral_fee"] / price, 2)
+                         if fees.get("referral_fee") else None),
+        "fetched_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "cached": False,
+    }
+    with _lock:
+        _cache[ck] = (time.time(), out)
+    return out
+
+
 def lookup(asin: str, price_override: float | None = None) -> dict:
     """Live price + fee breakdown for one ASIN. Cached for 10 minutes."""
     asin = (asin or "").strip().upper()

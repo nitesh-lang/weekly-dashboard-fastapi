@@ -667,6 +667,18 @@ def live_price(asin: str, price: float | None = None):
         raise HTTPException(502, f"Live lookup failed: {e}")
 
 
+@router.get("/margin/fees")
+def margin_fees(asin: str, price: float):
+    """Amazon fees at a given price — the auto-refresh path (no pricing API)."""
+    from margin_src.core.live_price import LivePriceError, fees_only
+    try:
+        return fees_only(asin, price)
+    except LivePriceError as e:
+        raise HTTPException(422, str(e))
+    except Exception as e:
+        raise HTTPException(502, f"Fee lookup failed: {e}")
+
+
 @router.get("/margin/ams-tacos")
 def ams_tacos(asin: str, months: int = 3):
     """Actual TACOS per month (last 3) for an ASIN, from the weekly AMS trend

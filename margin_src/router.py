@@ -14,7 +14,7 @@ original — do not "improve" formulas here.
 """
 from pathlib import Path
 
-from fastapi import APIRouter, Request, UploadFile
+from fastapi import APIRouter, HTTPException, Request, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from typing import Dict
 
@@ -650,6 +650,34 @@ def get_sku(session_id: str, sku: str):
 # ==================================================
 # UPDATE SKU FIELD (AUDIT SAFE)
 # ==================================================
+@router.get("/margin/live-price")
+def live_price(asin: str, price: float | None = None):
+    """Live Amazon price + fee breakdown for one ASIN.
+
+    Read-only: the UI writes the numbers into the calculator's own inputs and
+    recalculates client-side, so nothing is mutated server-side and the
+    operator can still override any field by hand.
+    """
+    from margin_src.core.live_price import LivePriceError, lookup
+    try:
+        return lookup(asin, price)
+    except LivePriceError as e:
+        raise HTTPException(422, str(e))
+    except Exception as e:  # network/Amazon oddities — never a 500 page
+        raise HTTPException(502, f"Live lookup failed: {e}")
+
+
+@router.get("/margin/ams-tacos")
+def ams_tacos(asin: str, months: int = 3):
+    """Actual TACOS per month (last 3) for an ASIN, from the weekly AMS trend
+    data. Reference only — the calculator's AMS % stays operator-editable."""
+    from margin_src.core.ams_tacos import tacos_for
+    try:
+        return tacos_for(asin, max(1, min(int(months), 12)))
+    except Exception as e:
+        raise HTTPException(502, f"TACOS lookup failed: {e}")
+
+
 @router.post("/margin/sku/update")
 def update_sku_field(session_id: str, sku: str, field: str, value: float):
     session = SESSION_STORE.get(session_id)

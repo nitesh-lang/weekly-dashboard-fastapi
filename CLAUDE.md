@@ -25,6 +25,11 @@ until the operator confirms the merged copy, then suspend (never delete).
 2. **Cross-imports are forbidden.** `weekly_app` never imports from
    `sales_dash` (except the guarded mount block in main.py) or `buybox_src`;
    `sales_dash` never imports `weekly_app`. Shared logic = copy, don't couple.
+   Sanctioned exception (2026-09-05, read-only DATA, no code import): the
+   margin calculator READS weekly's
+   `data/ams_weekly_data/processed_ads/business_ads_joined.csv` to quote the
+   same actual TACOS the AMS Trend page shows — a second derivation would
+   drift from it. Never write to it from margin.
 3. **Python namespace.** `sales_dash` ships a package named `app`, reachable
    because `sales_dash/` is APPENDED to sys.path. Never create a top-level
    `app/` module or package in this repo, and never prepend to sys.path.
@@ -32,6 +37,11 @@ until the operator confirms the merged copy, then suspend (never delete).
    Reserved: `DATABASE_URL` + `SP_*` + `SESSION_SAMESITE/SESSION_SECURE` +
    `SYNC_SALES_TOKEN` = sales · `WEEKLY_*` + `COOKIE_SECURE` = weekly ·
    `BUYBOX_*` = buybox build. `SESSION_SECRET` is shared by value on purpose.
+   Margin READS (never defines) `SP_LWA_CLIENT_ID/SECRET` +
+   `SP_REFRESH_TOKEN_NEXLEV` for its live price/fee pull — **only the NEXLEV
+   LWA app carries the Pricing role**, and the v0 pricing APIs are dead (403);
+   the live path is competitiveSummary 2022-05-01. Override the account with
+   `PRICING_ACCOUNT`.
    (Render env changes apply at the NEXT DEPLOY, not on restart.)
 5. **Cookies.** `weekly_session` (weekly) vs `sales_session` (sales). Never
    rename either to the other or to bare `session`.

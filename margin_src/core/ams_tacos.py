@@ -35,7 +35,14 @@ def _week_start(week: int) -> dt.date:
 
 
 def _load() -> pd.DataFrame:
-    """Cached by file mtime — a weekly refresh is picked up automatically."""
+    """Cached by file mtime — a weekly refresh is picked up automatically.
+
+    Only the columns this module needs are read and only the AGGREGATE is
+    kept: the raw file is 7.8k rows × 22 cols, and the web instance already
+    runs at ~390MB of its 512MB ceiling (that headroom is what the AMS Trend
+    502s were eating). Caching an (asin, month) roll-up instead of the frame
+    keeps this feature's footprint in the tens of KB.
+    """
     global _cache
     if not AMS_FILE.exists():
         return pd.DataFrame()
@@ -43,8 +50,9 @@ def _load() -> pd.DataFrame:
     with _lock:
         if _cache and _cache[0] == mtime:
             return _cache[1]
-    df = pd.read_csv(AMS_FILE, low_memory=False)
-    for c in ("Spend", "gmv", "attributed_sales", "week"):
+    cols = ["brand", "model", "asin", "child_asin", "week", "Spend", "gmv"]
+    df = pd.read_csv(AMS_FILE, low_memory=False, usecols=lambda c: c in cols)
+    for c in ("Spend", "gmv", "week"):
         if c in df.columns:
             df[c] = pd.to_numeric(df[c], errors="coerce")
     df = df.dropna(subset=["week"])
@@ -53,9 +61,16 @@ def _load() -> pd.DataFrame:
     for c in ("asin", "child_asin"):
         if c in df.columns:
             df[c] = df[c].astype(str).str.strip().str.upper()
+    # collapse to the grain we serve; drops ~7.8k rows to a few hundred
+    keys = [c for c in ("asin", "child_asin", "brand", "model", "_month") if c in df.columns]
+    agg = (df.groupby(keys, dropna=False)
+             .agg(Spend=("Spend", "sum"), gmv=("gmv", "sum"),
+                  week=("week", lambda s: sorted({int(x) for x in s})),
+                  _start=("_start", "max"))
+             .reset_index())
     with _lock:
-        _cache = (mtime, df)
-    return df
+        _cache = (mtime, agg)
+    return agg
 
 
 def _pct(spend: float, gmv: float):
@@ -91,9 +106,11 @@ def tacos_for(asin: str, months: int = 3) -> dict:
         sub = rows[rows["_month"] == m]
         spend = float(sub["Spend"].fillna(0).sum())
         gmv = float(sub["gmv"].fillna(0).sum())
+        weeks: set[int] = set()
+        for w in sub["week"]:                       # each cell is a week list
+            weeks.update(w if isinstance(w, (list, tuple, set)) else [int(w)])
         out.append({"month": m, "spend": round(spend, 2), "gmv": round(gmv, 2),
-                    "tacos_pct": _pct(spend, gmv),
-                    "weeks": sorted(int(w) for w in sub["week"].unique())})
+                    "tacos_pct": _pct(spend, gmv), "weeks": sorted(weeks)})
 
     win = rows[rows["_month"].isin(wanted)]
     w_spend = float(win["Spend"].fillna(0).sum())

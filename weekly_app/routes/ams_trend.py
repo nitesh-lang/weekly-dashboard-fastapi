@@ -33,6 +33,9 @@ import time
 # "Too much data for declared Content-Length".
 _RESPONSE_CACHE: dict[str, tuple[float, bytes]] = {}
 _RESPONSE_CACHE_TTL = 300  # seconds
+# Hard memory ceiling for this cache, PER WORKER. Two workers share a 512MB
+# instance with three other apps, so ~24MB each is the most it may hold.
+_RESPONSE_CACHE_MAX_BYTES = 24 * 1024 * 1024
 
 def _cache_key(prefix: str, *args) -> str:
     """Build a deterministic key from (endpoint, *filters)."""
@@ -56,10 +59,18 @@ def _cached_or(key: str, build_fn):
         return Response(content=hit[1], media_type="application/json")
     resp = build_fn()
     _RESPONSE_CACHE[key] = (now, resp.body)
-    # Bound the cache size — 64 entries is plenty for the AMS Trend
-    # filter combinatorics an operator actually clicks through.
-    if len(_RESPONSE_CACHE) > 64:
+    # ── Bound the cache by BYTES, not entries (2026-09-05, P0) ──
+    # It used to keep 64 entries. An unfiltered /api/ams/trend payload is
+    # ~3.2MB, so a worker clicking through filters could park ~200MB of JSON
+    # here — on a 512MB box shared by 4 apps and TWO workers. That is what
+    # pushed the instance to a ~390MB baseline and made ordinary requests
+    # OOM the worker, which the proxy shows as 502.
+    # Entry count still applies as a floor for tiny payloads.
+    total = sum(len(v[1]) for v in _RESPONSE_CACHE.values())
+    while (total > _RESPONSE_CACHE_MAX_BYTES or len(_RESPONSE_CACHE) > 16) \
+            and len(_RESPONSE_CACHE) > 1:
         oldest = min(_RESPONSE_CACHE, key=lambda k: _RESPONSE_CACHE[k][0])
+        total -= len(_RESPONSE_CACHE[oldest][1])
         _RESPONSE_CACHE.pop(oldest, None)
     return resp
 
@@ -550,10 +561,29 @@ def _build_trend_response(
     }
 
 
-    rows = [
-        {k: safe_value(v) for k, v in r.items()}
-        for r in df.to_dict("records")
-    ]
+    # ── Payload slimming (2026-09-05, P0: intermittent 502s on this page) ──
+    # The instance runs ~390MB of a 512MB ceiling, so a 3.3MB JSON build was
+    # enough to push a worker over and get it OOM-killed mid-response — which
+    # the proxy surfaces as 502. Two cheap cuts, no UI change:
+    #   * drop columns nothing reads (verified by grep over frontend/src):
+    #     Brand (the UI uses lowercase `brand`), Model_inv, child_asin,
+    #     brand_total_gmv (only its derived pct is displayed).
+    #   * round floats — raw values carry 10+ decimals ("0.30508485…"),
+    #     which is pure payload weight at ASIN grain.
+    _DROP = ("Brand", "Model_inv", "child_asin", "brand_total_gmv")
+    _drop_present = [c for c in _DROP if c in df.columns]
+    if _drop_present:
+        df = df.drop(columns=_drop_present)
+
+    # Build the records ONCE. The old form did `to_dict("records")` and then a
+    # dict-comprehension over every cell, i.e. ~140k throwaway Python objects
+    # held twice at peak — the actual memory spike behind the 502s. Rounding
+    # and NaN/inf scrubbing happen vectorised on the frame instead.
+    num_cols = df.select_dtypes(include="number").columns
+    if len(num_cols):
+        df[num_cols] = (df[num_cols].replace([np.inf, -np.inf], np.nan)
+                        .round(4))
+    rows = df.astype(object).where(pd.notna(df), None).to_dict("records")
 
     # ================= TOTAL ROW =================
     if not df.empty:

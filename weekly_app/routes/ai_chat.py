@@ -231,6 +231,15 @@ def _build_dossiers_for(question: str) -> List[Dict[str, Any]]:
             out.append(_DOSSIER_CACHE[key])
             continue
         d = _build_model_dossier(m)
+        # Bound it (2026-09-05, P0 memory): the key carries the data files'
+        # mtimes, so every weekly refresh mints a whole new key-space while
+        # the previous generation stayed cached forever — an unbounded leak
+        # on a 512MB box. Drop anything from an older generation, then cap.
+        if len(_DOSSIER_CACHE) > 250:
+            for k in [k for k in _DOSSIER_CACHE if k[0] != key[0] or k[1] != key[1]]:
+                _DOSSIER_CACHE.pop(k, None)
+            while len(_DOSSIER_CACHE) > 250:
+                _DOSSIER_CACHE.pop(next(iter(_DOSSIER_CACHE)), None)
         _DOSSIER_CACHE[key] = d
         out.append(d)
     return out

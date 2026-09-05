@@ -529,6 +529,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
             </div>
           </div>
           <!-- Live Amazon price + fees (SP-API competitiveSummary + feesEstimate) -->
+          <div id="sel_meta" style="font-size:12px;color:#5c606a;margin-top:8px;display:none;">ASIN <a id="sel_asin" href="#" target="_blank" rel="noreferrer" style="font-family:ui-monospace,Menlo,monospace;color:#1f3a5f;font-weight:600;text-decoration:none;">—</a><span id="sel_extra" style="color:#8f939c;"></span></div>
           <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
             <button id="live_btn" type="button" class="btn-card p">
               ⚡ Pull live price &amp; fees
@@ -844,6 +845,15 @@ function loadRow(){
     Object.keys(window.cbMap).forEach(id=>{const el=document.getElementById(id);if(el)el.value=r2(STATE.row[window.cbMap[id]]??0);});
     backendCalculate();triggerAfterParamUpdate();
   }else{recalc();}
+  const _asin=(STATE.row['ASIN']||'').toString().trim();
+  const _meta=document.getElementById('sel_meta'),_a=document.getElementById('sel_asin');
+  if(_meta&&_a){
+    if(_asin.length===10){_a.textContent=_asin;_a.href='https://www.amazon.in/dp/'+_asin;
+      const hsn=(STATE.row['HSN']||'').toString().trim();
+      document.getElementById('sel_extra').textContent=(hsn?' · HSN '+hsn:'');
+      _meta.style.display='block';}
+    else{_meta.style.display='none';}
+  }
   loadTacos();
   refreshFees();
 }

@@ -532,7 +532,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
           <div id="sel_meta" style="font-size:12px;color:#5c606a;margin-top:8px;display:none;">ASIN <a id="sel_asin" href="#" target="_blank" rel="noreferrer" style="font-family:ui-monospace,Menlo,monospace;color:#1f3a5f;font-weight:600;text-decoration:none;">—</a><span id="sel_extra" style="color:#8f939c;"></span></div>
           <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
             <button id="live_btn" type="button" class="btn-card p">
-              ⚡ Pull live price &amp; fees
+              ↻ Refresh live price &amp; fees
             </button>
             <span id="live_note" style="font-size:11px;color:var(--text3);"></span>
           </div>
@@ -546,7 +546,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
               <div><b id="lv_ful">—</b><div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">Fulfilment</div></div>
               <div><b id="lv_clo">—</b><div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">Closing</div></div>
               <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-                <button id="live_apply" type="button" class="btn-card p">Apply to calculator</button>
+                <button id="live_apply" type="button" class="btn-card" style="display:none;">Apply</button>
               </div>
             </div>
             <div id="lv_meta" style="font-size:10px;color:#94A3B8;margin-top:6px;"></div>
@@ -558,7 +558,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
               <div id="tc_months" style="display:flex;gap:16px;flex-wrap:wrap;"></div>
               <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
                 <span id="tc_window" style="font-family:var(--mono);font-size:12px;font-weight:700;color:#6D28D9;"></span>
-                <button id="tacos_apply" type="button" class="btn-card" style="background:#7C3AED;border-color:#7C3AED;color:#fff;">Use as AMS %</button>
+                <button id="tacos_apply" type="button" class="btn-card" style="background:#7C3AED;border-color:#7C3AED;color:#fff;">Re-apply actual</button>
               </div>
             </div>
             <div id="tc_meta" style="font-size:10px;color:#94A3B8;margin-top:6px;"></div>
@@ -718,7 +718,7 @@ async function backendCalculate(){
 let SESSION_ID=null,STATE={df:[],row:null},ORIGINAL_GLOBALS={},ORIGINAL_ROW=null,ALL_MODELS=[],ALL_SKUS=[];
 
 document.addEventListener('DOMContentLoaded',()=>{
-  const b=document.getElementById('live_btn');if(b)b.onclick=pullLive;
+  const b=document.getElementById('live_btn');if(b)b.onclick=autoLive;
   const a=document.getElementById('live_apply');if(a)a.onclick=applyLive;
   const t=document.getElementById('tacos_apply');if(t)t.onclick=applyTacos;
   bindScenarios();
@@ -854,8 +854,8 @@ function loadRow(){
       _meta.style.display='block';}
     else{_meta.style.display='none';}
   }
-  loadTacos();
-  refreshFees();
+  loadTacos();      // fetches actuals AND auto-applies 3-mo TACOS into AMS %
+  autoLive();       // one pull: live buybox price -> selling price + fees, auto-applied
 }
 // ── Amazon fees: REFRESHED automatically on SKU select ──────────────────
 // Fees are facts (referral %, FBA fulfilment, closing), so they refresh
@@ -863,6 +863,50 @@ function loadRow(){
 // call, so clicking through SKUs can never hit the ~0.1 r/s throttle.
 // TACOS and the live market price stay explicit "apply" actions because
 // they are decisions, not facts.
+// One-time auto-apply on SKU select (operator 2026-09-05): the live buybox
+// price becomes the selling price and fees land with it — no Apply clicks.
+// Everything stays editable; the panels show what was applied. If the
+// pricing API throttles or has no offers, we keep the sheet price and still
+// refresh fees against it.
+async function autoLive(){
+  const note=document.getElementById('live_note');
+  if(!STATE.row)return;
+  const asin=(STATE.row['ASIN']||'').toString().trim();
+  if(asin.length!==10){if(note)note.textContent='';return;}
+  if(note)note.textContent='Pulling live price\u2026';
+  try{
+    const r=await fetch(`/margin/live-price?asin=${encodeURIComponent(asin)}`);
+    const txt=await r.text();let j;try{j=JSON.parse(txt);}catch(e){throw new Error(txt.slice(0,120));}
+    if(!r.ok)throw new Error(j.detail||`HTTP ${r.status}`);
+    LIVE=j;renderLivePanel(j);
+    const price=j.buybox_price||j.our_price||j.cb_price;
+    const applied=[];
+    if(price){document.getElementById('bau_sp').value=Number(price).toFixed(2);applied.push('price \u20b9'+price);}
+    if(j.referral_pct!=null){document.getElementById('referral_pct').value=Number(j.referral_pct).toFixed(2);applied.push('referral '+j.referral_pct+'%');}
+    if(j.fulfilment_fee!=null){document.getElementById('fulfillment_fee').value=Number(j.fulfilment_fee).toFixed(2);applied.push('FBA \u20b9'+j.fulfilment_fee);}
+    if(j.closing_fee!=null){document.getElementById('fixed_closing').value=Number(j.closing_fee).toFixed(2);applied.push('closing \u20b9'+j.closing_fee);}
+    if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}
+    if(note)note.textContent=applied.length
+      ?'\u2713 Live-applied: '+applied.join(' \u00b7 ')+' \u2014 edit any field to override.'
+      :'No live offers found \u2014 sheet values kept.';
+  }catch(e){
+    if(note)note.textContent='Live price unavailable ('+String(e.message||e).slice(0,80)+') \u2014 sheet price kept, refreshing fees\u2026';
+    refreshFees();   // fees at the sheet price still refresh
+  }
+}
+function renderLivePanel(j){
+  const inrf=v=>v===null||v===undefined?'\u2014':'\u20b9'+Number(v).toLocaleString('en-IN',{maximumFractionDigits:2});
+  const el=id=>document.getElementById(id);
+  el('lv_bb').textContent=inrf(j.buybox_price);
+  el('lv_bb_who').textContent=j.buybox_price==null?'':(j.buybox_is_ours?'(ours)':j.buybox_is_cb?'(Cocoblu)':'(other seller)');
+  el('lv_our').textContent=inrf(j.our_price);
+  el('lv_cb').textContent=inrf(j.cb_price);
+  el('lv_ref').textContent=inrf(j.referral_fee)+(j.referral_pct?` (${j.referral_pct}%)`:'');
+  el('lv_ful').textContent=inrf(j.fulfilment_fee);
+  el('lv_clo').textContent=inrf(j.closing_fee);
+  el('lv_meta').textContent=`${j.asin} \u00b7 fees at ${inrf(j.fee_basis_price)} \u00b7 ${j.fetched_at}${j.cached?' (cached)':''}`+(j.fee_error?` \u00b7 fees: ${j.fee_error}`:'');
+  el('live_panel').style.display='block';
+}
 async function refreshFees(){
   const note=document.getElementById('fees_note');
   if(!STATE.row||!note)return;
@@ -906,8 +950,13 @@ async function loadTacos(){
       `<div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">${m.month}</div></div>`).join('');
     document.getElementById('tc_window').textContent=
       (j.window.tacos_pct==null?'—':j.window.tacos_pct+'%')+' · 3-mo';
+    if(j.window.tacos_pct!=null){
+      const amsEl=document.getElementById('ams_pct');
+      if(amsEl){amsEl.value=Number(j.window.tacos_pct).toFixed(2);
+        if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}}
+    }
     document.getElementById('tc_meta').textContent=
-      `${j.brand||''} ${j.model||''} · ${j.window.label} · spend ₹${Number(j.window.spend).toLocaleString('en-IN')} / GMV ₹${Number(j.window.gmv).toLocaleString('en-IN')} · actual, not applied`;
+      `${j.brand||''} ${j.model||''} · ${j.window.label} · spend ₹${Number(j.window.spend).toLocaleString('en-IN')} / GMV ₹${Number(j.window.gmv).toLocaleString('en-IN')} · auto-applied to AMS % — editable`;
     panel.style.display='block';
   }catch(e){/* reference only — never block the calculator */}
 }

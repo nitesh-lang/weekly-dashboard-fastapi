@@ -690,6 +690,20 @@ def ams_tacos(asin: str, months: int = 3):
         raise HTTPException(502, f"TACOS lookup failed: {e}")
 
 
+@router.get("/margin/actuals")
+def margin_actuals(asin: str = "", sku: str = ""):
+    """Realized 3-mo ASP (Amazon 3P, gross basis) + actual 30d return rate
+    from the weekly snapshots. Matched by ASIN, falling back to SKU for
+    master rows without an ASIN. Reference lines with explicit Apply —
+    never auto-written into the calculator."""
+    from margin_src.core.actuals import asp_for, returns_for, warehousing_for
+    try:
+        return {"asp": asp_for(asin, sku), "returns": returns_for(asin, sku),
+                "warehousing": warehousing_for(asin, sku)}
+    except Exception as e:
+        raise HTTPException(502, f"Actuals lookup failed: {e}")
+
+
 @router.post("/margin/sku/update")
 def update_sku_field(session_id: str, sku: str, field: str, value: float):
     session = SESSION_STORE.get(session_id)

@@ -299,7 +299,12 @@ def lookup(asin: str, price_override: float | None = None) -> dict:
         "account": PRICING_ACCOUNT,
         "cached": False,
     }
-    with _lock:
-        _cache[ck] = (time.time(), result)
-        _prune_cache()
+    # Never cache a lookup that found NO price: a transient throttle/empty
+    # response would otherwise stick for the full cache TTL, and every SKU
+    # re-select inside that window silently keeps the sheet price (operator
+    # hit this: SC-01 showed sheet ₹4,799 while the market was at ₹3,998).
+    if result.get("buybox_price") is not None or result.get("our_price") is not None:
+        with _lock:
+            _cache[ck] = (time.time(), result)
+            _prune_cache()
     return result

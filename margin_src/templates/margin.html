@@ -355,7 +355,7 @@ body{background:var(--v3-bg);color:var(--v3-ink);
 
 .wf{margin:0;padding:0;list-style:none;border-top:1px solid var(--v3-line);
     font-variant-numeric:tabular-nums;}
-.wf li{display:grid;grid-template-columns:1fr 82px;align-items:center;padding:6px 0;
+.wf li{display:grid;grid-template-columns:1fr auto;align-items:center;padding:6px 0;
        border-bottom:1px solid var(--v3-line);font-size:12.5px;color:var(--v3-ink2);}
 .wf li .lab{display:flex;flex-direction:column;gap:3px;}
 .wf li .lab span:not(.bar){font-size:11px;color:var(--v3-ink3);}
@@ -367,6 +367,32 @@ body{background:var(--v3-bg);color:var(--v3-ink);
 .wf li.gm.negv .v{color:var(--v3-red);} .wf li.gm.negv .bar{background:var(--v3-red);}
 .wf li .bar.c1{background:#5c606a}.wf li .bar.c2{background:#8f939c}
 .wf li .bar.c3{background:#b5b8bf}.wf li .bar.c4{background:#cfd2d6}
+/* Sheet / Actual segmented toggle above the waterfall */
+.wf-toggle{display:flex;align-items:center;gap:6px;margin:2px 0 6px;}
+.wf-toggle button{font-size:11px;font-weight:600;padding:3px 12px;border:1px solid var(--v3-line);
+  background:#fff;color:var(--v3-ink2);border-radius:14px;cursor:pointer;}
+.wf-toggle button.on{background:#1f3a5f;border-color:#1f3a5f;color:#fff;}
+.wf-toggle button:disabled{opacity:.45;cursor:not-allowed;}
+.wf-toggle #wf_mode_note{font-size:10px;color:var(--v3-ink3);margin-left:auto;text-align:right;}
+/* Sheet-vs-Actual combined table (central collapsible card) */
+#sva_tbl table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums;}
+#sva_tbl th{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--v3-ink3);font-weight:700;padding:5px 8px;border-bottom:2px solid var(--v3-line);text-align:right;}
+#sva_tbl th:first-child{text-align:left;}
+#sva_tbl td{padding:5px 8px;border-bottom:1px solid var(--v3-line2);text-align:right;white-space:nowrap;color:var(--v3-ink);}
+#sva_tbl td:first-child{text-align:left;color:var(--v3-ink2);}
+#sva_tbl tr.cmr td{font-weight:700;background:#f6f8fb;}
+#sva_tbl tr.cmr td:first-child{color:var(--v3-ink);}
+#sva_tbl .p{font-size:10.5px;color:var(--v3-ink3);}
+#sva_tbl .negd{color:var(--v3-red);} #sva_tbl .posd{color:#1e7a46;}
+/* value cell holds ₹ + a small % of SP; keep them on one line, right-aligned */
+.wf li .v{display:flex;justify-content:flex-end;align-items:baseline;gap:4px;white-space:nowrap;}
+.wf li .v b{font-weight:inherit;}
+.wf .pct{font-size:10px;color:var(--v3-ink3);min-width:46px;text-align:right;}
+/* CM subtotal rows (CM-2 / CM-3): quiet bold checkpoints in the ladder */
+.wf li.cm{border-top:1px dashed var(--v3-line2);}
+.wf li.cm .lab{color:var(--v3-ink2);font-weight:600;}
+.wf li.cm .v{font-weight:600;color:var(--v3-green);}
+.wf li.cm.negv .v{color:var(--v3-red);}
 /* ── SOP modal (How it calculates) ── */
 .sop-overlay{position:fixed;inset:0;background:rgba(15,25,40,.55);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:3vh 1rem;overflow-y:auto;}
 .sop-overlay.open{display:flex;}
@@ -575,6 +601,15 @@ body{background:var(--v3-bg);color:var(--v3-ink);
             <div id="lv_meta" style="font-size:10px;color:#94A3B8;margin-top:6px;"></div>
           </div>
           <!-- Actual TACOS (weekly AMS trend) — reference; AMS % stays editable -->
+          <div id="act_panel" style="display:none;margin-top:6px;padding:7px 10px;border:1px solid #BFDBFE;border-radius:10px;background:#F0F7FF;">
+            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:#0F172A;">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#1D4ED8;">Actuals · 3-mo</div>
+              <span id="act_asp"></span>
+              <button id="act_asp_apply" type="button" class="btn-card" style="display:none;background:#1D4ED8;border-color:#1D4ED8;color:#fff;">Use realized ASP</button>
+              <span id="act_ret" style="margin-left:6px;"></span>
+              <button id="act_ret_apply" type="button" class="btn-card" style="display:none;background:#1D4ED8;border-color:#1D4ED8;color:#fff;">Use actual returns %</button>
+            </div>
+          </div>
           <div id="tacos_panel" style="display:none;margin-top:6px;padding:7px 10px;border:1px solid #E9D5FF;border-radius:10px;background:#FAF5FF;">
             <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:#0F172A;">
               <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#7C3AED;">Actual TACOS</div>
@@ -591,10 +626,11 @@ body{background:var(--v3-bg);color:var(--v3-ink);
 
       <!-- PRODUCT INFORMATION -->
       <div class="card">
-        <div class="card-head">
+        <div class="card-head" id="pi_head" style="cursor:pointer;user-select:none;">
           <div class="card-title"><span class="card-title-dot" style="background:var(--green);"></span>Product Information</div>
+          <span id="pi_chev" style="font-size:12px;color:var(--v3-ink3);">▸ expand</span>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="pi_body" style="display:none;">
           <div class="grid-4">
             <div class="field"><label>Category</label><input id="category" disabled class="mono-val"></div>
             <div class="field"><label>Category L2</label><input id="category_l2" disabled class="mono-val"></div>
@@ -607,6 +643,19 @@ body{background:var(--v3-bg);color:var(--v3-ink);
             <div class="field"><label>H (cm)</label><input id="h" disabled class="mono-val"></div>
             <div class="field"><label>HSN</label><input id="hsn" disabled class="mono-val"></div>
           </div>
+        </div>
+      </div>
+
+      <!-- SHEET VS ACTUAL (collapsible) -->
+      <div class="card" id="sva_card">
+        <div class="card-head" id="sva_head" style="cursor:pointer;user-select:none;">
+          <div class="card-title"><span class="card-title-dot" style="background:#1f3a5f;"></span>Sheet vs Actual
+            <span id="sva_hint" style="font-weight:400;font-size:11px;color:var(--v3-ink3);margin-left:8px;"></span>
+          </div>
+          <span id="sva_chev" style="font-size:12px;color:var(--v3-ink3);">▸ expand</span>
+        </div>
+        <div class="card-body" id="sva_body" style="display:none;">
+          <div id="sva_tbl"></div>
         </div>
       </div>
 
@@ -695,16 +744,23 @@ body{background:var(--v3-bg);color:var(--v3-ink);
           <button type="button" data-t="D2C"><span>D2C</span><b id="pr_d2c">—</b></button>
         </div>
 
+        <div class="wf-toggle" id="wf_toggle">
+          <button type="button" data-mode="sheet" class="on">Sheet</button>
+          <button type="button" data-mode="actual" id="wf_btn_actual" class="needs-act" disabled title="Loads once this ASIN has sales/returns history">Actual</button>
+          <span id="wf_mode_note"></span>
+        </div>
         <ul class="wf">
           <li class="tot"><div class="lab">Selling price</div><div class="v" id="wf_sp">—</div></li>
-          <li class="neg"><div class="lab">GST<span id="wf_gst_lab"></span><span class="bar" id="wf_gst_bar"></span></div><div class="v" id="wf_gst">—</div></li>
-          <li class="tot"><div class="lab">Net of tax</div><div class="v" id="wf_nettax">—</div></li>
-          <li class="neg"><div class="lab">Procurement<span>FOB, freight, duty, surcharge</span><span class="bar c1" id="wf_dp_bar"></span></div><div class="v" id="wf_dp">—</div></li>
-          <li class="gm"><div class="lab">Gross margin<span class="bar" id="wf_gm_bar"></span></div><div class="v" id="wf_gm">—</div></li>
-          <li class="neg"><div class="lab">Marketplace<span>referral, closing, fulfilment, AMS</span><span class="bar c2" id="wf_mp_bar"></span></div><div class="v" id="wf_mp">—</div></li>
-          <li class="neg"><div class="lab">Marketing &amp; returns<span>coupon, SMM, returns loss</span><span class="bar c3" id="wf_ox_bar"></span></div><div class="v" id="wf_ox">—</div></li>
-          <li class="neg"><div class="lab">Overhead &amp; finance<span id="wf_oh_lab"></span><span class="bar c4" id="wf_oh_bar"></span></div><div class="v" id="wf_oh">—</div></li>
-          <li class="tot gm"><div class="lab">Net margin</div><div class="v" id="wf_net">—</div></li>
+          <li class="neg"><div class="lab">GST<span id="wf_gst_lab"></span><span class="bar" id="wf_gst_bar"></span></div><div class="v"><b id="wf_gst">—</b><small class="pct" id="wf_gst_pct"></small></div></li>
+          <li class="tot"><div class="lab">Net of tax</div><div class="v"><b id="wf_nettax">—</b><small class="pct" id="wf_nettax_pct"></small></div></li>
+          <li class="neg"><div class="lab">Procurement<span>FOB, freight, duty, surcharge</span><span class="bar c1" id="wf_dp_bar"></span></div><div class="v"><b id="wf_dp">—</b><small class="pct" id="wf_dp_pct"></small></div></li>
+          <li class="gm"><div class="lab">CM-1 · Gross margin<span class="bar" id="wf_gm_bar"></span></div><div class="v"><b id="wf_gm">—</b><small class="pct" id="wf_gm_pct"></small></div></li>
+          <li class="neg"><div class="lab">Selling &amp; fulfilment<span>referral, closing, fulfilment, returns, coupon</span><span class="bar c2" id="wf_mp_bar"></span></div><div class="v"><b id="wf_mp">—</b><small class="pct" id="wf_mp_pct"></small></div></li>
+          <li class="cm"><div class="lab">CM-2 · after channel costs</div><div class="v"><b id="wf_cm2">—</b><small class="pct" id="wf_cm2_pct"></small></div></li>
+          <li class="neg"><div class="lab">Marketing<span>AMS (TACOS), SMM</span><span class="bar c3" id="wf_ox_bar"></span></div><div class="v"><b id="wf_ox">—</b><small class="pct" id="wf_ox_pct"></small></div></li>
+          <li class="cm"><div class="lab">CM-3 · after marketing</div><div class="v"><b id="wf_cm3">—</b><small class="pct" id="wf_cm3_pct"></small></div></li>
+          <li class="neg"><div class="lab">Overhead &amp; finance<span id="wf_oh_lab"></span><span class="bar c4" id="wf_oh_bar"></span></div><div class="v"><b id="wf_oh">—</b><small class="pct" id="wf_oh_pct"></small></div></li>
+          <li class="tot gm"><div class="lab">Net margin</div><div class="v"><b id="wf_net">—</b><small class="pct" id="wf_net_pct"></small></div></li>
         </ul>
         <div class="res-ft"><span>Break-even selling price <b id="wf_be">—</b></span><span>DP <b id="m_dp">—</b></span></div>
       </aside>
@@ -744,14 +800,39 @@ document.addEventListener('DOMContentLoaded',()=>{
   const b=document.getElementById('live_btn');if(b)b.onclick=autoLive;
   const a=document.getElementById('live_apply');if(a)a.onclick=applyLive;
   const t=document.getElementById('tacos_apply');if(t)t.onclick=applyTacos;
+  const aa=document.getElementById('act_asp_apply');if(aa)aa.onclick=applyActualAsp;
+  const ar=document.getElementById('act_ret_apply');if(ar)ar.onclick=applyActualReturns;
+  document.querySelectorAll('#wf_toggle button').forEach(b=>b.onclick=()=>{
+    if(b.disabled)return;
+    WF_MODE=b.dataset.mode;
+    document.querySelectorAll('#wf_toggle button').forEach(x=>x.classList.toggle('on',x.dataset.mode===WF_MODE));
+    if(window.CALC_MODE!=='audio_array_ccb')recalc();
+  });
+  const svaHead=document.getElementById('sva_head');
+  if(svaHead)svaHead.onclick=()=>{
+    const body=document.getElementById('sva_body'),chev=document.getElementById('sva_chev');
+    const open=body.style.display==='none';
+    body.style.display=open?'':'none';
+    chev.textContent=open?'▾ collapse':'▸ expand';
+  };
+  const piHead=document.getElementById('pi_head');
+  if(piHead)piHead.onclick=()=>{
+    const body=document.getElementById('pi_body'),chev=document.getElementById('pi_chev');
+    const open=body.style.display==='none';
+    body.style.display=open?'':'none';
+    chev.textContent=open?'▾ collapse':'▸ expand';
+  };
   bindScenarios();
 });
 function filterSelect(inputId,selectId,allValues){
   const q=document.getElementById(inputId).value.toLowerCase();
   const sel=document.getElementById(selectId);
+  const prev=sel.value;
   const filtered=allValues.filter(v=>v.toLowerCase().includes(q));
   sel.innerHTML=filtered.map(x=>`<option>${x}</option>`).join('');
-  if(filtered.length)sel.value=filtered[0];
+  if(!filtered.length)return;               // no match — keep the loaded row as-is
+  if(filtered.includes(prev)){sel.value=prev;return;}  // user's pick still visible — never yank it
+  sel.value=filtered[0];
   sel.dispatchEvent(new Event('change'));
 }
 const num=id=>parseFloat(document.getElementById(id).value||0);
@@ -848,6 +929,7 @@ function hydrateCBParamsFromBackend(){
 function loadRow(){
   const m=document.getElementById('model').value,s=document.getElementById('sku').value;
   STATE.row=STATE.df.find(r=>r.Model===m&&r.SKU===s);if(!STATE.row)return;
+  USER_EDITED={};   // fresh SKU — hand-edit tracking starts over
   if(window.CALC_MODE==='audio_array_ccb')hydrateCBParamsFromBackend();
   const PI_MAP={'Category':'category','Category L2':'category_l2','Model No':'model_no','Model':'model_no','Product Name':'product_name','L (cm)':'l','B (cm)':'b','H (cm)':'h','HSN':'hsn'};
   Object.keys(PI_MAP).forEach(col=>{const el=document.getElementById(PI_MAP[col]);if(!el)return;const val=STATE.row[col];if(val!==null&&val!==undefined&&val!=='')el.value=val;});
@@ -879,6 +961,7 @@ function loadRow(){
   }
   loadTacos();      // fetches actuals AND auto-applies 3-mo TACOS into AMS %
   autoLive();       // one pull: live buybox price -> selling price + fees, auto-applied
+  loadActuals();    // realized ASP + actual returns — reference, explicit Apply only
 }
 // ── Amazon fees: REFRESHED automatically on SKU select ──────────────────
 // Fees are facts (referral %, FBA fulfilment, closing), so they refresh
@@ -989,10 +1072,216 @@ async function loadTacos(){
     panel.style.display='block';
   }catch(e){/* reference only — never block the calculator */}
 }
+let WF_MODE='sheet';   // waterfall view: 'sheet' (screen inputs) | 'actual' (realized ASP + actual returns)
+// Fields the USER deliberately changed (typing, scenario chip, explicit Apply).
+// These override the master value in the Sheet column; script auto-applies
+// (live price, TACOS) do NOT — the Sheet column keeps the master for those.
+let USER_EDITED={};
+document.addEventListener('input',e=>{if(e.isTrusted&&e.target&&e.target.id)USER_EDITED[e.target.id]=true;});
+// ── Sheet vs Actual ladder engine ────────────────────────────────────────
+// The SAME cost math as recalc(), parameterized on the three inputs where
+// "actual" can differ from the sheet: selling price (realized ASP), returns
+// % (actual 30d rate), AMS % (already actual TACOS, passed through). Reads
+// everything else live from the DOM so hand-edits flow into BOTH columns.
+function _ladderCalc(sp,retPct,amsPct,amsOnNet,V,whPerUnit){
+  V=V||num;                       // value source: screen inputs by default,
+                                  // ORIGINAL_ROW getter for the pure-sheet column
+  const usd=V('usd_rate'),fob=V('fob')*usd,fr=V('freight')*usd;
+  const duty=(fob+fr)*V('import_duty')/100,sur=duty*V('surcharge_pct')/100;
+  const dp=fob+fr+duty+sur+V('additional_cost');
+  const sidebarGST=V('gst_default_pct'),rawGST=STATE.row?STATE.row['GST Slab']:null,ov=document.getElementById('gst_override').checked;
+  let gstp;if(ov){gstp=sidebarGST;}else if(rawGST!==null&&rawGST!==undefined&&rawGST!==''){gstp=parseFloat(rawGST);}else{gstp=sidebarGST;}
+  const gst=gstp>0?sp-(sp/(1+gstp/100)):0;
+  // TACOS is measured on NET GMV (weekly stores post-GST sales), so in the
+  // actual view AMS% applies to the net price — that makes the ₹ exactly
+  // equal real ad spend per unit. Sheet view keeps the gross-SP convention.
+  const amsRate=amsOnNet?(amsPct/100/1.18):(amsPct/100);
+  const referral=sp*V('referral_pct')/100,ams=sp*amsRate;
+  const coup=Math.max(sp*V('coupon_pct')/100,V('coupon_flat')),ret=sp*retPct/100;
+  let rawSMM=STATE.row?(STATE.row['SMM %']!==undefined?STATE.row['SMM %']:STATE.row['SMM']!==undefined?STATE.row['SMM']:null):null;
+  const so=document.getElementById('smm_override').checked;
+  let smmPct;if(so){smmPct=V('smm_pct');}else if(rawSMM===null||rawSMM===''){smmPct=V('smm_pct');}else{smmPct=parseFloat(rawSMM);}
+  const smm=sp*smmPct/100;
+  const nlc=STATE.row?(STATE.row['NLC']||STATE.row['Cambium NLC']||STATE.row['Landed Cost']||0):0;
+  const bo=nlc*V('overhead_pct')/100,fc=nlc*V('finance_pct')/100;
+  const gross=(sp-gst)-dp;
+  const wh=whPerUnit||0;   // Amazon storage+LTSF per unit — actual column only
+  const sellful=referral+V('fixed_closing')+V('fulfillment_fee')+ret+coup+wh;
+  const mktg=ams+smm;
+  const cm2=gross-sellful, cm3=cm2-mktg;
+  const rateSum=(gstp>0?1-1/(1+gstp/100):0)+V('referral_pct')/100+amsRate
+                +V('coupon_pct')/100+retPct/100+smmPct/100;
+  const fixed=dp+V('fixed_closing')+V('fulfillment_fee')+bo+fc+V('coupon_flat');
+  return {sp,gst,gstPct:gstp,dp,gross,marketplace:sellful,opex:mktg,ams,smm,bo,fc,wh,cm2,cm3,
+          overhead:bo+fc,net:cm3-bo-fc,rateSum,fixed:fixed+wh,amsPct,retPct};
+}
+// Getter for the master-sheet column: ORIGINAL_ROW holds the values captured
+// at SKU load, BEFORE live-price / TACOS / fee auto-applies touched the
+// screen — i.e. the sheet as the sourcing team wrote it.
+function _sheetV(id){
+  if(USER_EDITED[id])return num(id);   // a hand edit is a sheet-scenario change — honor it
+  if(typeof ORIGINAL_ROW==='object'&&ORIGINAL_ROW&&ORIGINAL_ROW[id]!==undefined&&ORIGINAL_ROW[id]!=='')
+    return parseFloat(ORIGINAL_ROW[id])||0;
+  return num(id);
+}
+function _actualsOk(){
+  return !!(ACTUALS&&((ACTUALS.asp&&ACTUALS.asp.available)||(ACTUALS.returns&&ACTUALS.returns.available)));
+}
+// Renders the waterfall in the selected mode. Sheet mode gets the payload
+// recalc() already built; Actual mode rebuilds the SAME ladder at realized
+// ASP + actual returns (all other inputs read live from the screen).
+function renderLadderView(sheetData){
+  const note=document.getElementById('wf_mode_note');
+  if(WF_MODE==='actual'&&_actualsOk()&&window.CALC_MODE!=='audio_array_ccb'){
+    const aspOk=ACTUALS.asp&&ACTUALS.asp.available, retOk=ACTUALS.returns&&ACTUALS.returns.available;
+    const _tp=(typeof TACOS!=='undefined'&&TACOS&&TACOS.window&&TACOS.window.tacos_pct!=null)
+              ?Number(TACOS.window.tacos_pct):num('ams_pct');
+    const _wh=(ACTUALS.warehousing&&ACTUALS.warehousing.available&&ACTUALS.warehousing.per_unit!=null)
+              ?ACTUALS.warehousing.per_unit:0;
+    const L=_ladderCalc(aspOk?ACTUALS.asp.asp:sheetData.sp,
+                        retOk?ACTUALS.returns.rate_pct:num('returns_pct'),
+                        _tp,false,null,_wh);   // operator: TACOS % as-is on the price
+    renderWaterfall(L);
+    if(note)note.textContent=(aspOk?('realized ASP ₹'+Number(ACTUALS.asp.asp).toLocaleString('en-IN',{maximumFractionDigits:0})+' ('+ACTUALS.asp.window+')'):'sheet price')
+      +(retOk?(' · returns '+ACTUALS.returns.rate_pct+'%'):'');
+    return;
+  }
+  renderWaterfall(sheetData);
+  if(note)note.textContent='';
+}
+// ── Central "Sheet vs Actual" collapsible card: the full ladder, both
+//    columns side by side, refreshed on every recalc/actuals arrival. ──
+function renderSvaTable(sheetData){
+  const card=document.getElementById('sva_card'),tbl=document.getElementById('sva_tbl'),
+        hint=document.getElementById('sva_hint');
+  if(!card||!tbl)return;
+  if(window.CALC_MODE==='audio_array_ccb'||!STATE.row){card.style.display='none';return;}
+  card.style.display='';
+  if(!_actualsOk()){hint.textContent='— no sales/returns history for this selection yet';tbl.innerHTML='';return;}
+  const aspOk=ACTUALS.asp&&ACTUALS.asp.available, retOk=ACTUALS.returns&&ACTUALS.returns.available;
+  const whOk=ACTUALS.warehousing&&ACTUALS.warehousing.available&&ACTUALS.warehousing.per_unit!=null;
+  // Actual AMS is PINNED to the measured 3-mo TACOS — hand-editing the AMS %
+  // input changes the Sheet scenario, never the actual (actuals are facts).
+  const _tacosPct=(typeof TACOS!=='undefined'&&TACOS&&TACOS.window&&TACOS.window.tacos_pct!=null)
+                  ?Number(TACOS.window.tacos_pct):num('ams_pct');
+  const A=_ladderCalc(aspOk?ACTUALS.asp.asp:sheetData.sp,
+                      retOk?ACTUALS.returns.rate_pct:num('returns_pct'),
+                      _tacosPct,false,null,whOk?ACTUALS.warehousing.per_unit:0);
+  // Sheet column = the MASTER SHEET as written (pre-auto-apply values):
+  // sheet SP, sheet AMS %, sheet returns % — not the live-applied screen.
+  // (No warehousing line on the sheet side — the master doesn't price it. Yet.)
+  const S=_ladderCalc(_sheetV('bau_sp'),_sheetV('returns_pct'),_sheetV('ams_pct'),false,_sheetV,0);
+  hint.textContent='— sheet = master values · actual = '+[aspOk?('realized ASP ₹'+Number(ACTUALS.asp.asp).toLocaleString('en-IN',{maximumFractionDigits:0})+' '+ACTUALS.asp.window):null,
+                                  retOk?('returns '+ACTUALS.returns.rate_pct+'%'):null,'TACOS on net'].filter(Boolean).join(' + ');
+  const inr=v=>'₹'+Number(v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const rows=[
+    ['Selling price','sp','tot'],
+    ['GST (in price)','gst','neg'],
+    ['Procurement (DP)','dp','neg'],
+    ['CM-1 · Gross margin','gross','cm'],
+    ['Selling & fulfilment','marketplace','neg'],
+    ['· of which Storage + LTSF (Amazon)','wh','neg'],
+    ['CM-2 · after channel costs','cm2','cm'],
+    ['AMS (ads)','ams','neg'],
+    ['SMM','smm','neg'],
+    ['CM-3 · after marketing','cm3','cm'],
+    ['Business overhead','bo','neg'],
+    ['Finance cost','fc','neg'],
+    ['Net margin','net','cm'],
+  ];
+  const cell=(L,k)=>{const v=L[k],p=L.sp>0?v/L.sp*100:0;
+    return `<td${v<0?' style="color:var(--v3-red);"':''}>${inr(v)} <span class="p">(${p.toFixed(1)}%)</span></td>`;};
+  // evidence sub-rows: every derived "actual" number shows its working + source
+  const ev=t=>`<tr><td colspan="4" style="font-size:10.5px;color:var(--v3-ink3);font-style:italic;padding:1px 8px 6px;border-bottom:1px dashed var(--v3-line2);text-align:left;white-space:normal;">${t}</td></tr>`;
+  const inr0=v=>'₹'+Number(v).toLocaleString('en-IN',{maximumFractionDigits:0});
+  tbl.innerHTML='<table><tr><th>Line</th><th>Sheet</th><th>Actual</th><th title="Change in the line\'s share of its own selling price, in percentage points">Δ % of SP</th></tr>'+
+    rows.map(([lab,k,cls])=>{
+      if(k==='wh'&&!whOk)return '';   // no storage data — hide the line entirely
+      const dpp=(A.sp>0&&S.sp>0)?(A[k]/A.sp*100)-(S[k]/S.sp*100):0;
+      const d=k==='sp'?'':`<span class="${dpp<0?'negd':'posd'}">${dpp>=0?'+':''}${dpp.toFixed(1)}</span>`;
+      let html=`<tr${cls==='cmr'||cls==='cm'?' class="cmr"':''}><td>${lab}</td>${cell(S,k)}${cell(A,k)}<td>${d}</td></tr>`;
+      if(k==='sp'&&aspOk){
+        const a=ACTUALS.asp;
+        html+=ev(`Actual SP derivation: ${inr0(a.net_sales)} post-GST Amazon-3P sales ÷ ${a.units} units = ₹${Number(a.net_asp).toLocaleString('en-IN',{minimumFractionDigits:2})} net × ${a.gst_factor} GST re-gross = <b>₹${Number(a.asp).toLocaleString('en-IN',{minimumFractionDigits:2})}</b> customer price · window ${a.window} (${a.weeks_with_sales} weeks with sales) · deals &amp; B2B orders included · source: weekly sales snapshot (stores 3P net of GST by design)`);
+      }
+      if(k==='ams'){
+        const t=(typeof TACOS!=='undefined'&&TACOS&&TACOS.window&&TACOS.window.tacos_pct!=null)?TACOS:null;
+        html+=ev(`AMS — sheet: ${S.amsPct.toFixed(2)}% (master assumption) · actual: <b>${A.amsPct.toFixed(2)}%</b>${t?` = 3-mo TACOS (spend ₹${Number(t.window.spend).toLocaleString('en-IN',{maximumFractionDigits:0})} ÷ net GMV ₹${Number(t.window.gmv).toLocaleString('en-IN',{maximumFractionDigits:0})})`:''}, applied on the price = ₹${(A.sp*A.amsPct/100).toFixed(2)}/unit — source: weekly AMS data`);
+      }
+      if(k==='wh'&&whOk){
+        const w=ACTUALS.warehousing;
+        html+=ev(`Warehousing derivation: ₹${Number(w.storage_fee).toLocaleString('en-IN')} storage + ₹${Number(w.ltsf_fee).toLocaleString('en-IN')} LTSF charged in ${w.month} ÷ ${w.monthly_units} avg monthly units (13wk pace) = <b>₹${w.per_unit}/unit</b> · avg ${w.avg_qty_on_hand}u sitting in FCs · source: FBA storage-fee reports`);
+      }
+      if(k==='marketplace'&&retOk){
+        const r=ACTUALS.returns;
+        html+=ev(`Actual returns in this line: ${r.return_units} Amazon-3P returns (90d report) ÷ ${r.units_sold_13w} Amazon-3P units sold ${r.window} = <b>${r.rate_pct}%</b> — matched ~90-day windows both sides${r.sellable_pct!=null?` · ${r.sellable_pct}% came back sellable`:''} · sources: returns + weekly sales snapshots`);
+      }
+      return html;
+    }).join('')+'</table>'+
+    '<div style="font-size:10px;color:var(--v3-ink3);font-style:italic;padding:5px 4px 0;">'+
+    'Δ compares each line’s share of its own selling price (percentage points, not ₹). '+
+    'A fixed ₹ cost — e.g. Procurement — shows a + change when the actual price is lower: '+
+    'same rupees, bigger bite of every sale.</div>';
+}
+// ── Realized actuals (3-mo ASP + actual return rate) — reference + explicit Apply ──
+let ACTUALS=null;
+async function loadActuals(){
+  const panel=document.getElementById('act_panel');if(!panel)return;
+  ACTUALS=null;panel.style.display='none';
+  document.getElementById('act_asp_apply').style.display='none';
+  document.getElementById('act_ret_apply').style.display='none';
+  const _ab=document.getElementById('wf_btn_actual');if(_ab)_ab.disabled=true;
+  if(!STATE.row)return;
+  const asin=(STATE.row['ASIN']||'').toString().trim();
+  const sku=(STATE.row['SKU']||'').toString().trim();
+  if(asin.length!==10&&!sku)return;   // nothing to match on
+  try{
+    const j=await fetch(`/margin/actuals?asin=${encodeURIComponent(asin)}&sku=${encodeURIComponent(sku)}`).then(r=>r.json());
+    if(currentAsin()!==asin||((STATE.row&&STATE.row['SKU']||'').toString().trim())!==sku)return;   // stale
+    ACTUALS=j;
+    const inr=v=>'₹'+Number(v).toLocaleString('en-IN',{maximumFractionDigits:0});
+    let any=false;
+    const aspEl=document.getElementById('act_asp');
+    if(j.asp&&j.asp.available){
+      const sp=parseFloat(document.getElementById('bau_sp').value||0);
+      const gap=sp>0?((j.asp.asp-sp)/sp*100):null;
+      aspEl.innerHTML=`Realized ASP <b style="font-family:var(--mono);">${inr(j.asp.asp)}</b>`+
+        ` <span style="color:#64748B;">(${j.asp.units}u · ${j.asp.window}${gap!=null?` · ${gap>=0?'+':''}${gap.toFixed(1)}% vs SP`:''})</span>`;
+      document.getElementById('act_asp_apply').style.display='';any=true;
+    }else{aspEl.innerHTML=`<span style="color:#64748B;">No realized ASP (${(j.asp&&j.asp.reason)||'n/a'})</span>`;}
+    const retEl=document.getElementById('act_ret');
+    if(j.returns&&j.returns.available){
+      const cur=parseFloat(document.getElementById('returns_pct').value||0);
+      retEl.innerHTML=`Returns <b style="font-family:var(--mono);">${j.returns.rate_pct}%</b>`+
+        ` <span style="color:#64748B;">(${j.returns.return_units}/${j.returns.units_sold_13w}u 3P, ${j.returns.window}`+
+        `${j.returns.sellable_pct!=null?` · ${j.returns.sellable_pct}% back sellable`:''}`+
+        `${cur?` · sheet ${cur}%`:''})</span>`;
+      document.getElementById('act_ret_apply').style.display='';any=true;
+    }else{retEl.innerHTML=`<span style="color:#64748B;">No returns history</span>`;}
+    panel.style.display='block';
+    const ab=document.getElementById('wf_btn_actual');
+    if(ab)ab.disabled=!_actualsOk();
+    if(window.CALC_MODE!=='audio_array_ccb')recalc();  // actuals arrived — refresh waterfall + SvA card
+  }catch(e){/* reference only — never block the calculator */}
+}
+function applyActualAsp(){
+  if(!ACTUALS||!ACTUALS.asp||!ACTUALS.asp.available)return;
+  document.getElementById('bau_sp').value=Number(ACTUALS.asp.asp).toFixed(2);
+  USER_EDITED['bau_sp']=true;               // explicit Apply = deliberate
+  if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}
+  refreshFees();                        // fees follow the new price
+}
+function applyActualReturns(){
+  if(!ACTUALS||!ACTUALS.returns||!ACTUALS.returns.available)return;
+  document.getElementById('returns_pct').value=Number(ACTUALS.returns.rate_pct).toFixed(2);
+  USER_EDITED['returns_pct']=true;          // explicit Apply = deliberate
+  if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}
+}
 function applyTacos(){
   if(!TACOS||TACOS.window.tacos_pct==null)return;
   const el=document.getElementById('ams_pct');if(!el)return;
   el.value=Number(TACOS.window.tacos_pct).toFixed(2);
+  USER_EDITED['ams_pct']=true;              // explicit Apply = deliberate
   if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}
   document.getElementById('tc_meta').textContent+=' · applied to AMS %';
 }
@@ -1066,6 +1355,15 @@ function renderWaterfall(d){
   put('wf_sp',d.sp);put('wf_gst',d.gst);put('wf_nettax',d.sp-d.gst);put('wf_dp',d.dp);
   put('wf_gm',d.gross);put('wf_mp',d.marketplace);put('wf_ox',d.opex);
   put('wf_oh',d.overhead);put('wf_net',d.net);
+  put('wf_cm2',d.cm2);put('wf_cm3',d.cm3);
+  ['wf_cm2','wf_cm3'].forEach(id=>{const el=document.getElementById(id);
+    if(el&&el.closest('li'))el.closest('li').classList.toggle('negv',(id==='wf_cm2'?d.cm2:d.cm3)<0);});
+  // every line also reads as % of selling price
+  const pct=(id,v)=>{const el=document.getElementById(id);
+    if(el)el.textContent=(d.sp>0&&isFinite(v))?('('+(v/d.sp*100).toFixed(1)+'%)'):'';};
+  pct('wf_gst_pct',d.gst);pct('wf_nettax_pct',d.sp-d.gst);pct('wf_dp_pct',d.dp);
+  pct('wf_gm_pct',d.gross);pct('wf_mp_pct',d.marketplace);pct('wf_cm2_pct',d.cm2);
+  pct('wf_ox_pct',d.opex);pct('wf_cm3_pct',d.cm3);pct('wf_oh_pct',d.overhead);pct('wf_net_pct',d.net);
   const g=document.getElementById('wf_gst_lab');if(g)g.textContent='at '+(d.gstPct||0).toFixed(0)+'%';
   const o=document.getElementById('wf_oh_lab');if(o)o.textContent='overhead + finance on NLC';
   bar('wf_gst_bar',d.gst,d.sp);bar('wf_dp_bar',d.dp,d.sp);bar('wf_gm_bar',d.gross,d.sp);
@@ -1092,6 +1390,7 @@ function bindScenarios(){
     const v=parseFloat(String(b&&b.textContent||'').replace(/[^0-9.]/g,''));
     if(!(v>0))return;                       // no price for this scenario in the master
     document.getElementById('bau_sp').value=v.toFixed(2);
+    USER_EDITED['bau_sp']=true;             // scenario chip = deliberate choice
     box.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
     btn.classList.add('on');
     if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}
@@ -1137,14 +1436,20 @@ function recalc(){
   ];
   const grandTotal=rows[rows.length-1][2]||0;
   // v3 panel — reuses the numbers computed immediately above
-  const _marketplace=referral+num('fixed_closing')+num('fulfillment_fee')+ams;
-  const _opex=coup+smm+returns;
+  // CM ladder grouping: channel costs (CM-2 step) vs marketing (CM-3 step).
+  // CM-1 = gross; CM-2 = CM-1 − selling/fulfilment; CM-3 = CM-2 − marketing;
+  // net = CM-3 − overhead − finance (identity holds by construction).
+  const _sellful=referral+num('fixed_closing')+num('fulfillment_fee')+returns+coup;
+  const _mktg=ams+smm;
+  const cm2=gross-_sellful, cm3=cm2-_mktg;
   // break-even: rates that scale with SP vs costs that do not
   const _rateSum=(gstp>0?1-1/(1+gstp/100):0)+num('referral_pct')/100+num('ams_pct')/100
                  +num('coupon_pct')/100+num('returns_pct')/100+smmPct/100;
   const _fixed=dp+num('fixed_closing')+num('fulfillment_fee')+bo+fc+num('coupon_flat');
-  renderWaterfall({sp,gst,gstPct:gstp,dp,gross,marketplace:_marketplace,opex:_opex,
-                   overhead:bo+fc,net,rateSum:_rateSum,fixed:_fixed});
+  const _sheetLadder={sp,gst,gstPct:gstp,dp,gross,marketplace:_sellful,opex:_mktg,cm2,cm3,
+                      overhead:bo+fc,net,rateSum:_rateSum,fixed:_fixed};
+  renderLadderView(_sheetLadder);
+  renderSvaTable(_sheetLadder);
   markScenarioAvailability();
   document.getElementById('cost_rows').innerHTML=rows.map(r=>{
     const pct=grandTotal>0?(r[2]/grandTotal*100):0;

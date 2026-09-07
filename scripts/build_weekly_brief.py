@@ -280,6 +280,20 @@ def movers_sections(s: pd.DataFrame, latest_wn: int) -> str:
     return "\n".join(out)
 
 
+def _inv_week(inv: pd.DataFrame, latest_wn: int) -> int:
+    """Inventory snapshots land a beat behind sales during a mid-week run.
+    Slicing on the sales week then yields an EMPTY frame and every signal
+    silently reads 'healthy' / stock 0 — so fall back to the newest
+    inventory week at or before the brief's week (never a later one, so
+    historical briefs stay historical)."""
+    if inv.empty or "wn" not in inv.columns:
+        return latest_wn
+    if (inv["wn"] == latest_wn).any():
+        return latest_wn
+    prior = inv.loc[inv["wn"] <= latest_wn, "wn"]
+    return int(prior.max()) if not prior.empty else latest_wn
+
+
 def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, a: pd.DataFrame,
                       latest_wn: int) -> str:
     """Low-stock and dead-stock signals from the inventory snapshot
@@ -287,7 +301,7 @@ def inventory_section(inv: pd.DataFrame, s: pd.DataFrame, a: pd.DataFrame,
     model that is also being advertised gets an explicit pause / scale-down
     directive — restocking advice alone hides that spend is accelerating
     the stock-out."""
-    inv_l = inv[inv["wn"] == latest_wn].copy()
+    inv_l = inv[inv["wn"] == _inv_week(inv, latest_wn)].copy()
     # Normalised model key — sales has "AI-04 Red", inventory has
     # "AI-04 RED"; a strict-string merge would orphan the rows and
     # falsely flag healthy stock as dead.  Compare upper+stripped,
@@ -462,7 +476,7 @@ def brand_briefs_section(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, la
                 )
 
         # Inventory cover
-        inv_b = inv[(inv["wn"] == latest_wn) & (inv["brand"] == brand)]
+        inv_b = inv[(inv["wn"] == _inv_week(inv, latest_wn)) & (inv["brand"] == brand)]
         stock = int(inv_b["inventory_units"].sum())
 
         arrow = trend_arrow(wow_pct(gmv_c, gmv_p))
@@ -664,7 +678,7 @@ def suggested_actions(s: pd.DataFrame, inv: pd.DataFrame, a: pd.DataFrame, lates
     # 1) Low cover → reorder.  Uses an upper-cased model key to merge
     # because sales + inventory casing diverge ("AI-04 Red" vs
     # "AI-04 RED") and a strict-string join would silently miss them.
-    inv_l = inv[inv["wn"] == latest_wn].copy()
+    inv_l = inv[inv["wn"] == _inv_week(inv, latest_wn)].copy()
     inv_l["_mk"] = inv_l["model"].astype(str).str.strip().str.upper()
     inv_l = inv_l.groupby(["brand","model","_mk"])["inventory_units"].sum().reset_index()
     s4 = s[s["wn"].between(latest_wn - 3, latest_wn)].copy()
@@ -759,6 +773,12 @@ def build_brief(week: Optional[int] = None,
     inv = inv.dropna(subset=["wn"])
     inv["wn"] = inv["wn"].astype(int)
     inv = _drop_excluded(inv)
+    # Insights reason about SELLABLE stock only: Pipeline / Open Order rows
+    # (OrderPilot imports, in-transit) inflate cover and mute low-stock
+    # signals, so they never enter the brief's inventory math.
+    if "channel" in inv.columns:
+        _chan = inv["channel"].fillna("").astype(str).str.strip().str.lower()
+        inv = inv[~_chan.isin({"pipeline", "open order"})]
 
     a = pd.read_csv(AMS_CSV) if AMS_CSV.exists() else pd.DataFrame()
     a = _drop_excluded(a)

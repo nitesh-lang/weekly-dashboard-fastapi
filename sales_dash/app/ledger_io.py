@@ -27,6 +27,14 @@ def _invalidate(brand: str | None = None) -> None:
         _LEDGER_CACHE.clear()
     else:
         _LEDGER_CACHE.pop(brand, None)
+    # Computed dashboard payloads are derived from the ledger — drop them in
+    # the same breath so a fresh pull/upload shows immediately (late import:
+    # routers.dashboard imports this module).
+    try:
+        from .routers.dashboard import invalidate_payloads
+        invalidate_payloads(brand)
+    except Exception:
+        pass
 
 # Alias fold-in — same physical Amazon account has drifted labels over time,
 # and the ledger PK is (brand, date, account, asin), so two labels → double

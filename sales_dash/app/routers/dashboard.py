@@ -20,6 +20,7 @@ import gc
 import json
 import math
 import os
+import time
 from typing import Any, Optional
 
 import numpy as np
@@ -103,6 +104,47 @@ def _respond(ctx: dict) -> JSONResponse:
     return JSONResponse(content=json.loads(body))
 
 
+# ── Computed-payload cache ───────────────────────────────────────────────
+# The dashboard recomputes ~2-3s of pandas per request while the underlying
+# ledger changes only when a pull/upload lands. Cache the SERIALIZED body per
+# (brand + query params), byte-bounded (512MB box discipline — see the
+# AMS-Trend 502 incident), and dropped for a brand the moment its ledger is
+# written (ledger_io._invalidate calls invalidate_payloads).
+_PAYLOAD_CACHE: dict[tuple, tuple[float, str]] = {}
+_PAYLOAD_TTL_SEC = 300
+_PAYLOAD_MAX_BYTES = 6 * 1024 * 1024
+_payload_bytes = 0
+
+
+def invalidate_payloads(brand: str | None = None) -> None:
+    global _payload_bytes
+    if brand is None:
+        _PAYLOAD_CACHE.clear()
+        _payload_bytes = 0
+        return
+    for k in [k for k in _PAYLOAD_CACHE if k[0] == brand]:
+        _payload_bytes -= len(_PAYLOAD_CACHE.pop(k)[1])
+
+
+def _payload_get(key: tuple) -> str | None:
+    hit = _PAYLOAD_CACHE.get(key)
+    if hit and (time.time() - hit[0]) < _PAYLOAD_TTL_SEC:
+        return hit[1]
+    return None
+
+
+def _payload_put(key: tuple, body: str) -> None:
+    global _payload_bytes
+    old = _PAYLOAD_CACHE.pop(key, None)
+    if old:
+        _payload_bytes -= len(old[1])
+    _PAYLOAD_CACHE[key] = (time.time(), body)
+    _payload_bytes += len(body)
+    while _payload_bytes > _PAYLOAD_MAX_BYTES and _PAYLOAD_CACHE:
+        k = min(_PAYLOAD_CACHE, key=lambda k: _PAYLOAD_CACHE[k][0])
+        _payload_bytes -= len(_PAYLOAD_CACHE.pop(k)[1])
+
+
 def _weekwise_rows(df: pd.DataFrame) -> list[dict]:
     if df.empty:
         return []
@@ -129,6 +171,11 @@ def dashboard(
     brand = get_brand(brand_key)
     if brand is None:
         raise HTTPException(status_code=404, detail={"error": {"code": "unknown_brand"}})
+
+    _ck = (brand.key, selected_month, from_date, to_date, trend_month, plan_scope)
+    _cached = _payload_get(_ck)
+    if _cached is not None:
+        return JSONResponse(content=json.loads(_cached))
 
     activity.log(
         _user.get("email") if isinstance(_user, dict) else str(_user),
@@ -354,7 +401,9 @@ def dashboard(
     kpi_ledger = None  # noqa
     gc.collect()
 
-    return _respond(ctx)
+    body = json.dumps(_finite(ctx), default=_json_default, allow_nan=False)
+    _payload_put(_ck, body)
+    return JSONResponse(content=json.loads(body))
 
 
 def _try_donut(svc, ledger, f, t, plan_asins: set[str] | None = None):

@@ -83,10 +83,23 @@ def _json_default(o: Any) -> Any:
     return str(o)
 
 
+def _finite(o):
+    """Recursively replace NaN/inf with None — a plan row with a 0 goal makes
+    achievement% infinite, and one non-finite float 500s the whole dashboard
+    ('Out of range float values are not JSON compliant', 08/09/26)."""
+    if isinstance(o, dict):
+        return {k: _finite(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_finite(v) for v in o]
+    if isinstance(o, float) and (o != o or o in (float("inf"), float("-inf"))):
+        return None
+    return o
+
+
 def _respond(ctx: dict) -> JSONResponse:
     """Serialize dashboard payload with numpy-aware fallback. Bypasses
     pydantic's response validation (which chokes on numpy.int64)."""
-    body = json.dumps(ctx, default=_json_default, allow_nan=False)
+    body = json.dumps(_finite(ctx), default=_json_default, allow_nan=False)
     return JSONResponse(content=json.loads(body))
 
 

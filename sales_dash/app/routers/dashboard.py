@@ -20,7 +20,9 @@ import gc
 import json
 import math
 import os
+import re
 import time
+from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
@@ -131,6 +133,86 @@ def _payload_get(key: tuple) -> str | None:
     if hit and (time.time() - hit[0]) < _PAYLOAD_TTL_SEC:
         return hit[1]
     return None
+
+
+# ── Weekly-data enrichments: variation families + AMS orders ─────────────
+# Sanctioned cross-read of the weekly project's outputs (same monorepo):
+# raw seller sales give child→parent→model (Amazon variation families, e.g.
+# B0GYFK8LCY = SC-01 + SC-04 + SC-05), business_ads_joined gives per-week
+# ad-attributed orders. Both mtime/path-cached, tiny.
+_WREPO = Path(__file__).resolve().parents[3]
+_AMS_CSV = _WREPO / "data" / "ams_weekly_data" / "processed_ads" / "business_ads_joined.csv"
+_RAW_SALES = _WREPO / "data" / "raw" / "sales"
+_W33_SUNDAY = pd.Timestamp("2026-08-09")   # weekly project's Sun-Sat anchor: W33
+_enrich_cache: dict = {}
+
+
+def _latest_week_dir():
+    best, num = None, -1
+    if _RAW_SALES.exists():
+        for p in _RAW_SALES.iterdir():
+            m = re.match(r"Week (\d+)$", p.name)
+            if m and int(m.group(1)) > num:
+                num, best = int(m.group(1)), p
+    return best
+
+
+def _families() -> tuple[dict, dict]:
+    """({parent: 'M1 + M2 + M3'} for multi-model families, {child: parent})."""
+    wk = _latest_week_dir()
+    if wk is None:
+        return {}, {}
+    key = ("fam", str(wk))
+    hit = _enrich_cache.get(key)
+    if hit:
+        return hit
+    fam: dict[str, set] = {}
+    c2p: dict[str, str] = {}
+    for f in wk.glob("*/Seller Sales (SP-API).xlsx"):
+        try:
+            df = pd.read_excel(f)
+        except Exception:
+            continue
+        if "(Parent) ASIN" not in df.columns:
+            continue
+        for _, r in df.iterrows():
+            p = str(r.get("(Parent) ASIN") or "").strip().upper()
+            c = str(r.get("(Child) ASIN") or "").strip().upper()
+            mdl = str(r.get("Model") or "").strip()
+            if p and c and p != "NAN":
+                c2p[c] = p
+            if p and mdl and mdl.lower() not in ("nan", "none", ""):
+                fam.setdefault(p, set()).add(mdl)
+    comp = {p: " + ".join(sorted(m)) for p, m in fam.items() if len(m) >= 2}
+    for k in [k for k in _enrich_cache if k[0] == "fam"]:
+        _enrich_cache.pop(k, None)
+    _enrich_cache[key] = (comp, c2p)
+    return comp, c2p
+
+
+def _ams_orders_by_parent(tf, tt) -> dict:
+    """{parent_asin: ad-attributed orders} for weeks overlapping [tf, tt]."""
+    if not _AMS_CSV.exists():
+        return {}
+    key = ("ams", _AMS_CSV.stat().st_mtime, str(tf)[:10], str(tt)[:10])
+    hit = _enrich_cache.get(key)
+    if hit is not None:
+        return hit
+    df = pd.read_csv(_AMS_CSV, usecols=["asin", "child_asin", "week", "ams_orders"])
+    wk = pd.to_numeric(df["week"], errors="coerce")
+    sun = _W33_SUNDAY + pd.to_timedelta((wk - 33) * 7, unit="D")
+    sat = sun + pd.Timedelta(days=6)
+    df = df[(sun <= pd.Timestamp(tt)) & (sat >= pd.Timestamp(tf))]
+    _, c2p = _families()
+    child = df["child_asin"].fillna("").astype(str).str.strip().str.upper()
+    asin = df["asin"].fillna("").astype(str).str.strip().str.upper()
+    parent = child.map(c2p).fillna(asin.map(c2p)).fillna(asin)
+    out = (pd.to_numeric(df["ams_orders"], errors="coerce").fillna(0)
+             .groupby(parent).sum().to_dict())
+    for k in [k for k in _enrich_cache if k[0] == "ams"][:-8]:
+        _enrich_cache.pop(k, None)
+    _enrich_cache[key] = out
+    return out
 
 
 def _payload_put(key: tuple, body: str) -> None:
@@ -348,6 +430,12 @@ def dashboard(
                 _alias = _alias_fn(tf) or {}
             except Exception:
                 _alias = {}
+        # Variation families + AMS orders from the weekly project's outputs.
+        try:
+            _fam, _ = _families()
+            _ams = _ams_orders_by_parent(tf, tt)
+        except Exception:
+            _fam, _ams = {}, {}
         for r in asin_rows:
             cat = str(r.get("category", "")).strip()
             if cat.lower() in _junk:
@@ -359,6 +447,13 @@ def dashboard(
                 m = _sku_get(r.get("asin", ""))
                 if m.get("model"):
                     r["model_no"] = m["model"]
+            _a = str(r.get("asin", "")).strip().upper()
+            r["ams_orders"] = int(round(_ams.get(_a, 0)))
+            # A parent that roofs multiple models shows its family so a
+            # "241 vs 132" (family vs one model) can never confuse again.
+            if _a in _fam:
+                _mn = str(r.get("model_no") or "").strip()
+                r["model_no"] = _fam[_a] if not _mn or _mn in _fam[_a].split(" + ") else _mn
         # Payload trim — cap at top 500 by actual so a 700-model brand
         # doesn't overflow JSON. Sparklines are KEPT (~1-2 KB each) because
         # plan-scope filtering already trims the row count 5-15x.

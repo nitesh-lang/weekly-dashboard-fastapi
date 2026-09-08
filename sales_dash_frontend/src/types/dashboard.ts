@@ -34,6 +34,7 @@ export interface AsinRow {
   target: number;
   actual: number;
   units_ordered: number;
+  ams_orders: number;
   target_units: number;
   achievement: number;
   sparkline: string;

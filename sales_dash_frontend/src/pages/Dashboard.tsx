@@ -976,7 +976,7 @@ function CategoryDonutCard({ donut, catRows }: { donut: DonutBundle | null; catR
   );
 }
 
-type AsinSortKey = "asin" | "model_no" | "category" | "target" | "actual" | "units_ordered" | "achievement";
+type AsinSortKey = "asin" | "model_no" | "category" | "target" | "actual" | "units_ordered" | "ams_orders" | "achievement";
 type SortDir = "asc" | "desc";
 
 function useSort<T extends Record<string, unknown>>(
@@ -1092,8 +1092,8 @@ function AsinTable({ rows: allRows }: { rows: AsinRow[] }) {
   const exportAsin = () => {
     downloadCsv(
       `asin_target_vs_actual_${new Date().toISOString().slice(0, 10)}.csv`,
-      ["ASIN", "Model", "Category", "Target", "Actual", "Units", "Achievement %"],
-      filtered.map((r) => [r.asin, r.model_no || "", r.category || "", r.target, r.actual, r.units_ordered, r.achievement])
+      ["ASIN", "Model", "Category", "Target", "Actual", "Units", "AMS Orders", "Achievement %"],
+      filtered.map((r) => [r.asin, r.model_no || "", r.category || "", r.target, r.actual, r.units_ordered, r.ams_orders ?? 0, r.achievement])
     );
   };
   return (
@@ -1144,6 +1144,7 @@ function AsinTable({ rows: allRows }: { rows: AsinRow[] }) {
                 <th className="px-3 py-2 text-right font-bold cursor-pointer hover:text-[hsl(var(--ink))]" onClick={() => flip("target")}>Target<SortIcon k="target" /></th>
                 <th className="px-3 py-2 text-right font-bold cursor-pointer hover:text-[hsl(var(--ink))]" onClick={() => flip("actual")}>Actual<SortIcon k="actual" /></th>
                 <th className="px-3 py-2 text-right font-bold cursor-pointer hover:text-[hsl(var(--ink))]" onClick={() => flip("units_ordered")}>Units<SortIcon k="units_ordered" /></th>
+                <th className="px-3 py-2 text-right font-bold cursor-pointer hover:text-[hsl(var(--ink))]" onClick={() => flip("ams_orders")} title="Ad-attributed orders (SP+SB+SD) for weeks overlapping this period — from the weekly AMS data">AMS Ord.<SortIcon k="ams_orders" /></th>
                 <th className="px-3 py-2 text-right font-bold cursor-pointer hover:text-[hsl(var(--ink))]" onClick={() => flip("achievement")}>Ach.<SortIcon k="achievement" /></th>
                 <th className="px-3 py-2 text-left font-bold">Trend</th>
               </tr>
@@ -1157,6 +1158,7 @@ function AsinTable({ rows: allRows }: { rows: AsinRow[] }) {
                   <td className="px-3 py-1.5 text-right">{formatINRCompact(r.target)}</td>
                   <td className="px-3 py-1.5 text-right">{formatINRCompact(r.actual)}</td>
                   <td className="px-3 py-1.5 text-right">{formatNumber(r.units_ordered)}</td>
+                  <td className="px-3 py-1.5 text-right">{formatNumber(r.ams_orders ?? 0)}</td>
                   <td
                     className={cn(
                       "px-3 py-1.5 text-right font-semibold",

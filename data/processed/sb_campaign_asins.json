@@ -3660,6 +3660,16 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev - B0GGHZWMVW - SBV - PT 2": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev-B0GGHZWMVW-Vacuum-SBV-PT01": {
     "brand": "Nexlev",
     "asins": [
@@ -3730,10 +3740,32 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Ownair-Hot-SB-PT(1)": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H",
+      "B0DQ8W1RBV",
+      "B0DT6Y7KJM"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0CDPP45BM_Steam Cleaner_SBV_KT_BM": {
     "brand": "Nexlev",
     "asins": [
       "B0CDPP45BM"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0GGHZWMVW - SBV - Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
     ],
     "ad_types": [
       "VIDEO"
@@ -3757,6 +3789,18 @@
     ],
     "ad_types": [
       "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Ownair-Hot Hair Brush-SB-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DT6Y7KJM",
+      "B0DQ8W1RBV",
+      "B0DQCWRG3H"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "1122755254933937"
   },
@@ -3807,6 +3851,30 @@
     ],
     "ad_types": [
       "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Ownair-Hot-SB-PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H",
+      "B0DQ8W1RBV",
+      "B0DT6Y7KJM"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Ownair-Hot Hair Brush-SB-Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H",
+      "B0DQ8W1RBV",
+      "B0DT6Y7KJM"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
     ],
     "profile_id": "1122755254933937"
   },
@@ -3884,10 +3952,42 @@
     ],
     "profile_id": "1122755254933937"
   },
+  "Nexlev - B0GGHZWMVW - SBV - Exact": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Ownair-Hot Hair Brush-SB-Phrase": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0DQCWRG3H",
+      "B0DT6Y7KJM",
+      "B0DQ8W1RBV"
+    ],
+    "ad_types": [
+      "MANUAL_COLLECTION"
+    ],
+    "profile_id": "1122755254933937"
+  },
   "Nexlev_B0CYSLCRQS_Sofa Cleaning Machine_SBV_KT_BM": {
     "brand": "Nexlev",
     "asins": [
       "B0CYSLCRQS"
+    ],
+    "ad_types": [
+      "VIDEO"
+    ],
+    "profile_id": "1122755254933937"
+  },
+  "Nexlev - B0GGHZWMVW - SBV - PT": {
+    "brand": "Nexlev",
+    "asins": [
+      "B0GGHZWMVW"
     ],
     "ad_types": [
       "VIDEO"

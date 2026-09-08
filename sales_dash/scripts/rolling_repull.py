@@ -35,7 +35,8 @@ from datetime import date, datetime, timedelta
 
 import httpx
 
-API = "https://sales-dashboard-api-23ii.onrender.com"
+# Monorepo home of the sales dashboard (old standalone service is retired).
+API = "https://weekly-dashboard-fastapi.onrender.com/sales-app"
 EMAIL = "info@cambiumretail.com"
 PASSWORD = "Cambium@109"
 

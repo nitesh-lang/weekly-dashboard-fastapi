@@ -333,6 +333,17 @@ def dashboard(
                 plan_df = svc.load_planning_main(plan_ref)
                 if not plan_df.empty and "asin" in plan_df.columns:
                     plan_asins = set(plan_df["asin"].astype(str).str.strip())
+                    # Family-aware plan scope (operator 09/09): a planned ASIN
+                    # covers its WHOLE variation family — parent and children —
+                    # because the parent-grain ledger reports siblings under
+                    # one roof and would otherwise fall out of plan scope.
+                    try:
+                        fam_comp, c2p = _families()
+                        parents_of_plan = {c2p.get(a.upper(), a.upper()) for a in plan_asins}
+                        children_of_plan = {c for c, p in c2p.items() if p in parents_of_plan}
+                        plan_asins = plan_asins | parents_of_plan | children_of_plan
+                    except Exception:
+                        pass
             except Exception:
                 plan_asins = set()
         plan_scope_active = bool(plan_asins)

@@ -476,6 +476,41 @@ def asin_target_vs_actual(ledger, f, t):
     else:
         plan["period_target_units"] = 0
 
+    # FAMILY-AWARE MATCHING (operator 09/09): Amazon variation-merges siblings
+    # under one parent and the parent-grain ledger cannot split them — so a
+    # plan ASIN matches whether the sheet carries the parent OR a child, and
+    # plan rows of one family collapse into a single family row (targets
+    # summed, models joined) matched against the family parent's actuals.
+    try:
+        from ..routers.dashboard import _families
+        _, _c2p = _families()
+    except Exception:
+        _c2p = {}
+    if _c2p:
+        def _famkey(a: str) -> str:
+            a = str(a).strip().upper()
+            return _c2p.get(a, a)
+        plan = plan.copy()
+        plan["_fk"] = plan["asin"].astype(str).map(_famkey)
+        _mc = next((c for c in ["model#", "model", "modelno", "modelnumber", "sku"]
+                    if c in plan.columns), None)
+        if plan["_fk"].duplicated().any():
+            _lbl = None
+            if _mc:
+                _lbl = plan.groupby("_fk")[_mc].apply(
+                    lambda s: " + ".join(sorted({str(x).strip() for x in s
+                                                 if str(x).strip() not in ("", "nan")})[:4]))
+            _agg = {c: "first" for c in plan.columns
+                    if c not in ("_fk", "period_target", "period_target_units")}
+            _agg["period_target"] = "sum"
+            _agg["period_target_units"] = "sum"
+            plan = plan.groupby("_fk", as_index=False).agg(_agg)
+            if _mc and _lbl is not None:
+                plan[_mc] = plan["_fk"].map(_lbl).fillna(plan[_mc])
+        plan["asin"] = plan["_fk"]
+        plan = plan.drop(columns=["_fk"])
+        ledger_filtered["ASIN"] = ledger_filtered["ASIN"].astype(str).map(_famkey)
+
     # Net sales per ASIN
     actual = ledger_filtered.groupby("ASIN", as_index=False)["net_sales"].sum()
 

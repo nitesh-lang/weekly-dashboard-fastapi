@@ -145,7 +145,7 @@ def variation_performance(
                           "families": [], "weeks": [], "brands": []})
 
     s = pd.read_csv(SALES_CSV, usecols=["week", "brand", "asin", "model",
-                                        "gmv", "units_sold"])
+                                        "gmv", "units_sold", "category_l0"])
     s["wn"] = _wn(s["week"])
     s = s.dropna(subset=["wn"])
     s["wn"] = s["wn"].astype(int)
@@ -169,6 +169,11 @@ def variation_performance(
         gmv=("gmv", "sum"), units=("units_sold", "sum")).to_dict("index")
     model_by_asin = (sw[sw["model"].notna()]
                      .drop_duplicates("asin").set_index("asin")["model"].to_dict())
+    # L0 category per ASIN (operator ask 08/09): family category = the L0 of
+    # its top-GMV member, so a merged family lands in the bucket it sells in.
+    _c = sw[sw["category_l0"].notna() & sw["category_l0"].astype(str).str.strip().ne("")]
+    cat_by_asin = (_c.drop_duplicates("asin").set_index("asin")["category_l0"]
+                     .astype(str).str.strip().to_dict())
 
     # Per-ASIN ads aggregates — an AMS row is credited to its child_asin when
     # present (the actually-advertised variation), else its asin.
@@ -199,6 +204,7 @@ def variation_performance(
                 # badge marks only the family's canonical listing.
                 "is_parent": m == f["parent"],
                 "model": model_by_asin.get(m, ""),
+                "category_l0": cat_by_asin.get(m, ""),
                 "gmv": round(gmv), "units": int(sa.get("units", 0) or 0),
                 "spend": round(spend), "ams_sales": round(ams),
                 "acos": round(spend / ams * 100, 1) if ams > 0 else None,
@@ -221,7 +227,9 @@ def variation_performance(
                 face = {"title": e["title"], "rank": e.get("rank"),
                         "rating": e.get("rating"),
                         "rating_count": e.get("rating_count")}
+        fam_cat = next((r["category_l0"] for r in rows if r["category_l0"]), "")
         out.append({
+            "category_l0": fam_cat,
             "parent_asin": f["parent"], "title": face["title"], "brand": f["brand"],
             "rank": face["rank"], "rating": face["rating"],
             "rating_count": face["rating_count"],
@@ -242,6 +250,7 @@ def variation_performance(
     return clean_nan({
         "weeks": all_weeks, "selected_weeks": sorted(sel_weeks, reverse=True),
         "brands": all_brands, "selected_brands": sorted(brand_filter),
+        "categories": sorted({f["category_l0"] for f in out if f.get("category_l0")}),
         "families": out,
         "family_count": total,
         "inactive_hidden": 0 if include_inactive else total - len(out),

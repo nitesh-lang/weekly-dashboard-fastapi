@@ -365,23 +365,133 @@ def get_ams_trend(
     asin: Optional[str] = Query(None),
     brand: Optional[list[str]] = Query(default=None),
     asin_types: Optional[list[str]] = Query(default=None),
+    family_buckets: bool = Query(False, description="Collapse variation families: rows aggregate per family parent (Keepa variation map), Model shows the family composition"),
 ):
     # 5-min response cache — same filter combo hits memory instead of
     # re-running the load+merge+derive+serialize pipeline (~750ms warm).
     cache_key = _cache_key("trend", week, weeks, sel_weeks, category_l0,
                            category_l1, category_l2, model, asin, brand,
-                           asin_types)
+                           asin_types, family_buckets)
     return _cached_or(cache_key, lambda: _build_trend_response(
         week=week, weeks=weeks, sel_weeks=sel_weeks,
         category_l0=category_l0, category_l1=category_l1,
         category_l2=category_l2, model=model, asin=asin, brand=brand,
-        asin_types=asin_types,
+        asin_types=asin_types, family_buckets=family_buckets,
     ))
+
+
+def _apply_family_buckets(df: pd.DataFrame) -> pd.DataFrame:
+    """Variation buckets (operator ask 08/09): re-key every family member to
+    its family parent and relabel Model with the family's composition, so all
+    downstream groupbys aggregate at FAMILY grain. Family map = the same
+    Keepa union-merge the Variation Performance page uses. ASINs outside any
+    family pass through unchanged."""
+    try:
+        from weekly_app.routes.variation_performance import _load_families
+        fams = _load_families()
+    except Exception:
+        return df
+    c2p: dict[str, str] = {}
+    for f in fams:
+        for m in f["members"]:
+            c2p[m] = f["parent"]
+    if not c2p or "asin" not in df.columns:
+        return df
+    df = df.copy()
+    base = df["asin"].fillna("").astype(str).str.strip().str.upper()
+    child = (df["child_asin"].fillna("").astype(str).str.strip().str.upper()
+             if "child_asin" in df.columns else base)
+    parent = child.map(c2p)
+    parent = parent.where(parent.notna(), base.map(c2p))
+    in_fam = parent.notna()
+    if not in_fam.any():
+        return df
+    df.loc[in_fam, "asin"] = parent[in_fam]
+    # Capture the family composition NOW — downstream the master re-stamp
+    # rewrites Model to the parent's own model, so the label must ride along
+    # in a hidden column until the final collapse.
+    if "Model" in df.columns:
+        lbl = df[in_fam].groupby("asin")["Model"].apply(_fam_label)
+        df["_fam_label"] = df["asin"].map(lbl.to_dict())
+    return df
+
+
+def _fam_label(s) -> str:
+    names = sorted({str(x).strip() for x in s
+                    if str(x).strip() and str(x).strip().lower() != "nan"},
+                   key=lambda n: (len(n), n))   # short = primary models first
+    return " + ".join(names[:4]) + (f" +{len(names)-4}" if len(names) > 4 else "")
+
+
+def _collapse_families(df: pd.DataFrame) -> pd.DataFrame:
+    """Final family-bucket collapse: rows sharing a family parent merge to
+    ONE row per (brand, asin, week) — additive metrics summed, ratios
+    recomputed from the sums (stored conventions: acos/tacos/conversion are
+    FRACTIONS, roas/cac plain ratios), Model relabeled with the family
+    composition. Runs AFTER the master-canonical Model re-stamp, which would
+    otherwise overwrite the family label with the parent's own model."""
+    # Family rows are the ones _apply_family_buckets tagged — no re-derive,
+    # so canonical-parent choice can never disagree between the two passes.
+    if "asin" not in df.columns or "_fam_label" not in df.columns:
+        return df
+    m = df["_fam_label"].notna()
+    if not m.any():
+        return df.drop(columns=["_fam_label"])
+    fam_df = df[m].copy()
+    rest = df[~m]
+    ids = [c for c in ("brand", "asin", "week") if c in fam_df.columns]
+    SUM = [c for c in ("Spend", "Clicks", "Impressions", "attributed_sales",
+                       "ams_orders", "gmv", "units", "units_ordered", "sessions",
+                       "inventory_units", "inventory_ampm", "inventory_1p",
+                       "inventory_fba") if c in fam_df.columns]
+    MEAN = [c for c in ("buy_box_pct",) if c in fam_df.columns]
+    others = [c for c in fam_df.columns if c not in ids + SUM + MEAN]
+    lblmap = fam_df.drop_duplicates("asin").set_index("asin")["_fam_label"].to_dict()
+    for c in SUM:
+        fam_df[c] = pd.to_numeric(fam_df[c], errors="coerce")
+    g = fam_df.groupby(ids, as_index=False).agg(
+        {**{c: "sum" for c in SUM}, **{c: "mean" for c in MEAN},
+         **{c: "first" for c in others}})
+    if lblmap and "Model" in g.columns:
+        g["Model"] = g["asin"].map(lblmap).fillna(g["Model"])
+    def _safe(n, d):
+        return np.where(pd.to_numeric(d, errors="coerce").fillna(0) > 0,
+                        pd.to_numeric(n, errors="coerce") / pd.to_numeric(d, errors="coerce"),
+                        np.nan)
+    cols = set(g.columns)
+    # The trend frame carries RATIOS but not raw Spend — reconstruct each
+    # member's spend from its own ratios (spend = acos×attr_sales, fallback
+    # tacos×gmv), sum, then recompute the family ratios from the sums.
+    spend_src = None
+    if {"acos", "attributed_sales"} <= set(fam_df.columns):
+        spend_src = (pd.to_numeric(fam_df["acos"], errors="coerce")
+                     * pd.to_numeric(fam_df["attributed_sales"], errors="coerce"))
+    if {"tacos", "gmv"} <= set(fam_df.columns):
+        alt = (pd.to_numeric(fam_df["tacos"], errors="coerce")
+               * pd.to_numeric(fam_df["gmv"], errors="coerce"))
+        spend_src = alt if spend_src is None else spend_src.fillna(alt)
+    if spend_src is not None:
+        sp = spend_src.fillna(0).groupby([fam_df[c] for c in ids]).sum()
+        sp.index.names = ids
+        g = g.merge(sp.rename("_spend").reset_index(), on=ids, how="left")
+        if {"acos", "attributed_sales"} <= cols:
+            g["acos"] = _safe(g["_spend"], g["attributed_sales"])
+        if {"roas", "attributed_sales"} <= cols:
+            g["roas"] = _safe(g["attributed_sales"], g["_spend"])
+        if {"tacos", "gmv"} <= cols:
+            g["tacos"] = _safe(g["_spend"], g["gmv"])
+        if {"cac", "ams_orders"} <= cols:
+            g["cac"] = _safe(g["_spend"], g["ams_orders"])
+        g = g.drop(columns=["_spend"])
+    if {"units", "sessions", "conversion_pct"} <= cols:
+        g["conversion_pct"] = _safe(g["units"], g["sessions"])
+    out = pd.concat([rest, g], ignore_index=True)
+    return out.drop(columns=[c for c in ("_fam_label",) if c in out.columns])
 
 
 def _build_trend_response(
     week, weeks, sel_weeks, category_l0, category_l1, category_l2,
-    model, asin, brand, asin_types=None,
+    model, asin, brand, asin_types=None, family_buckets=False,
 ):
     # ===============================
     # LOAD DATA
@@ -413,6 +523,11 @@ def _build_trend_response(
         active_asin_types = [t.strip() for t in asin_types if t and t.strip()]
     if active_asin_types and "asin_type" in df.columns:
         df = df[df["asin_type"].astype(str).isin(active_asin_types)]
+
+    # Variation buckets — collapse families BEFORE base_df so contribution
+    # and every downstream aggregate share the family grain.
+    if family_buckets:
+        df = _apply_family_buckets(df)
 
     # Full AMS base (used for contribution calc)
     base_df = df.copy()
@@ -574,6 +689,11 @@ def _build_trend_response(
     _drop_present = [c for c in _DROP if c in df.columns]
     if _drop_present:
         df = df.drop(columns=_drop_present)
+
+    # Variation buckets: merge family members into one row per parent per
+    # week (after the master Model re-stamp so the family label survives).
+    if family_buckets:
+        df = _collapse_families(df)
 
     # Build the records ONCE. The old form did `to_dict("records")` and then a
     # dict-comprehension over every cell, i.e. ~140k throwaway Python objects

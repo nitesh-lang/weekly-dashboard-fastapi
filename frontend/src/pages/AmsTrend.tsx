@@ -204,13 +204,20 @@ export default function AmsTrend() {
     // two endpoints can never disagree about which slice the page is reading.
     // Brands + weeks travel as repeated params (sel_weeks=..&sel_weeks=..,
     // brand=..&brand=..), matching the FastAPI list[str] / list[int] signature.
+    const familyBuckets = params.get("family_buckets") === "1";
+    const setFamilyBuckets = (on: boolean) => {
+        const u = new URLSearchParams(params);
+        if (on) u.set("family_buckets", "1"); else u.delete("family_buckets");
+        setParams(u, { replace: false });
+    };
     const apiQs = useMemo(() => {
         const parts: string[] = [];
         selWeeks.forEach((w)     => parts.push(`sel_weeks=${encodeURIComponent(w)}`));
         selBrands.forEach((b)    => parts.push(`brand=${encodeURIComponent(b)}`));
         selAsinTypes.forEach((t) => parts.push(`asin_types=${encodeURIComponent(t)}`));
+        if (familyBuckets) parts.push("family_buckets=true");
         return parts.join("&");
-    }, [selWeeks, selBrands, selAsinTypes]);
+    }, [selWeeks, selBrands, selAsinTypes, familyBuckets]);
 
     // Insights endpoint also accepts Model + ASIN filters so the
     // Performance read can answer for a specific item / week slice.
@@ -444,6 +451,18 @@ export default function AmsTrend() {
                 <MultiPicker label="Category L0" options={allL0} selected={selL0} onApply={(v) => setMulti("cat_l0", v)} />
                 <MultiPicker label="Category L1" options={allL1} selected={selL1} onApply={(v) => setMulti("cat_l1", v)} />
                 <MultiPicker label="Category L2" options={allL2} selected={selL2} onApply={(v) => setMulti("cat_l2", v)} />
+                <label
+                    className="flex cursor-pointer select-none items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium hover:bg-muted"
+                    title="Merge variation families: siblings (e.g. SC-01/SC-04/SC-05 under one parent) aggregate into a single row per family — spend, sales and ratios recomputed at family grain"
+                >
+                    <input
+                        type="checkbox"
+                        className="h-3.5 w-3.5 accent-primary"
+                        checked={familyBuckets}
+                        onChange={(e) => setFamilyBuckets(e.target.checked)}
+                    />
+                    Variation buckets
+                </label>
             </div>
 
             {/* Active-filter summary strip — auto-hides when nothing is filtered. */}

@@ -20,7 +20,7 @@ interface MemberRow {
     acos: number | null; tacos: number | null;
 }
 interface Family {
-    parent_asin: string; title: string; brand: string;
+    parent_asin: string; title: string; brand: string; category_l0?: string;
     rank?: number | null; rating?: number | null; rating_count?: number | null;
     member_count: number; active_members: number;
     gmv: number; units: number; spend: number; ams_sales: number;
@@ -69,6 +69,7 @@ export default function VariationPerformance() {
         if (!needle) return all;
         return all.filter((f) =>
             f.title.toLowerCase().includes(needle) ||
+            (f.category_l0 || "").toLowerCase().includes(needle) ||
             f.parent_asin.toLowerCase().includes(needle) ||
             f.members.some((m) => m.asin.toLowerCase().includes(needle) ||
                                   (m.model || "").toLowerCase().includes(needle)));
@@ -189,6 +190,9 @@ export default function VariationPerformance() {
                                                         <div className="truncate font-medium">{f.title || f.parent_asin}</div>
                                                         <div className="text-[11.5px] text-muted-foreground flex items-center gap-2">
                                                             <span>{f.brand}</span>
+                                                            {f.category_l0 && (
+                                                                <span className="rounded bg-muted px-1.5 py-0.5 text-[10.5px] font-medium">{f.category_l0}</span>
+                                                            )}
                                                             <AsinLink asin={f.parent_asin} />
                                                             {f.rating != null && (
                                                                 <span className="inline-flex items-center gap-0.5">

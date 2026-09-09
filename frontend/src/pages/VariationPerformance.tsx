@@ -15,7 +15,7 @@ interface MemberRow {
     asin: string;
     is_parent: boolean;
     model: string;
-    gmv: number; units: number;
+    gmv: number; units: number; ams_orders?: number;
     spend: number; ams_sales: number;
     acos: number | null; tacos: number | null;
 }
@@ -23,7 +23,7 @@ interface Family {
     parent_asin: string; title: string; brand: string; category_l0?: string;
     rank?: number | null; rating?: number | null; rating_count?: number | null;
     member_count: number; active_members: number;
-    gmv: number; units: number; spend: number; ams_sales: number;
+    gmv: number; units: number; ams_orders?: number; spend: number; ams_sales: number;
     acos: number | null; tacos: number | null; ams_share: number | null;
     members: MemberRow[];
 }
@@ -164,6 +164,7 @@ export default function VariationPerformance() {
                                     <th className="px-3 py-2.5 w-[38%]">Family</th>
                                     <th className="px-2 py-2.5 text-right">GMV</th>
                                     <th className="px-2 py-2.5 text-right">Units</th>
+                                    <th className="px-2 py-2.5 text-right" title="Ad-attributed orders (SP+SB+SD)">AMS Ord.</th>
                                     <th className="px-2 py-2.5 text-right">AMS Sales</th>
                                     <th className="px-2 py-2.5 text-right">Spend</th>
                                     <th className="px-2 py-2.5 text-right">ACOS</th>
@@ -206,6 +207,7 @@ export default function VariationPerformance() {
                                             </td>
                                             <td className="px-2 py-2 text-right font-medium">{fmtINR(f.gmv)}</td>
                                             <td className="px-2 py-2 text-right">{fmtInt(f.units)}</td>
+                                            <td className="px-2 py-2 text-right">{fmtInt(f.ams_orders ?? 0)}</td>
                                             <td className="px-2 py-2 text-right">{fmtINR(f.ams_sales)}</td>
                                             <td className="px-2 py-2 text-right">{fmtINR(f.spend)}</td>
                                             <td className={`px-2 py-2 text-right font-medium ${pctClass(f.acos)}`}>{pct(f.acos)}</td>
@@ -234,6 +236,7 @@ export default function VariationPerformance() {
                                                 </td>
                                                 <td className="px-2 py-1.5 text-right">{fmtINR(m.gmv)}</td>
                                                 <td className="px-2 py-1.5 text-right">{fmtInt(m.units)}</td>
+                                                <td className="px-2 py-1.5 text-right">{fmtInt(m.ams_orders ?? 0)}</td>
                                                 <td className="px-2 py-1.5 text-right">{fmtINR(m.ams_sales)}</td>
                                                 <td className="px-2 py-1.5 text-right">{fmtINR(m.spend)}</td>
                                                 <td className={`px-2 py-1.5 text-right ${pctClass(m.acos)}`}>{pct(m.acos)}</td>
@@ -244,7 +247,7 @@ export default function VariationPerformance() {
                                     ];
                                 })}
                                 {families.length === 0 && (
-                                    <tr><td colSpan={9} className="px-3 py-8 text-center text-muted-foreground">
+                                    <tr><td colSpan={10} className="px-3 py-8 text-center text-muted-foreground">
                                         No variation families match this slice.
                                     </td></tr>
                                 )}

@@ -160,7 +160,7 @@ def variation_performance(
     a = pd.DataFrame()
     if AMS_CSV.exists():
         a = pd.read_csv(AMS_CSV, usecols=["brand", "asin", "child_asin", "week",
-                                          "Spend", "attributed_sales"])
+                                          "Spend", "attributed_sales", "ams_orders"])
         a["wn"] = _wn(a["week"])
         a = a.dropna(subset=["wn"])
         a["wn"] = a["wn"].astype(int)
@@ -188,7 +188,8 @@ def variation_performance(
         base = a["asin"].fillna("").astype(str).str.strip().str.upper()
         a["_asin"] = eff.where(eff.str.len() == 10, base)
         ads_by_asin = a.groupby("_asin").agg(
-            spend=("Spend", "sum"), ams_sales=("attributed_sales", "sum")).to_dict("index")
+            spend=("Spend", "sum"), ams_sales=("attributed_sales", "sum"),
+            ams_orders=("ams_orders", "sum")).to_dict("index")
 
     brand_filter = {b.strip().lower() for b in brands if b and b.strip()}
     out = []
@@ -212,6 +213,7 @@ def variation_performance(
                 "category_l0": cat_by_asin.get(m, ""),
                 "gmv": round(gmv), "units": int(sa.get("units", 0) or 0),
                 "spend": round(spend), "ams_sales": round(ams),
+                "ams_orders": int(round(float(ad.get("ams_orders", 0) or 0))),
                 "acos": round(spend / ams * 100, 1) if ams > 0 else None,
                 "tacos": round(spend / gmv * 100, 1) if gmv > 0 else None,
             })
@@ -241,6 +243,7 @@ def variation_performance(
             "member_count": len(rows),
             "active_members": sum(1 for r in rows if r["gmv"] > 0),
             "gmv": gmv_t, "units": sum(r["units"] for r in rows),
+            "ams_orders": sum(r["ams_orders"] for r in rows),
             "spend": spend_t, "ams_sales": ams_t,
             "acos": round(spend_t / ams_t * 100, 1) if ams_t > 0 else None,
             "tacos": round(spend_t / gmv_t * 100, 1) if gmv_t > 0 else None,

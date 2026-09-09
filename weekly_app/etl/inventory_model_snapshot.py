@@ -267,6 +267,17 @@ def run_inventory_etl():
         if file.name == "Seller FBA Inventory (SP-API).xlsx":
             if "inventory" in df.columns and "model" in df.columns:
                 df["qty"] = pd.to_numeric(df["inventory"], errors="coerce").fillna(0)
+                # ON-HAND ONLY (operator 10/09): `inventory` = afn_total −
+                # unsellable, and afn_total INCLUDES inbound (working +
+                # shipped + receiving). Inbound is pipeline, not stock —
+                # subtract it here so Inv Amazon never counts units still
+                # on a truck. Works for all history: raws keep afn cols.
+                for _ic in ("afn_inbound_working_quantity",
+                            "afn_inbound_shipped_quantity",
+                            "afn_inbound_receiving_quantity"):
+                    if _ic in df.columns:
+                        df["qty"] = df["qty"] - pd.to_numeric(df[_ic], errors="coerce").fillna(0)
+                df["qty"] = df["qty"].clip(lower=0)
                 df["channel"] = "AMAZON"
                 # `type` column is informational downstream; tag explicitly.
                 if "type" not in df.columns:

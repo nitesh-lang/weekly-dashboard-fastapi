@@ -143,6 +143,32 @@ def pull_sales(
             plan_asins_ingest = set(plan_df["asin"].astype(str).str.strip())
     except Exception:
         pass
+    # WIDEN the ingest set two ways (operator 09/09, after Rs2.69L/day of real
+    # Nexlev revenue was dropped because the Sep plan lagged the catalogue):
+    #   1. FAMILY expansion — a planned ASIN admits its whole variation family
+    #      (parent + children), since Amazon reports re-parented siblings
+    #      under one roof.
+    #   2. BRAND CATALOGUE — any ASIN sku_master maps to THIS brand is real
+    #      revenue even when unplanned; it lands as "No Plan" instead of
+    #      vanishing. Cross-brand rows (e.g. Fossil in Cambium Retail) are
+    #      still dropped — that is what the filter is FOR.
+    if plan_asins_ingest:
+        try:
+            from .dashboard import _families
+            _, _c2p = _families()
+            _parents = {_c2p.get(a.upper(), a.upper()) for a in plan_asins_ingest}
+            _children = {c for c, p in _c2p.items() if p in _parents}
+            plan_asins_ingest |= _parents | _children
+        except Exception:
+            pass
+        try:
+            from ..sku_master import lookup_map
+            _bkey = brand.key.replace("_", " ").strip().lower()
+            _brand_asins = {a for a, m in lookup_map().items()
+                            if str(m.get("brand", "")).strip().lower().replace("_", " ") == _bkey}
+            plan_asins_ingest |= _brand_asins
+        except Exception:
+            pass
 
     # What plan-aware ingest THREW AWAY, per account. Without this the drop is
     # invisible: out_of_plan_asins below is computed from rows that already

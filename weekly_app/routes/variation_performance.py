@@ -145,7 +145,12 @@ def variation_performance(
                           "families": [], "weeks": [], "brands": []})
 
     s = pd.read_csv(SALES_CSV, usecols=["week", "brand", "asin", "model",
-                                        "gmv", "units_sold", "category_l0"])
+                                        "gmv", "units_sold", "category_l0",
+                                        "channel"])
+    # AMAZON CHANNEL ONLY (operator 09/09: SC-05 W36 must read 132, not 241).
+    # This page pairs sales with Amazon ads — B2B/Blinkit/D2C units in the
+    # same row made TACOS/units read inflated vs the Amazon reality.
+    s = s[s["channel"] == "Amazon"]
     s["wn"] = _wn(s["week"])
     s = s.dropna(subset=["wn"])
     s["wn"] = s["wn"].astype(int)

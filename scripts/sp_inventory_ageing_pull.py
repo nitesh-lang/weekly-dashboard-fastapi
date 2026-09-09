@@ -94,14 +94,30 @@ def main() -> None:
     fba = pd.DataFrame()
     if raw is not None:
         fba = pd.read_csv(io.BytesIO(raw), sep="\t", dtype=str)
+        # Full slice, verified against a live IN pull 09/09/26. The fee truth
+        # lives in Amazon's own charge columns: on Amazon.in the LTSF meter
+        # starts at the 5-MONTH tier (qty-to-be-charged-ltsf-5-mo /
+        # projected-ltsf-5-mo), NOT at 365 days — a row aged 181-330d already
+        # carried a booked ₹1,759 projection.
         keep = ["sku", "asin", "product-name", "available",
                 "inv-age-0-to-90-days", "inv-age-91-to-180-days",
                 "inv-age-181-to-270-days", "inv-age-271-to-365-days",
-                "inv-age-365-plus-days", "units-shipped-t30",
-                "estimated-storage-cost-next-month"]
+                "inv-age-365-plus-days",
+                "inv-age-91-to-150-days", "inv-age-151-to-180-days",
+                "qty-to-be-charged-ltsf-5-mo", "projected-ltsf-5-mo",
+                "qty-to-be-charged-ltsf-12-mo", "estimated-ltsf-next-charge",
+                "units-shipped-t7", "units-shipped-t30", "units-shipped-t60",
+                "units-shipped-t90", "sales-shipped-last-30-days",
+                "sell-through", "days-of-supply",
+                "recommended-action", "recommended-removal-quantity",
+                "estimated-cost-savings-of-recommended-actions",
+                "estimated-excess-quantity", "pending-removal-quantity",
+                "estimated-storage-cost-next-month", "your-price"]
         fba = fba[[c for c in keep if c in fba.columns]].copy()
-        for c in fba.columns[3:]:
-            fba[c] = pd.to_numeric(fba[c], errors="coerce").fillna(0)
+        _str_cols = {"sku", "asin", "product-name", "recommended-action"}
+        for c in fba.columns:
+            if c not in _str_cols:
+                fba[c] = pd.to_numeric(fba[c], errors="coerce").fillna(0)
         fba["brand"] = fba["asin"].astype(str).str.strip().map(brand_map).fillna("UNMAPPED")
         fba["model"] = fba["asin"].astype(str).str.strip().map(model_map).fillna("?")
         fba = fba[fba["brand"].isin(BRANDS | {"UNMAPPED"})]

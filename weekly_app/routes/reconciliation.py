@@ -48,7 +48,7 @@ def reconciliation(account: Optional[str] = Query(None),
 
     val = lambda item: float(sub.loc[sub["Item"] == item, "Amount"].sum())
     sales = val("Product sales (GST NOT included)")
-    settle = val("Amazon should settle (cash basis, GST-inclusive)")
+    settle = val("AMAZON SHOULD PAY US")
     net_gst = val("Net GST still to remit in cash")
     ads = val("Advertising (from our AMS data)")
     fees = float(sub.loc[sub["Section"] == "3. AMAZON FEES (ex-GST)", "Amount"].sum())

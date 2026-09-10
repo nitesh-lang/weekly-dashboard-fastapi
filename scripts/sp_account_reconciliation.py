@@ -214,7 +214,70 @@ def ad_spend(month: str, brand_hint: str) -> float:
     return float(a.loc[(sun.dt.month == m) & (sun.dt.year == y), "Spend"].sum())
 
 
-def report(res: dict, brand_hint: str) -> pd.DataFrame:
+def orders_bridge(account: str, month: str) -> dict:
+    """Ordered -> cancelled / pending / unfulfillable / not-yet-shipped -> shipped,
+    from GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_GENERAL for the calendar
+    month. Replaces the old proxy (weekly-report units minus shipped units),
+    which mixed a Sun-Sat week grid with a calendar month and made ordinary
+    month-end timing look like a 15% cancellation rate. Real rate: ~2.7%.
+    """
+    import gzip
+    import io
+
+    cache = ROOT / "data" / "raw" / f"_allorders_{account}_{month}.csv"
+    if cache.exists():
+        df = pd.read_csv(cache, dtype=str)
+    else:
+        y, m = map(int, month.split("-"))
+        end = date(y + (m == 12), (m % 12) + 1, 1) - timedelta(days=1)
+        tok = _token(account)
+        H = {"x-amz-access-token": tok, "content-type": "application/json"}
+        body = {"reportType": "GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_GENERAL",
+                "marketplaceIds": ["A21TJRUUN4KGV"],
+                "dataStartTime": f"{date(y, m, 1)}T00:00:00Z",
+                "dataEndTime": f"{end}T23:59:59Z"}
+        c = requests.post(f"{SPAPI_HOST}/reports/2021-06-30/reports",
+                          json=body, headers=H, timeout=30)
+        if c.status_code != 202:
+            print(f"  All-Orders report unavailable: HTTP {c.status_code}")
+            return {}
+        rid = c.json()["reportId"]
+        st = "?"
+        for _ in range(40):
+            j = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/reports/{rid}",
+                             headers={"x-amz-access-token": tok}, timeout=30).json()
+            st = j.get("processingStatus")
+            if st in ("DONE", "FATAL", "CANCELLED"):
+                break
+            time.sleep(12)
+        if st != "DONE":
+            print(f"  All-Orders report: {st}")
+            return {}
+        d = requests.get(f"{SPAPI_HOST}/reports/2021-06-30/documents/{j['reportDocumentId']}",
+                         headers={"x-amz-access-token": tok}, timeout=30).json()
+        raw = requests.get(d["url"], timeout=120).content
+        if d.get("compressionAlgorithm") == "GZIP":
+            raw = gzip.decompress(raw)
+        df = pd.read_csv(io.BytesIO(raw), sep="\t", dtype=str)
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        df.to_csv(cache, index=False)
+
+    if df.empty or "quantity" not in df.columns:
+        return {}
+    q = pd.to_numeric(df["quantity"], errors="coerce").fillna(0).astype(int)
+    istat = df.get("item-status", pd.Series([""] * len(df))).fillna("")
+    ostat = df.get("order-status", pd.Series([""] * len(df))).fillna("")
+    ordered = int(q.sum())
+    shipped = int(q[istat.eq("Shipped")].sum())
+    cancelled = int(q[ostat.eq("Cancelled")].sum())
+    pending = int(q[ostat.eq("Pending")].sum())
+    unfulfillable = int(q[istat.eq("Unfulfillable")].sum())
+    later = ordered - shipped - cancelled - pending - unfulfillable
+    return {"ordered": ordered, "shipped": shipped, "cancelled": cancelled,
+            "pending": pending, "unfulfillable": unfulfillable, "later": later}
+
+
+def report(res: dict, brand_hint: str, bridge: dict | None = None) -> pd.DataFrame:
     """Controller-reviewed schedule (10/09/26).
 
     Fixes applied after review:
@@ -236,11 +299,22 @@ def report(res: dict, brand_hint: str) -> pd.DataFrame:
     spend = ad_spend(res["month"], brand_hint)
     shipped = U.get("units_shipped", 0)
 
-    add("1. SALES", "Units ordered (weekly report, order-date basis)", ordered,
-        "different date basis from shipped")
-    add("1. SALES", "Units shipped (what Amazon paid on)", shipped, "financial basis")
-    add("1. SALES", "Ordered but not shipped", ordered - shipped,
-        "NOT all cancellations - month-end timing + pending orders; needs All-Orders report to split")
+    if bridge:
+        b = bridge
+        add("1. SALES", "Units ordered in the month", b["ordered"], "All-Orders report, order date")
+        add("1. SALES", "  less cancelled", -b["cancelled"],
+            f"{b['cancelled'] / b['ordered'] * 100:.1f}% of orders - the REAL cancellation rate"
+            if b["ordered"] else "")
+        add("1. SALES", "  less pending (payment not authorised)", -b["pending"], "")
+        add("1. SALES", "  less unfulfillable", -b["unfulfillable"], "")
+        add("1. SALES", "  less not shipped by month end", -b["later"], "ships next month")
+        add("1. SALES", "= Shipped from this month's orders", b["shipped"], "")
+        add("1. SALES", "Units shipped (what Amazon paid on)", shipped,
+            f"financial basis; differs from {b['shipped']} by cross-month timing")
+    else:
+        add("1. SALES", "Units ordered (weekly report, order-date basis)", ordered,
+            "different date basis from shipped")
+        add("1. SALES", "Units shipped (what Amazon paid on)", shipped, "financial basis")
     add("1. SALES", "Product sales (GST NOT included)", B.get("sales_ex_gst", 0), "P&L revenue")
     add("1. SALES", "Shipping and gift wrap collected", B.get("shipping_giftwrap_collected", 0), "")
 
@@ -312,22 +386,50 @@ def report(res: dict, brand_hint: str) -> pd.DataFrame:
     net_gst_payable = out_gst + ref_gst - fee_gst_total + tcs
     add("6. GST AND TAX (not profit)", "Net GST still to remit in cash", -net_gst_payable, "")
 
-    settle = (B.get("sales_ex_gst", 0) + out_gst + B.get("shipping_giftwrap_collected", 0)
-              + credits + B.get("refund_principal", 0) + ref_gst + B.get("refund_other", 0)
-              + sum(F.values()) + B.get("promo_funded", 0) + B.get("affordability", 0)
-              + tcs + tds)
-    add("7. BOTTOM LINE", "Amazon should settle (cash basis, GST-inclusive)", settle,
-        "compare with deposits - cycles straddle the month end")
-    add("7. BOTTOM LINE", "less: net GST to remit to government", -net_gst_payable, "")
-    add("7. BOTTOM LINE", "Marketplace contribution BEFORE COGS", settle - net_gst_payable, "")
-    add("7. BOTTOM LINE", "After advertising, BEFORE COGS", settle - net_gst_payable - spend,
-        "NOT profit - landed cost of goods is not in this file")
+    # THE FULL WALK — every component, in order, so the total can be followed.
+    sales_ex = B.get("sales_ex_gst", 0)
+    ship_col = B.get("shipping_giftwrap_collected", 0)
+    ref_prin = B.get("refund_principal", 0)
+    ref_oth = B.get("refund_other", 0)
+    fees_incl = sum(v for k, v in F.items() if not k.startswith("REFUND:"))
+    fee_back = sum(v for k, v in F.items() if k.startswith("REFUND:"))
+    promo = B.get("promo_funded", 0)
+    afford = B.get("affordability", 0)
+
+    add("7. HOW THE TOTAL IS BUILT", "Product sales (GST not included)", sales_ex, "what we sold")
+    add("7. HOW THE TOTAL IS BUILT", "plus GST collected from customers", out_gst,
+        "comes in with the sale, goes out to the government")
+    add("7. HOW THE TOTAL IS BUILT", "plus shipping and gift wrap", ship_col, "")
+    add("7. HOW THE TOTAL IS BUILT", "less refunds to customers", ref_prin + ref_gst + ref_oth,
+        "sale value + GST returned")
+    add("7. HOW THE TOTAL IS BUILT", "plus fees Amazon returned on refunds", fee_back,
+        "commission and closing come back; FBA fee does not")
+    add("7. HOW THE TOTAL IS BUILT", "less Amazon fees (including GST on fees)", fees_incl,
+        "commission, FBA, closing, storage, removals")
+    add("7. HOW THE TOTAL IS BUILT", "less coupons and promotions", promo, "")
+    add("7. HOW THE TOTAL IS BUILT", "less no-cost EMI and bank offers", afford, "")
+    add("7. HOW THE TOTAL IS BUILT", "plus reimbursements and corrections", credits, "")
+    add("7. HOW THE TOTAL IS BUILT", "less TCS withheld", tcs, "you reclaim this in GST")
+    add("7. HOW THE TOTAL IS BUILT", "less TDS withheld", tds, "you reclaim this in your ITR")
+
+    settle = (sales_ex + out_gst + ship_col + credits + ref_prin + ref_gst + ref_oth
+              + fees_incl + fee_back + promo + afford + tcs + tds)
+    add("8. BOTTOM LINE", "AMAZON SHOULD PAY US", settle,
+        "add up everything above - this is the settlement")
+    add("8. BOTTOM LINE", "less GST we owe the government", -net_gst_payable,
+        "output GST, less GST refunded, less credit on fee GST, less TCS already withheld")
+    add("8. BOTTOM LINE", "MARKETPLACE CONTRIBUTION BEFORE COGS", settle - net_gst_payable,
+        "what the marketplace actually left us")
+    add("8. BOTTOM LINE", "less advertising", -spend,
+        "billed separately by Amazon Ads, never in the settlement")
+    add("8. BOTTOM LINE", "AFTER ADVERTISING, BEFORE COGS", settle - net_gst_payable - spend,
+        "NOT profit - the landed cost of the goods still has to come off")
 
     for k, v in res["unclassified"].items():
-        add("8. NOT CLASSIFIED", k, v, "money not bucketed - investigate")
-    add("9. COMPLETENESS", "Event lists Amazon returned with data", len(res["event_counts"]),
+        add("9. NOT CLASSIFIED", k, v, "money not bucketed - investigate")
+    add("10. COMPLETENESS", "Event lists Amazon returned with data", len(res["event_counts"]),
         ", ".join(sorted(res["event_counts"])))
-    add("9. COMPLETENESS", "Event lists returned EMPTY", 33 - len(res["event_counts"]),
+    add("10. COMPLETENESS", "Event lists returned EMPTY", 33 - len(res["event_counts"]),
         "incl. ShipmentSettleEventList - must stay empty or revenue double-counts")
     return pd.DataFrame(rows)
 
@@ -352,11 +454,13 @@ def summary_sheet(df: pd.DataFrame, res: dict, brand_hint: str) -> pd.DataFrame:
     tcs = val("TCS withheld u/s 52 (0.5% of net sales)")
     tds = val("TDS withheld u/s 194-O (0.1% of gross)")
     net_gst = val("Net GST still to remit in cash")
-    settle = val("Amazon should settle (cash basis, GST-inclusive)")
+    settle = val("AMAZON SHOULD PAY US")
 
     rows = [
         ("WHAT WE SOLD", "", "", ""),
-        ("  Units ordered", U.get("units_ordered", val("Units ordered (weekly report, order-date basis)")), "", "on Amazon, 3P"),
+        ("  Units ordered", val("Units ordered in the month"), "", "orders placed this month"),
+        ("  of which cancelled", val("  less cancelled"), "", "the real cancellation rate"),
+        ("  of which not shipped by month end", val("  less not shipped by month end"), "", "ships next month - timing, not lost"),
         ("  Units Amazon shipped and paid on", val("Units shipped (what Amazon paid on)"), "", "the financial basis"),
         ("  Product sales - GST NOT included", sales, "100%", "our revenue; every % below is against this"),
         ("  GST collected from customers", val("Output GST collected from customers"), f"{pct(val('Output GST collected from customers')):.1f}%", "held in trust - never ours"),
@@ -417,7 +521,9 @@ def main() -> None:
     res = sweep(args.account, month)
     print(f"  {res['pages']} pages; event types seen: "
           + ", ".join(f"{k}={v}" for k, v in sorted(res["event_counts"].items())))
-    df = report(res, brand)
+    print("  All-Orders bridge (ordered -> shipped)...")
+    ob = orders_bridge(args.account, month)
+    df = report(res, brand, ob)
     # Also append to a long-format snapshot the dashboard serves, so the UI
     # never has to re-hit the API (a full month is ~56 paginated calls).
     snap = ROOT / "data" / "processed" / "reconciliation_snapshot.csv"

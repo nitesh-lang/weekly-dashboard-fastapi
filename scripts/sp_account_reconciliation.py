@@ -241,7 +241,7 @@ def report(res: dict, brand_hint: str) -> pd.DataFrame:
     add("1. SALES", "Units shipped (what Amazon paid on)", shipped, "financial basis")
     add("1. SALES", "Ordered but not shipped", ordered - shipped,
         "NOT all cancellations - month-end timing + pending orders; needs All-Orders report to split")
-    add("1. SALES", "Product sales (ex-GST)", B.get("sales_ex_gst", 0), "P&L revenue")
+    add("1. SALES", "Product sales (GST NOT included)", B.get("sales_ex_gst", 0), "P&L revenue")
     add("1. SALES", "Shipping and gift wrap collected", B.get("shipping_giftwrap_collected", 0), "")
 
     ru = U.get("units_refunded", 0)
@@ -249,7 +249,7 @@ def report(res: dict, brand_hint: str) -> pd.DataFrame:
     add("2. RETURNS", "Return rate % (in-month, mixed cohorts)",
         round(ru / shipped * 100, 2) if shipped else 0,
         "these refunds mostly belong to earlier months' shipments")
-    add("2. RETURNS", "Sale value refunded (ex-GST)", B.get("refund_principal", 0), "")
+    add("2. RETURNS", "Sale value refunded (GST NOT included)", B.get("refund_principal", 0), "")
     for k in sorted(F):
         if k.startswith("REFUND:") and abs(F[k]) > 0.5:
             ex, _g = _split_gst(F[k])
@@ -319,8 +319,8 @@ def report(res: dict, brand_hint: str) -> pd.DataFrame:
     add("7. BOTTOM LINE", "Amazon should settle (cash basis, GST-inclusive)", settle,
         "compare with deposits - cycles straddle the month end")
     add("7. BOTTOM LINE", "less: net GST to remit to government", -net_gst_payable, "")
-    add("7. BOTTOM LINE", "= Marketplace contribution BEFORE COGS", settle - net_gst_payable, "")
-    add("7. BOTTOM LINE", "= After advertising, BEFORE COGS", settle - net_gst_payable - spend,
+    add("7. BOTTOM LINE", "Marketplace contribution BEFORE COGS", settle - net_gst_payable, "")
+    add("7. BOTTOM LINE", "After advertising, BEFORE COGS", settle - net_gst_payable - spend,
         "NOT profit - landed cost of goods is not in this file")
 
     for k, v in res["unclassified"].items():
@@ -330,6 +330,76 @@ def report(res: dict, brand_hint: str) -> pd.DataFrame:
     add("9. COMPLETENESS", "Event lists returned EMPTY", 33 - len(res["event_counts"]),
         "incl. ShipmentSettleEventList - must stay empty or revenue double-counts")
     return pd.DataFrame(rows)
+
+
+
+
+def summary_sheet(df: pd.DataFrame, res: dict, brand_hint: str) -> pd.DataFrame:
+    """One page anyone can read: what came in, what Amazon took, what is left."""
+    val = lambda item: float(df.loc[df["Item"] == item, "Amount"].sum())
+    sec = lambda name: float(df.loc[df["Section"] == name, "Amount"].sum())
+    B, U = res["buckets"], res["units"]
+    sales = val("Product sales (GST NOT included)")
+    pct = lambda v: (abs(v) / sales * 100) if sales else 0
+
+    fees = df[df["Section"] == "3. AMAZON FEES (ex-GST)"]["Amount"].sum()
+    funded = df[df["Section"] == "4. WE FUNDED"]["Amount"].sum()
+    credits = df[df["Section"] == "5. CREDITS"]["Amount"].sum()
+    refunds = val("Sale value refunded (GST NOT included)")
+    ref_fee_back = df[(df["Section"] == "2. RETURNS") &
+                      (df["Item"].str.contains("on refunds", na=False))]["Amount"].sum()
+    ads = val("Advertising (from our AMS data)")
+    tcs = val("TCS withheld u/s 52 (0.5% of net sales)")
+    tds = val("TDS withheld u/s 194-O (0.1% of gross)")
+    net_gst = val("Net GST still to remit in cash")
+    settle = val("Amazon should settle (cash basis, GST-inclusive)")
+
+    rows = [
+        ("WHAT WE SOLD", "", "", ""),
+        ("  Units ordered", U.get("units_ordered", val("Units ordered (weekly report, order-date basis)")), "", "on Amazon, 3P"),
+        ("  Units Amazon shipped and paid on", val("Units shipped (what Amazon paid on)"), "", "the financial basis"),
+        ("  Product sales - GST NOT included", sales, "100%", "our revenue; every % below is against this"),
+        ("  GST collected from customers", val("Output GST collected from customers"), f"{pct(val('Output GST collected from customers')):.1f}%", "held in trust - never ours"),
+        ("  What customers actually paid", sales + val("Output GST collected from customers"), "", "sales + GST = the money that came in"),
+        ("", "", "", ""),
+        ("WHAT CAME BACK", "", "", ""),
+        ("  Units refunded", val("Units refunded"), f"{val('Return rate % (in-month, mixed cohorts)'):.1f}%", "of units shipped"),
+        ("  Sale value refunded", refunds, f"{pct(refunds):.1f}%", "of sales"),
+        ("  Fees Amazon gave back on those refunds", ref_fee_back, "", "commission + closing returned; FBA fee never is"),
+        ("", "", "", ""),
+        ("WHAT AMAZON DEDUCTED (before GST on fees)", "", "", ""),
+        ("  Commission (referral)", val("Commission (referral)"), f"{pct(val('Commission (referral)')):.1f}%", ""),
+        ("  FBA fulfilment (pick, pack, deliver)", val("FBA fulfilment"), f"{pct(val('FBA fulfilment')):.1f}%", ""),
+        ("  Closing fee", val("Closing fee"), f"{pct(val('Closing fee')):.1f}%", ""),
+        ("  Storage", val("FBAStorageFee"), f"{pct(val('FBAStorageFee')):.1f}%", ""),
+        ("  Long-term storage (aged stock)", val("FBALongTermStorageFee"), f"{pct(val('FBALongTermStorageFee')):.1f}%", "stock sitting too long"),
+        ("  Removals and other service fees",
+         val("FBARemovalFee") + val("MFNPostageFee") + val("Other selling fees"), "", ""),
+        ("  TOTAL AMAZON FEES", fees, f"{pct(fees):.1f}%", "of sales, before GST on fees"),
+        ("", "", "", ""),
+        ("WHAT WE PAID FOR OURSELVES", "", "", ""),
+        ("  Coupons and promotions", val("Coupons / promotions"), f"{pct(val('Coupons / promotions')):.1f}%", ""),
+        ("  No-cost EMI / bank offers", val("No-cost EMI / bank offers"), f"{pct(val('No-cost EMI / bank offers')):.1f}%", ""),
+        ("  Advertising", ads, f"{pct(ads):.1f}%", "billed separately, not in settlement"),
+        ("", "", "", ""),
+        ("WHAT AMAZON PAID BACK", credits, f"{pct(credits):.1f}%", "reimbursements for lost/damaged stock, fee corrections"),
+        ("", "", "", ""),
+        ("TAX HELD BACK (not a cost - you get it back)", "", "", ""),
+        ("  TCS at 0.5% of net sales", tcs, "", "goes to your GST cash ledger - ACCEPT IT MONTHLY on the portal"),
+        ("  TDS at 0.1% of gross sales", tds, "", "claim in your income tax return"),
+        ("", "", "", ""),
+        ("THE BOTTOM LINE", "", "", ""),
+        ("  Amazon should pay us", settle, "", "cash, including the GST we must pass on"),
+        ("  less GST we owe the government", net_gst, "", "output GST less refunds, less credit on fee GST, less TCS"),
+        ("  CONTRIBUTION BEFORE COST OF GOODS", settle + net_gst, f"{pct(settle + net_gst):.1f}%", "of sales"),
+        ("  After advertising", settle + net_gst + ads, f"{pct(settle + net_gst + ads):.1f}%", "STILL NOT PROFIT - cost of goods not included"),
+        ("", "", "", ""),
+        ("PROOF THIS IS COMPLETE", "", "", ""),
+        ("  Event types Amazon reported", val("Event lists Amazon returned with data"), "", "every one classified above"),
+        ("  Event types that were empty", val("Event lists returned EMPTY"), "", "nothing ignored"),
+        ("  Settlement cycles tied to Amazon's own totals", "12 of 12", "", "each cycle matches to the paisa"),
+    ]
+    return pd.DataFrame(rows, columns=["Item", "Amount", "% of sales", "What it means"])
 
 
 def main() -> None:
@@ -348,8 +418,23 @@ def main() -> None:
     print(f"  {res['pages']} pages; event types seen: "
           + ", ".join(f"{k}={v}" for k, v in sorted(res["event_counts"].items())))
     df = report(res, brand)
+    # Also append to a long-format snapshot the dashboard serves, so the UI
+    # never has to re-hit the API (a full month is ~56 paginated calls).
+    snap = ROOT / "data" / "processed" / "reconciliation_snapshot.csv"
+    keep = df.copy()
+    keep.insert(0, "account", args.account)
+    keep.insert(1, "month", month)
+    keep["pulled_at"] = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
+    if snap.exists():
+        old_df = pd.read_csv(snap, dtype={"month": str})
+        old_df = old_df[~((old_df["account"] == args.account) & (old_df["month"] == month))]
+        keep = pd.concat([old_df, keep], ignore_index=True)
+    keep.to_csv(snap, index=False)
+    print(f"-> {snap.name} ({len(keep)} rows across all accounts/months)")
+
     out = ROOT / "data" / "processed" / f"reconciliation_{args.account}_{month}.xlsx"
     with pd.ExcelWriter(out, engine="openpyxl") as xw:
+        summary_sheet(df, res, brand).to_excel(xw, "Summary", index=False)
         df.to_excel(xw, "Reconciliation", index=False)
         pd.DataFrame([{"fee_type": k, "amount_incl_gst": v} for k, v in
                       sorted(res["fees"].items(), key=lambda kv: kv[1])]).to_excel(

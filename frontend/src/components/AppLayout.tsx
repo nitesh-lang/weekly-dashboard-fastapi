@@ -10,7 +10,7 @@ import {
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
     ExternalLink, Layers, Gauge, UploadCloud,
-    ShieldCheck, Sparkles, Calculator,
+    ShieldCheck, Sparkles, Calculator, IndianRupee
 } from "lucide-react";
 
 // ── Hover prefetch ──────────────────────────────────────────────────────
@@ -26,6 +26,7 @@ const CHUNK_LOADERS: Record<string, () => Promise<unknown>> = {
     "/dashboard":            () => import("@/pages/Dashboard"),
     "/insights":             () => import("@/pages/Insights"),
     "/variation-performance": () => import("@/pages/VariationPerformance"),
+    "/reconciliation": () => import("@/pages/Reconciliation"),
     "/keepa-upload":         () => import("@/pages/KeepaUpload"),
     "/sales-trend":          () => import("@/pages/SalesTrend"),
     "/amazon-sales-trend":   () => import("@/pages/AmazonSalesTrend"),
@@ -98,6 +99,7 @@ const NAV_GROUPS = [
             { to: "/ams-trend",           label: "AMS Trend",       icon: Megaphone },
             { to: "/ams-planning",        label: "AMS Planning",    icon: ClipboardList },
             { to: "/variation-performance", label: "Variation Performance", icon: Layers },
+            { to: "/reconciliation", label: "Reconciliation", icon: IndianRupee },
             { to: "/ams-poor-performers", label: "Ad Underperformers", icon: AlertTriangle },
         ],
     },

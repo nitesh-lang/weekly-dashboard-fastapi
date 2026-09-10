@@ -22,6 +22,7 @@ from weekly_app.routes.api import router as api_router
 from weekly_app.routes.admin import router as admin_router
 from weekly_app.routes.insights import router as insights_router
 from weekly_app.routes.variation_performance import router as variation_performance_router
+from weekly_app.routes.reconciliation import router as reconciliation_router
 from weekly_app.routes.keepa_upload import router as keepa_upload_router
 from weekly_app.routes.buybox_sso import router as buybox_sso_router
 from weekly_app.routes.analytics import router as analytics_router
@@ -240,6 +241,7 @@ app.include_router(api_router)
 app.include_router(admin_router)
 app.include_router(insights_router)
 app.include_router(variation_performance_router)
+app.include_router(reconciliation_router)
 app.include_router(keepa_upload_router)
 
 # ✅ BUYBOX SSO — /api/buybox-sso hands the buybox unlock credentials to an

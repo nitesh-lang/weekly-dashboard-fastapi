@@ -384,6 +384,25 @@ body{background:var(--v3-bg);color:var(--v3-ink);
 #sva_tbl tr.cmr td:first-child{color:var(--v3-ink);}
 #sva_tbl .p{font-size:10.5px;color:var(--v3-ink3);}
 #sva_tbl .negd{color:var(--v3-red);} #sva_tbl .posd{color:#1e7a46;}
+/* typography: tabular figures, roomier rows, quiet grid (operator: better fonts) */
+#sva_tbl table{font-size:12.5px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+#sva_tbl td{padding:6px 10px;}
+#sva_tbl th{padding:6px 10px;font-size:9.5px;letter-spacing:.08em;}
+#sva_tbl td:not(:first-child){font-family:var(--mono,ui-monospace,SFMono-Regular,Menlo,monospace);}
+#sva_tbl td:first-child{font-weight:500;}
+#sva_tbl .p{font-size:10px;}
+#sva_tbl tr.secr td{background:none;border:0;padding:11px 10px 3px;font-size:9.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;color:var(--v3-ink3);}
+#sva_tbl tr.amzr td{background:#fff8f0;}
+#sva_tbl tr.amzr td:first-child{box-shadow:inset 3px 0 0 #f59e0b;}
+#sva_tbl tr.subr td{font-weight:700;background:#ffedd5;}
+#sva_tbl tr.subr td:first-child{box-shadow:inset 3px 0 0 #f59e0b;}
+.amz-take{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;background:#fff7ed;
+  border:1px solid #fed7aa;border-radius:8px;padding:8px 12px;margin:0 0 10px;}
+.amz-take .lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#b45309;}
+.amz-take b{font-size:18px;font-weight:600;color:#9a3412;font-variant-numeric:tabular-nums;letter-spacing:-.02em;}
+.amz-take .of{font-size:11.5px;color:#9a3412;}
+.amz-take .brk{margin-left:auto;font-size:10.5px;color:#b45309;font-variant-numeric:tabular-nums;}
 /* value cell holds ₹ + a small % of SP; keep them on one line, right-aligned */
 .wf li .v{display:flex;justify-content:flex-end;align-items:baseline;gap:4px;white-space:nowrap;}
 .wf li .v b{font-weight:inherit;}
@@ -1114,7 +1133,10 @@ function _ladderCalc(sp,retPct,amsPct,amsOnNet,V,whPerUnit,setPerUnit){
   const rateSum=(gstp>0?1-1/(1+gstp/100):0)+V('referral_pct')/100+amsRate
                 +V('coupon_pct')/100+retPct/100+smmPct/100;
   const fixed=dp+V('fixed_closing')+V('fulfillment_fee')+bo+fc+V('coupon_flat');
-  return {sp,gst,gstPct:gstp,dp,gross,marketplace:sellful,opex:mktg,ams,smm,bo,fc,wh,settle,cm2,cm3,
+  const amz_fees=referral+V('fixed_closing')+V('fulfillment_fee')+wh+settle;
+  return {sp,gst,nettax:sp-gst,gstPct:gstp,dp,gross,marketplace:sellful,opex:mktg,ams,smm,bo,fc,wh,settle,
+          referral,closing:V('fixed_closing'),fulfil:V('fulfillment_fee'),ret,coup,
+          amz_fees,amz_all:amz_fees+ams,cm2,cm3,
           overhead:bo+fc,net:cm3-bo-fc,rateSum,fixed:fixed+wh+settle,amsPct,retPct};
 }
 // Getter for the master-sheet column: ORIGINAL_ROW holds the values captured
@@ -1181,17 +1203,29 @@ function renderSvaTable(sheetData){
                                   retOk?('returns '+ACTUALS.returns.rate_pct+'%'):null,'TACOS on net'].filter(Boolean).join(' + ');
   const inr=v=>'₹'+Number(v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
   const rows=[
+    ['sec','Revenue'],
     ['Selling price','sp','tot'],
-    ['GST (in price)','gst','neg'],
+    ['GST inside the price','gst','neg'],
+    ['Net of tax','nettax','sub'],
+    ['sec','Product cost'],
     ['Procurement (DP)','dp','neg'],
     ['CM-1 · Gross margin','gross','cm'],
-    ['Selling & fulfilment','marketplace','neg'],
-    ['· of which Storage + LTSF (Amazon)','wh','neg'],
-    ['· of which Settlement fees (Amazon)','settle','neg'],
+    ['sec','Amazon charges'],
+    ['Referral fee','referral','neg amz'],
+    ['Fulfilment (FBA)','fulfil','neg amz'],
+    ['Fixed closing fee','closing','neg amz'],
+    ['Storage + LTSF','wh','neg amz'],
+    ['Settlement fees (refund admin, removals)','settle','neg amz'],
+    ['Amazon fees subtotal','amz_fees','sub amz'],
+    ['sec','Our selling costs'],
+    ['Returns loss','ret','neg'],
+    ['Coupon','coup','neg'],
     ['CM-2 · after channel costs','cm2','cm'],
-    ['AMS (ads)','ams','neg'],
+    ['sec','Marketing'],
+    ['AMS ads (Amazon)','ams','neg amz'],
     ['SMM','smm','neg'],
     ['CM-3 · after marketing','cm3','cm'],
+    ['sec','Overheads'],
     ['Business overhead','bo','neg'],
     ['Finance cost','fc','neg'],
     ['Net margin','net','cm'],
@@ -1201,13 +1235,21 @@ function renderSvaTable(sheetData){
   // evidence sub-rows: every derived "actual" number shows its working + source
   const ev=t=>`<tr><td colspan="4" style="font-size:10.5px;color:var(--v3-ink3);font-style:italic;padding:1px 8px 6px;border-bottom:1px dashed var(--v3-line2);text-align:left;white-space:normal;">${t}</td></tr>`;
   const inr0=v=>'₹'+Number(v).toLocaleString('en-IN',{maximumFractionDigits:0});
-  tbl.innerHTML='<table><tr><th>Line</th><th>Sheet</th><th>Actual</th><th title="Change in the line\'s share of its own selling price, in percentage points">Δ % of SP</th></tr>'+
+  const takePct=A.sp>0?(A.amz_all/A.sp*100):0;
+  const inr0b=v=>'₹'+Number(v).toLocaleString('en-IN',{maximumFractionDigits:0});
+  const takeHtml=`<div class="amz-take"><span class="lbl">Amazon takes</span>`+
+    `<b>${inr0b(A.amz_all)}</b><span class="of">per unit · ${takePct.toFixed(1)}% of the actual price</span>`+
+    `<span class="brk">fees ${inr0b(A.amz_fees)} + ads ${inr0b(A.ams)}</span></div>`;
+  tbl.innerHTML=takeHtml+'<table><tr><th>Line</th><th>Sheet</th><th>Actual</th><th title="Change in the line\'s share of its own selling price, in percentage points">Δ % of SP</th></tr>'+
     rows.map(([lab,k,cls])=>{
+      if(lab==='sec')return `<tr class="secr"><td colspan="4">${k}</td></tr>`;
       if(k==='wh'&&!whOk)return '';   // no storage data — hide the line entirely
       if(k==='settle'&&!setOk)return '';
       const dpp=(A.sp>0&&S.sp>0)?(A[k]/A.sp*100)-(S[k]/S.sp*100):0;
       const d=k==='sp'?'':`<span class="${dpp<0?'negd':'posd'}">${dpp>=0?'+':''}${dpp.toFixed(1)}</span>`;
-      let html=`<tr${cls==='cmr'||cls==='cm'?' class="cmr"':''}><td>${lab}</td>${cell(S,k)}${cell(A,k)}<td>${d}</td></tr>`;
+      const rc=[(cls||'').includes('cm')?'cmr':'',(cls||'').includes('sub')?'subr':'',
+                (cls||'').includes('amz')?'amzr':''].filter(Boolean).join(' ');
+      let html=`<tr${rc?` class="${rc}"`:''}><td>${lab}</td>${cell(S,k)}${cell(A,k)}<td>${d}</td></tr>`;
       if(k==='sp'&&aspOk){
         const a=ACTUALS.asp;
         html+=ev(`Actual SP derivation: ${inr0(a.net_sales)} post-GST Amazon-3P sales ÷ ${a.units} units = ₹${Number(a.net_asp).toLocaleString('en-IN',{minimumFractionDigits:2})} net × ${a.gst_factor} GST re-gross = <b>₹${Number(a.asp).toLocaleString('en-IN',{minimumFractionDigits:2})}</b> customer price · window ${a.window} (${a.weeks_with_sales} weeks with sales) · deals &amp; B2B orders included · source: weekly sales snapshot (stores 3P net of GST by design)`);

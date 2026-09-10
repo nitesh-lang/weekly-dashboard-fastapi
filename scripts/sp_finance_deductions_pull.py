@@ -33,6 +33,11 @@ from dotenv import load_dotenv
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_CSV = REPO_ROOT / "data" / "processed" / "amazon_deductions_snapshot.csv"
+# Per-SKU money Amazon ACTUALLY charged on shipments (vs the fee-preview
+# estimates the margin tool uses) + affordability (no-cost-EMI) expense,
+# which carries no SKU so it lands as one account-level row.
+FEES_CSV = REPO_ROOT / "data" / "processed" / "amazon_charged_fees_snapshot.csv"
+AFFORD_SKU = "__AFFORDABILITY__"
 MASTER = REPO_ROOT / "data" / "master" / "sku_master.xlsx"
 SPAPI_HOST = "https://sellingpartnerapi-eu.amazon.com"
 
@@ -64,6 +69,8 @@ def pull_month(account: str, month: str) -> pd.DataFrame:
     tok = _lwa(account)
     H = {"x-amz-access-token": tok}
     rows: list[dict] = []
+    ship: dict = {}
+    afford = 0.0
     token = None
     page = 0
     while True:
@@ -79,6 +86,42 @@ def pull_month(account: str, month: str) -> pd.DataFrame:
         j = r.json().get("payload", {})
         ev = j.get("FinancialEvents", {})
         page += 1
+
+        # ── Shipments: the fees Amazon really charged, per SKU ──
+        for se in ev.get("ShipmentEventList") or []:
+            for it in se.get("ShipmentItemList") or []:
+                sku = (it.get("SellerSKU") or "").strip()
+                if not sku:
+                    continue
+                d = ship.setdefault(sku, {"units": 0, "principal": 0.0, "tax": 0.0,
+                                          "promo": 0.0, "referral": 0.0,
+                                          "fulfilment": 0.0, "closing": 0.0,
+                                          "other_fees": 0.0})
+                d["units"] += int(it.get("QuantityShipped") or 0)
+                for c in it.get("ItemChargeList") or []:
+                    t = c.get("ChargeType", "")
+                    if t == "Principal":
+                        d["principal"] += _amt(c.get("ChargeAmount"))
+                    elif t == "Tax":
+                        d["tax"] += _amt(c.get("ChargeAmount"))
+                for f in it.get("ItemFeeList") or []:
+                    t = f.get("FeeType", "")
+                    v = _amt(f.get("FeeAmount"))
+                    if t in ("Commission", "GiftwrapCommission"):
+                        d["referral"] += v
+                    elif t.startswith("FBA"):
+                        d["fulfilment"] += v
+                    elif "ClosingFee" in t:
+                        d["closing"] += v
+                    else:
+                        d["other_fees"] += v
+                for pr in it.get("PromotionList") or []:
+                    d["promo"] += _amt(pr.get("PromotionAmount"))
+
+        for ae in ev.get("AffordabilityExpenseEventList") or []:
+            afford += _amt(ae.get("TotalExpense"))
+        for ar in ev.get("AffordabilityExpenseReversalEventList") or []:
+            afford -= _amt(ar.get("TotalExpense"))
 
         for rf in ev.get("RefundEventList") or []:
             for it in rf.get("ShipmentItemAdjustmentList") or []:
@@ -152,6 +195,43 @@ def pull_month(account: str, month: str) -> pd.DataFrame:
              .agg(amount=("amount", "sum"), qty=("qty", "sum")))
     agg["account"] = account
     agg["month"] = month
+
+    # ── charged-fees snapshot (per SKU) + affordability (account level) ──
+    if ship or afford:
+        f = pd.DataFrame([{"sku": k, **v} for k, v in ship.items()])
+        if afford:
+            f = pd.concat([f, pd.DataFrame([{"sku": AFFORD_SKU, "units": 0,
+                                             "principal": 0.0, "tax": 0.0, "promo": 0.0,
+                                             "referral": 0.0, "fulfilment": 0.0,
+                                             "closing": 0.0, "other_fees": afford}])],
+                          ignore_index=True)
+        f["asin"] = ""
+        try:
+            mast = pd.read_excel(MASTER)
+            acol = next(c for c in mast.columns if c.strip().lower() == "asin")
+            amap: dict[str, str] = {}
+            for sc in [c for c in mast.columns if "sku" in c.strip().lower()]:
+                amap.update({k: v for k, v in zip(
+                    mast[sc].astype(str).str.strip().str.upper(),
+                    mast[acol].astype(str).str.strip().str.upper()) if k and k != "NAN"})
+            f["asin"] = f["sku"].astype(str).str.strip().str.upper().map(amap).fillna("")
+        except Exception as e:
+            print(f"    WARN: charged-fees sku->asin map failed: {e!r}")
+        f["account"] = account
+        f["month"] = month
+        cols = ["account", "month", "sku", "asin", "units", "principal", "tax",
+                "promo", "referral", "fulfilment", "closing", "other_fees"]
+        f = f[cols]
+        if FEES_CSV.exists():
+            old = pd.read_csv(FEES_CSV, dtype={"month": str})
+            old = old[~((old["month"] == month) & (old["account"] == account))]
+            f = pd.concat([old, f], ignore_index=True)
+        f.to_csv(FEES_CSV, index=False)
+        cur = f[(f["month"] == month) & (f["account"] == account)]
+        real = cur[cur["sku"] != AFFORD_SKU]
+        print(f"    charged fees: {len(real)} SKUs, {int(real['units'].sum())} units, "
+              f"referral Rs {real['referral'].sum():,.0f}, fulfilment Rs {real['fulfilment'].sum():,.0f}, "
+              f"promo Rs {real['promo'].sum():,.0f} | affordability Rs {afford:,.0f}")
     return agg
 
 

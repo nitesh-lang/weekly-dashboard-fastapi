@@ -29,7 +29,7 @@ GST_RATE = 0.18
 
 _lock = threading.Lock()
 _cache: dict = {"sales": (0.0, None), "returns": (0.0, None), "storage": (0.0, None),
-                "deduct": None}
+                "deduct": None, "charged": None}
 
 
 def _sales_agg() -> pd.DataFrame | None:
@@ -163,6 +163,8 @@ def warehousing_for(asin: str, sku: str = "") -> dict:
 
 
 DEDUCTIONS_CSV = ROOT / "data" / "processed" / "amazon_deductions_snapshot.csv"
+CHARGED_CSV = ROOT / "data" / "processed" / "amazon_charged_fees_snapshot.csv"
+_AFFORD_SKU = "__AFFORDABILITY__"
 # Storage + LTSF are already priced from the storage-fee report — excluding
 # them here is what stops the warehousing line and this one double-counting.
 _ALREADY_PRICED = ("FBAStorageFee", "FBALongTermStorageFee")
@@ -196,11 +198,14 @@ def settlement_for(asin: str, sku: str = "") -> dict:
     r = df[(df["asin"] == asin) & (df["month"] == month)]
     if r.empty:
         return {"available": False, "reason": f"no settlement rows for ASIN in {month}"}
+    # Return-specific fees (refund administration, removal/return) are NOT
+    # here — they moved onto the returns line 10/09 so one number carries the
+    # whole cost of a return. Keeping them in both places would double-count.
     keep = r[
-        ((r["event_group"] == "ServiceFee") & ~r["fee_type"].str.contains("|".join(_ALREADY_PRICED)))
-        | ((r["event_group"] == "Refund") & (r["fee_type"] == "RefundCommission"))
+        ((r["event_group"] == "ServiceFee")
+         & ~r["fee_type"].str.contains("|".join(_ALREADY_PRICED))
+         & ~r["fee_type"].str.contains("Removal", case=False, na=False))
         | (r["event_group"] == "Adjustment")
-        | (r["event_group"] == "Removal")
     ]
     if keep.empty:
         return {"available": False, "reason": f"no priceable settlement fees in {month}"}
@@ -229,6 +234,53 @@ def settlement_for(asin: str, sku: str = "") -> dict:
             "monthly_units": round(monthly_units, 0) if monthly_units else None,
             "top_lines": {k: float(v) for k, v in top.items()},
             "rows": int(len(keep))}
+
+
+def charged_fees_for(asin: str, sku: str = "") -> dict:
+    """What Amazon ACTUALLY charged per unit on shipments of this ASIN —
+    referral, fulfilment, closing, plus the promo/coupon money we funded —
+    from settlement events, not the fee-preview estimate. Also carries the
+    account's affordability (no-cost-EMI) expense spread per unit, because
+    those events carry an order id but no SKU.
+    """
+    asin = (asin or "").strip().upper()
+    if not CHARGED_CSV.exists():
+        return {"available": False, "reason": "no charged-fee pull yet"}
+    mt = CHARGED_CSV.stat().st_mtime
+    with _lock:
+        hit = _cache.get("charged")
+    if not hit or hit[0] != mt:
+        df = pd.read_csv(CHARGED_CSV, dtype={"month": str})
+        df["asin"] = df["asin"].fillna("").astype(str).str.strip().str.upper()
+        for c in ("units", "principal", "tax", "promo", "referral",
+                  "fulfilment", "closing", "other_fees"):
+            df[c] = pd.to_numeric(df[c], errors="coerce").fillna(0)
+        with _lock:
+            _cache["charged"] = (mt, df)
+    else:
+        df = hit[1]
+    if len(asin) != 10:
+        return {"available": False, "reason": "no ASIN"}
+    month = df["month"].max()
+    cur = df[df["month"] == month]
+    r = cur[cur["asin"] == asin]
+    units = float(r["units"].sum())
+    if r.empty or units <= 0:
+        return {"available": False, "reason": f"no shipments for ASIN in {month}"}
+    # Amazon books fees as negatives; the ladder wants positive costs.
+    per = lambda col: round(-float(r[col].sum()) / units, 2)
+    real = cur[cur["sku"] != _AFFORD_SKU]
+    afford_total = -float(cur.loc[cur["sku"] == _AFFORD_SKU, "other_fees"].sum())
+    acct_units = float(real["units"].sum())
+    afford_pu = round(afford_total / acct_units, 2) if acct_units > 0 else None
+    return {"available": True, "month": month, "units": int(units),
+            "referral": per("referral"), "fulfilment": per("fulfilment"),
+            "closing": per("closing"), "promo": per("promo"),
+            "other_fees": per("other_fees"),
+            "asp_ex_tax": round(float(r["principal"].sum()) / units, 2),
+            "affordability_per_unit": afford_pu,
+            "affordability_month_total": round(afford_total, 0),
+            "affordability_basis_units": int(acct_units)}
 
 
 def returns_for(asin: str, sku: str = "") -> dict:
@@ -261,8 +313,33 @@ def returns_for(asin: str, sku: str = "") -> dict:
     if sold <= 0:
         return {"available": False, "reason": f"no Amazon 3P sales W{lo}-W{latest}"}
     sell_pct = (float(r["_sell_w"].sum()) / ret) if ret > 0 else None
+    # Fees Amazon charges specifically BECAUSE of a return — refund
+    # administration (it keeps ~20% of the referral) and removal/return
+    # handling — straight from the settlement, per unit sold.
+    fees_pu, fees_total, fees_month = None, None, None
+    try:
+        if DEDUCTIONS_CSV.exists():
+            dd = pd.read_csv(DEDUCTIONS_CSV, dtype={"month": str})
+            dd["asin"] = dd["asin"].fillna("").astype(str).str.strip().str.upper()
+            dd["amount"] = pd.to_numeric(dd["amount"], errors="coerce").fillna(0)
+            dd["fee_type"] = dd["fee_type"].fillna("").astype(str)
+            fees_month = dd["month"].max()
+            f = dd[(dd["asin"] == asin) & (dd["month"] == fees_month)
+                   & ((dd["fee_type"] == "RefundCommission")
+                      | dd["fee_type"].str.contains("Removal", case=False, na=False))]
+            charged = -float(f.loc[f["amount"] < 0, "amount"].sum())
+            if charged > 0:
+                monthly_units = sold / 3.0          # 13wk window -> per month
+                if monthly_units > 0:
+                    fees_total = round(charged, 0)
+                    fees_pu = round(charged / monthly_units, 2)
+    except Exception:
+        pass
     return {"available": True,
             "rate_pct": round(ret / sold * 100, 2),
             "return_units": int(ret), "units_sold_13w": int(sold),
             "window": f"W{lo}-W{latest}",
-            "sellable_pct": round(sell_pct, 1) if sell_pct is not None else None}
+            "sellable_pct": round(sell_pct, 1) if sell_pct is not None else None,
+            "return_fees_per_unit": fees_pu, "return_fees_month_total": fees_total,
+            "fees_month": fees_month,
+            "recovery_factor": 0.875}

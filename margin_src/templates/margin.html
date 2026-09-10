@@ -1102,7 +1102,7 @@ document.addEventListener('input',e=>{if(e.isTrusted&&e.target&&e.target.id)USER
 // "actual" can differ from the sheet: selling price (realized ASP), returns
 // % (actual 30d rate), AMS % (already actual TACOS, passed through). Reads
 // everything else live from the DOM so hand-edits flow into BOTH columns.
-function _ladderCalc(sp,retPct,amsPct,amsOnNet,V,whPerUnit,setPerUnit){
+function _ladderCalc(sp,retPct,amsPct,amsOnNet,V,whPerUnit,setPerUnit,retAllIn,chg){
   V=V||num;                       // value source: screen inputs by default,
                                   // ORIGINAL_ROW getter for the pure-sheet column
   const usd=V('usd_rate'),fob=V('fob')*usd,fr=V('freight')*usd;
@@ -1115,8 +1115,30 @@ function _ladderCalc(sp,retPct,amsPct,amsOnNet,V,whPerUnit,setPerUnit){
   // actual view AMS% applies to the net price — that makes the ₹ exactly
   // equal real ad spend per unit. Sheet view keeps the gross-SP convention.
   const amsRate=amsOnNet?(amsPct/100/1.18):(amsPct/100);
-  const referral=sp*V('referral_pct')/100,ams=sp*amsRate;
-  const coup=Math.max(sp*V('coupon_pct')/100,V('coupon_flat')),ret=sp*retPct/100;
+  // CHARGED-FEE OVERRIDE (operator 10/09): when settlement data exists for
+  // this ASIN, the Actual column prices referral / fulfilment / closing at
+  // what Amazon really deducted instead of the fee-preview estimate, and
+  // adds the promo funding + affordability (no-cost-EMI) expense it charged.
+  const referral=chg&&chg.referral!=null?chg.referral:sp*V('referral_pct')/100;
+  const ams=sp*amsRate;
+  const promo=chg&&chg.promo?chg.promo:0;
+  const afford=chg&&chg.afford?chg.afford:0;
+  const coup=Math.max(sp*V('coupon_pct')/100,V('coupon_flat'));
+  // RETURNS (operator 10/09). Sheet column keeps the master's convention:
+  // a flat loss % of price. The ACTUAL column prices what a return really
+  // costs: the sale reverses (but GST, referral and closing fee come back),
+  // sellable units put their landed cost back at a prudent 87.5% (repack +
+  // restarted storage clock), and the fees Amazon charges BECAUSE of the
+  // return — refund admin, removal — are added from the settlement.
+  let ret;
+  if(retAllIn){
+    const rr=retPct/100, sfrac=(retAllIn.sellable||0)/100, hair=retAllIn.recovery||0.875;
+    const _clo=chg&&chg.closing!=null?chg.closing:V('fixed_closing');
+    ret=Math.max(0, rr*(sp-gst-referral-_clo) - rr*sfrac*dp*hair
+                    + (retAllIn.feePerUnit||0));
+  } else {
+    ret=sp*retPct/100;
+  }
   let rawSMM=STATE.row?(STATE.row['SMM %']!==undefined?STATE.row['SMM %']:STATE.row['SMM']!==undefined?STATE.row['SMM']:null):null;
   const so=document.getElementById('smm_override').checked;
   let smmPct;if(so){smmPct=V('smm_pct');}else if(rawSMM===null||rawSMM===''){smmPct=V('smm_pct');}else{smmPct=parseFloat(rawSMM);}
@@ -1127,16 +1149,18 @@ function _ladderCalc(sp,retPct,amsPct,amsOnNet,V,whPerUnit,setPerUnit){
   const wh=whPerUnit||0;   // Amazon storage+LTSF per unit — actual column only
   const settle=setPerUnit||0;   // settlement fees Amazon charged (refund admin,
                                 // removals, misc service) — actual column only
-  const sellful=referral+V('fixed_closing')+V('fulfillment_fee')+ret+coup+wh+settle;
+  const closingC=chg&&chg.closing!=null?chg.closing:V('fixed_closing');
+  const fulfilC =chg&&chg.fulfilment!=null?chg.fulfilment:V('fulfillment_fee');
+  const sellful=referral+closingC+fulfilC+ret+coup+wh+settle+promo+afford;
   const mktg=ams+smm;
   const cm2=gross-sellful, cm3=cm2-mktg;
   const rateSum=(gstp>0?1-1/(1+gstp/100):0)+V('referral_pct')/100+amsRate
                 +V('coupon_pct')/100+retPct/100+smmPct/100;
   const fixed=dp+V('fixed_closing')+V('fulfillment_fee')+bo+fc+V('coupon_flat');
-  const amz_fees=referral+V('fixed_closing')+V('fulfillment_fee')+wh+settle;
+  const amz_fees=referral+closingC+fulfilC+wh+settle+promo+afford;
   return {sp,gst,nettax:sp-gst,gstPct:gstp,dp,gross,marketplace:sellful,opex:mktg,ams,smm,bo,fc,wh,settle,
-          referral,closing:V('fixed_closing'),fulfil:V('fulfillment_fee'),ret,coup,
-          amz_fees,amz_all:amz_fees+ams,cm2,cm3,
+          referral,closing:closingC,fulfil:fulfilC,ret,coup,promo,afford,charged:!!chg,
+          amz_fees,amz_all:amz_fees+ams,retAllIn:!!retAllIn,cm2,cm3,
           overhead:bo+fc,net:cm3-bo-fc,rateSum,fixed:fixed+wh+settle,amsPct,retPct};
 }
 // Getter for the master-sheet column: ORIGINAL_ROW holds the values captured
@@ -1166,7 +1190,13 @@ function renderLadderView(sheetData){
               ?ACTUALS.settlement.per_unit:0;
     const L=_ladderCalc(aspOk?ACTUALS.asp.asp:sheetData.sp,
                         retOk?ACTUALS.returns.rate_pct:num('returns_pct'),
-                        _tp,false,null,_wh,_set);   // operator: TACOS % as-is on the price
+                        _tp,false,null,_wh,_set,
+                        (ACTUALS.returns&&ACTUALS.returns.available)?{sellable:ACTUALS.returns.sellable_pct,
+                               feePerUnit:ACTUALS.returns.return_fees_per_unit||0,
+                               recovery:ACTUALS.returns.recovery_factor||0.875}:null,
+                        (ACTUALS.charged&&ACTUALS.charged.available)?{referral:ACTUALS.charged.referral,
+                               fulfilment:ACTUALS.charged.fulfilment,closing:ACTUALS.charged.closing,
+                               promo:ACTUALS.charged.promo,afford:ACTUALS.charged.affordability_per_unit||0}:null);
     renderWaterfall(L);
     if(note)note.textContent=(aspOk?('realized ASP ₹'+Number(ACTUALS.asp.asp).toLocaleString('en-IN',{maximumFractionDigits:0})+' ('+ACTUALS.asp.window+')'):'sheet price')
       +(retOk?(' · returns '+ACTUALS.returns.rate_pct+'%'):'');
@@ -1187,6 +1217,7 @@ function renderSvaTable(sheetData){
   const aspOk=ACTUALS.asp&&ACTUALS.asp.available, retOk=ACTUALS.returns&&ACTUALS.returns.available;
   const whOk=ACTUALS.warehousing&&ACTUALS.warehousing.available&&ACTUALS.warehousing.per_unit!=null;
   const setOk=ACTUALS.settlement&&ACTUALS.settlement.available&&ACTUALS.settlement.per_unit!=null;
+  const C=ACTUALS.charged||{}; const chgOk=!!C.available;
   // Actual AMS is PINNED to the measured 3-mo TACOS — hand-editing the AMS %
   // input changes the Sheet scenario, never the actual (actuals are facts).
   const _tacosPct=(typeof TACOS!=='undefined'&&TACOS&&TACOS.window&&TACOS.window.tacos_pct!=null)
@@ -1194,11 +1225,16 @@ function renderSvaTable(sheetData){
   const A=_ladderCalc(aspOk?ACTUALS.asp.asp:sheetData.sp,
                       retOk?ACTUALS.returns.rate_pct:num('returns_pct'),
                       _tacosPct,false,null,whOk?ACTUALS.warehousing.per_unit:0,
-                      setOk?ACTUALS.settlement.per_unit:0);
+                      setOk?ACTUALS.settlement.per_unit:0,
+                      retOk?{sellable:ACTUALS.returns.sellable_pct,
+                             feePerUnit:ACTUALS.returns.return_fees_per_unit||0,
+                             recovery:ACTUALS.returns.recovery_factor||0.875}:null,
+                      chgOk?{referral:C.referral,fulfilment:C.fulfilment,closing:C.closing,
+                             promo:C.promo,afford:C.affordability_per_unit||0}:null);
   // Sheet column = the MASTER SHEET as written (pre-auto-apply values):
   // sheet SP, sheet AMS %, sheet returns % — not the live-applied screen.
   // (No warehousing line on the sheet side — the master doesn't price it. Yet.)
-  const S=_ladderCalc(_sheetV('bau_sp'),_sheetV('returns_pct'),_sheetV('ams_pct'),false,_sheetV,0,0);
+  const S=_ladderCalc(_sheetV('bau_sp'),_sheetV('returns_pct'),_sheetV('ams_pct'),false,_sheetV,0,0,null,null);
   hint.textContent='— sheet = master values · actual = '+[aspOk?('realized ASP ₹'+Number(ACTUALS.asp.asp).toLocaleString('en-IN',{maximumFractionDigits:0})+' '+ACTUALS.asp.window):null,
                                   retOk?('returns '+ACTUALS.returns.rate_pct+'%'):null,'TACOS on net'].filter(Boolean).join(' + ');
   const inr=v=>'₹'+Number(v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -1215,6 +1251,8 @@ function renderSvaTable(sheetData){
     ['Fulfilment (FBA)','fulfil','neg amz'],
     ['Fixed closing fee','closing','neg amz'],
     ['Storage + LTSF','wh','neg amz'],
+    ['Promo / coupon funded','promo','neg amz'],
+    ['Affordability (no-cost EMI)','afford','neg amz'],
     ['Settlement fees (refund admin, removals)','settle','neg amz'],
     ['Amazon fees subtotal','amz_fees','sub amz'],
     ['sec','Our selling costs'],
@@ -1245,6 +1283,7 @@ function renderSvaTable(sheetData){
       if(lab==='sec')return `<tr class="secr"><td colspan="4">${k}</td></tr>`;
       if(k==='wh'&&!whOk)return '';   // no storage data — hide the line entirely
       if(k==='settle'&&!setOk)return '';
+      if((k==='promo'||k==='afford')&&!(A[k]>0))return '';
       const dpp=(A.sp>0&&S.sp>0)?(A[k]/A.sp*100)-(S[k]/S.sp*100):0;
       const d=k==='sp'?'':`<span class="${dpp<0?'negd':'posd'}">${dpp>=0?'+':''}${dpp.toFixed(1)}</span>`;
       const rc=[(cls||'').includes('cm')?'cmr':'',(cls||'').includes('sub')?'subr':'',
@@ -1252,24 +1291,31 @@ function renderSvaTable(sheetData){
       let html=`<tr${rc?` class="${rc}"`:''}><td>${lab}</td>${cell(S,k)}${cell(A,k)}<td>${d}</td></tr>`;
       if(k==='sp'&&aspOk){
         const a=ACTUALS.asp;
-        html+=ev(`Actual SP derivation: ${inr0(a.net_sales)} post-GST Amazon-3P sales ÷ ${a.units} units = ₹${Number(a.net_asp).toLocaleString('en-IN',{minimumFractionDigits:2})} net × ${a.gst_factor} GST re-gross = <b>₹${Number(a.asp).toLocaleString('en-IN',{minimumFractionDigits:2})}</b> customer price · window ${a.window} (${a.weeks_with_sales} weeks with sales) · deals &amp; B2B orders included · source: weekly sales snapshot (stores 3P net of GST by design)`);
+        html+=ev(`<b>What each unit actually sold for.</b> Amazon paid us ${inr0(a.net_sales)} for ${a.units} units over ${a.window} (that figure is after GST is taken out, which is how the weekly report stores it). That works out to ₹${Number(a.net_asp).toLocaleString('en-IN',{minimumFractionDigits:2})} per unit; add the 18% GST back and the customer paid <b>₹${Number(a.asp).toLocaleString('en-IN',{minimumFractionDigits:2})}</b>. Deals and B2B orders are included, so this is the real average price — not the price on the sheet.`);
       }
       if(k==='ams'){
         const t=(typeof TACOS!=='undefined'&&TACOS&&TACOS.window&&TACOS.window.tacos_pct!=null)?TACOS:null;
-        html+=ev(`AMS — sheet: ${S.amsPct.toFixed(2)}% (master assumption) · actual: <b>${A.amsPct.toFixed(2)}%</b>${t?` = 3-mo TACOS (spend ₹${Number(t.window.spend).toLocaleString('en-IN',{maximumFractionDigits:0})} ÷ net GMV ₹${Number(t.window.gmv).toLocaleString('en-IN',{maximumFractionDigits:0})})`:''}, applied on the price = ₹${(A.sp*A.amsPct/100).toFixed(2)}/unit — source: weekly AMS data`);
+        html+=ev(`<b>What we really spent on ads.</b> The sheet assumes ${S.amsPct.toFixed(2)}%. In reality we spent ${t?`₹${Number(t.window.spend).toLocaleString('en-IN',{maximumFractionDigits:0})} on ads to make ₹${Number(t.window.gmv).toLocaleString('en-IN',{maximumFractionDigits:0})} of sales over the last 3 months, which is `:''}<b>${A.amsPct.toFixed(2)}%</b> of every rupee sold (this is what TACOS means). On this price that is ₹${(A.sp*A.amsPct/100).toFixed(2)} of advertising on each unit.`);
       }
       if(k==='wh'&&whOk){
         const w=ACTUALS.warehousing;
-        html+=ev(`Warehousing derivation: ₹${Number(w.storage_fee).toLocaleString('en-IN')} storage + ₹${Number(w.ltsf_fee).toLocaleString('en-IN')} LTSF charged in ${w.month} ÷ ${w.monthly_units} avg monthly units (13wk pace) = <b>₹${w.per_unit}/unit</b> · avg ${w.avg_qty_on_hand}u sitting in FCs · source: FBA storage-fee reports`);
+        html+=ev(`<b>What Amazon charged us to store this product.</b> ₹${Number(w.storage_fee).toLocaleString('en-IN')} of storage${w.ltsf_fee?` plus ₹${Number(w.ltsf_fee).toLocaleString('en-IN')} of long-term storage (stock sitting too long)`:''} in ${w.month}. We sell about ${w.monthly_units} units a month, so that is <b>₹${w.per_unit} on every unit</b>. On average ${Number(w.avg_qty_on_hand).toLocaleString('en-IN')} units sat in Amazon's warehouse — the slower it sells, the more each unit carries.`);
+      }
+      if(k==='referral'&&chgOk){
+        html+=ev(`<b>Fees Amazon actually deducted — not our estimate.</b> On each unit: ₹${C.referral} commission, ₹${C.fulfilment} to pick, pack and deliver (FBA), and ₹${C.closing} closing fee. Taken straight from Amazon's payment records for the ${C.units} units shipped in ${C.month}. The Sheet column still shows the fees we had assumed, so any difference between the two columns is real money.`);
+      }
+      if(k==='afford'&&A.afford>0){
+        html+=ev(`<b>No-cost EMI and bank offers we paid for.</b> Amazon charged us ₹${Number(C.affordability_month_total).toLocaleString('en-IN')} in ${C.month} for these offers. Spread over the ${Number(C.affordability_basis_units).toLocaleString('en-IN')} units the account sold, that is <b>₹${C.affordability_per_unit} on every unit</b>. Amazon does not tell us which product each offer belonged to, so it is shared equally rather than charged to one product.`);
       }
       if(k==='settle'&&setOk){
         const t=ACTUALS.settlement;
-        const lines=Object.entries(t.top_lines||{}).map(([k2,v])=>`${k2} ₹${Math.abs(v).toLocaleString('en-IN')}`).join(', ');
-        html+=ev(`Settlement derivation: ₹${Number(t.fees_charged).toLocaleString('en-IN')} of fees Amazon actually deducted in ${t.month} (${lines}) ÷ ${t.monthly_units} avg monthly units = <b>₹${t.per_unit}/unit</b>. Storage/LTSF excluded (priced on the line above); refunded principal excluded (the returns % line carries it). Amazon also CREDITED ₹${Number(t.credits).toLocaleString('en-IN')} this month (reimbursements / free-replacement) — not netted here because it offsets stock losses this model doesn't charge for either · source: Finances API settlement events`);
+        const lines2=Object.entries(t.top_lines||{}).map(([k2,v])=>`${k2} ₹${Math.abs(v).toLocaleString('en-IN')}`).join(', ');
+        html+=ev(`<b>Other charges Amazon took.</b> ₹${Number(t.fees_charged).toLocaleString('en-IN')} in ${t.month} (${lines2}) — that is <b>₹${t.per_unit} per unit</b>. Storage is not counted here (it has its own line above) and refunds are not counted here (they sit in the returns line), so nothing is charged twice. Amazon also paid us back ₹${Number(t.credits).toLocaleString('en-IN')} this month for stock it lost or damaged; we do not subtract that here, because the cost of losing that stock is not charged anywhere either.`);
       }
-      if(k==='marketplace'&&retOk){
+      if(k==='ret'&&retOk){
         const r=ACTUALS.returns;
-        html+=ev(`Actual returns in this line: ${r.return_units} Amazon-3P returns (90d report) ÷ ${r.units_sold_13w} Amazon-3P units sold ${r.window} = <b>${r.rate_pct}%</b> — matched ~90-day windows both sides${r.sellable_pct!=null?` · ${r.sellable_pct}% came back sellable`:''} · sources: returns + weekly sales snapshots`);
+        const rate=r.rate_pct, costPct=A.sp>0?(A.ret/A.sp*100):0;
+        html+=ev(`<b>Returns: the rate and the cost are two different numbers.</b> Out of every 100 units sold, <b>${rate}</b> come back (${r.return_units} returns against ${r.units_sold_13w} units sold, ${r.window}). But a return does not cost us the full price: the sale reverses, yet the GST and Amazon's commission and closing fee come back to us${r.sellable_pct!=null?`, and ${r.sellable_pct}% of returned units are still in sellable condition so they go back on the shelf and we get most of that stock value back`:''}${r.return_fees_per_unit?`. Amazon does keep a refund handling charge — ₹${Number(r.return_fees_month_total).toLocaleString('en-IN')} in ${r.fees_month}, about ₹${r.return_fees_per_unit} per unit sold`:''}. Adding all of that up, returns really cost <b>₹${A.ret.toFixed(2)} per unit — ${(A.sp>0?A.ret/A.sp*100:0).toFixed(1)}% of the price</b>, not ${rate}%.`);
       }
       return html;
     }).join('')+'</table>'+

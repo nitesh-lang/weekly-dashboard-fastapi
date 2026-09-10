@@ -1095,13 +1095,9 @@ async function loadTacos(){
       `<div style="font-size:9px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;">${m.month}</div></div>`).join('');
     document.getElementById('tc_window').textContent=
       (j.window.tacos_pct==null?'—':j.window.tacos_pct+'%')+' · 3-mo';
-    if(j.window.tacos_pct!=null){
-      const amsEl=document.getElementById('ams_pct');
-      if(amsEl){amsEl.value=Number(j.window.tacos_pct).toFixed(2);
-        if(window.CALC_MODE==='audio_array_ccb'){backendCalculate();triggerAfterParamUpdate();}else{recalc();}}
-    }
+    // (measured TACOS is reference only - use "Apply" to move the sheet scenario)
     document.getElementById('tc_meta').textContent=
-      `${j.brand||''} ${j.model||''} · ${j.window.label} · spend ₹${Number(j.window.spend).toLocaleString('en-IN')} / GMV ₹${Number(j.window.gmv).toLocaleString('en-IN')} · auto-applied to AMS % — editable`;
+      `${j.brand||''} ${j.model||''} · ${j.window.label} · spend ₹${Number(j.window.spend).toLocaleString('en-IN')} / GMV ₹${Number(j.window.gmv).toLocaleString('en-IN')} · measured — press Apply to use it`;
     panel.style.display='block';
   }catch(e){/* reference only — never block the calculator */}
 }
@@ -1216,7 +1212,18 @@ function renderLadderView(sheetData){
       +(retOk?(' · returns '+ACTUALS.returns.rate_pct+'%'):'');
     return;
   }
-  renderWaterfall(sheetData);
+  // Sheet mode = the master as written (plus deliberate hand edits), which is
+  // exactly what the centre table's Sheet column shows. Built from the same
+  // call, so the two cannot drift apart.
+  const S=STATE.row?_ladderCalc(_sheetV('bau_sp'),_sheetV('returns_pct'),_sheetV('ams_pct'),
+                                false,_sheetV,0,0,null,null):sheetData;
+  renderWaterfall(S);
+  if(S&&S.sp>0){
+    set('m_net',S.net);set('m_net_pct',(S.net/S.sp)*100);
+    set('m_gross',S.gross);set('m_gross_pct',(S.gross/S.sp)*100);
+    const _np=document.getElementById('m_net_pct');
+    if(_np&&_np.tagName==='EM')_np.textContent=((S.net/S.sp)*100).toFixed(2)+'%';
+  }
   if(note)note.textContent='';
 }
 // ── Central "Sheet vs Actual" collapsible card: the full ladder, both

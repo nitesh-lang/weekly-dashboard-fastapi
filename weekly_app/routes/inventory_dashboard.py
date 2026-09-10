@@ -71,6 +71,9 @@ CHANNEL_TO_TYPE = {
     "blinkit":          "Marketplace",
     "blinkit inv":      "Marketplace",
     "amazon":           "Marketplace",
+    # FBA units still travelling to an Amazon FC — split out of on-hand
+    # 10/09/26 so stock reads true; typed as in-transit like Pipeline.
+    "amazon inbound":   "In-Transit Inventory",
     "1p":               "1P",
     "ynt":              "Dispatch Partner",
     "ampm":             "Warehouse",

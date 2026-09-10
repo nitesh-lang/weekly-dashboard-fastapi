@@ -778,7 +778,7 @@ def build_brief(week: Optional[int] = None,
     # signals, so they never enter the brief's inventory math.
     if "channel" in inv.columns:
         _chan = inv["channel"].fillna("").astype(str).str.strip().str.lower()
-        inv = inv[~_chan.isin({"pipeline", "open order"})]
+        inv = inv[~_chan.isin({"pipeline", "open order", "amazon inbound"})]
 
     a = pd.read_csv(AMS_CSV) if AMS_CSV.exists() else pd.DataFrame()
     a = _drop_excluded(a)

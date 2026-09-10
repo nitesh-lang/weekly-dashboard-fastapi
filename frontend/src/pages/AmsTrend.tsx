@@ -40,7 +40,7 @@ interface AmsRow {
     clicks?: number;  impressions?: number;
     buy_box_pct?: number;
     inventory_ampm?: number;  inventory_1p?: number;
-    inventory_amazon?: number;  inventory_total_amazon?: number;
+    inventory_amazon?: number;  inventory_inbound?: number;  inventory_total_amazon?: number;
     pipeline_orders?: number;
     campaign_name?: string;
     [k: string]: any;
@@ -71,7 +71,7 @@ const COLUMNS = [
     "Conversion %", "ROAS", "ACOS %", "TACOS %",
     "CAC", "AMS Orders", "Attributed Sales (₹)",
     "Clicks", "Impressions", "CPC (₹)", "Buybox %",
-    "Inv AMPM", "Inv 1P", "Inv Amazon", "Total Amz Inv", "Pipeline Orders",
+    "Inv AMPM", "Inv 1P", "Inv Amazon", "Inbound", "Total Amz Inv", "Pipeline Orders",
 ];
 // CPC is computed at render-time so it has no raw key; null disables sorting there.
 const SORT_KEYS: (string | null)[] = [
@@ -82,7 +82,7 @@ const SORT_KEYS: (string | null)[] = [
     "conversion_pct", "roas", "acos", "tacos",
     "cac", "ams_orders", "attributed_sales",
     "clicks", "impressions", null, "buy_box_pct",
-    "inventory_ampm", "inventory_1p", "inventory_amazon", "inventory_total_amazon", "pipeline_orders",
+    "inventory_ampm", "inventory_1p", "inventory_amazon", "inventory_inbound", "inventory_total_amazon", "pipeline_orders",
 ];
 const TEXT_COLS_IDX = new Set([0, 1, 2, 3, 4, 5, 6, 7]);
 
@@ -97,11 +97,11 @@ const TINT_KEYS: (string | null)[] = [
     "col-conv", "col-conv", "col-conv", "col-conv",
     "col-summary", "col-units", "col-sales",
     "col-units", "col-units", "col-summary", "col-pct",
-    "col-inv", "col-inv", "col-inv", "col-inv",
+    "col-inv", "col-inv", "col-inv", "col-inv", "col-inv",
     "col-units",
 ];
 // Indices where a 2-px group divider should appear (left edge of a new group)
-const DIVIDE_AT = new Set([8, 12, 15, 19, 22, 26, 30]);
+const DIVIDE_AT = new Set([8, 12, 15, 19, 22, 26, 31]);
 
 function MiniKpi({ label, value, accent = "#1e40af" }: { label: string; value: string; accent?: string }) {
     return (
@@ -408,6 +408,7 @@ export default function AmsTrend() {
             int(r.inventory_ampm),
             int(r.inventory_1p),
             int(r.inventory_amazon),
+            int(r.inventory_inbound ?? 0),
             int(r.inventory_total_amazon),
             int(r.pipeline_orders),
         ].map(String);

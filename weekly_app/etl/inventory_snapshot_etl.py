@@ -81,6 +81,20 @@ for brand_dir in RAW_INVENTORY_DIR.iterdir():
             fba.columns = fba.columns.str.lower().str.strip()
             if "inventory" in fba.columns and "model" in fba.columns:
                 fba["qty"]     = pd.to_numeric(fba["inventory"], errors="coerce").fillna(0)
+                # ON-HAND ONLY — mirrors inventory_model_snapshot.py (operator
+                # rule 10/09/26). `inventory` = afn_total − unsellable and
+                # afn_total INCLUDES inbound; inbound is pipeline, not stock.
+                # Without this, AMS Trend (on-hand) and the Inventory
+                # Dashboard (this file) disagreed by 26,649 units in W36.
+                _inb = None
+                for _ic in ("afn_inbound_working_quantity",
+                            "afn_inbound_shipped_quantity",
+                            "afn_inbound_receiving_quantity"):
+                    if _ic in fba.columns:
+                        _v = pd.to_numeric(fba[_ic], errors="coerce").fillna(0)
+                        fba["qty"] = fba["qty"] - _v
+                        _inb = _v if _inb is None else _inb + _v
+                fba["qty"] = fba["qty"].clip(lower=0)
                 fba["channel"] = "AMAZON"
                 if "type" not in fba.columns:
                     fba["type"] = "FBA"

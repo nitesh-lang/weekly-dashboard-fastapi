@@ -1679,9 +1679,19 @@ def check_sp_api_ingestion(latest_week: int) -> pd.DataFrame:
                     _flag("sales", brand, "Vendor Sales (SP-API).xlsx", "1p Sales", raw, snap)
 
         # 3P Seller FBA Inventory → snapshot Amazon
+        # ON-HAND BASIS (2026-09-10): the raw `Inventory` column is
+        # afn_total − unsellable and INCLUDES inbound (working + shipped +
+        # receiving). The snapshots deliberately store on-hand only, so the
+        # comparison must subtract inbound here too — otherwise this check
+        # fires every week with delta == inbound and masks a real ingestion
+        # failure behind permanent noise.
         f = inv_dir / folder / "Seller FBA Inventory (SP-API).xlsx"
         if f.exists():
-            raw = _read_raw(f, "inventory")
+            raw = _read_raw(f, "inventory") - sum(
+                _read_raw(f, c) for c in ("afn_inbound_working_quantity",
+                                          "afn_inbound_shipped_quantity",
+                                          "afn_inbound_receiving_quantity")
+            )
             if raw > 0:
                 snap = _sum_snap_inv(brand, "Amazon")
                 if snap < 0.5 * raw:

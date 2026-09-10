@@ -134,6 +134,7 @@ UI_SCHEMA = {
     "inventory_ampm": 0,
     "inventory_1p": 0,
     "inventory_amazon": 0,
+    "inventory_inbound": 0,
     "inventory_total_amazon": 0,
     "pipeline_orders": 0,
     "inv_units_model": 0,
@@ -315,6 +316,11 @@ def load_inventory_snapshot() -> pd.DataFrame:
     df["__1p"]       = df["inventory_units"].where(chan_lower == "1p",                  0)
     df["__amazon"]   = df["inventory_units"].where(chan_lower == "amazon",              0)
     df["__pipeline"] = df["inventory_units"].where(chan_lower.isin(PIPELINE_CHANNELS),  0)
+    # FBA inbound (working+shipped+receiving) — its own column for
+    # visibility (operator 10/09); NEVER inside on-hand or totals.
+    df["__fba_inbound"] = df["inventory_units"].where(chan_lower == "amazon inbound", 0)
+    # Inbound rows must not inflate the model-level total either.
+    df.loc[chan_lower == "amazon inbound", "inventory_units"] = 0
     # Sanity assertion: the 3 buckets we pivot into below MUST be the
     # AMAZON_SIDE_CHANNELS set.  If someone adds a 4th column above
     # without updating the constant, this fires.
@@ -326,6 +332,7 @@ def load_inventory_snapshot() -> pd.DataFrame:
         inventory_ampm   =("__ampm", "sum"),
         inventory_1p     =("__1p", "sum"),
         inventory_amazon =("__amazon", "sum"),
+        inventory_inbound=("__fba_inbound", "sum"),
         pipeline_orders  =("__pipeline", "sum"),
     )
     # Operator rule (2026-05-29): total Amazon-side inventory =
@@ -345,7 +352,8 @@ def load_inventory_snapshot() -> pd.DataFrame:
     pivot["week"] = pd.to_numeric(pivot["week"], errors="coerce")
 
     for c in ["inventory_ampm", "inventory_1p", "inventory_amazon",
-              "inventory_total_amazon", "pipeline_orders", "inv_units_model"]:
+              "inventory_inbound", "inventory_total_amazon", "pipeline_orders",
+              "inv_units_model"]:
         pivot[c] = pd.to_numeric(pivot[c], errors="coerce").fillna(0).astype(int)
 
     return pivot
@@ -443,7 +451,8 @@ def _collapse_families(df: pd.DataFrame) -> pd.DataFrame:
     SUM = [c for c in ("Spend", "Clicks", "Impressions", "attributed_sales",
                        "ams_orders", "gmv", "units", "units_ordered", "sessions",
                        "inventory_units", "inventory_ampm", "inventory_1p",
-                       "inventory_fba") if c in fam_df.columns]
+                       "inventory_fba", "inventory_amazon", "inventory_inbound",
+                       "inventory_total_amazon", "pipeline_orders") if c in fam_df.columns]
     MEAN = [c for c in ("buy_box_pct",) if c in fam_df.columns]
     others = [c for c in fam_df.columns if c not in ids + SUM + MEAN]
     lblmap = fam_df.drop_duplicates("asin").set_index("asin")["_fam_label"].to_dict()
@@ -568,12 +577,13 @@ def _build_trend_response(
         if miss.any():
             inv_by_model = (inv.drop_duplicates(["Model", "week"])
                                 [["Model", "week", "inventory_ampm", "inventory_1p",
-                                  "inventory_amazon", "inventory_total_amazon",
+                                  "inventory_amazon", "inventory_inbound",
+                                  "inventory_total_amazon",
                                   "pipeline_orders", "inv_units_model"]])
             df_miss = df.loc[miss, ["Model", "week"]].merge(
                 inv_by_model, on=["Model", "week"], how="left"
             )
-            for col in ["inventory_ampm","inventory_1p","inventory_amazon",
+            for col in ["inventory_ampm","inventory_1p","inventory_amazon","inventory_inbound",
                         "inventory_total_amazon","pipeline_orders","inv_units_model"]:
                 df.loc[miss, col] = df_miss[col].values
 
@@ -799,12 +809,13 @@ def _build_insights_response(
         if miss is not None and miss.any():
             inv_by_model = (inv.drop_duplicates(["Model", "week"])
                                 [["Model", "week", "inventory_ampm", "inventory_1p",
-                                  "inventory_amazon", "inventory_total_amazon",
+                                  "inventory_amazon", "inventory_inbound",
+                                  "inventory_total_amazon",
                                   "pipeline_orders", "inv_units_model"]])
             df_miss = df.loc[miss, ["Model", "week"]].merge(
                 inv_by_model, on=["Model", "week"], how="left"
             )
-            for col in ["inventory_ampm", "inventory_1p", "inventory_amazon",
+            for col in ["inventory_ampm", "inventory_1p", "inventory_amazon", "inventory_inbound",
                         "inventory_total_amazon", "pipeline_orders", "inv_units_model"]:
                 df.loc[miss, col] = df_miss[col].values
 

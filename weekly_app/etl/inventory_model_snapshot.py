@@ -272,13 +272,24 @@ def run_inventory_etl():
                 # shipped + receiving). Inbound is pipeline, not stock —
                 # subtract it here so Inv Amazon never counts units still
                 # on a truck. Works for all history: raws keep afn cols.
+                _inb = None
                 for _ic in ("afn_inbound_working_quantity",
                             "afn_inbound_shipped_quantity",
                             "afn_inbound_receiving_quantity"):
                     if _ic in df.columns:
-                        df["qty"] = df["qty"] - pd.to_numeric(df[_ic], errors="coerce").fillna(0)
+                        _v = pd.to_numeric(df[_ic], errors="coerce").fillna(0)
+                        df["qty"] = df["qty"] - _v
+                        _inb = _v if _inb is None else _inb + _v
                 df["qty"] = df["qty"].clip(lower=0)
                 df["channel"] = "AMAZON"
+                # Inbound gets its OWN channel rows (operator 10/09: visible
+                # in a separate column, never inside on-hand).
+                if _inb is not None and _inb.sum() > 0:
+                    _inb_df = df.copy()
+                    _inb_df["qty"] = _inb
+                    _inb_df["channel"] = "AMAZON INBOUND"
+                    _inb_df = _inb_df[_inb_df["qty"] > 0]
+                    df = pd.concat([df, _inb_df], ignore_index=True)
                 # `type` column is informational downstream; tag explicitly.
                 if "type" not in df.columns:
                     df["type"] = "FBA"

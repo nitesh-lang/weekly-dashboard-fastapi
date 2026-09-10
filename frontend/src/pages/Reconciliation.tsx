@@ -30,7 +30,8 @@ const UNIT_ITEMS = new Set([
     "  less unfulfillable", "  less not shipped by month end",
     "= Shipped from this month's orders",
     "Units ordered (weekly report, order-date basis)",
-    "Units shipped (what Amazon paid on)", "Ordered but not shipped", "Units refunded",
+    "Units shipped (what Amazon paid on)", "Units shipped for other channels (MCF)",
+    "Ordered but not shipped", "Units refunded",
     "Event lists Amazon returned with data", "Event lists returned EMPTY",
 ]);
 /** Rows that carry a % rather than a rupee value. */

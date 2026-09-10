@@ -89,6 +89,12 @@ def pull_month(account: str, month: str) -> pd.DataFrame:
 
         # ── Shipments: the fees Amazon really charged, per SKU ──
         for se in ev.get("ShipmentEventList") or []:
+            # Multi-Channel Fulfilment rows carry an FBA fee but ZERO Amazon
+            # revenue - the sale happened on another channel. Counting their
+            # units here loaded their landed cost onto Amazon's margin
+            # (418 units = Rs6.27L of phantom COGS in Aug 2026).
+            if (se.get("MarketplaceName") or "") != "Amazon.in":
+                continue
             for it in se.get("ShipmentItemList") or []:
                 sku = (it.get("SellerSKU") or "").strip()
                 if not sku:

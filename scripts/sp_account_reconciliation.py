@@ -74,6 +74,9 @@ def sweep(account: str, month: str) -> dict:
     U = defaultdict(int)            # unit counters
     unclassified = defaultdict(float)
     seen_lists = defaultdict(int)
+    C = defaultdict(float)          # what the classifier actually picked up
+    leaf_seen = defaultdict(float)  # every rupee Amazon put in the two big lists
+    all_lists: set[str] = set()     # every list key returned, empty ones included
     token, pages = None, 0
 
     while True:
@@ -88,16 +91,40 @@ def sweep(account: str, month: str) -> dict:
         payload = r.json().get("payload", {})
         ev = payload.get("FinancialEvents", {})
         pages += 1
+        for k in ev:
+            all_lists.add(k)
         for k, v in ev.items():
             if isinstance(v, list) and v:
                 seen_lists[k] += len(v)
 
+        # LEAK TEST. "Nothing was silently dropped" is only worth saying if it
+        # is measured: sum every leaf CurrencyAmount in the two big lists and
+        # compare against what the classifier below actually picked up. The
+        # residual is the money we failed to see. It found Rs23,399 of promo
+        # adjustments that had been invisible since this script was written.
+        for _lk in ("ShipmentEventList", "RefundEventList"):
+            leaf_seen[_lk] += _leaf_sum(ev.get(_lk) or [])
+
         # ── SALES ───────────────────────────────────────────────────────
         for se in ev.get("ShipmentEventList") or []:
+            # Multi-Channel Fulfilment: Amazon ships OUR order from OUR FBA
+            # stock for a fee, and the sale happened on some other channel.
+            # Those units have an FBA fee here but ZERO revenue here, so
+            # counting them as Amazon 3P units loads their landed cost onto
+            # Amazon's margin. 418 units in Aug 2026 = Rs6.27L of phantom COGS.
+            mcf = (se.get("MarketplaceName") or "") != "Amazon.in"
             for it in se.get("ShipmentItemList") or []:
+                if mcf:
+                    U["units_mcf"] += int(it.get("QuantityShipped") or 0)
+                    for f in it.get("ItemFeeList") or []:
+                        _a = _amt(f.get("FeeAmount"))
+                        C["ShipmentEventList"] += _a
+                        F["MCF:" + f.get("FeeType", "?")] += _a
+                    continue
                 U["units_shipped"] += int(it.get("QuantityShipped") or 0)
                 for c in it.get("ItemChargeList") or []:
                     t, a = c.get("ChargeType", "?"), _amt(c.get("ChargeAmount"))
+                    C["ShipmentEventList"] += a
                     if t == "Principal":
                         B["sales_ex_gst"] += a
                     elif t == "Tax":
@@ -109,12 +136,18 @@ def sweep(account: str, month: str) -> dict:
                     else:
                         unclassified[f"ShipmentCharge:{t}"] += a
                 for f in it.get("ItemFeeList") or []:
-                    F[f.get("FeeType", "?")] += _amt(f.get("FeeAmount"))
+                    _a = _amt(f.get("FeeAmount"))
+                    C["ShipmentEventList"] += _a
+                    F[f.get("FeeType", "?")] += _a
                 for pr in it.get("PromotionList") or []:
-                    B["promo_funded"] += _amt(pr.get("PromotionAmount"))
+                    _a = _amt(pr.get("PromotionAmount"))
+                    C["ShipmentEventList"] += _a
+                    B["promo_funded"] += _a
                 for tw in it.get("ItemTaxWithheldList") or []:
                     for tx in tw.get("TaxesWithheld") or []:
-                        B["tax_withheld"] += _amt(tx.get("ChargeAmount"))
+                        _a = _amt(tx.get("ChargeAmount"))
+                        C["ShipmentEventList"] += _a
+                        B["tax_withheld"] += _a
 
         # ── REFUNDS ─────────────────────────────────────────────────────
         for rf in ev.get("RefundEventList") or []:
@@ -122,6 +155,7 @@ def sweep(account: str, month: str) -> dict:
                 U["units_refunded"] += abs(int(it.get("QuantityShipped") or 0))
                 for c in it.get("ItemChargeAdjustmentList") or []:
                     t, a = c.get("ChargeType", "?"), _amt(c.get("ChargeAmount"))
+                    C["RefundEventList"] += a
                     if t == "Principal":
                         B["refund_principal"] += a
                     elif t == "Tax":
@@ -131,7 +165,16 @@ def sweep(account: str, month: str) -> dict:
                     else:
                         B["refund_other"] += a
                 for f in it.get("ItemFeeAdjustmentList") or []:
-                    F["REFUND:" + f.get("FeeType", "?")] += _amt(f.get("FeeAmount"))
+                    _a = _amt(f.get("FeeAmount"))
+                    C["RefundEventList"] += _a
+                    F["REFUND:" + f.get("FeeType", "?")] += _a
+                # Coupon funding comes BACK when the discounted order is
+                # refunded. Missing this overstated coupon cost by Rs23,399
+                # in Aug and left the settlement short by the same amount.
+                for pr in it.get("PromotionAdjustmentList") or []:
+                    _a = _amt(pr.get("PromotionAmount"))
+                    C["RefundEventList"] += _a
+                    B["promo_funded"] += _a
 
         # ── SERVICE FEES (storage, removals, misc) ──────────────────────
         for sf in ev.get("ServiceFeeEventList") or []:
@@ -148,13 +191,17 @@ def sweep(account: str, month: str) -> dict:
             B[f"adj_{ad.get('AdjustmentType','other')}"] += _amt(ad.get("AdjustmentAmount"))
 
         # ── AFFORDABILITY (no-cost EMI) ─────────────────────────────────
+        _agst = lambda e: (_amt(e.get("TaxTypeCGST")) + _amt(e.get("TaxTypeSGST"))
+                           + _amt(e.get("TaxTypeIGST")))
         for ae in ev.get("AffordabilityExpenseEventList") or []:
             B["affordability"] += _amt(ae.get("TotalExpense"))
+            B["affordability_gst"] += _agst(ae)
         for ar in ev.get("AffordabilityExpenseReversalEventList") or []:
             # Amazon already SIGNS reversals positive (a credit back). Adding
             # them is correct; subtracting double-counted the credit and made
             # every settlement tie-out miss by exactly 2x the reversals.
             B["affordability"] += _amt(ar.get("TotalExpense"))
+            B["affordability_gst"] += _agst(ar)
 
         # ── ANYTHING ELSE WITH MONEY IN IT ──────────────────────────────
         handled = {"ShipmentEventList", "RefundEventList", "ServiceFeeEventList",
@@ -183,9 +230,23 @@ def sweep(account: str, month: str) -> dict:
             break
         time.sleep(0.5)
 
+    leak = {k: round(leaf_seen[k] - C[k], 2) for k in leaf_seen}
     return {"buckets": dict(B), "fees": dict(F), "units": dict(U),
+            "leak": leak, "lists_returned": len(all_lists),
             "unclassified": dict(unclassified), "event_counts": dict(seen_lists),
             "pages": pages, "month": month, "account": account}
+
+
+def _leaf_sum(o) -> float:
+    """Every CurrencyAmount in the tree, counted once. Stops descending at a
+    money node so a parent total and its children are never both added."""
+    if isinstance(o, dict):
+        if "CurrencyAmount" in o:
+            return _amt(o)
+        return sum(_leaf_sum(x) for x in o.values())
+    if isinstance(o, list):
+        return sum(_leaf_sum(x) for x in o)
+    return 0.0
 
 
 def ordered_units(month: str, brand_hint: str) -> tuple[int, float]:
@@ -204,14 +265,34 @@ def ordered_units(month: str, brand_hint: str) -> tuple[int, float]:
 
 
 def ad_spend(month: str, brand_hint: str) -> float:
+    """Ad spend for the CALENDAR month, day-prorated out of Sun-Sat weeks.
+
+    Keeping whole weeks whose Sunday fell in the month put 35 days of spend
+    against a 31-day financial month: w36 (Aug 30 - Sep 5) is five-sevenths
+    September, and w31's one August day was dropped. That mis-stated August
+    ads by Rs136,839 (9.1%). Every other number here comes from a strict
+    calendar-month API window, so ads has to match it.
+    """
     if not AMS_CSV.exists():
-        return 0.0
+        raise FileNotFoundError(
+            f"{AMS_CSV} is missing - ad spend is a Rs15L line and must not "
+            "silently come through as zero")
     a = pd.read_csv(AMS_CSV, usecols=["brand", "week", "Spend"])
-    a = a[a["brand"].astype(str).str.lower() == brand_hint.lower()]
-    wn = pd.to_numeric(a["week"], errors="coerce")
+    a = a[a["brand"].astype(str).str.lower() == brand_hint.lower()].copy()
+    a["wn"] = pd.to_numeric(a["week"], errors="coerce")
+    a["Spend"] = pd.to_numeric(a["Spend"], errors="coerce").fillna(0)
+    # week 33 of 2026 starts Sunday 09/08/2026
+    a["start"] = pd.Timestamp("2026-08-09") + pd.to_timedelta((a["wn"] - 33) * 7, unit="D")
     y, m = map(int, month.split("-"))
-    sun = pd.Timestamp("2026-08-09") + pd.to_timedelta((wn - 33) * 7, unit="D")
-    return float(a.loc[(sun.dt.month == m) & (sun.dt.year == y), "Spend"].sum())
+    total = 0.0
+    for _, r in a.iterrows():
+        if pd.isna(r["start"]):
+            continue
+        days = [r["start"] + pd.Timedelta(days=d) for d in range(7)]
+        inside = sum(1 for d in days if d.month == m and d.year == y)
+        if inside:
+            total += float(r["Spend"]) * inside / 7
+    return total
 
 
 def orders_bridge(account: str, month: str) -> dict:
@@ -392,7 +473,12 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         add("01. SALES", "  less not shipped by month end", -b["later"], "ships next month")
         add("01. SALES", "= Shipped from this month's orders", b["shipped"], "")
         add("01. SALES", "Units shipped (what Amazon paid on)", shipped,
-            f"financial basis; differs from {b['shipped']} by cross-month timing")
+            f"financial basis, Amazon.in only; the {b['shipped'] - shipped} gap to the "
+            "line above is orders shipped across the month boundary")
+        if U.get("units_mcf"):
+            add("01. SALES", "Units shipped for other channels (MCF)", U["units_mcf"],
+                "Amazon shipped these from our FBA stock but the sale was elsewhere - "
+                "no revenue here, so no cost here either")
     else:
         add("01. SALES", "Units ordered (weekly report, order-date basis)", ordered,
             "different date basis from shipped")
@@ -400,15 +486,19 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
     add("01. SALES", "Product sales (GST NOT included)", B.get("sales_ex_gst", 0), "P&L revenue")
     add("01. SALES", "Shipping and gift wrap collected", B.get("shipping_giftwrap_collected", 0), "")
 
+    fee_gst_total = 0.0
     ru = U.get("units_refunded", 0)
     add("02. RETURNS", "Units refunded", ru, "")
     add("02. RETURNS", "Return rate % (in-month, mixed cohorts)",
         round(ru / shipped * 100, 2) if shipped else 0,
-        "these refunds mostly belong to earlier months' shipments")
+        "on Amazon-only units; these refunds mostly belong to earlier months")
     add("02. RETURNS", "Sale value refunded (GST NOT included)", B.get("refund_principal", 0), "")
     for k in sorted(F):
         if k.startswith("REFUND:") and abs(F[k]) > 0.5:
             ex, _g = _split_gst(F[k])
+            # when Amazon returns commission it returns the GST on it too, so
+            # the credit we already claimed has to come back down
+            fee_gst_total += _g
             add("02. RETURNS", k.replace("REFUND:", "") + " on refunds (ex-GST)", ex,
                 "given back to us" if F[k] > 0 else "Amazon kept this")
 
@@ -418,7 +508,6 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
               "Other selling fees": ["ShippingChargeback", "GiftwrapChargeback",
                                      "TechnologyFee", "ShippingHB"]}
     used = set()
-    fee_gst_total = 0.0
     for label, keys in groups.items():
         v = sum(F.get(k, 0) for k in keys)
         used.update(keys)
@@ -432,8 +521,15 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         fee_gst_total += gst
         add("03. AMAZON FEES (ex-GST)", k.split("|")[-1], ex,
             k.replace("SERVICE:", "").split("|")[0])
+    mcf_fee = sum(v for k, v in F.items() if k.startswith("MCF:"))
+    if mcf_fee:
+        ex, gst = _split_gst(mcf_fee)
+        fee_gst_total += gst
+        add("03. AMAZON FEES (ex-GST)", "Multi-Channel Fulfilment (other channels)", ex,
+            f"{U.get('units_mcf', 0)} units Amazon shipped for orders placed elsewhere - "
+            "real cash, but it belongs to that channel, not to Amazon 3P")
     for k, v in F.items():
-        if k in used or k.startswith(("SERVICE:", "REFUND:")) or not v:
+        if k in used or k.startswith(("SERVICE:", "REFUND:", "MCF:")) or not v:
             continue
         ex, gst = _split_gst(v)
         fee_gst_total += gst
@@ -468,6 +564,9 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
     add("06. GST AND TAX (not profit)", "Output GST reversed on refunds", ref_gst, "")
     add("06. GST AND TAX (not profit)", "ITC on Amazon fees (reclaimable)", -fee_gst_total,
         "tie to Amazon's tax invoice AND GSTR-2B")
+    emi_gst = B.get("affordability_gst", 0)
+    add("06. GST AND TAX (not profit)", "ITC on no-cost EMI (reclaimable)", -emi_gst,
+        "the EMI expense Amazon bills carries GST as well")
     add("06. GST AND TAX (not profit)", "ITC on advertising (reclaimable)", ads_gst,
         "ad invoices carry GST too - claim it in GSTR-2B or you pay 18% twice")
     add("06. GST AND TAX (not profit)", "TCS withheld u/s 52 (0.5% of net sales)", tcs,
@@ -477,7 +576,7 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
     # INPUT TAX CREDIT REDUCES what we remit (operator caught this 10/09/26 —
     # the sign was inverted, overstating the GST bill by 2x the ITC = Rs616,196
     # on August). fee_gst_total and tcs are already negative.
-    net_gst_payable = out_gst + ref_gst + fee_gst_total + tcs - ads_gst
+    net_gst_payable = out_gst + ref_gst + fee_gst_total + tcs - ads_gst + emi_gst
     add("06. GST AND TAX (not profit)", "Net GST still to remit in cash", -net_gst_payable, "")
 
     # THE FULL WALK — every component, in order, so the total can be followed.
@@ -561,8 +660,13 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         add("11. NOT CLASSIFIED", k, v, "money not bucketed - investigate")
     add("12. COMPLETENESS", "Event lists Amazon returned with data", len(res["event_counts"]),
         ", ".join(sorted(res["event_counts"])))
-    add("12. COMPLETENESS", "Event lists returned EMPTY", 33 - len(res["event_counts"]),
+    add("12. COMPLETENESS", "Event lists returned EMPTY",
+        res.get("lists_returned", 0) - len(res["event_counts"]),
         "incl. ShipmentSettleEventList - must stay empty or revenue double-counts")
+    for _k, _v in (res.get("leak") or {}).items():
+        add("12. COMPLETENESS", f"Money in {_k} we did not classify", _v,
+            "MUST BE ZERO - this is measured, not asserted" if abs(_v) < 0.5
+            else "LEAK - investigate before trusting the total")
     return pd.DataFrame(rows)
 
 
@@ -582,7 +686,7 @@ def summary_sheet(df: pd.DataFrame, res: dict, brand_hint: str) -> pd.DataFrame:
     refunds = val("Sale value refunded (GST NOT included)")
     ref_fee_back = df[(df["Section"] == "02. RETURNS") &
                       (df["Item"].str.contains("on refunds", na=False))]["Amount"].sum()
-    ads = val("Advertising (from our AMS data)")
+    ads = val("Advertising (billed with GST)")
     tcs = val("TCS withheld u/s 52 (0.5% of net sales)")
     tds = val("TDS withheld u/s 194-O (0.1% of gross)")
     net_gst = val("Net GST still to remit in cash")
@@ -638,7 +742,9 @@ def summary_sheet(df: pd.DataFrame, res: dict, brand_hint: str) -> pd.DataFrame:
         ("PROOF THIS IS COMPLETE", "", "", ""),
         ("  Event types Amazon reported", val("Event lists Amazon returned with data"), "", "every one classified above"),
         ("  Event types that were empty", val("Event lists returned EMPTY"), "", "nothing ignored"),
-        ("  Settlement cycles tied to Amazon's own totals", "12 of 12", "", "each cycle matches to the paisa"),
+        ("  Money in Amazon's events we could not classify",
+         round(sum((res.get("leak") or {}).values()), 2), "",
+         "measured leaf-by-leaf against the payload, not asserted"),
     ]
     return pd.DataFrame(rows, columns=["Item", "Amount", "% of sales", "What it means"])
 

@@ -696,10 +696,12 @@ def margin_actuals(asin: str = "", sku: str = ""):
     from the weekly snapshots. Matched by ASIN, falling back to SKU for
     master rows without an ASIN. Reference lines with explicit Apply —
     never auto-written into the calculator."""
-    from margin_src.core.actuals import asp_for, returns_for, warehousing_for
+    from margin_src.core.actuals import (asp_for, returns_for, warehousing_for,
+                                         settlement_for)
     try:
         return {"asp": asp_for(asin, sku), "returns": returns_for(asin, sku),
-                "warehousing": warehousing_for(asin, sku)}
+                "warehousing": warehousing_for(asin, sku),
+                "settlement": settlement_for(asin, sku)}
     except Exception as e:
         raise HTTPException(502, f"Actuals lookup failed: {e}")
 

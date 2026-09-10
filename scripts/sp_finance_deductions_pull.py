@@ -131,14 +131,23 @@ def pull_month(account: str, month: str) -> pd.DataFrame:
     # map SKU -> ASIN via master where the event didn't carry one
     try:
         mast = pd.read_excel(MASTER)
-        scol = next(c for c in mast.columns if c.strip().lower() == "sku")
         acol = next(c for c in mast.columns if c.strip().lower() == "asin")
-        amap = dict(zip(mast[scol].astype(str).str.strip().str.upper(),
-                        mast[acol].astype(str).str.strip().str.upper()))
+        # sku_master keys SKUs under "FBA SKU" (+ "Original SKU" for the
+        # pre-FBA code) — there is no plain "SKU" column. Build the map from
+        # EVERY sku-ish column so settlement rows key onto their ASIN.
+        skucols = [c for c in mast.columns if "sku" in c.strip().lower()]
+        amap: dict[str, str] = {}
+        for sc in skucols:
+            amap.update({k: v for k, v in zip(
+                mast[sc].astype(str).str.strip().str.upper(),
+                mast[acol].astype(str).str.strip().str.upper()) if k and k != "NAN"})
         need = (df["asin"] == "") & df["sku"].astype(str).ne("")
-        df.loc[need, "asin"] = df.loc[need, "sku"].astype(str).str.strip().str.upper().map(amap).fillna("")
+        df.loc[need, "asin"] = (df.loc[need, "sku"].astype(str).str.strip().str.upper()
+                                .map(amap).fillna(""))
+        hit = int((df.loc[need, "asin"] != "").sum())
+        print(f"    sku->asin map: {len(amap)} keys, matched {hit}/{int(need.sum())} rows")
     except Exception as e:
-        print(f"    WARN: sku->asin map failed: {e}")
+        print(f"    WARN: sku->asin map failed: {e!r}")
     agg = (df.groupby(["event_group", "fee_type", "sku", "asin"], as_index=False)
              .agg(amount=("amount", "sum"), qty=("qty", "sum")))
     agg["account"] = account

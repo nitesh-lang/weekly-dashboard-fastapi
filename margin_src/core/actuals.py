@@ -28,7 +28,8 @@ STORAGE_CSV = ROOT / "data" / "processed" / "storage_fees_snapshot.csv"
 GST_RATE = 0.18
 
 _lock = threading.Lock()
-_cache: dict = {"sales": (0.0, None), "returns": (0.0, None), "storage": (0.0, None)}
+_cache: dict = {"sales": (0.0, None), "returns": (0.0, None), "storage": (0.0, None),
+                "deduct": None}
 
 
 def _sales_agg() -> pd.DataFrame | None:
@@ -159,6 +160,75 @@ def warehousing_for(asin: str, sku: str = "") -> dict:
             "monthly_units": round(monthly_units, 0) if monthly_units else None,
             "per_unit": per_unit,
             "avg_qty_on_hand": round(float(r["avg_qty_on_hand"].sum()), 0)}
+
+
+DEDUCTIONS_CSV = ROOT / "data" / "processed" / "amazon_deductions_snapshot.csv"
+# Storage + LTSF are already priced from the storage-fee report — excluding
+# them here is what stops the warehousing line and this one double-counting.
+_ALREADY_PRICED = ("FBAStorageFee", "FBALongTermStorageFee")
+
+
+def settlement_for(asin: str, sku: str = "") -> dict:
+    """Fees Amazon actually deducted in the settlement that NO estimate API
+    shows: refund administration, removal/return fees, misc service fees —
+    net of reimbursement credits. Revenue mechanics (refunded Principal/Tax,
+    reversed commission) are deliberately excluded: the returns % line
+    already carries the lost-sale side, and counting both would double-dip.
+    """
+    asin = (asin or "").strip().upper()
+    if not DEDUCTIONS_CSV.exists():
+        return {"available": False, "reason": "no settlement pull yet — run sp_finance_deductions_pull.py"}
+    mt = DEDUCTIONS_CSV.stat().st_mtime
+    with _lock:
+        hit = _cache.get("deduct")
+    if not hit or hit[0] != mt:
+        df = pd.read_csv(DEDUCTIONS_CSV, dtype={"month": str})
+        df["asin"] = df["asin"].fillna("").astype(str).str.strip().str.upper()
+        df["amount"] = pd.to_numeric(df["amount"], errors="coerce").fillna(0)
+        df["fee_type"] = df["fee_type"].fillna("").astype(str)
+        with _lock:
+            _cache["deduct"] = (mt, df)
+    else:
+        df = hit[1]
+    if len(asin) != 10:
+        return {"available": False, "reason": "no ASIN"}
+    month = df["month"].max()
+    r = df[(df["asin"] == asin) & (df["month"] == month)]
+    if r.empty:
+        return {"available": False, "reason": f"no settlement rows for ASIN in {month}"}
+    keep = r[
+        ((r["event_group"] == "ServiceFee") & ~r["fee_type"].str.contains("|".join(_ALREADY_PRICED)))
+        | ((r["event_group"] == "Refund") & (r["fee_type"] == "RefundCommission"))
+        | (r["event_group"] == "Adjustment")
+        | (r["event_group"] == "Removal")
+    ]
+    if keep.empty:
+        return {"available": False, "reason": f"no priceable settlement fees in {month}"}
+    # COSTS ONLY in the ladder. Credits (REVERSAL_REIMBURSEMENT, free-
+    # replacement refunds) compensate us for losses we do NOT model either
+    # (stock Amazon lost/damaged, replacement units shipped free), so netting
+    # them against fees would flatter the margin — e.g. SC-05 would show a
+    # -Rs48/unit "credit". They are reported alongside as context instead.
+    charged = float(keep.loc[keep["amount"] < 0, "amount"].sum())   # negative
+    credited = float(keep.loc[keep["amount"] > 0, "amount"].sum())  # positive
+    cost = -charged
+    sales = _sales_agg()
+    monthly_units = None
+    if sales is not None and not sales.empty:
+        latest = int(sales["wn"].max())
+        u13 = float(sales[(sales["asin"] == asin)
+                          & (sales["wn"].between(latest - 12, latest))]["units_sold"].sum())
+        if u13 > 0:
+            monthly_units = u13 / 3.0
+    top = (keep[keep["amount"] < 0].groupby("fee_type")["amount"].sum()
+              .sort_values().head(3).round(0).to_dict())
+    return {"available": True, "month": month,
+            "fees_charged": round(cost, 0),
+            "credits": round(credited, 0),
+            "per_unit": round(cost / monthly_units, 2) if monthly_units else None,
+            "monthly_units": round(monthly_units, 0) if monthly_units else None,
+            "top_lines": {k: float(v) for k, v in top.items()},
+            "rows": int(len(keep))}
 
 
 def returns_for(asin: str, sku: str = "") -> dict:

@@ -72,7 +72,7 @@ export default function Reconciliation() {
     };
 
     if (isLoading) return <AppLayout><LoadingSkeleton /></AppLayout>;
-    if (error) return <AppLayout><ErrorBlock message={String(error)} /></AppLayout>;
+    if (error) return <AppLayout><ErrorBlock error={error} /></AppLayout>;
     if (!data || data.error) {
         return (
             <AppLayout>

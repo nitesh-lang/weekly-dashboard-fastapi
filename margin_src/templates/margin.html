@@ -81,6 +81,10 @@ a{text-decoration:none;color:var(--blue);}
 }
 .s-check input[type="checkbox"]{accent-color:var(--header-bg);cursor:pointer;width:12px;height:12px;}
 
+.s-note{font-size:10px;line-height:1.35;color:#fde68a;background:rgba(180,83,9,0.35);
+  border:1px solid rgba(253,230,138,0.35);border-radius:5px;padding:6px 8px;margin-top:6px;}
+.s-row.inert label{opacity:0.45;}
+.s-row.inert input{opacity:0.45;text-decoration:line-through;}
 .sidebar-btn{
   width:100%;background:var(--bg3);border:1px solid var(--border2);
   border-radius:5px;color:var(--text2);font-family:var(--sans);font-size:11px;
@@ -467,8 +471,11 @@ body{background:var(--v3-bg);color:var(--v3-ink);
         <label class="s-check"><input type="checkbox" id="gst_override"> Override Excel GST</label>
         <div class="s-row"><label>SMM %</label><input id="smm_pct" value="2"></div>
         <label class="s-check"><input type="checkbox" id="smm_override"> Override Excel SMM</label>
-        <div class="s-row"><label>Business Overhead %</label><input id="overhead_pct" value="5"></div>
-        <div class="s-row"><label>Cost of Finance %</label><input id="finance_pct" value="3"></div>
+        <div class="s-row" id="row_overhead"><label>Business Overhead %</label><input id="overhead_pct" value="5"></div>
+        <div class="s-row" id="row_finance"><label>Cost of Finance %</label><input id="finance_pct" value="3"></div>
+        <div id="nlc_warn" class="s-note" style="display:none;">
+          No NLC in this brand's master, so these two are <b>not applied</b> for this SKU.
+        </div>
       </div>
       <button class="sidebar-btn" id="reset_globals">↺ Reset Parameters</button>
     </div>
@@ -948,6 +955,13 @@ function hydrateCBParamsFromBackend(){
 function loadRow(){
   const m=document.getElementById('model').value,s=document.getElementById('sku').value;
   STATE.row=STATE.df.find(r=>r.Model===m&&r.SKU===s);if(!STATE.row)return;
+  (function(){
+    const nlc=STATE.row['NLC']||STATE.row['Cambium NLC']||STATE.row['Landed Cost']||0;
+    const w=document.getElementById('nlc_warn');
+    ['row_overhead','row_finance'].forEach(id=>{
+      const el=document.getElementById(id);if(el)el.classList.toggle('inert',!nlc);});
+    if(w)w.style.display=nlc?'none':'block';
+  })();
   USER_EDITED={};   // fresh SKU — hand-edit tracking starts over
   if(window.CALC_MODE==='audio_array_ccb')hydrateCBParamsFromBackend();
   const PI_MAP={'Category':'category','Category L2':'category_l2','Model No':'model_no','Model':'model_no','Product Name':'product_name','L (cm)':'l','B (cm)':'b','H (cm)':'h','HSN':'hsn'};

@@ -642,13 +642,18 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         pc = lambda v: (f"{v / _rev * 100:.1f}% of sales" if _rev else "")
         add("10. PROFIT", "AMAZON CHANNEL CONTRIBUTION", pl,
             pc(pl) + " - before company overhead, interest and tax")
-        oh = _rev * cogs.get("overhead_pct", 0) / 100
-        fin = _rev * cogs.get("finance_pct", 0) / 100
+        # BASIS MATTERS: the margin calculator charges overhead and finance as a
+        # % of NLC (landed cost), not of sales - the master's own computed
+        # columns prove it (NLC 1,259.86 -> overhead 62.99 = exactly 5%). Using
+        # sales here would have charged Rs9.30L where the tool charges Rs4.73L
+        # and made this statement disagree with the calculator it feeds from.
+        oh = cogs["gross"] * cogs.get("overhead_pct", 0) / 100
+        fin = cogs["gross"] * cogs.get("finance_pct", 0) / 100
         if oh or fin:
             add("10. PROFIT", "less business overhead", -oh,
-                f"{cogs['overhead_pct']:.0f}% of sales - the rate your own margin master uses")
+                f"{cogs['overhead_pct']:.0f}% of landed cost - same basis as the margin calculator")
             add("10. PROFIT", "less cost of finance", -fin,
-                f"{cogs['finance_pct']:.0f}% of sales - working capital tied up in stock")
+                f"{cogs['finance_pct']:.0f}% of landed cost - working capital tied up in stock")
             pbt = pl - oh - fin
             tax = pbt * 0.25168 if pbt > 0 else 0.0
             add("10. PROFIT", "PROFIT BEFORE TAX", pbt, pc(pbt))

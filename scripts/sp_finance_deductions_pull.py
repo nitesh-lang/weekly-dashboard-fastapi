@@ -121,7 +121,7 @@ def pull_month(account: str, month: str) -> pd.DataFrame:
         for ae in ev.get("AffordabilityExpenseEventList") or []:
             afford += _amt(ae.get("TotalExpense"))
         for ar in ev.get("AffordabilityExpenseReversalEventList") or []:
-            afford -= _amt(ar.get("TotalExpense"))
+            afford += _amt(ar.get("TotalExpense"))   # Amazon signs credits positive
 
         for rf in ev.get("RefundEventList") or []:
             for it in rf.get("ShipmentItemAdjustmentList") or []:

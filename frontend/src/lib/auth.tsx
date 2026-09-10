@@ -90,6 +90,15 @@ export function canEdit(user: User | null): boolean {
     return user.role === "admin" || user.role === "operator";
 }
 
+/** Reconciliation carries account-level P&L (landed cost, margins, payouts).
+ *  Admins plus an explicit allowlist only — everyone else never sees the tab. */
+const RECON_EMAILS = ["unmeshat@gmail.com"];
+export function canSeeReconciliation(user: User | null): boolean {
+    if (!user) return false;
+    if (user.role === "admin") return true;
+    return RECON_EMAILS.includes((user.email || "").toLowerCase());
+}
+
 export function canAccessTab(user: User | null, tab: string): boolean {
     if (!user) return false;
     if (user.role === "admin") return true;
@@ -128,6 +137,18 @@ export function RequireAdmin({ children }: { children: ReactNode }) {
 }
 
 /** Wrap a route so users without the tab in their allowlist are redirected. */
+/** Route guard for the reconciliation page (account-level P&L). */
+export function RequireRecon({ children }: { children: ReactNode }) {
+    const { user, loading } = useAuth();
+    const loc = useLocation();
+    if (loading) {
+        return <div className="flex h-screen items-center justify-center text-muted-foreground">Loading…</div>;
+    }
+    if (!user) return <Navigate to={`/login?next=${encodeURIComponent(loc.pathname)}`} replace />;
+    if (!canSeeReconciliation(user)) return <Navigate to="/dashboard" replace />;
+    return <>{children}</>;
+}
+
 export function RequireTab({ tab, children }: { tab: string; children: ReactNode }) {
     const { user, loading } = useAuth();
     const loc = useLocation();

@@ -11,12 +11,36 @@ from pathlib import Path
 from typing import Optional
 
 import pandas as pd
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, HTTPException, Query, Request
 
 from weekly_app.core.json_utils import clean_nan
 
 router = APIRouter(prefix="/api/reconciliation", tags=["reconciliation"])
 SNAP = Path("data/processed/reconciliation_snapshot.csv")
+
+# RESTRICTED VIEW (operator 10/09/26): this page carries account-level P&L —
+# landed cost, margins, what Amazon actually pays. Admins plus an explicit
+# allowlist only. Extra people can be added without a deploy via the
+# RECONCILIATION_EMAILS env var (comma-separated).
+import os
+
+_ALLOWED = {e.strip().lower() for e in
+            os.getenv("RECONCILIATION_EMAILS", "unmeshat@gmail.com").split(",") if e.strip()}
+
+
+def _guard(request: Request) -> None:
+    email = (request.session.get("user_email") or "").strip().lower()
+    if not email:
+        raise HTTPException(401, "Not signed in")
+    if email in _ALLOWED:
+        return
+    try:
+        from weekly_app.core.auth_users import get_role
+        if (get_role(email) or "").lower() == "admin":
+            return
+    except Exception:
+        pass
+    raise HTTPException(403, "Reconciliation is restricted")
 
 
 def _load() -> pd.DataFrame:
@@ -32,8 +56,10 @@ def _load() -> pd.DataFrame:
 
 @router.get("")
 @router.get("/")
-def reconciliation(account: Optional[str] = Query(None),
+def reconciliation(request: Request,
+                   account: Optional[str] = Query(None),
                    month: Optional[str] = Query(None)):
+    _guard(request)
     df = _load()
     if df.empty:
         return clean_nan({"error": "No reconciliation pulled yet — run "
@@ -50,8 +76,8 @@ def reconciliation(account: Optional[str] = Query(None),
     sales = val("Product sales (GST NOT included)")
     settle = val("AMAZON SHOULD PAY US")
     net_gst = val("Net GST still to remit in cash")
-    ads = val("Advertising (from our AMS data)")
-    fees = float(sub.loc[sub["Section"] == "3. AMAZON FEES (ex-GST)", "Amount"].sum())
+    ads = val("Advertising (billed with GST)")
+    fees = float(sub.loc[sub["Section"] == "03. AMAZON FEES (ex-GST)", "Amount"].sum())
     contribution = settle + net_gst
 
     kpis = {
@@ -67,6 +93,10 @@ def reconciliation(account: Optional[str] = Query(None),
         "contribution_pct": (contribution / sales * 100) if sales else 0,
         "after_ads": contribution + ads,
         "after_ads_pct": ((contribution + ads) / sales * 100) if sales else 0,
+        "channel_contribution": val("AMAZON CHANNEL CONTRIBUTION"),
+        "channel_contribution_pct": (val("AMAZON CHANNEL CONTRIBUTION") / sales * 100) if sales else 0,
+        "pat": val("PROFIT AFTER TAX"),
+        "pat_pct": (val("PROFIT AFTER TAX") / sales * 100) if sales else 0,
     }
     rows = (sub[["Section", "Item", "Amount", "Note"]]
             .to_dict("records"))

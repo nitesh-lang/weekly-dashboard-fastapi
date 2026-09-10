@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, RequireAuth, RequireAdmin, RequireTab } from "./lib/auth";
+import { AuthProvider, RequireAuth, RequireAdmin, RequireTab, RequireRecon } from "./lib/auth";
 
 // Login is small and the first thing an unauthenticated visitor hits — eager-load it.
 import Login from "./pages/Login";
@@ -64,7 +64,7 @@ export default function App() {
                     <Route path="/ams-poor-performers" element={<RequireAuth><RequireTab tab="/ams-poor-performers"><AmsPoorPerformers /></RequireTab></RequireAuth>} />
                     <Route path="/ams-planning"        element={<RequireAuth><RequireTab tab="/ams-planning"><AmsPlanning /></RequireTab></RequireAuth>} />
                     <Route path="/variation-performance" element={<RequireAuth><RequireTab tab="/variation-performance"><VariationPerformance /></RequireTab></RequireAuth>} />
-                    <Route path="/reconciliation" element={<RequireAuth><RequireTab tab="/reconciliation"><Reconciliation /></RequireTab></RequireAuth>} />
+                    <Route path="/reconciliation" element={<RequireAuth><RequireRecon><Reconciliation /></RequireRecon></RequireAuth>} />
                     <Route path="/keepa-upload"        element={<RequireAuth><RequireTab tab="/keepa-upload"><KeepaUpload /></RequireTab></RequireAuth>} />
                     <Route path="/no-sales-last-week"  element={<RequireAuth><RequireTab tab="/no-sales-last-week"><NoSalesLastWeek /></RequireTab></RequireAuth>} />
                     <Route path="/dead-stock"          element={<RequireAuth><RequireTab tab="/dead-stock"><DeadStock /></RequireTab></RequireAuth>} />

@@ -277,7 +277,89 @@ def orders_bridge(account: str, month: str) -> dict:
             "pending": pending, "unfulfillable": unfulfillable, "later": later}
 
 
-def report(res: dict, brand_hint: str, bridge: dict | None = None) -> pd.DataFrame:
+ACCOUNT_BRAND = {"NEXLEV": "Nexlev", "AUDIOARRAY": "Audio Array",
+                 "WHITEMULBERRY": "White Mulberry"}
+RETURN_RECOVERY = 0.875   # repack + restarted storage clock, same as the margin tool
+
+
+def cogs_for(account: str, month: str) -> dict:
+    """Landed cost of what we actually shipped, from the margin tool's master
+    (the same DP the calculator uses), less the stock that came back sellable.
+
+    Per-SKU units come from the settlement pull, so this is what Amazon
+    actually shipped and paid on — not an order-report estimate.
+    """
+    brand = ACCOUNT_BRAND.get(account)
+    fees_csv = ROOT / "data" / "processed" / "amazon_charged_fees_snapshot.csv"
+    returns_csv = ROOT / "data" / "processed" / "returns_snapshot.csv"
+    if not brand or not fees_csv.exists():
+        return {}
+    try:
+        from weekly_app.etl.margin_snapshot import MARGIN_TOOL_MASTERS, _global_params
+        path = MARGIN_TOOL_MASTERS.get(brand)
+        if not path or not path.exists():
+            return {}
+        xls = pd.ExcelFile(path)
+        m = xls.parse(xls.sheet_names[0])
+        g = _global_params(xls)
+    except Exception as e:
+        print(f"  COGS: master unavailable ({e!r})")
+        return {}
+
+    usd = float(g.get("usd_rate") or 0)
+    sur = float(g.get("surcharge_pct") or 0)
+
+    def _dp(r) -> float:
+        fob = float(r.get("Latest FOB") or 0) * usd
+        fr = float(r.get("Freight+Clearance") or 0) * usd
+        duty = (fob + fr) * float(r.get("Import Duty %") or 0) / 100
+        return fob + fr + duty + duty * sur / 100 + float(r.get("Additional Cost") or 0)
+
+    m["_DP"] = m.apply(_dp, axis=1)
+    up = lambda s: s.astype(str).str.strip().str.upper()
+    dpmap: dict[str, float] = {}
+    for c in [c for c in m.columns if "sku" in str(c).lower()]:
+        dpmap.update(dict(zip(up(m[c]), m["_DP"])))
+    if "ASIN" in m.columns:
+        dpmap.update(dict(zip(up(m["ASIN"]), m["_DP"])))
+
+    f = pd.read_csv(fees_csv, dtype={"month": str})
+    f = f[(f["account"] == account) & (f["month"] == month) &
+          (f["sku"] != "__AFFORDABILITY__")].copy()
+    if f.empty:
+        return {}
+    f["units"] = pd.to_numeric(f["units"], errors="coerce").fillna(0)
+    f["dp"] = up(f["sku"]).map(dpmap)
+    f.loc[f["dp"].isna(), "dp"] = up(f["asin"].fillna("")).map(dpmap)
+    cov = f[f["dp"].notna()]
+    units_all = float(f["units"].sum())
+    units_cov = float(cov["units"].sum())
+    if units_cov <= 0:
+        return {}
+    measured = float((cov["units"] * cov["dp"]).sum())
+    avg = measured / units_cov
+    gross = avg * units_all          # gross up the few SKUs with no master row
+
+    sellable = 0.0
+    try:
+        rr = pd.read_csv(returns_csv)
+        rr = rr[rr["brand"].astype(str).str.lower() == brand.lower()]
+        ru = pd.to_numeric(rr["returns_3p"], errors="coerce").fillna(0)
+        sp = pd.to_numeric(rr["sellable_pct"], errors="coerce").fillna(0)
+        if ru.sum() > 0:
+            sellable = float((ru * sp).sum() / ru.sum())
+    except Exception:
+        pass
+    return {"overhead_pct": float(g.get("overhead_pct") or 0),
+            "finance_pct": float(g.get("finance_pct") or 0),
+            "gross": gross, "avg": avg, "units_all": units_all,
+            "units_cov": units_cov, "coverage": units_cov / units_all * 100,
+            "sellable_pct": sellable, "recovery_factor": RETURN_RECOVERY,
+            "brand": brand}
+
+
+def report(res: dict, brand_hint: str, bridge: dict | None = None,
+           cogs: dict | None = None) -> pd.DataFrame:
     """Controller-reviewed schedule (10/09/26).
 
     Fixes applied after review:
@@ -301,33 +383,33 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None) -> pd.DataFra
 
     if bridge:
         b = bridge
-        add("1. SALES", "Units ordered in the month", b["ordered"], "All-Orders report, order date")
-        add("1. SALES", "  less cancelled", -b["cancelled"],
+        add("01. SALES", "Units ordered in the month", b["ordered"], "All-Orders report, order date")
+        add("01. SALES", "  less cancelled", -b["cancelled"],
             f"{b['cancelled'] / b['ordered'] * 100:.1f}% of orders - the REAL cancellation rate"
             if b["ordered"] else "")
-        add("1. SALES", "  less pending (payment not authorised)", -b["pending"], "")
-        add("1. SALES", "  less unfulfillable", -b["unfulfillable"], "")
-        add("1. SALES", "  less not shipped by month end", -b["later"], "ships next month")
-        add("1. SALES", "= Shipped from this month's orders", b["shipped"], "")
-        add("1. SALES", "Units shipped (what Amazon paid on)", shipped,
+        add("01. SALES", "  less pending (payment not authorised)", -b["pending"], "")
+        add("01. SALES", "  less unfulfillable", -b["unfulfillable"], "")
+        add("01. SALES", "  less not shipped by month end", -b["later"], "ships next month")
+        add("01. SALES", "= Shipped from this month's orders", b["shipped"], "")
+        add("01. SALES", "Units shipped (what Amazon paid on)", shipped,
             f"financial basis; differs from {b['shipped']} by cross-month timing")
     else:
-        add("1. SALES", "Units ordered (weekly report, order-date basis)", ordered,
+        add("01. SALES", "Units ordered (weekly report, order-date basis)", ordered,
             "different date basis from shipped")
-        add("1. SALES", "Units shipped (what Amazon paid on)", shipped, "financial basis")
-    add("1. SALES", "Product sales (GST NOT included)", B.get("sales_ex_gst", 0), "P&L revenue")
-    add("1. SALES", "Shipping and gift wrap collected", B.get("shipping_giftwrap_collected", 0), "")
+        add("01. SALES", "Units shipped (what Amazon paid on)", shipped, "financial basis")
+    add("01. SALES", "Product sales (GST NOT included)", B.get("sales_ex_gst", 0), "P&L revenue")
+    add("01. SALES", "Shipping and gift wrap collected", B.get("shipping_giftwrap_collected", 0), "")
 
     ru = U.get("units_refunded", 0)
-    add("2. RETURNS", "Units refunded", ru, "")
-    add("2. RETURNS", "Return rate % (in-month, mixed cohorts)",
+    add("02. RETURNS", "Units refunded", ru, "")
+    add("02. RETURNS", "Return rate % (in-month, mixed cohorts)",
         round(ru / shipped * 100, 2) if shipped else 0,
         "these refunds mostly belong to earlier months' shipments")
-    add("2. RETURNS", "Sale value refunded (GST NOT included)", B.get("refund_principal", 0), "")
+    add("02. RETURNS", "Sale value refunded (GST NOT included)", B.get("refund_principal", 0), "")
     for k in sorted(F):
         if k.startswith("REFUND:") and abs(F[k]) > 0.5:
             ex, _g = _split_gst(F[k])
-            add("2. RETURNS", k.replace("REFUND:", "") + " on refunds (ex-GST)", ex,
+            add("02. RETURNS", k.replace("REFUND:", "") + " on refunds (ex-GST)", ex,
                 "given back to us" if F[k] > 0 else "Amazon kept this")
 
     groups = {"Commission (referral)": ["Commission", "GiftwrapCommission"],
@@ -343,24 +425,31 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None) -> pd.DataFra
         if v:
             ex, gst = _split_gst(v)
             fee_gst_total += gst
-            add("3. AMAZON FEES (ex-GST)", label, ex, "")
+            add("03. AMAZON FEES (ex-GST)", label, ex, "")
     svc = {k: v for k, v in F.items() if k.startswith("SERVICE:")}
     for k in sorted(svc, key=lambda x: svc[x]):
         ex, gst = _split_gst(svc[k])
         fee_gst_total += gst
-        add("3. AMAZON FEES (ex-GST)", k.split("|")[-1], ex,
+        add("03. AMAZON FEES (ex-GST)", k.split("|")[-1], ex,
             k.replace("SERVICE:", "").split("|")[0])
     for k, v in F.items():
         if k in used or k.startswith(("SERVICE:", "REFUND:")) or not v:
             continue
         ex, gst = _split_gst(v)
         fee_gst_total += gst
-        add("3. AMAZON FEES (ex-GST)", k + " (unmapped)", ex, "CHECK ME")
+        add("03. AMAZON FEES (ex-GST)", k + " (unmapped)", ex, "CHECK ME")
 
-    add("4. WE FUNDED", "Coupons / promotions", B.get("promo_funded", 0), "")
-    add("4. WE FUNDED", "No-cost EMI / bank offers", B.get("affordability", 0), "")
-    add("4. WE FUNDED", "Advertising (from our AMS data)", -spend,
-        "billed outside settlement - CONFIRM if GST-inclusive")
+    add("04. WE FUNDED", "Coupons / promotions", B.get("promo_funded", 0), "")
+    add("04. WE FUNDED", "No-cost EMI / bank offers", B.get("affordability", 0), "")
+    # Amazon Ads bills GST-INCLUSIVE (operator confirmed 10/09/26), so the 18%
+    # inside the spend is input tax credit, not cost - same treatment as fee GST.
+    ads_ex, ads_gst = _split_gst(spend)
+    add("04. WE FUNDED", "Advertising (billed with GST)", -spend,
+        "what Amazon Ads actually charged us, GST included")
+    add("04. WE FUNDED", "  of which GST we get back as credit", ads_gst,
+        "reclaimed below - the real cost of ads is the ex-GST figure")
+    add("04. WE FUNDED", "  real cost of advertising (ex-GST)", -ads_ex,
+        f"{ads_ex / B['sales_ex_gst'] * 100:.1f}% of sales" if B.get("sales_ex_gst") else "")
 
     credits = 0.0
     for k, v in B.items():
@@ -368,23 +457,28 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None) -> pd.DataFra
             credits += v
             note = ("fee credit - carries GST, reverses ITC" if "ommission" in k
                     else "compensation - no GST")
-            add("5. CREDITS", k.replace("adj_", "").replace("_", " ").title(), v, note)
+            add("05. CREDITS", k.replace("adj_", "").replace("_", " ").title(), v, note)
 
     out_gst = B.get("gst_collected", 0)
     ref_gst = B.get("refund_gst", 0)
     tcs = B.get("tcs_withheld", 0) + B.get("tcs_reversed", 0)
     tds = B.get("tax_withheld", 0)
-    add("6. GST AND TAX (not profit)", "Output GST collected from customers", out_gst,
+    add("06. GST AND TAX (not profit)", "Output GST collected from customers", out_gst,
         "held in trust - never ours")
-    add("6. GST AND TAX (not profit)", "Output GST reversed on refunds", ref_gst, "")
-    add("6. GST AND TAX (not profit)", "ITC on Amazon fees (reclaimable)", -fee_gst_total,
+    add("06. GST AND TAX (not profit)", "Output GST reversed on refunds", ref_gst, "")
+    add("06. GST AND TAX (not profit)", "ITC on Amazon fees (reclaimable)", -fee_gst_total,
         "tie to Amazon's tax invoice AND GSTR-2B")
-    add("6. GST AND TAX (not profit)", "TCS withheld u/s 52 (0.5% of net sales)", tcs,
+    add("06. GST AND TAX (not profit)", "ITC on advertising (reclaimable)", ads_gst,
+        "ad invoices carry GST too - claim it in GSTR-2B or you pay 18% twice")
+    add("06. GST AND TAX (not profit)", "TCS withheld u/s 52 (0.5% of net sales)", tcs,
         "PREPAYMENT ASSET - accept monthly in the GST portal or it is stranded")
-    add("6. GST AND TAX (not profit)", "TDS withheld u/s 194-O (0.1% of gross)", tds,
+    add("06. GST AND TAX (not profit)", "TDS withheld u/s 194-O (0.1% of gross)", tds,
         "RECOVERABLE in ITR - charged on gross, so returns are a permanent drag")
-    net_gst_payable = out_gst + ref_gst - fee_gst_total + tcs
-    add("6. GST AND TAX (not profit)", "Net GST still to remit in cash", -net_gst_payable, "")
+    # INPUT TAX CREDIT REDUCES what we remit (operator caught this 10/09/26 —
+    # the sign was inverted, overstating the GST bill by 2x the ITC = Rs616,196
+    # on August). fee_gst_total and tcs are already negative.
+    net_gst_payable = out_gst + ref_gst + fee_gst_total + tcs - ads_gst
+    add("06. GST AND TAX (not profit)", "Net GST still to remit in cash", -net_gst_payable, "")
 
     # THE FULL WALK — every component, in order, so the total can be followed.
     sales_ex = B.get("sales_ex_gst", 0)
@@ -396,40 +490,78 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None) -> pd.DataFra
     promo = B.get("promo_funded", 0)
     afford = B.get("affordability", 0)
 
-    add("7. HOW THE TOTAL IS BUILT", "Product sales (GST not included)", sales_ex, "what we sold")
-    add("7. HOW THE TOTAL IS BUILT", "plus GST collected from customers", out_gst,
+    add("07. HOW THE TOTAL IS BUILT", "Product sales (GST not included)", sales_ex, "what we sold")
+    add("07. HOW THE TOTAL IS BUILT", "plus GST collected from customers", out_gst,
         "comes in with the sale, goes out to the government")
-    add("7. HOW THE TOTAL IS BUILT", "plus shipping and gift wrap", ship_col, "")
-    add("7. HOW THE TOTAL IS BUILT", "less refunds to customers", ref_prin + ref_gst + ref_oth,
+    add("07. HOW THE TOTAL IS BUILT", "plus shipping and gift wrap", ship_col, "")
+    add("07. HOW THE TOTAL IS BUILT", "less refunds to customers", ref_prin + ref_gst + ref_oth,
         "sale value + GST returned")
-    add("7. HOW THE TOTAL IS BUILT", "plus fees Amazon returned on refunds", fee_back,
+    add("07. HOW THE TOTAL IS BUILT", "plus fees Amazon returned on refunds", fee_back,
         "commission and closing come back; FBA fee does not")
-    add("7. HOW THE TOTAL IS BUILT", "less Amazon fees (including GST on fees)", fees_incl,
+    add("07. HOW THE TOTAL IS BUILT", "less Amazon fees (including GST on fees)", fees_incl,
         "commission, FBA, closing, storage, removals")
-    add("7. HOW THE TOTAL IS BUILT", "less coupons and promotions", promo, "")
-    add("7. HOW THE TOTAL IS BUILT", "less no-cost EMI and bank offers", afford, "")
-    add("7. HOW THE TOTAL IS BUILT", "plus reimbursements and corrections", credits, "")
-    add("7. HOW THE TOTAL IS BUILT", "less TCS withheld", tcs, "you reclaim this in GST")
-    add("7. HOW THE TOTAL IS BUILT", "less TDS withheld", tds, "you reclaim this in your ITR")
+    add("07. HOW THE TOTAL IS BUILT", "less coupons and promotions", promo, "")
+    add("07. HOW THE TOTAL IS BUILT", "less no-cost EMI and bank offers", afford, "")
+    add("07. HOW THE TOTAL IS BUILT", "plus reimbursements and corrections", credits, "")
+    add("07. HOW THE TOTAL IS BUILT", "less TCS withheld", tcs, "you reclaim this in GST")
+    add("07. HOW THE TOTAL IS BUILT", "less TDS withheld", tds, "you reclaim this in your ITR")
 
     settle = (sales_ex + out_gst + ship_col + credits + ref_prin + ref_gst + ref_oth
               + fees_incl + fee_back + promo + afford + tcs + tds)
-    add("8. BOTTOM LINE", "AMAZON SHOULD PAY US", settle,
+    add("08. BOTTOM LINE", "AMAZON SHOULD PAY US", settle,
         "add up everything above - this is the settlement")
-    add("8. BOTTOM LINE", "less GST we owe the government", -net_gst_payable,
-        "output GST, less GST refunded, less credit on fee GST, less TCS already withheld")
-    add("8. BOTTOM LINE", "MARKETPLACE CONTRIBUTION BEFORE COGS", settle - net_gst_payable,
+    add("08. BOTTOM LINE", "less GST we owe the government", -net_gst_payable,
+        "output GST, less refunds, less credit on fee GST and ad GST, less TCS withheld")
+    add("08. BOTTOM LINE", "MARKETPLACE CONTRIBUTION BEFORE COGS", settle - net_gst_payable,
         "what the marketplace actually left us")
-    add("8. BOTTOM LINE", "less advertising", -spend,
-        "billed separately by Amazon Ads, never in the settlement")
-    add("8. BOTTOM LINE", "AFTER ADVERTISING, BEFORE COGS", settle - net_gst_payable - spend,
-        "NOT profit - the landed cost of the goods still has to come off")
+    add("08. BOTTOM LINE", "less advertising (GST-inclusive cash)", -spend,
+        "billed separately by Amazon Ads; its GST is credited back in the line above")
+    after_ads = settle - net_gst_payable - spend
+    add("08. BOTTOM LINE", "AFTER ADVERTISING, BEFORE COGS", after_ads,
+        "the landed cost of the goods still has to come off")
+
+    add("08. BOTTOM LINE", "add back TDS withheld (recoverable in your ITR)", -tds,
+        "reduces the cash Amazon sends, but it is not a cost")
+    after_ads = after_ads - tds
+
+    if cogs:
+        refunded = U.get("units_refunded", 0)
+        recovered = refunded * (cogs["sellable_pct"] / 100) * cogs["avg"] * cogs["recovery_factor"]
+        net_cogs = cogs["gross"] - recovered
+        add("09. COST OF GOODS", "Landed cost of units shipped", -cogs["gross"],
+            f"{cogs['units_all']:.0f} units at Rs {cogs['avg']:,.0f} average "
+            f"({cogs['coverage']:.0f}% priced from the {cogs['brand']} master, rest at that average)")
+        add("09. COST OF GOODS", "less stock recovered from returns", recovered,
+            f"{refunded} refunds, {cogs['sellable_pct']:.0f}% came back sellable, "
+            f"valued at {cogs['recovery_factor'] * 100:.0f}% (repack + restarted storage clock)")
+        add("09. COST OF GOODS", "NET COST OF GOODS", -net_cogs, "")
+        # HONEST LABELLING: this is the Amazon channel's contribution, NOT company
+        # net profit - salaries, warehousing, software, interest and tax still come
+        # off. A CFO acting on a line called "net profit" would read it wrong.
+        pl = after_ads - net_cogs
+        _rev = B.get("sales_ex_gst", 0)
+        pc = lambda v: (f"{v / _rev * 100:.1f}% of sales" if _rev else "")
+        add("10. PROFIT", "AMAZON CHANNEL CONTRIBUTION", pl,
+            pc(pl) + " - before company overhead, interest and tax")
+        oh = _rev * cogs.get("overhead_pct", 0) / 100
+        fin = _rev * cogs.get("finance_pct", 0) / 100
+        if oh or fin:
+            add("10. PROFIT", "less business overhead", -oh,
+                f"{cogs['overhead_pct']:.0f}% of sales - the rate your own margin master uses")
+            add("10. PROFIT", "less cost of finance", -fin,
+                f"{cogs['finance_pct']:.0f}% of sales - working capital tied up in stock")
+            pbt = pl - oh - fin
+            tax = pbt * 0.25168 if pbt > 0 else 0.0
+            add("10. PROFIT", "PROFIT BEFORE TAX", pbt, pc(pbt))
+            add("10. PROFIT", "less income tax provision", -tax,
+                "25.17% under section 115BAA")
+            add("10. PROFIT", "PROFIT AFTER TAX", pbt - tax, pc(pbt - tax))
 
     for k, v in res["unclassified"].items():
-        add("9. NOT CLASSIFIED", k, v, "money not bucketed - investigate")
-    add("10. COMPLETENESS", "Event lists Amazon returned with data", len(res["event_counts"]),
+        add("11. NOT CLASSIFIED", k, v, "money not bucketed - investigate")
+    add("12. COMPLETENESS", "Event lists Amazon returned with data", len(res["event_counts"]),
         ", ".join(sorted(res["event_counts"])))
-    add("10. COMPLETENESS", "Event lists returned EMPTY", 33 - len(res["event_counts"]),
+    add("12. COMPLETENESS", "Event lists returned EMPTY", 33 - len(res["event_counts"]),
         "incl. ShipmentSettleEventList - must stay empty or revenue double-counts")
     return pd.DataFrame(rows)
 
@@ -444,11 +576,11 @@ def summary_sheet(df: pd.DataFrame, res: dict, brand_hint: str) -> pd.DataFrame:
     sales = val("Product sales (GST NOT included)")
     pct = lambda v: (abs(v) / sales * 100) if sales else 0
 
-    fees = df[df["Section"] == "3. AMAZON FEES (ex-GST)"]["Amount"].sum()
-    funded = df[df["Section"] == "4. WE FUNDED"]["Amount"].sum()
-    credits = df[df["Section"] == "5. CREDITS"]["Amount"].sum()
+    fees = df[df["Section"] == "03. AMAZON FEES (ex-GST)"]["Amount"].sum()
+    funded = df[df["Section"] == "04. WE FUNDED"]["Amount"].sum()
+    credits = df[df["Section"] == "05. CREDITS"]["Amount"].sum()
     refunds = val("Sale value refunded (GST NOT included)")
-    ref_fee_back = df[(df["Section"] == "2. RETURNS") &
+    ref_fee_back = df[(df["Section"] == "02. RETURNS") &
                       (df["Item"].str.contains("on refunds", na=False))]["Amount"].sum()
     ads = val("Advertising (from our AMS data)")
     tcs = val("TCS withheld u/s 52 (0.5% of net sales)")
@@ -496,7 +628,12 @@ def summary_sheet(df: pd.DataFrame, res: dict, brand_hint: str) -> pd.DataFrame:
         ("  Amazon should pay us", settle, "", "cash, including the GST we must pass on"),
         ("  less GST we owe the government", net_gst, "", "output GST less refunds, less credit on fee GST, less TCS"),
         ("  CONTRIBUTION BEFORE COST OF GOODS", settle + net_gst, f"{pct(settle + net_gst):.1f}%", "of sales"),
-        ("  After advertising", settle + net_gst + ads, f"{pct(settle + net_gst + ads):.1f}%", "STILL NOT PROFIT - cost of goods not included"),
+        ("  After advertising", settle + net_gst + ads, f"{pct(settle + net_gst + ads):.1f}%", "before cost of goods"),
+        ("  less cost of goods (net of returns recovered)", val("NET COST OF GOODS"), f"{pct(val('NET COST OF GOODS')):.1f}%", "landed cost from the margin master"),
+        ("  AMAZON CHANNEL CONTRIBUTION", val("AMAZON CHANNEL CONTRIBUTION"), f"{pct(val('AMAZON CHANNEL CONTRIBUTION')):.1f}%", "before company overhead, interest and tax"),
+        ("  less business overhead and finance", val("less business overhead") + val("less cost of finance"), "", "rates from the margin master"),
+        ("  PROFIT BEFORE TAX", val("PROFIT BEFORE TAX"), f"{pct(val('PROFIT BEFORE TAX')):.1f}%", ""),
+        ("  PROFIT AFTER TAX", val("PROFIT AFTER TAX"), f"{pct(val('PROFIT AFTER TAX')):.1f}%", "Amazon 3P only, this month"),
         ("", "", "", ""),
         ("PROOF THIS IS COMPLETE", "", "", ""),
         ("  Event types Amazon reported", val("Event lists Amazon returned with data"), "", "every one classified above"),
@@ -523,7 +660,8 @@ def main() -> None:
           + ", ".join(f"{k}={v}" for k, v in sorted(res["event_counts"].items())))
     print("  All-Orders bridge (ordered -> shipped)...")
     ob = orders_bridge(args.account, month)
-    df = report(res, brand, ob)
+    cg = cogs_for(args.account, month)
+    df = report(res, brand, ob, cg)
     # Also append to a long-format snapshot the dashboard serves, so the UI
     # never has to re-hit the API (a full month is ~56 paginated calls).
     snap = ROOT / "data" / "processed" / "reconciliation_snapshot.csv"

@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAuth, canAccessTab } from "@/lib/auth";
+import { useAuth, canAccessTab, canSeeReconciliation } from "@/lib/auth";
 import { api } from "@/lib/api";
 import { useSyncStatus, formatRelative } from "@/lib/useSyncStatus";
 import { Button } from "@/components/ui/button";
@@ -191,7 +191,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                     {NAV_GROUPS
                         .map((grp) => ({
                             ...grp,
-                            items: grp.items.filter((it) => canAccessTab(user, it.to)),
+                            items: grp.items.filter((it) =>
+                                canAccessTab(user, it.to) &&
+                                // account-level P&L: admins + allowlist only
+                                (it.to !== "/reconciliation" || canSeeReconciliation(user))),
                         }))
                         .filter((grp) => grp.items.length > 0)
                         .map((grp) => (

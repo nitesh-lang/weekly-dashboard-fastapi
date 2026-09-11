@@ -57,3 +57,9 @@ sales_dash_frontend/dist/
 buybox_src/node_modules/
 buybox_src/dist/
 buybox_src/public/data.enc
+
+# Cohort-returns raw pull cache: ~26MB of All-Orders + FBA returns per account.
+# Contains customer-comments free text and ship city/state/postcode, and it is a
+# rebuildable CACHE - regenerate with scripts/sp_returns_cohort.py. Never commit.
+data/raw/_cohort/
+data/raw/_allorders_*.csv

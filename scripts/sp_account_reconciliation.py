@@ -72,10 +72,12 @@ def sweep(account: str, month: str) -> dict:
     B = defaultdict(float)          # money buckets
     F = defaultdict(float)          # fee detail (GST-inclusive as charged)
     U = defaultdict(int)            # unit counters
+    P = defaultdict(float)          # promo funding split by PromotionType
     unclassified = defaultdict(float)
     seen_lists = defaultdict(int)
     C = defaultdict(float)          # what the classifier actually picked up
-    leaf_seen = defaultdict(float)  # every rupee Amazon put in the two big lists
+    leaf_seen = defaultdict(float)  # every rupee Amazon put in each handled list
+    bgap = defaultdict(float)       # parent total vs its own breakdown
     all_lists: set[str] = set()     # every list key returned, empty ones included
     token, pages = None, 0
 
@@ -98,12 +100,13 @@ def sweep(account: str, month: str) -> dict:
                 seen_lists[k] += len(v)
 
         # LEAK TEST. "Nothing was silently dropped" is only worth saying if it
-        # is measured: sum every leaf CurrencyAmount in the two big lists and
-        # compare against what the classifier below actually picked up. The
+        # is measured: sum every leaf CurrencyAmount in EVERY list we classify
+        # and compare against what the classifier below actually picked up. The
         # residual is the money we failed to see. It found Rs23,399 of promo
         # adjustments that had been invisible since this script was written.
-        for _lk in ("ShipmentEventList", "RefundEventList"):
-            leaf_seen[_lk] += _leaf_sum(ev.get(_lk) or [])
+        # Widened 11/09/26 from two lists to all six (see LEAK_LISTS).
+        for _lk in LEAK_LISTS:
+            leaf_seen[_lk] += _leaf_sum(ev.get(_lk) or [], _REDUNDANT.get(_lk, ()))
 
         # ── SALES ───────────────────────────────────────────────────────
         for se in ev.get("ShipmentEventList") or []:
@@ -143,6 +146,12 @@ def sweep(account: str, month: str) -> dict:
                     _a = _amt(pr.get("PromotionAmount"))
                     C["ShipmentEventList"] += _a
                     B["promo_funded"] += _a
+                    # WHICH KIND of promotion matters: a real Coupon owes
+                    # Amazon a per-redemption fee, a deal price-discount does
+                    # not. Aug 2026 showed Rs1.30L of promo funding and ZERO
+                    # coupon-redemption fee, which is either a missing fee or
+                    # simply no coupons - unanswerable until the type is kept.
+                    P["promo_type_" + str(pr.get("PromotionType") or "?")] += _a
                 for tw in it.get("ItemTaxWithheldList") or []:
                     for tx in tw.get("TaxesWithheld") or []:
                         _a = _amt(tx.get("ChargeAmount"))
@@ -175,6 +184,12 @@ def sweep(account: str, month: str) -> dict:
                     _a = _amt(pr.get("PromotionAmount"))
                     C["RefundEventList"] += _a
                     B["promo_funded"] += _a
+                    # Capture the refund side too, or the by-type split sums to
+                    # MORE than the parent it sits under: the parent is net of
+                    # coupon funding that comes back on refunds (Rs23,399 in
+                    # Aug), and a child line bigger than its total is a bug on
+                    # its face.
+                    P["promo_type_" + str(pr.get("PromotionType") or "?")] += _a
 
         # ── SERVICE FEES (storage, removals, misc) ──────────────────────
         for sf in ev.get("ServiceFeeEventList") or []:
@@ -184,24 +199,50 @@ def sweep(account: str, month: str) -> dict:
                 # coupon redemption, removal). Without it the bucket is one
                 # opaque number and fee creep hides inside it.
                 label = f.get("FeeType") or reason
-                F["SERVICE:" + str(reason) + "|" + str(label)] += _amt(f.get("FeeAmount"))
+                _a = _amt(f.get("FeeAmount"))
+                C["ServiceFeeEventList"] += _a
+                F["SERVICE:" + str(reason) + "|" + str(label)] += _a
 
         # ── ADJUSTMENTS (reimbursements etc.) ───────────────────────────
         for ad in ev.get("AdjustmentEventList") or []:
-            B[f"adj_{ad.get('AdjustmentType','other')}"] += _amt(ad.get("AdjustmentAmount"))
+            _a = _amt(ad.get("AdjustmentAmount"))
+            C["AdjustmentEventList"] += _a
+            B[f"adj_{ad.get('AdjustmentType','other')}"] += _a
+            # We book the parent only. If Amazon's own per-item breakdown does
+            # not add up to it, one of the two is wrong and the difference is
+            # real money - so measure it rather than ignoring the item list.
+            _items = ad.get("AdjustmentItemList") or []
+            if _items:
+                _sum = sum(_amt(i.get("TotalAmount")) for i in _items)
+                if abs(_sum - _a) > 0.5:
+                    bgap["AdjustmentItemList vs AdjustmentAmount"] += _sum - _a
 
         # ── AFFORDABILITY (no-cost EMI) ─────────────────────────────────
         _agst = lambda e: (_amt(e.get("TaxTypeCGST")) + _amt(e.get("TaxTypeSGST"))
                            + _amt(e.get("TaxTypeIGST")))
+        _acheck = lambda e, lk: (
+            bgap.__setitem__(f"{lk}: base+GST vs TotalExpense",
+                             bgap[f"{lk}: base+GST vs TotalExpense"]
+                             + _amt(e.get("BaseExpense")) + _agst(e)
+                             - _amt(e.get("TotalExpense")))
+            if _amt(e.get("BaseExpense"))
+            and abs(_amt(e.get("BaseExpense")) + _agst(e)
+                    - _amt(e.get("TotalExpense"))) > 0.5 else None)
         for ae in ev.get("AffordabilityExpenseEventList") or []:
-            B["affordability"] += _amt(ae.get("TotalExpense"))
+            _t = _amt(ae.get("TotalExpense"))
+            C["AffordabilityExpenseEventList"] += _t
+            B["affordability"] += _t
             B["affordability_gst"] += _agst(ae)
+            _acheck(ae, "AffordabilityExpense")
         for ar in ev.get("AffordabilityExpenseReversalEventList") or []:
             # Amazon already SIGNS reversals positive (a credit back). Adding
             # them is correct; subtracting double-counted the credit and made
             # every settlement tie-out miss by exactly 2x the reversals.
-            B["affordability"] += _amt(ar.get("TotalExpense"))
+            _t = _amt(ar.get("TotalExpense"))
+            C["AffordabilityExpenseReversalEventList"] += _t
+            B["affordability"] += _t
             B["affordability_gst"] += _agst(ar)
+            _acheck(ar, "AffordabilityExpenseReversal")
 
         # ── ANYTHING ELSE WITH MONEY IN IT ──────────────────────────────
         handled = {"ShipmentEventList", "RefundEventList", "ServiceFeeEventList",
@@ -230,23 +271,169 @@ def sweep(account: str, month: str) -> dict:
             break
         time.sleep(0.5)
 
-    leak = {k: round(leaf_seen[k] - C[k], 2) for k in leaf_seen}
-    return {"buckets": dict(B), "fees": dict(F), "units": dict(U),
+    leak = {k: round(leaf_seen[k] - C[k], 2) for k in leaf_seen
+            if leaf_seen[k] or C[k]}
+    return {"buckets": dict(B), "fees": dict(F), "units": dict(U), "promo": dict(P),
             "leak": leak, "lists_returned": len(all_lists),
+            "breakdown_gaps": {k: round(v, 2) for k, v in bgap.items()},
             "unclassified": dict(unclassified), "event_counts": dict(seen_lists),
             "pages": pages, "month": month, "account": account}
 
 
-def _leaf_sum(o) -> float:
+# Amazon states some money TWICE: once as a parent total and again as the
+# breakdown it is made of. AdjustmentEventList carries AdjustmentAmount *and*
+# an AdjustmentItemList of per-item amounts; the Affordability lists carry
+# TotalExpense *and* the BaseExpense + three TaxType* parts that add up to it.
+# Leaf-summing those naively counts the same rupee two or three times and
+# reports a leak that is not real. The parent is canonical; the breakdown gets
+# its own does-it-add-up check in sweep() instead of entering the residual.
+_REDUNDANT: dict[str, tuple[str, ...]] = {
+    "AdjustmentEventList": ("AdjustmentItemList",),
+    "AffordabilityExpenseEventList": (
+        "BaseExpense", "TaxTypeIGST", "TaxTypeCGST", "TaxTypeSGST"),
+    "AffordabilityExpenseReversalEventList": (
+        "BaseExpense", "TaxTypeIGST", "TaxTypeCGST", "TaxTypeSGST"),
+}
+
+# Every list the classifier handles by name. Until 11/09/26 the leak test
+# covered only the first two, so four lists holding real money were TRUSTED
+# rather than measured - precisely the hole the leak test exists to close.
+# AdjustmentEventList was the worst of them: the classifier reads only
+# AdjustmentAmount and never looked at AdjustmentItemList at all.
+LEAK_LISTS = ("ShipmentEventList", "RefundEventList", "ServiceFeeEventList",
+              "AdjustmentEventList", "AffordabilityExpenseEventList",
+              "AffordabilityExpenseReversalEventList")
+
+
+def _leaf_sum(o, skip: tuple[str, ...] = ()) -> float:
     """Every CurrencyAmount in the tree, counted once. Stops descending at a
-    money node so a parent total and its children are never both added."""
+    money node so a parent total and its children are never both added.
+    `skip` drops keys that only restate money already counted at the parent."""
     if isinstance(o, dict):
         if "CurrencyAmount" in o:
             return _amt(o)
-        return sum(_leaf_sum(x) for x in o.values())
+        return sum(_leaf_sum(v, skip) for k, v in o.items() if k not in skip)
     if isinstance(o, list):
-        return sum(_leaf_sum(x) for x in o)
+        return sum(_leaf_sum(x, skip) for x in o)
     return 0.0
+
+
+def _payload_leaf_total(ev: dict) -> float:
+    """Every rupee in one financialEvents payload, across all lists, using the
+    same parent-vs-breakdown rules as the month sweep."""
+    return sum(_leaf_sum(v or [], _REDUNDANT.get(k, ()))
+               for k, v in ev.items() if isinstance(v, list))
+
+
+def event_groups(account: str, month: str, verify: bool = True) -> dict:
+    """The BANK side. financialEvents is a POSTED-DATE ACCRUAL - it answers
+    "what did Amazon charge and credit in August". It can never equal cash,
+    because Amazon pays in settlement periods that straddle month ends, and
+    until now this reconciliation had no cash side at all: nothing here had
+    ever been compared against a bank statement.
+
+    financialEventGroups is the only place Amazon states what it actually
+    transferred, to which account tail, on which date. For each group we also
+    re-derive Amazon's own arithmetic:
+
+        BeginningBalance + every event in the group == OriginalTotal
+
+    If that identity holds, we can read Amazon's ledger correctly and the
+    deposit is explained line by line. If it does not, either the pull is
+    incomplete or a money type is invisible to us - and the gap is reported
+    as a number instead of being assumed away.
+    """
+    y, m = map(int, month.split("-"))
+    m_start = pd.Timestamp(date(y, m, 1), tz="UTC")
+    m_end = pd.Timestamp(date(y + (m == 12), (m % 12) + 1, 1), tz="UTC")
+    tok = _token(account)
+    H = {"x-amz-access-token": tok}
+
+    # Look back a full quarter: the group that PAID for early-August sales
+    # usually started in July, and a group that started in August may not
+    # close until September. Both have to be visible to explain the month.
+    groups, token, pages = [], None, 0
+    while True:
+        params = {"NextToken": token} if token else {
+            "FinancialEventGroupStartedAfter": (m_start - pd.Timedelta(days=90)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "FinancialEventGroupStartedBefore": m_end.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "MaxResultsPerPage": "100"}
+        r = requests.get(f"{SPAPI_HOST}/finances/v0/financialEventGroups",
+                         params=params, headers=H, timeout=60)
+        if r.status_code == 429:
+            time.sleep(3)
+            continue
+        if r.status_code != 200:
+            print(f"  financialEventGroups unavailable: HTTP {r.status_code}")
+            return {}
+        payload = r.json().get("payload", {})
+        groups += payload.get("FinancialEventGroupList") or []
+        pages += 1
+        token = payload.get("NextToken")
+        if not token:
+            break
+        time.sleep(0.5)
+
+    out = []
+    for g in groups:
+        gs = pd.to_datetime(g.get("FinancialEventGroupStart"), errors="coerce", utc=True)
+        ge = pd.to_datetime(g.get("FinancialEventGroupEnd"), errors="coerce", utc=True)
+        # Keep any group whose window OVERLAPS the month, plus any still open
+        # (an open group has no end date and is where this month's unpaid
+        # money is currently sitting).
+        if pd.notna(gs) and gs >= m_end:
+            continue
+        if pd.notna(ge) and ge < m_start:
+            continue
+        row = {
+            "id": g.get("FinancialEventGroupId"),
+            "start": gs, "end": ge,
+            "status": g.get("ProcessingStatus") or "",
+            "transfer_status": g.get("FundTransferStatus") or "",
+            "transfer_date": g.get("FundTransferDate") or "",
+            "account_tail": g.get("AccountTail") or "",
+            "beginning": _amt(g.get("BeginningBalance")),
+            "total": _amt(g.get("OriginalTotal")),
+            "converted": _amt(g.get("ConvertedTotal")),
+            "events": None, "tie": None, "pages": 0,
+        }
+        if verify and row["id"]:
+            try:
+                ev_total, ev_pages = _group_events_total(row["id"], H)
+                row["events"] = ev_total
+                row["pages"] = ev_pages
+                # Amazon's identity: what you started with, plus everything
+                # that happened, is what you get paid.
+                row["tie"] = round(row["beginning"] + ev_total - row["total"], 2)
+            except Exception as e:                      # noqa: BLE001
+                print(f"  group {row['id']}: {e}")
+        out.append(row)
+
+    out.sort(key=lambda r: (pd.Timestamp.min.tz_localize("UTC")
+                            if pd.isna(r["start"]) else r["start"]))
+    return {"groups": out, "month_start": m_start, "month_end": m_end}
+
+
+def _group_events_total(gid: str, H: dict) -> tuple[float, int]:
+    """Every rupee Amazon put inside one settlement group."""
+    total, pages, token = 0.0, 0, None
+    while True:
+        params = {"NextToken": token} if token else {"MaxResultsPerPage": "100"}
+        r = requests.get(
+            f"{SPAPI_HOST}/finances/v0/financialEventGroups/{gid}/financialEvents",
+            params=params, headers=H, timeout=60)
+        if r.status_code == 429:
+            time.sleep(3)
+            continue
+        r.raise_for_status()
+        payload = r.json().get("payload", {})
+        total += _payload_leaf_total(payload.get("FinancialEvents", {}) or {})
+        pages += 1
+        token = payload.get("NextToken")
+        if not token:
+            break
+        time.sleep(0.5)
+    return round(total, 2), pages
 
 
 def ordered_units(month: str, brand_hint: str) -> tuple[int, float]:
@@ -375,17 +562,28 @@ def cogs_for(account: str, month: str) -> dict:
     returns_csv = ROOT / "data" / "processed" / "returns_snapshot.csv"
     if not brand or not fees_csv.exists():
         return {}
+    # FAIL LOUDLY, NEVER QUIETLY. This used to print a warning and return {},
+    # which dropped COST OF GOODS and the whole PROFIT section from the report
+    # while everything above them still looked perfect - and then wrote that
+    # gutted version over the good snapshot. Running without PYTHONPATH set to
+    # the repo root is enough to trigger it (the margin_snapshot import fails),
+    # and it did on 11/09/26. A reconciliation missing its bottom line must
+    # stop, exactly like ad_spend refuses to come through as zero.
     try:
         from weekly_app.etl.margin_snapshot import MARGIN_TOOL_MASTERS, _global_params
-        path = MARGIN_TOOL_MASTERS.get(brand)
-        if not path or not path.exists():
-            return {}
-        xls = pd.ExcelFile(path)
-        m = xls.parse(xls.sheet_names[0])
-        g = _global_params(xls)
-    except Exception as e:
-        print(f"  COGS: master unavailable ({e!r})")
-        return {}
+    except ImportError as e:
+        raise ImportError(
+            f"cannot import weekly_app.etl.margin_snapshot ({e}) - run with "
+            f"PYTHONPATH={ROOT} . Without it there is no landed cost, so the "
+            "report would silently lose COST OF GOODS and PROFIT") from e
+    path = MARGIN_TOOL_MASTERS.get(brand)
+    if not path or not path.exists():
+        raise FileNotFoundError(
+            f"margin master for {brand} not found at {path} - landed cost is a "
+            "Rs59L line and must not silently vanish from the report")
+    xls = pd.ExcelFile(path)
+    m = xls.parse(xls.sheet_names[0])
+    g = _global_params(xls)
 
     usd = float(g.get("usd_rate") or 0)
     sur = float(g.get("surcharge_pct") or 0)
@@ -408,7 +606,11 @@ def cogs_for(account: str, month: str) -> dict:
     f = f[(f["account"] == account) & (f["month"] == month) &
           (f["sku"] != "__AFFORDABILITY__")].copy()
     if f.empty:
-        return {}
+        # Legitimate for an account-month whose fee pull has not been run yet.
+        # report() prints this reason on the face of the schedule rather than
+        # letting the profit sections just not appear.
+        return {"unavailable": f"no rows in {fees_csv.name} for {account} {month} "
+                               "- run scripts/sp_finance_deductions_pull.py first"}
     f["units"] = pd.to_numeric(f["units"], errors="coerce").fillna(0)
     f["dp"] = up(f["sku"]).map(dpmap)
     f.loc[f["dp"].isna(), "dp"] = up(f["asin"].fillna("")).map(dpmap)
@@ -416,10 +618,16 @@ def cogs_for(account: str, month: str) -> dict:
     units_all = float(f["units"].sum())
     units_cov = float(cov["units"].sum())
     if units_cov <= 0:
-        return {}
+        return {"unavailable": f"not one of the {len(f)} SKUs Amazon billed for "
+                               f"{account} {month} matched the {brand} margin master"}
     measured = float((cov["units"] * cov["dp"]).sum())
     avg = measured / units_cov
     gross = avg * units_all          # gross up the few SKUs with no master row
+    # NAME the SKUs being costed on an assumption. "96% coverage" is only
+    # actionable if someone can see which 4% to go and map.
+    miss = (f[f["dp"].isna()].groupby(["sku", "asin"], dropna=False)["units"]
+            .sum().sort_values(ascending=False).reset_index())
+    miss["assumed_cost"] = miss["units"] * avg
 
     sellable = 0.0
     try:
@@ -436,11 +644,12 @@ def cogs_for(account: str, month: str) -> dict:
             "gross": gross, "avg": avg, "units_all": units_all,
             "units_cov": units_cov, "coverage": units_cov / units_all * 100,
             "sellable_pct": sellable, "recovery_factor": RETURN_RECOVERY,
-            "brand": brand}
+            "brand": brand, "unmapped": miss}
 
 
 def report(res: dict, brand_hint: str, bridge: dict | None = None,
-           cogs: dict | None = None) -> pd.DataFrame:
+           cogs: dict | None = None, bank: dict | None = None,
+           freight_per_unit: float = 0.0) -> pd.DataFrame:
     """Controller-reviewed schedule (10/09/26).
 
     Fixes applied after review:
@@ -493,6 +702,12 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         round(ru / shipped * 100, 2) if shipped else 0,
         "on Amazon-only units; these refunds mostly belong to earlier months")
     add("02. RETURNS", "Sale value refunded (GST NOT included)", B.get("refund_principal", 0), "")
+    # This was inside the settlement total but on no line of its own, so it
+    # could not be seen or checked. Small, but "nothing is hidden" has to mean
+    # nothing.
+    if abs(B.get("refund_other", 0)) > 0.5:
+        add("02. RETURNS", "Shipping and gift wrap refunded", B.get("refund_other", 0),
+            "returned to the customer along with the sale value")
     for k in sorted(F):
         if k.startswith("REFUND:") and abs(F[k]) > 0.5:
             ex, _g = _split_gst(F[k])
@@ -536,6 +751,25 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         add("03. AMAZON FEES (ex-GST)", k + " (unmapped)", ex, "CHECK ME")
 
     add("04. WE FUNDED", "Coupons / promotions", B.get("promo_funded", 0), "")
+    # Split by PromotionType so "zero coupon-redemption fee on Rs1.30L of promo"
+    # can actually be judged: a real Coupon owes Amazon a per-redemption fee, a
+    # deal price-discount owes nothing. Without the type it is unanswerable.
+    for _k, _v in sorted((res.get("promo") or {}).items(), key=lambda kv: kv[1]):
+        if abs(_v) > 0.5:
+            _t = _k.replace("promo_type_", "")
+            # Amazon returns "PromotionMetaDataDefinitionValue" here - a
+            # placeholder, not a promotion kind. Say so instead of dressing it
+            # up as an answer: it means this field CANNOT settle whether the
+            # Rs1.3L was coupons (which owe a per-redemption fee) or deal
+            # discounts (which do not). That needs the promotions report.
+            _opaque = "metadata" in _t.lower() or _t in ("?", "")
+            add("04. WE FUNDED", f"  of which {_t}", _v,
+                "Amazon returns no real promotion type here, so this does NOT "
+                "tell us whether coupons ran - the missing coupon-redemption "
+                "fee stays an open question" if _opaque else
+                ("a real coupon should ALSO carry a per-redemption fee in section 03"
+                 if "coupon" in _t.lower() else
+                 "price discount - no redemption fee is due on this"))
     add("04. WE FUNDED", "No-cost EMI / bank offers", B.get("affordability", 0), "")
     # Amazon Ads bills GST-INCLUSIVE (operator confirmed 10/09/26), so the 18%
     # inside the spend is input tax credit, not cost - same treatment as fee GST.
@@ -577,7 +811,14 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
     # the sign was inverted, overstating the GST bill by 2x the ITC = Rs616,196
     # on August). fee_gst_total and tcs are already negative.
     net_gst_payable = out_gst + ref_gst + fee_gst_total + tcs - ads_gst + emi_gst
-    add("06. GST AND TAX (not profit)", "Net GST still to remit in cash", -net_gst_payable, "")
+    # LABEL HONESTLY: this is output GST net of the credits Amazon's own
+    # invoices carry. It does NOT net off import IGST paid at the bill of
+    # entry (~Rs9L), which is equally creditable and equally real cash. The
+    # line is a marketplace-GST figure, not the company's GST cash position,
+    # and calling it "cash" without saying so overstates what is owed.
+    add("06. GST AND TAX (not profit)", "Net GST still to remit in cash", -net_gst_payable,
+        "marketplace GST only - import IGST paid at the bill of entry is also "
+        "creditable and is NOT netted here")
 
     # THE FULL WALK — every component, in order, so the total can be followed.
     sales_ex = B.get("sales_ex_gst", 0)
@@ -623,16 +864,67 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         "reduces the cash Amazon sends, but it is not a cost")
     after_ads = after_ads - tds
 
-    if cogs:
+    # MIRROR OF THE MCF COGS BUG. We already keep the 418 MCF units' landed cost
+    # out of this P&L because the sale happened on another channel. Their
+    # fulfilment fee has to leave for exactly the same reason. Amazon really did
+    # withhold it, so it stays in the settlement above (that is cash); it just
+    # is not a cost of the AMAZON channel. Leaving it in understated Amazon's
+    # contribution by Rs58,344 in Aug 2026.
+    # BASIS: the settlement deducted the fee GST-INCLUSIVE, but that GST is
+    # reclaimed as input credit in the "less GST we owe" line directly above,
+    # so by the time we reach contribution the fee has already netted down to
+    # its EX-GST cost. Adding back the gross figure would over-credit us by the
+    # 18%. Add back exactly what contribution is bearing: the ex-GST amount.
+    if mcf_fee:
+        mcf_ex, _ = _split_gst(mcf_fee)
+        add("08. BOTTOM LINE", "add back Multi-Channel Fulfilment fee", -mcf_ex,
+            f"{U.get('units_mcf', 0)} units Amazon shipped for orders placed on "
+            "another channel - real cash, but that channel's cost, not Amazon's "
+            "(ex-GST; the GST on it is already credited in the line above)")
+        after_ads = after_ads - mcf_ex
+
+    if cogs and cogs.get("unavailable"):
+        # A reader must never have to NOTICE that two sections are missing.
+        add("09. COST OF GOODS", "Landed cost NOT AVAILABLE", 0, cogs["unavailable"])
+        add("10. PROFIT", "PROFIT CANNOT BE STATED", 0,
+            "everything above is Amazon's side only - the cost of the goods is "
+            "missing, so contribution and profit are NOT shown rather than shown wrong")
+    elif cogs:
         refunded = U.get("units_refunded", 0)
         recovered = refunded * (cogs["sellable_pct"] / 100) * cogs["avg"] * cogs["recovery_factor"]
         net_cogs = cogs["gross"] - recovered
         add("09. COST OF GOODS", "Landed cost of units shipped", -cogs["gross"],
             f"{cogs['units_all']:.0f} units at Rs {cogs['avg']:,.0f} average "
             f"({cogs['coverage']:.0f}% priced from the {cogs['brand']} master, rest at that average)")
+        _um = cogs.get("unmapped")
+        if _um is not None and len(_um):
+            _uu = float(_um["units"].sum())
+            add("09. COST OF GOODS", "  of which priced on an ASSUMPTION", -_uu * cogs["avg"],
+                f"{_uu:.0f} units across {len(_um)} SKUs have no row in the "
+                f"{cogs['brand']} master - see the 'Unmapped SKUs' sheet; map them "
+                "and this line becomes measured")
         add("09. COST OF GOODS", "less stock recovered from returns", recovered,
             f"{refunded} refunds, {cogs['sellable_pct']:.0f}% came back sellable, "
             f"valued at {cogs['recovery_factor'] * 100:.0f}% (repack + restarted storage clock)")
+        # INBOUND FREIGHT TO FBA. Confirmed with the operator 11/09/26: we ship
+        # into FBA on our OWN carrier, not Amazon Transportation Services, so
+        # this cost can never appear in financialEvents - and it is not in the
+        # landed cost either (Nexlev's 'Additional Cost' is populated on 4 of
+        # 103 rows; 'Freight+Clearance' is the USD international leg, not the
+        # domestic run to the FC). It is therefore genuinely missing, and a
+        # missing cost must be VISIBLE rather than absent. Pass the real rate
+        # with --freight-per-unit and it becomes a booked line.
+        if freight_per_unit:
+            fr_cost = freight_per_unit * cogs["units_all"]
+            add("09. COST OF GOODS", "Inbound freight to FBA", -fr_cost,
+                f"{cogs['units_all']:.0f} units at Rs {freight_per_unit:,.2f} - our own "
+                "carrier, so Amazon never reports it")
+            net_cogs += fr_cost
+        else:
+            add("09. COST OF GOODS", "Inbound freight to FBA - NOT INCLUDED", 0,
+                "we self-ship into FBA, so this never appears in Amazon's data and "
+                "it is not in the margin master either - profit below is overstated "
+                "by it. Re-run with --freight-per-unit <Rs> to book it")
         add("09. COST OF GOODS", "NET COST OF GOODS", -net_cogs, "")
         # HONEST LABELLING: this is the Amazon channel's contribution, NOT company
         # net profit - salaries, warehousing, software, interest and tax still come
@@ -668,11 +960,168 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
     add("12. COMPLETENESS", "Event lists returned EMPTY",
         res.get("lists_returned", 0) - len(res["event_counts"]),
         "incl. ShipmentSettleEventList - must stay empty or revenue double-counts")
+    # HONEST LABELLING OF THE RESIDUAL: for Shipment and Refund the leaf sum is
+    # an independent walk of the payload, so a zero really does prove nothing
+    # was dropped. For Adjustment and the two Affordability lists the canonical
+    # figure IS the single parent field we book, so their residual is zero by
+    # construction and proves nothing on its own - the real test for those is
+    # the breakdown check below. Saying so is the difference between measuring
+    # completeness and asserting it.
+    _STRUCTURAL = {"AdjustmentEventList", "AffordabilityExpenseEventList",
+                   "AffordabilityExpenseReversalEventList"}
     for _k, _v in (res.get("leak") or {}).items():
-        add("12. COMPLETENESS", f"Money in {_k} we did not classify", _v,
-            "MUST BE ZERO - this is measured, not asserted" if abs(_v) < 0.5
-            else "LEAK - investigate before trusting the total")
+        if abs(_v) >= 0.5:
+            _n = "LEAK - investigate before trusting the total"
+        elif _k in _STRUCTURAL:
+            _n = ("zero by construction - we book Amazon's parent total; the "
+                  "real test for this list is the breakdown check below")
+        else:
+            _n = "MUST BE ZERO - this is measured, not asserted"
+        add("12. COMPLETENESS", f"Money in {_k} we did not classify", _v, _n)
+    _bg = res.get("breakdown_gaps") or {}
+    for _k, _v in _bg.items():
+        add("12. COMPLETENESS", f"Breakdown disagrees with parent - {_k}", _v,
+            "Amazon's own sub-total does not add up to the figure we booked")
+    if not _bg:
+        add("12. COMPLETENESS", "Breakdowns that disagree with their parent", 0,
+            "every AdjustmentItemList and Affordability base+GST re-added to "
+            "the parent total we booked")
+
+    if bank:
+        _bank_section(add, bank, settle)
+    _cohort_section(add, res, B, U, cogs)
     return pd.DataFrame(rows)
+
+
+def _cohort_section(add, res: dict, B: dict, U: dict, cogs: dict | None) -> None:
+    """Section 14 - what THIS month's orders will eventually return.
+
+    Deliberately a MEMO, not a restatement of the ladder above. Everything from
+    section 01 to 10 is on a settlement basis, and section 13 proves that basis
+    ties to the bank to the rupee. Re-basing the bottom line onto a modelled
+    accrual would break that tie and replace a measured number with an
+    estimated one. So the accrual view sits alongside it, sized, and the reader
+    decides whether to book a provision.
+
+    This is the Ind AS 115 right-of-return question: revenue should carry the
+    returns the period's own sales will generate, not the returns that happened
+    to post in the period.
+    """
+    path = ROOT / "data" / "processed" / f"returns_cohort_summary_{res['account']}.csv"
+    if not path.exists():
+        add("14. RETURNS - COHORT VIEW (memo)", "Cohort curve not built", 0,
+            f"run scripts/sp_returns_cohort.py --account {res['account']} to "
+            "measure what this month's orders will actually return")
+        return
+    c = pd.read_csv(path, dtype={"cohort": str})
+    row = c[c["cohort"] == res["month"]]
+    if row.empty:
+        add("14. RETURNS - COHORT VIEW (memo)", "No cohort row for this month", 0,
+            f"{path.name} has no {res['month']} cohort")
+        return
+    r = row.iloc[0]
+    shipped = U.get("units_shipped", 0)
+    refunded = U.get("units_refunded", 0)
+    in_month = (refunded / shipped * 100) if shipped else 0
+
+    add("14. RETURNS - COHORT VIEW (memo)", "Return rate used above (in-month)",
+        round(in_month, 2),
+        "refunds POSTED this month over units shipped this month - two different "
+        "populations, which is why this is only a proxy")
+    add("14. RETURNS - COHORT VIEW (memo)",
+        "Returns already arrived from this month's orders", round(r["observed_return_pct"], 2),
+        f"after {int(r['age_months'])} month(s); matured cohorts say that is only "
+        f"{r['share_of_lifetime_arrived'] * 100:.0f}% of what a cohort ever returns")
+    add("14. RETURNS - COHORT VIEW (memo)",
+        "EXPECTED LIFETIME return rate for this month's orders",
+        round(r["expected_lifetime_return_pct"], 2),
+        f"grossed up on the curve from cohorts at least "
+        f"{int(r['maturity_lag_months'])} months old "
+        f"(their lifetime rate: {r['lifetime_rate_from_matured_pct']:.2f}%)")
+
+    # BASIS. The cohort file counts units shipped from orders PLACED in the
+    # month (4,131 for Aug 26); this P&L counts units Amazon SHIPPED and paid
+    # on in the month (3,715) - different populations, because orders cross the
+    # month boundary in both directions. Apply the cohort RATE to this report's
+    # own population, or the provision is computed on units whose revenue is
+    # not in these numbers.
+    exp_units = r["expected_lifetime_return_pct"] / 100 * shipped
+    add("14. RETURNS - COHORT VIEW (memo)", "Units this month's shipments will return",
+        round(exp_units),
+        f"the cohort rate applied to the {shipped:,} units this P&L is built on "
+        f"(the cohort itself is {r['units_shipped']:,.0f} units ordered in the month); "
+        f"vs {refunded:.0f} refunds actually posted")
+
+    # Net cost of ONE return, computed from this report's own numbers rather
+    # than a remembered constant: revenue given back, less the fees Amazon
+    # returns, less the stock that comes back sellable.
+    if refunded and cogs and not cogs.get("unavailable"):
+        fee_back = sum(v for k, v in res["fees"].items() if k.startswith("REFUND:"))
+        recov = (cogs["sellable_pct"] / 100) * cogs["avg"] * cogs["recovery_factor"]
+        per = (abs(B.get("refund_principal", 0)) / refunded) - (fee_back / refunded) - recov
+        delta = (exp_units - refunded) * per
+        add("14. RETURNS - COHORT VIEW (memo)", "Net cost of one return", -round(per, 2),
+            f"Rs{abs(B.get('refund_principal', 0)) / refunded:,.0f} sale value given back, "
+            f"less Rs{fee_back / refunded:,.0f} of fees returned, less Rs{recov:,.0f} of "
+            "stock that comes back sellable")
+        add("14. RETURNS - COHORT VIEW (memo)",
+            "PROVISION if charged on a cohort basis", -round(delta, 2),
+            f"{exp_units - refunded:+,.0f} more returns than the month booked. "
+            "The bottom line above is NOT adjusted for this - it stays on the "
+            "settlement basis that section 13 ties to the bank")
+
+
+def _bank_section(add, bank: dict, settle: float) -> None:
+    """Section 13 - the cash side. Everything above this point is an accrual."""
+    groups = bank.get("groups") or []
+    if not groups:
+        add("13. BANK TIE-OUT", "No settlement groups returned", 0,
+            "financialEventGroups was empty - the cash side is UNPROVEN")
+        return
+    ms, me = bank["month_start"], bank["month_end"]
+    fmt = lambda t: "open" if pd.isna(t) else t.strftime("%d/%m/%Y")
+
+    paid_in_month, verified, unverified = 0.0, 0, 0
+    for g in groups:
+        closed = str(g["status"]).upper() == "CLOSED"
+        note = (f"{g['status'].lower()}"
+                + (f", transferred {g['transfer_date'][:10]}" if g["transfer_date"] else "")
+                + (f" to a/c ...{g['account_tail']}" if g["account_tail"] else ""))
+        if g["tie"] is None:
+            note += " - NOT re-derived"
+            unverified += 1
+        elif abs(g["tie"]) < 1.0:
+            note += (f" - ties exactly: opening {g['beginning']:,.0f} "
+                     f"+ events {g['events']:,.0f} = {g['total']:,.0f}")
+            verified += 1
+        else:
+            note += (f" - DOES NOT TIE by Rs {g['tie']:,.2f} "
+                     f"(opening {g['beginning']:,.0f} + events {g['events']:,.0f} "
+                     f"vs stated {g['total']:,.0f})")
+            unverified += 1
+        # Amazon issues MORE THAN ONE settlement per period (Nexlev Aug: two for
+        # every week). Labelling them by date alone makes two different deposits
+        # look like the same row twice, so carry the group id - it is also what
+        # you search for in Seller Central > Payments to find the deposit.
+        add("13. BANK TIE-OUT",
+            f"Settlement {fmt(g['start'])} - {fmt(g['end'])}  #{g['id']}",
+            g["total"], note)
+        # Cash basis: a deposit belongs to the month its transfer LANDED in.
+        td = pd.to_datetime(g["transfer_date"], errors="coerce", utc=True)
+        if closed and pd.notna(td) and ms <= td < me:
+            paid_in_month += g["total"]
+
+    add("13. BANK TIE-OUT", "CASH Amazon actually transferred this month", paid_in_month,
+        "sum of settlements whose transfer date falls inside the month - "
+        "this is what should appear on the bank statement")
+    add("13. BANK TIE-OUT", "Accrual: what this month's events say we earned", settle,
+        "section 08 - events POSTED in the month, whenever they get paid")
+    add("13. BANK TIE-OUT", "Timing difference (accrual less cash)", settle - paid_in_month,
+        "settlement periods straddle month ends - a difference here is TIMING, "
+        "not error; it is only a problem if a group above fails to tie")
+    add("13. BANK TIE-OUT", "Groups re-derived from their own events", verified,
+        f"{verified} of {len(groups)} tie to the rupee"
+        + (f"; {unverified} could not be verified" if unverified else ""))
 
 
 
@@ -749,8 +1198,26 @@ def summary_sheet(df: pd.DataFrame, res: dict, brand_hint: str) -> pd.DataFrame:
         ("  Event types that were empty", val("Event lists returned EMPTY"), "", "nothing ignored"),
         ("  Money in Amazon's events we could not classify",
          round(sum((res.get("leak") or {}).values()), 2), "",
-         "measured leaf-by-leaf against the payload, not asserted"),
+         f"measured leaf-by-leaf across all {len(LEAK_LISTS)} classified lists, not asserted"),
+        ("  Amazon sub-totals that disagree with our figure",
+         round(sum((res.get("breakdown_gaps") or {}).values()), 2), "",
+         "every per-item breakdown re-added to the parent we booked"),
     ]
+    if len(df[df["Section"] == "13. BANK TIE-OUT"]):
+        cash = val("CASH Amazon actually transferred this month")
+        rows += [
+            ("", "", "", ""),
+            ("DOES IT MATCH THE BANK", "", "", ""),
+            ("  Cash Amazon transferred this month", cash, "",
+             "settlements whose transfer date landed in the month"),
+            ("  Accrual (what this month's events earned)", settle, "",
+             "the figure everything above is built on"),
+            ("  Timing difference", settle - cash, "",
+             "settlement periods straddle month ends - timing, not error"),
+            ("  Settlements re-derived from their own events",
+             val("Groups re-derived from their own events"), "",
+             "opening balance + every event = the deposit Amazon states"),
+        ]
     return pd.DataFrame(rows, columns=["Item", "Amount", "% of sales", "What it means"])
 
 
@@ -759,6 +1226,15 @@ def main() -> None:
     ap.add_argument("--account", default="NEXLEV")
     ap.add_argument("--month", default=None, help="YYYY-MM (default: last full month)")
     ap.add_argument("--brand", default=None, help="brand name in the weekly snapshot")
+    ap.add_argument("--freight-per-unit", type=float, default=0.0,
+                    help="Rs/unit to ship into FBA on our own carrier. Amazon "
+                         "never reports this and the margin master does not "
+                         "carry it; without it the profit below is overstated")
+    ap.add_argument("--no-bank", action="store_true",
+                    help="skip the settlement-group pull (the cash side)")
+    ap.add_argument("--no-verify-groups", action="store_true",
+                    help="list settlement groups but do not re-derive each one "
+                         "from its own events (much faster, much weaker proof)")
     args = ap.parse_args()
     load_dotenv(ROOT / ".env")
     month = args.month or (lambda e: f"{e.year}-{e.month:02d}")(
@@ -772,7 +1248,17 @@ def main() -> None:
     print("  All-Orders bridge (ordered -> shipped)...")
     ob = orders_bridge(args.account, month)
     cg = cogs_for(args.account, month)
-    df = report(res, brand, ob, cg)
+    bank = None
+    if not args.no_bank:
+        print("  Settlement groups (the cash side)...")
+        bank = event_groups(args.account, month,
+                            verify=not args.no_verify_groups) or None
+        if bank:
+            _v = [g for g in bank["groups"] if g["tie"] is not None]
+            print(f"  {len(bank['groups'])} groups overlap the month; "
+                  f"{sum(1 for g in _v if abs(g['tie']) < 1.0)}/{len(_v)} "
+                  f"re-derived to the rupee")
+    df = report(res, brand, ob, cg, bank, args.freight_per_unit)
     # Also append to a long-format snapshot the dashboard serves, so the UI
     # never has to re-hit the API (a full month is ~56 paginated calls).
     snap = ROOT / "data" / "processed" / "reconciliation_snapshot.csv"
@@ -794,6 +1280,9 @@ def main() -> None:
         pd.DataFrame([{"fee_type": k, "amount_incl_gst": v} for k, v in
                       sorted(res["fees"].items(), key=lambda kv: kv[1])]).to_excel(
             xw, "Fee detail", index=False)
+        _um = (cg or {}).get("unmapped")
+        if _um is not None and len(_um):
+            _um.to_excel(xw, "Unmapped SKUs", index=False)
     print()
     for sec, g in df.groupby("Section", sort=True):
         print(sec)

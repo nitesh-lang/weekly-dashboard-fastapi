@@ -33,9 +33,16 @@ const UNIT_ITEMS = new Set([
     "Units shipped (what Amazon paid on)", "Units shipped for other channels (MCF)",
     "Ordered but not shipped", "Units refunded",
     "Event lists Amazon returned with data", "Event lists returned EMPTY",
+    "Groups re-derived from their own events",
+    "Units this month's orders will return",
 ]);
 /** Rows that carry a % rather than a rupee value. */
-const PCT_ITEMS = new Set(["Return rate % (in-month, mixed cohorts)"]);
+const PCT_ITEMS = new Set([
+    "Return rate % (in-month, mixed cohorts)",
+    "Return rate used above (in-month)",
+    "Returns already arrived from this month's orders",
+    "EXPECTED LIFETIME return rate for this month's orders",
+]);
 
 /** Accounting presentation: negatives in parentheses, never a minus sign. */
 function acct(v: number): string {

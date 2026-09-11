@@ -1103,9 +1103,12 @@ def _bank_section(add, bank: dict, settle: float) -> None:
         # every week). Labelling them by date alone makes two different deposits
         # look like the same row twice, so carry the group id - it is also what
         # you search for in Seller Central > Payments to find the deposit.
+        # Short id in the label (the full one is ~44 chars and wraps the row
+        # onto two lines on the page), full id in the note so it is still
+        # copy-pasteable into Seller Central > Payments.
         add("13. BANK TIE-OUT",
-            f"Settlement {fmt(g['start'])} - {fmt(g['end'])}  #{g['id']}",
-            g["total"], note)
+            f"Settlement {fmt(g['start'])} - {fmt(g['end'])}  #{str(g['id'])[:8]}",
+            g["total"], f"group {g['id']} - {note}")
         # Cash basis: a deposit belongs to the month its transfer LANDED in.
         td = pd.to_datetime(g["transfer_date"], errors="coerce", utc=True)
         if closed and pd.notna(td) and ms <= td < me:

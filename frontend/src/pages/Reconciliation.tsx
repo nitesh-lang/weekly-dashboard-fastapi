@@ -34,7 +34,7 @@ const UNIT_ITEMS = new Set([
     "Ordered but not shipped", "Units refunded",
     "Event lists Amazon returned with data", "Event lists returned EMPTY",
     "Groups re-derived from their own events",
-    "Units this month's orders will return",
+    "Units this month's shipments will return",
 ]);
 /** Rows that carry a % rather than a rupee value. */
 const PCT_ITEMS = new Set([

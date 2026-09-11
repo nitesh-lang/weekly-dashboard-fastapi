@@ -92,7 +92,10 @@ export default function OnePReconciliation() {
     const na = s.not_arrived?.value || 1;
 
     return (
-        <div className="space-y-6 p-6">
+        /* Capped width on purpose. Left unbounded, the 1fr bar column stretches
+           to ~900px on a wide monitor and strands each number far from the
+           label it belongs to - the exact failure this page exists to avoid. */
+        <div className="mx-auto max-w-[1120px] space-y-6 p-6">
             <SectionHeader icon={Truck} title="1P Reconciliation"
                 subtitle={`What Amazon ordered from us, and how much of it actually reached them · ${data.month}`} />
 

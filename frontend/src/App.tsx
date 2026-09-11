@@ -25,6 +25,7 @@ const Insights           = lazy(() => import("./pages/Insights"));
 const Price              = lazy(() => import("./pages/Price"));
 const VariationPerformance = lazy(() => import("./pages/VariationPerformance"));
 const Reconciliation = lazy(() => import("./pages/Reconciliation"));
+const OnePReconciliation = lazy(() => import("./pages/OnePReconciliation"));
 const KeepaUpload          = lazy(() => import("./pages/KeepaUpload"));
 
 /** Inline skeleton shown while a route chunk downloads — should appear for
@@ -65,6 +66,7 @@ export default function App() {
                     <Route path="/ams-planning"        element={<RequireAuth><RequireTab tab="/ams-planning"><AmsPlanning /></RequireTab></RequireAuth>} />
                     <Route path="/variation-performance" element={<RequireAuth><RequireTab tab="/variation-performance"><VariationPerformance /></RequireTab></RequireAuth>} />
                     <Route path="/reconciliation" element={<RequireAuth><RequireRecon><Reconciliation /></RequireRecon></RequireAuth>} />
+                    <Route path="/1p-reconciliation" element={<RequireAuth><RequireRecon><OnePReconciliation /></RequireRecon></RequireAuth>} />
                     <Route path="/keepa-upload"        element={<RequireAuth><RequireTab tab="/keepa-upload"><KeepaUpload /></RequireTab></RequireAuth>} />
                     <Route path="/no-sales-last-week"  element={<RequireAuth><RequireTab tab="/no-sales-last-week"><NoSalesLastWeek /></RequireTab></RequireAuth>} />
                     <Route path="/dead-stock"          element={<RequireAuth><RequireTab tab="/dead-stock"><DeadStock /></RequireTab></RequireAuth>} />

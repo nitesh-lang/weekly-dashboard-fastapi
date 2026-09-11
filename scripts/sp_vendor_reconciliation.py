@@ -202,6 +202,44 @@ def main() -> None:
     print(d.groupby("receive_status").agg(lines=("po", "size"),
                                           units=("accepted", "sum")).to_string())
 
+    # ── snapshot the page reads ─────────────────────────────────────────
+    # Long format, one row per (scope, metric), so /1p-reconciliation never
+    # has to re-hit Amazon. `scope` is ALL or a brand name; the page needs
+    # units AND value for every step, which is why this is not the 3P
+    # reconciliation's Section/Item shape.
+    def _row(scope, metric, units, value):
+        return {"label": args.label, "month": month, "scope": scope,
+                "metric": metric, "units": round(float(units), 2),
+                "value": round(float(value), 2)}
+
+    snap_rows = [
+        _row("ALL", "asked", tot("ordered"), tot("ordered_val")),
+        _row("ALL", "could_not_send", tot("rejected"), tot("rejected_val")),
+        _row("ALL", "promised", tot("accepted"), tot("accepted_val")),
+        _row("ALL", "arrived", tot("received"), tot("received_val")),
+        _row("ALL", "not_arrived", tot("short"), tot("short_val")),
+        _row("ALL", "travelling", tot("short", un), tot("short_val", un)),
+        _row("ALL", "missing", tot("short", st), tot("short_val", st)),
+        _row("ALL", "extra", tot("over"), tot("over_val")),
+        _row("ALL", "pos", d["po"].nunique(), len(d)),
+    ]
+    for b, r in g.iterrows():
+        snap_rows += [
+            _row(b, "promised", r["accepted"], r["accepted_val"]),
+            _row(b, "arrived", r["received"], r["accepted_val"] - r["short_val"]),
+            _row(b, "missing", r["accepted"] - r["received"], r["short_val"]),
+        ]
+    snap = ROOT / "data" / "processed" / "vendor_reconciliation_snapshot.csv"
+    keep = pd.DataFrame(snap_rows)
+    keep["pulled_at"] = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
+    keep["shortage_age_days"] = SHORTAGE_AGE_DAYS
+    if snap.exists():
+        old = pd.read_csv(snap, dtype={"month": str})
+        old = old[~((old["label"] == args.label) & (old["month"] == month))]
+        keep = pd.concat([old, keep], ignore_index=True)
+    keep.to_csv(snap, index=False)
+    print(f"-> {snap.name} ({len(keep)} rows)")
+
     out = ROOT / "data" / "processed" / f"vendor_reconciliation_{args.label}_{month}.xlsx"
     with pd.ExcelWriter(out, engine="openpyxl") as xw:
         d.drop(columns=["po_date"]).assign(

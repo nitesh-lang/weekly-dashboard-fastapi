@@ -10,7 +10,7 @@ import {
     AlertCircle, AlertTriangle, Archive, Percent, ClipboardList, RotateCcw,
     LogOut, ArrowLeft, ChevronRight,
     ExternalLink, Layers, Gauge, UploadCloud,
-    ShieldCheck, Sparkles, Calculator, IndianRupee
+    ShieldCheck, Sparkles, Calculator, IndianRupee, Truck
 } from "lucide-react";
 
 // ── Hover prefetch ──────────────────────────────────────────────────────
@@ -27,6 +27,7 @@ const CHUNK_LOADERS: Record<string, () => Promise<unknown>> = {
     "/insights":             () => import("@/pages/Insights"),
     "/variation-performance": () => import("@/pages/VariationPerformance"),
     "/reconciliation": () => import("@/pages/Reconciliation"),
+    "/1p-reconciliation": () => import("@/pages/OnePReconciliation"),
     "/keepa-upload":         () => import("@/pages/KeepaUpload"),
     "/sales-trend":          () => import("@/pages/SalesTrend"),
     "/amazon-sales-trend":   () => import("@/pages/AmazonSalesTrend"),
@@ -100,6 +101,7 @@ const NAV_GROUPS = [
             { to: "/ams-planning",        label: "AMS Planning",    icon: ClipboardList },
             { to: "/variation-performance", label: "Variation Performance", icon: Layers },
             { to: "/reconciliation", label: "Reconciliation", icon: IndianRupee },
+            { to: "/1p-reconciliation", label: "1P Reconciliation", icon: Truck },
             { to: "/ams-poor-performers", label: "Ad Underperformers", icon: AlertTriangle },
         ],
     },
@@ -194,7 +196,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                             items: grp.items.filter((it) =>
                                 canAccessTab(user, it.to) &&
                                 // account-level P&L: admins + allowlist only
-                                (it.to !== "/reconciliation" || canSeeReconciliation(user))),
+                                ((it.to !== "/reconciliation" && it.to !== "/1p-reconciliation") || canSeeReconciliation(user))),
                         }))
                         .filter((grp) => grp.items.length > 0)
                         .map((grp) => (

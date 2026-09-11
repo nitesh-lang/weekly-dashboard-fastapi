@@ -45,12 +45,21 @@ SPAPI_HOST = "https://sellingpartnerapi-eu.amazon.com"
 IN_MKT = "A21TJRUUN4KGV"
 CACHE = ROOT / "data" / "raw" / "_cohort"
 
-# A cohort is MATURE when the curve has essentially stopped moving. Amazon.in
-# FBA return windows are 10-30 days, plus grace, plus the time to physically
-# get the unit back and scan it. Three full months after the order month is
-# comfortably past that; it is verified against the real curve below and
-# printed, so the assumption is never invisible.
-MATURITY_LAG = 3
+# A cohort is MATURE when its curve has stopped moving. This used to be a flat
+# 3 months, assumed from Amazon.in's 10-30 day return windows plus grace and
+# scan time. The measured curve says returns are 100% complete by lag 1, so a
+# 3-month gate excluded the three most recent cohorts from the benchmark - and
+# on AUDIOARRAY that mattered: it pinned the "lifetime rate" at 14.11% from
+# Aug'25-May'26 while Jun (17.19%) and Jul (19.57%) were already final and
+# climbing. The benchmark has to see the recent past or it reports history as
+# if it were the present.
+#
+# So derive it: find the first lag at which the average cohort has received
+# MATURITY_SHARE of everything it will ever return, then require one more
+# month on top as a safety margin.
+MATURITY_SHARE = 0.99
+MATURITY_FLOOR = 1      # never call a cohort mature in its own order month
+MATURITY_CAP = 6        # and never wait longer than this to have a benchmark
 
 
 def _token(account: str) -> str:
@@ -208,6 +217,24 @@ def main() -> None:
 
     newest_i = to_i(pd.Series(piv.index)).max()
     age = {c: newest_i - (int(c[:4]) * 12 + int(c[5:7])) for c in piv.index}
+
+    # DERIVE the maturity lag instead of assuming it. Chicken-and-egg: the
+    # shape of the curve decides which cohorts are mature, but the shape is
+    # read off mature cohorts. Break it with a deliberately over-conservative
+    # first pass (only the oldest cohorts), measure where the curve flattens,
+    # then re-select. Whatever it lands on is printed, so the choice is never
+    # invisible.
+    prov = [c for c in piv.index if age[c] >= MATURITY_CAP and units[c] > 0]
+    if not prov:
+        prov = [c for c in piv.index if units[c] > 0]
+    prov_life = float(rate.loc[prov, rate.columns.max()].mean())
+    prov_shape = (rate.loc[prov].mean() / prov_life).clip(upper=1.0) if prov_life else None
+    done_at = next((int(l) for l in rate.columns if prov_shape is not None
+                    and prov_shape[l] >= MATURITY_SHARE), MATURITY_CAP)
+    MATURITY_LAG = min(MATURITY_CAP, max(MATURITY_FLOOR, done_at + 1))
+    print(f"  curve is {MATURITY_SHARE:.0%} complete by lag {done_at}, so a cohort "
+          f"counts as mature at {MATURITY_LAG} month(s) old")
+
     mature = [c for c in piv.index if age[c] >= MATURITY_LAG and units[c] > 0]
 
     print()

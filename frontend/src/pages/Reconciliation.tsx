@@ -193,8 +193,14 @@ export default function Reconciliation() {
                                         // A settlement deposit is not a share of sales, and
                                         // neither is a per-unit cost - showing "% of Sales"
                                         // against them reads as meaning and means nothing.
+                                        // The 1P/3P ad-allocation block compares against the
+                                        // BRAND's Amazon revenue, not this report's 3P sales —
+                                        // "% of sales" there reads 864% and means nothing.
                                         const noPct = sec.startsWith("13.") ||
-                                            r.Item === "Net cost of one return";
+                                            r.Item === "Net cost of one return" ||
+                                            r.Item === "Amazon Ads billed for the whole brand" ||
+                                            r.Item.trim().startsWith("1P vendor sales this month") ||
+                                            r.Item.trim().startsWith("3P sales this month");
                                         const showPct = !units && !pct && !noPct && k.sales > 0 &&
                                             Math.abs(r.Amount) > 0 && !r.Item.startsWith("Event lists");
                                         return (

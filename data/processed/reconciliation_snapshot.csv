@@ -1,117 +1,241 @@
 account,month,Section,Item,Amount,Note,pulled_at
-NEXLEV,2026-08,01. SALES,Units ordered in the month,4459.0,"All-Orders report, order date",2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,  less cancelled,-120.0,2.7% of orders - the REAL cancellation rate,2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,  less pending (payment not authorised),-1.0,,2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,  less unfulfillable,-3.0,,2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,  less not shipped by month end,-204.0,ships next month,2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,= Shipped from this month's orders,4131.0,,2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,Units shipped (what Amazon paid on),3715.0,"financial basis, Amazon.in only; the 416 gap to the line above is orders shipped across the month boundary",2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,Units shipped for other channels (MCF),418.0,"Amazon shipped these from our FBA stock but the sale was elsewhere - no revenue here, so no cost here either",2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,Product sales (GST NOT included),11621287.74,P&L revenue,2026-09-11 15:56
-NEXLEV,2026-08,01. SALES,Shipping and gift wrap collected,66766.37,,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,Units refunded,567.0,,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,"Return rate % (in-month, mixed cohorts)",15.26,on Amazon-only units; these refunds mostly belong to earlier months,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,Sale value refunded (GST NOT included),-1753159.5,,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,Shipping and gift wrap refunded,-13028.75,returned to the customer along with the sale value,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,Commission on refunds (ex-GST),125100.29,given back to us,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,FixedClosingFee on refunds (ex-GST),12623.0,given back to us,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,GiftwrapChargeback on refunds (ex-GST),25.42,given back to us,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,RefundCommission on refunds (ex-GST),-31750.0,Amazon kept this,2026-09-11 15:56
-NEXLEV,2026-08,02. RETURNS,ShippingChargeback on refunds (ex-GST),870.34,given back to us,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Commission (referral),-826239.81,,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBA fulfilment,-537860.52,,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Closing fee,-177166.0,,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Other selling fees,-4586.44,,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAStorageFee,-111891.38,FBA Inventory Storage Fee,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBALongTermStorageFee,-18510.93,FBA Long Term Storage Fee,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBARemovalFee,-9320.0,FBA Removal Order: Return Fee,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),MFNPostageFee,-1199.0,ServiceFee,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,RefusedDelivery,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,ShippingAddressUndeliverable,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,UnableToDeliver,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Subscription,0.0,ServiceFee,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,204.36,UnableToDeliver,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,1001.0,UnableToDeliver,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,1639.65,ShippingAddressUndeliverable,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,4343.62,RefusedDelivery,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,7577.0,ShippingAddressUndeliverable,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,18695.0,RefusedDelivery,2026-09-11 15:56
-NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Multi-Channel Fulfilment (other channels),-58344.0,"418 units Amazon shipped for orders placed elsewhere - real cash, but it belongs to that channel, not to Amazon 3P",2026-09-11 15:56
-NEXLEV,2026-08,04. WE FUNDED,Coupons / promotions,-130274.96,,2026-09-11 15:56
-NEXLEV,2026-08,04. WE FUNDED,  of which PromotionMetaDataDefinitionValue,-130274.96,"Amazon returns no real promotion type here, so this does NOT tell us whether coupons ran - the missing coupon-redemption fee stays an open question",2026-09-11 15:56
-NEXLEV,2026-08,04. WE FUNDED,No-cost EMI / bank offers,-69514.82,,2026-09-11 15:56
-NEXLEV,2026-08,04. WE FUNDED,Advertising (billed with GST),-1364759.55,"what Amazon Ads actually charged us, GST included",2026-09-11 15:56
-NEXLEV,2026-08,04. WE FUNDED,  of which GST we get back as credit,208183.66,reclaimed below - the real cost of ads is the ex-GST figure,2026-09-11 15:56
-NEXLEV,2026-08,04. WE FUNDED,  real cost of advertising (ex-GST),-1156575.89,10.0% of sales,2026-09-11 15:56
-NEXLEV,2026-08,05. CREDITS,Reversal Reimbursement,101864.35,compensation - no GST,2026-09-11 15:56
-NEXLEV,2026-08,05. CREDITS,Free Replacement Refund Items,42851.01,compensation - no GST,2026-09-11 15:56
-NEXLEV,2026-08,05. CREDITS,Lostordamagedreimbursement,1114.52,compensation - no GST,2026-09-11 15:56
-NEXLEV,2026-08,05. CREDITS,Warehouse Damage,1821.61,compensation - no GST,2026-09-11 15:56
-NEXLEV,2026-08,05. CREDITS,Commissioncorrection,65468.13,"fee credit - carries GST, reverses ITC",2026-09-11 15:56
-NEXLEV,2026-08,05. CREDITS,Payment Retraction Items,-2230.36,compensation - no GST,2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),Output GST collected from customers,2062051.32,held in trust - never ours,2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),Output GST reversed on refunds,-310107.66,,2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),ITC on Amazon fees (reclaimable),288861.91,tie to Amazon's tax invoice AND GSTR-2B,2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),ITC on no-cost EMI (reclaimable),10604.02,the EMI expense Amazon bills carries GST as well,2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),ITC on advertising (reclaimable),208183.66,ad invoices carry GST too - claim it in GSTR-2B or you pay 18% twice,2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),TCS withheld u/s 52 (0.5% of net sales),-49015.15,PREPAYMENT ASSET - accept monthly in the GST portal or it is stranded,2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),TDS withheld u/s 194-O (0.1% of gross),-11592.94,"RECOVERABLE in ITR - charged on gross, so returns are a permanent drag",2026-09-11 15:56
-NEXLEV,2026-08,06. GST AND TAX (not profit),Net GST still to remit in cash,-1195278.92,marketplace GST only - import IGST paid at the bill of entry is also creditable and is NOT netted here,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,Product sales (GST not included),11621287.74,what we sold,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus GST collected from customers,2062051.32,"comes in with the sale, goes out to the government",2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus shipping and gift wrap,66766.37,,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less refunds to customers,-2076295.91,sale value + GST returned,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus fees Amazon returned on refunds,126105.48,commission and closing come back; FBA fee does not,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less Amazon fees (including GST on fees),-2019755.79,"commission, FBA, closing, storage, removals",2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less coupons and promotions,-130274.96,,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less no-cost EMI and bank offers,-69514.82,,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus reimbursements and corrections,210889.26,,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less TCS withheld,-49015.15,you reclaim this in GST,2026-09-11 15:56
-NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less TDS withheld,-11592.94,you reclaim this in your ITR,2026-09-11 15:56
-NEXLEV,2026-08,08. BOTTOM LINE,AMAZON SHOULD PAY US,9730650.6,add up everything above - this is the settlement,2026-09-11 15:56
-NEXLEV,2026-08,08. BOTTOM LINE,less GST we owe the government,-1195278.92,"output GST, less refunds, less credit on fee GST and ad GST, less TCS withheld",2026-09-11 15:56
-NEXLEV,2026-08,08. BOTTOM LINE,MARKETPLACE CONTRIBUTION BEFORE COGS,8535371.68,what the marketplace actually left us,2026-09-11 15:56
-NEXLEV,2026-08,08. BOTTOM LINE,less advertising (GST-inclusive cash),-1364759.55,billed separately by Amazon Ads; its GST is credited back in the line above,2026-09-11 15:56
-NEXLEV,2026-08,08. BOTTOM LINE,"AFTER ADVERTISING, BEFORE COGS",7170612.13,the landed cost of the goods still has to come off,2026-09-11 15:56
-NEXLEV,2026-08,08. BOTTOM LINE,add back TDS withheld (recoverable in your ITR),11592.94,"reduces the cash Amazon sends, but it is not a cost",2026-09-11 15:56
-NEXLEV,2026-08,08. BOTTOM LINE,add back Multi-Channel Fulfilment fee,58344.0,"418 units Amazon shipped for orders placed on another channel - real cash, but that channel's cost, not Amazon's (ex-GST; the GST on it is already credited in the line above)",2026-09-11 15:56
-NEXLEV,2026-08,09. COST OF GOODS,Landed cost of units shipped,-5914157.89,"3715 units at Rs 1,592 average (96% priced from the Nexlev master, rest at that average)",2026-09-11 15:56
-NEXLEV,2026-08,09. COST OF GOODS,  of which priced on an ASSUMPTION,-210139.66,132 units across 20 SKUs have no row in the Nexlev master - see the 'Unmapped SKUs' sheet; map them and this line becomes measured,2026-09-11 15:56
-NEXLEV,2026-08,09. COST OF GOODS,less stock recovered from returns,480962.94,"567 refunds, 61% came back sellable, valued at 88% (repack + restarted storage clock)",2026-09-11 15:56
-NEXLEV,2026-08,09. COST OF GOODS,Inbound freight to FBA - NOT INCLUDED,0.0,"we self-ship into FBA, so this never appears in Amazon's data and it is not in the margin master either - profit below is overstated by it. Re-run with --freight-per-unit <Rs> to book it",2026-09-11 15:56
-NEXLEV,2026-08,09. COST OF GOODS,NET COST OF GOODS,-5433194.95,,2026-09-11 15:56
-NEXLEV,2026-08,10. PROFIT,AMAZON CHANNEL CONTRIBUTION,1807354.13,"15.6% of sales - before company overhead, interest and tax",2026-09-11 15:56
-NEXLEV,2026-08,10. PROFIT,less business overhead,-295707.89,5% of landed cost - same basis as the margin calculator,2026-09-11 15:56
-NEXLEV,2026-08,10. PROFIT,less cost of finance,-177424.74,3% of landed cost - working capital tied up in stock,2026-09-11 15:56
-NEXLEV,2026-08,10. PROFIT,PROFIT BEFORE TAX,1334221.49,11.5% of sales,2026-09-11 15:56
-NEXLEV,2026-08,10. PROFIT,less income tax provision,-335796.87,25.17% under section 115BAA,2026-09-11 15:56
-NEXLEV,2026-08,10. PROFIT,PROFIT AFTER TAX,998424.63,8.6% of sales,2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Event lists Amazon returned with data,6.0,"AdjustmentEventList, AffordabilityExpenseEventList, AffordabilityExpenseReversalEventList, RefundEventList, ServiceFeeEventList, ShipmentEventList",2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Event lists returned EMPTY,29.0,incl. ShipmentSettleEventList - must stay empty or revenue double-counts,2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Money in ShipmentEventList we did not classify,-0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Money in RefundEventList we did not classify,-0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Money in ServiceFeeEventList we did not classify,0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Money in AdjustmentEventList we did not classify,0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Money in AffordabilityExpenseEventList we did not classify,-0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Money in AffordabilityExpenseReversalEventList we did not classify,0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 15:56
-NEXLEV,2026-08,12. COMPLETENESS,Breakdowns that disagree with their parent,0.0,every AdjustmentItemList and Affordability base+GST re-added to the parent total we booked,2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 31/07/2026 - 07/08/2026  #EpyKFnvK,1725070.29,"group EpyKFnvKPO0UseyGWOBhBsbWbtBrllFygs_m0sIQ7Rw - closed, transferred 2026-08-07 to a/c ...008 - ties exactly: opening 0 + events 1,725,070 = 1,725,070",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 31/07/2026 - 07/08/2026  #BYibnRov,480833.4,"group BYibnRovNZHg1P4a8L9B8K7gAVqzLkp9aSWIGiYT8a8 - closed, transferred 2026-08-07 to a/c ...008 - ties exactly: opening 0 + events 480,833 = 480,833",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 07/08/2026 - 14/08/2026  #qi1SEXQF,1689832.41,"group qi1SEXQFEWltMlJJ3u3-78uykuEVcNxBSFviVstqx40 - closed, transferred 2026-08-14 to a/c ...008 - ties exactly: opening 0 + events 1,689,832 = 1,689,832",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 07/08/2026 - 14/08/2026  #nbrNd14g,559243.82,"group nbrNd14gFT6XF6hDagxzKzPV8ElXYzRIHo5IIVFV-SQ - closed, transferred 2026-08-14 to a/c ...008 - ties exactly: opening 0 + events 559,244 = 559,244",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 14/08/2026 - 21/08/2026  #S9Fkp3FT,2093650.61,"group S9Fkp3FTRgkf6dWA_Qs-qndkx0jUBjHtywDnlAxTWOM - closed, transferred 2026-08-21 to a/c ...008 - ties exactly: opening 0 + events 2,093,651 = 2,093,651",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 14/08/2026 - 21/08/2026  #pJVgmCSY,614959.29,"group pJVgmCSYEdE5Mhopb6W58kOcPUwryJ1XpO8-lk2bLnw - closed, transferred 2026-08-21 to a/c ...008 - ties exactly: opening 0 + events 614,959 = 614,959",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 21/08/2026 - 28/08/2026  #C61MFNpQ,1467714.36,"group C61MFNpQJBP4bDB2LdFzKaqpFcCVxqsdOtDKxsfmc5w - closed, transferred 2026-08-28 to a/c ...008 - ties exactly: opening 0 + events 1,467,714 = 1,467,714",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 21/08/2026 - 28/08/2026  #QNwQb0I2,505434.0,"group QNwQb0I2fYRMNherxVceFyNVbUB0pHXEzfw4YeavBJQ - closed, transferred 2026-08-28 to a/c ...008 - ties exactly: opening 0 + events 505,434 = 505,434",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 28/08/2026 - 04/09/2026  #-tQ1ArXE,1088816.38,"group -tQ1ArXEHgVJvSrggnUO2r5BK42DF-NRLJIHrGUtZ18 - closed, transferred 2026-09-04 to a/c ...008 - ties exactly: opening 0 + events 1,088,816 = 1,088,816",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 28/08/2026 - 04/09/2026  #vcTJvhcL,430360.71,"group vcTJvhcLLIZ7-2r7tcpy_gYTWS0BO6-A4zB8xOcrcyU - closed, transferred 2026-09-04 to a/c ...008 - ties exactly: opening 0 + events 430,361 = 430,361",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,CASH Amazon actually transferred this month,9136738.18,sum of settlements whose transfer date falls inside the month - this is what should appear on the bank statement,2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Accrual: what this month's events say we earned,9730650.6,"section 08 - events POSTED in the month, whenever they get paid",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Timing difference (accrual less cash),593912.42,"settlement periods straddle month ends - a difference here is TIMING, not error; it is only a problem if a group above fails to tie",2026-09-11 15:56
-NEXLEV,2026-08,13. BANK TIE-OUT,Groups re-derived from their own events,10.0,10 of 10 tie to the rupee,2026-09-11 15:56
-NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Return rate used above (in-month),15.26,"refunds POSTED this month over units shipped this month - two different populations, which is why this is only a proxy",2026-09-11 15:56
-NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Returns already arrived from this month's orders,10.72,after 0 month(s); matured cohorts say that is only 67% of what a cohort ever returns,2026-09-11 15:56
-NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),EXPECTED LIFETIME return rate for this month's orders,15.89,grossed up on the curve from cohorts at least 3 months old (their lifetime rate: 15.60%),2026-09-11 15:56
-NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Units this month's shipments will return,590.0,"the cohort rate applied to the 3,715 units this P&L is built on (the cohort itself is 4,131 units ordered in the month); vs 567 refunds actually posted",2026-09-11 15:56
-NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Net cost of one return,-2021.32,"Rs3,092 sale value given back, less Rs222 of fees returned, less Rs848 of stock that comes back sellable",2026-09-11 15:56
-NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),PROVISION if charged on a cohort basis,-47236.79,+23 more returns than the month booked. The bottom line above is NOT adjusted for this - it stays on the settlement basis that section 13 ties to the bank,2026-09-11 15:56
+AUDIOARRAY,2026-08,01. SALES,Units ordered in the month,1212.0,"All-Orders report, order date",2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,  less cancelled,-7.0,0.6% of orders - the REAL cancellation rate,2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,  less pending (payment not authorised),0.0,,2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,  less unfulfillable,0.0,,2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,  less not shipped by month end,-36.0,ships next month,2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,= Shipped from this month's orders,1169.0,,2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,Units shipped (what Amazon paid on),949.0,"financial basis, Amazon.in only; the 220 gap to the line above is orders shipped across the month boundary",2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,Units shipped for other channels (MCF),86.0,"Amazon shipped these from our FBA stock but the sale was elsewhere - no revenue here, so no cost here either",2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,Product sales (GST NOT included),2489026.6,P&L revenue,2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,  of which Audio Array,2349792.79,"94.4% of the account, 893 units",2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,  of which Fossil,139233.81,"5.6% of the account, 56 units - landed cost and ad spend below are for Audio Array, so THIS brand's costs are NOT in them",2026-09-11 17:16
+AUDIOARRAY,2026-08,01. SALES,Shipping and gift wrap collected,16688.49,,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,Units refunded,188.0,,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,"Return rate % (in-month, mixed cohorts)",19.81,on Amazon-only units; these refunds mostly belong to earlier months,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,Sale value refunded (GST NOT included),-556368.02,,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,Shipping and gift wrap refunded,-4365.0,returned to the customer along with the sale value,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,Commission on refunds (ex-GST),70613.19,given back to us,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,FixedClosingFee on refunds (ex-GST),5051.0,given back to us,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,RefundCommission on refunds (ex-GST),-9115.0,Amazon kept this,2026-09-11 17:16
+AUDIOARRAY,2026-08,02. RETURNS,ShippingChargeback on refunds (ex-GST),317.8,given back to us,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),Commission (referral),-313670.58,,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBA fulfilment,-102886.64,,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),Closing fee,-43600.0,,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),Other selling fees,-2033.9,,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAStorageFee,-33197.55,FBA Inventory Storage Fee,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBALongTermStorageFee,-5687.67,FBA Long Term Storage Fee,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBARemovalFee,-3990.0,FBA Removal Order: Return Fee,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),MFNPostageFee,-1126.0,ServiceFee,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,ShippingAddressUndeliverable,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,RefusedDelivery,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),Subscription,0.0,ServiceFee,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,UnableToDeliver,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,DeliveredLateByCarrier,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,22.0,UnableToDeliver,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,39.25,DeliveredLateByCarrier,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,93.0,UnableToDeliver,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,261.0,DeliveredLateByCarrier,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,407.92,ShippingAddressUndeliverable,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,1772.0,ShippingAddressUndeliverable,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,1887.79,RefusedDelivery,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,7810.0,RefusedDelivery,2026-09-11 17:16
+AUDIOARRAY,2026-08,03. AMAZON FEES (ex-GST),Multi-Channel Fulfilment (other channels),-14755.0,"86 units Amazon shipped for orders placed elsewhere - real cash, but it belongs to that channel, not to Amazon 3P",2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,Coupons / promotions,-27475.52,,2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,  of which PromotionMetaDataDefinitionValue,-27475.52,"Amazon returns no real promotion type here, so this does NOT tell us whether coupons ran - the missing coupon-redemption fee stays an open question",2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,No-cost EMI / bank offers,-7271.67,,2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,Amazon Ads billed for the whole brand,-2095847.04,drives BOTH 1P and 3P sales of the same ASINs,2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,  1P vendor sales this month (not in this report),21500224.36,Amazon buys these from us and sells them itself - vendor revenue never appears in financialEvents,2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,  3P sales this month (what this report covers),3137175.31,so 12.7% of the ad bill is charged below; the rest belongs to the 1P book,2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,Advertising (billed with GST),-266872.3,"what Amazon Ads actually charged us, GST included",2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,  of which GST we get back as credit,40709.33,reclaimed below - the real cost of ads is the ex-GST figure,2026-09-11 17:16
+AUDIOARRAY,2026-08,04. WE FUNDED,  real cost of advertising (ex-GST),-226162.97,9.1% of sales,2026-09-11 17:16
+AUDIOARRAY,2026-08,05. CREDITS,Reversal Reimbursement,20669.88,compensation - no GST,2026-09-11 17:16
+AUDIOARRAY,2026-08,05. CREDITS,Free Replacement Refund Items,9158.61,compensation - no GST,2026-09-11 17:16
+AUDIOARRAY,2026-08,05. CREDITS,Postagerefund,86.14,compensation - no GST,2026-09-11 17:16
+AUDIOARRAY,2026-08,05. CREDITS,Commissioncorrection,10967.33,"fee credit - carries GST, reverses ITC",2026-09-11 17:16
+AUDIOARRAY,2026-08,05. CREDITS,Warehouse Damage,847.5,compensation - no GST,2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),Output GST collected from customers,448025.51,held in trust - never ours,2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),Output GST reversed on refunds,-100146.36,,2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),ITC on Amazon fees (reclaimable),79521.73,tie to Amazon's tax invoice AND GSTR-2B,2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),ITC on no-cost EMI (reclaimable),1109.24,the EMI expense Amazon bills carries GST as well,2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),ITC on advertising (reclaimable),40709.33,ad invoices carry GST too - claim it in GSTR-2B or you pay 18% twice,2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),TCS withheld u/s 52 (0.5% of net sales),-9599.22,PREPAYMENT ASSET - accept monthly in the GST portal or it is stranded,2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),TDS withheld u/s 194-O (0.1% of gross),-2484.44,"RECOVERABLE in ITR - charged on gross, so returns are a permanent drag",2026-09-11 17:16
+AUDIOARRAY,2026-08,06. GST AND TAX (not profit),Net GST still to remit in cash,-216939.62,marketplace GST only - import IGST paid at the bill of entry is also creditable and is NOT netted here,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,Product sales (GST not included),2489026.6,what we sold,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,plus GST collected from customers,448025.51,"comes in with the sale, goes out to the government",2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,plus shipping and gift wrap,16688.49,,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,less refunds to customers,-660879.38,sale value + GST returned,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,plus fees Amazon returned on refunds,78903.04,commission and closing come back; FBA fee does not,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,less Amazon fees (including GST on fees),-600212.19,"commission, FBA, closing, storage, removals",2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,less coupons and promotions,-27475.52,,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,less no-cost EMI and bank offers,-7271.67,,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,plus reimbursements and corrections,41729.46,,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,less TCS withheld,-9599.22,you reclaim this in GST,2026-09-11 17:16
+AUDIOARRAY,2026-08,07. HOW THE TOTAL IS BUILT,less TDS withheld,-2484.44,you reclaim this in your ITR,2026-09-11 17:16
+AUDIOARRAY,2026-08,08. BOTTOM LINE,AMAZON SHOULD PAY US,1766450.68,add up everything above - this is the settlement,2026-09-11 17:16
+AUDIOARRAY,2026-08,08. BOTTOM LINE,less GST we owe the government,-216939.62,"output GST, less refunds, less credit on fee GST and ad GST, less TCS withheld",2026-09-11 17:16
+AUDIOARRAY,2026-08,08. BOTTOM LINE,MARKETPLACE CONTRIBUTION BEFORE COGS,1549511.06,what the marketplace actually left us,2026-09-11 17:16
+AUDIOARRAY,2026-08,08. BOTTOM LINE,less advertising (GST-inclusive cash),-266872.3,billed separately by Amazon Ads; its GST is credited back in the line above,2026-09-11 17:16
+AUDIOARRAY,2026-08,08. BOTTOM LINE,"AFTER ADVERTISING, BEFORE COGS",1282638.76,the landed cost of the goods still has to come off,2026-09-11 17:16
+AUDIOARRAY,2026-08,08. BOTTOM LINE,add back TDS withheld (recoverable in your ITR),2484.44,"reduces the cash Amazon sends, but it is not a cost",2026-09-11 17:16
+AUDIOARRAY,2026-08,08. BOTTOM LINE,add back Multi-Channel Fulfilment fee,14755.0,"86 units Amazon shipped for orders placed on another channel - real cash, but that channel's cost, not Amazon's (ex-GST; the GST on it is already credited in the line above)",2026-09-11 17:16
+AUDIOARRAY,2026-08,09. COST OF GOODS,Landed cost of units shipped,-1259653.56,"949 units at Rs 1,327 average (75% priced from the Audio Array master, rest at that average)",2026-09-11 17:16
+AUDIOARRAY,2026-08,09. COST OF GOODS,  of which priced on an ASSUMPTION,-317236.25,239 units across 32 SKUs have no row in the Audio Array master - see the 'Unmapped SKUs' sheet; map them and this line becomes measured,2026-09-11 17:16
+AUDIOARRAY,2026-08,09. COST OF GOODS,less stock recovered from returns,159873.08,"188 refunds, 73% came back sellable, valued at 88% (repack + restarted storage clock)",2026-09-11 17:16
+AUDIOARRAY,2026-08,09. COST OF GOODS,Inbound freight to FBA - NOT INCLUDED,0.0,"we self-ship into FBA, so this never appears in Amazon's data and it is not in the margin master either - profit below is overstated by it. Re-run with --freight-per-unit <Rs> to book it",2026-09-11 17:16
+AUDIOARRAY,2026-08,09. COST OF GOODS,NET COST OF GOODS,-1099780.48,,2026-09-11 17:16
+AUDIOARRAY,2026-08,10. PROFIT,AMAZON CHANNEL CONTRIBUTION,200097.72,"8.0% of sales - before company overhead, interest and tax",2026-09-11 17:16
+AUDIOARRAY,2026-08,10. PROFIT,less business overhead,-62982.68,5% of landed cost - same basis as the margin calculator,2026-09-11 17:16
+AUDIOARRAY,2026-08,10. PROFIT,less cost of finance,-37789.61,3% of landed cost - working capital tied up in stock,2026-09-11 17:16
+AUDIOARRAY,2026-08,10. PROFIT,PROFIT BEFORE TAX,99325.44,4.0% of sales,2026-09-11 17:16
+AUDIOARRAY,2026-08,10. PROFIT,less income tax provision,-24998.23,25.17% under section 115BAA,2026-09-11 17:16
+AUDIOARRAY,2026-08,10. PROFIT,PROFIT AFTER TAX,74327.21,3.0% of sales,2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Event lists Amazon returned with data,6.0,"AdjustmentEventList, AffordabilityExpenseEventList, AffordabilityExpenseReversalEventList, RefundEventList, ServiceFeeEventList, ShipmentEventList",2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Event lists returned EMPTY,29.0,incl. ShipmentSettleEventList - must stay empty or revenue double-counts,2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Money in ShipmentEventList we did not classify,0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Money in RefundEventList we did not classify,0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Money in ServiceFeeEventList we did not classify,0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Money in AdjustmentEventList we did not classify,0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Money in AffordabilityExpenseEventList we did not classify,0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Money in AffordabilityExpenseReversalEventList we did not classify,0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 17:16
+AUDIOARRAY,2026-08,12. COMPLETENESS,Breakdowns that disagree with their parent,0.0,every AdjustmentItemList and Affordability base+GST re-added to the parent total we booked,2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 31/07/2026 - 07/08/2026  #DlmcKO66,13733.78,"group DlmcKO669Rkg5VjdJQOFsrjNkQviKI62hbY81WfNd4c - closed, transferred 2026-08-07 to a/c ...008 - ties exactly: opening 0 + events 13,734 = 13,734",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 31/07/2026 - 07/08/2026  #nbdZaP4H,244271.76,"group nbdZaP4HjE_hQTza_JPmIATIox4VphMTXclxRBT2CKk - closed, transferred 2026-08-07 to a/c ...008 - ties exactly: opening 0 + events 244,272 = 244,272",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 07/08/2026 - 14/08/2026  #uolJSxSQ,138559.88,"group uolJSxSQOxVC2tQjZUzE_fqC3YHyL9It1dN5fJ93Qns - closed, transferred 2026-08-14 to a/c ...008 - ties exactly: opening 0 + events 138,560 = 138,560",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 07/08/2026 - 14/08/2026  #WVJOCQxN,275230.58,"group WVJOCQxNcEKcccEbRFDS1vh_h80SQkLFw0hf1phwssM - closed, transferred 2026-08-14 to a/c ...008 - ties exactly: opening 0 + events 275,231 = 275,231",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 14/08/2026 - 21/08/2026  #6uRWxun7,191704.14,"group 6uRWxun7osXJC_zzUnup_bW9jCLAAV7TyUtApWPthxM - closed, transferred 2026-08-21 to a/c ...008 - ties exactly: opening 0 + events 191,704 = 191,704",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 14/08/2026 - 21/08/2026  #445ro2IG,342999.52,"group 445ro2IGh07Lj1ssCMNKwcV2jwbWo8H4cXoaQmmyRVA - closed, transferred 2026-08-21 to a/c ...008 - ties exactly: opening 0 + events 343,000 = 343,000",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 21/08/2026 - 28/08/2026  #EftcM1p7,92381.97,"group EftcM1p7fBry35Va7J1rYntHTiEobyypOD0RF50Ayyc - closed, transferred 2026-08-28 to a/c ...008 - ties exactly: opening 0 + events 92,382 = 92,382",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 21/08/2026 - 28/08/2026  #dd9MlYfp,264329.85,"group dd9MlYfpaaNGynKm9zclbHAe6UPft1kpHNWAWkeIBVk - closed, transferred 2026-08-28 to a/c ...008 - ties exactly: opening 0 + events 264,330 = 264,330",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 28/08/2026 - 04/09/2026  #E_kTb_ft,100072.44,"group E_kTb_ftkSLuh3U8pj4ViXH2WjW1CAoF3DoEQkwQpdo - closed, transferred 2026-09-04 to a/c ...008 - ties exactly: opening 0 + events 100,072 = 100,072",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Settlement 28/08/2026 - 04/09/2026  #zsp9fgPg,259541.21,"group zsp9fgPgC6hM4Hhi2C9NdnSFNW7HqSEck02aph2ifmA - closed, transferred 2026-09-04 to a/c ...008 - ties exactly: opening 0 + events 259,541 = 259,541",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,CASH Amazon actually transferred this month,1563211.48,sum of settlements whose transfer date falls inside the month - this is what should appear on the bank statement,2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Accrual: what this month's events say we earned,1766450.68,"section 08 - events POSTED in the month, whenever they get paid",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Timing difference (accrual less cash),203239.2,"settlement periods straddle month ends - a difference here is TIMING, not error; it is only a problem if a group above fails to tie",2026-09-11 17:16
+AUDIOARRAY,2026-08,13. BANK TIE-OUT,Groups re-derived from their own events,10.0,10 of 10 tie to the rupee,2026-09-11 17:16
+AUDIOARRAY,2026-08,14. RETURNS - COHORT VIEW (memo),Return rate used above (in-month),19.81,"refunds POSTED this month over units shipped this month - two different populations, which is why this is only a proxy",2026-09-11 17:16
+AUDIOARRAY,2026-08,14. RETURNS - COHORT VIEW (memo),Returns already arrived from this month's orders,13.69,after 0 month(s); matured cohorts say that is only 66% of what a cohort ever returns,2026-09-11 17:16
+AUDIOARRAY,2026-08,14. RETURNS - COHORT VIEW (memo),EXPECTED LIFETIME return rate for this month's orders,20.66,grossed up on the curve from cohorts at least 2 months old (their lifetime rate: 14.39%),2026-09-11 17:16
+AUDIOARRAY,2026-08,14. RETURNS - COHORT VIEW (memo),Units this month's shipments will return,196.0,"the cohort rate applied to the 949 units this P&L is built on (the cohort itself is 1,169 units ordered in the month); vs 188 refunds actually posted",2026-09-11 17:16
+AUDIOARRAY,2026-08,14. RETURNS - COHORT VIEW (memo),Net cost of one return,-1689.32,"Rs2,959 sale value given back, less Rs420 of fees returned, less Rs850 of stock that comes back sellable",2026-09-11 17:16
+AUDIOARRAY,2026-08,14. RETURNS - COHORT VIEW (memo),PROVISION if charged on a cohort basis,-13620.05,+8 more returns than the month booked. The bottom line above is NOT adjusted for this - it stays on the settlement basis that section 13 ties to the bank,2026-09-11 17:16
+NEXLEV,2026-08,01. SALES,Units ordered in the month,4459.0,"All-Orders report, order date",2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,  less cancelled,-120.0,2.7% of orders - the REAL cancellation rate,2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,  less pending (payment not authorised),-1.0,,2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,  less unfulfillable,-3.0,,2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,  less not shipped by month end,-204.0,ships next month,2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,= Shipped from this month's orders,4131.0,,2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,Units shipped (what Amazon paid on),3715.0,"financial basis, Amazon.in only; the 416 gap to the line above is orders shipped across the month boundary",2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,Units shipped for other channels (MCF),418.0,"Amazon shipped these from our FBA stock but the sale was elsewhere - no revenue here, so no cost here either",2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,Product sales (GST NOT included),11621287.74,P&L revenue,2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,  of which Nexlev,11605025.03,"99.9% of the account, 3699 units",2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,  of which Fossil,16262.71,"0.1% of the account, 16 units - landed cost and ad spend below are for nexlev, so THIS brand's costs are NOT in them",2026-09-11 17:20
+NEXLEV,2026-08,01. SALES,Shipping and gift wrap collected,66766.37,,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,Units refunded,567.0,,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,"Return rate % (in-month, mixed cohorts)",15.26,on Amazon-only units; these refunds mostly belong to earlier months,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,Sale value refunded (GST NOT included),-1753159.5,,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,Shipping and gift wrap refunded,-13028.75,returned to the customer along with the sale value,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,Commission on refunds (ex-GST),125100.29,given back to us,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,FixedClosingFee on refunds (ex-GST),12623.0,given back to us,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,GiftwrapChargeback on refunds (ex-GST),25.42,given back to us,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,RefundCommission on refunds (ex-GST),-31750.0,Amazon kept this,2026-09-11 17:20
+NEXLEV,2026-08,02. RETURNS,ShippingChargeback on refunds (ex-GST),870.34,given back to us,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Commission (referral),-826239.81,,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBA fulfilment,-537860.52,,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Closing fee,-177166.0,,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Other selling fees,-4586.44,,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAStorageFee,-111891.38,FBA Inventory Storage Fee,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBALongTermStorageFee,-18510.93,FBA Long Term Storage Fee,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBARemovalFee,-9320.0,FBA Removal Order: Return Fee,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),MFNPostageFee,-1199.0,ServiceFee,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,RefusedDelivery,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,ShippingAddressUndeliverable,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),TechnologyFee,0.0,UnableToDeliver,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Subscription,0.0,ServiceFee,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,204.36,UnableToDeliver,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,1001.0,UnableToDeliver,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,1639.65,ShippingAddressUndeliverable,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAPerUnitFulfillmentFee,4343.62,RefusedDelivery,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,7577.0,ShippingAddressUndeliverable,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),FBAWeightBasedFee,18695.0,RefusedDelivery,2026-09-11 17:20
+NEXLEV,2026-08,03. AMAZON FEES (ex-GST),Multi-Channel Fulfilment (other channels),-58344.0,"418 units Amazon shipped for orders placed elsewhere - real cash, but it belongs to that channel, not to Amazon 3P",2026-09-11 17:20
+NEXLEV,2026-08,04. WE FUNDED,Coupons / promotions,-130274.96,,2026-09-11 17:20
+NEXLEV,2026-08,04. WE FUNDED,  of which PromotionMetaDataDefinitionValue,-130274.96,"Amazon returns no real promotion type here, so this does NOT tell us whether coupons ran - the missing coupon-redemption fee stays an open question",2026-09-11 17:20
+NEXLEV,2026-08,04. WE FUNDED,No-cost EMI / bank offers,-69514.82,,2026-09-11 17:20
+NEXLEV,2026-08,04. WE FUNDED,Advertising (billed with GST),-1364759.55,"what Amazon Ads actually charged us, GST included",2026-09-11 17:20
+NEXLEV,2026-08,04. WE FUNDED,  of which GST we get back as credit,208183.66,reclaimed below - the real cost of ads is the ex-GST figure,2026-09-11 17:20
+NEXLEV,2026-08,04. WE FUNDED,  real cost of advertising (ex-GST),-1156575.89,10.0% of sales,2026-09-11 17:20
+NEXLEV,2026-08,05. CREDITS,Reversal Reimbursement,101864.35,compensation - no GST,2026-09-11 17:20
+NEXLEV,2026-08,05. CREDITS,Free Replacement Refund Items,42851.01,compensation - no GST,2026-09-11 17:20
+NEXLEV,2026-08,05. CREDITS,Lostordamagedreimbursement,1114.52,compensation - no GST,2026-09-11 17:20
+NEXLEV,2026-08,05. CREDITS,Warehouse Damage,1821.61,compensation - no GST,2026-09-11 17:20
+NEXLEV,2026-08,05. CREDITS,Commissioncorrection,65468.13,"fee credit - carries GST, reverses ITC",2026-09-11 17:20
+NEXLEV,2026-08,05. CREDITS,Payment Retraction Items,-2230.36,compensation - no GST,2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),Output GST collected from customers,2062051.32,held in trust - never ours,2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),Output GST reversed on refunds,-310107.66,,2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),ITC on Amazon fees (reclaimable),288861.91,tie to Amazon's tax invoice AND GSTR-2B,2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),ITC on no-cost EMI (reclaimable),10604.02,the EMI expense Amazon bills carries GST as well,2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),ITC on advertising (reclaimable),208183.66,ad invoices carry GST too - claim it in GSTR-2B or you pay 18% twice,2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),TCS withheld u/s 52 (0.5% of net sales),-49015.15,PREPAYMENT ASSET - accept monthly in the GST portal or it is stranded,2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),TDS withheld u/s 194-O (0.1% of gross),-11592.94,"RECOVERABLE in ITR - charged on gross, so returns are a permanent drag",2026-09-11 17:20
+NEXLEV,2026-08,06. GST AND TAX (not profit),Net GST still to remit in cash,-1195278.92,marketplace GST only - import IGST paid at the bill of entry is also creditable and is NOT netted here,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,Product sales (GST not included),11621287.74,what we sold,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus GST collected from customers,2062051.32,"comes in with the sale, goes out to the government",2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus shipping and gift wrap,66766.37,,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less refunds to customers,-2076295.91,sale value + GST returned,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus fees Amazon returned on refunds,126105.48,commission and closing come back; FBA fee does not,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less Amazon fees (including GST on fees),-2019755.79,"commission, FBA, closing, storage, removals",2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less coupons and promotions,-130274.96,,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less no-cost EMI and bank offers,-69514.82,,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,plus reimbursements and corrections,210889.26,,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less TCS withheld,-49015.15,you reclaim this in GST,2026-09-11 17:20
+NEXLEV,2026-08,07. HOW THE TOTAL IS BUILT,less TDS withheld,-11592.94,you reclaim this in your ITR,2026-09-11 17:20
+NEXLEV,2026-08,08. BOTTOM LINE,AMAZON SHOULD PAY US,9730650.6,add up everything above - this is the settlement,2026-09-11 17:20
+NEXLEV,2026-08,08. BOTTOM LINE,less GST we owe the government,-1195278.92,"output GST, less refunds, less credit on fee GST and ad GST, less TCS withheld",2026-09-11 17:20
+NEXLEV,2026-08,08. BOTTOM LINE,MARKETPLACE CONTRIBUTION BEFORE COGS,8535371.68,what the marketplace actually left us,2026-09-11 17:20
+NEXLEV,2026-08,08. BOTTOM LINE,less advertising (GST-inclusive cash),-1364759.55,billed separately by Amazon Ads; its GST is credited back in the line above,2026-09-11 17:20
+NEXLEV,2026-08,08. BOTTOM LINE,"AFTER ADVERTISING, BEFORE COGS",7170612.13,the landed cost of the goods still has to come off,2026-09-11 17:20
+NEXLEV,2026-08,08. BOTTOM LINE,add back TDS withheld (recoverable in your ITR),11592.94,"reduces the cash Amazon sends, but it is not a cost",2026-09-11 17:20
+NEXLEV,2026-08,08. BOTTOM LINE,add back Multi-Channel Fulfilment fee,58344.0,"418 units Amazon shipped for orders placed on another channel - real cash, but that channel's cost, not Amazon's (ex-GST; the GST on it is already credited in the line above)",2026-09-11 17:20
+NEXLEV,2026-08,09. COST OF GOODS,Landed cost of units shipped,-5914157.89,"3715 units at Rs 1,592 average (96% priced from the Nexlev master, rest at that average)",2026-09-11 17:20
+NEXLEV,2026-08,09. COST OF GOODS,  of which priced on an ASSUMPTION,-210139.66,132 units across 20 SKUs have no row in the Nexlev master - see the 'Unmapped SKUs' sheet; map them and this line becomes measured,2026-09-11 17:20
+NEXLEV,2026-08,09. COST OF GOODS,less stock recovered from returns,480962.94,"567 refunds, 61% came back sellable, valued at 88% (repack + restarted storage clock)",2026-09-11 17:20
+NEXLEV,2026-08,09. COST OF GOODS,Inbound freight to FBA - NOT INCLUDED,0.0,"we self-ship into FBA, so this never appears in Amazon's data and it is not in the margin master either - profit below is overstated by it. Re-run with --freight-per-unit <Rs> to book it",2026-09-11 17:20
+NEXLEV,2026-08,09. COST OF GOODS,NET COST OF GOODS,-5433194.95,,2026-09-11 17:20
+NEXLEV,2026-08,10. PROFIT,AMAZON CHANNEL CONTRIBUTION,1807354.13,"15.6% of sales - before company overhead, interest and tax",2026-09-11 17:20
+NEXLEV,2026-08,10. PROFIT,less business overhead,-295707.89,5% of landed cost - same basis as the margin calculator,2026-09-11 17:20
+NEXLEV,2026-08,10. PROFIT,less cost of finance,-177424.74,3% of landed cost - working capital tied up in stock,2026-09-11 17:20
+NEXLEV,2026-08,10. PROFIT,PROFIT BEFORE TAX,1334221.49,11.5% of sales,2026-09-11 17:20
+NEXLEV,2026-08,10. PROFIT,less income tax provision,-335796.87,25.17% under section 115BAA,2026-09-11 17:20
+NEXLEV,2026-08,10. PROFIT,PROFIT AFTER TAX,998424.63,8.6% of sales,2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Event lists Amazon returned with data,6.0,"AdjustmentEventList, AffordabilityExpenseEventList, AffordabilityExpenseReversalEventList, RefundEventList, ServiceFeeEventList, ShipmentEventList",2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Event lists returned EMPTY,29.0,incl. ShipmentSettleEventList - must stay empty or revenue double-counts,2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Money in ShipmentEventList we did not classify,-0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Money in RefundEventList we did not classify,-0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Money in ServiceFeeEventList we did not classify,0.0,"MUST BE ZERO - this is measured, not asserted",2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Money in AdjustmentEventList we did not classify,0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Money in AffordabilityExpenseEventList we did not classify,-0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Money in AffordabilityExpenseReversalEventList we did not classify,0.0,zero by construction - we book Amazon's parent total; the real test for this list is the breakdown check below,2026-09-11 17:20
+NEXLEV,2026-08,12. COMPLETENESS,Breakdowns that disagree with their parent,0.0,every AdjustmentItemList and Affordability base+GST re-added to the parent total we booked,2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 31/07/2026 - 07/08/2026  #EpyKFnvK,1725070.29,"group EpyKFnvKPO0UseyGWOBhBsbWbtBrllFygs_m0sIQ7Rw - closed, transferred 2026-08-07 to a/c ...008 - ties exactly: opening 0 + events 1,725,070 = 1,725,070",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 31/07/2026 - 07/08/2026  #BYibnRov,480833.4,"group BYibnRovNZHg1P4a8L9B8K7gAVqzLkp9aSWIGiYT8a8 - closed, transferred 2026-08-07 to a/c ...008 - ties exactly: opening 0 + events 480,833 = 480,833",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 07/08/2026 - 14/08/2026  #qi1SEXQF,1689832.41,"group qi1SEXQFEWltMlJJ3u3-78uykuEVcNxBSFviVstqx40 - closed, transferred 2026-08-14 to a/c ...008 - ties exactly: opening 0 + events 1,689,832 = 1,689,832",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 07/08/2026 - 14/08/2026  #nbrNd14g,559243.82,"group nbrNd14gFT6XF6hDagxzKzPV8ElXYzRIHo5IIVFV-SQ - closed, transferred 2026-08-14 to a/c ...008 - ties exactly: opening 0 + events 559,244 = 559,244",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 14/08/2026 - 21/08/2026  #S9Fkp3FT,2093650.61,"group S9Fkp3FTRgkf6dWA_Qs-qndkx0jUBjHtywDnlAxTWOM - closed, transferred 2026-08-21 to a/c ...008 - ties exactly: opening 0 + events 2,093,651 = 2,093,651",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 14/08/2026 - 21/08/2026  #pJVgmCSY,614959.29,"group pJVgmCSYEdE5Mhopb6W58kOcPUwryJ1XpO8-lk2bLnw - closed, transferred 2026-08-21 to a/c ...008 - ties exactly: opening 0 + events 614,959 = 614,959",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 21/08/2026 - 28/08/2026  #C61MFNpQ,1467714.36,"group C61MFNpQJBP4bDB2LdFzKaqpFcCVxqsdOtDKxsfmc5w - closed, transferred 2026-08-28 to a/c ...008 - ties exactly: opening 0 + events 1,467,714 = 1,467,714",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 21/08/2026 - 28/08/2026  #QNwQb0I2,505434.0,"group QNwQb0I2fYRMNherxVceFyNVbUB0pHXEzfw4YeavBJQ - closed, transferred 2026-08-28 to a/c ...008 - ties exactly: opening 0 + events 505,434 = 505,434",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 28/08/2026 - 04/09/2026  #-tQ1ArXE,1088816.38,"group -tQ1ArXEHgVJvSrggnUO2r5BK42DF-NRLJIHrGUtZ18 - closed, transferred 2026-09-04 to a/c ...008 - ties exactly: opening 0 + events 1,088,816 = 1,088,816",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Settlement 28/08/2026 - 04/09/2026  #vcTJvhcL,430360.71,"group vcTJvhcLLIZ7-2r7tcpy_gYTWS0BO6-A4zB8xOcrcyU - closed, transferred 2026-09-04 to a/c ...008 - ties exactly: opening 0 + events 430,361 = 430,361",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,CASH Amazon actually transferred this month,9136738.18,sum of settlements whose transfer date falls inside the month - this is what should appear on the bank statement,2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Accrual: what this month's events say we earned,9730650.6,"section 08 - events POSTED in the month, whenever they get paid",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Timing difference (accrual less cash),593912.42,"settlement periods straddle month ends - a difference here is TIMING, not error; it is only a problem if a group above fails to tie",2026-09-11 17:20
+NEXLEV,2026-08,13. BANK TIE-OUT,Groups re-derived from their own events,10.0,10 of 10 tie to the rupee,2026-09-11 17:20
+NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Return rate used above (in-month),15.26,"refunds POSTED this month over units shipped this month - two different populations, which is why this is only a proxy",2026-09-11 17:20
+NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Returns already arrived from this month's orders,10.72,after 0 month(s); matured cohorts say that is only 67% of what a cohort ever returns,2026-09-11 17:20
+NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),EXPECTED LIFETIME return rate for this month's orders,16.05,grossed up on the curve from cohorts at least 2 months old (their lifetime rate: 15.74%),2026-09-11 17:20
+NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Units this month's shipments will return,596.0,"the cohort rate applied to the 3,715 units this P&L is built on (the cohort itself is 4,131 units ordered in the month); vs 567 refunds actually posted",2026-09-11 17:20
+NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),Net cost of one return,-2021.32,"Rs3,092 sale value given back, less Rs222 of fees returned, less Rs848 of stock that comes back sellable",2026-09-11 17:20
+NEXLEV,2026-08,14. RETURNS - COHORT VIEW (memo),PROVISION if charged on a cohort basis,-58928.65,+29 more returns than the month booked. The bottom line above is NOT adjusted for this - it stays on the settlement basis that section 13 ties to the bank,2026-09-11 17:20

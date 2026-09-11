@@ -482,6 +482,40 @@ def ad_spend(month: str, brand_hint: str) -> float:
     return total
 
 
+def amazon_3p_share(month: str, brand_hint: str) -> tuple[float, float, float]:
+    """What share of the brand's AMAZON revenue is the 3P book this report covers?
+
+    Amazon Ads bills the BRAND and the spend drives every Amazon sale of those
+    ASINs - whether the unit ships from our seller account (3P) or Amazon buys
+    it from us and sells it themselves (1P vendor). This report only ever holds
+    3P: financialEvents is a seller-account API and vendor revenue never
+    appears in it.
+
+    Audio Array is 82.5% 1P. Charging its whole ad bill against the 12% that is
+    3P turned a healthy month into -58% of sales. Nexlev has no 1P at all,
+    which is why the flaw was invisible until a second account was run.
+
+    Returns (share, sales_3p, sales_1p) on the weekly snapshot's own basis -
+    both legs from one source, one window, one convention, so the RATIO is
+    sound even though the levels use a different window from the API pull.
+    """
+    if not SALES_CSV.exists():
+        return 1.0, 0.0, 0.0
+    s = pd.read_csv(SALES_CSV, usecols=["week", "brand", "channel", "gross_sales"])
+    s = s[s["brand"].astype(str).str.lower().str.replace("_", " ") == brand_hint.lower()]
+    if s.empty:
+        return 1.0, 0.0, 0.0
+    wn = pd.to_numeric(s["week"].astype(str).str.extract(r"(\d+)", expand=False), errors="coerce")
+    sun = pd.Timestamp("2026-08-09") + pd.to_timedelta((wn - 33) * 7, unit="D")
+    y, m = map(int, month.split("-"))
+    s = s[(sun.dt.month == m) & (sun.dt.year == y)]
+    ch = s["channel"].astype(str).str.lower()
+    three = float(s.loc[ch == "amazon", "gross_sales"].sum())
+    one = float(s.loc[ch.str.contains("1p"), "gross_sales"].sum())
+    tot = three + one
+    return (three / tot if tot > 0 else 1.0), three, one
+
+
 def orders_bridge(account: str, month: str) -> dict:
     """Ordered -> cancelled / pending / unfulfillable / not-yet-shipped -> shipped,
     from GET_FLAT_FILE_ALL_ORDERS_DATA_BY_ORDER_DATE_GENERAL for the calendar
@@ -585,14 +619,27 @@ def cogs_for(account: str, month: str) -> dict:
     m = xls.parse(xls.sheet_names[0])
     g = _global_params(xls)
 
-    usd = float(g.get("usd_rate") or 0)
-    sur = float(g.get("surcharge_pct") or 0)
+    # `float(x or 0)` DOES NOT NEUTRALISE NaN - NaN is truthy, so `nan or 0`
+    # returns nan and poisons the whole arithmetic. Audio Array's master has
+    # Freight+Clearance blank on all 178 rows, which made _DP NaN for EVERY
+    # row, so not one of the 118 SKUs Amazon billed could be priced and the
+    # account's entire COST OF GOODS silently disappeared. Nexlev never hit it
+    # because its freight column is populated.
+    def _num(v) -> float:
+        try:
+            f = float(v)
+        except (TypeError, ValueError):
+            return 0.0
+        return 0.0 if pd.isna(f) else f
+
+    usd = _num(g.get("usd_rate"))
+    sur = _num(g.get("surcharge_pct"))
 
     def _dp(r) -> float:
-        fob = float(r.get("Latest FOB") or 0) * usd
-        fr = float(r.get("Freight+Clearance") or 0) * usd
-        duty = (fob + fr) * float(r.get("Import Duty %") or 0) / 100
-        return fob + fr + duty + duty * sur / 100 + float(r.get("Additional Cost") or 0)
+        fob = _num(r.get("Latest FOB")) * usd
+        fr = _num(r.get("Freight+Clearance")) * usd
+        duty = (fob + fr) * _num(r.get("Import Duty %")) / 100
+        return fob + fr + duty + duty * sur / 100 + _num(r.get("Additional Cost"))
 
     m["_DP"] = m.apply(_dp, axis=1)
     up = lambda s: s.astype(str).str.strip().str.upper()
@@ -647,6 +694,46 @@ def cogs_for(account: str, month: str) -> dict:
             "brand": brand, "unmapped": miss}
 
 
+def account_brand_mix(account: str, month: str) -> pd.DataFrame:
+    """Which BRANDS are inside this seller account's month?
+
+    An account is not a brand. AUDIOARRAY's August is 94.4% Audio Array and
+    5.6% Fossil, while landed cost comes from the Audio Array margin master and
+    ad spend is filtered to the Audio Array brand - so revenue carries a brand
+    whose costs are not in this statement. Nexlev happens to be 99.9% pure,
+    which is exactly why nobody noticed the assumption. Measure it per account
+    and put it on the face of the report rather than discovering it per brand.
+    """
+    fees = ROOT / "data" / "processed" / "amazon_charged_fees_snapshot.csv"
+    master = ROOT / "data" / "master" / "sku_master.xlsx"
+    if not fees.exists() or not master.exists():
+        return pd.DataFrame()
+    try:
+        f = pd.read_csv(fees, dtype={"month": str})
+        f = f[(f["account"] == account) & (f["month"] == month) &
+              (f["sku"] != "__AFFORDABILITY__")].copy()
+        if f.empty:
+            return pd.DataFrame()
+        m = pd.read_excel(master)
+        up = lambda s: s.astype(str).str.upper().str.strip()
+        bmap = dict(zip(up(m["ASIN"]), m["Brand"].astype(str)))
+        # sku_master has NO plain "SKU" column - the keys are these two.
+        for c in ("FBA SKU", "Original SKU"):
+            if c in m.columns:
+                bmap.update(dict(zip(up(m[c]), m["Brand"].astype(str))))
+        f["brand"] = up(f["asin"]).map(bmap)
+        miss = f["brand"].isna()
+        f.loc[miss, "brand"] = up(f.loc[miss, "sku"]).map(bmap)
+        g = (f.groupby(f["brand"].fillna("(unmapped)"))
+             .agg(units=("units", "sum"), principal=("principal", "sum"))
+             .sort_values("principal", ascending=False))
+        g["pct"] = g["principal"] / g["principal"].sum() * 100
+        return g.reset_index()
+    except Exception as e:                                  # noqa: BLE001
+        print(f"  brand mix unavailable: {e!r}")
+        return pd.DataFrame()
+
+
 def report(res: dict, brand_hint: str, bridge: dict | None = None,
            cogs: dict | None = None, bank: dict | None = None,
            freight_per_unit: float = 0.0) -> pd.DataFrame:
@@ -668,7 +755,12 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
         rows.append({"Section": sec, "Item": item, "Amount": round(val, 2), "Note": note})
 
     ordered, _ = ordered_units(res["month"], brand_hint)
-    spend = ad_spend(res["month"], brand_hint)
+    spend_brand = ad_spend(res["month"], brand_hint)
+    # Apportion the brand's ad bill to the 3P book this report actually covers.
+    # No-op for a pure-3P brand (share = 1.0), which is every account except
+    # the ones with a vendor business.
+    _3p_share, _s3p, _s1p = amazon_3p_share(res["month"], brand_hint)
+    spend = spend_brand * _3p_share
     shipped = U.get("units_shipped", 0)
 
     if bridge:
@@ -693,6 +785,17 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
             "different date basis from shipped")
         add("01. SALES", "Units shipped (what Amazon paid on)", shipped, "financial basis")
     add("01. SALES", "Product sales (GST NOT included)", B.get("sales_ex_gst", 0), "P&L revenue")
+    # WHOSE sales are these? An account can hold more than one brand, and the
+    # cost side of this report is built per brand.
+    _mix = account_brand_mix(res["account"], res["month"])
+    if len(_mix) > 1:
+        for _, _r in _mix.iterrows():
+            _own = str(_r["brand"]).lower() == brand_hint.lower()
+            add("01. SALES", f"  of which {_r['brand']}", _r["principal"],
+                f"{_r['pct']:.1f}% of the account, {_r['units']:.0f} units"
+                + ("" if _own else
+                   " - landed cost and ad spend below are for "
+                   f"{brand_hint}, so THIS brand's costs are NOT in them"))
     add("01. SALES", "Shipping and gift wrap collected", B.get("shipping_giftwrap_collected", 0), "")
 
     fee_gst_total = 0.0
@@ -774,6 +877,15 @@ def report(res: dict, brand_hint: str, bridge: dict | None = None,
     # Amazon Ads bills GST-INCLUSIVE (operator confirmed 10/09/26), so the 18%
     # inside the spend is input tax credit, not cost - same treatment as fee GST.
     ads_ex, ads_gst = _split_gst(spend)
+    if _3p_share < 0.999:
+        add("04. WE FUNDED", "Amazon Ads billed for the whole brand", -spend_brand,
+            f"drives BOTH 1P and 3P sales of the same ASINs")
+        add("04. WE FUNDED", "  1P vendor sales this month (not in this report)", _s1p,
+            "Amazon buys these from us and sells them itself - vendor revenue "
+            "never appears in financialEvents")
+        add("04. WE FUNDED", "  3P sales this month (what this report covers)", _s3p,
+            f"so {_3p_share * 100:.1f}% of the ad bill is charged below; the rest "
+            "belongs to the 1P book")
     add("04. WE FUNDED", "Advertising (billed with GST)", -spend,
         "what Amazon Ads actually charged us, GST included")
     add("04. WE FUNDED", "  of which GST we get back as credit", ads_gst,
